@@ -25,8 +25,6 @@ import {
   Breadcrumb,
 } from "../components/common"
 
-import "../styles/md.scss"
-
 class DocumentationTemplate extends React.Component {
   constructor(props) {
     super(props)

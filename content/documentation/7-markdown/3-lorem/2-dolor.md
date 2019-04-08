@@ -1,6 +1,6 @@
 ---
 path: "/documentation/markdown/lorem/dolor"
-title: "Syntax"
+title: "Dolor"
 description: Lorem markdownum madefacta, circumtulit aliis, restabat
 keywords:
     - markdown
@@ -8,4 +8,4 @@ keywords:
 prevNext: false
 ---
 
-# Ipsum
+# Dolor

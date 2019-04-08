@@ -2,12 +2,6 @@
 path: "/documentation/concepts/architecture/"
 title: "Architecture"
 description: Lorem markdownum madefacta, circumtulit aliis, restabat
-meta_title: "Architecture"
-meta_description: "Spring Cloud Data Flow architecture"
-toc: true
-keywords:
-    - concepts
-    - architecture
 ---
 
 # Architecture

@@ -1,6 +1,3 @@
-@import "variables";
-@import "prism";
-
 .md {
   
   h1, h2, h3, h4, h5 {
@@ -176,6 +173,11 @@
         width: 20px;
       }
     }
+  }
+  
+  .gatsby-resp-image-wrapper {
+    margin-top: $spring-8points * 1.5;
+    margin-bottom: $spring-8points * 1.5;
   }
   
   // a.button {

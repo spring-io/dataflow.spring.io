@@ -2,10 +2,14 @@
 path: "/documentation/markdown/syntax/"
 title: "Syntax"
 description: Lorem markdownum madefacta, circumtulit aliis, restabat
+meta_title: "Syntax description"
+meta_description: "Syntax description"
 keywords:
     - markdown
     - syntax
 prevNext: false
+toc: true
+summary: false
 ---
 
 # Syntax
@@ -129,7 +133,9 @@ public class LoggingSink {
 
 ### Images
 
-Lorem ipsum dolor sit amet elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+[Remark Images](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-remark-images) is used to optimize images. 
+
+![Spring Cloud Data Flow Shell](images/shell.png)
 
 ### Blockquotes
 

@@ -1,6 +1,6 @@
 ---
 path: "/documentation/markdown/lorem/"
-title: "Markdown"
+title: "Lorem"
 description: Lorem markdownum madefacta, circumtulit aliis, restabat
 keywords:
     - markdown

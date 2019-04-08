@@ -1,11 +1,8 @@
 ---
 path: "/documentation/developer-guides/"
-title: "Developer Guides"
-meta_title: "Developer Guides"
-meta_description: "Spring Cloud Data Flow Developer Guides"
-keywords:
-    - Developer Guides
+title: "Developer guides"
+description: Lorem markdownum madefacta, circumtulit aliis, restabat
 summary: true
 ---
 
-# Developer Guides
+# Developer guides

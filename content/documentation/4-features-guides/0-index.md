@@ -1,11 +1,8 @@
 ---
 path: "/documentation/features-guides/"
-title: "Features Guides"
-meta_title: "Features Guides"
-meta_description: "Spring Cloud Data Flow Features Guides"
-keywords:
-    - Features Guides
+title: "Features guides"
+description: Lorem markdownum madefacta, circumtulit aliis, restabat
 summary: true
 ---
 
-# Features Guides
+# Features guides

@@ -2,12 +2,6 @@
 path: "/documentation/get-started/cloud-foundry/"
 title: "Get started with Cloud Foundry"
 description: Lorem markdownum madefacta, circumtulit aliis, restabat
-meta_title: "Get started with Cloud Foundry"
-meta_description: "Spring Cloud Data Flow Get Cloud Foundry"
-keywords:
-    - started
-    - cloud
-    - foundry
 ---
 
 # Get started with Cloud Foundry

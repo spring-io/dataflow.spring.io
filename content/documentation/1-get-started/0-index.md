@@ -1,12 +1,7 @@
 ---
 path: "/documentation/get-started/"
-title: "Get Started"
+title: "Get started"
 description: "All the get started guide"
-meta_title: "Get started"
-meta_description: "Spring Cloud Data Flow Get Started"
-keywords:
-    - started
-    - architecture
 summary: true
 ---
 

@@ -2,11 +2,6 @@
 path: "/documentation/get-started/kubernetes/"
 title: "Get started with Kubernetes"
 description: Lorem markdownum madefacta, circumtulit aliis, restabat
-meta_title: "Kubernetes"
-meta_description: "Spring Cloud Data Flow Get Kubernetes"
-keywords:
-    - started
-    - Kubernetes
 ---
 
 # Get started with Kubernetes
