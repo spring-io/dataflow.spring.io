@@ -1,0 +1,422 @@
+
+
+html, body {
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  color: $spring-color;
+  padding: 0;
+  margin: 0;
+  font-size: $spring-font-size;
+  font-family: $spring-font-family;
+  font-weight: 400;
+  font-style: normal;
+  position: relative;
+  cursor: auto;
+  line-height: 1.6em;
+  //border-left: 4px solid $spring-primary-color;
+  height: 100%;
+  background-color: $spring-background;
+  min-width: 800px;
+}
+
+// Header
+
+.header {
+  background: $spring-gray-color;
+  padding: 32px 0;
+  line-height: $spring-8points * 4;
+  h1.logo {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    font-weight: normal;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    a {
+      display: inline-block;
+      position: relative;
+      color: lighten($spring-color, 10);
+      font-family: $spring-font-family-special;
+      text-decoration: none;
+      font-size: 20px;
+      padding-left: 55px;
+      font-weight: 400;
+      strong {
+        font-weight: 600;
+        color: $spring-color;
+      }
+    }
+    svg {
+      width: 52px;
+      position: absolute;
+      top: -6px;
+      left: 0;
+      width: 50px;
+    }
+  }
+}
+
+// Footer
+
+.footer {
+  background: $spring-gray-color;
+  padding: 24px 0;
+  color: #8d8e8e;
+  font-size: $spring-font-size-sm;
+  
+  .copyright {
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
+
+// Container
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+// Navigation
+
+.navigation, .navigation-right {
+  display: inline-block;
+  padding-left: 24px;
+  a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 4px 8px;
+    color: $spring-color;
+    &:hover {
+      color: $spring-primary-color;
+    }
+    &.active {
+      color: $spring-primary-color;
+    }
+  }
+  &.right {
+    padding-left: 0;
+    float: right;
+    a.button {
+      margin: 0 $spring-8points * 2;
+    }
+  }
+}
+
+// Search
+
+.search {
+  display: inline-block;
+  position: relative;
+  line-height: 1.6em;
+  .result {
+    position: absolute;
+    display: block;
+    z-index: 1000;
+    background: white;
+    right: 0;
+    top: 40px;
+    width: 400px;
+    border: 1px solid $spring-border-color;
+  }
+  ul.list {
+    list-style: none;
+      padding: 0;
+      margin: 0;
+    li {
+      padding: 0;
+      margin: 0;
+    }
+    a {
+      display: block;
+      padding: $spring-8points * 2;
+      &:hover {
+        background: $spring-gray-color;
+        color: $spring-color;
+        .title {
+          color: $spring-primary-color;
+        }
+      }
+      .title {
+        font-weight: bold;
+      }
+      .html {
+        font-size: $spring-font-size - 2px;
+        line-height: 1.4em;
+        color: lighten($spring-color, 20);
+      }
+    }
+  }
+  >div, div div {
+    display: inline-block;
+  }
+}
+
+// Layout Sidebar
+
+.layout-sidebars {
+  display: flex;
+  flex-direction: row;
+  padding: ($spring-8points * 6) 0;
+   
+  .sidebar, .sidebar-toc {
+    width: 20%;
+    float: left;
+  }
+  .main {
+    width: 60%;
+    float: left;
+    position: relative;
+  }
+}
+
+.layout-2-sidebars {
+  .main {
+    width: 80%;
+    float: left;
+    position: relative;
+  }
+}
+
+
+.sidebar, .sidebar-toc {
+  .box, .toc {
+    background: $spring-gray-color;
+    padding: $spring-8points * 2 $spring-8points * 3;
+    margin: 0;
+    a {
+      display: block;
+    }
+    ol {
+      list-style: none;
+    }
+  }
+  .sticky {
+    position: sticky;
+    top: 20px;
+  }
+}
+
+// Sidebar box
+
+.sidebar {
+  .box {
+    padding: 0;
+    margin: 0;
+    font-size: $spring-font-size - 1;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li.level0 {
+      padding: $spring-8points * 2;
+      border-bottom: 4px solid $spring-background;
+    }
+    a {
+      color: $spring-color;
+      text-decoration: none;
+      position: relative;
+      &:hover { 
+        color: $spring-primary-color;
+      }
+      &.active {
+        color: $spring-primary-color;
+      }
+      &.level0 {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// Sidebar toc
+
+.main-content {
+  padding: 0 $spring-8points * 6;
+}
+
+// Prev Next
+
+.prev-next {
+  border-top: 3px solid #f0f0f0;
+  padding: $spring-8points * 3 0;
+  display: flex;
+  margin-top: $spring-8points * 6;
+  justify-content: space-between;
+  .prev, .next {
+    line-height: 1.2rem;
+    a {
+      position: relative;
+      display: inline-block;
+      color: $spring-link-color;  
+      padding: $spring-8points 0;
+      svg {
+        position: absolute;
+        top: 12px;
+        width: 16px;
+        color: $spring-dark-color;
+      }
+      .parent {
+        color: $spring-dark-color;
+        font-size: $spring-font-size - 1;
+      }
+      .title {
+        font-size: $spring-font-size;     
+      }
+      &:hover {
+        color: $spring-link-color;
+        svg {
+          color: $spring-link-color;
+        }
+        .title {
+          text-decoration: underline;     
+        }  
+      }
+    }
+  }
+  .next {
+    text-align: right;
+    a {
+      padding-right: $spring-8points * 4;
+      svg {
+        right: 0;
+      }
+    }
+  }
+  .prev {
+    a {
+      padding-left: $spring-8points * 4;
+      svg {
+        left: 0;
+      }
+    }
+  }
+  a {
+    color: $spring-color;
+    text-decoration: none;
+    &:hover {
+      color: $spring-primary-color;
+    }
+  }
+}
+
+// Summary
+
+
+.summary.md {
+  border: 4px solid #f0f0f0;
+  padding: $spring-8points * 2 $spring-8points * 4;
+  border-radius: 8px;
+  margin: $spring-8points * 3 0;
+  max-width: 600px;
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    &.level1 {
+      padding-bottom: $spring-8points * 2;
+    }
+    
+    &.level1, &.level2, &.level3, &.level4 {
+      padding-left: 10px;
+    }
+  }
+  a {
+    display: block;
+    padding: 5px;
+    .description {
+      color: $spring-color;
+      text-decoration: none;
+    }
+    &:hover {
+      text-decoration: none;
+      .title {
+        text-decoration: underline;
+      }
+      .description {
+        text-decoration: none;
+      }
+    }
+  }
+  &.tiles {
+    border: 0 none;
+    padding: 0;
+    li.level0 {
+      background: #f0f0f0;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      margin-bottom: 20px;
+      padding: 0;
+      padding: 2px;
+      a.level0 {
+        .title {
+          padding: 4px 0 8px 10px;
+        }
+      }
+    }
+    ul.level1 {
+      background: white;
+      padding: 10px 20px;
+      margin: 0;
+    }
+  }
+}
+
+// button
+
+a.button, button.button {
+  display: inline-block;
+  border: 2px solid $spring-border-color;
+  background-color: $spring-background;
+  border-radius: $spring-radius;
+  font-family: $spring-font-family;
+  font-size: $spring-font-size;
+  line-height: $spring-8points * 4;
+  padding: 0 $spring-8points * 1.5;
+  font-weight: normal;
+  cursor: pointer;
+  text-decoration: none;
+  color: $spring-color;
+  // @include transition(border-color $spring-transition-duration);
+  &:hover {
+    border-color: $spring-border-color-hover;
+    text-decoration: none;
+  }
+  &.primary {
+    background: $spring-primary-color;
+    color: white;
+    border-color: $spring-primary-color;
+    // @include transition(background $spring-transition-duration, border-color $spring-transition-duration);
+    &:hover {
+      background: darken($spring-primary-color, 5);
+      border-color: darken($spring-primary-color, 5);
+    }
+  }  
+  &:focus {
+    outline: none;
+  }
+}
+
+// Breadcrumb
+.breadcrumb {
+  padding: $spring-8points 0;
+  color: $spring-dark-color;
+  .separator {
+    position: relative;
+    margin: 0 15px;  
+    color: #ddd;
+    .fa-chevron-right {
+      position: absolute;
+      top: 2px;
+      left: -5px;
+    }
+  }
+}

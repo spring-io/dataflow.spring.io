@@ -1,0 +1,211 @@
+@import "variables";
+@import "prism";
+
+.md {
+  
+  h1, h2, h3, h4, h5 {
+    font-family: $spring-font-family-special;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+    &:active, &:focus {
+      outline: none;
+    }
+  }
+  
+  h1 {
+    padding: $spring-8points 0 $spring-8points * 2;
+    font-size: 32px;
+  }
+  
+  h2, h3, h4, h5 {
+    padding: $spring-8points * 6 0 $spring-8points * 2;
+  }
+  
+  h2 + h3, h3 + h4, h4 + h5 {
+    padding-top: $spring-8points * 4;
+  }
+  
+  h2 {
+    font-size: 28px;
+  }  
+  
+  h3 {
+    font-size: 24px;
+  }  
+  
+  h4 {
+    font-size: 22px;
+  }  
+  
+  h5 {
+    font-size: 18px;
+  }  
+  
+  a {
+    color: #008aff;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  table {
+    text-align: left;
+    border-spacing: 0;
+    border: 1px solid $spring-border-color;
+    padding: $spring-8points / 2 $spring-8points;
+    margin: $spring-8points * 2 0 $spring-8points * 2;
+    tr {
+      td, th {
+        border-bottom: 1px solid lighten($spring-border-color, 4);
+        padding: 6px 12px;
+        vertical-align: top;
+        p {
+          padding: 0;
+          margin: 0;
+        }
+      }
+      &:last-child {
+        td {
+          border-bottom: 0 none;
+        }
+      }
+    }
+    thead {
+      tr {
+        th {
+          font-weight: bold;
+          border-bottom: 1px solid $spring-border-color;
+        }
+      }
+    }
+  }
+  
+  p {
+    margin: 0;
+    padding: $spring-8points 0;
+  }
+  
+  ul, ol {
+    margin: 0;
+    padding-top: $spring-8points;
+  }
+  
+  ul p, ol p {
+    padding: 0;
+    margin: 0;
+  }
+  
+  ul ul, ol ol, ul ol, ol ul {
+    padding-top: 0;
+    margin-bottom: -4px;
+  }
+  
+  li {
+    padding: 4px 0;
+  }
+  
+  ol ol {
+    list-style-type: lower-alpha;
+  }
+  
+  .gatsby-highlight {
+    padding: $spring-8points 0 $spring-8points * 2;
+    pre[class*="language-"] {
+      margin: 0;
+      padding: $spring-8points * 2;
+      line-height: 24px;
+      .gatsby-highlight-code-line {
+        line-height: 24px;
+      }
+    }
+    code {
+      background: transparent;
+      border-radius: none;
+      padding: 0;
+      color: $spring-color;
+    }
+  }
+  
+  .callout {
+    padding: $spring-8points * 1.5 $spring-8points * 2;
+    margin: $spring-8points * 2 0;
+    &.success {
+      color: #467b17;
+      background-color: #f3f5f0;
+    }
+    &.danger {
+      color: #df2500;
+      background-color: #fbf1ef;
+    }
+    &.warning {
+      color: #e06f13;
+      background-color: #fff6e7;
+    }
+    &.note {
+      color: #2f6795;
+      background-color: #edf4fa;
+    }
+    &.tip {
+      color: #27363f;
+      background-color: #eaf5f4;
+    }
+  }
+  
+  .div-button {
+    padding: $spring-8points * 2 0;
+  }
+  
+  a.button, button.button {
+    text-decoration: none;
+    &.github {
+      position: relative;
+      color: $spring-color;
+      padding-left: 40px;
+      background: #f2f2f2;;
+      border-color: #f2f2f2;
+      &:hover {
+        background: #eaeaea;  
+        border-color: #eaeaea;      
+      }
+      .fa-github {
+        position: absolute;
+        left: 12px;
+        top: 0px;
+        width: 20px;
+      }
+    }
+  }
+  
+  // a.button {
+  //   background: $spring-primary-color;
+  //   color: white;
+  //   border-radius: 3px;
+  //   padding: 6px $spring-8points * 2; 
+  //   font-weight: normal;
+  //   display: inline-block;
+  //   &:hover {
+  //     text-decoration: none;
+  //       background: darken($spring-primary-color, 4);
+  //   }
+  //   &.github {
+  //     position: relative;
+  //     color: $spring-color;
+  //     padding-left: 40px;
+  //     background: #f2f2f2;
+  //     &:hover {
+  //       background: #eaeaea;        
+  //     }
+  //   }
+  // 
+  //   .fa-github {
+  //     position: absolute;
+  //     left: 12px;
+  //     top: 3px;
+  //     width: 20px;
+  //   }
+  // }
+
+  
+}
