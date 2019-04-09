@@ -4,7 +4,6 @@ import { Link, graphql } from "gatsby"
 import PropTypes from "prop-types"
 import { get } from "lodash"
 import classNames from "classnames"
-import rehypeReact from "rehype-react"
 
 import {
   getSummaryType,
@@ -31,11 +30,6 @@ class DocumentationTemplate extends React.Component {
   }
 
   render() {
-    const renderAst = new rehypeReact({
-      createElement: React.createElement,
-      components: MdComponents,
-    }).Compiler
-
     const { page, pages } = this.props.data
 
     const options = {
@@ -90,7 +84,9 @@ class DocumentationTemplate extends React.Component {
                     <Breadcrumb pages={breadcrumb} />
                   </div>
                 )}
-                <div className="post-content md">{renderAst(page.htmlAst)}</div>
+                <div className="post-content md">
+                  <div dangerouslySetInnerHTML={{ __html: page.html }} />
+                </div>
                 {summary && (
                   <>
                     {summaryType === "links" ? (

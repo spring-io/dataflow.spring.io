@@ -131,6 +131,12 @@ public class LoggingSink {
 }
 ```
 
+#### Embeded Code
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+`embed:foo.java`
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, [sed do eiusmod](https://spring.io).
+
 ### Images
 
 [Remark Images](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-remark-images) is used to optimize images. 
@@ -145,40 +151,28 @@ public class LoggingSink {
 
 ## Advanced components
 
-### Buttons
-
-Lorem ipsum dolor sit amet elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-<button variant="primary" path="http://www.spring.io">View the guide</button>
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-<button variant="github" path="http://www.spring.io">View the example on **Github**</button>
-
 ### Callouts
 
 Lorem ipsum dolor sit amet, consectetur:
 
-<callout variant="danger">Lorem ipsum dolor sit amet, consectetur adipiscing</callout>
+[[danger]]
+| Lorem ipsum dolor sit amet, consectetur adipiscing
 
-<callout variant="warning">Lorem ipsum dolor sit amet, consectetur adipiscing</callout>
+[[warning]]
+| Lorem ipsum dolor sit amet, consectetur adipiscing
 
-<callout>Lorem ipsum dolor sit amet, consectetur adipiscing</callout>
+[[note]]
+| Lorem ipsum dolor sit amet, consectetur adipiscing
 
-<callout variant="success">Lorem ipsum dolor sit amet, consectetur adipiscing</callout>
+[[success]]
+| Lorem ipsum dolor sit amet, consectetur adipiscing
 
-<callout variant="tip">Lorem ipsum dolor sit amet, consectetur adipiscing</callout>
+[[tip]]
+| Lorem ipsum dolor sit amet, consectetur adipiscing
 
-Callout with paragraph:
+Callout with a title and paragraphs:
 
-<callout variant="note">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-
-</callout>
+[[note | Title callout sample]]
+| Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+|
+| Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.

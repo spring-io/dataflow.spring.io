@@ -46,7 +46,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `md`,
-        path: `${__dirname}/content/`,
+        path: `${__dirname}/content/documentation`,
         ignore: [`**/\.*`],
       },
     },
@@ -65,24 +65,57 @@ module.exports = {
             },
           },
           {
-            resolve: `gatsby-remark-prismjs`,
-            options: {
-              classPrefix: "language-",
-              inlineCodeMarker: null,
-              aliases: {},
-              showLineNumbers: false,
-              noInlineHighlight: false,
-            },
-          },
-          {
             resolve: "gatsby-remark-copy-linked-files",
           },
-          `gatsby-remark-component`,
           `gatsby-remark-attr`,
           `gatsby-remark-grid-tables`,
           `gatsby-remark-autolink-headers`,
           `gatsby-remark-code-titles`,
           `gatsby-remark-external-links`,
+          {
+            resolve: "gatsby-remark-embed-snippet",
+            options: {
+              classPrefix: "language-",
+              directory: `${__dirname}/content/examples/`,
+            },
+          },
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+            },
+          },
+          {
+            resolve: "gatsby-remark-custom-blocks",
+            options: {
+              blocks: {
+                danger: {
+                  classes: "callout danger",
+                  title: "optional",
+                },
+                info: {
+                  classes: "callout info",
+                  title: "optional",
+                },
+                note: {
+                  classes: "callout note",
+                  title: "optional",
+                },
+                warning: {
+                  classes: "callout warning",
+                  title: "optional",
+                },
+                success: {
+                  classes: "callout success",
+                  title: "optional",
+                },
+                tip: {
+                  classes: "callout tip",
+                  title: "optional",
+                },
+              },
+            },
+          },
         ],
       },
     },
