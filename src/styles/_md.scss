@@ -200,4 +200,13 @@
     line-height: 1.2em;
   }
   
+  .gatsby-resp-iframe-wrapper {
+    border: 1px solid $spring-border-color;
+    margin: $spring-8points 0 $spring-8points * 2;
+    border-radius: 4px;
+    iframe {
+      border: 0 none
+    }
+  }
+  
 }

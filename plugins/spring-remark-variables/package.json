@@ -1,0 +1,15 @@
+{
+  "name": "spring-remark-variables",
+  "version": "0.0.1",
+  "description": "Dataflow Remark",
+  "main": "index.js",
+  "author": "@spring",
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "unist-util-visit": "^1.1.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "cross-env": "^5.0.5"
+  }
+}

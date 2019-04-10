@@ -14,7 +14,7 @@ summary: false
 
 # Syntax
 
-Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do eiusmod tempor incididunt ut labore et dolore _magna aliqua_. Ut enim ad minim veniam, quis [nostrud exercitation](http://spring.io) ullamco.
+Lorem ipsum dolor %version% sit amet, **consectetur adipiscing** elit, sed do eiusmod tempor incididunt ut labore et dolore _magna aliqua_. Ut enim ad minim veniam, quis [nostrud exercitation](http://spring.io) ullamco.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
 
@@ -131,12 +131,6 @@ public class LoggingSink {
 }
 ```
 
-#### Embeded Code
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
-`embed:foo.java`
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, [sed do eiusmod](https://spring.io).
-
 ### Images
 
 [Remark Images](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-remark-images) is used to optimize images. 
@@ -148,8 +142,6 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, [sed do eiusmod](https
 > Blockquotes can also be nested...
 
 > by using additional greater-than signs right next to each other...
-
-## Advanced components
 
 ### Callouts
 
@@ -176,3 +168,36 @@ Callout with a title and paragraphs:
 | Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
 |
 | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+
+###  Variables
+
+| Name | Description | Value
+|-|-|-|
+|`version`|Current version|%version%|
+|`foo`|Foo|%foo%|
+|`bar`|Bar|%bar%|
+
+**Usage:** Lorem [ipsum dolor %foo%](https://spring.io/%foo%) sit amet, consectetur `adipisicing %foo%`, sed **do eiusmod %foo%** tempor.
+
+``` html
+<div>
+  <a href="https://spring.io">%version%</a>
+</div>
+```
+
+[[tip]]
+| Lorem ipsum dolor sit amet, consectetur **%foo%** adipiscing
+
+## Embeded
+
+### Code
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+`embed:foo.java`
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, [sed do eiusmod](https://spring.io).
+
+### Youtube video
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+`youtube:https://www.youtube.com/embed/rvAr0KYXBhk`
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, [sed do eiusmod](https://www.youtube.com/embed/rvAr0KYXBhk).

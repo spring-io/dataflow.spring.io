@@ -157,7 +157,6 @@ export const articleQuery = graphql`
       }
     }
     page: markdownRemark(frontmatter: { path: { eq: $slug } }) {
-      htmlAst
       html
       headings {
         value

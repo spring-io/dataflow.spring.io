@@ -1,4 +1,5 @@
 const queries = require(`./utils/algolia-queries`)
+const markdownVars = require(`./content/documentation/variables.json`)
 
 module.exports = {
   siteMetadata: {
@@ -72,6 +73,20 @@ module.exports = {
           `gatsby-remark-autolink-headers`,
           `gatsby-remark-code-titles`,
           `gatsby-remark-external-links`,
+          {
+            resolve: "spring-remark-variables",
+            options: {
+              variables: markdownVars,
+            },
+          },
+          {
+            resolve: "gatsby-remark-embed-youtube",
+            options: {
+              width: 800,
+              height: 400,
+            },
+          },
+          `gatsby-remark-responsive-iframe`,
           {
             resolve: "gatsby-remark-embed-snippet",
             options: {
