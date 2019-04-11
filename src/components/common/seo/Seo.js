@@ -16,7 +16,7 @@ const Seo = ({ title, description, keywords }) => {
             title
             description
             author
-            canonical
+            siteUrl
             twitter
             image
             keywords
@@ -37,12 +37,12 @@ const Seo = ({ title, description, keywords }) => {
       <Helmet>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
-        <link rel="canonical" href={meta.canonical} />
+        <link rel="canonical" href={meta.siteUrl} />
         <meta property="og:site_name" content={meta.title} />
         <meta name="og:type" content="article" />
         <meta name="og:title" content={meta.title} />
         <meta name="og:description" content={meta.description} />
-        <meta property="og:url" content={meta.canonical} />
+        <meta property="og:url" content={meta.siteUrl} />
         {meta.keywords && meta.keywords.length
           ? meta.keywords.map((keyword, i) => (
               <meta property="article:tag" content={keyword} key={i} />
@@ -50,7 +50,7 @@ const Seo = ({ title, description, keywords }) => {
           : null}
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
-        <meta name="twitter:url" content={meta.canonical} />
+        <meta name="twitter:url" content={meta.siteUrl} />
         <meta name="twitter:site" content="@springcentral" />
         <meta name="twitter:creator" content="@springcentral" />
       </Helmet>

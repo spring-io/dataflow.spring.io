@@ -16,6 +16,7 @@
     "gatsby-plugin-react-helmet": "^3.0.10",
     "gatsby-plugin-sass": "^2.0.11",
     "gatsby-plugin-sharp": "^2.0.29",
+    "gatsby-plugin-sitemap": "^2.0.12",
     "gatsby-plugin-slug": "^1.0.1",
     "gatsby-plugin-webpack-bundle-analyzer": "^1.0.4",
     "gatsby-remark-attr": "0.0.2",

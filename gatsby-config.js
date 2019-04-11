@@ -6,6 +6,7 @@ module.exports = {
     title: `Spring Cloud Data Flow`,
     description: `Spring Cloud Data Flow puts powerful integration, batch and stream processing in the hands of the Java microservice developer`,
     author: `@springcloud`,
+    siteUrl: `https://dataflow.spring.io`,
     canonical: `https://dataflow.spring.io`,
     twitter: `@springcloud`,
     image: `https://quirky-haibt-6b520a.netlify.com/images/card.jpg`,
@@ -21,6 +22,7 @@ module.exports = {
     },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sass`,
+    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
