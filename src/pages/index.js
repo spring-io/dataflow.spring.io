@@ -2,10 +2,14 @@ import React from "react"
 import { Link } from "gatsby"
 
 import { Layout } from "../components/common/layout"
+import { Seo } from "../components/common/seo"
 
 const IndexPage = () => (
   <Layout>
-    <h1>Homepage</h1>
+    <Seo title="Spring Cloud Data Flow" />
+    <div className="container">
+      <h1>Homepage</h1>
+    </div>
   </Layout>
 )
 

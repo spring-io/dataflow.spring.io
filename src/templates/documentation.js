@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from "react"
 import { Link, graphql } from "gatsby"
 import PropTypes from "prop-types"
-import { get } from "lodash"
+import get from "lodash.get"
 import classNames from "classnames"
 
 import {
@@ -22,13 +22,10 @@ import {
   Toc,
   PrevNext,
   Breadcrumb,
+  Seo,
 } from "../components/common"
 
 class DocumentationTemplate extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const { page, pages } = this.props.data
 
@@ -63,6 +60,11 @@ class DocumentationTemplate extends React.Component {
     }
     return (
       <Layout>
+        <Seo
+          title={meta.title}
+          description={meta.description}
+          keywords={meta.keywords}
+        />
         <div className="container">
           <div
             className={classNames(

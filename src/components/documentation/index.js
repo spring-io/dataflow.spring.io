@@ -6,4 +6,5 @@ export {
   getBreadcrumb,
   getMeta,
   getSummaryType,
+  cleanPath,
 } from "./Utils"

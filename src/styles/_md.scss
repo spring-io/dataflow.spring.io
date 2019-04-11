@@ -5,6 +5,9 @@
     font-weight: 400;
     padding: 0;
     margin: 0;
+    .anchor {
+      display: none
+    }
     &:active, &:focus {
       outline: none;
     }
@@ -40,7 +43,7 @@
   }  
   
   a {
-    color: #008aff;
+    color: $spring-link-color;
     text-decoration: none;
     &:hover {
       text-decoration: underline;

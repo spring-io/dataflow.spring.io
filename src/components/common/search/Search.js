@@ -1,8 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Link from "gatsby-link"
-import { navigate } from "gatsby"
-import { get } from "lodash"
+import { navigate, graphql } from "gatsby"
+import get from "lodash.get"
+import { cleanPath } from "./../../documentation"
 
 import {
   Highlight,
@@ -16,12 +17,6 @@ import Autosuggest from "react-autosuggest"
 const HitTemplate = ({ hit }) => (
   <Link to={hit.url} className="link">
     <div className={`title`}>
-      {/* <Highlight
-        attribute="title"
-        hit={hit}
-        tagName="mark"
-        className="search-result-page blue"
-      /> */}
       <Highlight
         attribute="fullTitle"
         hit={hit}
@@ -43,63 +38,65 @@ HitTemplate.propTypes = {
 }
 
 class Results extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      value: this.props.currentRefinement,
-    }
-
-    this.onChange = this.onChange.bind(this)
-    this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(
-      this
-    )
-    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(
-      this
-    )
-    this.getSuggestionValue = this.getSuggestionValue.bind(this)
-    this.renderSuggestion = this.renderSuggestion.bind(this)
-    this.renderSectionTitle = this.renderSectionTitle.bind(this)
-    this.getSectionSuggestions = this.getSectionSuggestions.bind(this)
-    this.onSuggestionSelected = this.onSuggestionSelected.bind(this)
+  state = {
+    value: this.props.currentRefinement,
   }
 
-  onChange(event, { newValue }) {
+  onChange = (event, { newValue }) => {
     this.setState(() => {
       return { value: newValue }
     })
   }
 
-  onSuggestionsFetchRequested({ value }) {
+  onSuggestionsFetchRequested = ({ value }) => {
     this.props.refine(value)
   }
 
-  onSuggestionsClearRequested() {
+  onSuggestionsClearRequested = () => {
     this.props.refine()
   }
 
-  getSuggestionValue(hit) {
+  getSuggestionValue = hit => {
     return hit.title
   }
 
-  renderSuggestion(hit) {
+  renderSuggestion = hit => {
     return <HitTemplate hit={hit} />
   }
 
-  renderSectionTitle({ index }) {
-    return <span className={`section-label}`}>{index}</span>
+  renderSectionTitle = section => {
+    return <span className={`section-label`}>{section.title}</span>
   }
 
-  getSectionSuggestions(section) {
-    return section.hits
+  getSectionSuggestions = section => {
+    return section.suggestions
   }
 
-  onSuggestionSelected(e, { suggestion }) {
+  onSuggestionSelected = (e, { suggestion }) => {
     navigate(suggestion.url)
   }
 
-  render() {
+  onInputBlur = () => {
+    this.props.onBlur()
+  }
+
+  render = () => {
     const hits = this.props.hits
+    const pages = this.props.pages
+
+    const suggestions = this.props.pages.edges
+      .map(({ node }) => {
+        return {
+          id: get(node, "frontmatter.path"),
+          title: get(node, "frontmatter.title"),
+          suggestions: hits.filter(
+            hit =>
+              cleanPath(hit.category) ===
+              cleanPath(get(node, "frontmatter.path"))
+          ),
+        }
+      })
+      .filter(item => item.suggestions.length > 0)
 
     const { value } = this.state
     const inputProps = {
@@ -108,9 +105,10 @@ class Results extends React.Component {
       value,
       autoFocus: true,
       "data-cy": `search-input`,
+      onBlur: this.props.onBlur,
     }
 
-    const inputTheme = `control-input`
+    const inputTheme = `input-control`
 
     const theme = {
       input: inputTheme,
@@ -124,16 +122,16 @@ class Results extends React.Component {
 
     return (
       <>
-        <Configure hitsPerPage="5" />
+        <Configure hitsPerPage="8" />
         <Autosuggest
-          suggestions={hits}
+          suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionSelected={this.onSuggestionSelected}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           getSuggestionValue={this.getSuggestionValue}
           renderSuggestion={this.renderSuggestion}
           inputProps={inputProps}
-          multiSection={false}
+          multiSection={true}
           theme={theme}
           renderSectionTitle={this.renderSectionTitle}
           getSectionSuggestions={this.getSectionSuggestions}

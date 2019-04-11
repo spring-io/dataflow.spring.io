@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import classNames from "classnames"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const isDisplay = ({ children }, depth, depthMax) => {
   return children.length > 0 && depth < depthMax

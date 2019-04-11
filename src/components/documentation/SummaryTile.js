@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 import classNames from "classnames"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const SummaryTile = ({ tree, depth }) => {
   return (

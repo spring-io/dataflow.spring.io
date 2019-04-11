@@ -4,10 +4,21 @@ const markdownVars = require(`./content/documentation/variables.json`)
 module.exports = {
   siteMetadata: {
     title: `Spring Cloud Data Flow`,
-    description: `To be updated`,
-    author: `@spring`,
+    description: `Spring Cloud Data Flow puts powerful integration, batch and stream processing in the hands of the Java microservice developer`,
+    author: `@springcloud`,
+    canonical: `https://dataflow.spring.io`,
+    twitter: `@springcloud`,
+    image: `https://quirky-haibt-6b520a.netlify.com/images/card.jpg`,
+    keywords: [`spring`, `cloud`, `dataflow`],
   },
   plugins: [
+    {
+      resolve: "gatsby-plugin-webpack-bundle-analyzer",
+      options: {
+        analyzerPort: 3000,
+        production: true,
+      },
+    },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sass`,
     {

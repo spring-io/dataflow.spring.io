@@ -1,14 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { IconChevronLeft, IconChevronRight } from "./../icons"
 
 const PrevNext = ({ prev, next }) => (
   <div className="prev-next">
     <div className="prev">
       {prev && (
         <Link to={prev.path}>
-          <FontAwesomeIcon icon="chevron-left" size="2x" />
+          <IconChevronLeft />
           <div className="parent">{prev.parent}</div>
           <div className="title">{prev.title}</div>
         </Link>
@@ -17,7 +17,7 @@ const PrevNext = ({ prev, next }) => (
     <div className="next">
       {next && (
         <Link to={next.path}>
-          <FontAwesomeIcon icon="chevron-right" size="2x" />
+          <IconChevronRight />
           <div className="parent">{next.parent}</div>
           <div className="title">{next.title}</div>
         </Link>

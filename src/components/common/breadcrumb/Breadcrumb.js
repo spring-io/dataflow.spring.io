@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { IconChevronRight } from "./../icons"
 
 const Breadcrumb = ({ pages }) => (
   <>
@@ -17,7 +17,7 @@ const Breadcrumb = ({ pages }) => (
                   {page.title}
                 </Link>
                 <span className="separator">
-                  <FontAwesomeIcon icon="chevron-right" />
+                  <IconChevronRight />
                 </span>
               </span>
             )}

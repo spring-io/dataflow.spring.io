@@ -62,16 +62,87 @@ body {
 
 .footer {
   background: $spring-gray-color;
-  padding: 24px 0;
-  color: #8d8e8e;
+  padding: 42px 0;
+  color: $spring-dark-color;
   font-size: $spring-font-size-sm;
+    font-size: $spring-font-size;
   
   .copyright {
+    font-size: $spring-font-size-sm;
+    padding: $spring-8points 0;
     p {
       padding: 0;
       margin: 0;
     }
   }
+  .copyright-links {
+    padding-left: 10px;
+  }
+  .logo {
+    position: relative;
+    padding: $spring-8points 0;
+    padding-left: 70px;
+    font-family: $spring-font-family-special;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    color: $spring-color;
+    span {
+      font-size: 18px;
+      font-weight: 100;
+      color: $spring-dark-color;
+    }
+    strong {
+      font-weight: 600;
+    }
+    svg {
+      position: absolute;
+      top: 8px;
+      left: 0;
+      width: 60px;
+    }
+  }
+  
+  a {
+    color: $spring-dark-color;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+        color: $spring-primary-color;
+    }
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  ul {
+    li.heading {
+      padding: 0;
+      margin: 0;
+      color: $spring-primary-color;
+      font-weight: bold;
+      padding-bottom: 4px;
+    }
+  }
+  
+  .colset {
+    @include clearfix;
+    .col {
+      float: left;
+      width: 240px;
+      &.col-copyright {
+        width: 600px;
+      }
+    }
+  }
+  
+  .col-links {
+    padding-top: 10px;
+  }
+  
 }
 
 
@@ -83,9 +154,13 @@ body {
   padding: 0 40px;
 }
 
+.layout-basic {
+  padding: 16px 0 24px;
+}
+
 // Navigation
 
-.navigation, .navigation-right {
+.navigation {
   display: inline-block;
   padding-left: 24px;
   a {
@@ -102,9 +177,26 @@ body {
   }
   &.right {
     padding-left: 0;
+    padding-top: 4px;
     float: right;
-    a.button {
-      margin: 0 $spring-8points * 2;
+  }
+  
+  .input-control {
+    width: 300px;
+  }
+  .button-search {
+    position: relative;
+    padding: 8px 10px;
+    cursor: pointer;
+    &:hover {
+      color: $spring-primary-color;
+    }
+    svg {
+      width: 16px;
+      display: inline-block;
+      vertical-align: middle;
+      padding-bottom: 3px;
+      margin-right: 5px;
     }
   }
 }
@@ -121,13 +213,31 @@ body {
     z-index: 1000;
     background: white;
     right: 0;
-    top: 40px;
-    width: 400px;
+    top: 42px;
+    width: 500px;
     border: 1px solid $spring-border-color;
+    box-shadow: 0 0 0 4px rgba($spring-color, .04);
+    border-radius: 4px;
+    padding: $spring-8points 0;
+  }
+  .section {
+    display: block;
+    padding: 2px 0;
+  }
+  .section-title {
+    padding: $spring-8points 0;
+    font-weight: bold;
+    border-bottom: 1px solid $spring-border-color;
+    display: block;
+    margin: 0 $spring-8points * 3;
+    .section-label {
+      display: block;
+      padding: 0;
+    }
   }
   ul.list {
     list-style: none;
-      padding: 0;
+      padding: $spring-8points 0;
       margin: 0;
     li {
       padding: 0;
@@ -135,21 +245,34 @@ body {
     }
     a {
       display: block;
-      padding: $spring-8points * 2;
+      padding: $spring-8points / 2 $spring-8points * 3;
+      mark, em.ais-Snippet-highlighted {
+        background: transparent;
+        color: darken($spring-link-color, 30);
+        font-style: normal;
+      }
+      em.ais-Snippet-highlighted {
+        color: darken($spring-color, 30);        
+      }
+      .title {
+        color: $spring-link-color;
+      }
       &:hover {
-        background: $spring-gray-color;
+        //background: $spring-gray-color;
         color: $spring-color;
         .title {
-          color: $spring-primary-color;
+          color: $spring-link-color;
+          text-decoration: underline;
         }
       }
       .title {
-        font-weight: bold;
+        display: block;  
       }
       .html {
+        display: block;
         font-size: $spring-font-size - 2px;
         line-height: 1.4em;
-        color: lighten($spring-color, 20);
+        color: lighten($spring-color, 30);
       }
     }
   }
@@ -406,6 +529,7 @@ a.button, button.button {
 }
 
 // Breadcrumb
+
 .breadcrumb {
   padding: $spring-8points 0;
   color: $spring-dark-color;
@@ -413,10 +537,11 @@ a.button, button.button {
     position: relative;
     margin: 0 15px;  
     color: #ddd;
-    .fa-chevron-right {
+    svg {
       position: absolute;
       top: 2px;
       left: -5px;
+      width: 10px;
     }
   }
 }

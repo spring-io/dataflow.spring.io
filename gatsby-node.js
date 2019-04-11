@@ -73,8 +73,13 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
       })
       createNodeField({
         node,
-        name: `parent`,
+        name: `category`,
         value: parentPath,
+      })
+      createNodeField({
+        node,
+        name: `root`,
+        value: parentPath === path,
       })
       createNodeField({
         node,

@@ -1,10 +1,11 @@
-import { get, endsWith } from "lodash"
+import get from "lodash.get"
+import endsWith from "lodash.endswith"
 import PropTypes from "prop-types"
 
 /**
  * Normalize the documentation URL, the URL have to end with "/"
  */
-const cleanPath = path => {
+export const cleanPath = path => {
   if (!endsWith(path, "/")) {
     return `${path}/`
   }
@@ -58,8 +59,8 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     path: "/documentation/",
     description: "",
     meta: {
-      title: "Default documentation title",
-      description: "Default documentation description",
+      title: "Spring Cloud Data Flow Documentation",
+      description: "Spring Cloud Data Flow Documentation",
       keywords: [],
     },
   })
