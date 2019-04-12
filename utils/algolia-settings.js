@@ -22,8 +22,8 @@ const client = algoliasearch(
 const REQUIRED_SETTINGS = {
   // We chunk our pages into small algolia entries, and mark them as distinct by slug
   // This ensures we get one result per page, whichever is ranked highest
-  distinct: true,
-  attributeForDistinct: `slug`,
+  distinct: 1,
+  attributeForDistinct: `url`,
   // This ensures that chunks higher up on a page rank higher
   customRanking: [`desc(customRanking.heading)`, `asc(customRanking.position)`],
   // Defines the order algolia ranks various attributes in

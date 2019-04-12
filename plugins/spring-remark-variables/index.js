@@ -1,7 +1,4 @@
 const visit = require(`unist-util-visit`)
-const get = require(`lodash.get`)
-const set = require(`lodash.set`)
-const startsWith = require(`lodash.startswith`)
 
 const transformer = require(`./transformer`)
 

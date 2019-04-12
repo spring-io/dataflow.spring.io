@@ -15,13 +15,13 @@ You'll need [NodeJS](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/)
 ```bash
 # Init
 yarn install        # Install dependencies
-yarn prebuild       # Import the external files
+
+# Linter
+yarn lint           # Linter
+yarn fix            # Fix linting errors
 
 # Dev
 yarn start          # Run dev
-yarn lint           # Linter
-yarn prettier       # Prettier
-yarn format         # Format
 
 # Prod
 yarn build          # Run dev

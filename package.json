@@ -19,7 +19,7 @@
   },
   "scripts": {
     "clean": "rimraf .cache",
-    "prestart": "yarn run clean",
+    "prestart": "yarn run clean && yarn run external-files",
     "start": "gatsby develop",
     "prebuild": "yarn run clean && yarn run lint && yarn run external-files && yarn run test",
     "build": "gatsby build",
