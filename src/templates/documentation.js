@@ -1,40 +1,36 @@
-import React from "react"
-import ReactDOM from "react"
-import { Link, graphql } from "gatsby"
-import PropTypes from "prop-types"
-import get from "lodash.get"
-import classNames from "classnames"
+import PropTypes from 'prop-types'
+import React from 'react'
+import classNames from 'classnames'
+import get from 'lodash.get'
+import { graphql } from 'gatsby'
 
 import {
-  getSummaryType,
-  getTree,
-  getPrevNext,
-  getBreadcrumb,
-  getMeta,
-  SummaryTile,
-  SummaryNav,
-  MdComponents,
-} from "../components/documentation"
-
-import {
+  Breadcrumb,
   Layout,
+  PrevNext,
+  Seo,
   SidebarNav,
   Toc,
-  PrevNext,
-  Breadcrumb,
-  Seo,
-} from "../components/common"
+} from '../components/common'
+import {
+  SummaryNav,
+  SummaryTile,
+  getBreadcrumb,
+  getMeta,
+  getPrevNext,
+  getSummaryType,
+  getTree,
+} from '../components/documentation'
 
 class DocumentationTemplate extends React.Component {
   render() {
     const { page, pages } = this.props.data
-
     const options = {
-      summary: get(page, "frontmatter.summary") || false,
-      toc: get(page, "frontmatter.toc") || true,
-      prevNext: get(page, "frontmatter.prevNext") || true,
-      path: get(page, "frontmatter.path"),
-      breadcrumb: get(page, "breadcrumb") || true,
+      summary: get(page, 'frontmatter.summary') || false,
+      toc: get(page, 'frontmatter.toc') || true,
+      prevNext: get(page, 'frontmatter.prevNext') || true,
+      path: get(page, 'fields.path'),
+      breadcrumb: get(page, 'breadcrumb') || true,
     }
 
     const tree = getTree(pages)
@@ -48,8 +44,8 @@ class DocumentationTemplate extends React.Component {
       prevNext = getPrevNext(pages, page)
     }
     if (toc) {
-      const headings = get(page, "headings", []).filter(
-        item => get(item, "depth", 0) > 1
+      const headings = get(page, 'headings', []).filter(
+        item => get(item, 'depth', 0) > 1
       )
       if (headings.length === 0) {
         toc = false
@@ -58,6 +54,7 @@ class DocumentationTemplate extends React.Component {
     if (summary) {
       summaryType = getSummaryType(pages, page)
     }
+
     return (
       <Layout>
         <Seo
@@ -65,57 +62,57 @@ class DocumentationTemplate extends React.Component {
           description={meta.description}
           keywords={meta.keywords}
         />
-        <div className="container">
+        <div className='container'>
           <div
             className={classNames(
-              "layout-sidebars",
-              !toc ? "layout-2-sidebars" : ""
+              'layout-sidebars',
+              !toc ? 'layout-2-sidebars' : ''
             )}
           >
-            <div className="sidebar">
-              <div className="sticky">
-                <div className="box">
+            <div className='sidebar'>
+              <div className='sticky'>
+                <div className='box'>
                   <SidebarNav tree={tree} />
                 </div>
               </div>
             </div>
-            <div className="main">
-              <div className="main-content">
+            <div className='main'>
+              <div className='main-content'>
                 {options.breadcrumb && (
-                  <div className="breadcrumb md">
+                  <div className='breadcrumb md'>
                     <Breadcrumb pages={breadcrumb} />
                   </div>
                 )}
-                <div className="post-content md">
+                <div className='post-content md'>
                   <div dangerouslySetInnerHTML={{ __html: page.html }} />
                 </div>
                 {summary && (
                   <>
-                    {summaryType === "links" ? (
-                      <div className="summary md">
+                    {summaryType === 'links' ? (
+                      <div className='summary md'>
                         <SummaryNav tree={summary} />
                       </div>
                     ) : (
-                      <div className="summary tiles md">
+                      <div className='summary tiles md'>
                         <SummaryTile tree={summary} />
                       </div>
                     )}
                   </>
                 )}
-                {(get(prevNext, "prev") || get(prevNext, "next")) && (
+                {(get(prevNext, 'prev') || get(prevNext, 'next')) && (
                   <div>
                     <PrevNext
-                      next={get(prevNext, "next")}
-                      prev={get(prevNext, "prev")}
+                      next={get(prevNext, 'next')}
+                      prev={get(prevNext, 'prev')}
                     />
                   </div>
                 )}
               </div>
             </div>
             {toc && (
-              <div className="sidebar-toc">
-                <div className="sticky">
-                  <div className="toc">
+              <div className='sidebar-toc'>
+                <div className='sticky'>
+                  <div className='toc'>
                     <div>
                       <strong>Content</strong>
                     </div>
@@ -139,7 +136,7 @@ DocumentationTemplate.propTypes = {
 }
 
 export const articleQuery = graphql`
-  query($slug: String!) {
+  query($slug: String) {
     pages: allMarkdownRemark(
       filter: { fields: { hash: { eq: "documentation" } } }
       sort: { fields: fields___slug, order: ASC }
@@ -147,6 +144,9 @@ export const articleQuery = graphql`
       edges {
         node {
           id
+          fields {
+            path
+          }
           frontmatter {
             title
             description
@@ -158,11 +158,14 @@ export const articleQuery = graphql`
         }
       }
     }
-    page: markdownRemark(frontmatter: { path: { eq: $slug } }) {
+    page: markdownRemark(fields: { path: { eq: $slug } }) {
       html
       headings {
         value
         depth
+      }
+      fields {
+        path
       }
       frontmatter {
         title

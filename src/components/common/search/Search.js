@@ -1,31 +1,31 @@
-import React from "react"
-import PropTypes from "prop-types"
-import Link from "gatsby-link"
-import { navigate, graphql } from "gatsby"
-import get from "lodash.get"
-import { cleanPath } from "./../../documentation"
-
+import Autosuggest from 'react-autosuggest'
+import Link from 'gatsby-link'
+import PropTypes from 'prop-types'
+import React from 'react'
+import get from 'lodash.get'
 import {
-  Highlight,
-  Snippet,
-  Index,
   Configure,
+  Highlight,
+  Index,
+  Snippet,
   connectAutoComplete,
-} from "react-instantsearch-dom"
-import Autosuggest from "react-autosuggest"
+} from 'react-instantsearch-dom'
+import { navigate } from 'gatsby'
+
+import { cleanPath } from './../../documentation'
 
 const HitTemplate = ({ hit }) => (
-  <Link to={hit.url} className="link">
+  <Link to={hit.url} className='link'>
     <div className={`title`}>
       <Highlight
-        attribute="fullTitle"
+        attribute='fullTitle'
         hit={hit}
-        tagName="mark"
-        className="search-result-page blue"
+        tagName='mark'
+        className='search-result-page blue'
       />
     </div>
     <div className={`html`}>
-      <Snippet attribute="html" hit={hit} className="search-result-snippet" />
+      <Snippet attribute='html' hit={hit} className='search-result-snippet' />
       ...
     </div>
   </Link>
@@ -82,17 +82,15 @@ class Results extends React.Component {
 
   render = () => {
     const hits = this.props.hits
-    const pages = this.props.pages
-
     const suggestions = this.props.pages.edges
       .map(({ node }) => {
         return {
-          id: get(node, "frontmatter.path"),
-          title: get(node, "frontmatter.title"),
+          id: get(node, 'frontmatter.path'),
+          title: get(node, 'frontmatter.title'),
           suggestions: hits.filter(
             hit =>
               cleanPath(hit.category) ===
-              cleanPath(get(node, "frontmatter.path"))
+              cleanPath(get(node, 'frontmatter.path'))
           ),
         }
       })
@@ -104,7 +102,7 @@ class Results extends React.Component {
       onChange: this.onChange,
       value,
       autoFocus: true,
-      "data-cy": `search-input`,
+      'data-cy': `search-input`,
       onBlur: this.props.onBlur,
     }
 
@@ -122,7 +120,7 @@ class Results extends React.Component {
 
     return (
       <>
-        <Configure hitsPerPage="8" />
+        <Configure hitsPerPage='8' />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -136,7 +134,7 @@ class Results extends React.Component {
           renderSectionTitle={this.renderSectionTitle}
           getSectionSuggestions={this.getSectionSuggestions}
         />
-        <Index indexName="Doc" />
+        <Index indexName='Doc' />
       </>
     )
   }

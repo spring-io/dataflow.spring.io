@@ -1,7 +1,7 @@
 ---
-path: "/documentation/concepts/architecture/"
-title: "Architecture"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'concepts/architecture/'
+title: 'Architecture'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
 # Architecture

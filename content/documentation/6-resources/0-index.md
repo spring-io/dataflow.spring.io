@@ -1,10 +1,10 @@
 ---
-path: "/documentation/resources/"
-title: "Resources"
-meta_title: "Resources"
-meta_description: "Spring Cloud Data Flow Resources"
+path: 'resources/'
+title: 'Resources'
+meta_title: 'Resources'
+meta_description: 'Spring Cloud Data Flow Resources'
 keywords:
-    - Resources
+  - Resources
 summary: true
 ---
 

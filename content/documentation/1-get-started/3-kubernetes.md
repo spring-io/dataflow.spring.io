@@ -1,11 +1,10 @@
 ---
-path: "/documentation/get-started/kubernetes/"
-title: "Kubernetes"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'get-started/kubernetes/'
+title: 'Kubernetes'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
-Getting Started - Kubernetes
-============================
+# Getting Started - Kubernetes
 
 [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/)
 is a toolkit for building data integration and real-time data-processing
@@ -20,8 +19,7 @@ This project provides support for using Spring Cloud Data Flow with
 Kubernetes as the runtime for these pipelines, with applications
 packaged as Docker images.
 
-Installation
-------------
+## Installation
 
 This section covers how to install the Spring Cloud Data Flow Server on
 a Kubernetes cluster. Spring Cloud Data Flow depends on a few services
@@ -55,7 +53,7 @@ Kafka or RabbitMQ.
 
 However, any application registered with a Maven, HTTP, or File resource
 for the executable jar (by using a `--uri` property prefixed with
-`maven://`, `http://` or `file://`) is ***not supported***.
+`maven://`, `http://` or `file://`) is **_not supported_**.
 
 ### Kubernetes Compatibility
 
@@ -130,40 +128,40 @@ select a message broker. The sample deployment and service YAML files
 provide configurations for RabbitMQ and Kafka. You need to configure
 only one message broker.
 
--   RabbitMQ
+- RabbitMQ
 
-    Run the following command to start the RabbitMQ service:
+  Run the following command to start the RabbitMQ service:
 
-        $ kubectl create -f src/kubernetes/rabbitmq/
+      $ kubectl create -f src/kubernetes/rabbitmq/
 
-    You can use `kubectl get all -l app=rabbitmq` to verify that the
-    deployment, pod, and service resources are running. You can use
-    `kubectl delete all -l app=rabbitmq` to clean up afterwards.
+  You can use `kubectl get all -l app=rabbitmq` to verify that the
+  deployment, pod, and service resources are running. You can use
+  `kubectl delete all -l app=rabbitmq` to clean up afterwards.
 
--   Kafka
+- Kafka
 
-    Run the following command to start the Kafka service:
+  Run the following command to start the Kafka service:
 
-        $ kubectl create -f src/kubernetes/kafka/
+      $ kubectl create -f src/kubernetes/kafka/
 
-    You can use `kubectl get all -l app=kafka` to verify that the
-    deployment, pod, and service resources are running. You can use
-    `kubectl delete all -l app=kafka` to clean up afterwards.
+  You can use `kubectl get all -l app=kafka` to verify that the
+  deployment, pod, and service resources are running. You can use
+  `kubectl delete all -l app=kafka` to clean up afterwards.
 
 #### Deploy Services, Skipper, and Data Flow
 
 You must deploy a number of services and the Data Flow server. The
 following subsections describe how to do so:
 
-1.  [simpara\_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-mysql)
+1.  [simpara_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-mysql)
 
-2.  [simpara\_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-prometheus-grafana)
+2.  [simpara_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-prometheus-grafana)
 
-3.  [simpara\_title](#getting-started-kubernetes-deploy-services-and-data-flow-create-df-role-bindings-service-account)
+3.  [simpara_title](#getting-started-kubernetes-deploy-services-and-data-flow-create-df-role-bindings-service-account)
 
-4.  [simpara\_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-skipper)
+4.  [simpara_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-skipper)
 
-5.  [simpara\_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-data-flow-server)
+5.  [simpara_title](#getting-started-kubernetes-deploy-services-and-data-flow-deploy-data-flow-server)
 
 > **Important**
 >
@@ -315,9 +313,9 @@ shows:
         spec:
           containers:
           - name: skipper
-            image: springcloud/spring-cloud-skipper-server:{skipper-version}   # 
+            image: springcloud/spring-cloud-skipper-server:{skipper-version}   #
 
--   You may change the version as you like.
+- You may change the version as you like.
 
 > **Note**
 >
@@ -368,11 +366,11 @@ used for the Docker image in the container specification, as follows:
         spec:
           containers:
           - name: scdf-server
-            image: springcloud/spring-cloud-dataflow-server:{project-version}      # 
+            image: springcloud/spring-cloud-dataflow-server:{project-version}      #
 
--   Change the version as you like. This document is based on the
-    `{project-version}` release. You can use the docker `latest` tag for
-    `BUILD-SNAPSHOT` releases.
+- Change the version as you like. This document is based on the
+  `{project-version}` release. You can use the docker `latest` tag for
+  `BUILD-SNAPSHOT` releases.
 
 > **Important**
 >
@@ -400,7 +398,7 @@ provided in base64 encoding.
 > **Note**
 >
 > We now configure the Data Flow server with file-based security, and
-> the default user is *user* with a password of *password*. You should
+> the default user is _user_ with a password of _password_. You should
 > change these values in
 > `src/kubernetes/server/server-config-rabbit.yaml` for RabbitMQ or
 > `src/kubernetes/server/server-config-kafka.yaml` for Kafka.
@@ -444,8 +442,7 @@ command to look up the URL to use:
     $ minikube service --url scdf-server
     https://192.168.99.100:31991
 
-Helm Installation
------------------
+## Helm Installation
 
 Spring Cloud Data Flow offers a [Helm
 Chart](https://hub.kubeapps.com/charts/stable/spring-cloud-data-flow)
@@ -645,8 +642,7 @@ delete the release and purge any release metadata, you can use
         --set rabbitmq.rabbitmqPassword=rabbitpwd \
         --set mysql.mysqlRootPassword=mysqlpwd incubator/spring-cloud-data-flow
 
-Deploying Streams
------------------
+## Deploying Streams
 
 This section covers how to deploy streams with Spring Cloud Data Flow
 and Skipper. For more about Skipper, see
@@ -675,37 +671,37 @@ following example (with output) shows how to do so:
 This section describes how to create streams (by using Skipper). The
 following sections describe how to do so:
 
-1.  [section\_title](#getting-started-kubernetes-create-stream-download-scdf-shell)
+1.  [section_title](#getting-started-kubernetes-create-stream-download-scdf-shell)
 
-2.  [section\_title](#getting-started-kubernetes-create-stream-run-scdf-shell)
+2.  [section_title](#getting-started-kubernetes-create-stream-run-scdf-shell)
 
-3.  [section\_title](#getting-started-kubernetes-create-stream-verify-registered-platforms-skipper)
+3.  [section_title](#getting-started-kubernetes-create-stream-verify-registered-platforms-skipper)
 
-4.  [section\_title](#getting-started-kubernetes-create-stream-register-docker-images-rabbit-binder-apps)
+4.  [section_title](#getting-started-kubernetes-create-stream-register-docker-images-rabbit-binder-apps)
 
-5.  [section\_title](#getting-started-kubernetes-create-stream-create-stream-shell)
+5.  [section_title](#getting-started-kubernetes-create-stream-create-stream-shell)
 
-6.  [section\_title](#getting-started-kubernetes-create-stream-deploy-stream)
+6.  [section_title](#getting-started-kubernetes-create-stream-deploy-stream)
 
-7.  [section\_title](#getting-started-kubernetes-create-stream-list-pods)
+7.  [section_title](#getting-started-kubernetes-create-stream-list-pods)
 
-8.  [section\_title](#getting-started-kubernetes-create-stream-verify-logs)
+8.  [section_title](#getting-started-kubernetes-create-stream-verify-logs)
 
-9.  [section\_title](#getting-started-kubernetes-create-stream-verify-stream-history)
+9.  [section_title](#getting-started-kubernetes-create-stream-verify-stream-history)
 
-10. [section\_title](#getting-started-kubernetes-create-stream-verify-package-manifest)
+10. [section_title](#getting-started-kubernetes-create-stream-verify-package-manifest)
 
-11. [section\_title](#getting-started-kubernetes-create-stream-register-logsink-app)
+11. [section_title](#getting-started-kubernetes-create-stream-register-logsink-app)
 
-12. [section\_title](#getting-started-kubernetes-create-stream-update-stream)
+12. [section_title](#getting-started-kubernetes-create-stream-update-stream)
 
-13. [section\_title](#getting-started-kubernetes-create-stream-list-pods-again)
+13. [section_title](#getting-started-kubernetes-create-stream-list-pods-again)
 
-14. [section\_title](#getting-started-kubernetes-create-stream-verify-logs-again)
+14. [section_title](#getting-started-kubernetes-create-stream-verify-logs-again)
 
-15. [section\_title](#getting-started-kubernetes-create-stream-view-updated-package-manifest)
+15. [section_title](#getting-started-kubernetes-create-stream-view-updated-package-manifest)
 
-16. [section\_title](#getting-started-kubernetes-create-stream-verify-stream-history-again)
+16. [section_title](#getting-started-kubernetes-create-stream-verify-stream-history-again)
 
 #### Download the Spring Cloud Data Flow Shell
 
@@ -850,11 +846,11 @@ Alternatively, if you want to register all out-of-the-box stream
 applications for a particular binder in bulk, you can use one of the
 following commands:
 
--   RabbitMQ:
-    `dataflow:>app import --uri https://bit.ly/Einstein-SR2-stream-applications-rabbit-docker`
+- RabbitMQ:
+  `dataflow:>app import --uri https://bit.ly/Einstein-SR2-stream-applications-rabbit-docker`
 
--   Kafka:
-    `dataflow:>app import --uri https://bit.ly/Einstein-SR2-stream-applications-kafka-docker`
+- Kafka:
+  `dataflow:>app import --uri https://bit.ly/Einstein-SR2-stream-applications-kafka-docker`
 
 #### Create a Stream in the Shell
 
@@ -1182,13 +1178,13 @@ outside the cluster:
 
 1.  Register the `http-source` by using one of the following commands:
 
-    -   RabbitMQ:
+    - RabbitMQ:
 
-            dataflow:>app register --type source --name http --uri docker//springcloudstream/http-source-rabbit:{docker-http-source-rabbit-version} --metadata-uri maven://org.springframework.cloud.stream.app:http-source-rabbit:jar:metadata:{docker-http-source-rabbit-version}
+          dataflow:>app register --type source --name http --uri docker//springcloudstream/http-source-rabbit:{docker-http-source-rabbit-version} --metadata-uri maven://org.springframework.cloud.stream.app:http-source-rabbit:jar:metadata:{docker-http-source-rabbit-version}
 
-    -   Kafka:
+    - Kafka:
 
-            dataflow:>app register --type source --name http --uri docker//springcloudstream/http-source-kafka:{docker-http-source-kafka-version} --metadata-uri maven://org.springframework.cloud.stream.app:http-source-kafka:jar:metadata:{docker-http-source-kafka-version}
+          dataflow:>app register --type source --name http --uri docker//springcloudstream/http-source-kafka:{docker-http-source-kafka-version} --metadata-uri maven://org.springframework.cloud.stream.app:http-source-kafka:jar:metadata:{docker-http-source-kafka-version}
 
 2.  Create the `http | log` stream without deploying it by using the
     following command:
@@ -1267,14 +1263,13 @@ outside the cluster:
     2016-04-27 16:54:29.895  INFO 1 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
     2016-04-27 16:54:29.896  INFO 1 --- [  kafka-binder-] log.sink                                 : Hello
 
-7) Destroy the stream by using the following command:
+7. Destroy the stream by using the following command:
 
 +
 
     dataflow:>stream destroy --name test
 
-Deploying Tasks
----------------
+## Deploying Tasks
 
 This section covers how to deploy tasks. To do so:
 
@@ -1307,8 +1302,7 @@ This section covers how to deploy tasks. To do so:
 
         dataflow:>task destroy --name task1
 
-Application and Server Properties
----------------------------------
+## Application and Server Properties
 
 This section covers how you can customize the deployment of your
 applications. You can use a number of properties to influence settings
@@ -1395,7 +1389,7 @@ influence the JVM memory arguments. You can do so by using the
 `JAVA_TOOL_OPTIONS` environment variable, as the following example
 shows:
 
-deployer.&lt;app&gt;.kubernetes.environmentVariables=JAVA\_TOOL\_OPTIONS=-Xmx1024m&lt;/programlisting&gt;
+deployer.&lt;app&gt;.kubernetes.environmentVariables=JAVA_TOOL_OPTIONS=-Xmx1024m&lt;/programlisting&gt;
 
 > **Note**
 >
@@ -1403,8 +1397,7 @@ deployer.&lt;app&gt;.kubernetes.environmentVariables=JAVA\_TOOL\_OPTIONS=-Xmx102
 > If an environment variable contains a value which is also a
 > comma-delimited string, it must be enclosed in single quotation
 > marks — for example,
-> `spring.cloud.deployer.kubernetes.environmentVariables=spring.cloud.stream.kafka.binder.brokers='somehost:9092,
-> anotherhost:9093'`
+> `spring.cloud.deployer.kubernetes.environmentVariables=spring.cloud.stream.kafka.binder.brokers='somehost:9092, anotherhost:9093'`
 
 This overrides the JVM memory setting for the desired `<app>` (replace
 `<app>` with the name of your application).
@@ -1513,7 +1506,7 @@ To create a new secret:
 
     apiVersion: v1 kind: Secret metadata: name: myprobesecret type:
     Opaque data: credentials:
-    GENERATED\_BASE64\_STRING&lt;/programlisting&gt;
+    GENERATED_BASE64_STRING&lt;/programlisting&gt;
 
 3.  Replace `GENERATED_BASE64_STRING` with the base64-encoded value
     generated earlier.
@@ -1617,21 +1610,21 @@ annotations.
 An entry point style affects how application properties are passed to
 the container to be deployed. Currently, three styles are supported:
 
--   `exec` (default): Passes all application properties and command line
-    arguments in the deployment request as container arguments.
-    Application properties are transformed into the format of
-    `--key=value`.
+- `exec` (default): Passes all application properties and command line
+  arguments in the deployment request as container arguments.
+  Application properties are transformed into the format of
+  `--key=value`.
 
--   `shell`: Passes all application properties as environment variables.
-    Command line arguments from the deployment request are not converted
-    into environment variables nor set on the container. Application
-    properties are transformed into an uppercase string and `.`
-    characters are replaced with `_`.
+- `shell`: Passes all application properties as environment variables.
+  Command line arguments from the deployment request are not converted
+  into environment variables nor set on the container. Application
+  properties are transformed into an uppercase string and `.`
+  characters are replaced with `_`.
 
--   `boot`: Creates an environment variable called
-    `SPRING_APPLICATION_JSON` that contains a JSON representation of all
-    application properties. Command line arguments from the deployment
-    request are set as container args.
+- `boot`: Creates an environment variable called
+  `SPRING_APPLICATION_JSON` that contains a JSON representation of all
+  application properties. Command line arguments from the deployment
+  request are set as container args.
 
 > **Note**
 >
@@ -1753,12 +1746,12 @@ applied to all deployments.
 An image pull policy defines when a Docker image should be pulled to the
 local registry. Currently, three policies are supported:
 
--   `IfNotPresent` (default): Do not pull an image if it already exists.
+- `IfNotPresent` (default): Do not pull an image if it already exists.
 
--   `Always`: Always pull the image regardless of whether it
-    already exists.
+- `Always`: Always pull the image regardless of whether it
+  already exists.
 
--   `Never`: Never pull an image. Use only an image that already exists.
+- `Never`: Never pull an image. Use only an image that already exists.
 
 The following example shows how you can individually configure
 applications:
@@ -1821,5 +1814,3 @@ Additionally, you can apply multiple labels, as the following example
 shows:
 
     deployer.<app>.kubernetes.deploymentLabels=myLabelName:myLabelValue,myLabelName2:myLabelValue2
-
-

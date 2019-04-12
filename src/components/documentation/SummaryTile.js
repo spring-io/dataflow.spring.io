@@ -1,7 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Link } from "gatsby"
-import classNames from "classnames"
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'gatsby'
 
 const SummaryTile = ({ tree, depth }) => {
   return (
@@ -9,10 +8,10 @@ const SummaryTile = ({ tree, depth }) => {
       {tree.map(item => (
         <li key={item.id} className={`level${depth}`}>
           <Link key={`${item.id}`} to={item.path} className={`level${depth}`}>
-            <div className="title" key={`linktitle${item.id}`}>
+            <div className='title' key={`linktitle${item.id}`}>
               {item.title}
             </div>
-            {depth > 0 && <div className="description">{item.description}</div>}
+            {depth > 0 && <div className='description'>{item.description}</div>}
           </Link>
           {item.children.length > 0 ? (
             <SummaryTile tree={item.children} depth={depth + 1} />
@@ -26,10 +25,10 @@ const SummaryTile = ({ tree, depth }) => {
                       to={item.path}
                       className={`level${depth + 1}`}
                     >
-                      <div className="title" key={`linktitle${item.id}`}>
+                      <div className='title' key={`linktitle${item.id}`}>
                         {item.title}
                       </div>
-                      <div className="description">{item.description}</div>
+                      <div className='description'>{item.description}</div>
                     </Link>
                   </li>
                 </ul>

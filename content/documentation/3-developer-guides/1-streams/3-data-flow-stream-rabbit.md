@@ -1,7 +1,7 @@
 ---
-path: "/documentation/developer-guides/streams/data-flow-stream-rabbit/"
-title: "Spring Cloud Data Flow using RabbitMQ"
-description: Deploy Stream Processing Pipelines with Data Flow using RabbitMQ
+path: 'developer-guides/streams/data-flow-stream-rabbit/'
+title: 'Spring Cloud Data Flow using RabbitMQ'
+description: 'Deploy Stream Processing Pipelines with Data Flow using RabbitMQ'
 ---
 
 # Stream Processing with Data Flow using RabbitMQ
@@ -28,7 +28,7 @@ make sure the app coordinates are correct
 
 Deploy to local, Cloud Foundry and Kubernetes
 
-### Local 
+### Local
 
 get the jar run it bla
 

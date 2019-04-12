@@ -1,7 +1,7 @@
 ---
-path: "/documentation/resources/reference-docs/"
-title: "Reference documentations"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'resources/reference-docs/'
+title: 'Reference documentations'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
 # Reference documentations

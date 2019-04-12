@@ -1,1 +1,1 @@
-export { default as PrevNext } from "./PrevNext"
+export { default as PrevNext } from './PrevNext'

@@ -1,7 +1,7 @@
-const path = require("path")
-const get = require("lodash.get")
-const startsWith = require("lodash.startswith")
-const { createFilePath } = require("gatsby-source-filesystem")
+const path = require('path')
+const get = require('lodash.get')
+const startsWith = require('lodash.startswith')
+const { createFilePath } = require('gatsby-source-filesystem')
 
 /**
  * Create Pages
@@ -21,7 +21,7 @@ exports.createPages = ({ graphql, actions }) => {
             edges {
               node {
                 id
-                frontmatter {
+                fields {
                   path
                 }
               }
@@ -37,10 +37,10 @@ exports.createPages = ({ graphql, actions }) => {
             `./src/templates/documentation.js`
           )
           createPage({
-            path: node.frontmatter.path,
+            path: node.fields.path,
             component: DocumentationTemplate,
             context: {
-              slug: node.frontmatter.path,
+              slug: node.fields.path,
             },
           })
           return resolve()
@@ -57,15 +57,21 @@ exports.createPages = ({ graphql, actions }) => {
  */
 exports.onCreateNode = async ({ node, getNode, actions }) => {
   const { createNodeField } = actions
-  if (get(node, "internal.type") === `MarkdownRemark`) {
-    const path = get(node, "frontmatter.path", "default")
+  if (get(node, 'internal.type') === `MarkdownRemark`) {
+    const pathOrigin = get(node, 'frontmatter.path', 'default')
     const slug = createFilePath({ node, getNode, basePath: `pages` })
-    if (path !== "/documentation/" && startsWith(path, "/documentation/")) {
-      const parentPath =
-        path
-          .split("/")
-          .slice(0, 3)
-          .join("/") + "/"
+    const relativePath = path.relative(
+      path.join(__dirname, 'content'),
+      node.fileAbsolutePath
+    )
+    if (
+      relativePath !== 'documentation/' &&
+      startsWith(relativePath, 'documentation/')
+    ) {
+      const parentPath = pathOrigin
+        .split('/')
+        .slice(0, 3)
+        .join('/')
       createNodeField({
         node,
         name: `hash`,
@@ -79,12 +85,17 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
       createNodeField({
         node,
         name: `root`,
-        value: parentPath === path,
+        value: parentPath === pathOrigin,
       })
       createNodeField({
         node,
         name: `slug`,
         value: slug,
+      })
+      createNodeField({
+        node,
+        name: `path`,
+        value: `/documentation/${pathOrigin}`,
       })
     }
   }

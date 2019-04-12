@@ -6,15 +6,24 @@
 
 ## Introduction
 
-This is the **Spring Cloud Data Flow Website**, located at  [https://dataflow.spring.io](https://dataflow.spring.io).
-
+This is the **Spring Cloud Data Flow Website**, located at [https://dataflow.spring.io](https://dataflow.spring.io).
 
 ## Building
 
 You'll need [NodeJS](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed globally.
 
+```bash
+# Init
+yarn install        # Install dependencies
+yarn prebuild       # Import the external files
 
-```
-yarn install
-yarn run develop
+# Dev
+yarn start          # Run dev
+yarn lint           # Linter
+yarn prettier       # Prettier
+yarn format         # Format
+
+# Prod
+yarn build          # Run dev
+yarn serve          # Serve the prod build
 ```

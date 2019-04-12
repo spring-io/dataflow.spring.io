@@ -1,10 +1,10 @@
 ---
-path: "/documentation/markdown/lorem/ipsum"
-title: "Ipsum"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'markdown/lorem/ipsum'
+title: 'Ipsum'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 keywords:
-    - markdown
-    - syntax
+  - markdown
+  - syntax
 prevNext: false
 ---
 

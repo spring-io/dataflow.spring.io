@@ -1,7 +1,7 @@
 ---
-path: "/documentation/features-guides/batch/"
-title: "Batch"
-description: Batch Feature Guide
+path: 'features-guides/batch/'
+title: 'Batch'
+description: 'Batch Feature Guide'
 ---
 
 # Batch

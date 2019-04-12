@@ -1,9 +1,9 @@
 ---
-path: "/documentation/markdown/lorem/"
-title: "Lorem"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'markdown/lorem/'
+title: 'Lorem'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 keywords:
-    - markdown
+  - markdown
 summary: true
 ---
 

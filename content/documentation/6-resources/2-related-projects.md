@@ -1,7 +1,7 @@
 ---
-path: "/documentation/resources/related-projects/"
-title: "Related projects"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'resources/related-projects/'
+title: 'Related projects'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
 # Related projects

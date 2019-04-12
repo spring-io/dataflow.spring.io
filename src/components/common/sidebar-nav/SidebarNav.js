@@ -1,7 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Link } from "gatsby"
-import classNames from "classnames"
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'gatsby'
 
 const isDisplay = ({ children }, depth, depthMax) => {
   return children.length > 0 && depth < depthMax
@@ -14,7 +13,7 @@ const SidebarNav = ({ tree, depth, depthMax }) => {
         <li className={`level${depth}`} key={item.id}>
           <Link
             className={`level${depth}`}
-            activeClassName="active"
+            activeClassName='active'
             key={`link${item.id}`}
             to={item.path}
           >

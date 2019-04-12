@@ -26,7 +26,7 @@ const documentationNode = ({ node }) => {
   node.title = node.frontmatter.title
   node.url = node.frontmatter.path
   node.description = node.frontmatter.description
-  node.section = "documentation"
+  node.section = 'documentation'
   node.category = node.fields.category
   node.summary = node.frontmatter.summary ? true : false
   delete node.frontmatter
@@ -53,7 +53,7 @@ const queries = [
             url: node.url,
             category: node.category,
             fullTitle: node.title,
-            html: `<p>${node.description ? node.description : ""}</p>`,
+            html: `<p>${node.description ? node.description : ''}</p>`,
           })
         })
 

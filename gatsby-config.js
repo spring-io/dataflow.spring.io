@@ -1,5 +1,5 @@
-const queries = require(`./utils/algolia-queries`)
-const markdownVars = require(`./content/documentation/variables.json`)
+// const queries = require(`./utils/algolia-queries`)
+const markdownVars = require(`./content/variables.json`)
 
 module.exports = {
   siteMetadata: {
@@ -14,10 +14,11 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: "gatsby-plugin-webpack-bundle-analyzer",
+      resolve: 'gatsby-plugin-webpack-bundle-analyzer',
       options: {
         analyzerPort: 3000,
         production: true,
+        openAnalyzer: false,
       },
     },
     `gatsby-plugin-react-helmet`,
@@ -47,21 +48,21 @@ module.exports = {
         ],
       },
     },
-    {
-      resolve: `gatsby-plugin-algolia`,
-      options: {
-        appId: `ES999KPS5F`,
-        apiKey: `${process.env.ALGOLIA_ADMIN_KEY}`,
-        queries,
-        chunkSize: 10000, // default: 1000
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-algolia`,
+    //   options: {
+    //     appId: `ES999KPS5F`,
+    //     apiKey: `${process.env.ALGOLIA_ADMIN_KEY}`,
+    //     queries,
+    //     chunkSize: 10000, // default: 1000
+    //   },
+    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `md`,
-        path: `${__dirname}/content/documentation`,
-        ignore: [`**/\.*`],
+        name: `mdold`,
+        path: `${__dirname}/content/documentation/`,
+        ignore: [`**/.*`],
       },
     },
     {
@@ -79,7 +80,7 @@ module.exports = {
             },
           },
           {
-            resolve: "gatsby-remark-copy-linked-files",
+            resolve: 'gatsby-remark-copy-linked-files',
           },
           `gatsby-remark-attr`,
           `gatsby-remark-grid-tables`,
@@ -87,13 +88,13 @@ module.exports = {
           `gatsby-remark-code-titles`,
           `gatsby-remark-external-links`,
           {
-            resolve: "spring-remark-variables",
+            resolve: 'spring-remark-variables',
             options: {
               variables: markdownVars,
             },
           },
           {
-            resolve: "gatsby-remark-embed-youtube",
+            resolve: 'gatsby-remark-embed-youtube',
             options: {
               width: 800,
               height: 400,
@@ -101,45 +102,44 @@ module.exports = {
           },
           `gatsby-remark-responsive-iframe`,
           {
-            resolve: "gatsby-remark-embed-snippet",
+            resolve: 'spring-remark-embed-snippet',
             options: {
-              classPrefix: "language-",
-              directory: `${__dirname}/content/examples/`,
+              classPrefix: 'language-',
             },
           },
           {
             resolve: `gatsby-remark-prismjs`,
             options: {
-              classPrefix: "language-",
+              classPrefix: 'language-',
             },
           },
           {
-            resolve: "gatsby-remark-custom-blocks",
+            resolve: 'gatsby-remark-custom-blocks',
             options: {
               blocks: {
                 danger: {
-                  classes: "callout danger",
-                  title: "optional",
+                  classes: 'callout danger',
+                  title: 'optional',
                 },
                 info: {
-                  classes: "callout info",
-                  title: "optional",
+                  classes: 'callout info',
+                  title: 'optional',
                 },
                 note: {
-                  classes: "callout note",
-                  title: "optional",
+                  classes: 'callout note',
+                  title: 'optional',
                 },
                 warning: {
-                  classes: "callout warning",
-                  title: "optional",
+                  classes: 'callout warning',
+                  title: 'optional',
                 },
                 success: {
-                  classes: "callout success",
-                  title: "optional",
+                  classes: 'callout success',
+                  title: 'optional',
                 },
                 tip: {
-                  classes: "callout tip",
-                  title: "optional",
+                  classes: 'callout tip',
+                  title: 'optional',
                 },
               },
             },

@@ -1,34 +1,80 @@
-import React from "react"
-import { Link, graphql } from "gatsby"
-import get from "lodash.get"
-import { Layout } from "../components/common/layout"
-import { SummaryNav } from "../components/documentation"
-import { Seo } from "../components/common/seo"
+import React from 'react'
+import get from 'lodash.get'
+import { Link, graphql } from 'gatsby'
+
+import { IconSearch } from '../components/common/icons'
+import { Layout } from '../components/common/layout'
+import { Seo } from '../components/common/seo'
 
 class DocumentationPage extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
-    const pages = this.props.data.pages.edges.map(({ node }) => {
-      return {
-        id: get(node, "id"),
-        title: get(node, "frontmatter.title"),
-        description: get(node, "frontmatter.description"),
-        path: get(node, "frontmatter.path"),
-        children: [],
-      }
-    })
+    const edges = this.props.data.pages
+    const pages = [
+      {
+        id: 'get-started',
+        icon: <IconSearch width='14px' />,
+        title: get(edges, 'edges[0].node.frontmatter.title'),
+        description: get(edges, 'edges[0].node.frontmatter.description'),
+        path: get(edges, 'edges[0].node.fields.path'),
+      },
+      {
+        id: 'concepts',
+        icon: <IconSearch width='14px' />,
+        title: get(edges, 'edges[1].node.frontmatter.title'),
+        description: get(edges, 'edges[1].node.frontmatter.description'),
+        path: get(edges, 'edges[1].node.fields.path'),
+      },
+      {
+        id: 'developer-guides',
+        icon: <IconSearch width='14px' />,
+        title: get(edges, 'edges[2].node.frontmatter.title'),
+        description: get(edges, 'edges[2].node.frontmatter.description'),
+        path: get(edges, 'edges[2].node.fields.path'),
+      },
+      {
+        id: 'featured-guides',
+        icon: <IconSearch width='14px' />,
+        title: get(edges, 'edges[3].node.frontmatter.title'),
+        description: get(edges, 'edges[3].node.frontmatter.description'),
+        path: get(edges, 'edges[3].node.fields.path'),
+      },
+      {
+        id: 'recipes',
+        icon: <IconSearch width='14px' />,
+        title: get(edges, 'edges[4].node.frontmatter.title'),
+        description: get(edges, 'edges[4].node.frontmatter.description'),
+        path: get(edges, 'edges[4].node.fields.path'),
+      },
+      {
+        id: 'resources',
+        icon: <IconSearch width='14px' />,
+        title: get(edges, 'edges[5].node.frontmatter.title'),
+        description: get(edges, 'edges[5].node.frontmatter.description'),
+        path: get(edges, 'edges[5].node.fields.path'),
+      },
+    ]
     return (
       <Layout>
-        <Seo title="Spring Cloud Data Flow Documentation" />
-        <div className="container">
-          <div className="layout-basic">
-            <h1>Documentation</h1>
-            <div className="summary md">
-              <SummaryNav tree={pages} />
-            </div>
+        <Seo title='Spring Cloud Data Flow Documentation' />
+        <div className='container'>
+          <div className='layout-basic'>
+            <ul className='summary documentation'>
+              {pages.map(page => (
+                <li key={`li${page.id}`}>
+                  <Link to={page.path}>
+                    <div key={`d1${page.id}`} className='icon'>
+                      {page.icon}
+                    </div>
+                    <div key={`d2${page.id}`} className='title'>
+                      {page.title}
+                    </div>
+                    <div key={`d3${page.id}`} className='description'>
+                      {page.description}
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </Layout>
@@ -45,10 +91,12 @@ export const articleQuery = graphql`
       edges {
         node {
           id
+          fields {
+            path
+          }
           frontmatter {
             title
             description
-            path
             meta_title
             meta_description
             keywords

@@ -1,17 +1,15 @@
 ---
-path: "/documentation/get-started/cloud-foundry/"
-title: "Cloud Foundry"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'get-started/cloud-foundry/'
+title: 'Cloud Foundry'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
-Getting Started - Cloud Foundry
-===============================
+# Getting Started - Cloud Foundry
 
 This section covers how to get started with Spring Cloud Data Flow on
 Cloud Foundry.
 
-System Requirements
--------------------
+## System Requirements
 
 The Spring Cloud Data Flow server deploys tasks (short-lived
 applications), and Skipper deploys streams (long-lived applications) to
@@ -23,16 +21,16 @@ Spring Cloud Data Flow requires a few data services to perform streaming
 and task or batch processing. You have two options when you provision
 Spring Cloud Data Flow and related services on Cloud Foundry:
 
--   The simplest (and automated) method is to use the [Spring Cloud Data
-    Flow for PCF](https://network.pivotal.io/products/p-dataflow) tile.
-    This is an opinionated tile for Pivotal Cloud Foundry. It
-    automatically provisions the server and the required data services,
-    thus simplifying the overall getting-started experience. You can
-    read more about the installation
-    [here](https://docs.pivotal.io/scdf/).
+- The simplest (and automated) method is to use the [Spring Cloud Data
+  Flow for PCF](https://network.pivotal.io/products/p-dataflow) tile.
+  This is an opinionated tile for Pivotal Cloud Foundry. It
+  automatically provisions the server and the required data services,
+  thus simplifying the overall getting-started experience. You can
+  read more about the installation
+  [here](https://docs.pivotal.io/scdf/).
 
--   Alternatively, you can provision all the components manually. The
-    following section goes into the specifics of how to do so.
+- Alternatively, you can provision all the components manually. The
+  following section goes into the specifics of how to do so.
 
 ### Provisioning a Rabbit Service Instance on Cloud Foundry
 
@@ -70,8 +68,7 @@ following example shows:
 > concurrently connect to the same database instance without running
 > into connection limits.
 
-Cloud Foundry Installation
---------------------------
+## Cloud Foundry Installation
 
 > **Note**
 >
@@ -137,7 +134,7 @@ To install Cloud Foundry:
 
     > **Warning**
     >
-    > Set *Skip SSL Validation* to `true` only if you run on a Cloud
+    > Set _Skip SSL Validation_ to `true` only if you run on a Cloud
     > Foundry instance by using self-signed certificates (for example,
     > in development). Do not use self-signed certificates
     > for production.
@@ -186,8 +183,7 @@ Cloud Foundry.
 > While you can specify up to 2G as a typical maximum value for disk
 > space on a PCF installation, you can increase this to 10G. Read the
 > [maximum disk
-> quota](#getting-started-maximum-disk-quota-configuration)
-> [???](#getting-started-maximum-disk-quota-configuration) section for
+> quota](#getting-started-maximum-disk-quota-configuration) > [???](#getting-started-maximum-disk-quota-configuration) section for
 > information on how to configure this PCF property. Also, the Data Flow
 > server itself implements a Last-Recently-Used algorithm to free disk
 > space when it falls below a low-water-mark value.
@@ -243,7 +239,7 @@ environment variable.
 
 > **Warning**
 >
-> Set *Skip SSL Validation* to true only if you run on a Cloud Foundry
+> Set _Skip SSL Validation_ to true only if you run on a Cloud Foundry
 > instance that uses self-signed certificates (for example, in
 > development). Do not use self-signed certificates for production.
 
@@ -301,8 +297,7 @@ Once you are ready with the relevant properties in your manifest file,
 you can issue a `cf push` command from the directory where this file is
 stored.
 
-Local Installation
-------------------
+## Local Installation
 
 To run the server application locally (on your laptop or desktop) and
 target your Cloud Foundry installation, you can configure the Data Flow
@@ -330,7 +325,7 @@ before using the file in the following command.
 
 > **Warning**
 >
-> Set *Skip SSL Validation* to true only if you run on a Cloud Foundry
+> Set _Skip SSL Validation_ to true only if you run on a Cloud Foundry
 > instance by using self-signed certificates (for example, in
 > development). Do not use self-signed certificates for production.
 
@@ -347,19 +342,16 @@ Now you are ready to start the server application, as follows:
 >
 > All other parameterization options that were available when running
 > the server on Cloud Foundry are still available. This is particularly
-> true for [configuring defaults](#configuring-defaults)
-> [???](#configuring-defaults) for applications. To use them, substitute
+> true for [configuring defaults](#configuring-defaults) > [???](#configuring-defaults) for applications. To use them, substitute
 > `cf set-env` syntax with `export`.
 
-Data Flow Shell
----------------
+## Data Flow Shell
 
 The following example shows how to start the Data Flow Shell:
 
     $ java -jar spring-cloud-dataflow-shell-{scdf-core-version}.jar
 
-Deploying Streams
------------------
+## Deploying Streams
 
 This section proceeds with the assumption that Spring Cloud Data Flow,
 Spring Cloud Skipper, RDBMS, and your desired messaging middleware are
@@ -658,8 +650,7 @@ following example shows how to do so and shows the resulting output:
     ║1      │Mon Nov 20 15:34:37 PST 2017│DELETED │ticker-314  │1.0.0          │Delete complete ║
     ╚═══════╧════════════════════════════╧════════╧════════════╧═══════════════╧════════════════╝
 
-Deploying Tasks
----------------
+## Deploying Tasks
 
 To run a simple task application, you can register all the
 out-of-the-box task applications with the following command:

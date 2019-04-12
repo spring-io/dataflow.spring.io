@@ -63,7 +63,7 @@ module.exports.fragmentTransformer = (recordAccumulator, node) => {
 
       fragment.fullTitle = fragment.title
       if (fragment.headings && fragment.headings.length > 0) {
-        fragment.fullTitle = fragment.headings.join(" – ")
+        fragment.fullTitle = fragment.headings.join(' – ')
       }
 
       let objectID = `${node.objectID}_${index}`

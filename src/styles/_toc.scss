@@ -1,14 +1,14 @@
 .toc {
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
 .toc > .toc-list {
-    overflow: hidden;
-    position: relative;
+  overflow: hidden;
+  position: relative;
 }
 
 .toc > .toc-list li {
-    list-style: none;
+  list-style: none;
 }
 
 .toc-list-container > .toc-list .toc-list {
@@ -37,7 +37,7 @@
     line-height: 1.2rem;
     padding: ($spring-8points / 2) 0;
     padding-left: 20px;
-    
+
     &:before {
       position: absolute;
       display: block;
@@ -49,18 +49,18 @@
       background: #e5e5e5;
       border-radius: $w/2;
     }
-    &:hover { 
+    &:hover {
       color: $spring-color;
     }
   }
-  
+
   a.is-active-link {
     $w: 10px;
     color: $spring-primary-color;
-    &:hover { 
+    &:hover {
       color: $spring-primary-color;
     }
-    
+
     &:before {
       position: absolute;
       display: block;
@@ -72,13 +72,12 @@
       background: $spring-primary-color;
       border-radius: $w/2;
     }
-    
   }
 }
 
 .toc-list {
-    margin: 0;
-    padding-left: 0px;
+  margin: 0;
+  padding-left: 0px;
 }
 
 a.toc-link {
@@ -91,7 +90,7 @@ a.toc-link {
   line-height: 1.2rem;
   padding: ($spring-8points / 2) 0;
   transition: all 200ms ease-in-out;
-  &:hover { 
+  &:hover {
     color: $spring-color;
   }
 }
@@ -99,24 +98,22 @@ a.toc-link {
 .toc-list .toc-list {
   a.toc-link {
     padding-left: 30px;
-    
   }
 }
 
 .is-collapsible {
-    //max-height: 1000px;
-    //overflow: hidden;
-    //transition: all 300ms ease-in-out
+  //max-height: 1000px;
+  //overflow: hidden;
+  //transition: all 300ms ease-in-out
 }
 
 .is-collapsed {
-    //max-height: 0
+  //max-height: 0
 }
 
 a.is-active-link {
   color: $spring-primary-color;
-  &:hover { 
+  &:hover {
     color: $spring-primary-color;
-  }  
+  }
 }
-

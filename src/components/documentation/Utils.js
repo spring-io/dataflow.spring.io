@@ -1,12 +1,12 @@
-import get from "lodash.get"
-import endsWith from "lodash.endswith"
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
+import endsWith from 'lodash.endswith'
+import get from 'lodash.get'
 
 /**
  * Normalize the documentation URL, the URL have to end with "/"
  */
 export const cleanPath = path => {
-  if (!endsWith(path, "/")) {
+  if (!endsWith(path, '/')) {
     return `${path}/`
   }
   return path
@@ -17,24 +17,23 @@ export const cleanPath = path => {
  */
 const getNodeFormatted = (arr, item) => {
   if (!item) return
-  let path = cleanPath(get(item, "frontmatter.path"))
-  const parentNodes = path.split("/")
+  let path = cleanPath(get(item, 'fields.path'))
+  const parentNodes = path.split('/')
   const parentPath =
-    parentNodes.slice(0, parentNodes.length - 2).join("/") + "/"
+    parentNodes.slice(0, parentNodes.length - 2).join('/') + '/'
   const parent = arr.edges.find(
     itemParent =>
-      cleanPath(get(itemParent, "node.frontmatter.path")) ===
-      cleanPath(parentPath)
+      cleanPath(get(itemParent, 'node.fields.path')) === cleanPath(parentPath)
   )
   return {
-    title: get(item, "frontmatter.title"),
-    path: cleanPath(get(item, "frontmatter.path")),
-    description: get(item, "frontmatter.description"),
-    parent: get(parent, "frontmatter.title", "Documentation"),
+    title: get(item, 'frontmatter.title'),
+    path: cleanPath(get(item, 'fields.path')),
+    description: get(item, 'frontmatter.description'),
+    parent: get(parent, 'frontmatter.title', 'Documentation'),
     meta: {
-      title: get(item, "frontmatter.meta_title") || "",
-      description: get(item, "frontmatter.meta_description") || "",
-      keywords: get(item, "frontmatter.keywords") || [],
+      title: get(item, 'frontmatter.meta_title') || '',
+      description: get(item, 'frontmatter.meta_description') || '',
+      keywords: get(item, 'frontmatter.keywords') || [],
     },
   }
 }
@@ -45,22 +44,25 @@ const getNodeFormatted = (arr, item) => {
  */
 export const getBreadcrumb = function getBreadcrumb(arr, page) {
   const result = []
-  let pagePath = cleanPath(get(page, "frontmatter.path"))
-  while (pagePath !== "/documentation/") {
-    const parentNodes = pagePath.split("/")
-    let node = arr.edges.find(({ node }) => {
-      return cleanPath(get(node, "frontmatter.path")) === pagePath
+  let pagePath = cleanPath(get(page, 'fields.path'))
+  const getNode = (edge, path) => {
+    return edge.edges.find(({ node }) => {
+      return cleanPath(get(node, 'fields.path')) === path
     })
-    result.push(getNodeFormatted(arr, get(node, "node")))
-    pagePath = parentNodes.slice(0, parentNodes.length - 2).join("/") + "/"
+  }
+  while (pagePath !== '/documentation/') {
+    const parentNodes = pagePath.split('/')
+    const node = getNode(arr, pagePath)
+    result.push(getNodeFormatted(arr, get(node, 'node')))
+    pagePath = parentNodes.slice(0, parentNodes.length - 2).join('/') + '/'
   }
   result.push({
-    title: "Documentation",
-    path: "/documentation/",
-    description: "",
+    title: 'Documentation',
+    path: '/documentation/',
+    description: '',
     meta: {
-      title: "Spring Cloud Data Flow Documentation",
-      description: "Spring Cloud Data Flow Documentation",
+      title: 'Spring Cloud Data Flow Documentation',
+      description: 'Spring Cloud Data Flow Documentation',
       keywords: [],
     },
   })
@@ -73,6 +75,9 @@ getBreadcrumb.proptypes = {
       PropTypes.shape({
         node: PropTypes.shape({
           id: PropTypes.string.isRequired,
+          fields: PropTypes.shape({
+            path: PropTypes.string.isRequired,
+          }).isRequired,
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
             path: PropTypes.string.isRequired,
@@ -97,20 +102,20 @@ getBreadcrumb.proptypes = {
  * - links: only one level of links.
  */
 export const getSummaryType = function getSummaryType(arr, page) {
-  const pathStart = cleanPath(get(page, "frontmatter.path"))
-  const depth = pathStart.split("/").length
+  const pathStart = cleanPath(get(page, 'fields.path'))
+  const depth = pathStart.split('/').length
   const depths = arr.edges
     .filter(item => {
-      const path = cleanPath(get(item, "node.frontmatter.path"))
+      const path = cleanPath(get(item, 'node.fields.path'))
       return !(!path.startsWith(pathStart) || pathStart === path)
     })
     .map(item => {
-      return cleanPath(get(item, "node.frontmatter.path")).split("/").length
+      return cleanPath(get(item, 'node.fields.path')).split('/').length
     })
   if (Math.max(...depths) > depth + 1) {
-    return "tiles"
+    return 'tiles'
   }
-  return "links"
+  return 'links'
 }
 
 getSummaryType.proptypes = {
@@ -119,6 +124,9 @@ getSummaryType.proptypes = {
       PropTypes.shape({
         node: PropTypes.shape({
           id: PropTypes.string.isRequired,
+          fields: PropTypes.shape({
+            path: PropTypes.string.isRequired,
+          }).isRequired,
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
             path: PropTypes.string.isRequired,
@@ -139,14 +147,17 @@ getSummaryType.proptypes = {
 
 /**
  * Takes an array of markdown pages and create a tree. The tree is based
- * on the path field (frontmatter.path)
+ * on the path field (fields.path)
  */
 export const getPrevNext = function getPrevNext(arr, page) {
   let prev, next
 
   for (let i = 0; i < arr.edges.length; i++) {
     const node = get(arr, `edges[${i}].node`)
-    if (get(node, "frontmatter.path") === get(page, "frontmatter.path")) {
+    if (
+      cleanPath(get(node, 'fields.path')) ===
+      cleanPath(get(page, 'fields.path'))
+    ) {
       prev = get(arr, `edges[${i - 1}].node`)
       next = get(arr, `edges[${i + 1}].node`)
       i = arr.edges.length
@@ -164,32 +175,36 @@ getPrevNext.proptypes = {
       PropTypes.shape({
         node: PropTypes.shape({
           id: PropTypes.string.isRequired,
+          fields: PropTypes.shape({
+            path: PropTypes.string.isRequired,
+          }).isRequired,
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
-            path: PropTypes.string.isRequired,
           }).isRequired,
         }).isRequired,
       })
     ).isRequired,
   }).isRequired,
   page: PropTypes.shape({
+    fields: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+    }).isRequired,
     frontmatter: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
     }).isRequired,
   }),
 }
 
 /**
  * Takes an array of markdown pages and create a tree
- * The tree is based on the path field (frontmatter.path)
+ * The tree is based on the path field (fields.path)
  */
 export const getTree = function getTree(arr, pathStart) {
   let map = {},
     roots = []
 
   const arrSelection = arr.edges.filter(item => {
-    const path = get(item, "node.frontmatter.path")
+    const path = get(item, 'node.fields.path')
     if (pathStart) {
       if (!path.startsWith(pathStart) || pathStart === path) {
         return false
@@ -198,29 +213,28 @@ export const getTree = function getTree(arr, pathStart) {
     return true
   })
   const nodes = arrSelection.map((item, index) => {
-    let path = cleanPath(get(item, "node.frontmatter.path"))
-    const parentNodes = path.split("/")
+    let path = cleanPath(get(item, 'node.fields.path'))
+    const parentNodes = path.split('/')
     const parentPath =
-      parentNodes.slice(0, parentNodes.length - 2).join("/") + "/"
+      parentNodes.slice(0, parentNodes.length - 2).join('/') + '/'
     const parent = arrSelection.find(
       itemParent =>
-        cleanPath(get(itemParent, "node.frontmatter.path")) ===
-        cleanPath(parentPath)
+        cleanPath(get(itemParent, 'node.fields.path')) === cleanPath(parentPath)
     )
-    map[get(item, "node.id")] = index
+    map[get(item, 'node.id')] = index
     return {
-      id: get(item, "node.id"),
-      title: get(item, "node.frontmatter.title"),
-      description: get(item, "node.frontmatter.description"),
-      path: cleanPath(get(item, "node.frontmatter.path")),
-      parentId: get(parent, "node.id", "0"),
+      id: get(item, 'node.id'),
+      title: get(item, 'node.frontmatter.title'),
+      description: get(item, 'node.frontmatter.description'),
+      path: cleanPath(get(item, 'node.fields.path')),
+      parentId: get(parent, 'node.id', '0'),
       children: [],
     }
   })
 
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i]
-    if (node.parentId !== "0") {
+    if (node.parentId !== '0') {
       nodes[map[node.parentId]].children.push(node)
     } else {
       roots.push(node)
@@ -235,9 +249,11 @@ getTree.proptypes = {
       PropTypes.shape({
         node: PropTypes.shape({
           id: PropTypes.string.isRequired,
+          fields: PropTypes.shape({
+            path: PropTypes.string.isRequired,
+          }).isRequired,
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
-            path: PropTypes.string.isRequired,
           }).isRequired,
         }).isRequired,
       })
@@ -254,16 +270,16 @@ export const getMeta = function getMeta(arr, page) {
   const breadcrumb = getBreadcrumb(arr, page).reverse()
   return {
     title:
-      get(breadcrumb.find(item => get(item, "meta.title")), "meta.title") || "",
+      get(breadcrumb.find(item => get(item, 'meta.title')), 'meta.title') || '',
     description:
       get(
-        breadcrumb.find(item => get(item, "meta.description")),
-        "meta.description"
-      ) || "",
+        breadcrumb.find(item => get(item, 'meta.description')),
+        'meta.description'
+      ) || '',
     keywords:
       get(
-        breadcrumb.find(item => get(item, "meta.keywords")),
-        "meta.keywords"
+        breadcrumb.find(item => get(item, 'meta.keywords')),
+        'meta.keywords'
       ) || [],
   }
 }
@@ -274,18 +290,22 @@ getMeta.proptypes = {
       PropTypes.shape({
         node: PropTypes.shape({
           id: PropTypes.string.isRequired,
+          fields: PropTypes.shape({
+            path: PropTypes.string.isRequired,
+          }).isRequired,
           frontmatter: PropTypes.shape({
             title: PropTypes.string.isRequired,
-            path: PropTypes.string.isRequired,
           }).isRequired,
         }).isRequired,
       })
     ).isRequired,
   }).isRequired,
   page: PropTypes.shape({
+    fields: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+    }).isRequired,
     frontmatter: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
     }).isRequired,
   }),
 }

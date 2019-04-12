@@ -1,7 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Link } from "gatsby"
-import classNames from "classnames"
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'gatsby'
 
 const SummaryNav = ({ tree, depth }) => {
   return (
@@ -9,10 +8,10 @@ const SummaryNav = ({ tree, depth }) => {
       {tree.map(item => (
         <li key={item.id}>
           <Link key={`${item.id}`} to={item.path} className={`level${depth}`}>
-            <div className="title" key={`linktitle${item.id}`}>
+            <div className='title' key={`linktitle${item.id}`}>
               {item.title}
             </div>
-            <div className="description">{item.description}</div>
+            <div className='description'>{item.description}</div>
           </Link>
           {item.children.length > 0 && (
             <SummaryNav tree={item.children} depth={depth + 1} />

@@ -1,7 +1,7 @@
 ---
-path: "/documentation/features-guides/"
-title: "Features guides"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'features-guides/'
+title: 'Features guides'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 summary: true
 ---
 

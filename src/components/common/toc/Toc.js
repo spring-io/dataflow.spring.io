@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import tocbot from "tocbot"
+import PropTypes from 'prop-types'
+import React from 'react'
+import tocbot from 'tocbot'
 
 /**
  * Author: https://github.com/TryGhost/docs/blob/master/src/components/common/TOC.js

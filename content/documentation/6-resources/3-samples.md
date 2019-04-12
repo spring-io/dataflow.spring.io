@@ -1,7 +1,7 @@
 ---
-path: "/documentation/resources/samples/"
-title: "Samples"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'resources/samples/'
+title: 'Samples'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
 # Samples

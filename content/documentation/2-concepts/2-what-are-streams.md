@@ -1,7 +1,7 @@
 ---
-path: "/documentation/concepts/what-are-streams/"
-title: "What are streams"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'concepts/what-are-streams/'
+title: 'What are streams'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
 # What are streams

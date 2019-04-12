@@ -1,7 +1,7 @@
 ---
-path: "/documentation/developer-guides/advanced-streams/functional/"
-title: "Functional Stream Processing"
-description: Functional Stream Processing Developer Guide
+path: 'developer-guides/advanced-streams/functional/'
+title: 'Functional Stream Processing'
+description: 'Functional Stream Processing Developer Guide'
 ---
 
 # Functional Stream Processing
@@ -11,7 +11,7 @@ Introduction
 ## Development
 
 Explaine what we are doing to do development wise.
-The source can use an @Scheduled annotation that triggers every few seconds and send a simple domain object.  The sink can log the incoming payload.
+The source can use an @Scheduled annotation that triggers every few seconds and send a simple domain object. The sink can log the incoming payload.
 
 ### Initialzr
 
@@ -19,7 +19,7 @@ Go to initializr - maybe have a curl command ready to go do we can just download
 
 ### Biz Logic
 
-Your biz logic is coded in this section, 
+Your biz logic is coded in this section,
 
 ### Testing
 
@@ -34,4 +34,3 @@ Deploy to local Data Flow Server
 Introduction
 
 # Kotlin
-

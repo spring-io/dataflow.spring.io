@@ -1,6 +1,5 @@
-
-
-html, body {
+html,
+body {
   text-rendering: optimizeLegibility;
 }
 
@@ -65,8 +64,8 @@ body {
   padding: 42px 0;
   color: $spring-dark-color;
   font-size: $spring-font-size-sm;
-    font-size: $spring-font-size;
-  
+  font-size: $spring-font-size;
+
   .copyright {
     font-size: $spring-font-size-sm;
     padding: $spring-8points 0;
@@ -101,23 +100,23 @@ body {
       width: 60px;
     }
   }
-  
+
   a {
     color: $spring-dark-color;
     text-decoration: none;
     cursor: pointer;
     &:hover {
       text-decoration: underline;
-        color: $spring-primary-color;
+      color: $spring-primary-color;
     }
   }
-  
+
   ul {
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  
+
   ul {
     li.heading {
       padding: 0;
@@ -127,7 +126,7 @@ body {
       padding-bottom: 4px;
     }
   }
-  
+
   .colset {
     @include clearfix;
     .col {
@@ -138,13 +137,11 @@ body {
       }
     }
   }
-  
+
   .col-links {
     padding-top: 10px;
   }
-  
 }
-
 
 // Container
 
@@ -180,7 +177,7 @@ body {
     padding-top: 4px;
     float: right;
   }
-  
+
   .input-control {
     width: 300px;
   }
@@ -216,7 +213,7 @@ body {
     top: 42px;
     width: 500px;
     border: 1px solid $spring-border-color;
-    box-shadow: 0 0 0 4px rgba($spring-color, .04);
+    box-shadow: 0 0 0 4px rgba($spring-color, 0.04);
     border-radius: 4px;
     padding: $spring-8points 0;
   }
@@ -237,8 +234,8 @@ body {
   }
   ul.list {
     list-style: none;
-      padding: $spring-8points 0;
-      margin: 0;
+    padding: $spring-8points 0;
+    margin: 0;
     li {
       padding: 0;
       margin: 0;
@@ -246,13 +243,14 @@ body {
     a {
       display: block;
       padding: $spring-8points / 2 $spring-8points * 3;
-      mark, em.ais-Snippet-highlighted {
+      mark,
+      em.ais-Snippet-highlighted {
         background: transparent;
         color: darken($spring-link-color, 30);
         font-style: normal;
       }
       em.ais-Snippet-highlighted {
-        color: darken($spring-color, 30);        
+        color: darken($spring-color, 30);
       }
       .title {
         color: $spring-link-color;
@@ -266,7 +264,7 @@ body {
         }
       }
       .title {
-        display: block;  
+        display: block;
       }
       .html {
         display: block;
@@ -276,7 +274,8 @@ body {
       }
     }
   }
-  >div, div div {
+  > div,
+  div div {
     display: inline-block;
   }
 }
@@ -287,8 +286,9 @@ body {
   display: flex;
   flex-direction: row;
   padding: ($spring-8points * 6) 0;
-   
-  .sidebar, .sidebar-toc {
+
+  .sidebar,
+  .sidebar-toc {
     width: 20%;
     float: left;
   }
@@ -307,9 +307,10 @@ body {
   }
 }
 
-
-.sidebar, .sidebar-toc {
-  .box, .toc {
+.sidebar,
+.sidebar-toc {
+  .box,
+  .toc {
     background: $spring-gray-color;
     padding: $spring-8points * 2 $spring-8points * 3;
     margin: 0;
@@ -346,7 +347,7 @@ body {
       color: $spring-color;
       text-decoration: none;
       position: relative;
-      &:hover { 
+      &:hover {
         color: $spring-primary-color;
       }
       &.active {
@@ -373,12 +374,13 @@ body {
   display: flex;
   margin-top: $spring-8points * 6;
   justify-content: space-between;
-  .prev, .next {
+  .prev,
+  .next {
     line-height: 1.2rem;
     a {
       position: relative;
       display: inline-block;
-      color: $spring-link-color;  
+      color: $spring-link-color;
       padding: $spring-8points 0;
       svg {
         position: absolute;
@@ -391,7 +393,7 @@ body {
         font-size: $spring-font-size - 1;
       }
       .title {
-        font-size: $spring-font-size;     
+        font-size: $spring-font-size;
       }
       &:hover {
         color: $spring-link-color;
@@ -399,8 +401,8 @@ body {
           color: $spring-link-color;
         }
         .title {
-          text-decoration: underline;     
-        }  
+          text-decoration: underline;
+        }
       }
     }
   }
@@ -432,14 +434,13 @@ body {
 
 // Summary
 
-
 .summary.md {
   border: 4px solid #f0f0f0;
   padding: $spring-8points * 2 $spring-8points * 4;
   border-radius: 8px;
   margin: $spring-8points * 3 0;
   max-width: 600px;
-  
+
   ul {
     list-style: none;
     padding: 0;
@@ -447,8 +448,11 @@ body {
     &.level1 {
       padding-bottom: $spring-8points * 2;
     }
-    
-    &.level1, &.level2, &.level3, &.level4 {
+
+    &.level1,
+    &.level2,
+    &.level3,
+    &.level4 {
       padding-left: 10px;
     }
   }
@@ -495,7 +499,8 @@ body {
 
 // button
 
-a.button, button.button {
+a.button,
+button.button {
   display: inline-block;
   border: 2px solid $spring-border-color;
   background-color: $spring-background;
@@ -522,7 +527,7 @@ a.button, button.button {
       background: darken($spring-primary-color, 5);
       border-color: darken($spring-primary-color, 5);
     }
-  }  
+  }
   &:focus {
     outline: none;
   }
@@ -535,13 +540,56 @@ a.button, button.button {
   color: $spring-dark-color;
   .separator {
     position: relative;
-    margin: 0 15px;  
+    margin: 0 15px;
     color: #ddd;
     svg {
       position: absolute;
       top: 2px;
       left: -5px;
       width: 10px;
+    }
+  }
+}
+
+// Summary Documentation
+
+.summary.documentation {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1200px;
+  @include clearfix;
+  li {
+    float: left;
+    width: 50%;
+  }
+  a {
+    position: relative;
+    display: block;
+    color: $spring-color;
+    text-decoration: none;
+    background: $spring-gray-color;
+    border-radius: $spring-radius;
+    margin: $spring-8points;
+    padding: $spring-8points * 3 $spring-8points * 2;
+    padding-left: 80px;
+    @include transition(all $spring-transition-duration);
+    .icon {
+      position: absolute;
+      width: 30px;
+      left: 30px;
+      top: 34px;
+    }
+    .title {
+      font-size: 18px;
+    }
+    .description {
+      color: $spring-dark-color;
+    }
+    &:hover {
+      transform: scale(1.01);
+      background: white;
+      box-shadow: 0 2px 6px 0 rgba($spring-color, 0.2);
     }
   }
 }

@@ -1,5 +1,5 @@
-export { default as SummaryNav } from "./SummaryNav"
-export { default as SummaryTile } from "./SummaryTile"
+export { default as SummaryNav } from './SummaryNav'
+export { default as SummaryTile } from './SummaryTile'
 export {
   getTree,
   getPrevNext,
@@ -7,4 +7,4 @@ export {
   getMeta,
   getSummaryType,
   cleanPath,
-} from "./Utils"
+} from './Utils'

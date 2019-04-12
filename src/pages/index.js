@@ -1,13 +1,12 @@
-import React from "react"
-import { Link } from "gatsby"
+import React from 'react'
 
-import { Layout } from "../components/common/layout"
-import { Seo } from "../components/common/seo"
+import { Layout } from '../components/common/layout'
+import { Seo } from '../components/common/seo'
 
 const IndexPage = () => (
   <Layout>
-    <Seo title="Spring Cloud Data Flow" />
-    <div className="container">
+    <Seo title='Spring Cloud Data Flow' />
+    <div className='container'>
       <h1>Homepage</h1>
     </div>
   </Layout>

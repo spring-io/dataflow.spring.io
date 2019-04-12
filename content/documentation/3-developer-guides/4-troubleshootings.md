@@ -1,7 +1,7 @@
 ---
-path: "/documentation/developer-guides/troubleshootings/"
-title: "Troubleshootings"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'developer-guides/troubleshootings/'
+title: 'Troubleshootings'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
 # Ttroubleshootings

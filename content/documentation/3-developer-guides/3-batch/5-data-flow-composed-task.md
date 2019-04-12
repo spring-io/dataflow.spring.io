@@ -1,12 +1,12 @@
 ---
-path: "/documentation/developer-guides/batch/data-flow-composed-task/"
-title: "Create and launch a Composed Task using Data Flow"
-description: Create and launch a Composed Task using Data Flow
+path: 'developer-guides/batch/data-flow-composed-task/'
+title: 'Create and launch a Composed Task using Data Flow'
+description: 'Create and launch a Composed Task using Data Flow'
 ---
 
 # Create and launch a Composed Task using Data Flow
 
-In this section we introduce composed tasks,  show how to register task applications with Data Flow, create a composed task DSL, and launch the composed task to Cloud Foundry, Kubernetes and your local machine.
+In this section we introduce composed tasks, show how to register task applications with Data Flow, create a composed task DSL, and launch the composed task to Cloud Foundry, Kubernetes and your local machine.
 
 ## Development
 
@@ -28,7 +28,7 @@ make sure the app coordinates are correct
 
 Deploy to local, Cloud Foundry and Kubernetes
 
-### Local 
+### Local
 
 get the jar run it bla
 

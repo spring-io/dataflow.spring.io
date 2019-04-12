@@ -1,13 +1,14 @@
-import { Link } from "gatsby"
-import React from "react"
-import Logo from "./Logo"
-import Navigation from "./Navigations"
+import React from 'react'
+import { Link } from 'gatsby'
+
+import Logo from './Logo'
+import Navigation from './Navigations'
 
 const Header = () => (
-  <div className="header">
-    <div className="container">
-      <h1 className="logo">
-        <Link to="/">
+  <div className='header'>
+    <div className='container'>
+      <h1 className='logo'>
+        <Link to='/'>
           <Logo />
           Spring Cloud <strong>Data Flow</strong>
         </Link>

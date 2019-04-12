@@ -1,7 +1,7 @@
 ---
-path: "/documentation/developer-guides/batch/data-flow-spring-batch/"
-title: "Launch a Spring Batch application using Data Flow"
-description: Launch a Spring Batch application using Data Flow
+path: 'developer-guides/batch/data-flow-spring-batch/'
+title: 'Launch a Spring Batch application using Data Flow'
+description: 'Launch a Spring Batch application using Data Flow'
 ---
 
 # Deploy a Spring Batch application using Data Flow
@@ -28,7 +28,7 @@ make sure the app coordinates are correct
 
 Deploy to local, Cloud Foundry and Kubernetes
 
-### Local 
+### Local
 
 get the jar run it bla
 

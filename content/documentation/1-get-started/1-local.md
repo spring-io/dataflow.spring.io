@@ -1,17 +1,14 @@
 ---
-path: "/documentation/get-started/local-converted/"
-title: "Local Converted"
-description: Getting Started Data Flow using the local server
+path: 'get-started/local-converted/'
+title: 'Local Converted'
+description: 'Getting Started Data Flow using the local server'
 ---
 
-
-Getting Started - Local
-=======================
+# Getting Started - Local
 
 This section covers how to get started with Spring Cloud Data Flow on your Local machine.
 
-System Requirements
--------------------
+## System Requirements
 
 You need Java 8 to run and to build you need to have Maven.
 
@@ -31,8 +28,7 @@ that use [RabbitMQ](https://www.rabbitmq.com) or
 products](https://cloud.spring.io/spring-cloud-stream/#binder-implementations)
 are supported.
 
-Getting Started with Docker Compose
------------------------------------
+## Getting Started with Docker Compose
 
 Spring Cloud Data Flow provides a Docker Compose file to let you quickly
 bring up Spring Cloud Data Flow, Skipper, and the Apache Kafka broker,
@@ -47,8 +43,7 @@ instead of having to install them manually.
 
 The following sections describe how to get started with Docker Compose:
 
-Downloading the Docker Compose File
------------------------------------
+## Downloading the Docker Compose File
 
 Before you do anything else, you need to download the Docker Compose
 file. To do so:
@@ -59,8 +54,7 @@ file. To do so:
 
 > **Note**
 
-Starting Docker Compose
------------------------
+## Starting Docker Compose
 
 To get started, you need to start Docker Compose. To do so:
 
@@ -106,16 +100,14 @@ command. To start the system on Windows, enter the following commands:
 Spring Cloud Data Flow is ready for use once the `docker-compose`
 command stops emitting log messages.
 
-Launching Spring Cloud Data Flow
---------------------------------
+## Launching Spring Cloud Data Flow
 
 Now that docker compose is up, you can launch the Spring Cloud Data Flow
 Dashboard. To do so, in your browser, navigate to the [Spring Cloud Data
 Flow Dashboard](http://localhost:9393/dashboard). By default, the latest
 GA releases of Stream and Task applications are imported automatically.
 
-Creating a Stream
------------------
+## Creating a Stream
 
 To create a stream:
 
@@ -142,22 +134,22 @@ To create a stream:
 
     ![Definitions Page](images/dataflow-definitions-page.png)
 
-Deploying a Stream
-------------------
+## Deploying a Stream
 
 Now that you have defined a stream, you can deploy it. To do so:
 
 1.  Click the play (deploy) button next to the "`ticktock`" definition
     that you created in the previous section.
 
-    ![Initiate Deployment of a
+        ![Initiate Deployment of a
+
     Stream](images/dataflow-stream-definition-deploy.png)
 
-    The UI shows the available properties that can be applied to the
-    apps in the "`ticktock`" stream. This example shown in the following
-    image uses the defaults:
+        The UI shows the available properties that can be applied to the
+        apps in the "`ticktock`" stream. This example shown in the following
+        image uses the defaults:
 
-    ![Deployment Page](images/dataflow-deploy-ticktock.png)
+        ![Deployment Page](images/dataflow-deploy-ticktock.png)
 
 2.  Click the **Deploy Stream** button.
 
@@ -167,8 +159,7 @@ Now that you have defined a stream, you can deploy it. To do so:
     "`deployed`" when it is finished deploying. You may need to refresh
     your browser to see the updated status.
 
-Viewing Stream Logs
--------------------
+## Viewing Stream Logs
 
 Once a stream is deployed, you can view its logs. To do so:
 
@@ -188,8 +179,7 @@ Once a stream is deployed, you can view its logs. To do so:
     timestamp once per second. . When you have seen enough of that
     output, press Ctrl+C to end the `tail` command.
 
-Deleting a Stream
------------------
+## Deleting a Stream
 
 Now you can delete the stream you created. To do so:
 
@@ -202,8 +192,7 @@ Now you can delete the stream you created. To do so:
 4.  When prompted for confirmation, click **Destroy
     Stream Definition(s)**.
 
-Destroying the Quick Start Environment
---------------------------------------
+## Destroying the Quick Start Environment
 
 You have finished the getting started guide for using Docker locally, so
 you can now shut down the environment you created by running
@@ -233,8 +222,7 @@ you can now shut down the environment you created by running
 > this range, you can modify the `ports` block of the `dataflow-server`
 > service in the `docker-compose.yml` file.
 
-Spring Cloud Data Flow Shell
-----------------------------
+## Spring Cloud Data Flow Shell
 
 For convenience and as an alternative to using the Spring Cloud Data
 Flow Dashboard, Spring Cloud Data Flow Shell is also included in the
@@ -246,8 +234,7 @@ another console window and type the following:
 Using Spring Cloud Data Flow Shell is further described in
 [Shell](#shell).
 
-Spring Cloud Data Flow Monitoring
----------------------------------
+## Spring Cloud Data Flow Monitoring
 
 By default, the Data Flow `docker-compose` configures Stream monitoring
 with Prometheus and pre-built dashboards for Grafana. For further
@@ -256,8 +243,7 @@ Prometheus](#streams-monitoring-local-prometheus). If required follow
 the instruction below to customize the docker-compose to replace
 Prometheus with InfluxDB.
 
-Docker Compose Customization
-----------------------------
+## Docker Compose Customization
 
 Out of the box, Spring Cloud Data Flow uses the H2 embedded database for
 storing state and Kafka for communication. You can make customizations
@@ -483,8 +469,7 @@ database. To do so:
     `spring-cloud-dataflow-grafana-prometheus` with
     `spring-cloud-dataflow-grafana-influxdb`.
 
-Getting Started with Manual Installation
-----------------------------------------
+## Getting Started with Manual Installation
 
 If Docker does not suit your needs, you can manually install the parts
 you need to run Spring Cloud Data Flow. To do so:
@@ -566,8 +551,7 @@ The shell’s `--help` command line option shows what is available.
 > Boot Reference
 > Guide](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server).
 
-Deploying Streams
------------------
+## Deploying Streams
 
 Deploying streams requires that you first register some stream
 applications. By default, the application registry is empty. As an
@@ -815,7 +799,7 @@ application called `foo2=bar2`, as the following example shows:
         "spring.cloud.stream.metrics.properties": "spring.application.name,spring.application.index,spring.cloud.application.*,spring.cloud.dataflow.*"
         "spring.cloud.dataflow.stream.name": "ticktock"
         "spring.cloud.dataflow.stream.app.type": "sink"
-        "foo2": "bar2" // 
+        "foo2": "bar2" //
         "spring.cloud.stream.bindings.input.destination": "ticktock.time"
       "deploymentProperties":
         "spring.cloud.deployer.count": "1"
@@ -828,7 +812,7 @@ application called `foo2=bar2`, as the following example shows:
     ║ticktock   │time | log --log.name=mylogger --foo2=bar2│The stream has been successfully deployed║
     ╚═══════════╧══════════════════════════════════════════╧═════════════════════════════════════════╝
 
--   Property `foo2=bar2` is applied for the `log` application.
+- Property `foo2=bar2` is applied for the `log` application.
 
 Now, when we add another property `foo3=bar3` to the `log` application,
 this new property is added on top of the existing properties for the
@@ -876,15 +860,15 @@ the result:
         "spring.cloud.stream.metrics.properties": "spring.application.name,spring.application.index,spring.cloud.application.*,spring.cloud.dataflow.*"
         "spring.cloud.dataflow.stream.name": "ticktock"
         "spring.cloud.dataflow.stream.app.type": "sink"
-        "foo2": "bar2" 
+        "foo2": "bar2"
         "spring.cloud.stream.bindings.input.destination": "ticktock.time"
-        "foo3": "bar3" 
+        "foo3": "bar3"
       "deploymentProperties":
         "spring.cloud.deployer.count": "1"
         "spring.cloud.deployer.group": "ticktock"
 
--   The property `foo3=bar3` is added along with the existing
-    `foo2=bar2` for the `log` application.
+- The property `foo3=bar3` is added along with the existing
+  `foo2=bar2` for the `log` application.
 
 We can still override the existing properties, as follows:
 
@@ -929,15 +913,15 @@ We can still override the existing properties, as follows:
         "spring.cloud.stream.metrics.properties": "spring.application.name,spring.application.index,spring.cloud.application.*,spring.cloud.dataflow.*"
         "spring.cloud.dataflow.stream.name": "ticktock"
         "spring.cloud.dataflow.stream.app.type": "sink"
-        "foo2": "bar2" 
+        "foo2": "bar2"
         "spring.cloud.stream.bindings.input.destination": "ticktock.time"
-        "foo3": "bar4" 
+        "foo3": "bar4"
       "deploymentProperties":
         "spring.cloud.deployer.count": "1"
         "spring.cloud.deployer.group": "ticktock"
 
--   The property `foo3` is replaced with the new value\` bar4\` and the
-    existing property `foo2=bar2` remains.
+- The property `foo3` is replaced with the new value\` bar4\` and the
+  existing property `foo2=bar2` remains.
 
 #### Stream History
 
@@ -1073,8 +1057,7 @@ been deployed, as shown (with its output) in the following listing:
 If you look at the manifest for version 3, you can see that it shows
 version 1.1.0.RELEASE for the log sink.
 
-Deploying Tasks
----------------
+## Deploying Tasks
 
 This section shows how to register a task, create a task definition, and
 then launch the task. We then also review information about the task
@@ -1119,12 +1102,13 @@ executions.
 
     dataflow:> task launch printTimeStamp
 
-+ You should check to see if the a timestamp ended up in the log file
-for the timestamp task. The location of the log file for the task
-application appears in the Data Flow server’s log. You should see a log
-entry similar to the following:
+- You should check to see if the a timestamp ended up in the log file
+  for the timestamp task. The location of the log file for the task
+  application appears in the Data Flow server’s log. You should see a log
+  entry similar to the following:
 
-+
+-
+
 
     TimestampTaskConfiguration$TimestampTask : 2018-02-28 16:42:21.051
 

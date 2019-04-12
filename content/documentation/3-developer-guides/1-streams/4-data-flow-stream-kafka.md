@@ -1,6 +1,6 @@
 ---
-path: "/documentation/developer-guides/streams/data-flow-stream-rabbit/"
-title: "Spring Cloud Data Flow using Apache Kafka"
+path: 'developer-guides/streams/data-flow-stream-kafka/'
+title: 'Spring Cloud Data Flow using Apache Kafka'
 description: Deploy Stream Processing Pipelines using Apache Kafka with Data Flow
 ---
 
@@ -28,7 +28,7 @@ make sure the app coordinates are correct
 
 Deploy to local, Cloud Foundry and Kubernetes
 
-### Local 
+### Local
 
 get the jar run it bla
 

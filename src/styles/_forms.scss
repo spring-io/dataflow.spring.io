@@ -51,11 +51,11 @@ $input-border: $spring-border-color;
   fieldset[disabled] & {
     cursor: not-allowed;
   }
-  
+
   &:focus {
     border-color: $spring-primary-color;
     outline: none;
-    box-shadow: 0 0 0 3px rgba($spring-primary-color, .1);
+    box-shadow: 0 0 0 3px rgba($spring-primary-color, 0.1);
   }
 
   // [converter] extracted textarea& to textarea.form-control

@@ -1,7 +1,7 @@
 ---
-path: "/documentation/markdown/"
-title: "Markdown"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'markdown/'
+title: 'Markdown'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 summary: true
 ---
 

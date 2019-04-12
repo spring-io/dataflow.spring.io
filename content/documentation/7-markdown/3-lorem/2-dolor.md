@@ -1,10 +1,10 @@
 ---
-path: "/documentation/markdown/lorem/dolor"
-title: "Dolor"
-description: Lorem markdownum madefacta, circumtulit aliis, restabat
+path: 'markdown/lorem/dolor'
+title: 'Dolor'
+description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 keywords:
-    - markdown
-    - syntax
+  - markdown
+  - syntax
 prevNext: false
 ---
 
