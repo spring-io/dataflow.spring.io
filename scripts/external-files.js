@@ -4,7 +4,7 @@ import path from 'path'
 import external from '../content/external-files.json'
 import transformer from './../plugins/spring-remark-variables/transformer'
 import variables from '../content/variables.json'
-import { error, execaOptions, info, log, main, success } from './utils'
+import { execaOptions, info, main } from './utils'
 
 const DATA_DIR = path.join(__dirname, '../content/files/ext')
 

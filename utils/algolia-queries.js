@@ -10,10 +10,11 @@ const queryDocumentation = `{
 				html
 				fields {
 					category
+					path
+					slug
 				}
         frontmatter {
           title
-          path
 					description
 					summary
         }
@@ -24,7 +25,9 @@ const queryDocumentation = `{
 
 const documentationNode = ({ node }) => {
   node.title = node.frontmatter.title
-  node.url = node.frontmatter.path
+  node.url = node.fields.path
+  node.path = node.fields.path
+  node.slug = node.fields.slug
   node.description = node.frontmatter.description
   node.section = 'documentation'
   node.category = node.fields.category
@@ -51,6 +54,7 @@ const queries = [
             objectID: node.objectID,
             title: node.title,
             url: node.url,
+            slug: node.slug,
             category: node.category,
             fullTitle: node.title,
             html: `<p>${node.description ? node.description : ''}</p>`,

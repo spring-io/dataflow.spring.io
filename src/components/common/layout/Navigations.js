@@ -39,10 +39,13 @@ class Navigation extends React.Component {
                 edges {
                   node {
                     id
+                    fields {
+                      path
+                      category
+                    }
                     frontmatter {
                       title
                       description
-                      path
                       meta_title
                       meta_description
                       keywords

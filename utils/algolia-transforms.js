@@ -5,6 +5,31 @@ const Extractor = new HtmlExtractor()
  * Author: https://github.com/TryGhost/docs/blob/master/utils/algolia-transforms.js
  */
 
+const chunkString = (str, length) =>
+  str.match(new RegExp(`(.|[\r\n]){1,` + length + `}`, `g`))
+
+/**
+ * Chunk Transformer
+ * breaks down large strings into chunks small enough for algolia to handle
+ * currently unused, but keeping it around just in cases
+ */
+const chunkTransformer = (chunksTotal, node) => {
+  const htmlChunks = chunkString(node.html, 5000)
+  const recordChunks = htmlChunks.reduce(
+    (recordChunksTotal, htmlChunksItem, idx) => [
+      ...recordChunksTotal,
+      {
+        ...node,
+        ...{ html: htmlChunksItem },
+        objectID: `${node.objectID}_${idx}`,
+      },
+    ],
+    []
+  )
+
+  return [...chunksTotal, ...recordChunks]
+}
+
 /**
  * Utility function, takes the output of HTML Extractor, and reduces it back down
  * So that there is a group of HTML/content per heading
@@ -45,8 +70,8 @@ module.exports.fragmentTransformer = (recordAccumulator, node) => {
     .run(node.html, { cssSelector: `p,pre,td,li` })
     // Use the utility function to merge fragments so that there is one-per-heading
     .reduce(reduceFragmentsUnderHeadings, [])
+    .reduce(chunkTransformer, [])
 
-  // console.log(htmlFragments)
   // convert our fragments for this node into valid objects, and merge int the
   const records = htmlFragments.reduce(
     (fragmentAccumulator, fragment, index) => {
@@ -66,15 +91,17 @@ module.exports.fragmentTransformer = (recordAccumulator, node) => {
         fragment.fullTitle = fragment.headings.join(' – ')
       }
 
-      let objectID = `${node.objectID}_${index}`
+      fragment.objectID = `${node.objectID}_${index}`
 
       // If fragments are too long, we need this to see which fragment it was
-      console.log(`indexing`, objectID, fragment.url, fragment.html.length)
+      console.log(
+        `indexing`,
+        fragment.objectID,
+        fragment.url,
+        fragment.html.length
+      )
 
-      return [
-        ...fragmentAccumulator,
-        { ...node, ...fragment, objectID: objectID },
-      ]
+      return [...fragmentAccumulator, { ...node, ...fragment }]
     },
     []
   )

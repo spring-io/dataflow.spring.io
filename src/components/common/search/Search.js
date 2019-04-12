@@ -82,15 +82,14 @@ class Results extends React.Component {
 
   render = () => {
     const hits = this.props.hits
+
     const suggestions = this.props.pages.edges
       .map(({ node }) => {
         return {
-          id: get(node, 'frontmatter.path'),
+          id: get(node, 'fields.path'),
           title: get(node, 'frontmatter.title'),
           suggestions: hits.filter(
-            hit =>
-              cleanPath(hit.category) ===
-              cleanPath(get(node, 'frontmatter.path'))
+            hit => hit.category === get(node, 'fields.category')
           ),
         }
       })
