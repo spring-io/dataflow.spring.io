@@ -58,20 +58,19 @@ exports.createPages = ({ graphql, actions }) => {
 exports.onCreateNode = async ({ node, getNode, actions }) => {
   const { createNodeField } = actions
   if (get(node, 'internal.type') === `MarkdownRemark`) {
-    const pathOrigin = get(node, 'frontmatter.path', 'default')
+    const frontmatterPath = get(node, 'frontmatter.path')
     const slug = createFilePath({ node, getNode, basePath: `pages` })
     const relativePath = path.relative(
       path.join(__dirname, 'content'),
       node.fileAbsolutePath
     )
-    if (
-      relativePath !== 'documentation/' &&
-      startsWith(relativePath, 'documentation/')
-    ) {
-      const parentPath = pathOrigin
+    if (startsWith(relativePath, 'documentation/')) {
+      const category = frontmatterPath
         .split('/')
-        .slice(0, 3)
-        .join('/')
+        .slice(0, 1)
+        .join('')
+      const isRoot = frontmatterPath.split('/').length === 2
+      const url = `/documentation/${frontmatterPath}`
       createNodeField({
         node,
         name: `hash`,
@@ -80,12 +79,12 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
       createNodeField({
         node,
         name: `category`,
-        value: parentPath,
+        value: category,
       })
       createNodeField({
         node,
         name: `root`,
-        value: parentPath === pathOrigin,
+        value: isRoot,
       })
       createNodeField({
         node,
@@ -95,7 +94,7 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
       createNodeField({
         node,
         name: `path`,
-        value: `/documentation/${pathOrigin}`,
+        value: path.join(url, '/'),
       })
     }
   }

@@ -1,4 +1,3 @@
-const queries = require(`./utils/algolia-queries`)
 const markdownVars = require(`./content/variables.json`)
 
 module.exports = {
@@ -46,15 +45,6 @@ module.exports = {
             variants: [`100`, `300`, `400`, `700`],
           },
         ],
-      },
-    },
-    {
-      resolve: `gatsby-plugin-algolia`,
-      options: {
-        appId: `ES999KPS5F`,
-        apiKey: `${process.env.ALGOLIA_ADMIN_KEY}`,
-        queries,
-        chunkSize: 10000, // default: 1000
       },
     },
     {
