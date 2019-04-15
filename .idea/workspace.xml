@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5d1027c5-87b9-494b-9310-fb3ffdebade4" name="Default Changelist" comment="" />
+    <list default="true" id="5d1027c5-87b9-494b-9310-fb3ffdebade4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/content/documentation/3-developer-guides/3-batch/2-spring-batch.md" beforeDir="false" afterPath="$PROJECT_DIR$/content/documentation/3-developer-guides/3-batch/2-spring-batch.md" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +26,8 @@
         <entry file="file://$PROJECT_DIR$/content/documentation/3-developer-guides/3-batch/1-simple-task.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="105">
-                <caret line="7" selection-start-line="7" selection-end-line="11" selection-end-column="74" />
+              <first_editor relative-caret-position="-2">
+                <caret line="228" column="12" selection-start-line="228" selection-start-column="12" selection-end-line="228" selection-end-column="12" />
               </first_editor>
               <second_editor />
             </state>
@@ -36,8 +38,8 @@
         <entry file="file://$PROJECT_DIR$/content/documentation/3-developer-guides/3-batch/2-spring-batch.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="176">
-                <caret line="25" selection-start-line="20" selection-end-line="25" />
+              <first_editor relative-caret-position="190">
+                <caret line="13" column="50" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
               </first_editor>
               <second_editor />
             </state>
@@ -78,6 +80,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -115,8 +119,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -201,10 +203,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9421000" />
+    <option name="totallyTimeSpent" value="9461000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22257721" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -252,8 +255,8 @@
     <entry file="file://$PROJECT_DIR$/content/documentation/3-developer-guides/3-batch/1-simple-task.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="105">
-            <caret line="7" selection-start-line="7" selection-end-line="11" selection-end-column="74" />
+          <first_editor relative-caret-position="-2">
+            <caret line="228" column="12" selection-start-line="228" selection-start-column="12" selection-end-line="228" selection-end-column="12" />
           </first_editor>
           <second_editor />
         </state>
@@ -262,8 +265,8 @@
     <entry file="file://$PROJECT_DIR$/content/documentation/3-developer-guides/3-batch/2-spring-batch.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="176">
-            <caret line="25" selection-start-line="20" selection-end-line="25" />
+          <first_editor relative-caret-position="190">
+            <caret line="13" column="50" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
           </first_editor>
           <second_editor />
         </state>
