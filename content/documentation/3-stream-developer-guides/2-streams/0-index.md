@@ -1,5 +1,5 @@
 ---
-path: 'developer-guides/streams/'
+path: 'stream-developer-guides/streams/'
 title: 'Stream Processing'
 description: 'Stream Processing Developer Guide'
 summary: true

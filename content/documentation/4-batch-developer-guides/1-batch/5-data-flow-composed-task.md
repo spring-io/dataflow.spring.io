@@ -1,12 +1,12 @@
 ---
-path: 'developer-guides/batch/data-flow-spring-batch/'
-title: 'Launch a Spring Batch application using Data Flow'
-description: 'Launch a Spring Batch application using Data Flow'
+path: 'batch-developer-guides/batch/data-flow-composed-task/'
+title: 'Create and launch a Composed Task using Data Flow'
+description: 'Create and launch a Composed Task using Data Flow'
 ---
 
-# Deploy a Spring Batch application using Data Flow
+# Create and launch a Composed Task using Data Flow
 
-In this section we will show how to register spring batch applications with Data Flow, create a task DSL, and launch the task to Cloud Foundry, Kubernetes and your local machine.
+In this section we introduce composed tasks, show how to register task applications with Data Flow, create a composed task DSL, and launch the composed task to Cloud Foundry, Kubernetes and your local machine.
 
 ## Development
 

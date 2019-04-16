@@ -1,6 +1,6 @@
 ---
-path: 'developer-guides/streams/stream-kafka/'
-title: 'Spring Cloud Stream using Apache Kafka'
+path: 'stream-developer-guides/streams/stream-kafka/'
+title: 'Stream Processing with Apache Kafka'
 description: 'Create a simple stream processing application using Apache Kafka'
 ---
 

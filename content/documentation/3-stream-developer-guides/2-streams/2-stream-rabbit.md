@@ -1,6 +1,6 @@
 ---
-path: 'developer-guides/streams/stream-rabbit/'
-title: 'Spring Cloud Stream using RabbitMQ'
+path: 'stream-developer-guides/streams/stream-rabbit/'
+title: 'Stream Processing with RabbitMQ'
 description: 'Create a simple stream processing application using RabbitMQ'
 ---
 

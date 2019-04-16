@@ -1,5 +1,5 @@
 ---
-path: 'developer-guides/advanced-streams/kafka-streams/'
+path: 'stream-developer-guides/advanced-streams/kafka-streams/'
 title: 'Kafka Streams Processing'
 description: 'Kafka Streams Processing Developer Guide'
 ---

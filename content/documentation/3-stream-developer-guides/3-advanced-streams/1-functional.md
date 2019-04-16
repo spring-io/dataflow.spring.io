@@ -1,10 +1,10 @@
 ---
-path: 'developer-guides/advanced-streams/reactive/'
-title: 'Reactive Stream Processing'
-description: 'Reactive Stream Processing Developer Guide'
+path: 'stream-developer-guides/advanced-streams/functional/'
+title: 'Functional Stream Processing'
+description: 'Functional Stream Processing Developer Guide'
 ---
 
-# Reactive Stream Processing
+# Functional Stream Processing
 
 Introduction
 
@@ -28,3 +28,9 @@ Show a simple test.
 ## Deployment
 
 Deploy to local Data Flow Server
+
+# Functional Composition
+
+Introduction
+
+# Kotlin

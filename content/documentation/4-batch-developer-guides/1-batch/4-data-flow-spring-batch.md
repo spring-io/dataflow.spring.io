@@ -1,12 +1,12 @@
 ---
-path: 'developer-guides/streams/data-flow-stream-rabbit/'
-title: 'Spring Cloud Data Flow using RabbitMQ'
-description: 'Deploy Stream Processing Pipelines with Data Flow using RabbitMQ'
+path: 'batch-developer-guides/batch/data-flow-spring-batch/'
+title: 'Launch a Spring Batch application using Data Flow'
+description: 'Launch a Spring Batch application using Data Flow'
 ---
 
-# Stream Processing with Data Flow using RabbitMQ
+# Deploy a Spring Batch application using Data Flow
 
-In this section we will show how to register stream applications with Data Flow, create a Stream DSL, and deploy the stream to Cloud Foundry, Kubernetes and your local machine.
+In this section we will show how to register spring batch applications with Data Flow, create a task DSL, and launch the task to Cloud Foundry, Kubernetes and your local machine.
 
 ## Development
 

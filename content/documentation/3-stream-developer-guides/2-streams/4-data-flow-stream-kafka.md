@@ -1,5 +1,5 @@
 ---
-path: 'developer-guides/streams/data-flow-stream-kafka/'
+path: 'stream-developer-guides/streams/data-flow-stream-kafka/'
 title: 'Spring Cloud Data Flow using Apache Kafka'
 description: Deploy Stream Processing Pipelines using Apache Kafka with Data Flow
 ---

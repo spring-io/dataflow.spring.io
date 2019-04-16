@@ -1,5 +1,5 @@
 ---
-path: 'developer-guides/batch/'
+path: 'batch-developer-guides/batch/'
 title: 'Batch Processing'
 description: 'Batch Processing Developer Guide'
 summary: true

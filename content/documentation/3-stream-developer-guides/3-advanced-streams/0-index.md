@@ -1,5 +1,5 @@
 ---
-path: 'developer-guides/advanced-streams/'
+path: 'stream-developer-guides/advanced-streams/'
 title: 'Advanced Stream Processing'
 description: 'Advanced Stream Processing Developer Guide'
 summary: true

@@ -1,5 +1,5 @@
 ---
-path: 'developer-guides/streams/stream-other-binders/'
+path: 'stream-developer-guides/streams/stream-other-binders/'
 title: 'Spring Cloud Stream with other Messaging Middleware'
 description: 'Using Google Pub/Sub, Amazon Kinesis, Solace JMS'
 ---
