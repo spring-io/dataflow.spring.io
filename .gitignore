@@ -5,3 +5,9 @@ yarn-error.log
 
 public/
 content/files/ext/
+# IDEA artifacts and output dirs
+*.iml
+*.ipr
+*.iws
+.idea/
+rebel.xml
