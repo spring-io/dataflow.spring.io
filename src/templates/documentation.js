@@ -80,7 +80,7 @@ class DocumentationTemplate extends React.Component {
               <div className='main-content'>
                 {options.breadcrumb && (
                   <div className='breadcrumb md'>
-                    <Breadcrumb pages={breadcrumb} />
+                    <Breadcrumb pages={breadcrumb.slice(1)} />
                   </div>
                 )}
                 <div className='post-content md'>

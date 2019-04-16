@@ -1,33 +1,20 @@
 import PropTypes from 'prop-types'
-import endsWith from 'lodash.endswith'
 import get from 'lodash.get'
-
-/**
- * Normalize the documentation URL, the URL have to end with "/"
- */
-export const cleanPath = path => {
-  if (!endsWith(path, '/')) {
-    return `${path}/`
-  }
-  return path
-}
+import path from 'path'
 
 /**
  * Create a formatted node object
  */
 const getNodeFormatted = (arr, item) => {
   if (!item) return
-  let path = cleanPath(get(item, 'fields.path'))
-  const parentNodes = path.split('/')
-  const parentPath =
-    parentNodes.slice(0, parentNodes.length - 2).join('/') + '/'
+  const url = get(item, 'fields.path')
+  const urlParent = path.join(path.dirname(url), '/')
   const parent = arr.edges.find(
-    itemParent =>
-      cleanPath(get(itemParent, 'node.fields.path')) === cleanPath(parentPath)
+    itemParent => get(itemParent, 'node.fields.path') === urlParent
   )
   return {
     title: get(item, 'frontmatter.title'),
-    path: cleanPath(get(item, 'fields.path')),
+    path: url,
     description: get(item, 'frontmatter.description'),
     parent: get(parent, 'frontmatter.title', 'Documentation'),
     meta: {
@@ -44,21 +31,19 @@ const getNodeFormatted = (arr, item) => {
  */
 export const getBreadcrumb = function getBreadcrumb(arr, page) {
   const result = []
-  let pagePath = cleanPath(get(page, 'fields.path'))
-  const getNode = (edge, path) => {
-    return edge.edges.find(({ node }) => {
-      return cleanPath(get(node, 'fields.path')) === path
-    })
+  let url = get(page, 'fields.path')
+
+  const getNode = (edge, value) => {
+    return edge.edges.find(({ node }) => get(node, 'fields.path') === value)
   }
-  while (pagePath !== '/documentation/') {
-    const parentNodes = pagePath.split('/')
-    const node = getNode(arr, pagePath)
-    result.push(getNodeFormatted(arr, get(node, 'node')))
-    pagePath = parentNodes.slice(0, parentNodes.length - 2).join('/') + '/'
+
+  while (url !== '/documentation/') {
+    result.push(getNodeFormatted(arr, get(getNode(arr, url), 'node')))
+    url = path.join(path.dirname(url), '/')
   }
   result.push({
     title: 'Documentation',
-    path: '/documentation/',
+    path: '/documentation',
     description: '',
     meta: {
       title: 'Spring Cloud Data Flow Documentation',
@@ -102,15 +87,15 @@ getBreadcrumb.proptypes = {
  * - links: only one level of links.
  */
 export const getSummaryType = function getSummaryType(arr, page) {
-  const pathStart = cleanPath(get(page, 'fields.path'))
-  const depth = pathStart.split('/').length
+  const url = get(page, 'fields.path')
+  const depth = url.split('/').length
   const depths = arr.edges
     .filter(item => {
-      const path = cleanPath(get(item, 'node.fields.path'))
-      return !(!path.startsWith(pathStart) || pathStart === path)
+      const value = get(item, 'node.fields.path')
+      return !(!value.startsWith(url) || url === value)
     })
     .map(item => {
-      return cleanPath(get(item, 'node.fields.path')).split('/').length
+      return get(item, 'node.fields.path').split('/').length
     })
   if (Math.max(...depths) > depth + 1) {
     return 'tiles'
@@ -154,10 +139,7 @@ export const getPrevNext = function getPrevNext(arr, page) {
 
   for (let i = 0; i < arr.edges.length; i++) {
     const node = get(arr, `edges[${i}].node`)
-    if (
-      cleanPath(get(node, 'fields.path')) ===
-      cleanPath(get(page, 'fields.path'))
-    ) {
+    if (get(node, 'fields.path') === get(page, 'fields.path')) {
       prev = get(arr, `edges[${i - 1}].node`)
       next = get(arr, `edges[${i + 1}].node`)
       i = arr.edges.length
@@ -204,29 +186,28 @@ export const getTree = function getTree(arr, pathStart) {
     roots = []
 
   const arrSelection = arr.edges.filter(item => {
-    const path = get(item, 'node.fields.path')
+    const value = get(item, 'node.fields.path')
     if (pathStart) {
-      if (!path.startsWith(pathStart) || pathStart === path) {
+      if (!value.startsWith(pathStart) || pathStart === value) {
         return false
       }
     }
     return true
   })
+
   const nodes = arrSelection.map((item, index) => {
-    let path = cleanPath(get(item, 'node.fields.path'))
-    const parentNodes = path.split('/')
-    const parentPath =
-      parentNodes.slice(0, parentNodes.length - 2).join('/') + '/'
+    let url = get(item, 'node.fields.path')
+    const urlParent = path.join(path.dirname(url), '/')
+
     const parent = arrSelection.find(
-      itemParent =>
-        cleanPath(get(itemParent, 'node.fields.path')) === cleanPath(parentPath)
+      itemParent => get(itemParent, 'node.fields.path') === urlParent
     )
     map[get(item, 'node.id')] = index
     return {
       id: get(item, 'node.id'),
       title: get(item, 'node.frontmatter.title'),
       description: get(item, 'node.frontmatter.description'),
-      path: cleanPath(get(item, 'node.fields.path')),
+      path: get(item, 'node.fields.path'),
       parentId: get(parent, 'node.id', '0'),
       children: [],
     }
