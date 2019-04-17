@@ -79,6 +79,7 @@ Lorem ipsum dolor sit amet, `consectetur_adipiscing_elit()` , sed do eiusmod tem
 $ export DATAFLOW_VERSION=2.0.1.RELEASE
 $ export SKIPPER_VERSION=2.0.0.RELEASE
 $ docker-compose up
+$ a really really long line will automatically put a horizontal scroll bar if necessary
 ```
 
 ```yaml
