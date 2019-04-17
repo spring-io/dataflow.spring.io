@@ -1,10 +1,10 @@
 ---
-path: 'get-started/cloud-foundry/'
+path: 'installation/cloudfoundry/'
 title: 'Cloud Foundry'
 description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
-# Getting Started - Cloud Foundry
+# Installation Cloud Foundry
 
 This section covers how to get started with Spring Cloud Data Flow on
 Cloud Foundry.

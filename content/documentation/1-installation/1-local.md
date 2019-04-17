@@ -1,10 +1,10 @@
 ---
-path: 'get-started/local-converted/'
-title: 'Local Converted'
+path: 'installation/local/'
+title: 'Local'
 description: 'Getting Started Data Flow using the local server'
 ---
 
-# Getting Started - Local
+# Installation Local
 
 This section covers how to get started with Spring Cloud Data Flow on your Local machine.
 

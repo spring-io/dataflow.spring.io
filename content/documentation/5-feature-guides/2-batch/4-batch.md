@@ -1,5 +1,5 @@
 ---
-path: 'features-guides/batch/'
+path: 'feature-guides/batch/'
 title: 'Batch'
 description: 'Batch Feature Guide'
 ---

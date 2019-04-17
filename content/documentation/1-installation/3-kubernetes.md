@@ -1,10 +1,10 @@
 ---
-path: 'get-started/kubernetes/'
+path: 'installation/kubernetes/'
 title: 'Kubernetes'
 description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 ---
 
-# Getting Started - Kubernetes
+# Installation- Kubernetes
 
 [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/)
 is a toolkit for building data integration and real-time data-processing

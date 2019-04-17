@@ -1,6 +1,6 @@
 ---
 path: 'stream-developer-guides/streams/'
-title: 'Stream Processing'
+title: 'Stream Development'
 description: 'Stream Processing Developer Guide'
 summary: true
 ---

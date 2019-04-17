@@ -1,10 +1,10 @@
 ---
-path: 'stream-developer-guides/advanced-streams/functional/'
-title: 'Functional Stream Processing'
-description: 'Functional Stream Processing Developer Guide'
+path: 'stream-developer-guides/programming-models/kafka-streams/'
+title: 'Kafka Streams Processing'
+description: 'Kafka Streams Processing Developer Guide'
 ---
 
-# Functional Stream Processing
+# Kafka Streams Processing
 
 Introduction
 
@@ -27,10 +27,4 @@ Show a simple test.
 
 ## Deployment
 
-Deploy to local Data Flow Server
-
-# Functional Composition
-
-Introduction
-
-# Kotlin
+Deploy to local

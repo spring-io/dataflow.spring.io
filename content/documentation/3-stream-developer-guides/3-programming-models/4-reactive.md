@@ -1,5 +1,5 @@
 ---
-path: 'stream-developer-guides/advanced-streams/reactive/'
+path: 'stream-developer-guides/programming-models/reactive/'
 title: 'Reactive Stream Processing'
 description: 'Reactive Stream Processing Developer Guide'
 ---
