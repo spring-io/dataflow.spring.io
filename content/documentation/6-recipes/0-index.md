@@ -6,3 +6,5 @@ summary: true
 ---
 
 # Recipes
+
+1. routing
