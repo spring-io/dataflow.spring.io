@@ -1,10 +1,9 @@
 ---
 path: 'recipes/'
 title: 'Recipes'
-description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
+description: 'Recipes'
 summary: true
 ---
 
-# Recipes
-
-1. routing
+Intro to the recipe section. User should already be familiair with core stream, task, and Data Flow concepts.
+Recipies are generally common things one would do day to day with Data Flow.
