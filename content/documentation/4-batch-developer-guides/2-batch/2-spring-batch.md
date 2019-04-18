@@ -51,155 +51,11 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
     1. Copy the data from [here](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/resources/schema.sql) and insert it into the schema.sql file you just created.
 
 1.  In your favorite IDE create the `io.spring.billrun.configuration` package
-1.  Create a `Usage` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  Create a `Usage` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/Usage.java).
 
-    ```
-    public class Usage {
+1.  Create a `Bill` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/Bill.java).
 
-     private Long id;
-
-     private String firstName;
-
-     private String lastName;
-
-     private Long minutes;
-
-     private Long dataUsage;
-
-     public Usage() {
-     }
-
-     public Usage(Long id, String firstName, String lastName, Long minutes,
-      Long dataUsage) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.minutes = minutes;
-        this.dataUsage = dataUsage;
-        this.id = id;
-     }
-
-     public Long getId() {
-        return id;
-     }
-
-     public void setId(Long id) {
-        this.id = id;
-     }
-
-     public String getFirstName() {
-        return firstName;
-     }
-
-     public void setFirstName(String firstName) {
-        this.firstName = firstName;
-     }
-
-     public String getLastName() {
-        return lastName;
-     }
-
-     public void setLastName(String lastName) {
-        this.lastName = lastName;
-     }
-
-     public Long getDataUsage() {
-        return dataUsage;
-     }
-
-     public void setDataUsage(Long dataUsage) {
-        this.dataUsage = dataUsage;
-     }
-
-     public Long getMinutes() {
-        return minutes;
-     }
-
-     public void setMinutes(Long minutes) {
-        this.minutes = minutes;
-     }
-    }
-    ```
-
-1.  Create a `Bill` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
-
-    ```
-    public class Bill {
-
-      private Long id;
-
-      private String firstName;
-
-      private String lastName;
-
-      private Long dataUsage;
-
-      private Long minutes;
-
-      private Double billAmount;
-
-      public Bill(Long id, String firstName, String lastName, Long dataUsage, Long minutes, Double billAmount) {
-         this.firstName = firstName;
-         this.lastName = lastName;
-         this.dataUsage = dataUsage;
-         this.minutes = minutes;
-         this.billAmount = billAmount;
-         this.id = id;
-      }
-
-      public Bill() {
-      }
-
-      public String getFirstName() {
-         return firstName;
-      }
-
-      public void setFirstName(String firstName) {
-         this.firstName = firstName;
-      }
-
-      public String getLastName() {
-         return lastName;
-      }
-
-      public void setLastName(String lastName) {
-         this.lastName = lastName;
-      }
-
-      public Long getDataUsage() {
-         return dataUsage;
-      }
-
-      public void setDataUsage(Long dataUsage) {
-         this.dataUsage = dataUsage;
-      }
-
-      public Long getMinutes() {
-         return minutes;
-      }
-
-      public void setMinutes(Long minutes) {
-         this.minutes = minutes;
-      }
-
-      public Double getBillAmount() {
-         return billAmount;
-      }
-
-      public void setBillAmount(Double billAmount) {
-         this.billAmount = billAmount;
-      }
-
-      public Long getId() {
-         return id;
-      }
-
-      public void setId(Long id) {
-         this.id = id;
-      }
-    }
-    ```
-
-1.  Create a `BillProcessor` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  Create a [BillProcessor](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```
     public class BillProcessor implements ItemProcessor<Usage, Bill> {
@@ -214,7 +70,7 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
     }
     ```
 
-1.  Create a `BillingConfiguration` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  Create a [BillingConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```
       @Configuration
@@ -288,7 +144,7 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
 
 ### Testing
 
-Now let’s create our test. Update the BillrunApplicationTests.java such that looks like the contents below.
+Now let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
 
 ```
 @RunWith(SpringRunner.class)

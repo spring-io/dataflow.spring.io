@@ -42,7 +42,7 @@ For this section we will create a Spring Cloud Task/Boot application that will c
 Now let’s create the elements required for this application.
 
 1.  Using your IDE create the package `io.spring.billsetuptask.configuration`.
-1.  Create a `TaskConfiguration` class in the `io.spring.billsetuptask.configuration` package using your favorite IDEthat looks like the contents below.
+1.  Create a [TaskConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDEthat looks like the contents below.
 
 ```
 @Configuration
@@ -69,7 +69,7 @@ The `@EnableTask` annotation sets up a TaskRepository which stores information a
 
 ### Testing
 
-Now let’s create our test. Update the contents of the `BillsetuptaskApplicationTests.java` with the following code:
+Now let’s create our test. Update the contents of the [BillsetuptaskApplicationTests.java](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/test/java/io/spring/billsetuptask/BillsetuptaskApplicationTests.java) with the following code:
 
 ```
 @RunWith(SpringRunner.class)
