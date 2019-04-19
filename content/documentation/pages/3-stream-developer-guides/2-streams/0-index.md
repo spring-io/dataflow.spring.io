@@ -7,5 +7,7 @@ summary: true
 
 # Stream Processing
 
-Discuss at a high level what is covered in the following guides.
-We start off using only Spring Cloud Stream and then introduce Spring Cloud Data Flow.
+In this stream processing guide, you will see how you can:
+
+- Design, develop, test and deploy an individual streaming application without Data Flow
+- Create a streaming data pipeline using these individual applications in Spring Cloud Data Flow

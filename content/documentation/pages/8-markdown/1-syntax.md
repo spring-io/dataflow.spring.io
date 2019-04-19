@@ -33,6 +33,10 @@ Lorem ipsum dolor %version% sit amet, **consectetur adipiscing** elit, sed do ei
 
 - [Spring.io](https://spring.io/)
 
+**Links to an anchor on the same page**:
+
+- [This is link to the variables anchor](#variables)
+
 ### Unordered list
 
 - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -121,19 +125,19 @@ public class LoggingSink {
 Lorem ipsum dolor sit amet, consectetur:
 
 [[danger]]
-| Lorem ipsum dolor sit amet, consectetur adipiscing
+| This is a [[danger]] callout
 
 [[warning]]
-| Lorem ipsum dolor sit amet, consectetur adipiscing
+| This is a [[warning]] callout
 
 [[note]]
-| Lorem ipsum dolor sit amet, consectetur adipiscing
+| This is a [[note]] callout
 
 [[success]]
-| Lorem ipsum dolor sit amet, consectetur adipiscing
+| This is a [[success]] callout
 
 [[tip]]
-| Lorem ipsum dolor sit amet, consectetur adipiscing
+| This is a [[tip]] callout
 
 Callout with a title and paragraphs:
 

@@ -6,3 +6,5 @@ yarn-error.log
 public/
 data/
 content/documentation/files/ext/
+.idea/
+content/files/ext/

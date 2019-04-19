@@ -297,6 +297,29 @@ Once you are ready with the relevant properties in your manifest file,
 you can issue a `cf push` command from the directory where this file is
 stored.
 
+### Register pre-built applications
+
+All the pre-built streaming applications:
+
+- Are available as Apache Maven artifacts or Docker images.
+- Use RabbitMQ or Apache Kafka.
+- Support monitoring via Prometheus and InfluxDB.
+- Contain metadata for application properties used in the UI and code completion in the shell.
+
+Applications can be registered individually using the `app register` functionality or as a group using the `app import` functionality.
+There are also `bit.ly` links that represent the group of pre-built applications for a specific release which is useful for getting started.
+
+You can register applications using the UI or the shell.
+Even though we are only using two pre-built applications, we will register the full set of pre-built applications.
+
+Since the Cloud Foundry installation guide uses RabbitMQ as the messaging middleware, register the RabbitMQ version of the applications.
+
+**TODO screen shot instead of shell command**
+
+```
+app import --uri  http://bit.ly/Einstein-SR2-stream-applications-rabbit-maven
+```
+
 ## Local Installation
 
 To run the server application locally (on your laptop or desktop) and

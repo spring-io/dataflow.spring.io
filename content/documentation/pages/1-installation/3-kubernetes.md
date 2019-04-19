@@ -642,6 +642,32 @@ delete the release and purge any release metadata, you can use
         --set rabbitmq.rabbitmqPassword=rabbitpwd \
         --set mysql.mysqlRootPassword=mysqlpwd incubator/spring-cloud-data-flow
 
+## Register pre-built applications
+
+All the pre-built streaming applications:
+
+- Are available as Apache Maven artifacts or Docker images.
+- Use RabbitMQ or Apache Kafka.
+- Support monitoring via Prometheus and InfluxDB.
+- Contain metadata for application properties used in the UI and code completion in the shell.
+
+Applications can be registered individually using the `app register` functionality or as a group using the `app import` functionality.
+There are also `bit.ly` links that represent the group of pre-built applications for a specific release which is useful for getting started.
+
+You can register applications using the UI or the shell.
+Even though we are only using two pre-built applications, we will register the full set of pre-built applications.
+
+The easiest way to install Data Flow on Kubernetes is using the Helm chart that uses RabbitMQ as the default messaging middleware.
+The command to import the Kafka version of the applications is
+
+**TODO screen shot instead of shell command**
+
+```
+app import --uri  http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
+```
+
+Change `kafka` to `rabbit` in the above URL if you set `kafka.endabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
+
 ## Deploying Streams
 
 This section covers how to deploy streams with Spring Cloud Data Flow

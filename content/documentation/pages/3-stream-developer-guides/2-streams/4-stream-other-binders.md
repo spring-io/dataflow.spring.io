@@ -6,12 +6,15 @@ description: 'Using Google Pub/Sub, Amazon Kinesis, Solace JMS'
 
 # Introduction
 
-There are many binders avail....
+Spring Cloud Stream provides binders for the following messaging middleware/streaming platform:
+
+- RabbitMQ
+- Apache Kafka
+- Amazon Kinesis
+- Google Cloud PubSub
+- Solace's PubSub+
+- Azure Event Hubs
 
 ## Google Pub/Sub
 
-blah blah
-
 ## Amazon Kinesis
-
-blah blah
