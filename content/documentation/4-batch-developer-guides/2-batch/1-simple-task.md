@@ -22,6 +22,7 @@ We could implement this entire solution into a single Spring Boot Application th
 1. _billrun_ - will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
 
 For this section we will create a Spring Cloud Task/Boot application that will create the `BILL_STATEMENTS` table that will be used by the BillRun application.
+![BILL_STATMENTS](images/bill_statements.png)
 
 ### Initialzr
 
@@ -37,22 +38,41 @@ For this section we will create a Spring Cloud Task/Boot application that will c
 1. Click the Generate Project button.
 1. Unzip the billsetuptask.zip file and import the project into your favorite IDE.
 
+Another option instead of using the UI to initialize your project you can do the following:
+
+1. Execute the following curl command:
+
+   ```bash
+   curl https://start.spring.io/starter.zip -d language=java -d type=maven-project -d baseDir=billrun -d dependencies="batch,mysql,jdbc,h2,cloud-task" >billsetuptask.zip
+   ```
+
+2. Unzip the billsetuptask.zip file and import the project into your favorite IDE
+
+### Setting up MySql
+
+1. If you don't have an instance of MySql installed available to you, you can follow these instructions to run a MySql docker image for this example.
+
+   1. Pull the MySql docker image
+
+      ```bash
+      $ docker pull mysql:5.7.25
+      ```
+
+   2. Start the MySql
+
+      ```bash
+      $ docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=practice -d mysql:5.7.24
+      ```
+
 ### Biz Logic
 
 Now let’s create the elements required for this application.
 
 1.  Using your IDE create the package `io.spring.billsetuptask.configuration`.
-1.  Create a [TaskConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDEthat looks like the contents below.
-
-<style>
-pre {
-  white-space: pre !important;
-  overflow-y: scroll !important;
-  height: max-height: 50vh !important;
-}
-</style>
+1.  Create a [TaskConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDE that looks like the contents below.
 
 ```java
+{/* highlight-range{2} */}
 @Configuration
 @EnableTask
 public class TaskConfiguration {

@@ -4,14 +4,6 @@ title: 'Spring Batch Jobs'
 description: 'Create a Spring Batch Job'
 ---
 
-<style>
-pre {
-  white-space: pre !important;
-  overflow-y: scroll !important;
-  max-height: 50vh !important;
-}
-</style>
-
 # Batch Processing with Spring Batch
 
 In this guide we will develop a Spring Batch application and deploy it to Cloud Foundry, Kubernetes, and on your local machine. In another guide, we will deploy the Spring Batch application using Data Flow.
@@ -31,6 +23,8 @@ We could implement this entire solution into a single Spring Boot Application th
 
 For this section we will create a Spring Cloud Task/Spring Batch bill run application that will read usage information from a json file containing customer usage data and price each entry and place the result into the `BILL_STATEMENTS` table.
 
+![BILL_STATMENTS](images/bill_statements.png)
+
 This will be done using a single step batch job, `JsonItemReader`, `BillProcessor`, `JdbcBatchItemWriter`.
 
 ### Initialzr
@@ -47,6 +41,32 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
 1. In the Dependencies text box, type Batch then select Batch.
 1. Click the Generate Project button.
 1. Unzip the billrun.zip file and import the project into your favorite IDE.
+
+Another option instead of using the UI to initialize your project you can do the following:
+
+1. Execute the following curl command:
+
+   ```bash
+   curl https://start.spring.io/starter.zip -d language=java -d type=maven-project -d baseDir=billrun -d dependencies="batch,mysql,jdbc,h2,cloud-task" >billrun.zip
+   ```
+
+2. Unzip the billrun.zip file and import the project into your favorite IDE
+
+### Setting up MySql
+
+1. If you don't have an instance of MySql available to you, you can follow these instructions to run a MySql docker image for this example.
+
+   1. Pull the MySql docker image
+
+      ```bash
+      $ docker pull mysql:5.7.25
+      ```
+
+   2. Start the MySql
+
+      ```bash
+      $ docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=practice -d mysql:5.7.24
+      ```
 
 ### Biz Logic
 
@@ -81,6 +101,7 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
 1.  Create a [BillingConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```java
+    {/* highlight-range{2-3} */}
     @Configuration
     @EnableTask
     @EnableBatchProcessing
