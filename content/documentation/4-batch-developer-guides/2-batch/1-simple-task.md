@@ -48,7 +48,7 @@ Now let’s create the elements required for this application.
 pre {
   white-space: pre !important;
   overflow-y: scroll !important;
-  height: 50vh !important;
+  height: max-height: 50vh !important;
 }
 </style>
 

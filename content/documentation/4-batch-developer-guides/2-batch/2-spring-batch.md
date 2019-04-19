@@ -8,7 +8,7 @@ description: 'Create a Spring Batch Job'
 pre {
   white-space: pre !important;
   overflow-y: scroll !important;
-  height: 40vh !important;
+  max-height: 50vh !important;
 }
 </style>
 
