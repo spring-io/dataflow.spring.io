@@ -4,6 +4,14 @@ title: 'Spring Batch Jobs'
 description: 'Create a Spring Batch Job'
 ---
 
+<style>
+pre {
+  white-space: pre !important;
+  overflow-y: scroll !important;
+  height: 40vh !important;
+}
+</style>
+
 # Batch Processing with Spring Batch
 
 In this guide we will develop a Spring Batch application and deploy it to Cloud Foundry, Kubernetes, and on your local machine. In another guide, we will deploy the Spring Batch application using Data Flow.
@@ -57,7 +65,7 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
 
 1.  Create a [BillProcessor](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
-    ```
+    ```java
     public class BillProcessor implements ItemProcessor<Usage, Bill> {
 
       @Override
@@ -72,71 +80,71 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
 
 1.  Create a [BillingConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
-    ```
-      @Configuration
-      @EnableTask
-      @EnableBatchProcessing
-      public class BillingConfiguration {
-          private static final Log logger = LogFactory.getLog(BillingConfiguration.class);
+    ```java
+    @Configuration
+    @EnableTask
+    @EnableBatchProcessing
+    public class BillingConfiguration {
+      private static final Log logger = LogFactory.getLog(BillingConfiguration.class);
 
-          @Autowired
-          public JobBuilderFactory jobBuilderFactory;
+      @Autowired
+      public JobBuilderFactory jobBuilderFactory;
 
-          @Autowired
-          public StepBuilderFactory stepBuilderFactory;
+      @Autowired
+      public StepBuilderFactory stepBuilderFactory;
 
-          @Value("${usage.file.name:classpath:usageinfo.json}")
-          private Resource usageResource;
+      @Value("${usage.file.name:classpath:usageinfo.json}")
+      private Resource usageResource;
 
-          @Bean
-          public Job job1(ItemReader<Usage> reader,
-            ItemProcessor<Usage,Bill> itemProcessor, ItemWriter<Bill> writer) {
-              Step step = stepBuilderFactory.get("BillProcessing")
-                      .<Usage, Bill>chunk(1)
-                      .reader(reader)
-                      .processor(itemProcessor)
-                      .writer(writer)
-                      .build();
+      @Bean
+      public Job job1(ItemReader<Usage> reader,
+        ItemProcessor<Usage,Bill> itemProcessor, ItemWriter<Bill> writer) {
+          Step step = stepBuilderFactory.get("BillProcessing")
+                  .<Usage, Bill>chunk(1)
+                  .reader(reader)
+                  .processor(itemProcessor)
+                  .writer(writer)
+                  .build();
 
-              return jobBuilderFactory.get("BillJob")
-                      .incrementer(new RunIdIncrementer())
-                      .start(step)
-                      .build();
-          }
-
-          @Bean
-          public JsonItemReader<Usage> jsonItemReader() {
-
-              ObjectMapper objectMapper = new ObjectMapper();
-              JacksonJsonObjectReader<Usage> jsonObjectReader =
-                      new JacksonJsonObjectReader<>(Usage.class);
-              jsonObjectReader.setMapper(objectMapper);
-
-              return new JsonItemReaderBuilder<Usage>()
-                      .jsonObjectReader(jsonObjectReader)
-                      .resource(usageResource)
-                      .name("UsageJsonItemReader")
-                      .build();
-          }
-
-          @Bean
-          public ItemWriter<Bill> jdbcBillWriter(DataSource dataSource) {
-              JdbcBatchItemWriter<Bill> writer = new JdbcBatchItemWriterBuilder<Bill>()
-                              .beanMapped()
-                      .dataSource(dataSource)
-                      .sql("INSERT INTO BILL_STATEMENTS (id, first_name, " +
-                         "last_name, minutes, data_usage,bill_amount) VALUES " +
-                         "(:id, :firstName, :lastName, :minutes, :dataUsage, " +
-                         ":billAmount)")
-                      .build();
-              return writer;
-          }
-
-          @Bean
-          ItemProcessor<Usage, Bill> billProcessor() {
-              return new BillProcessor();
-          }
+          return jobBuilderFactory.get("BillJob")
+                  .incrementer(new RunIdIncrementer())
+                  .start(step)
+                  .build();
       }
+
+      @Bean
+      public JsonItemReader<Usage> jsonItemReader() {
+
+          ObjectMapper objectMapper = new ObjectMapper();
+          JacksonJsonObjectReader<Usage> jsonObjectReader =
+                  new JacksonJsonObjectReader<>(Usage.class);
+          jsonObjectReader.setMapper(objectMapper);
+
+          return new JsonItemReaderBuilder<Usage>()
+                  .jsonObjectReader(jsonObjectReader)
+                  .resource(usageResource)
+                  .name("UsageJsonItemReader")
+                  .build();
+      }
+
+      @Bean
+      public ItemWriter<Bill> jdbcBillWriter(DataSource dataSource) {
+          JdbcBatchItemWriter<Bill> writer = new JdbcBatchItemWriterBuilder<Bill>()
+                          .beanMapped()
+                  .dataSource(dataSource)
+                  .sql("INSERT INTO BILL_STATEMENTS (id, first_name, " +
+                     "last_name, minutes, data_usage,bill_amount) VALUES " +
+                     "(:id, :firstName, :lastName, :minutes, :dataUsage, " +
+                     ":billAmount)")
+                  .build();
+          return writer;
+      }
+
+      @Bean
+      ItemProcessor<Usage, Bill> billProcessor() {
+          return new BillProcessor();
+      }
+    }
     ```
 
     The `@EnableBatchProcessing` annotation enables Spring Batch features and provide a base configuration for setting up batch jobs.
@@ -146,7 +154,7 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
 
 Now let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
 
-```
+```java
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @SpringBatchTest
@@ -220,14 +228,10 @@ Deploy to local, Cloud Foundry and Kubernetes
 ### Local
 
 1.  Now let’s take the next step of building the project.
-    From a command line change directory to the location of your project and build the project using maven
+    From a command line change directory to the location of your project and build the project using maven:
+    `mvn clean package`.
 
-        ```
-        $ cd <your project directory>
-        $ mvn clean package
-        ```
-
-2.  Now let’s execute the application with the configurations required to process the usage information in the database.
+2)  Now let’s execute the application with the configurations required to process the usage information in the database.
 
     To configure the execution of the billrun application utilize the following arguments:
 
@@ -238,7 +242,7 @@ Deploy to local, Cloud Foundry and Kubernetes
     1. _spring.datasource.initialization-mode_ - initializes the database with the BILL_STATEMENTS and BILL_USAGE tables required for this app. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
     1. _spring.batch.initialize-schema_ - initializes the database with the tables required for Spring Batch. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
 
-    ```
+    ```bash
     $ java -jar target/billrun-0.0.1-SNAPSHOT.jar \
     --spring.datasource.url=jdbc:mysql://localhost:3306/practice?useSSL=false \
     --spring.datasource.username=root \

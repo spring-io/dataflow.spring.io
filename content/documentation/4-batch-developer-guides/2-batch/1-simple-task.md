@@ -44,7 +44,15 @@ Now let’s create the elements required for this application.
 1.  Using your IDE create the package `io.spring.billsetuptask.configuration`.
 1.  Create a [TaskConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDEthat looks like the contents below.
 
-```
+<style>
+pre {
+  white-space: pre !important;
+  overflow-y: scroll !important;
+  height: 50vh !important;
+}
+</style>
+
+```java
 @Configuration
 @EnableTask
 public class TaskConfiguration {
@@ -71,7 +79,7 @@ The `@EnableTask` annotation sets up a TaskRepository which stores information a
 
 Now let’s create our test. Update the contents of the [BillsetuptaskApplicationTests.java](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/test/java/io/spring/billsetuptask/BillsetuptaskApplicationTests.java) with the following code:
 
-```
+```java
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BillsetuptaskApplicationTests {
@@ -98,11 +106,7 @@ Deploy to local, Cloud Foundry and Kubernetes
 
 1. Now let’s take the next step of building the project.
    From a command line change directory to the location of your project and build the project using maven
-
-   ```
-   $ cd <your project directory>
-   $ mvn clean package
-   ```
+   `mvn clean package`
 
 1. Now let’s execute the application with the configurations required to create the "BILL_STATEMENTS" table in the MySql database.
    To configure the execution of the billsetuptask application utilize the following arguments:
@@ -112,7 +116,7 @@ Deploy to local, Cloud Foundry and Kubernetes
    1. _spring.datasource.password_ - the password to be used for the MySql database. In the sample below it is `password`
    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver'
 
-   ```
+   ```bash
    $ java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
    --spring.datasource.url=jdbc:mysql://localhost:3306/practice?useSSL=false \
    --spring.datasource.username=root \
