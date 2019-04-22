@@ -12,7 +12,7 @@ We will deploy the sample [billsetuptask]() application to Kubernetes.
 
 ## Setting up the Kubernetes cluster
 
-For this we need a running [Kubernetes cluster](/documentation/installation/kubernetes/). Here we will deploy to `minikube`.
+For this we need a running [Kubernetes cluster](/documentation/installation/kubernetes/). For this example we will deploy to `minikube`.
 
 ### Verify minikube is up and running:
 
@@ -44,7 +44,7 @@ Clone the task samples git repo, and cd to the `billsetuptask` directory.
 
 ```bash
 $ eval $(minikube docker-env)
-$ mvn clean package jib:dockerBuild
+$ ./mvnw clean package jib:dockerBuild
 ```
 
 This will add the image to the `minikube` Docker registry.
@@ -56,7 +56,8 @@ $ docker images
 
 ### Deploy the app
 
-The simplest way to deploy a task application is as a standalone [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/). Deploying tasks as a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/) or [CronJob](https://kubernetes.io/docs/tasks/job/) is considered best practice for production environments, but is beyond the scope of this guide.
+The simplest way to deploy a task application is as a standalone [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/).
+Deploying tasks as a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/) or [CronJob](https://kubernetes.io/docs/tasks/job/) is considered best practice for production environments, but is beyond the scope of this guide.
 
 Save the following to `task-app.yaml`
 
@@ -116,16 +117,23 @@ billsetuptask            0/1     Completed   0          81s
 
 Delete the Pod.
 
-```
+```bash
 $ kubectl delete -f task-app.yaml
 ```
 
-Log in to the `mysql` container to query the `TASK_EXECUTION` table. Get the name of the 'mysql`pod using`kubectl get pods`, as shown above. Then login:
+Log in to the `mysql` container to query the `TASK_EXECUTION` table.
+Get the name of the 'mysql`pod using`kubectl get pods`, as shown above.
+Then login:
+
+<!-- Rolling my own to disable erroneous formating -->
+<div class="gatsby-highlight" data-language="bash">
+<pre class="language-bash"><code>$ kubectl exec -it mysql-5cbb6c49f7-ntg2l -- /bin/bash
+# mysql -u root -p$MYSQL_ROOT_PASSWORD
+mysql&gt; select * from task.TASK_EXECUTION;
+</code></pre></div>
+
+To uninstall `mysql`:
 
 ```bash
-$ kubectl exec -it mysql-5cbb6c49f7-ntg2l -- /bin/bash
-
-# mysql -u root -p$MYSQL_ROOT_PASSWORD
-
-mysql> select * from task.TASK_EXECUTION;
+$ kubectl delete all -l app=mysql
 ```
