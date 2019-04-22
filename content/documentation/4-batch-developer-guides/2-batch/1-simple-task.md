@@ -10,7 +10,7 @@ In this guide we will develop a Spring Boot application that uses Spring Cloud T
 
 We will start from the [Spring Initializr](https://start.spring.io/) and create a Spring Cloud Task application.
 
-NOTE: All code for this project can be found here: https://github.com/cppwfs/edutasksamples
+NOTE: All code for this project can be found [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples).
 
 ## Development
 
@@ -38,13 +38,11 @@ For this section we will create a Spring Cloud Task/Boot application that will c
 1. Click the Generate Project button.
 1. Unzip the billsetuptask.zip file and import the project into your favorite IDE.
 
+#### Initialzr Shortcut
+
 Another option instead of using the UI to initialize your project you can do the following:
 
-1. Execute the following curl command:
-
-   ```bash
-   curl https://start.spring.io/starter.zip -d language=java -d type=maven-project -d baseDir=billrun -d dependencies="batch,mysql,jdbc,h2,cloud-task" >billsetuptask.zip
-   ```
+1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billsetuptask&groupId=io.spring&artifactId=billsetuptask&name=Bill+Setup+Task&description=Bill+Setup+Task+Sample+App&packageName=io.spring.billsetuptask&packaging=jar&inputSearch=&style=cloud-task&style=jdbc&style=h2&style=mysql) to download the preconfigured billsetuptask.zip.
 
 2. Unzip the billsetuptask.zip file and import the project into your favorite IDE
 
@@ -69,7 +67,7 @@ Another option instead of using the UI to initialize your project you can do the
 Now let’s create the elements required for this application.
 
 1.  Using your IDE create the package `io.spring.billsetuptask.configuration`.
-1.  Create a [TaskConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDE that looks like the contents below.
+1.  Create a [TaskConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDE that looks like the contents below.
 
 ```java
 {/* highlight-range{2} */}
@@ -97,7 +95,7 @@ The `@EnableTask` annotation sets up a TaskRepository which stores information a
 
 ### Testing
 
-Now let’s create our test. Update the contents of the [BillsetuptaskApplicationTests.java](https://github.com/cppwfs/edutasksamples/blob/master/billsetuptask/src/test/java/io/spring/billsetuptask/BillsetuptaskApplicationTests.java) with the following code:
+Now let’s create our test. Update the contents of the [BillsetuptaskApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/test/java/io/spring/billsetuptask/BillsetuptaskApplicationTests.java) with the following code:
 
 ```java
 @RunWith(SpringRunner.class)

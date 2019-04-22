@@ -10,7 +10,7 @@ In this guide we will develop a Spring Batch application and deploy it to Cloud 
 
 We will start from [Spring Initializr](https://start.spring.io/) and create a Spring Batch application.
 
-NOTE: All code for this project can be found here: https://github.com/cppwfs/edutasksamples
+NOTE: All code for this project can be found [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples).
 
 ## Development
 
@@ -44,11 +44,7 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
 
 Another option instead of using the UI to initialize your project you can do the following:
 
-1. Execute the following curl command:
-
-   ```bash
-   curl https://start.spring.io/starter.zip -d language=java -d type=maven-project -d baseDir=billrun -d dependencies="batch,mysql,jdbc,h2,cloud-task" >billrun.zip
-   ```
+1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billrun&groupId=io.spring&artifactId=billrun&name=Bill+Run&description=Bill+Run+Sample+App&packageName=io.spring.billrun&packaging=jar&inputSearch=&style=batch&style=cloud-task&style=jdbc&style=h2&style=mysql) to download the preconfigured billrun.zip.
 
 2. Unzip the billrun.zip file and import the project into your favorite IDE
 
@@ -72,18 +68,18 @@ Another option instead of using the UI to initialize your project you can do the
 
 1.  Using your IDE create a usageinfo.json file in the resources directory.
 
-    1. Copy the data from [here](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/resources/usageinfo.json) and insert it into the usageinfo.json file you just created.
+    1. Copy the data from [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json) and insert it into the usageinfo.json file you just created.
 
 1.  Using your IDE create a schema.sql file in the resources directory.
 
-    1. Copy the data from [here](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/resources/schema.sql) and insert it into the schema.sql file you just created.
+    1. Copy the data from [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql) and insert it into the schema.sql file you just created.
 
 1.  In your favorite IDE create the `io.spring.billrun.configuration` package
-1.  Create a `Usage` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/Usage.java).
+1.  Create a `Usage` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Usage.java).
 
-1.  Create a `Bill` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/Bill.java).
+1.  Create a `Bill` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Bill.java).
 
-1.  Create a [BillProcessor](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  Create a [BillProcessor](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```java
     public class BillProcessor implements ItemProcessor<Usage, Bill> {
@@ -98,7 +94,7 @@ Another option instead of using the UI to initialize your project you can do the
     }
     ```
 
-1.  Create a [BillingConfiguration](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  Create a [BillingConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```java
     {/* highlight-range{2-3} */}
@@ -173,7 +169,7 @@ Another option instead of using the UI to initialize your project you can do the
 
 ### Testing
 
-Now let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/cppwfs/edutasksamples/blob/master/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
+Now let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
 
 ```java
 @RunWith(SpringRunner.class)
