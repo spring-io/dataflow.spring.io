@@ -59,7 +59,7 @@ Another option instead of using the UI to initialize your project you can do the
    2. Start the MySql
 
       ```bash
-      $ docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=practice -d mysql:5.7.24
+      $ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=task -d mysql:5.7.25
       ```
 
 ### Biz Logic
@@ -129,17 +129,87 @@ Deploy to local, Cloud Foundry and Kubernetes
 1. Now let’s execute the application with the configurations required to create the "BILL_STATEMENTS" table in the MySql database.
    To configure the execution of the billsetuptask application utilize the following arguments:
 
-   1. _spring.datasource.url_ - set the URL to your database instance. In the sample below we are connecting to a mysql `practice` database on our local machine at port 3306.
+   1. _spring.datasource.url_ - set the URL to your database instance. In the sample below we are connecting to a mysql `task` database on our local machine at port 3306.
    1. _spring.datasource.username_ - the user name to be used for the MySql database. In the sample below it is `root`
    1. _spring.datasource.password_ - the password to be used for the MySql database. In the sample below it is `password`
    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver'
 
    ```bash
-   $ java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
-   --spring.datasource.url=jdbc:mysql://localhost:3306/practice?useSSL=false \
+   $ java -jar target/billsetuptask-1.0.0.BUILD-SNAPSHOT.jar \
+   --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
    --spring.datasource.username=root \
    --spring.datasource.password=password \
    --spring.datasource.driverClassName=com.mysql.jdbc.Driver
+   ```
+
+#### Setting the application name for Task Execution
+
+Spring Cloud Task records all task executions to a table called TASK_EXECUTION.
+Here is some of the information that is recorded by Spring Cloud Task:
+
+- START_TIME - The time the task execution started
+- END_TIME - The time the task execution completed
+- TASK_NAME - The name associated with the task execution
+- EXIT_CODE - The exit code that was returned by the task execution
+- EXIT_MESSAGE - The exit message that was returned for the execution
+- ERROR_MESSAGE - The error message that was returned for the execution
+- EXTERNAL_EXECUTION_ID - An id to be associated with the task execution
+
+By default the `TASK_NAME` is "Bill Setup Task".
+
+NOTE: Our sample project is setting the task name in the application.properties file. By default Spring Cloud Task will set the task name to "application".
+
+Using the instructions below query the TASK_EXECUTION table:
+
+<!-- Rolling my own to disable erroneous formating -->
+<div class="gatsby-highlight" data-language="bash">
+<pre class="language-bash"><code>$ docker exec -it mysql bash -l
+# mysql -u root -ppassword
+mysql&gt; select * from task.TASK_EXECUTION;
+</code></pre></div>
+
+The results will look something like this:
+
+```
+| TASK_EXECUTION_ID | START_TIME          | END_TIME            | TASK_NAME       | EXIT_CODE | EXIT_MESSAGE | ERROR_MESSAGE | LAST_UPDATED        | EXTERNAL_EXECUTION_ID | PARENT_EXECUTION_ID |
+|-------------------|---------------------|---------------------|-----------------|-----------|--------------|---------------|---------------------|-----------------------|---------------------|
+|                 1 | 2019-04-23 18:10:57 | 2019-04-23 18:10:57 | Bill Setup Task |         0 | NULL         | NULL          | 2019-04-23 18:10:57 | NULL                  |                NULL |
+```
+
+Spring Cloud Task allows us to change this setting using the `spring.cloud.task.name`. To do this we will add that property to our next execution as follows:
+
+```bash
+$ java -jar target/billsetuptask-1.0.0.BUILD-SNAPSHOT.jar \
+--spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
+--spring.datasource.username=root \
+--spring.datasource.password=password \
+--spring.datasource.driverClassName=com.mysql.jdbc.Driver \
+--spring.cloud.task.name=BillSetupTest1
+```
+
+Now when you query the table you will see that the last task execution in the query now has the name "BillSetupTest1".
+
+#### Cleanup
+
+To stop and remove the mysql container running in the docker instance:
+
+1. Execute the following to get the container id.
+
+   ```bash
+   $ docker ps
+   ```
+
+   You should get a result that looks something like this:
+
+   ```bash
+   CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
+   c3ef4c769c33        mysql:5.7.25        "docker-entrypoint.s…"   6 days ago          Up 5 days           0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
+   ```
+
+1. Using the `CONTAINER ID` above remove the container by executing the command below:
+
+   ```bash
+   docker rm c3ef4c769c33
    ```
 
 ### Cloud Foundry

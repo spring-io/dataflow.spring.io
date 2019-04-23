@@ -61,7 +61,7 @@ Another option instead of using the UI to initialize your project you can do the
    2. Start the MySql
 
       ```bash
-      $ docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=practice -d mysql:5.7.24
+      $ docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=task -d mysql:5.7.25
       ```
 
 ### Biz Logic
@@ -248,11 +248,11 @@ Deploy to local, Cloud Foundry and Kubernetes
     From a command line change directory to the location of your project and build the project using maven:
     `mvn clean package`.
 
-2)  Now let’s execute the application with the configurations required to process the usage information in the database.
+2.  Now let’s execute the application with the configurations required to process the usage information in the database.
 
     To configure the execution of the billrun application utilize the following arguments:
 
-    1. _spring.datasource.url_ - set the URL to your database instance. In the sample below we are connecting to a mysql `practice` database on our local machine at port 3306.
+    1. _spring.datasource.url_ - set the URL to your database instance. In the sample below we are connecting to a mysql `task` database on our local machine at port 3306.
     1. _spring.datasource.username_ - the user name to be used for the MySql database. In the sample below it is `root`
     1. _spring.datasource.password_ - the password to be used for the MySql database. In the sample below it is `password`
     1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver'
@@ -260,14 +260,58 @@ Deploy to local, Cloud Foundry and Kubernetes
     1. _spring.batch.initialize-schema_ - initializes the database with the tables required for Spring Batch. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
 
     ```bash
-    $ java -jar target/billrun-0.0.1-SNAPSHOT.jar \
-    --spring.datasource.url=jdbc:mysql://localhost:3306/practice?useSSL=false \
+    $ java -jar target/billrun-1.0.0.BUILD-SNAPSHOT.jar \
+    --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
     --spring.datasource.username=root \
     --spring.datasource.password=password \
     --spring.datasource.driverClassName=com.mysql.jdbc.Driver \
     --spring.datasource.initialization-mode=always \
     --spring.batch.initialize-schema=always
     ```
+
+3.  Log in to the `mysql` container to query the `BILL_STATEMENTS` table.
+    Get the name of the `mysql`pod using`kubectl get pods`, as shown above.
+    Then login:
+
+<!-- Rolling my own to disable erroneous formating -->
+<div class="gatsby-highlight" data-language="bash">
+<pre class="language-bash"><code>$ docker exec -it mysql bash -l
+# mysql -u root -ppassword
+mysql&gt; select * from task.BILL_STATEMENTS;
+</code></pre></div>
+
+The output should look something like:
+
+| id  | first_name | last_name | minutes | data_usage | bill_amount |
+| --- | ---------- | --------- | ------- | ---------- | ----------- |
+| 1   | jane       | doe       | 500     | 1000       | 6.00        |
+| 2   | john       | doe       | 550     | 1500       | 7.00        |
+| 3   | melissa    | smith     | 600     | 1550       | 7.55        |
+| 4   | michael    | smith     | 650     | 1500       | 8.00        |
+| 5   | mary       | jones     | 700     | 1500       | 8.50        |
+
+#### Cleanup
+
+To stop and remove the mysql container running in the docker instance:
+
+1. Execute the following to get the container id.
+
+   ```bash
+   $ docker ps
+   ```
+
+   You should get a result that looks something like this:
+
+   ```bash
+   CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
+   c3ef4c769c33        mysql:5.7.25        "docker-entrypoint.s…"   6 days ago          Up 5 days           0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
+   ```
+
+1. Using the `CONTAINER ID` above remove the container by executing the command below:
+
+   ```bash
+   docker rm c3ef4c769c33
+   ```
 
 ### Cloud Foundry
 
