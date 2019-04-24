@@ -55,7 +55,8 @@ To debug your application using a debugger, add the following JVM argument when 
 By adding this parameter, your application will wait for a debugger to connect on port `5005` to start debugging.
 This can be any port you choose that is not already in use.
 
-Enabling DEBUG level logging can also be a useful aid. One package of interest is `org.springframework.integration`.
+Enabling DEBUG level logging can also be a useful aid.
+One package of interest is Spring Integration (SI): `org.springframework.integration`.
 To enable debug logging of this package, add the following JVM argument when starting your application, for example:
 
 `-Dlogging.level.org.springframework.integration=DEBUG`
@@ -156,7 +157,7 @@ graph TD;
     D --> |No| F(Enable SI logging for appropriate channels)
 ```
 
-If an application that runs locally, but fails when deployed to Cloud Foundry, first inspect the deployment manifest for correctness.
+If an application that runs locally, but fails when deployed to Cloud Foundry, first inspect the deployment manifest (manifest.yml) for correctness.
 This includes any environment variables that must be set, services to bind to and those services created.
 Inspect the application startup log for any exceptions to resolve.
 
