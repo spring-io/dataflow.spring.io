@@ -6,13 +6,13 @@ description: 'Register and Launch a Spring Cloud Task application using Data Flo
 
 # Deploy a Spring Cloud Task application using Data Flow
 
-In this section, we will demonstrate how to register a Spring Cloud Task application with Data Flow, create a task definiton, and deplot the task to Cloud Foundry, Kubernetes and your local machine.
+In this section, we will demonstrate how to register a Spring Cloud Task application with Data Flow, create a task definition, and launch the task on Cloud Foundry, Kubernetes and your local machine.
 
 ## Development
 
-For this guide, we will use the [simple task](batch-developer-guides/batch/simple-task) sample Spring Cloud Task application, called `billsetuptask`.
+For this guide, we will use the [simple task](/documentation/batch-developer-guides/batch/simple-task) sample Spring Cloud Task application, called `billsetuptask`.
 Follow the instructions to code and build the task if you have not done so already.
-We will register a task applicaton, create a simple task definition, and launch the task using the Data Flow Server.
+We will register a task application, create a simple task definition, and launch the task using the Data Flow Server.
 The Data Flow Server provides a comprehensive [API](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
 The Data Flow server includes a Data Flow Dashboard web UI client. In addition there is a [Data Flow Shell](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) CLI, available as separate download.
 The CLI and the UI both expose the complete API functionality.
@@ -20,7 +20,7 @@ Which one to use is a matter of preference, but the UI is quite nice so we will 
 
 ### The Data Flow Dashboard
 
-Assuming Data Flow is [installed](installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](/installation) to determing the base URL for your installation. If Data Flow is running on your local maching, go to http://localhost:9393/dashboard.
+Assuming Data Flow is [installed](installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
 
 ### Application Registration
 
@@ -38,12 +38,7 @@ Spring Cloud Task applications, as you might guess, are always registered as a `
 
 ##### Maven Artifacts
 
-The URI for a Maven artifact is of the form `maven://<groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>`.
-
-[[note | Application Metadata]]
-|The `classifier` and `extension` specifiers are optional for the Maven URI schema and normally not used for application artifacts.
-|The pre-built [stream](http://cloud.spring.io/spring-cloud-stream-app-starters/) and [task/batch](http://cloud.spring.io/spring-cloud-task-app-starters/) applications use a custom Maven plugin to extract the application metadata, including application property descriptors, into a separate jar file.
-|In this case, in addition to the executable application artifact, we register an additional metadata artifact using the `metadata` classifier.
+The URI for a Maven artifact is generally of the form `maven://<groupId>:<artifactId>:<version>`.
 
 The maven URI for the sample app is:
 
@@ -92,12 +87,14 @@ This will display the main `Tasks` view.
 ## Launch the Task
 
 ![Launch the task](images/SCDF-launch-task.png)
+
 Now we will launch the task by pressing the `play` button (that's the middle icon that looks like an arrow head pointing right).
 This will take you to a form where you can add command line arguments and deployment parameters, but we don't need any for this task.
 Press `Launch the task` and stand back!
 This will run the task on the Data Flow server's task platform and record a new task `execution`.
 When the execution is complete, the Status will turn to a satisfying green color and show `Complete.`
 Select the `Executions` tab to view a summary of executions for this task.
+
 ![Task executions](images/SCDF-task-executions.png)
 
 ### Local
