@@ -16,10 +16,10 @@ NOTE: All code for this project can be found [here](https://github.com/spring-cl
 
 Suppose a cell phone data provider needs to create billing statements for customers. The usage data is stored in JSON files that are stored on the file system. The billing solution must pull data from these files, generate the billing data from this usage data, and store it in a `BILLING_STATEMENTS` table.
 
-We could implement this entire solution into a single Spring Boot Application that utilizes Spring Batch, however for this example we will break up the solution into 2 phases:
+For this example we will break up the solution into 2 phases:
 
-1. _billsetuptask_ - will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table. While this is a very simple application, it does show the basic features of Spring Cloud Task.
-1. _billrun_ - will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
+1. _billsetuptask_: The _billsetuptask_ application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
+1. [billrun](/documentation/batch-developer-guides/batch/spring-batch): The [billrun](/documentation/batch-developer-guides/batch/spring-batch) application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
 
 For this section we will create a Spring Cloud Task/Boot application that will create the `BILL_STATEMENTS` table that will be used by the BillRun application.
 ![BILL_STATMENTS](images/bill_statements.png)
@@ -48,19 +48,20 @@ Another option instead of using the UI to initialize your project you can do the
 
 ### Setting up MySql
 
-1. If you don't have an instance of MySql installed available to you, you can follow these instructions to run a MySql docker image for this example.
+If you don't have an instance of MySql installed available to you, you can follow these instructions to run a MySql docker image for this example.
 
-   1. Pull the MySql docker image
+1. Pull the MySql docker image
 
-      ```bash
-      $ docker pull mysql:5.7.25
-      ```
+   ```bash
+   $ docker pull mysql:5.7.25
+   ```
 
-   2. Start the MySql
+2. Start the MySql
 
-      ```bash
-      $ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=task -d mysql:5.7.25
-      ```
+   ```bash
+   $ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
+   -e MYSQL_DATABASE=task -d mysql:5.7.25
+   ```
 
 ### Biz Logic
 
@@ -91,7 +92,7 @@ public class TaskConfiguration {
 }
 ```
 
-The `@EnableTask` annotation sets up a TaskRepository which stores information about the task execution such as the start and end time of the task and the exit code.
+The `@EnableTask` annotation sets up a `TaskRepository` which stores information about the task execution such as the start and end time of the task and the exit code.
 
 ### Testing
 
@@ -111,7 +112,7 @@ public class BillsetuptaskApplicationTests {
 		int result = jdbcTemplate.queryForObject(
 		"SELECT COUNT(*) FROM BILL_STATEMENTS", Integer.class);
 
-		assertThat(result).isEqualTo(0);
+		assertEquals(0, result);
 	}
 }
 ```
@@ -124,7 +125,7 @@ Deploy to local, Cloud Foundry and Kubernetes
 
 1. Now let’s take the next step of building the project.
    From a command line change directory to the location of your project and build the project using maven
-   `mvn clean package`
+   `./mvnw clean package`
 
 1. Now let’s execute the application with the configurations required to create the "BILL_STATEMENTS" table in the MySql database.
    To configure the execution of the billsetuptask application utilize the following arguments:
@@ -135,7 +136,7 @@ Deploy to local, Cloud Foundry and Kubernetes
    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver'
 
    ```bash
-   $ java -jar target/billsetuptask-1.0.0.BUILD-SNAPSHOT.jar \
+   $ java -jar target/billsetuptask--0.0.1-SNAPSHOT.jar \
    --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
    --spring.datasource.username=root \
    --spring.datasource.password=password \
@@ -155,9 +156,7 @@ Here is some of the information that is recorded by Spring Cloud Task:
 - ERROR_MESSAGE - The error message that was returned for the execution
 - EXTERNAL_EXECUTION_ID - An id to be associated with the task execution
 
-By default the `TASK_NAME` is "Bill Setup Task".
-
-NOTE: Our sample project is setting the task name in the application.properties file. By default Spring Cloud Task will set the task name to "application".
+By default the `TASK_NAME` is "application".
 
 Using the instructions below query the TASK_EXECUTION table:
 
@@ -179,7 +178,7 @@ The results will look something like this:
 Spring Cloud Task allows us to change this setting using the `spring.cloud.task.name`. To do this we will add that property to our next execution as follows:
 
 ```bash
-$ java -jar target/billsetuptask-1.0.0.BUILD-SNAPSHOT.jar \
+$ java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
 --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
 --spring.datasource.username=root \
 --spring.datasource.password=password \
@@ -193,24 +192,10 @@ Now when you query the table you will see that the last task execution in the qu
 
 To stop and remove the mysql container running in the docker instance:
 
-1. Execute the following to get the container id.
-
-   ```bash
-   $ docker ps
-   ```
-
-   You should get a result that looks something like this:
-
-   ```bash
-   CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
-   c3ef4c769c33        mysql:5.7.25        "docker-entrypoint.s…"   6 days ago          Up 5 days           0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
-   ```
-
-1. Using the `CONTAINER ID` above remove the container by executing the command below:
-
-   ```bash
-   docker rm c3ef4c769c33
-   ```
+```bash
+$ docker stop mysql
+$ docker rm mysql
+```
 
 ### Cloud Foundry
 
@@ -219,3 +204,7 @@ As Alana I must ask for an org/space
 ### Kubernetes
 
 Where all the cool kids play.
+
+## What's Next
+
+Congratulations you have just created and deployed a Spring Cloud Task application. Now lets go onto the [next section](/documentation/batch-developer-guides/batch/spring-batch) and create a Spring Batch Application.

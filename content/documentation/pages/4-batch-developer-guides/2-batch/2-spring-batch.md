@@ -18,14 +18,47 @@ Suppose a cell phone data provider needs to create billing statements for custom
 
 We could implement this entire solution into a single Spring Boot Application that utilizes Spring Batch, however for this example we will break up the solution into 2 phases:
 
-1. _billsetuptask_ - will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table. While this is a very simple application, it does show the basic features of Spring Cloud Task.
-1. _billrun_ - will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
+1. [billsetuptask](/documentation/batch-developer-guides/batch/simple-task): The [billsetuptask](/documentation/batch-developer-guides/batch/simple-task) application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
+1. _billrun_: The _billrun_ application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
 
-For this section we will create a Spring Cloud Task/Spring Batch bill run application that will read usage information from a json file containing customer usage data and price each entry and place the result into the `BILL_STATEMENTS` table.
+For this section we will create a Spring Cloud Task/Spring Batch billrun application that will read usage information from a json file containing customer usage data and price each entry and place the result into the `BILL_STATEMENTS` table.
 
 ![BILL_STATMENTS](images/bill_statements.png)
 
-This will be done using a single step batch job, `JsonItemReader`, `BillProcessor`, `JdbcBatchItemWriter`.
+### Intoducing Spring Batch
+
+In short Spring Batch is a lightweight, comprehensive batch framework designed to enable the development of robust batch applications. Spring Batch provides reusable functions that are essential in processing large volumes of records by offering features such as:
+
+- Logging/tracing
+- Chunk based processing
+- Declarative I/O
+- Start/Stop/Restart
+- Retry/Skip
+- Resource management
+
+It also provides more advanced technical services and features that will enable extremely high-volume and high performance batch jobs through optimization and partitioning techniques.
+
+For this guide we will focus on 5 Spring Batch components:
+
+![BILL_STATMENTS](images/spring-batch-reference-model.png)
+
+- Job: A `job` is an entity that encapsulates an entire batch process. A job is comprised of one or more `steps`.
+- Step: A `Step` is a domain object that encapsulates an independent, sequential phase of a batch job. Each `step` is comprised of a `ItemReader`, `ItemProcessor`, and a `ItemWriter`.
+- ItemReader: `ItemReader` is an abstraction that represents the retrieval of input for a Step, one item at a time.
+- ItemProcessor: `ItemProcessor` is an abstraction that represents the business processing of an item.
+- ItemWriter: `ItemWriter` is an abstraction that represents the output of a Step
+
+In the diagram above we see that each phase of the `JobExecution` is stored into a `JobRepository` (our MySql database). This means that each action performed by Spring Batch is recorded to a database for both logging purposes but also for restarting a job.
+
+NOTE: You can read more about this process [here](https://docs.spring.io/spring-batch/4.0.x/reference/html/domain.html#domainLanguageOfBatch).
+
+### Our Batch Job
+
+So for our application we will have a BillRun `Job` that will have one `Step` that will comprised of:
+
+- JsonItemReader: Is an `ItemReader` that will read a Json file containing the usage data.
+- BillProcessor: Is an `ItemProcessor` that will generate a price based on each row of data sent from the JsonItemReader.
+- JdbcBatchItemWriter: Is an `ItemWriter` that will write the priced Bill record to the `BILLING_STATEMENT` table.
 
 ### Initialzr
 
@@ -38,7 +71,7 @@ This will be done using a single step batch job, `JsonItemReader`, `BillProcesso
    1. We use H2 for unit testing.
 1. In the Dependencies text box, type `mysql` then select mysql dependency (or your favorite database).
    1. We use MySql for the runtime database.
-1. In the Dependencies text box, type Batch then select Batch.
+1. In the Dependencies text box, type `Batch` then select Batch.
 1. Click the Generate Project button.
 1. Unzip the billrun.zip file and import the project into your favorite IDE.
 
@@ -60,33 +93,35 @@ Another option instead of using the UI to initialize your project you can do the
 
    2. Start the MySql
 
-      ```bash
-      $ docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=password  -e MYSQL_DATABASE=task -d mysql:5.7.25
-      ```
+   ```bash
+   $ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
+   -e MYSQL_DATABASE=task -d mysql:5.7.25
+   ```
 
 ### Biz Logic
 
-1.  Using your IDE create a usageinfo.json file in the resources directory.
+1.  Using your IDE create a usageinfo.json file in the /src/main/resources directory.
 
     1. Copy the data from [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json) and insert it into the usageinfo.json file you just created.
 
-1.  Using your IDE create a schema.sql file in the resources directory.
+1.  Using your IDE create a schema.sql file in the /src/main/resources directory.
 
     1. Copy the data from [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql) and insert it into the schema.sql file you just created.
 
+1.  In your favorite IDE create the `io.spring.billrun.model` package
+1.  Create a `Usage` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Usage.java).
+
+1.  Create a `Bill` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Bill.java).
+
 1.  In your favorite IDE create the `io.spring.billrun.configuration` package
-1.  Create a `Usage` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Usage.java).
 
-1.  Create a `Bill` class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Bill.java).
-
-1.  Create a [BillProcessor](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  Now lets create our `ItemProcessor` for pricing each Usage record. Create a [BillProcessor](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```java
     public class BillProcessor implements ItemProcessor<Usage, Bill> {
 
       @Override
       public Bill process(Usage usage) {
-
          Double billAmount = usage.getDataUsage() * .001 + usage.getMinutes() * .01;
          return new Bill(usage.getId(), usage.getFirstName(), usage.getLastName(),
                usage.getDataUsage(), usage.getMinutes(), billAmount);
@@ -94,7 +129,10 @@ Another option instead of using the UI to initialize your project you can do the
     }
     ```
 
-1.  Create a [BillingConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+    Notice that we are implementing the `ItemProcessor` interface that has the `process` method that we need to override.
+    Our parameter is a Usage object and the return value is of type Bill.
+
+1.  Now we will create a Java configuration that will specify the beans required for the BillRun `Job`. In this case create a [BillingConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```java
     {/* highlight-range{2-3} */}
@@ -164,21 +202,23 @@ Another option instead of using the UI to initialize your project you can do the
     }
     ```
 
+    Before moving on let's look at our configuration a little bit.
     The `@EnableBatchProcessing` annotation enables Spring Batch features and provide a base configuration for setting up batch jobs.
     The `@EnableTask` annotation sets up a TaskRepository which stores information about the task execution such as the start and end time of the task and the exit code.
+    In the configuration above we see that our `ItemReader` bean is an instance of `JsonItemReader`. The `JsonItemReader` will read the contents of a resource and unmarshall the Json data into Usage objects. The `JsonItemReader` is one of the `ItemReader`s provided by Spring Batch.
+    We also see that our `ItemWriter` bean is an instance of `JdbcBatchItemWriter`. The `JdbcBatchItemWriter` will write the results to our database. The `JdbcBatchItemWriter` is one of the `ItemWriter`s provided by Spring Batch.
+    And the `ItemProcessor` is our very own `BillProcessor`. To make life easier notice that all the beans that use Spring Batch provided classes (`Job`, `Step`, `ItemReader`, `ItemWriter`) are being built using builders provided by Spring Batch.
 
 ### Testing
 
-Now let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
+Now that we have written our code, its time to write our test. In this case we want to make sure that the bill information has been properly inserted into the `BILLING_STATEMENTS` table.
+Let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
 
 ```java
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @SpringBatchTest
 public class BillrunApplicationTests {
-
-	@Autowired
-	private JobLauncherTestUtils jobLauncherTestUtils;
 
 	@Autowired
 	private DataSource dataSource;
@@ -191,52 +231,32 @@ public class BillrunApplicationTests {
 	}
 
 	@Test
-	public void testJobResults() throws Exception{
+	public void testJobResults() {
 		testResult();
 	}
 
-
 	private void testResult() {
-		List<BillStatement> billStatements = this.jdbcTemplate.query("select ID, " +
-				"first_name, last_name, minutes, data_usage, bill_amount FROM " +
-				"bill_statements",
-				(rs, rowNum) -> new BillStatement(rs.getLong("id"),
+		List<Bill> billStatements = this.jdbcTemplate.query("select id, " +
+						"first_name, last_name, minutes, data_usage, bill_amount " +
+						"FROM bill_statements ORDER BY id",
+				(rs, rowNum) -> new Bill(rs.getLong("id"),
 						rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"),
-						rs.getLong("MINUTES"), rs.getLong("DATA_USAGE"),
+						rs.getLong("DATA_USAGE"), rs.getLong("MINUTES"),
 						rs.getDouble("bill_amount")));
-		assertThat(billStatements.size()).isEqualTo(5);
 
-		BillStatement billStatement = billStatements.get(0);
-		assertThat(billStatement.getBillAmount()).isEqualTo(6);
-		assertThat(billStatement.getFirstName()).isEqualTo("jane");
-		assertThat(billStatement.getLastName()).isEqualTo("doe");
-		assertThat(billStatement.getId()).isEqualTo(1);
-		assertThat(billStatement.getMinutes()).isEqualTo(500);
-		assertThat(billStatement.getDataUsage()).isEqualTo(1000);
-
+		assertEquals(5, billStatements.size());
+		Bill billStatement = billStatements.get(0);
+		assertEquals(6, billStatement.getBillAmount(), 1e-15);
+		assertEquals("jane", billStatement.getFirstName());
+		assertEquals("doe", billStatement.getLastName());
+		assertEquals(new Long(1), billStatement.getId());
+		assertEquals(new Long(500), billStatement.getMinutes());
+		assertEquals(new Long(1000), billStatement.getDataUsage());
 	}
-
-	public static class BillStatement extends Usage {
-
-		public BillStatement(Long id, String firstName, String lastName, Long minutes, Long dataUsage, double billAmount) {
-			super(id, firstName, lastName, minutes, dataUsage);
-			this.billAmount = billAmount;
-		}
-
-		private double billAmount;
-
-		public double getBillAmount() {
-			return billAmount;
-		}
-
-		public void setBillAmount(double billAmount) {
-			this.billAmount = billAmount;
-		}
-	}
-
 }
-
 ```
+
+For this test we will use `JdbcTemplate` to execute a query to retrieve the results of the billrun. Once the query has been executed we verify that the data in the table is what we expect.
 
 ## Deployment
 
@@ -246,7 +266,7 @@ Deploy to local, Cloud Foundry and Kubernetes
 
 1.  Now let’s take the next step of building the project.
     From a command line change directory to the location of your project and build the project using maven:
-    `mvn clean package`.
+    `./mvnw clean package`.
 
 2.  Now let’s execute the application with the configurations required to process the usage information in the database.
 
@@ -255,12 +275,12 @@ Deploy to local, Cloud Foundry and Kubernetes
     1. _spring.datasource.url_ - set the URL to your database instance. In the sample below we are connecting to a mysql `task` database on our local machine at port 3306.
     1. _spring.datasource.username_ - the user name to be used for the MySql database. In the sample below it is `root`
     1. _spring.datasource.password_ - the password to be used for the MySql database. In the sample below it is `password`
-    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver'
+    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver`
     1. _spring.datasource.initialization-mode_ - initializes the database with the BILL_STATEMENTS and BILL_USAGE tables required for this app. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
     1. _spring.batch.initialize-schema_ - initializes the database with the tables required for Spring Batch. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
 
     ```bash
-    $ java -jar target/billrun-1.0.0.BUILD-SNAPSHOT.jar \
+    $ java -jar target/billrun-0.0.1-SNAPSHOT.jar \
     --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
     --spring.datasource.username=root \
     --spring.datasource.password=password \
@@ -270,8 +290,6 @@ Deploy to local, Cloud Foundry and Kubernetes
     ```
 
 3.  Log in to the `mysql` container to query the `BILL_STATEMENTS` table.
-    Get the name of the `mysql`pod using`kubectl get pods`, as shown above.
-    Then login:
 
 <!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
@@ -294,24 +312,10 @@ The output should look something like:
 
 To stop and remove the mysql container running in the docker instance:
 
-1. Execute the following to get the container id.
-
-   ```bash
-   $ docker ps
-   ```
-
-   You should get a result that looks something like this:
-
-   ```bash
-   CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
-   c3ef4c769c33        mysql:5.7.25        "docker-entrypoint.s…"   6 days ago          Up 5 days           0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
-   ```
-
-1. Using the `CONTAINER ID` above remove the container by executing the command below:
-
-   ```bash
-   docker rm c3ef4c769c33
-   ```
+```bash
+$ docker stop mysql
+$ docker rm mysql
+```
 
 ### Cloud Foundry
 
