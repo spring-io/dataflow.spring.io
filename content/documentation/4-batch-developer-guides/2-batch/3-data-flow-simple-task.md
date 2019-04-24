@@ -40,15 +40,10 @@ Spring Cloud Task applications, as you might guess, are always registered as a `
 
 The URI for a Maven artifact is of the form `maven://<groupId>:<artifactId>[:<extension>[:<classifier>]]:<version>`.
 
----
-
-**NOTE**
-
-`classifier` is optional.
-The pre-built [stream](http://cloud.spring.io/spring-cloud-stream-app-starters/) and [task/batch](http://cloud.spring.io/spring-cloud-task-app-starters/) applications package application metadata, including property descriptions,in a separate jar file.
-In this case, it is common to see the `metadata` classifier to indicate the artifact containing only the metadata.
-
----
+[[note | Application Metadata]]
+|The `classifier` and `extension` specifiers are optional for the Maven URI schema and normally not used for application artifacts.
+|The pre-built [stream](http://cloud.spring.io/spring-cloud-stream-app-starters/) and [task/batch](http://cloud.spring.io/spring-cloud-task-app-starters/) applications use a custom Maven plugin to extract the application metadata, including application property descriptors, into a separate jar file.
+|In this case, in addition to the executable application artifact, we register an additional metadata artifact using the `metadata` classifier.
 
 The maven URI for the sample app is:
 
