@@ -60,6 +60,13 @@ module.exports = {
       options: {
         plugins: [
           {
+            resolve: 'gatsby-transformer-remark',
+            options: {
+              strategy: 'img',
+              plugins: ['gatsby-remark-draw', 'gatsby-remark-mermaid'],
+            },
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               sizeByPixelDensity: true,

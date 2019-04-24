@@ -20,6 +20,11 @@ yarn install        # Install dependencies
 yarn lint           # Linter
 yarn fix            # Fix linting errors
 
+# Plugins
+yarn add gatsby-remark-draw
+yarn add gatsby-remark-mermaid
+yarn add gatsby-transformer-remark
+
 # Dev
 yarn start          # Run dev
 
