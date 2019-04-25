@@ -18,6 +18,8 @@ exports.onClientEntry = () => {
         link.setAttribute('download', fileName)
         link.setAttribute('target', '_blank')
         link.setAttribute('href', URL.createObjectURL(blob))
+        link.style.position = 'absolute'
+        link.style.left = '-9999px'
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)

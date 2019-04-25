@@ -132,6 +132,7 @@ const plugins = [
             },
           },
         },
+        `spring-remark-code`,
       ],
     },
   },

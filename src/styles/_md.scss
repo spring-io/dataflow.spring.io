@@ -136,8 +136,37 @@
     font-style: italic;
   }
 
+  .spring-code {
+    margin: $spring-8points 0 $spring-8points * 2;
+    border: 1px solid #dddddd;
+    position: relative;
+    .button-clipboard {
+      position: absolute;
+      right: 4px;
+      opacity: 0;
+      top: 4px;
+      padding: 0 $spring-8points;
+      height: 28px;
+      line-height: 24px;
+      font-size: $spring-font-size-sm - 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+      border: 0 none;
+      background: darken($spring-gray-color, 5);
+      @include transition(opacity $spring-transition-duration);
+    }
+    &:hover {
+      .button-clipboard {
+        opacity: 0.6;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   .gatsby-highlight {
-    padding: $spring-8points 0 $spring-8points * 2;
+    // padding: $spring-8points 0 $spring-8points * 2;
     pre[class*='language-'] {
       margin: 0;
       padding: $spring-8points * 2;
