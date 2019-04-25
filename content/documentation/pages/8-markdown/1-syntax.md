@@ -189,6 +189,10 @@ Callout with a title and paragraphs:
 [[tip]]
 | Lorem ipsum dolor sit amet, consectetur **%foo%** adipiscing
 
+### Force download github files
+
+**Usage:** with a title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=download sql file`, with the default title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
+
 ## Embeded
 
 ### Code

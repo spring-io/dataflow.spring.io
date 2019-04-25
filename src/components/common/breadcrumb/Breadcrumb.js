@@ -5,7 +5,6 @@ import { Link } from 'gatsby'
 import { IconChevronRight } from './../icons'
 
 const Breadcrumb = ({ pages }) => {
-  console.log(pages)
   return (
     <>
       {pages.length > 1 && (

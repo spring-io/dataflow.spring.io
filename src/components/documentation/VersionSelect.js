@@ -20,7 +20,6 @@ class VersionSelect extends React.Component {
 
   handleClickOutside = event => {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      console.log('ici')
       this.setState({ menu: false })
     }
   }

@@ -49,6 +49,7 @@ const plugins = [
     resolve: `gatsby-transformer-remark`,
     options: {
       plugins: [
+        `spring-remark-download`,
         {
           resolve: `gatsby-remark-images`,
           options: {

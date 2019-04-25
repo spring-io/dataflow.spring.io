@@ -36,9 +36,6 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
   const getNode = (edge, value) => {
     return edge.edges.find(({ node }) => get(node, 'fields.path') === value)
   }
-
-  console.log(`/documentation/${get(page, 'fields.version')}/`)
-
   while (url !== `/documentation/${get(page, 'fields.version')}/`) {
     result.push(getNodeFormatted(arr, get(getNode(arr, url), 'node')))
     url = path.join(path.dirname(url), '/')
