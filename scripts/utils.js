@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import execa from 'execa'
 
 export const main = async (name, cmd) => {
   log(`Running ${name} script`)
@@ -19,3 +20,15 @@ export const fail = (...args) => {
 }
 export const success = (...args) => console.log(chalk.green('success'), ...args)
 export const execaOptions = { reject: false }
+
+export const cleanDir = dir => {
+  // log('Cleaning', EXTERNAL_FILES_DIR)
+  const { failed } = execa.sync('rm', ['-rf', dir], execaOptions)
+  if (failed) throw new Error(`Couldn't clean ${dir}`)
+}
+
+export const createDir = dir => {
+  // log('Creating', dir)
+  const { failed } = execa.sync('mkdir', ['-p', dir], execaOptions)
+  if (failed) throw new Error(`Couldn't create ${dir}`)
+}

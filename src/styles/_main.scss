@@ -14,7 +14,7 @@ body {
   position: relative;
   cursor: auto;
   line-height: 1.6em;
-  //border-left: 4px solid $spring-primary-color;
+  border-top: 4px solid $spring-primary-color;
   height: 100%;
   background-color: $spring-background;
   min-width: 800px;
@@ -26,6 +26,7 @@ body {
   background: $spring-gray-color;
   padding: 32px 0;
   line-height: $spring-8points * 4;
+  border-bottom: 1px solid darken($spring-gray-color, 5);
   h1.logo {
     margin: 0;
     padding: 0;
@@ -53,6 +54,7 @@ body {
       top: -6px;
       left: 0;
       width: 50px;
+      color: $spring-primary-color;
     }
   }
 }
@@ -65,6 +67,7 @@ body {
   color: $spring-dark-color;
   font-size: $spring-font-size-sm;
   font-size: $spring-font-size;
+  border-top: 1px solid darken($spring-gray-color, 5);
 
   .copyright {
     font-size: $spring-font-size-sm;
@@ -98,6 +101,7 @@ body {
       top: 8px;
       left: 0;
       width: 60px;
+      color: $spring-primary-color;
     }
   }
 
@@ -146,9 +150,9 @@ body {
 // Container
 
 .container {
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 42px;
 }
 
 .layout-basic {
@@ -285,15 +289,15 @@ body {
 .layout-sidebars {
   display: flex;
   flex-direction: row;
-  padding: ($spring-8points * 6) 0;
+  padding: ($spring-8points * 5) 0;
 
   .sidebar,
   .sidebar-toc {
-    width: 20%;
+    width: 19%;
     float: left;
   }
   .main {
-    width: 60%;
+    width: 62%;
     float: left;
     position: relative;
   }
@@ -314,6 +318,8 @@ body {
     background: $spring-gray-color;
     padding: $spring-8points * 2 $spring-8points * 3;
     margin: 0;
+    // border: 1px solid darken($spring-gray-color, 5);
+    // border-radius: $spring-radius;
     a {
       display: block;
     }
@@ -331,8 +337,9 @@ body {
 
 .sidebar {
   .box {
-    padding: 0;
+    padding: $spring-8points * 1.5 $spring-8points;
     margin: 0;
+    margin-top: $spring-8points * 2;
     font-size: $spring-font-size - 1;
     ul {
       list-style: none;
@@ -340,8 +347,8 @@ body {
       margin: 0;
     }
     li.level0 {
-      padding: $spring-8points * 2;
-      border-bottom: 4px solid $spring-background;
+      padding: $spring-8points/2 $spring-8points * 2;
+      //border-bottom: 4px solid $spring-background;
     }
     a {
       color: $spring-color;
@@ -436,7 +443,7 @@ body {
 
 .summary.md {
   border: 4px solid #f0f0f0;
-  padding: $spring-8points * 2 $spring-8points * 4;
+  padding: $spring-8points * 2 $spring-8points * 2;
   border-radius: 8px;
   margin: $spring-8points * 3 0;
   max-width: 600px;
@@ -456,15 +463,23 @@ body {
       padding-left: 10px;
     }
   }
+  li {
+    padding: 0;
+    margin: 0;
+  }
   a {
     display: block;
-    padding: 5px;
+    padding: $spring-8points $spring-8points * 2;
+    @include transition(all $spring-transition-duration);
     .description {
       color: $spring-color;
       text-decoration: none;
+      // font-size: $spring-font-size-sm;
+      // color: $spring-dark-color;
     }
     &:hover {
       text-decoration: none;
+      // background: $spring-gray-color;
       .title {
         text-decoration: underline;
       }
@@ -477,21 +492,26 @@ body {
     border: 0 none;
     padding: 0;
     li.level0 {
-      background: #f0f0f0;
+      background: white;
+      border: 1px solid darken($spring-gray-color, 5);
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
       margin-bottom: 20px;
       padding: 0;
-      padding: 2px;
       a.level0 {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        background: $spring-gray-color;
+        border-bottom: 1px solid darken($spring-gray-color, 5);
         .title {
-          padding: 4px 0 8px 10px;
+          padding: 4px 0 4px 10px;
+          background: $spring-gray-color;
         }
       }
     }
     ul.level1 {
       background: white;
-      padding: 10px 20px;
+      padding: 12px 20px;
       margin: 0;
     }
   }
@@ -536,17 +556,18 @@ button.button {
 // Breadcrumb
 
 .breadcrumb {
-  padding: $spring-8points 0;
+  padding: 0 0 $spring-8points * 2;
   color: $spring-dark-color;
+  font-size: $spring-font-size-sm;
   .separator {
     position: relative;
-    margin: 0 15px;
+    margin: 0 8px;
     color: #ddd;
     svg {
       position: absolute;
       top: 2px;
-      left: -5px;
-      width: 10px;
+      left: -6px;
+      width: 8px;
     }
   }
 }
@@ -590,6 +611,26 @@ button.button {
       transform: scale(1.01);
       background: white;
       box-shadow: 0 2px 6px 0 rgba($spring-color, 0.2);
+    }
+  }
+}
+
+// Button ScrollUp
+
+.button-scroll-up {
+  position: relative;
+  background: $spring-gray-color;
+  svg {
+    color: $spring-color;
+    width: 22px;
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    @include transition(all $spring-transition-duration);
+  }
+  &:hover {
+    svg {
+      color: $spring-primary-color;
     }
   }
 }

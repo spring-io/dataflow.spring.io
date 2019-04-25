@@ -3,5 +3,6 @@
 node_modules/
 yarn-error.log
 
+data/
 public/
-content/files/
+content/documentation/files/

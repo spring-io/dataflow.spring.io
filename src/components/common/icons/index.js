@@ -1,2 +1,7 @@
-export { IconChevronLeft, IconChevronRight } from './IconChevron'
+export {
+  IconChevronLeft,
+  IconChevronRight,
+  IconChevronUp,
+  IconChevronDown,
+} from './IconChevron'
 export { IconSearch } from './IconSearch'

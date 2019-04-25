@@ -9,6 +9,8 @@ import { Seo } from '../components/common/seo'
 class DocumentationPage extends React.Component {
   render() {
     const edges = this.props.data.pages
+
+    console.log(edges)
     const pages = [
       {
         id: 'get-started',
@@ -85,7 +87,13 @@ class DocumentationPage extends React.Component {
 export const articleQuery = graphql`
   query {
     pages: allMarkdownRemark(
-      filter: { fields: { hash: { eq: "documentation" }, root: { eq: true } } }
+      filter: {
+        fields: {
+          hash: { eq: "documentation" }
+          root: { eq: true }
+          version: { eq: "master" }
+        }
+      }
       sort: { fields: fields___slug, order: ASC }
     ) {
       edges {
@@ -93,6 +101,7 @@ export const articleQuery = graphql`
           id
           fields {
             path
+            version
           }
           frontmatter {
             title

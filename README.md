@@ -20,11 +20,6 @@ yarn install        # Install dependencies
 yarn lint           # Linter
 yarn fix            # Fix linting errors
 
-# Plugins
-yarn add gatsby-remark-draw
-yarn add gatsby-remark-mermaid
-yarn add gatsby-transformer-remark
-
 # Dev
 yarn start          # Run dev
 
@@ -32,3 +27,23 @@ yarn start          # Run dev
 yarn build          # Run dev
 yarn serve          # Serve the prod build
 ```
+
+## Configure
+
+### Algolia
+
+```bash
+export ALGOLIA_ADMIN_KEY=<KEY>
+```
+
+## Documentation
+
+Features:
+
+- Markdown syntax
+- Download and embed external files
+- Versioning
+
+[Read more](/doc/help)
+
+### Versioning

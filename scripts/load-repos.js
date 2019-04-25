@@ -1,26 +1,56 @@
-import { fail, main } from './utils'
+import execa from 'execa'
+import path from 'path'
 
-main('load-repos', () => fail('work in progress'))
+import versions from '../content/versions.json'
+import { cleanDir, createDir, execaOptions, info, log, main } from './utils'
 
-// TODO:
-// load_data() {
-//   local repos=( spring-cloud/spring-cloud-dataflow )
-//   clean_data_dir
-//
-//   local versions=$(cat versions)
-//
-//   for repo in $repos; do
-//     for version in $versions; do
-//       load_git $repo $version
-//     done
-//
-//   done
-// }
-//
-// load_git() {
-//   local repo=$1 version=$2
-//   local path="./data/$repo/$version/"
-//   mkdir -p "$path"
-//   curl -Ls "https://github.com/$repo/archive/$version.tar.gz" | tar -xzf - -C "$path" --strip-components=2
-// }
-//
+const DATA_DIR = path.join(__dirname, '../data')
+const REPO = 'oodamien/dataflow.io'
+const ANAME = 'dataflow.io'
+const AEXT = '.tar.gz'
+const url = version => `https://github.com/${REPO}/archive/${version}${AEXT}`
+// https://github.com/oodamien/dataflow.io/archive/1.0.1.tar.gz
+const loadRepos = async () => {
+  info('Loading')
+  cleanDir(DATA_DIR)
+  createDir(DATA_DIR)
+  const uniqueVersions = [...new Set(Object.values(versions))]
+  for (let version of uniqueVersions) {
+    if (version === 'master') {
+      info(`Skipping master`)
+      continue
+    }
+    info(`Loading version ${version}`)
+    const archive = path.join(DATA_DIR, `${version}${AEXT}`)
+    downloadVersion(url(version), archive)
+    extractVersion(archive, version)
+    cleanDir(archive)
+  }
+}
+
+const downloadVersion = (url, dest) => {
+  log('Downloading', url, 'to', dest)
+  const { failed } = execa.sync('curl', ['-fLs', url, '-o', dest], execaOptions)
+  if (failed) throw new Error(`Couldn't download ${url} to ${dest}`)
+}
+
+const extractVersion = (file, version) => {
+  log('Extracting', file)
+  const dest = `${DATA_DIR}/${version}`
+  createDir(dest)
+  const { failed } = execa.sync(
+    'tar',
+    [
+      '-C',
+      dest,
+      '--strip-components=3',
+      '-xvzf',
+      file,
+      `${ANAME}-${version}/content/documentation`,
+    ],
+    execaOptions
+  )
+  if (failed) throw new Error(`Couldn't extract ${file}`)
+}
+
+main('load-repos', loadRepos)

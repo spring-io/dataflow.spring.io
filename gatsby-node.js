@@ -2,6 +2,7 @@ const path = require('path')
 const get = require('lodash.get')
 const startsWith = require('lodash.startswith')
 const { createFilePath } = require('gatsby-source-filesystem')
+const versions = require('./content/versions.json')
 
 /**
  * Create Pages
@@ -9,6 +10,22 @@ const { createFilePath } = require('gatsby-source-filesystem')
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   const queryPromises = []
+  queryPromises.push(
+    new Promise((resolve, reject) => {
+      for (let [label, version] of Object.entries(versions)) {
+        const VersionTemplate = path.resolve(`./src/templates/version.js`)
+        createPage({
+          path: `/documentation/${version}/`,
+          component: VersionTemplate,
+          context: {
+            version: version,
+            versionPath: `/documentation/${version}/`,
+          },
+        })
+      }
+      return resolve()
+    })
+  )
 
   queryPromises.push(
     new Promise((resolve, reject) => {
@@ -23,6 +40,7 @@ exports.createPages = ({ graphql, actions }) => {
                 id
                 fields {
                   path
+                  version
                 }
               }
             }
@@ -32,7 +50,7 @@ exports.createPages = ({ graphql, actions }) => {
         if (result.errors) {
           return reject(result.errors)
         }
-        return result.data.pages.edges.forEach(({ node }) => {
+        result.data.pages.edges.forEach(({ node }) => {
           const DocumentationTemplate = path.resolve(
             `./src/templates/documentation.js`
           )
@@ -41,10 +59,11 @@ exports.createPages = ({ graphql, actions }) => {
             component: DocumentationTemplate,
             context: {
               slug: node.fields.path,
+              version: node.fields.version,
             },
           })
-          return resolve()
         })
+        return resolve()
       })
     })
   )
@@ -60,17 +79,16 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
   if (get(node, 'internal.type') === `MarkdownRemark`) {
     const frontmatterPath = get(node, 'frontmatter.path')
     const slug = createFilePath({ node, getNode, basePath: `pages` })
-    const relativePath = path.relative(
-      path.join(__dirname, 'content'),
-      node.fileAbsolutePath
-    )
-    if (startsWith(relativePath, 'documentation/')) {
+    const relativePath = path.relative(__dirname, node.fileAbsolutePath)
+    const version = relativePath.split('/')[1]
+
+    if (startsWith(relativePath, 'data/')) {
       const category = frontmatterPath
         .split('/')
         .slice(0, 1)
         .join('')
       const isRoot = frontmatterPath.split('/').length === 2
-      const url = `/documentation/${frontmatterPath}`
+      const url = `/documentation/${version}/${frontmatterPath}`
       createNodeField({
         node,
         name: `hash`,
@@ -80,6 +98,11 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
         node,
         name: `category`,
         value: category,
+      })
+      createNodeField({
+        node,
+        name: `version`,
+        value: version,
       })
       createNodeField({
         node,

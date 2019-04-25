@@ -4,30 +4,33 @@ import { Link } from 'gatsby'
 
 import { IconChevronRight } from './../icons'
 
-const Breadcrumb = ({ pages }) => (
-  <>
-    {pages.length > 1 && (
-      <div className='breadcrumb'>
-        {pages.map((page, index) => (
-          <span key={`${index}index`}>
-            {pages.length === index + 1 ? (
-              <span key={`s${page.path}${index}`}>{page.title}</span>
-            ) : (
-              <span key={`s2${page.path}${index}`}>
-                <Link to={page.path} key={`a${page.path}${index}`}>
-                  {page.title}
-                </Link>
-                <span className='separator'>
-                  <IconChevronRight />
+const Breadcrumb = ({ pages }) => {
+  console.log(pages)
+  return (
+    <>
+      {pages.length > 1 && (
+        <div>
+          {pages.map((page, index) => (
+            <span key={`${index}index`}>
+              {pages.length === index + 1 ? (
+                <span key={`s${page.path}${index}`}>{page.title}</span>
+              ) : (
+                <span key={`s2${page.path}${index}`}>
+                  <Link to={page.path} key={`a${page.path}${index}`}>
+                    {page.title}{' '}
+                  </Link>
+                  <span className='separator'>
+                    <IconChevronRight />
+                  </span>
                 </span>
-              </span>
-            )}
-          </span>
-        ))}
-      </div>
-    )}
-  </>
-)
+              )}
+            </span>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
 
 Breadcrumb.propTypes = {
   pages: PropTypes.arrayOf(

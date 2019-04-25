@@ -37,10 +37,23 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     return edge.edges.find(({ node }) => get(node, 'fields.path') === value)
   }
 
-  while (url !== '/documentation/') {
+  console.log(`/documentation/${get(page, 'fields.version')}/`)
+
+  while (url !== `/documentation/${get(page, 'fields.version')}/`) {
     result.push(getNodeFormatted(arr, get(getNode(arr, url), 'node')))
     url = path.join(path.dirname(url), '/')
   }
+  result.push({
+    title: get(page, 'fields.version'),
+    path: `/documentation/${get(page, 'fields.version')}`,
+    description: '',
+    meta: {
+      title: 'Spring Cloud Data Flow Documentation',
+      description: 'Spring Cloud Data Flow Documentation',
+      keywords: [],
+    },
+  })
+
   result.push({
     title: 'Documentation',
     path: '/documentation',
@@ -77,6 +90,9 @@ getBreadcrumb.proptypes = {
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       description: PropTypes.string,
+    }).isRequired,
+    fields: PropTypes.shape({
+      version: PropTypes.string.isRequired,
     }).isRequired,
   }),
 }
@@ -289,4 +305,16 @@ getMeta.proptypes = {
       title: PropTypes.string.isRequired,
     }).isRequired,
   }),
+}
+
+export const getVersions = function getMeta(arr) {
+  return Object.entries(arr).map(([key, value]) => ({
+    key: value,
+    title: key === 'latest' ? ` ${value} (latest)` : value,
+    path: `/documentation/${value}`,
+  }))
+}
+
+getMeta.proptypes = {
+  arr: PropTypes.arrayOf(PropTypes.object).isRequired,
 }

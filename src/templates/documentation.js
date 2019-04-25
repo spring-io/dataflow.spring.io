@@ -2,12 +2,14 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import classNames from 'classnames'
 import get from 'lodash.get'
-import { graphql } from 'gatsby'
+import { graphql, navigate } from 'gatsby'
 
+import versions from './../../content/versions.json'
 import {
   Breadcrumb,
   Layout,
   PrevNext,
+  ScrollUpButton,
   Seo,
   SidebarNav,
   Toc,
@@ -15,14 +17,21 @@ import {
 import {
   SummaryNav,
   SummaryTile,
+  VersionSelect,
   getBreadcrumb,
   getMeta,
   getPrevNext,
   getSummaryType,
   getTree,
+  getVersions,
 } from '../components/documentation'
 
 class DocumentationTemplate extends React.Component {
+  changeVersion = event => {
+    // event.target.value
+    navigate(`/documentation/${event.target.value}/`)
+  }
+
   render() {
     const { page, pages } = this.props.data
     const options = {
@@ -55,6 +64,8 @@ class DocumentationTemplate extends React.Component {
       summaryType = getSummaryType(pages, page)
     }
 
+    const optionVersions = getVersions(versions)
+
     return (
       <Layout>
         <Seo
@@ -62,6 +73,7 @@ class DocumentationTemplate extends React.Component {
           description={meta.description}
           keywords={meta.keywords}
         />
+        <ScrollUpButton />
         <div className='container'>
           <div
             className={classNames(
@@ -71,6 +83,10 @@ class DocumentationTemplate extends React.Component {
           >
             <div className='sidebar'>
               <div className='sticky'>
+                <VersionSelect
+                  versions={optionVersions}
+                  version={this.props.data.page.fields.version}
+                />
                 <div className='box'>
                   <SidebarNav tree={tree} />
                 </div>
@@ -136,9 +152,11 @@ DocumentationTemplate.propTypes = {
 }
 
 export const articleQuery = graphql`
-  query($slug: String) {
+  query($slug: String, $version: String) {
     pages: allMarkdownRemark(
-      filter: { fields: { hash: { eq: "documentation" } } }
+      filter: {
+        fields: { hash: { eq: "documentation" }, version: { eq: $version } }
+      }
       sort: { fields: fields___slug, order: ASC }
     ) {
       edges {
@@ -146,6 +164,7 @@ export const articleQuery = graphql`
           id
           fields {
             path
+            version
           }
           frontmatter {
             title
@@ -166,6 +185,7 @@ export const articleQuery = graphql`
       }
       fields {
         path
+        version
       }
       frontmatter {
         title

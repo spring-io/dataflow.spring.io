@@ -17,11 +17,11 @@ const NavigationLink = props => (
 
 class Navigation extends React.Component {
   state = {
-    search: true,
+    search: false,
   }
 
   toggleSearch = () => {
-    //this.setState({ search: !this.state.search })
+    this.setState({ search: !this.state.search })
   }
 
   render() {

@@ -5,6 +5,7 @@
   "author": "Spring Team",
   "keywords": [
     "gatsby",
+    "algolia",
     "dataflow",
     "website"
   ],
@@ -18,16 +19,17 @@
   },
   "scripts": {
     "clean": "rimraf .cache",
-    "prestart": "yarn run clean && yarn run external-files",
+    "prestart": "yarn run clean && yarn run load-repos && yarn run link-master && yarn run external-files",
     "start": "gatsby develop",
-    "prebuild": "yarn run clean && yarn run lint && yarn run external-files && yarn run test",
+    "prebuild": "yarn run clean && yarn run lint && yarn run load-repos && yarn run link-master && yarn run external-files && yarn run test",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "fix": "NODE_ENV=test import-sort --write '(src|utils|plugins)/**/*.js' && eslint . --fix && prettier --write '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "lint": "NODE_ENV=test import-sort -l '(src|utils|plugins)/**/*.js' && eslint . && prettier --check '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "test": "echo TODO",
     "external-files": "babel-node --no-babelrc --presets @babel/env ./scripts/external-files.js",
-    "load-repos": "babel-node --no-babelrc --presets @babel/env ./scripts/load-repos.js"
+    "load-repos": "babel-node --no-babelrc --presets @babel/env ./scripts/load-repos.js",
+    "link-master": "babel-node --no-babelrc --presets @babel/env ./scripts/link-master.js"
   },
   "browserslist": [
     ">0.25%",
@@ -91,9 +93,12 @@
     ]
   },
   "dependencies": {
+    "algolia-html-extractor": "^0.0.1",
+    "algoliasearch": "^3.32.1",
     "classnames": "^2.2.6",
     "gatsby": "^2.3.21",
     "gatsby-image": "^2.0.34",
+    "gatsby-plugin-algolia": "^0.3.0",
     "gatsby-plugin-catch-links": "^2.0.13",
     "gatsby-plugin-manifest": "^2.0.24",
     "gatsby-plugin-prefetch-google-fonts": "^1.4.0",
@@ -118,7 +123,7 @@
     "gatsby-remark-prismjs": "^3.2.6",
     "gatsby-remark-responsive-iframe": "^2.1.1",
     "gatsby-source-filesystem": "^2.0.27",
-    "gatsby-transformer-remark": "^2.3.10",
+    "gatsby-transformer-remark": "^2.3.8",
     "gatsby-transformer-sharp": "^2.1.17",
     "lodash.endswith": "^4.2.1",
     "lodash.get": "^4.4.2",
@@ -134,6 +139,7 @@
     "react-helmet": "^5.2.0",
     "react-instantsearch-dom": "^5.4.0",
     "react-markdown": "^4.0.6",
+    "react-scroll-up-button": "^1.6.4",
     "tocbot": "^4.5.1"
   },
   "devDependencies": {
