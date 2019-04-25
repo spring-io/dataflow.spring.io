@@ -59,13 +59,8 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
-          {
-            resolve: 'gatsby-transformer-remark',
-            options: {
-              strategy: 'img',
-              plugins: ['gatsby-remark-draw', 'gatsby-remark-mermaid'],
-            },
-          },
+          'gatsby-remark-draw',
+          'gatsby-remark-mermaid',
           {
             resolve: `gatsby-remark-images`,
             options: {
