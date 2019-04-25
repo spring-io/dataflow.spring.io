@@ -137,7 +137,7 @@ Deploy to local, Cloud Foundry and Kubernetes
    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver'
 
    ```bash
-   $ java -jar target/billsetuptask--0.0.1-SNAPSHOT.jar \
+   $ java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
    --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
    --spring.datasource.username=root \
    --spring.datasource.password=password \
@@ -161,7 +161,6 @@ By default the `TASK_NAME` is "application".
 
 Using the instructions below query the TASK_EXECUTION table:
 
-<!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
 <pre class="language-bash"><code>$ docker exec -it mysql bash -l
 # mysql -u root -ppassword

@@ -100,18 +100,14 @@ Another option instead of using the UI to initialize your project you can do the
 
 ### Biz Logic
 
-1.  Using your IDE create a usageinfo.json file in the /src/main/resources directory.
+1.  Download the `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy it to the /src/main/resources directory.
 
-    1. Copy the data from [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json) and insert it into the usageinfo.json file you just created.
-
-1.  Using your IDE create a schema.sql file in the /src/main/resources directory.
-
-    1. Copy the data from [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql) and insert it into the schema.sql file you just created.
+1.  Download the `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy it to the /src/main/resources directory.
 
 1.  In your favorite IDE create the `io.spring.billrun.model` package
-1.  Create a `Usage` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Usage.java).
+1.  Create a `Usage` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Usage.java).
 
-1.  Create a `Bill` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/Bill.java).
+1.  Create a `Bill` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Bill.java).
 
 1.  In your favorite IDE create the `io.spring.billrun.configuration` package
 
