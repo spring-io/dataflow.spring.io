@@ -1,0 +1,83 @@
+$mainBkg: #eaf2e3;
+$secondBkg: #cdffb2;
+$lineColor: #bbd6a4;
+$lineColor: $spring-border-color;
+$border1: #bbd6a4;
+$border2: #6eaa49;
+$arrowheadColor: $lineColor;
+
+/* Flowchart variables */
+
+$nodeBkg: $mainBkg;
+$nodeBorder: $border1;
+$clusterBkg: $secondBkg;
+$clusterBorder: $border2;
+$defaultLinkColor: $lineColor;
+$titleColor: #333;
+$edgeLabelBackground: #fff;
+
+/* Sequence Diagram variables */
+
+$actorBorder: $border1;
+$actorBkg: $mainBkg;
+$actorTextColor: black;
+$actorLineColor: grey;
+$signalColor: #333;
+$signalTextColor: #333;
+$labelBoxBkgColor: $actorBkg;
+$labelBoxBorderColor: #326932;
+$labelTextColor: $actorTextColor;
+$noteBorderColor: $border2;
+$noteBkgColor: #fff5ad;
+$activationBorderColor: #666;
+$activationBkgColor: #f4f4f4;
+
+/* Gantt chart variables */
+
+$sectionBkgColor: #6eaa49;
+$altSectionBkgColor: white;
+$sectionBkgColor2: #6eaa49;
+$taskBorderColor: $border1;
+$taskBkgColor: #487e3a;
+$taskTextLightColor: white;
+$taskTextColor: $taskTextLightColor;
+$taskTextDarkColor: black;
+$taskTextOutsideColor: $taskTextDarkColor;
+$activeTaskBorderColor: $taskBorderColor;
+$activeTaskBkgColor: $mainBkg;
+$gridColor: lightgrey;
+$doneTaskBkgColor: lightgrey;
+$doneTaskBorderColor: grey;
+$critBorderColor: #ff8888;
+$critBkgColor: red;
+$todayLineColor: red;
+
+@import '../../node_modules/mermaid/src/themes/mermaid';
+
+div.mermaid {
+  padding: $spring-8points * 3 0;
+  margin: $spring-8points * 3 0;
+  border: 1px solid $spring-border-color;
+  svg {
+    margin: 0 auto;
+    display: block;
+  }
+
+  .label {
+    font-family: $spring-font-family;
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.1rem;
+    color: rgba($spring-color, 90);
+  }
+
+  .edgeLabel {
+    font-weight: bold;
+  }
+
+  .node polygon {
+    fill: #fdf2d0;
+    stroke: #fbe8ad;
+    stroke-width: 1px;
+  }
+}

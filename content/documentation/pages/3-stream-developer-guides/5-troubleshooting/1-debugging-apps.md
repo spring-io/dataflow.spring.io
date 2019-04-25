@@ -4,11 +4,13 @@ title: 'Debugging applications'
 description: 'Debugging applications'
 ---
 
+# Debugging applications
+
 Applications should be runnable as a standard Java JAR, invoked via `java -jar`.
 All dependencies such as databases and messaging middleware should be available and tested manually for connection issues.
 Running and debugging applications is independent of deploying via SCDF and running on a platform.
 
-# Project Build Errors
+## Project Build Errors
 
 ```mermaid
 graph TD;
@@ -21,7 +23,7 @@ graph TD;
 Fixing errors in the IDE will be dependent on which IDE is used.
 By verifying the build is successful outside the IDE, this helps rule out project specific issues.
 
-# Application Startup Exceptions
+## Application Startup Exceptions
 
 ```mermaid
 graph TD;
@@ -38,7 +40,7 @@ When the application starts up, exceptions may occur due to general coding error
 Review the application log file to find the exceptions and fix as appropriate.
 Ensure all external services are reachable, correct credentials are provided and any other required information.
 
-# General Application Debugging
+## General Application Debugging
 
 ```mermaid
 graph TD;
@@ -61,7 +63,7 @@ To enable debug logging of this package, add the following JVM argument when sta
 
 `-Dlogging.level.org.springframework.integration=DEBUG`
 
-# Data Loss
+## Data Loss
 
 ```mermaid
 graph TD;
@@ -82,7 +84,7 @@ Ensure the middleware is available and all configuration is correct.
 Configuration includes credentials, queue/topic names, hosts, etc.
 By default, if no binder dependency is included in the project's classpath, the `TestBinder` will be used.
 
-# Sources
+## Sources
 
 ```mermaid
 graph TD;
@@ -98,7 +100,7 @@ Sources obtain data from an input and send data to an output channel for downstr
 Ensure the proper class level annotation `@EnableBinding(Source.class)` is present and the handler method is implemented.
 The handler method should use an output channel of `Source.OUTPUT`.
 
-# Processors - Input
+## Processors - Input
 
 ```mermaid
 graph TD;
@@ -113,7 +115,7 @@ Processors obtain data, manipulate and return that data for further downstream p
 Ensure the proper class level annotation `@EnableBinding(Processor.class)` is present and the handler method is implemented.
 The handler method should use an input channel of `Source.INPUT`.
 
-# Processors - Output
+## Processors - Output
 
 ```mermaid
 graph TD;
@@ -128,7 +130,7 @@ Processors obtain data, process and return that data for further downstream proc
 Ensure the proper class level annotation `@EnableBinding(Processor.class)` is present and the handler method is implemented.
 The handler method should use an output channel of `Source.OUTPUT`.
 
-# Sinks
+## Sinks
 
 ```mermaid
 graph TD;
@@ -145,7 +147,7 @@ Sinks obtain data from an input channel and for example store the that data in a
 Ensure the proper class level annotation `@EnableBinding(Sink.class)` is present and the handler method is implemented.
 The handler method should use an output channel of `Source.INPUT`.
 
-# Debugging Cloud Foundry Deployments
+## Debugging Cloud Foundry Deployments
 
 ```mermaid
 graph TD;
@@ -161,7 +163,7 @@ If an application that runs locally, but fails when deployed to Cloud Foundry, f
 This includes any environment variables that must be set, services to bind to and those services created.
 Inspect the application startup log for any exceptions to resolve.
 
-# Debugging Kubernetes Deployments
+## Debugging Kubernetes Deployments
 
 ```mermaid
 graph TD;

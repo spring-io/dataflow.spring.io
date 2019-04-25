@@ -65,11 +65,16 @@ const plugins = [
         },
         `gatsby-remark-attr`,
         `gatsby-remark-draw`,
-        `gatsby-remark-mermaid`,
         `gatsby-remark-grid-tables`,
         `gatsby-remark-autolink-headers`,
         `gatsby-remark-code-titles`,
         `gatsby-remark-external-links`,
+        {
+          resolve: 'gatsby-remark-mermaid',
+          options: {
+            theme: null,
+          },
+        },
         {
           resolve: 'spring-remark-variables',
           options: {
