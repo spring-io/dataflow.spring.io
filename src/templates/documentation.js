@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import classNames from 'classnames'
 import get from 'lodash.get'
+import { Sticky, StickyContainer } from 'react-sticky'
 import { graphql, navigate } from 'gatsby'
 
 import versions from './../../content/versions.json'
@@ -73,72 +74,90 @@ class DocumentationTemplate extends React.Component {
           description={meta.description}
           keywords={meta.keywords}
         />
+
         <ScrollUpButton />
-        <div className='container'>
-          <div
-            className={classNames(
-              'layout-sidebars',
-              !toc ? 'layout-2-sidebars' : ''
-            )}
-          >
-            <div className='sidebar'>
-              <div className='sticky'>
-                <VersionSelect
-                  versions={optionVersions}
-                  version={this.props.data.page.fields.version}
-                />
-                <div className='box'>
-                  <SidebarNav tree={tree} />
+
+        <StickyContainer>
+          <div className='container'>
+            <div
+              className={classNames(
+                'layout-sidebars',
+                !toc ? 'layout-2-sidebars' : ''
+              )}
+            >
+              <div className='sidebar'>
+                <Sticky topOffset={20}>
+                  {({ style }) => (
+                    <div style={{ ...style }}>
+                      <div className='sidebar-content'>
+                        <VersionSelect
+                          versions={optionVersions}
+                          version={this.props.data.page.fields.version}
+                        />
+                        <div className='box'>
+                          <SidebarNav page={page} tree={tree} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Sticky>
+              </div>
+              <div className='main'>
+                <div className='main-content'>
+                  {options.breadcrumb && (
+                    <div className='breadcrumb md'>
+                      <Breadcrumb pages={breadcrumb.slice(1)} />
+                    </div>
+                  )}
+                  <div className='post-content md'>
+                    <div dangerouslySetInnerHTML={{ __html: page.html }} />
+                  </div>
+                  {summary && (
+                    <>
+                      {summaryType === 'links' ? (
+                        <div className='summary md'>
+                          <SummaryNav tree={summary} />
+                        </div>
+                      ) : (
+                        <div className='summary tiles md'>
+                          <SummaryTile tree={summary} />
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {(get(prevNext, 'prev') || get(prevNext, 'next')) && (
+                    <div>
+                      <PrevNext
+                        next={get(prevNext, 'next')}
+                        prev={get(prevNext, 'prev')}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-            <div className='main'>
-              <div className='main-content'>
-                {options.breadcrumb && (
-                  <div className='breadcrumb md'>
-                    <Breadcrumb pages={breadcrumb.slice(1)} />
-                  </div>
-                )}
-                <div className='post-content md'>
-                  <div dangerouslySetInnerHTML={{ __html: page.html }} />
-                </div>
-                {summary && (
-                  <>
-                    {summaryType === 'links' ? (
-                      <div className='summary md'>
-                        <SummaryNav tree={summary} />
-                      </div>
-                    ) : (
-                      <div className='summary tiles md'>
-                        <SummaryTile tree={summary} />
+              {toc && (
+                <div className='sidebar-toc'>
+                  <Sticky topOffset={20}>
+                    {({ style }) => (
+                      <div style={{ ...style }}>
+                        <div className='sidebar-content'>
+                          <div className='sticky'>
+                            <div className='toc'>
+                              <div>
+                                <strong>Content</strong>
+                              </div>
+                              <Toc />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     )}
-                  </>
-                )}
-                {(get(prevNext, 'prev') || get(prevNext, 'next')) && (
-                  <div>
-                    <PrevNext
-                      next={get(prevNext, 'next')}
-                      prev={get(prevNext, 'prev')}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-            {toc && (
-              <div className='sidebar-toc'>
-                <div className='sticky'>
-                  <div className='toc'>
-                    <div>
-                      <strong>Content</strong>
-                    </div>
-                    <Toc />
-                  </div>
+                  </Sticky>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        </StickyContainer>
       </Layout>
     )
   }
@@ -165,6 +184,7 @@ export const articleQuery = graphql`
           fields {
             path
             version
+            category
           }
           frontmatter {
             title
@@ -186,6 +206,7 @@ export const articleQuery = graphql`
       fields {
         path
         version
+        category
       }
       frontmatter {
         title

@@ -289,13 +289,32 @@ body {
 .layout-sidebars {
   display: flex;
   flex-direction: row;
-  padding: ($spring-8points * 5) 0;
+  //padding: ($spring-8points * 5) 0;
+  padding: 20px 0;
 
   .sidebar,
   .sidebar-toc {
     width: 19%;
     float: left;
   }
+
+  .sidebar-content {
+    padding: 20px 0 40px;
+    .box {
+      //max-height: 800px;
+      //overflow-x: hidden;
+      //overflow-y: auto;
+      &::-webkit-scrollbar {
+        height: 4px;
+        width: 4px;
+        background: white;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: $spring-dark-color;
+      }
+    }
+  }
+
   .main {
     width: 62%;
     float: left;
@@ -346,9 +365,17 @@ body {
       padding: 0;
       margin: 0;
     }
+    ul.level2 {
+      padding-left: 20px;
+    }
     li.level0 {
-      padding: $spring-8points/2 $spring-8points * 2;
+      margin: 0 $spring-8points * 2;
+      padding: $spring-8points 0;
+      border-bottom: 1px solid rgba($spring-border-color, 0.3);
       //border-bottom: 4px solid $spring-background;
+      &:last-child {
+        border-bottom: 0 none;
+      }
     }
     a {
       color: $spring-color;
@@ -370,7 +397,7 @@ body {
 // Sidebar toc
 
 .main-content {
-  padding: 0 $spring-8points * 6;
+  padding: $spring-8points * 2 $spring-8points * 6;
 }
 
 // Prev Next

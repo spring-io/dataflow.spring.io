@@ -222,6 +222,7 @@ export const getTree = function getTree(arr, pathStart) {
       description: get(item, 'node.frontmatter.description'),
       path: get(item, 'node.fields.path'),
       parentId: get(parent, 'node.id', '0'),
+      category: get(item, 'node.fields.category'),
       children: [],
     }
   })

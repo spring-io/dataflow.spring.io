@@ -140,6 +140,7 @@
     "react-instantsearch-dom": "^5.4.0",
     "react-markdown": "^4.0.6",
     "react-scroll-up-button": "^1.6.4",
+    "react-sticky": "^6.0.3",
     "tocbot": "^4.5.1"
   },
   "devDependencies": {

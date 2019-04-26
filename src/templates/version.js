@@ -2,25 +2,14 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import classNames from 'classnames'
 import get from 'lodash.get'
-import { graphql, navigate } from 'gatsby'
+import { graphql } from 'gatsby'
+import { Sticky, StickyContainer } from 'react-sticky'
 
 import versions from './../../content/versions.json'
+import { Layout, SidebarNav } from '../components/common'
 import {
-  Breadcrumb,
-  Layout,
-  PrevNext,
-  Seo,
-  SidebarNav,
-  Toc,
-} from '../components/common'
-import {
-  SummaryNav,
   SummaryTile,
   VersionSelect,
-  getBreadcrumb,
-  getMeta,
-  getPrevNext,
-  getSummaryType,
   getTree,
   getVersions,
 } from '../components/documentation'
@@ -41,34 +30,45 @@ class DocumentationVersion extends React.Component {
 
     return (
       <Layout>
-        <div className='container'>
-          <div className={classNames('layout-sidebars', 'layout-2-sidebars')}>
-            <div className='sidebar'>
-              <div className='sticky'>
-                <VersionSelect
-                  versions={optionVersions}
-                  version={this.props.data.page.context.version}
-                />
-                <div className='box'>
-                  <SidebarNav tree={tree} />
+        <StickyContainer>
+          <div className='container'>
+            <div className={classNames('layout-sidebars', 'layout-2-sidebars')}>
+              <div className='sidebar'>
+                <Sticky topOffset={20}>
+                  {({ style }) => (
+                    <div style={{ ...style }}>
+                      <div className='sidebar-content'>
+                        <VersionSelect
+                          versions={optionVersions}
+                          version={this.props.data.page.context.version}
+                        />
+                        <div className='box'>
+                          <SidebarNav
+                            page={{ fields: { category: null } }}
+                            tree={tree}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Sticky>
+              </div>
+              <div className='main'>
+                <div className='main-content'>
+                  <h1>Version {this.props.data.page.context.version}</h1>
+                  <div className='post-content md' />
+                  {summary && (
+                    <>
+                      <div className='summary tiles md'>
+                        <SummaryTile tree={summary} />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
-            <div className='main'>
-              <div className='main-content'>
-                <h1>Version {this.props.data.page.context.version}</h1>
-                <div className='post-content md' />
-                {summary && (
-                  <>
-                    <div className='summary tiles md'>
-                      <SummaryTile tree={summary} />
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
           </div>
-        </div>
+        </StickyContainer>
       </Layout>
     )
   }
@@ -102,6 +102,7 @@ export const articleQuery = graphql`
           fields {
             path
             version
+            category
           }
           frontmatter {
             title
