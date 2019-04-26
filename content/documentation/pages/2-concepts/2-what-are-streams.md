@@ -1,11 +1,52 @@
 ---
 path: 'concepts/what-are-streams/'
 title: 'What are streams'
-description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
+description: 'Concepts on Streaming pipelines'
 ---
 
 # What are streams
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+A streaming data pipeline is typically made of independent event-driven streaming applications that connect using a `messaging middleware` or a `streaming platform`.
+The streaming pipeline can be `linear` or `non-linear` based on the data flow through the distributed applications of the streaming pipeline.
+As a streaming application developer, you can focus on developing your streaming application’s business logic while delegating the plumbing of the application to the messaging middleware/streaming platform using the Spring Cloud Stream framework.
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## Spring Cloud Stream
+
+The streaming application can produce or consume events to/from the messaging middleware or the streaming platform.
+In Spring Cloud Stream:
+
+- the application’s endpoints which produce the events to the messaging middleware or the streaming platform represent the `outbound` boundary
+- the application's endpoints which consume the events from the messaging middleware or the streaming platform represent the `inbound` boundary.
+
+Spring Cloud Stream framework provides `@Input` and `@Output` annotations which you can use to qualify these input and output elements.
+
+### Spring Cloud Stream Binding
+
+When the Spring Cloud Stream application gets deployed, its `input` and `output` elements that are configured using the `@Input` and `@Output` annotations are bound to the messaging middleware or the streaming platform using the `binding` properties per destination on the messaging middleware or the streaming platform.
+
+#### Spring Cloud Stream Binding Properties
+
+Binding properties require `spring.cloud.stream.bindings.<inbound/outbound-name>` prefix.
+
+Currently, following properties are supported:
+
+- destination - the destination on the messaging middleware or the streaming platform (example: RabbitMQ exchange or Apache Kafka topic)
+- group - the consumer group name to be used for the application. Only for consumer applications. In Spring Cloud Data Flow, this will always be the `stream name`.
+- contentType - the content type to be used
+- binder - the name of the binder to use for the binding. This property is useful for multi binder use cases.
+
+#### Spring Cloud Stream Properties for Messaging Middleware
+
+Depending on the binder used for binding your application to the Messaging Middleware or the Streaming platform, you can provide the configuration properties for each binder.
+All these properties would take the prefix as `spring.cloud.stream.<binderName>.binder`.
+
+For instance, all the Apache Kafka binder related configuration properties have the prefix `spring.cloud.stream.kafka.binder`
+
+### Streams in Spring Cloud Data Flow
+
+When the Spring Cloud Stream application gets deployed, the following properties are implicitly assigned as follows:
+
+- The property `spring.cloud.stream.bindings.<input/output>.destination` is assigned to use the `streamName.<application/label name>`
+- The property `spring.cloud.stream.bindings.<input/output>.group` is set to use the stream `name`.
+
+You can still override these properties by setting the bindings properties explicitly for each application.
