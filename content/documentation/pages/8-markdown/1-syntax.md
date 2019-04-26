@@ -16,6 +16,14 @@ summary: false
 
 Lorem ipsum dolor %version% sit amet, **consectetur adipiscing** elit, sed do eiusmod tempor incididunt ut labore et dolore _magna aliqua_. Ut enim ad minim veniam, quis [nostrud exercitation](http://spring.io) ullamco.
 
+Sample of internal links:
+
+- [link to the page Lorem](../lorem/)
+- [link to the page Installation](../../installation/)
+
+[[note]]
+| Use relative path for internal links
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
 
 ## Basics
