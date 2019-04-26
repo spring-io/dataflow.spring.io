@@ -1,5 +1,5 @@
 ---
-path: 'batch-developer-guides/batch/data-flow-simple-task-cloudfoundry/'
+path: 'batch-developer-guides/batch/stanalone-simple-task-cloudfoundry/'
 title: 'Deploying a stand-alone task application on Cloud Foundry'
 description: 'Guide to deploying stand-alone spring-cloud-stream-task applications on Cloud Foundry'
 ---
@@ -67,6 +67,8 @@ Log into Cloud Foundry using the [Cloud Foundry command line interface](https://
 $ cf login
 ```
 
+**INFO** You can also target specific Cloud Foundry instances with the `-a` flag, for example `cf login -a https://api.run.pivotal.io`.
+
 Before you can push any of the 2 applications, please also ensure that you setup the **MySql Service** on Cloud Foundry. You can check what services are available using:
 
 ```bash
@@ -83,11 +85,11 @@ Please make sure you name your MySQL service is `task-example-mysql`.
 
 ## Task Concepts in Cloud Foundry
 
-In order to provicde configuration parameters for Cloud Foundry, we will create dedicated `manifest` YAML files for each application.
+In order to provide configuration parameters for Cloud Foundry, we will create dedicated `manifest` YAML files for each application.
 
 **INFO** For additional information on setting up a manifest see [here](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html)
 
-Running tasks on Cloud Foundry is a 2-stage process. Before you can actually run any tasks you need to push an app that is staged without any running instances. The application includes all relevant source-code to actually run the task in the second stage. We are providing the following common properties to the manifest YAML file for each application:
+Running tasks on Cloud Foundry is a 2-stage process. Before you can actually run any tasks you need to first push an app that is staged without any running instances. We are providing the following common properties to the manifest YAML file to each application:
 
 ```yml
 memory: 32M
@@ -96,9 +98,9 @@ no-route: true
 instances: 0
 ```
 
-The key is to set the `instances` property to `0`. This will ensure that the app is staged without being actually runing. We also do not need a route to be created and can set `no-route` to `true`.
+The key is to set the `instances` property to `0`. This will ensure that the app is staged without being actually running. We also do not need a route to be created and can set `no-route` to `true`.
 
-**TIP** Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but we will also use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
+**TIP** Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but if your database service is internal (part of your Cloud Foundry instance) we can use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
 
 ## Running billsetuptask on Cloud Foundry
 
@@ -135,7 +137,11 @@ $ cf run-task billsetuptask ".java-buildpack/open_jdk_jre/bin/java org.springfra
 - `-k` Disk limit (e.g. 256M, 1024M, 1G)
 - `-m` Memory limit (e.g. 256M, 1024M, 1G)
 
-The task should execute successfuly. Verify the results in the Cloud Foundry dashboard:
+The task should execute successfuly. Verify the results in the Cloud Foundry dashboard by clicking onto the `Task` tab:
+
+![Cloud Foundry Dashboard Task Tab](images/CF-task-standalone-task1-task-tab.png)
+
+In the `Tasks` table you should see your task `billsetuptask` with a `State` of `Succeeded`:
 
 ![billsetuptask executed on Cloud Foundry](images/CF-task-standalone-task1-execution-result.png)
 
@@ -184,14 +190,16 @@ There are multiple options available on how to access database data in Cloud Fou
 
 ### Using local tools (MySQLWorkbench)
 
+First we need to create a [key for a service instance](http://cli.cloudfoundry.org/en-US/cf/create-service-key.html) using the `cf create-service-key` command:
+
 ```bash
-cf create-service-key task-example-mysql EXTERNAL-ACCESS-KEY
-cf service-key task-example-mysql EXTERNAL-ACCESS-KEY
+$ cf create-service-key task-example-mysql EXTERNAL-ACCESS-KEY
+$ cf service-key task-example-mysql EXTERNAL-ACCESS-KEY
 ```
 
 This should give you back the credentials neccessary to access the database, e.g.:
 
-```
+```json
 Getting key EXTERNAL-ACCESS-KEY for service instance task-example-mysql as ghillert@gopivotal.com...
 
 {
@@ -228,12 +236,12 @@ $ git clone https://github.com/pivotal-cf/PivotalMySQLWeb.git
 $ cd PivotalMySQLWeb
 ```
 
-**IMPORTANT**: Please update the credentials first in `src/main/resources/application-cloud.yml`
+**IMPORTANT**: Please update the credentials first in `src/main/resources/application-cloud.yml` ([Source on GitHub](https://github.com/pivotal-cf/PivotalMySQLWeb/blob/master/src/main/resources/application-cloud.yml)). By default the username is `admin` and the password is `cfmysqlweb`.
 
 Then build the project:
 
 ```bash
-./mvnw -DskipTests=true package
+$ ./mvnw -DskipTests=true package
 ```
 
 Next, update the `manifest.yml` file:
@@ -262,3 +270,20 @@ $ cf push
 Now you can login into the application an take a look at the table populated by the `billrun` task application.
 
 ![billrun database results](images/CF-task-standalone-task2-database-result-PivotalMySQLWeb.png)
+
+## Teardown of all Task Applications and Services
+
+With the conclusion of this example you may also want to remove all instances on Cloud Foundry. The following commands will accomplish that:
+
+```bash
+$ cf delete billsetuptask -f
+$ cf delete billrun -f
+$ cf delete pivotal-mysqlweb -f -r
+$ cf delete-service-key task-example-mysql EXTERNAL-ACCESS-KEY -f
+$ cf delete-service task-example-mysql -f
+```
+
+The important thing to note here is that we need to delete the service key `EXTERNAL-ACCESS-KEY` before we can delete the `task-example-mysql` service itself. Additionally empployed command flags are:
+
+- `-f` Force deletion without confirmation
+- `-r` Also delete any mapped routes
