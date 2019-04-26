@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Link } from 'gatsby'
 import classNames from 'classnames'
+import { Link } from 'gatsby'
 
 const isDisplay = (item, page, depth, depthMax) => {
   if (!item.children.length > 0 || !(depth < depthMax)) {
