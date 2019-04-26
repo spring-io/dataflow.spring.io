@@ -18,8 +18,8 @@ Lorem ipsum dolor %version% sit amet, **consectetur adipiscing** elit, sed do ei
 
 Sample of internal links:
 
-- [link to the page Lorem](../lorem/)
-- [link to the page Installation](../../installation/)
+- [link to the page Lorem](%currentPath%/markdown/lorem/)
+- [link to the page Installation](%currentPath%/installation/)
 
 [[note]]
 | Use relative path for internal links

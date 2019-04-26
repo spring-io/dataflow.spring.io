@@ -10,7 +10,6 @@ class DocumentationPage extends React.Component {
   render() {
     const edges = this.props.data.pages
 
-    console.log(edges)
     const pages = [
       {
         id: 'get-started',

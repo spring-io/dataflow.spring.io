@@ -1,5 +1,16 @@
 const queries = require(`./utils/algolia-queries`)
-const markdownVars = require(`./content/documentation/variables.json`)
+const versions = require('./content/versions.json')
+
+const uniqueVersions = [...new Set(Object.values(versions))]
+
+const arrVars = uniqueVersions.map(version => {
+  const vars = require(`./data/${version}/variables.json`)
+  vars.currentPath = `/documentation/${version}`
+  return {
+    version,
+    vars,
+  }
+})
 
 const plugins = [
   {
@@ -78,7 +89,7 @@ const plugins = [
         {
           resolve: 'spring-remark-variables',
           options: {
-            variables: markdownVars,
+            arrVars: arrVars,
           },
         },
         {
