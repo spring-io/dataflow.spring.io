@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Link } from 'gatsby'
+import classNames from 'classnames'
 
 const isDisplay = (item, page, depth, depthMax) => {
   if (!item.children.length > 0 || !(depth < depthMax)) {
@@ -20,11 +21,14 @@ class SidebarNav extends React.Component {
   render() {
     const { depth, page, depthMax, tree } = this.props
     return (
-      <ul className={`level${depth}`}>
-        {tree.map(item => (
+      <ul className={classNames(`level${depth}`)}>
+        {tree.map((item, index) => (
           <li className={`level${depth}`} key={item.id}>
             <Link
-              className={`level${depth}`}
+              className={classNames(
+                `level${depth}`,
+                index + 1 === tree.length ? 'last' : ''
+              )}
               activeClassName='active'
               key={`link${item.id}`}
               to={item.path}

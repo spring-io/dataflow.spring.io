@@ -40,6 +40,7 @@ pre[class*='language-'] {
   padding: 1em;
   overflow: auto;
   background-color: white;
+  max-height: 500px;
   &::-webkit-scrollbar {
     height: 4px;
     width: 4px;
