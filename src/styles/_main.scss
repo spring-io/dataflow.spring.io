@@ -706,6 +706,7 @@ button.button {
 .button-scroll-up {
   position: relative;
   background: $spring-gray-color;
+  z-index: 9999;
   svg {
     color: $spring-color;
     width: 22px;

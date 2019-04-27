@@ -1,9 +1,7 @@
 {
   "version": "v2.0.1.RELEASE",
   "foo": "foo",
-  "bar": "foo",
-  "reposamples": "https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v2.0.1.RELEASE",
-  "nested": {
+  "bar": {
     "foo": "bar"
   }
 }

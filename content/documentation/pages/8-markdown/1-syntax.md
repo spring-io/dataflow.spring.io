@@ -12,23 +12,26 @@ toc: true
 summary: false
 ---
 
-# Syntax
+# Markdown syntax
 
 Lorem ipsum dolor %version% sit amet, **consectetur adipiscing** elit, sed do eiusmod tempor incididunt ut labore et dolore _magna aliqua_. Ut enim ad minim veniam, quis [nostrud exercitation](http://spring.io) ullamco.
 
-Sample of internal links:
-
-- [link to the page Lorem](%currentPath%/markdown/lorem/)
-- [link to the page Installation](%currentPath%/installation/)
-
 [[note]]
-| Use relative path for internal links
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+| Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
 
 ## Basics
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+### Links
+
+**Internal links**:
+
+- [Markdown Lorem](%currentPath%/markdown/lorem/)
+- [Installation](%currentPath%/installation/)
+- [Features](/features)
+
+**External links**:
+
+- [Spring.io](https://spring.io/)
 
 ### Unordered list
 
@@ -40,7 +43,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  - Lorem ipsum dolor sit amet, consectetur adipiscing elit. + Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### Ordered list
@@ -54,24 +58,17 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  - Lorem ipsum dolor sit amet, consectetur adipiscing elit. + Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ### Tables
 
-| Option | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| data   | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. |
-| engine | engine to be used for processing templates. Handlebars is the default.                                                                                                                                                                                                                                                                                                                                                                                         |
-| ext    | extension to be used for dest files.                                                                                                                                                                                                                                                                                                                                                                                                                           |
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-
-| Key      | Description                                                               |
-| -------- | ------------------------------------------------------------------------- |
-| `data`   | path to data files to supply the data that will be passed into templates. |
-| `engine` | engine to be used for processing templates. Handlebars is the default.    |
-| `ext`    | extension to be used for dest files.                                      |
+| Option | Description                                          |
+| ------ | ---------------------------------------------------- |
+| lorem  | Lorem ipsum dolor sit amet, consectetur adipisicing. |
+| ipsum  | quis nostrud exercitation ullamco.                   |
+| dolor  | tempor incididunt ut labore et dolore magna aliqua.  |
 
 ### Sample code
 
@@ -82,35 +79,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Lorem ipsum dolor sit amet, `consectetur_adipiscing_elit()` , sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
 
 #### Block code
-
-```bash
-$ export DATAFLOW_VERSION=2.0.1.RELEASE
-$ export SKIPPER_VERSION=2.0.0.RELEASE
-$ docker-compose up
-$ a really really long line will automatically put a horizontal scroll bar if necessary
-```
-
-```yaml
-security:
-  oauth2:
-    client:
-      client-id: app
-      client-secret: dataflow
-      scope: openid
-      access-token-uri: http://localhost:8080/uaa/oauth/token
-      user-authorization-uri: http://localhost:8080/uaa/oauth/authorize
-    resource:
-      user-info-uri: http://localhost:8080/uaa/userinfo
-      token-info-uri: http://localhost:8080/uaa/check_token
-```
-
-```js
-var foo = function(bar) {
-  return bar++
-}
-
-console.log(foo(5))
-```
 
 ```java
 {/* highlight-range{8-14} */}
@@ -146,9 +114,7 @@ public class LoggingSink {
 
 ### Blockquotes
 
-> Blockquotes can also be nested...
-
-> by using additional greater-than signs right next to each other...
+> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore...
 
 ### Callouts
 
@@ -176,17 +142,38 @@ Callout with a title and paragraphs:
 |
 | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
 
+### Mermaid
+
+```mermaid
+graph TD;
+    A(Lorem ipsum) --> B(Sit dolor amet);
+    B --> C{Consectetur?}
+    C -->|Yes| D(tempor incididunt)
+    C -->|No| E(labore et dolore)
+    D --> F(Elit set do)
+```
+
+## Advanced
+
 ### Variables
+
+You can define variable in the file `/content/documentation/variables.json`.
+
+Default variables:
 
 | Name          | Description     | Value         |
 | ------------- | --------------- | ------------- |
 | `version`     | Current version | %version%     |
-| `foo`         | Foo             | %foo%         |
-| `bar`         | Bar             | %bar%         |
-| `reposamples` | reposamples     | %reposamples% |
-| `nested.foo`  | reposamples     | %nested.foo%  |
+| `currentPath` | currentPath     | %currentPath% |
 
-**Usage:** Lorem [ipsum dolor %foo%](https://spring.io/%foo%) sit amet, consectetur `adipisicing %foo%`, sed **do eiusmod %foo%** tempor.
+**Usage:**
+
+| Name      | Description | Value     |
+| --------- | ----------- | --------- |
+| `foo`     | Foo         | %foo%     |
+| `bar.foo` | Bar Foo     | %bar.foo% |
+
+Lorem [ipsum dolor %foo%](https://spring.io/%foo%) sit amet, consectetur `adipisicing %foo%`, sed **do eiusmod %foo%** tempor.
 
 ```html
 <div>
@@ -197,32 +184,42 @@ Callout with a title and paragraphs:
 [[tip]]
 | Lorem ipsum dolor sit amet, consectetur **%foo%** adipiscing
 
-### Force download github files
+### Download github files
 
-**Usage:** with a title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=download sql file`, with the default title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
+**Markdown:**
 
-## Embeded
+```markdown
+`download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
+```
 
-### Code
+**Usage:**
 
-#### Local file
+With a custom title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=download sql file`, with the default title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
 
-Add a file in the folder `/content/files/`.
-`embed:../../files/foo.java`
+### Embed code from Github
 
-#### External files
+**Markdown:**
 
-`/content/external-files.json` contains a list of files to import.
-`embed:../../external-files.json`
-After building, the files are located at `/content/files/ext/`
+```markdown
+`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
 
-Usage:
+`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java`
+```
 
-`embed:../../files/ext/foo/DataFlowServerApplication.java`
-`embed:../../files/ext/foo/LocalDataFlowServerAutoConfiguration.java`
+**Usage:**
 
-### Youtube video
+`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java`
+
+### Embed Youtube video
+
+**Markdown:**
+
+```markdown
 `youtube:https://www.youtube.com/embed/rvAr0KYXBhk`
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, [sed do eiusmod](https://www.youtube.com/embed/rvAr0KYXBhk).
+```
+
+**Usage:**
+
+`youtube:https://www.youtube.com/embed/rvAr0KYXBhk`

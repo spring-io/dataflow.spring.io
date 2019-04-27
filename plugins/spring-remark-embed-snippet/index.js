@@ -1,7 +1,5 @@
-const fs = require(`fs`)
-const path = require(`path`)
-const normalizePath = require(`normalize-path`)
-const visit = require(`unist-util-visit`)
+const visit = require(`async-unist-util-visit`)
+const request = require('request-promise')
 
 const highlightCode = require(`gatsby-remark-prismjs/highlight-code`)
 
@@ -11,6 +9,8 @@ const FILE_EXTENSION_TO_LANGUAGE_MAP = {
   sh: `bash`,
   rb: `ruby`,
 }
+
+const KEY = `embed-code:`
 
 const getLanguage = file => {
   if (!file.includes(`.`)) {
@@ -22,27 +22,22 @@ const getLanguage = file => {
     : extension.toLowerCase()
 }
 
-module.exports = (
+module.exports = async (
   { markdownAST, markdownNode },
   { classPrefix = `language-` } = {}
 ) => {
-  visit(markdownAST, `inlineCode`, node => {
+  return await visit(markdownAST, `inlineCode`, async node => {
     const { value } = node
-    if (value.startsWith(`embed:`)) {
-      const file = value.substr(6)
-      let pathFile = normalizePath(
-        `${path.dirname(markdownNode.fileAbsolutePath)}/${file}`
-      )
-      if (!fs.existsSync(pathFile)) {
-        throw Error(`Invalid snippet specified; no such file "${pathFile}"`)
-      }
-      const code = fs.readFileSync(pathFile, `utf8`).trim()
-      const language = getLanguage(file)
-      const className = language
-        .split(` `)
-        .map(token => `${classPrefix}${token}`)
-        .join(` `)
+    if (value.startsWith(KEY)) {
+      const url = value.substr(KEY.length)
       try {
+        const filename = url.split('/').slice(-1)[0]
+        const code = await request(url)
+        const language = getLanguage(filename)
+        const className = language
+          .split(` `)
+          .map(token => `${classPrefix}${token}`)
+          .join(` `)
         node.value = `<div class="gatsby-highlight">
         <pre class="${className}"><code>${highlightCode(
           language,
@@ -51,11 +46,9 @@ module.exports = (
         </div>`
         node.type = `html`
       } catch (e) {
-        // rethrow error pointing to a file
-        throw Error(`${e.message}\nFile: ${file}`)
+        throw Error(`Error embed ${url}`)
       }
     }
+    return markdownAST
   })
-
-  return markdownAST
 }

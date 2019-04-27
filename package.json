@@ -19,15 +19,14 @@
   },
   "scripts": {
     "clean": "rimraf .cache",
-    "prestart": "yarn run clean && yarn run load-repos && yarn run link-master && yarn run external-files",
+    "prestart": "yarn run clean && yarn run load-repos && yarn run link-master",
     "start": "gatsby develop",
-    "prebuild": "yarn run clean && yarn run lint && yarn run load-repos && yarn run link-master && yarn run external-files && yarn run test",
+    "prebuild": "yarn run clean && yarn run lint && yarn run load-repos && yarn run link-master && yarn run test",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "fix": "NODE_ENV=test import-sort --write '(src|utils|plugins)/**/*.js' && eslint . --fix && prettier --write '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "lint": "NODE_ENV=test import-sort -l '(src|utils|plugins)/**/*.js' && eslint . && prettier --check '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "test": "echo TODO",
-    "external-files": "babel-node --no-babelrc --presets @babel/env ./scripts/external-files.js",
     "load-repos": "babel-node --no-babelrc --presets @babel/env ./scripts/load-repos.js",
     "link-master": "babel-node --no-babelrc --presets @babel/env ./scripts/link-master.js"
   },
@@ -95,6 +94,7 @@
   "dependencies": {
     "algolia-html-extractor": "^0.0.1",
     "algoliasearch": "^3.32.1",
+    "async-unist-util-visit": "^1.0.0",
     "classnames": "^2.2.6",
     "gatsby": "^2.3.21",
     "gatsby-image": "^2.0.34",
@@ -141,6 +141,8 @@
     "react-markdown": "^4.0.6",
     "react-scroll-up-button": "^1.6.4",
     "react-sticky": "^6.0.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "tocbot": "^4.5.1"
   },
   "devDependencies": {

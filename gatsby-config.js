@@ -6,6 +6,7 @@ const uniqueVersions = [...new Set(Object.values(versions))]
 const arrVars = uniqueVersions.map(version => {
   const vars = require(`./data/${version}/variables.json`)
   vars.currentPath = `/documentation/${version}`
+  vars.version = version
   return {
     version,
     vars,
