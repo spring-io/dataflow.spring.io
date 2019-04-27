@@ -10,9 +10,10 @@ const versions = require('./content/versions.json')
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   const queryPromises = []
+
   queryPromises.push(
     new Promise((resolve, reject) => {
-      for (let [label, version] of Object.entries(versions)) {
+      for (const [, version] of Object.entries(versions)) {
         const VersionTemplate = path.resolve(`./src/templates/version.js`)
         createPage({
           path: `/documentation/${version}/`,

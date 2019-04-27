@@ -153,6 +153,7 @@ body {
   max-width: 1500px;
   margin: 0 auto;
   padding: 0 42px;
+  @include transition(padding $spring-transition-duration);
 }
 
 .layout-basic {
@@ -220,6 +221,10 @@ body {
     box-shadow: 0 0 0 4px rgba($spring-color, 0.04);
     border-radius: 4px;
     padding: $spring-8points 0;
+    .section {
+      opacity: 1;
+      overflow: hidden;
+    }
   }
   .section {
     display: block;
@@ -287,8 +292,7 @@ body {
 // Layout Sidebar
 
 .layout-sidebars {
-  display: flex;
-  flex-direction: row;
+  @include clearfix;
   //padding: ($spring-8points * 5) 0;
   padding: 20px 0;
 

@@ -167,7 +167,6 @@
   }
 
   .gatsby-highlight {
-    // padding: $spring-8points 0 $spring-8points * 2;
     pre[class*='language-'] {
       margin: 0;
       padding: $spring-8points * 2;
@@ -185,30 +184,60 @@
   }
 
   .callout {
+    position: relative;
     padding: $spring-8points * 1.5 $spring-8points * 2;
+    padding-left: $spring-8points * 6;
     margin: $spring-8points * 2 0;
+    $s: 20px;
+    &:before {
+      position: absolute;
+      top: $spring-8points * 3;
+      left: $spring-8points * 2;
+      content: ' ';
+      width: $s;
+      height: $s;
+      background-repeat: no-repeat;
+    }
     &.success {
       color: #467b17;
       background-color: #f3f5f0;
+      &:before {
+        background-image: url(../images/icons/success.svg);
+      }
     }
     &.danger {
       color: #df2500;
       background-color: #fbf1ef;
+      &:before {
+        background-image: url(../images/icons/danger.svg);
+      }
     }
     &.warning {
       color: #e06f13;
       background-color: #fff6e7;
+      &:before {
+        background-image: url(../images/icons/warning.svg);
+      }
     }
     &.note {
       color: #2f6795;
       background-color: #edf4fa;
+      &:before {
+        background-image: url(../images/icons/note.svg);
+      }
     }
     &.tip {
       color: #27363f;
       background-color: #eaf5f4;
+      &:before {
+        background-image: url(../images/icons/tip.svg);
+      }
     }
     .custom-block-heading {
       font-weight: bold;
+    }
+    .custom-block-heading {
+      padding-top: $spring-8points;
     }
   }
 

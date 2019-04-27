@@ -32,7 +32,11 @@ class Navigation extends React.Component {
             query {
               pages: allMarkdownRemark(
                 filter: {
-                  fields: { hash: { eq: "documentation" }, root: { eq: true } }
+                  fields: {
+                    hash: { eq: "documentation" }
+                    root: { eq: true }
+                    version: { eq: "master" }
+                  }
                 }
                 sort: { fields: fields___slug, order: ASC }
               ) {
@@ -78,7 +82,7 @@ class Navigation extends React.Component {
                     <InstantSearch
                       appId='ES999KPS5F'
                       apiKey='bf05705a8c4bcbacf2611d6d0e3128f4'
-                      indexName='Doc'
+                      indexName='doc-master'
                     >
                       <Configure attributesToSnippet='html' />
                       <Search onBlur={this.toggleSearch} pages={data.pages} />

@@ -13,7 +13,7 @@ const linkMaster = async () => {
 
 const linkFile = (src, dest) => {
   log('Linking', src, 'to', dest)
-  const { failed, ...rest } = execa.sync('ln', ['-s', src, dest], execaOptions)
+  const { failed } = execa.sync('ln', ['-s', src, dest], execaOptions)
   if (failed) throw new Error(`Couldn't link ${src} to ${dest}`)
 }
 

@@ -12,8 +12,6 @@ import {
 } from 'react-instantsearch-dom'
 import { navigate } from 'gatsby'
 
-import { cleanPath } from './../../documentation'
-
 const HitTemplate = ({ hit }) => (
   <Link to={hit.url} className='link'>
     <div className={`title`}>
@@ -133,7 +131,7 @@ class Results extends React.Component {
           renderSectionTitle={this.renderSectionTitle}
           getSectionSuggestions={this.getSectionSuggestions}
         />
-        <Index indexName='Doc' />
+        <Index indexName='doc-master' />
       </>
     )
   }

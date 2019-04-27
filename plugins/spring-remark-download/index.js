@@ -16,7 +16,7 @@ module.exports = (
         }</a>`
         node.type = `html`
       } catch (e) {
-        throw Error(`${e.message}\Remark-Download invalid syntax: ${value}`)
+        throw Error(`Remark-Download invalid syntax: ${value}`)
       }
     }
   })

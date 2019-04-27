@@ -164,10 +164,7 @@ const plugins = [
   },
 ]
 
-if (
-  process.env.ALGOLIA_ADMIN_KEY &&
-  !process.env.ALGOLIA_ADMIN_KEY.match(/<key>/)
-) {
+if (process.env.ALGOLIA_ADMIN_KEY) {
   plugins.push({
     resolve: `gatsby-plugin-algolia`,
     options: {
