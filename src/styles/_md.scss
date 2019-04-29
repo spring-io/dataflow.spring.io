@@ -9,11 +9,22 @@
     padding: 0;
     margin: 0;
     .anchor {
-      display: none;
+      @include transition(all $spring-transition-duration);
+      //display: none;
+      opacity: 0;
     }
     &:active,
     &:focus {
       outline: none;
+    }
+    &:hover {
+      .anchor {
+        opacity: 0.4;
+        &:hover {
+          fill: $spring-primary-color;
+          opacity: 0.8;
+        }
+      }
     }
   }
 

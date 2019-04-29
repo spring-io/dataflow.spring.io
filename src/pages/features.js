@@ -7,7 +7,7 @@ const FeaturesPage = () => (
   <Layout>
     <Seo title='Spring Cloud Data Flow Features' />
     <div className='container'>
-      <div class='layout-basic'>
+      <div className='layout-basic'>
         <h1>Features</h1>
       </div>
     </div>

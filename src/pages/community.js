@@ -7,7 +7,7 @@ const CommunityPage = () => (
   <Layout>
     <Seo title='Spring Cloud Data Flow Community' />
     <div className='container'>
-      <div class='layout-basic'>
+      <div className='layout-basic'>
         <h1>Community</h1>
       </div>
     </div>

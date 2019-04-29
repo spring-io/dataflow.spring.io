@@ -7,7 +7,7 @@ const DownloadPage = () => (
   <Layout>
     <Seo title='Spring Cloud Data Flow Download' />
     <div className='container'>
-      <div class='layout-basic'>
+      <div className='layout-basic'>
         <h1>Download</h1>
       </div>
     </div>
