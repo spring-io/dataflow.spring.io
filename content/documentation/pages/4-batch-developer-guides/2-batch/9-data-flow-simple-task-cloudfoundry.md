@@ -8,9 +8,9 @@ description: 'Guide to deploying spring-cloud-stream-task applications on Cloud 
 
 This guide will walk through how to deploy and run simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) applications to Cloud Foundry using [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/).
 
-In this tutorial we would like to take the [2 example task applications](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples) that we previously used to deploy stand-alone to Cloud Foundry and instead deploy them on Cloud Foundry using Spring Cloud Data Flow. This not only provides you with a slick-looking GUI for your Task and Batch needs but also allows for ochestrating your Batch processes and Task applications.
+In this tutorial we would like to take the [2 example task applications](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples) that we previously used to deploy stand-alone to Cloud Foundry and instead deploy them to Cloud Foundry using Spring Cloud Data Flow. This not only provides you with a slick-looking GUI for your Task- and Batch needs but also allows for orchestrating your Batch processes and Task applications.
 
-For example, up until now we have run the 2 example tasks individually. Howeverm using Spring Cloud Data Flow and the [Composed Task](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature, we can execute both Task in one flow.
+For example, up until now we have run the 2 example tasks individually. However, using Spring Cloud Data Flow and the [Composed Task](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature, we can execute both Task in one flow.
 
 When using Spring Cloud Dataflow to deploy task and stream applications to Cloud Foundry, you have 2 options on how to run Spring Cloud Data Flow itself:
 
@@ -25,7 +25,7 @@ For this guide, we will deploy Spring Cloud Data Flow to Cloud Foundry.
 
 On your local machine, you will need to have installed:
 
-- Java
+- Java 8
 - [Git](https://git-scm.com/)
 
 Please also make sure that you have the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) installed ([documentation](https://docs.run.pivotal.io/cf-cli/)).
@@ -90,7 +90,9 @@ $ wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-d
 
 and Spring Cloud Skipper:
 
-\$ wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-skipper-server/2.0.2.RC1/spring-cloud-skipper-server-2.0.2.RC1.jar
+```bash
+$ wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-skipper-server/2.0.2.RC1/spring-cloud-skipper-server-2.0.2.RC1.jar
+```
 
 We will then deploy those 2 jars to Cloud Foundry.
 
@@ -128,23 +130,24 @@ $ cf create-service cloudamqp lemur rabbitmq-service
 
 **INFO** When choosing a Postgres service, please keep an eye on the provided number of connections. On PWS, for example, the free service tier of `elephantsql` only provides 4 parallel database connections, which is too limiting to run this example sucessfully.
 
-Please make sure you name your PostgresSQL service is `postgres-service`.
+Please make sure you name your PostgresSQL service `postgres-service`.
 
 # Setting up Skipper on Cloud Foundry
 
 In order to deploy, create a file `manifest-skipper.yml`:
 
 ```yaml
----
 applications:
   - name: skipper-server
-    host: gh-skipper-server
+    routes:
+      - route: gh-skipper-server.cfapps.io
     memory: 1G
     disk_quota: 1G
     instances: 1
     timeout: 180
-    buildpack: java_buildpack
-    path: ./spring-cloud-skipper-server-2.0.2.BUILD-SNAPSHOT.jar
+    buildpacks:
+      - java_buildpack
+    path: ./spring-cloud-skipper-server-2.0.2.RC1.jar
     env:
       SPRING_APPLICATION_NAME: skipper-server
       SPRING_PROFILES_ACTIVE: cloud
@@ -163,8 +166,8 @@ applications:
       SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_MEMORY: 2048m
       SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 1
       SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 4
-services:
-  - postgres-service
+    services:
+      - postgres-service
 ```
 
 Now run `cf push -f ./manifest-skipper.yml`.
@@ -177,11 +180,12 @@ In order to deploy, create a file `manifest-dataflow.yml`:
 ---
 applications:
   - name: data-flow-server
-    host: gh-data-flow-server
+    routes:
+      - route: <your-data-flow-server-route>
     memory: 2G
     disk_quota: 2G
     instances: 1
-    path: ./spring-cloud-dataflow-server-2.1.0.BUILD-SNAPSHOT.jar
+    path: ./spring-cloud-dataflow-server-2.1.0.M1.jar
     env:
       SPRING_APPLICATION_NAME: data-flow-server
       SPRING_PROFILES_ACTIVE: cloud
@@ -200,9 +204,9 @@ applications:
       SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 2
       SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 4
       SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_TASK_SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 1
-      SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_TASK_SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 1
-services:
-  - postgres-service
+      SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_TASK_SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 2
+    services:
+      - postgres-service
 ```
 
 Some explanation of the configured properties:
@@ -211,19 +215,39 @@ https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#
 
 Now run `cf push -f ./manifest-dataflow.yml`.
 
+Once deployed, go to your Cloud Foundry dashboard. Both, Spring Cloud Skipper as well as Spring Cloud Data Flow should have a status of `Running`:
+
+![billsetuptask executed on Cloud Foundry](images/scdf-cf-dashboard-cf.png)
+
+Next, go to the Spring Cloud Data Flow dasboard at https://your-data-flow-server-route/dashboard. The UI should successfully start up and inform you that no application is registered, yet:
+
+![Cloud Foundry Dashboard with Data Flow and Skipper running](images/scdf-cf-dashboard.png)
+
 # Execute the Example
-
-Let's go to the Spring Cloud Data Flow Dashboard running on Cloud Foundry at:
-
-https://gh-data-flow-server.cfapps.io/dashboard
-
-**IMPORTANT** Your Url may differ. Use the Url you have configured earlier via the `host` property in `manifest-dataflow.yml`.
 
 First, we need to import the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), which will give us the `composed-task-runner` application. For the Task App Starters we will use the option **Bulk import application coordinates from an HTTP URI location**. We use the latest release link, e.g. `http://bit.ly/Elston-GA-task-applications-maven` as URI. Click `Import the application(s)`.
 
-Now import our 2 custom task apps using the option **Register one or more applications**.
+![Bulk Import Screen of the Data Flow Dashboard](images/scdf-cf-dashboard-bulk-import-apps.png)
 
-**SCREENSHOT**
+Now import our 2 custom task apps using the option **Register one or more applications**. As name use:
+
+- billsetuptask
+- billrun
+
+Select `Task` for the Type of the applications. As URI you will use the HTTP address to where you pushed the 2 example jar files earlier, e.g. if you use GitHub something like this:
+
+- https://github.com/ghillert/task-apps/raw/master/billsetuptask-0.0.1-SNAPSHOT.jar
+- https://github.com/ghillert/task-apps/raw/master/billrun-0.0.1-SNAPSHOT.jar
+
+We leave the input field `Metadata URI` empty.
+
+![Import Screen for individual apps in Data Flow Dashboard](images/scdf-cf-dashboard-single-import-apps.png)
+
+You have the option to run the import dialog twice or to by clicking `New Application`, you can import multipls applications in one go. Once ready to import, press `Register the application(s)`.
+
+Now we are ready to head over to the Flo designer and create the Composed Task. On the main left navigation, select `Tasks` and then click `Create task(s)`. The Flo designer will open up and you should see your 2 custom applications in the tool palette to the left. Drag each application from the palette to the main designer interface and connect the `START` icon to the `billsetuptask` icon, the `billsetuptask` to the `billrun` icon and finally the `billrun` to the `END` icon. Your flow should look like the following:
+
+![Creating a Composed Task using the Flo Designer](images/scdf-cf-dashboard-flo-designer-composed-task.png)
 
 Above the visual editor, you will see the text-based task definition `billsetuptask && billrun`. Press `Create Task` and enter a name for the composed task definition, e.g. `bill_composed_task`.
 
@@ -233,15 +257,15 @@ You will return to the task definition screen and you will see 3 tasks that were
 - bill_composed_task_billsetuptask
 - bill_composed_task_billrun
 
-Congratulations, you have created a composed task that will deploy and execute your 2 custom tasks in sequence. Let's execute them. Click the `Launch task` icon for the `bill_composed_task` definition.
+Congratulations, you have created a composed task definition that will deploy and execute your 2 custom tasks in sequence. Let's execute them. Click the `Launch task` icon for the `bill_composed_task` definition.
+
+![Created Task Definitions](images/scdf-cf-dashboard-created-task-definitions.png)
 
 We don't have to provide any `Arguments` or `Parameters`. Simply click `Launch the task`. The operation may take a few seconds, as the task application will be deployed to Cloud Foundry.
 
 ## Verify the results
 
-Finally, we can verify the results of the task by taking a look at the Postgres database and the results table. In order to validate the results, we have to connect to the PostgresSql database.
-
-First we need to create a service key for our PostgreSQL service `postgres-service` and then we can get the service information:
+Finally, we can verify the results of the task by taking a look at the PostgreSQL database and the results table. In order to validate the results, we have to connect to the PostgresSQL database. First we need to create a service key for our PostgreSQL service `postgres-service` and then we can get the service information:
 
 ```bash
 $ cf create-service-key postgres-service EXTERNAL-ACCESS-KEY
@@ -257,3 +281,7 @@ $ cf ssh -L 63306:<host_name>:<port> postgres-service
 ```
 
 **screenshot_here**
+
+## Teardown of all Task Applications
+
+With the conclusion of this example you may also want to remove the created task applications. Simply mark them in the task applications table and select `Destroy task(s)`.
