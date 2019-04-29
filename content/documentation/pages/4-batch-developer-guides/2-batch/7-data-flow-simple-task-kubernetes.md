@@ -8,11 +8,11 @@ description: 'Guide to deploying spring-cloud-stream-task applications on Kubern
 
 This guide will walk through how to deploy and run a simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) application on Kubernetes using Spring Cloud Data Flow.
 
-We will deploy the sample [billsetuptask]() application to Kubernetes.
+We will deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task) application to Kubernetes.
 
 ## Setting up SCDF the Kubernetes cluster
 
-For this we need a running [Kubernetes cluster with Spring Cloud Data Flow deployed](/documentation/installation/kubernetes/). For this example we will use `minikube`.
+For this we need a running [Kubernetes cluster with Spring Cloud Data Flow deployed](%currentPath%/installation/kubernetes/). For this example we will use `minikube`.
 
 ### Verify Spring Cloud Data Flow is up and running
 
@@ -64,4 +64,4 @@ $ minikube service --url scdf-server
 http://192.168.99.100:30403
 ```
 
-Follow the instructions to [register and launch a task application using Data Flow](/documentation/batch-developer-guides/batch/data-flow-simple-task), using the docker image we just built to register the application.
+Follow the instructions to [register and launch a task application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-simple-task), using the docker image we just built to register the application.

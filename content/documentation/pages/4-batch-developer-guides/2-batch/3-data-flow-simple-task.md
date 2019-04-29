@@ -10,7 +10,7 @@ In this section, we will demonstrate how to register a Spring Cloud Task applica
 
 ## Create Task Definition
 
-For this guide, we will use the [simple task](/documentation/batch-developer-guides/batch/simple-task) sample Spring Cloud Task application, called `billsetuptask`.
+For this guide, we will use the [simple task](%currentPath%/batch-developer-guides/batch/simple-task) sample Spring Cloud Task application, called `billsetuptask`.
 Follow the instructions to code and build the task if you have not done so already.
 We will register a task application, create a simple task definition, and launch the task using the Data Flow Server.
 The Data Flow Server provides a comprehensive [API](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
@@ -20,7 +20,7 @@ Which one to use is a matter of preference, but the UI is quite nice so we will 
 
 ### The Data Flow Dashboard
 
-Assuming Data Flow is [installed](installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
+Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
 
 ### Application Registration
 
@@ -107,4 +107,4 @@ As Alana I must ask for an org/space
 
 ### Kubernetes
 
-Run the [sample task on Kubernetes](/documentation/batch-developer-guides/batch/data-flow-simple-task-kubernetes/).
+Run the [sample task on Kubernetes](%currentPath%/batch-developer-guides/batch/data-flow-simple-task-kubernetes/).

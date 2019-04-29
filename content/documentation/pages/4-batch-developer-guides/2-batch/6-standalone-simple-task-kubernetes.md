@@ -8,11 +8,11 @@ description: 'Guide to deploying spring-cloud-stream-task applications on Kubern
 
 This guide will walk you through how to deploy and run a simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) application on Kubernetes.
 
-We will deploy the sample [billsetuptask](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask) application to Kubernetes.
+We will deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/simple-task) application to Kubernetes.
 
 ## Setting up the Kubernetes cluster
 
-For this we need a running [Kubernetes cluster](/documentation/installation/kubernetes/). For this example we will deploy to `minikube`.
+For this we need a running [Kubernetes cluster](%currentPath%/installation/kubernetes/). For this example we will deploy to `minikube`.
 
 ### Verify minikube is up and running:
 
