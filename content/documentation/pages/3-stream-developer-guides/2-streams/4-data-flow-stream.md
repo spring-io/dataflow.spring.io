@@ -10,7 +10,7 @@ In this section we will show how to register stream applications with Data Flow,
 
 ## Development
 
-In the previous sections, we created Source, Processor and Sink streaming applications and tested them as standalone applications.
+In the previous sections, we created `Source`, `Processor` and `Sink` streaming applications and tested them as standalone applications.
 In this guide, you can create a streaming pipeline using these streaming applications.
 Once the individual applications are developed and tested, we can create and deploy the stream using the stream DSL from Dashboard UI or the SCDF shell.
 
@@ -19,7 +19,7 @@ Once the individual applications are developed and tested, we can create and dep
 Spring Cloud Data Flow server has an application registry to refer all the individual streaming applications.
 When you register an application, you would provide:
 
-- it's location URI
+- it's location URI (maven, http, docker, file etc.,)
 - application version
 - application type (Source, Processor, Sink)
 - application name
@@ -37,35 +37,47 @@ Let's assume you are running Spring Cloud Data Flow, Skipper servers running on 
 Register the `UsageDetailSender` source application:
 
 ```
-dataflow:>app register --name usage-detail-sender --type source --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-detail-sender/target/usage-detail-sender-0.0.1-SNAPSHOT.jar
+app register --name usage-detail-sender --type source --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-detail-sender/target/usage-detail-sender-0.0.1-SNAPSHOT.jar
 ```
 
 Register the `UsageCostProcessor` processor application:
 
 ```
-dataflow:>app register --name usage-cost-processor --type processor --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-cost-processor/target/usage-cost-processor-0.0.1-SNAPSHOT.jar
+app register --name usage-cost-processor --type processor --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-cost-processor/target/usage-cost-processor-0.0.1-SNAPSHOT.jar
 ```
 
 Register the `UsageCostLogger` sink application:
 
 ```
-dataflow:>app register --name usage-cost-logger --type sink --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-cost-logger/target/usage-cost-logger-0.0.1-SNAPSHOT.jar
+app register --name usage-cost-logger --type sink --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-cost-logger/target/usage-cost-logger-0.0.1-SNAPSHOT.jar
 ```
 
 ### Create Stream DSL
 
-Create a streaming pipeline that has the Source, Processor and Sink applications as registered above.
+Create a streaming pipeline that has the `Source`, `Processor` and `Sink` applications as registered above.
 
 ```
-dataflow:>stream create usage-cost-logger --definition "usage-detail-sender | usage-cost-processor | usage-cost-logger"
+stream create usage-cost-logger --definition "usage-detail-sender | usage-cost-processor | usage-cost-logger"
 ```
+
+**Note**
+
+The pipe symbol `|` represents the messaging middleware/streaming platform we use for the stream.
+You need to make sure you have the corresponding Spring Cloud Stream binder dependency in your application that represents the binder to the messaging middleware/streaming platform used in your stream.
 
 ### Validate Stream DSL
 
 Make sure the app coordinates are correct for the stream.
 
+The command:
+
 ```
-dataflow:>stream validate usage-cost-logger
+stream validate usage-cost-logger
+```
+
+will show the following result:
+
+```
 ╔═════════════════╤══════════════════════════════════════════════════════════════╗
 ║   Stream Name   │                      Stream Definition                       ║
 ╠═════════════════╪══════════════════════════════════════════════════════════════╣
@@ -93,7 +105,7 @@ Deploy to local, Cloud Foundry and Kubernetes
 Deploy the stream:
 
 ```
-dataflow:> stream deploy usage-cost-logger
+stream deploy usage-cost-logger
 ```
 
 Once the stream is deployed on `Local` development environment, you can look the runtime applications via Dashboard's runtime page or using the SCDF Shell command `runtime apps`.

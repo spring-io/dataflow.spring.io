@@ -9,5 +9,5 @@ summary: true
 
 In this stream processing guide, you will see how you can:
 
-- develop, test and deploy an individual streaming application
+- design, develop, test and deploy an individual streaming application
 - create a streaming pipeline using those individual applications in Spring Cloud Data Flow

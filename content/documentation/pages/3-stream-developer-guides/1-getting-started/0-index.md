@@ -7,4 +7,4 @@ summary: true
 
 # Stream Processing
 
-Discuss at a high level what is covered in the following guides.
+Introduction and getting started with simple stream pipelines using Spring Cloud Data Flow.

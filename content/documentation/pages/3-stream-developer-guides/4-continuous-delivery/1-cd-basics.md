@@ -1,7 +1,7 @@
 ---
 path: 'stream-developer-guides/continuous-delivery/cd-basics/'
-title: 'Continuous Delivery'
-description: 'Continuous Delivery with Skipper'
+title: 'Continuous Delivery of streaming applications'
+description: 'Continuous Delivery of Streaming applications'
 ---
 
 # Introduction
@@ -12,35 +12,73 @@ Spring Cloud Data Flow provides native support for continuous delivery of event 
 
 To demonstrate this, lets use some of the out of the box streaming applications.
 
-### Registering out of the box streaming applications using the Shell
+## Registering out of the box streaming applications using the Shell
+
+If you are using `RabbitMQ` as the messaging middleware and `maven` artifacts:
 
 ```
-dataflow:> app import --uri  http://bit.ly/Einstein-SR2-stream-applications-rabbit-maven
+app import --uri  http://bit.ly/Einstein-SR2-stream-applications-rabbit-maven
 ```
 
-The above SCDF shell command registers the `Maven` artifacts of the out of the box streaming applications that can work on `RabbitMQ` messaging middleware.
-
-If you would like to register `docker` artifacts
+If you are using `RabbitMQ` as the messaging middleware and `docker` images:
 
 ```
-dataflow:> app import --uri  http://bit.ly/Einstein-SR2-stream-applications-rabbit-docker
+app import --uri  http://bit.ly/Einstein-SR2-stream-applications-rabbit-docker
 ```
 
-### Stream create and deploy
+If you are using `Kafka` as the Streaming platform and `maven` artifacts:
+
+```
+app import --uri  http://bit.ly/Einstein-SR2-stream-applications-kafka-maven
+```
+
+If you are using `Kafka` as the Streaming platform and `docker` images:
+
+```
+app import --uri  http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
+```
+
+## Stream create and deploy
 
 Create and deploy a stream that has source which ingests `http` events and the `transform` processor that applies a transformation logic and the `log` sink that shows the result of the transformed events.
 
 ```
-dataflow:>stream create http-events-transformer --definition "http --server.port=9000 | transform --expression=payload.toUpperCase() | log" --deploy
+stream create http-ingest --definition "http --server.port=9000 | transform --expression=payload.toUpperCase() | log" --deploy
+```
+
+You can verify stream status from the `stream list` command.
+
+```
+stream list
+```
+
+```
+╔═══════════╤═════════════════════════════╤═════════════════════════════════════════╗
+║Stream Name│      Stream Definition      │                 Status                  ║
+╠═══════════╪═════════════════════════════╪═════════════════════════════════════════╣
+║http-ingest│http --server.port=9000 | log│The stream is being deployed             ║
+╚═══════════╧═════════════════════════════╧═════════════════════════════════════════╝
+```
+
+```
+stream list
+```
+
+```
+╔═══════════╤═════════════════════════════╤═════════════════════════════════════════╗
+║Stream Name│      Stream Definition      │                 Status                  ║
+╠═══════════╪═════════════════════════════╪═════════════════════════════════════════╣
+║http-ingest│http --server.port=9000 | log│The stream has been successfully deployed║
+╚═══════════╧═════════════════════════════╧═════════════════════════════════════════╝
 ```
 
 Post some data from the Spring Cloud Data Flow shell:
 
 ```
-dataflow:>http post --target "http://localhost:9000" --data "spring"
+http post --target "http://localhost:9000" --data "spring"
 ```
 
-From the `log` application, you will see the following:
+From the log file of the `log` application, you will see the following:
 
 ```
 log-sink                                 :  SPRING
@@ -49,7 +87,12 @@ log-sink                                 :  SPRING
 The command `stream manifest http-events-transformer` shows all the applications for this event stream.
 
 ```
-dataflow:>stream manifest http-events-transformer
+stream manifest http-events-transformer
+```
+
+You can see the following result:
+
+```
 "apiVersion": "skipper.spring.io/v1"
 "kind": "SpringCloudDeployerApplication"
 "metadata":
@@ -135,14 +178,16 @@ dataflow:>stream manifest http-events-transformer
   "deploymentProperties":
     "spring.cloud.deployer.group": "http-events-transformer"
 
-dataflow:>
 ```
 
 For instance, you can see the `transform` application has the property "transformer.expression": "payload.toUpperCase()".
 The command `stream history http-events-transformer` shows the history for this event stream, listing all the available versions.
 
 ```
-dataflow:>stream history --name http-events-transformer
+stream history --name http-events-transformer
+```
+
+```
 ╔═══════╤════════════════════════════╤════════╤═══════════════════════╤═══════════════╤════════════════╗
 ║Version│        Last updated        │ Status │     Package Name      │Package Version│  Description   ║
 ╠═══════╪════════════════════════════╪════════╪═══════════════════════╪═══════════════╪════════════════╣
@@ -157,19 +202,22 @@ If you want to update the existing deployed stream to use a different version of
 First, you can register the required version of the `log` application:
 
 ```
-dataflow:>app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-kafka:2.1.0.RELEASE
+app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-kafka:2.1.0.RELEASE
 ```
 
 and perform the stream update as follows:
 
 ```
-dataflow:>stream update --name http-events-transformer --properties "app.log.version=2.1.0.RELEASE"
+stream update --name http-events-transformer --properties "app.log.version=2.1.0.RELEASE"
 ```
 
 Once the stream update is completed, you can verify the `stream manifest` to see if the version of the `log` application is changed.
 
 ```
 dataflow:>stream manifest http-events-transformer
+```
+
+```
 "apiVersion": "skipper.spring.io/v1"
 "kind": "SpringCloudDeployerApplication"
 "metadata":
@@ -205,7 +253,10 @@ dataflow:>stream manifest http-events-transformer
 ```
 
 ```
-dataflow:>stream history --name http-events-transformer
+stream history --name http-events-transformer
+```
+
+```
 ╔═══════╤════════════════════════════╤════════╤═══════════════════════╤═══════════════╤════════════════╗
 ║Version│        Last updated        │ Status │     Package Name      │Package Version│  Description   ║
 ╠═══════╪════════════════════════════╪════════╪═══════════════════════╪═══════════════╪════════════════╣
@@ -218,7 +269,7 @@ You can also change the configuration properties of the application without usin
 Let’s say you want to change the transformation logic used in the `transform` application without redeploying the entire stream and update the `transform` application in isolation.
 
 ```
-dataflow:>stream update http-events-transformer --properties "app.transform.expression=payload.toUpperCase().concat('!!!')"
+stream update http-events-transformer --properties "app.transform.expression=payload.toUpperCase().concat('!!!')"
 ```
 
 When you run the `stream manifest http-events-transformer` command again, you will see the `transform` application is now changed to include the expression property, which transforms each of the payloads by appending !!! at the end.
@@ -226,7 +277,7 @@ When you run the `stream manifest http-events-transformer` command again, you wi
 Let’s test the update:
 
 ```
-dataflow:>http post --target "http://localhost:9000" --data "spring"
+http post --target "http://localhost:9000" --data "spring"
 ```
 
 From `log` application's log file, you will now see the following:
@@ -244,27 +295,25 @@ If you want to roll back the event stream to a specific version, you can use the
 After rolling back to the initial version of the event stream (where the `transform` application just did uppercase conversion):
 
 ```
-dataflow:>stream rollback http-events-transformer --releaseVersion 1
-Rollback request has been sent for the stream 'http-events-transformer'
+stream rollback http-events-transformer --releaseVersion 1
 ```
 
 ```
-dataflow:>http post --target "http://localhost:9000" --data "spring"
-> POST (text/plain) http://localhost:9000 spring
-> 202 ACCEPTED
+http post --target "http://localhost:9000" --data "spring"
 ```
 
 In the `log` application's log file, you will now see:
 
+```
 log-sink : SPRING
+```
 
 ## Stream Delete
 
 You can delete the event stream as follows:
 
 ```
-dataflow:>stream destroy http-events-transformer
-Destroyed stream 'http-events-transformer'
+stream destroy http-events-transformer
 ```
 
 ### UI

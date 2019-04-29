@@ -6,7 +6,7 @@ description: 'Create a simple stream processing application on RabbitMQ'
 
 # Stream Processing with RabbitMQ
 
-We will start from initializr and create two Spring Cloud Stream applications.
+We will start from initializr and create three Spring Cloud Stream applications.
 Note for CF we need a manifest, for k8s we need a service/deployment yaml.
 
 ## Development
@@ -17,7 +17,7 @@ Note for CF we need a manifest, for k8s we need a service/deployment yaml.
 
 1. Visit the [Spring Initialzr site](https://start.spring.io/).
 1. Select the latest release of spring boot.
-1. Create a new Maven project with a Group name of `com.example` and an Artifact name of `usage-detail-sender`.
+1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender`.
 1. In the Dependencies text box, type `Rabbitmq` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 1. Click the Generate Project button.
@@ -27,14 +27,14 @@ Note for CF we need a manifest, for k8s we need a service/deployment yaml.
 
 Another option instead of using the UI to initialize your project you can do the following:
 
-1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=demo-source&groupId=com.example&artifactId=usage-detail-sender&name=usage-detail-sender&description=Demo+project+for+Spring+Boot&packageName=com.example.demosource&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream) to download the preconfigured usage-detail-sender.zip.
+1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender&name=usage-detail-sender&description=Sample+project+for+Spring+Cloud+Stream+Source&packageName=io.spring.dataflow.sample&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream) to download the preconfigured usage-detail-sender.zip.
 
 2. Unzip the usage-detail-sender.zip file and import the project into your favorite IDE
 
 #### Biz Logic
 
-1.  In your favorite IDE create the `com.example.demo.domain` package
-1.  Create a `UsageDetail` class in the `com.example.demo.domain` using your favorite IDE that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-detail-sender/src/main/java/com/example/demo/domain/UsageDetail.java).
+1.  In your favorite IDE create the `io.spring.dataflow.sample.domain` package
+1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.domain` using your favorite IDE that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-detail-sender/src/main/java/com/example/demo/domain/UsageDetail.java).
     This `UsageDetail` model contains `userId`, `data` and `duration`.
 1.  Create the `Source` application produces usage detail for each user including call duration, data usage.
 
@@ -94,15 +94,15 @@ java -jar usage-detail-sender-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.
 
 Another option instead of using the UI to initialize your project you can do the following:
 
-1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=demo-source&groupId=com.example&artifactId=usage-cost-processor&name=usage-cost-processor&description=Demo+project+for+Spring+Boot&packageName=com.example.demosource&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream) to download the preconfigured usage-cost-processor.zip.
+1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor&name=usage-cost-processor&description=Sample+project+for+Spring+Cloud+Stream+Processor&packageName=com.example.demosource&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream) to download the preconfigured usage-cost-processor.zip.
 2. Unzip the usage-cost-processor.zip file and import the project into your favorite IDE
 
 #### Biz Logic
 
-1.  In your favorite IDE create the `com.example.demo.domain` package
-1.  Create a `UsageDetail` class in the `com.example.demo.domain` using your favorite IDE that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-detail-sender/src/main/java/com/example/demo/domain/UsageDetail.java).
+1.  In your favorite IDE create the `io.spring.dataflow.sample.domain` package
+1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.domain` using your favorite IDE that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-detail-sender/src/main/java/com/example/demo/domain/UsageDetail.java).
     This `UsageDetail` model contains `userId`, `data` and `duration`.
-1.  Create a `UsageCostDetail` class in the `com.example.demo.domain` using using your favorite IDE that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-cost-processor/src/main/java/com/example/demo/domain/UsageCostDetail.java).
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.domain` using using your favorite IDE that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-cost-processor/src/main/java/com/example/demo/domain/UsageCostDetail.java).
     This `UsageCostDetail` model contains `userId`, `callCost` and `dataCost`.
 1.  Create the `Processor` application that receives the `UsageDetail` from the previously created `source`, computes the call/data cost and returning the `UsageCostDetail`.
 
@@ -142,13 +142,13 @@ You can run the standalone `UsageCostProcessor` processor application as,
 java -jar usage-cost-processor-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost --server.port=9091
 ```
 
-### Sample Processor
+### Sample Sink
 
 #### Initialzr
 
 1. Visit the [Spring Initialzr site](https://start.spring.io/).
 1. Select the latest release of spring boot.
-1. Create a new Maven project with a Group name of `com.example` and an Artifact name of `usage-cost-logger`.
+1. Create a new Maven project with a Group name of `io.spring.dataflow` and an Artifact name of `usage-cost-logger`.
 1. In the Dependencies text box, type `Rabbitmq` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 1. Click the Generate Project button.
@@ -158,13 +158,13 @@ java -jar usage-cost-processor-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings
 
 Another option instead of using the UI to initialize your project you can do the following:
 
-1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=demo-source&groupId=com.example&artifactId=usage-cost-logger&name=usage-cost-logger&description=Demo+project+for+Spring+Boot&packageName=com.example.demosource&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream) to download the preconfigured usage-cost-logger.zip.
+1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger&name=usage-cost-logger&description=Sample+project+for+Spring+Cloud+Stream+Sink&packageName=io.spring.dataflow.sample&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream) to download the preconfigured usage-cost-logger.zip.
 2. Unzip the usage-cost-logger.zip file and import the project into your favorite IDE
 
 #### Biz Logic
 
-1.  In your favorite IDE create the `com.example.demo.domain` package.
-1.  Create a `UsageCostDetail` class in the `com.example.demo.domain` using using your favorite IDE that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-cost-processor/src/main/java/com/example/demo/domain/UsageCostDetail.java).
+1.  In your favorite IDE create the `io.spring.dataflow.sample.domain` package.
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.domain` using using your favorite IDE that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/usage-cost-processor/src/main/java/com/example/demo/domain/UsageCostDetail.java).
     This `UsageCostDetail` model contains `userId`, `callCost` and `dataCost`.
 1.  Create the `Sink` application that receives the `UsageCostDetail` from the previously created `processor` and logs it.
 
