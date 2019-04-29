@@ -1,9 +1,18 @@
 const queries = require(`./utils/algolia-queries`)
 const versions = require('./content/versions.json')
 
-const uniqueVersions = [...new Set(Object.values(versions))]
+const siteMetadata = {
+  title: `Spring Cloud Data Flow`,
+  description: `Spring Cloud Data Flow puts powerful integration, batch and stream processing in the hands of the Java microservice developer`,
+  author: `@springcloud`,
+  siteUrl: `https://dataflow.spring.io`,
+  canonical: `https://dataflow.spring.io`,
+  twitter: `@springcloud`,
+  image: `https://dataflow-dev.netlify.com/images/card.jpg`,
+  keywords: [`spring`, `cloud`, `dataflow`],
+}
 
-const arrVars = uniqueVersions.map(version => {
+const arrVars = [...new Set(Object.values(versions))].map(version => {
   const vars = require(`./data/${version}/variables.json`)
   vars.currentPath = `/documentation/${version}`
   vars.version = version
@@ -178,15 +187,6 @@ if (process.env.ALGOLIA_ADMIN_KEY) {
 }
 
 module.exports = {
-  siteMetadata: {
-    title: `Spring Cloud Data Flow`,
-    description: `Spring Cloud Data Flow puts powerful integration, batch and stream processing in the hands of the Java microservice developer`,
-    author: `@springcloud`,
-    siteUrl: `https://dataflow.spring.io`,
-    canonical: `https://dataflow.spring.io`,
-    twitter: `@springcloud`,
-    image: `https://quirky-haibt-6b520a.netlify.com/images/card.jpg`,
-    keywords: [`spring`, `cloud`, `dataflow`],
-  },
-  plugins: plugins,
+  siteMetadata,
+  plugins,
 }
