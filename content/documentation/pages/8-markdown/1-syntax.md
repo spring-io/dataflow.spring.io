@@ -184,7 +184,59 @@ Lorem [ipsum dolor %foo%](https://spring.io/%foo%) sit amet, consectetur `adipis
 [[tip]]
 | Lorem ipsum dolor sit amet, consectetur **%foo%** adipiscing
 
-### Download github files
+### Tabulation
+
+**Usage:**
+
+<!--TABS-->
+<!--First-->
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<!--Second-->
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<!--END_TABS-->
+
+<!--TABS-->
+<!--JavaScript-->
+
+```js
+console.log('Hello, world!')
+```
+
+<!--Python-->
+
+```py
+print('Hello, world!')
+```
+
+<!--C-->
+
+```C
+#include <stdio.h>
+
+int main() {
+   printf("Hello World!");
+   return 0;
+}
+```
+
+<!--Pascal-->
+
+```Pascal
+program HelloWorld;
+begin
+  WriteLn('Hello, world!');
+end.
+```
+
+<!--END_TABS-->
+
+### Download Github file
 
 **Markdown:**
 
@@ -196,7 +248,7 @@ Lorem [ipsum dolor %foo%](https://spring.io/%foo%) sit amet, consectetur `adipis
 
 With a custom title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=download sql file`, with the default title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
 
-### Embed code from Github
+### Embed Github code
 
 **Markdown:**
 

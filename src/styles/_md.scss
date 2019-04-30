@@ -202,12 +202,17 @@
       border: 1px solid #dddddd;
       .tab-item {
         display: none;
+        padding: $spring-8points * 2 $spring-8points * 3;
         &.active {
           display: block;
         }
         .spring-code {
           margin: 0;
           border: 0 none;
+          padding: 0;
+          pre {
+            padding: 0;
+          }
         }
       }
     }
