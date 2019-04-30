@@ -18,7 +18,7 @@ Suppose a cell phone data provider needs to create billing statements for custom
 
 We could implement this entire solution into a single Spring Boot Application that utilizes Spring Batch, however for this example we will break up the solution into 2 phases:
 
-1. [billsetuptask](/documentation/master/batch-developer-guides/batch/simple-task/): The [billsetuptask](/documentation/master/batch-developer-guides/batch/simple-task/) application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
+1. [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task/): The [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task/) application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
 1. _billrun_: The _billrun_ application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a JSON file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
 
 For this section we will create a Spring Cloud Task/Spring Batch billrun application that will read usage information from a JSON file containing customer usage data and price each entry and place the result into the `BILL_STATEMENTS` table.
@@ -254,15 +254,15 @@ public class BillrunApplicationTests {
 						rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"),
 						rs.getLong("DATA_USAGE"), rs.getLong("MINUTES"),
 						rs.getDouble("bill_amount")));
-		assertEquals(5, billStatements.size());
+		Assert.assertEquals(5, billStatements.size());
 
 		Bill billStatement = billStatements.get(0);
-		assertEquals(6, billStatement.getBillAmount(), 1e-15);
-		assertEquals("jane", billStatement.getFirstName());
-		assertEquals("doe", billStatement.getLastName());
-		assertEquals(new Long(1), billStatement.getId());
-		assertEquals(new Long(500), billStatement.getMinutes());
-		assertEquals(new Long(1000), billStatement.getDataUsage());
+		Assert.assertEquals(6, billStatement.getBillAmount(), 1e-15);
+		Assert.assertEquals("jane", billStatement.getFirstName());
+		Assert.assertEquals("doe", billStatement.getLastName());
+		Assert.assertEquals(new Long(1), billStatement.getId());
+		Assert.assertEquals(new Long(500), billStatement.getMinutes());
+		Assert.assertEquals(new Long(1000), billStatement.getDataUsage());
 	}
 }
 ```

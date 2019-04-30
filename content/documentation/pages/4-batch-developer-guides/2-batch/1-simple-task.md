@@ -19,7 +19,7 @@ Suppose a cell phone data provider needs to create billing statements for custom
 For this example we will break up the solution into 2 phases:
 
 1. _billsetuptask_: The _billsetuptask_ application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
-1. [billrun](/documentation/batch-developer-guides/batch/spring-batch): The [billrun](/documentation/batch-developer-guides/batch/spring-batch) application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
+1. [billrun](%currentPath%/batch-developer-guides/batch/spring-batch/): The [billrun](%currentPath%/batch-developer-guides/batch/spring-batch/) application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
 
 For this section we will create a Spring Cloud Task/Boot application that will create the `BILL_STATEMENTS` table that will be used by the BillRun application.
 
@@ -124,7 +124,7 @@ public class BillsetuptaskApplicationTests {
 		int result = jdbcTemplate.queryForObject(
 				"SELECT COUNT(*) FROM BILL_STATEMENTS", Integer.class);
 
-		assertEquals(0, result);
+		Assert.assertEquals(0, result);
 	}
 }
 ```
