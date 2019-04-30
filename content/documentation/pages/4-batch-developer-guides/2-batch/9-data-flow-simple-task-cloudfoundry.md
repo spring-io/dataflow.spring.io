@@ -55,14 +55,14 @@ The second task ([Spring Batch](https://spring.io/projects/spring-batch)) applic
 They are both located in the same Git repository. In order to get started, please checkout the project using:
 
 ```bash
-$ git clone https://github.com/spring-cloud/spring-cloud-dataflow-samples.git
-$ cd spring-cloud-dataflow-samples/dataflow-website/batch-developer-guides/batch/batchsamples
+git clone https://github.com/spring-cloud/spring-cloud-dataflow-samples.git
+cd spring-cloud-dataflow-samples/dataflow-website/batch-developer-guides/batch/batchsamples
 ```
 
 Let's first build the entire project:
 
 ```bash
-$ ./mvnw clean package
+./mvnw clean package
 ```
 
 This will create 2 executable Jar files, one for each application:
@@ -85,13 +85,13 @@ In order to run the 2 task applications using Spring Cloud Data Flow we will als
 Download the 2 server applications - Spring Cloud Data Flow:
 
 ```bash
-$ wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-dataflow-server/2.1.0.M1/spring-cloud-dataflow-server-2.1.0.M1.jar
+wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-dataflow-server/2.1.0.M1/spring-cloud-dataflow-server-2.1.0.M1.jar
 ```
 
 and Spring Cloud Skipper:
 
 ```bash
-$ wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-skipper-server/2.0.2.RC1/spring-cloud-skipper-server-2.0.2.RC1.jar
+wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-skipper-server/2.0.2.RC1/spring-cloud-skipper-server-2.0.2.RC1.jar
 ```
 
 We will then deploy those 2 jars to Cloud Foundry.
@@ -103,7 +103,7 @@ First of all you need a Cloud Foundry account. You can create a free account usi
 Log into Cloud Foundry using the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools):
 
 ```bash
-$ cf login
+cf login
 ```
 
 **INFO** You can also target specific Cloud Foundry instances with the `-a` flag, for example `cf login -a https://api.run.pivotal.io`.
@@ -118,14 +118,14 @@ We will use the following 2 Cloud Foundry services:
 You can get a listing of available services on Cloud using the `marketplace` command:
 
 ```bash
-$ cf marketplace
+cf marketplace
 ```
 
 On [Pivotal Web Services](https://run.pivotal.io/) (PWS) you should be able to use the following command to install the PostgreSQL service as well as RabbitMQ service:
 
 ```bash
-$ cf create-service elephantsql panda postgres-service
-$ cf create-service cloudamqp lemur rabbitmq-service
+cf create-service elephantsql panda postgres-service
+cf create-service cloudamqp lemur rabbitmq-service
 ```
 
 **INFO** When choosing a Postgres service, please keep an eye on the provided number of connections. On PWS, for example, the free service tier of `elephantsql` only provides 4 parallel database connections, which is too limiting to run this example sucessfully.
@@ -268,8 +268,8 @@ We don't have to provide any `Arguments` or `Parameters`. Simply click `Launch t
 Finally, we can verify the results of the task by taking a look at the PostgreSQL database and the results table. In order to validate the results, we have to connect to the PostgresSQL database. First we need to create a service key for our PostgreSQL service `postgres-service` and then we can get the service information:
 
 ```bash
-$ cf create-service-key postgres-service EXTERNAL-ACCESS-KEY
-$ cf service-key postgres-service EXTERNAL-ACCESS-KEY
+cf create-service-key postgres-service EXTERNAL-ACCESS-KEY
+cf service-key postgres-service EXTERNAL-ACCESS-KEY
 ```
 
 This should result in a response detailing the access information for the respective database. The result will be different depending on whether the used database service is running internally or whether the service is provided by a third-party. In case of PWS, using ElephantSQL, we can directly connect to the database as it is a third-party provider.
@@ -277,7 +277,7 @@ This should result in a response detailing the access information for the respec
 If you are dealing with an internal service, you may have to create a ssh tunnel via the `cf ssh` command, e.g.:
 
 ```bash
-$ cf ssh -L 63306:<host_name>:<port> postgres-service
+cf ssh -L 63306:<host_name>:<port> postgres-service
 ```
 
 **screenshot_here**
