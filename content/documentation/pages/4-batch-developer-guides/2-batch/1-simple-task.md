@@ -10,7 +10,8 @@ In this guide we will develop a Spring Boot application that uses Spring Cloud T
 
 We will start from the [Spring Initializr](https://start.spring.io/) and create a Spring Cloud Task application.
 
-NOTE: All code for this project can be found [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples).
+[[note]]
+| NOTE: All code for this project can be found [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples).
 
 ## Development
 

@@ -10,7 +10,8 @@ In this guide we will develop a Spring Batch application and deploy it to Cloud 
 
 We will start from [Spring Initializr](https://start.spring.io/) and create a Spring Batch application.
 
-NOTE: All code for this project can be found [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples).
+[[note]]
+| NOTE: All code for this project can be found [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples).
 
 ## Development
 
