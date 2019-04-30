@@ -177,6 +177,42 @@
     }
   }
 
+  .tabs {
+    margin: $spring-8points 0 $spring-8points * 2;
+    .tabs-headers {
+      margin-bottom: -1px;
+      a {
+        display: inline-block;
+        padding: $spring-8points $spring-8points * 2;
+        border-bottom: 3px solid transparent;
+        color: lighten($spring-color, 40);
+        text-decoration: none;
+        cursor: pointer;
+        &:hover {
+          color: $spring-color;
+        }
+        &.active,
+        &:hover.active {
+          border-bottom: 3px solid $spring-primary-color;
+          color: $spring-primary-color;
+        }
+      }
+    }
+    .tabs-items {
+      border: 1px solid #dddddd;
+      .tab-item {
+        display: none;
+        &.active {
+          display: block;
+        }
+        .spring-code {
+          margin: 0;
+          border: 0 none;
+        }
+      }
+    }
+  }
+
   .gatsby-highlight {
     pre[class*='language-'] {
       margin: 0;
@@ -298,8 +334,7 @@
       border: 0 none;
     }
   }
-}
-
-.link-download {
-  cursor: pointer;
+  .link-download {
+    cursor: pointer;
+  }
 }

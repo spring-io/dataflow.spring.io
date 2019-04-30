@@ -154,6 +154,7 @@ const plugins = [
           },
         },
         `spring-remark-code`,
+        `spring-remark-code-tabs`,
       ],
     },
   },

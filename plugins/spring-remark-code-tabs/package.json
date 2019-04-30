@@ -1,7 +1,7 @@
 {
-  "name": "spring-remark-code",
+  "name": "spring-remark-code-tabs",
   "version": "0.0.1",
-  "description": "Spring code",
+  "description": "Spring code tabs",
   "main": "index.js",
   "author": "@spring",
   "private": true
