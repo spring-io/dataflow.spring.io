@@ -21,7 +21,7 @@ For this guide, we will deploy Spring Cloud Data Flow to Cloud Foundry.
 
 **IMPORTANT** This guide will provide you with quick steps to get you going. For more specific information, please refer to the [Cloud Foundry specific section](https://docs.spring.io/spring-cloud-dataflow/docs/current-SNAPSHOT/reference/htmlsingle/#getting-started-cloudfoundry) of the Spring Cloud Data Flow reference documentation in regards to how to set things up for Cloud Foundry.
 
-# Requirements
+## Requirements
 
 On your local machine, you will need to have installed:
 
@@ -124,7 +124,7 @@ cf marketplace
 On [Pivotal Web Services](https://run.pivotal.io/) (PWS) you should be able to use the following command to install the PostgreSQL service as well as RabbitMQ service:
 
 ```bash
-cf create-service elephantsql panda postgres-service
+cf create-service    postgres-service
 cf create-service cloudamqp lemur rabbitmq-service
 ```
 
@@ -132,7 +132,7 @@ cf create-service cloudamqp lemur rabbitmq-service
 
 Please make sure you name your PostgresSQL service `postgres-service`.
 
-# Setting up Skipper on Cloud Foundry
+## Setting up Skipper on Cloud Foundry
 
 In order to deploy, create a file `manifest-skipper.yml`:
 
@@ -172,7 +172,7 @@ applications:
 
 Now run `cf push -f ./manifest-skipper.yml`.
 
-# Setting up Data Flow on Cloud Foundry
+## Setting up Data Flow on Cloud Foundry
 
 In order to deploy, create a file `manifest-dataflow.yml`:
 
@@ -223,7 +223,7 @@ Next, go to the Spring Cloud Data Flow dasboard at https://your-data-flow-server
 
 ![Cloud Foundry Dashboard with Data Flow and Skipper running](images/scdf-cf-dashboard.png)
 
-# Execute the Example
+## Execute the Example
 
 First, we need to import the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), which will give us the `composed-task-runner` application. For the Task App Starters we will use the option **Bulk import application coordinates from an HTTP URI location**. We use the latest release link, e.g. `http://bit.ly/Elston-GA-task-applications-maven` as URI. Click `Import the application(s)`.
 
@@ -263,7 +263,7 @@ Congratulations, you have created a composed task definition that will deploy an
 
 We don't have to provide any `Arguments` or `Parameters`. Simply click `Launch the task`. The operation may take a few seconds, as the task application will be deployed to Cloud Foundry.
 
-## Verify the results
+## Verify the Results
 
 Finally, we can verify the results of the task by taking a look at the PostgreSQL database and the results table. In order to validate the results, we have to connect to the PostgresSQL database. First we need to create a service key for our PostgreSQL service `postgres-service` and then we can get the service information:
 
@@ -274,14 +274,25 @@ cf service-key postgres-service EXTERNAL-ACCESS-KEY
 
 This should result in a response detailing the access information for the respective database. The result will be different depending on whether the used database service is running internally or whether the service is provided by a third-party. In case of PWS, using ElephantSQL, we can directly connect to the database as it is a third-party provider.
 
-If you are dealing with an internal service, you may have to create a ssh tunnel via the `cf ssh` command, e.g.:
+If you are dealing with an internal service, you may have to create an ssh tunnel via the `cf ssh` command, e.g.:
 
 ```bash
-cf ssh -L 63306:<host_name>:<port> postgres-service
+cf ssh -L 63306:<host_name>:<port> data-flow-server
 ```
 
-**screenshot_here**
+For more information, please see the respective Cloud Foundry documentation:
+
+- [Accessing Apps with SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html)
+- [Accessing Services with SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html)
+
+In any event, you should be able to see the added rows in the `bill_statements` database table:
+
+![Database Results](images/scdf-cf-database-results.png)
 
 ## Teardown of all Task Applications
 
 With the conclusion of this example you may also want to remove the created task applications. Simply mark them in the task applications table and select `Destroy task(s)`.
+
+![Destroy Task Definitions](images/scdf-cf-dashboard-destroy-task-definitions.png)
+
+This will also remove the deployed task applications from Cloud Foundry.
