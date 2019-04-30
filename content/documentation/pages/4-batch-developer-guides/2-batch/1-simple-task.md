@@ -209,9 +209,255 @@ $ docker stop mysql
 $ docker rm mysql
 ```
 
-<!--### Cloud Foundry -->
+### Cloud Foundry
 
-<!--### Kubernetes -->
+This guide will walk through how to deploy and run simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) stand-alone applications to Cloud Foundry.
+
+#### Requirements
+
+On your local machine, you will need to have installed:
+
+- Java
+- [Git](https://git-scm.com/)
+
+Please also make sure that you have the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) installed ([documentation](https://docs.run.pivotal.io/cf-cli/)).
+
+#### Building the application
+
+Now let’s take the next step of building the project.
+From a command line change directory to the location of your project and build the project using maven
+`./mvnw clean package`
+
+#### Setting up Cloud Foundry
+
+First of all you need a Cloud Foundry account. You can create a free account using [Pivotal Web Services](https://run.pivotal.io/) (PWS). We will use PWS for this example. If you use a different provider, your experience may vary slightly.
+
+Log into Cloud Foundry using the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools):
+
+```bash
+cf login
+```
+
+**INFO** You can also target specific Cloud Foundry instances with the `-a` flag, for example `cf login -a https://api.run.pivotal.io`.
+
+Before you can push application, please also ensure that you setup the **MySql Service** on Cloud Foundry. You can check what services are available using:
+
+```bash
+cf marketplace
+```
+
+On [Pivotal Web Services](https://run.pivotal.io/) (PWS) you should be able to use the following command to install the MySQL service:
+
+```bash
+cf create-service cleardb spark task-example-mysql
+```
+
+Please make sure you name your MySQL service is `task-example-mysql`.
+
+#### Task Concepts in Cloud Foundry
+
+In order to provide configuration parameters for Cloud Foundry, we will create dedicated `manifest` YAML files for each application.
+
+**INFO** For additional information on setting up a manifest see [here](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html)
+
+Running tasks on Cloud Foundry is a 2-stage process. Before you can actually run any tasks you need to first push an app that is staged without any running instances. We are providing the following common properties to the manifest YAML file to each application:
+
+```yml
+memory: 32M
+health-check-type: process
+no-route: true
+instances: 0
+```
+
+The key is to set the `instances` property to `0`. This will ensure that the app is staged without being actually running. We also do not need a route to be created and can set `no-route` to `true`.
+
+**TIP** Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but if your database service is internal (part of your Cloud Foundry instance) we can use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
+
+#### Running billsetuptask on Cloud Foundry
+
+In order to deploy the first task application `billsetuptask`, create file `manifest-billsetuptask.yml` with the following contents:
+
+```yaml
+applications:
+  - name: billsetuptask
+    memory: 32M
+    health-check-type: process
+    no-route: true
+    instances: 0
+    disk_quota: 1G
+    timeout: 180
+    buildpacks:
+      - java_buildpack
+    path: target/billsetuptask-0.0.1-SNAPSHOT.jar
+    services:
+      - task-example-mysql
+```
+
+Now run `cf push -f ./manifest-billsetuptask.yml`. This will stage the application and the app should be up which you can also verify in the Cloud Foundry dashboard.
+
+![billsetuptask deployed to Cloud Foundry](images/CF-task-standalone-initial-push-result.png)
+
+We are now ready to run the task:
+
+```bash
+cf run-task billsetuptask ".java-buildpack/open_jdk_jre/bin/java org.springframework.boot.loader.JarLauncher arg1" --name billsetuptask-task
+```
+
+**TIP** If needed you also can specify the following optional arguments:
+
+- `-k` Disk limit (e.g. 256M, 1024M, 1G)
+- `-m` Memory limit (e.g. 256M, 1024M, 1G)
+
+The task should execute successfuly. Verify the results in the Cloud Foundry dashboard by clicking onto the `Task` tab:
+
+![Cloud Foundry Dashboard Task Tab](images/CF-task-standalone-task1-task-tab.png)
+
+In the `Tasks` table you should see your task `billsetuptask` with a `State` of `Succeeded`:
+
+![billsetuptask executed on Cloud Foundry](images/CF-task-standalone-task1-execution-result.png)
+
+#### Teardown of all Task Applications and Services
+
+With the conclusion of this example you may also want to remove all instances on Cloud Foundry, if not proceeding to the Spring Batch example. The following commands will accomplish that:
+
+```bash
+cf delete billsetuptask -f
+cf delete-service task-example-mysql -f
+```
+
+### Kubernetes
+
+This section will walk you through how to deploy and run a simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) application on Kubernetes.
+
+We will deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task/) application to Kubernetes.
+
+#### Setting up the Kubernetes cluster
+
+For this we need a running [Kubernetes cluster](%currentPath%/installation/kubernetes/). For this example we will deploy to `minikube`.
+
+##### Verify minikube is up and running:
+
+```bash
+$ minikube status
+
+host: Running
+kubelet: Running
+apiserver: Running
+kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
+```
+
+##### Install the database
+
+We will install a MySQL server, using the default configuration from Spring Cloud Data Flow. Execute the following commands:
+
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/mysql/mysql-deployment.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/mysql/mysql-pvc.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/mysql/mysql-secrets.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/mysql/mysql-svc.yaml
+```
+
+##### Build a Docker image for the sample task application
+
+We will build the `billsetuptask` app, which is configured with the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image):
+
+Clone the task samples git repo, and cd to the `billsetuptask` directory.
+
+```bash
+$ eval $(minikube docker-env)
+$ ./mvnw clean package jib:dockerBuild
+```
+
+This will add the image to the `minikube` Docker registry.
+Verify its presence by finding `springcloudtask/billsetuptask` in the list of images:
+
+```bash
+$ docker images
+```
+
+##### Deploy the app
+
+The simplest way to deploy a task application is as a standalone [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/).
+Deploying tasks as a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/) or [CronJob](https://kubernetes.io/docs/tasks/job/) is considered best practice for production environments, but is beyond the scope of this guide.
+
+Save the following to `task-app.yaml`
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: billsetuptask
+spec:
+  restartPolicy: Never
+  containers:
+    - name: task
+      image: springcloudtask/billsetuptask:1.0.0.BUILD-SNAPSHOT
+      env:
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql
+              key: mysql-root-password
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql:3306/task
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: com.mysql.jdbc.Driver
+  initContainers:
+    - name: init-mysql-database
+      image: mysql:5.6
+      env:
+        - name: MYSQL_PWD
+          valueFrom:
+            secretKeyRef:
+              name: mysql
+              key: mysql-root-password
+      command:
+        [
+          'sh',
+          '-c',
+          'mysql -h mysql -u root -e "CREATE DATABASE IF NOT EXISTS task;"',
+        ]
+```
+
+Start the app:
+
+```bash
+$ kubectl apply -f task-app.yaml
+```
+
+When the task is complete, you should see something like this:
+
+```bash
+$ kubectl get pods
+NAME                     READY   STATUS      RESTARTS   AGE
+mysql-5cbb6c49f7-ntg2l   1/1     Running     0          4h
+billsetuptask            0/1     Completed   0          81s
+```
+
+Delete the Pod.
+
+```bash
+$ kubectl delete -f task-app.yaml
+```
+
+Log in to the `mysql` container to query the `TASK_EXECUTION` table.
+Get the name of the 'mysql`pod using`kubectl get pods`, as shown above.
+Then login:
+
+<!-- Rolling my own to disable erroneous formating -->
+<div class="gatsby-highlight" data-language="bash">
+<pre class="language-bash"><code>$ kubectl exec -it mysql-5cbb6c49f7-ntg2l -- /bin/bash
+# mysql -u root -p$MYSQL_ROOT_PASSWORD
+mysql&gt; select * from task.TASK_EXECUTION;
+</code></pre></div>
+
+To uninstall `mysql`:
+
+```bash
+$ kubectl delete all -l app=mysql
+```
 
 ## What's Next
 
