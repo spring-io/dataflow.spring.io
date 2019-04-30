@@ -18,16 +18,16 @@ Suppose a cell phone data provider needs to create billing statements for custom
 
 We could implement this entire solution into a single Spring Boot Application that utilizes Spring Batch, however for this example we will break up the solution into 2 phases:
 
-1. [billsetuptask](/documentation/batch-developer-guides/batch/simple-task): The [billsetuptask](/documentation/batch-developer-guides/batch/simple-task) application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
-1. _billrun_: The _billrun_ application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a json file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
+1. [billsetuptask](/documentation/master/batch-developer-guides/batch/simple-task/): The [billsetuptask](/documentation/master/batch-developer-guides/batch/simple-task/) application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
+1. _billrun_: The _billrun_ application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a JSON file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
 
-For this section we will create a Spring Cloud Task/Spring Batch billrun application that will read usage information from a json file containing customer usage data and price each entry and place the result into the `BILL_STATEMENTS` table.
+For this section we will create a Spring Cloud Task/Spring Batch billrun application that will read usage information from a JSON file containing customer usage data and price each entry and place the result into the `BILL_STATEMENTS` table.
 
 ![BILL_STATMENTS](images/bill_statements.png)
 
 ### Intoducing Spring Batch
 
-In short Spring Batch is a lightweight, comprehensive batch framework designed to enable the development of robust batch applications. Spring Batch provides reusable functions that are essential in processing large volumes of records by offering features such as:
+Spring Batch is a lightweight, comprehensive batch framework designed to enable the development of robust batch applications. Spring Batch provides reusable functions that are essential in processing large volumes of records by offering features such as:
 
 - Logging/tracing
 - Chunk based processing
@@ -42,11 +42,11 @@ For this guide we will focus on 5 Spring Batch components:
 
 ![BILL_STATMENTS](images/spring-batch-reference-model.png)
 
-- Job: A `job` is an entity that encapsulates an entire batch process. A job is comprised of one or more `steps`.
-- Step: A `Step` is a domain object that encapsulates an independent, sequential phase of a batch job. Each `step` is comprised of a `ItemReader`, `ItemProcessor`, and a `ItemWriter`.
-- ItemReader: `ItemReader` is an abstraction that represents the retrieval of input for a Step, one item at a time.
-- ItemProcessor: `ItemProcessor` is an abstraction that represents the business processing of an item.
-- ItemWriter: `ItemWriter` is an abstraction that represents the output of a Step
+- `Job`: A `job` is an entity that encapsulates an entire batch process. A job is comprised of one or more `steps`.
+- `Step`: A `Step` is a domain object that encapsulates an independent, sequential phase of a batch job. Each `step` is comprised of a `ItemReader`, `ItemProcessor`, and a `ItemWriter`.
+- `ItemReader`: `ItemReader` is an abstraction that represents the retrieval of input for a Step, one item at a time.
+- `ItemProcessor`: `ItemProcessor` is an abstraction that represents the business processing of an item.
+- `ItemWriter`: `ItemWriter` is an abstraction that represents the output of a Step
 
 In the diagram above we see that each phase of the `JobExecution` is stored into a `JobRepository` (our MySql database). This means that each action performed by Spring Batch is recorded to a database for both logging purposes but also for restarting a job.
 
@@ -56,9 +56,9 @@ NOTE: You can read more about this process [here](https://docs.spring.io/spring-
 
 So for our application we will have a BillRun `Job` that will have one `Step` that will comprised of:
 
-- JsonItemReader: Is an `ItemReader` that will read a Json file containing the usage data.
-- BillProcessor: Is an `ItemProcessor` that will generate a price based on each row of data sent from the JsonItemReader.
-- JdbcBatchItemWriter: Is an `ItemWriter` that will write the priced Bill record to the `BILLING_STATEMENT` table.
+- `JsonItemReader`: Is an `ItemReader` that will read a JSON file containing the usage data.
+- `BillProcessor`: Is an `ItemProcessor` that will generate a price based on each row of data sent from the JsonItemReader.
+- `JdbcBatchItemWriter`: Is an `ItemWriter` that will write the priced Bill record to the `BILLING_STATEMENT` table.
 
 ### Initialzr
 
@@ -71,7 +71,7 @@ So for our application we will have a BillRun `Job` that will have one `Step` th
    1. We use H2 for unit testing.
 1. In the Dependencies text box, type `mysql` then select mysql dependency (or your favorite database).
    1. We use MySql for the runtime database.
-1. In the Dependencies text box, type `Batch` then select Batch.
+1. In the Dependencies text box, type `batch` then select Batch.
 1. Click the Generate Project button.
 1. Unzip the billrun.zip file and import the project into your favorite IDE.
 
@@ -126,18 +126,15 @@ Another option instead of using the UI to initialize your project you can do the
     ```
 
     Notice that we are implementing the `ItemProcessor` interface that has the `process` method that we need to override.
-    Our parameter is a Usage object and the return value is of type Bill.
+    Our parameter is a `Usage` object and the return value is of type `Bill`.
 
 1.  Now we will create a Java configuration that will specify the beans required for the BillRun `Job`. In this case create a [BillingConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
 
     ```java
-    {/* highlight-range{2-3} */}
     @Configuration
     @EnableTask
     @EnableBatchProcessing
     public class BillingConfiguration {
-      private static final Log logger = LogFactory.getLog(BillingConfiguration.class);
-
       @Autowired
       public JobBuilderFactory jobBuilderFactory;
 
@@ -201,7 +198,7 @@ Another option instead of using the UI to initialize your project you can do the
     Before moving on let's look at our configuration a little bit.
     The `@EnableBatchProcessing` annotation enables Spring Batch features and provide a base configuration for setting up batch jobs.
     The `@EnableTask` annotation sets up a TaskRepository which stores information about the task execution such as the start and end time of the task and the exit code.
-    In the configuration above we see that our `ItemReader` bean is an instance of `JsonItemReader`. The `JsonItemReader` will read the contents of a resource and unmarshall the Json data into Usage objects. The `JsonItemReader` is one of the `ItemReader`s provided by Spring Batch.
+    In the configuration above we see that our `ItemReader` bean is an instance of `JsonItemReader`. The `JsonItemReader` will read the contents of a resource and unmarshall the JSON data into Usage objects. The `JsonItemReader` is one of the `ItemReader`s provided by Spring Batch.
     We also see that our `ItemWriter` bean is an instance of `JdbcBatchItemWriter`. The `JdbcBatchItemWriter` will write the results to our database. The `JdbcBatchItemWriter` is one of the `ItemWriter`s provided by Spring Batch.
     And the `ItemProcessor` is our very own `BillProcessor`. To make life easier notice that all the beans that use Spring Batch provided classes (`Job`, `Step`, `ItemReader`, `ItemWriter`) are being built using builders provided by Spring Batch.
 
@@ -211,6 +208,24 @@ Now that we have written our code, its time to write our test. In this case we w
 Let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
 
 ```java
+package io.spring.billrun;
+
+import java.util.List;
+
+import io.spring.billrun.model.Bill;
+import javax.sql.DataSource;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.springframework.batch.test.context.SpringBatchTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @SpringBatchTest
@@ -239,8 +254,8 @@ public class BillrunApplicationTests {
 						rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"),
 						rs.getLong("DATA_USAGE"), rs.getLong("MINUTES"),
 						rs.getDouble("bill_amount")));
-
 		assertEquals(5, billStatements.size());
+
 		Bill billStatement = billStatements.get(0);
 		assertEquals(6, billStatement.getBillAmount(), 1e-15);
 		assertEquals("jane", billStatement.getFirstName());
@@ -313,10 +328,6 @@ $ docker stop mysql
 $ docker rm mysql
 ```
 
-### Cloud Foundry
+<!--### Cloud Foundry -->
 
-As Alana I must ask for an org/space
-
-### Kubernetes
-
-Where all the cool kids play.
+<!--### Kubernetes -->

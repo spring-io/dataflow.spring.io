@@ -28,7 +28,7 @@ For this section we will create a Spring Cloud Task/Boot application that will c
 ### Initialzr
 
 1. Visit the [Spring Initialzr site](https://start.spring.io/).
-1. Select the latest release of spring boot.
+1. Select the latest release of Spring Boot.
 1. Create a new Maven project with a Group name of `io.spring` and an Artifact name of `billsetuptask`.
 1. In the Dependencies text box, type `task` to select the Cloud Task dependency.
 1. In the Dependencies text box, type `jdbc` then select the JDBC dependency.
@@ -38,8 +38,6 @@ For this section we will create a Spring Cloud Task/Boot application that will c
    1. We use MySql for the runtime database.
 1. Click the Generate Project button.
 1. Unzip the billsetuptask.zip file and import the project into your favorite IDE.
-
-#### Initialzr Shortcut
 
 Another option instead of using the UI to initialize your project you can do the following:
 
@@ -72,7 +70,6 @@ Now let’s create the elements required for this application.
 1.  Create a [TaskConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDE that looks like the contents below.
 
 ```java
-{/* highlight-range{2} */}
 @Configuration
 @EnableTask
 public class TaskConfiguration {
@@ -100,6 +97,20 @@ The `@EnableTask` annotation sets up a `TaskRepository` which stores information
 Now let’s create our test. Update the contents of the [BillsetuptaskApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/test/java/io/spring/billsetuptask/BillsetuptaskApplicationTests.java) with the following code:
 
 ```java
+package io.spring.billsetuptask;
+
+import javax.sql.DataSource;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.assertEquals;
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BillsetuptaskApplicationTests {
@@ -111,7 +122,7 @@ public class BillsetuptaskApplicationTests {
 	public void testRepository() {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
 		int result = jdbcTemplate.queryForObject(
-		"SELECT COUNT(*) FROM BILL_STATEMENTS", Integer.class);
+				"SELECT COUNT(*) FROM BILL_STATEMENTS", Integer.class);
 
 		assertEquals(0, result);
 	}
@@ -172,7 +183,7 @@ The results will look something like this:
 ```
 | TASK_EXECUTION_ID | START_TIME          | END_TIME            | TASK_NAME       | EXIT_CODE | EXIT_MESSAGE | ERROR_MESSAGE | LAST_UPDATED        | EXTERNAL_EXECUTION_ID | PARENT_EXECUTION_ID |
 |-------------------|---------------------|---------------------|-----------------|-----------|--------------|---------------|---------------------|-----------------------|---------------------|
-|                 1 | 2019-04-23 18:10:57 | 2019-04-23 18:10:57 | Bill Setup Task |         0 | NULL         | NULL          | 2019-04-23 18:10:57 | NULL                  |                NULL |
+|                 1 | 2019-04-23 18:10:57 | 2019-04-23 18:10:57 | application     |         0 | NULL         | NULL          | 2019-04-23 18:10:57 | NULL                  |                NULL |
 ```
 
 Spring Cloud Task allows us to change this setting using the `spring.cloud.task.name`. To do this we will add that property to our next execution as follows:
@@ -197,14 +208,10 @@ $ docker stop mysql
 $ docker rm mysql
 ```
 
-### Cloud Foundry
+<!--### Cloud Foundry -->
 
-As Alana I must ask for an org/space
-
-### Kubernetes
-
-Where all the cool kids play.
+<!--### Kubernetes -->
 
 ## What's Next
 
-Congratulations you have just created and deployed a Spring Cloud Task application. Now lets go onto the [next section](/documentation/batch-developer-guides/batch/spring-batch) and create a Spring Batch Application.
+Congratulations you have just created and deployed a Spring Cloud Task application. Now lets go onto the [next section](/documentation/master/batch-developer-guides/batch/spring-batch/) and create a Spring Batch Application.
