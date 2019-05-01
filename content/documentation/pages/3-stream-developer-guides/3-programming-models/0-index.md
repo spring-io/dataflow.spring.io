@@ -7,22 +7,6 @@ summary: true
 
 # Programming Model for Streaming Applications
 
-Before we dive into the specifics of Spring Cloud Stream and the programming model choices, it is essential to discuss the design premise of Spring Cloud Stream.
-
-## Core Design
-
-Spring Cloud Stream applications build on the message-driven architecture principle. The architecture promotes separation of concerns and the loose coupling between the applications by following the abstract "pipes-and-filters" model. The "filters" represent any components capable of producing or consuming messages, and the "pipes" transport the messages between filters so that the components themselves remain loosely-coupled.
-
-## Binder Abstraction
-
-In the Spring Cloud Stream architecture, a Message Channel represents the "pipes" construct, which relates to a queue or a topic in the message brokers. And, a "filter" is usually a business logic that either reacts to consumed messages or produce the processed messages to the message broker.
-
-Furthermore, Spring Cloud Stream provides a "Binder" abstraction to define how the "filters" and "pipes" are bound together. There are "Binder" implementations for RabbitMQ, Apache Kafka, Google PubSub, RocketMQ, Solace PubSub+, Azure Event Hubs, and other messaging systems.
-
-![Spring Cloud Stream Design](images/SCSt-with-binder.png)
-
-## Programming Model
-
 Spring Cloud Stream provides the flexibility to build the streaming applications using different programming models.
 
 - _Message Channels_
@@ -131,7 +115,6 @@ public class ReactiveStreamSampleProcessor {
 ```properties
 spring.cloud.stream.bindings.input.destination=incomingDataTopic
 spring.cloud.stream.bindings.output.destination=outgoingDataTopic
-server.port=9002
 ```
 
 <!--Functional-->
@@ -139,7 +122,6 @@ server.port=9002
 ```properties
 spring.cloud.stream.bindings.input.destination=incomingDataTopic
 spring.cloud.stream.bindings.output.destination=outgoingDataTopic
-server.port=9002
 
 spring.cloud.stream.function.definition=messenger
 ```
@@ -149,7 +131,6 @@ spring.cloud.stream.function.definition=messenger
 ```properties
 spring.cloud.stream.bindings.input.destination=incomingDataTopic
 spring.cloud.stream.bindings.output.destination=outgoingDataTopic
-server.port=9002
 
 spring.cloud.stream.kafka.streams.binder.applicationId=kstreams-sample
 ```
@@ -159,7 +140,6 @@ spring.cloud.stream.kafka.streams.binder.applicationId=kstreams-sample
 ```properties
 spring.cloud.stream.bindings.input.destination=incomingDataTopic
 spring.cloud.stream.bindings.output.destination=outgoingDataTopic
-server.port=9002
 ```
 
 <!--END_TABS-->
