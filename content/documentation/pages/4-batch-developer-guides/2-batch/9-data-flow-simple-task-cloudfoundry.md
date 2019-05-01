@@ -124,7 +124,7 @@ cf marketplace
 On [Pivotal Web Services](https://run.pivotal.io/) (PWS) you should be able to use the following command to install the PostgreSQL service as well as RabbitMQ service:
 
 ```bash
-cf create-service    postgres-service
+cf create-service elephantsql panda postgres-service
 cf create-service cloudamqp lemur rabbitmq-service
 ```
 
@@ -140,7 +140,7 @@ In order to deploy, create a file `manifest-skipper.yml`:
 applications:
   - name: skipper-server
     routes:
-      - route: gh-skipper-server.cfapps.io
+      - route: <your-skipper-server-route> # e.g. my-skipper-server.cfapps.io
     memory: 1G
     disk_quota: 1G
     instances: 1
@@ -181,7 +181,7 @@ In order to deploy, create a file `manifest-dataflow.yml`:
 applications:
   - name: data-flow-server
     routes:
-      - route: <your-data-flow-server-route>
+      - route: <your-data-flow-server-route> # e.g. my-data-flow-server.cfapps.io
     memory: 2G
     disk_quota: 2G
     instances: 1
@@ -199,8 +199,8 @@ applications:
       SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <your-cloud-foundry-password>
       SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: true
       SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: rabbitmq-service
-      SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://gh-skipper-server.cfapps.io/api
-      SPRING_CLOUD_DATAFLOW_SERVER_URI: https://gh-data-flow-server.cfapps.io
+      SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: <your-skipper-server-uri> # e.g. https://my-skipper-server.cfapps.io/api
+      SPRING_CLOUD_DATAFLOW_SERVER_URI: <your-dataflow-server-uri> # e.g. https://my-data-flow-server.cfapps.io
       SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 2
       SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 4
       SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_TASK_SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 1
