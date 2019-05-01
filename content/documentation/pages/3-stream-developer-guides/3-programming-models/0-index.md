@@ -107,8 +107,6 @@ spring.cloud.stream.bindings.output.destination=outgoingDataTopic
 ```properties
 spring.cloud.stream.bindings.input.destination=incomingDataTopic
 spring.cloud.stream.bindings.output.destination=outgoingDataTopic
-
-spring.cloud.stream.function.definition=messenger
 ```
 
 <!--Kafka Streams-->
