@@ -4,7 +4,6 @@ title: 'Application Count'
 description: 'How many instances of a stream application to initially deploy'
 ---
 
-
 In the following example, you can specify the number of instances on each application in the stream pipeline.
 
 ```
