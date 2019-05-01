@@ -31,7 +31,7 @@ To create a stream:
 
 2.  Click the **Create Stream(s)** button.
 
-    The screen changes to the following image:
+    The screen changes to the following image: **TODO Update image, old time | log image**
 
     ![Create Stream Page](images/dataflow-stream-create-start.png)
 
@@ -40,7 +40,7 @@ To create a stream:
 4.  Click **Create Stream**.
 
 5.  Enter `http-ingest` for the stream name, as shown in the following
-    image: **TODO on cloud foundry it is likely that the stream name needs an extra suffix make the route unique**
+    image: **TODO on cloud foundry it is likely that the stream name needs an extra suffix make the route unique. There is a batch PR from gunnar that address this issue, let's look at that.**
 
     ![Creating a Stream](images/dataflow-stream-create.png)
 
@@ -56,14 +56,14 @@ Now that you have defined a stream, you can deploy it. To do so:
 
 1.  Click the play (deploy) button next to the "`http-ingest`" definition
     that you created in the previous section.
+    **TODO add images**
+    ![Initiate Deployment of a Stream](images/dataflow-stream-definition-deploy.png)
 
-        ![Initiate Deployment of a Stream](images/dataflow-stream-definition-deploy.png)
+    The UI shows the available properties that can be applied to the
+    apps in the "`http-ingest`" stream. This example shown in the following
+    image uses the defaults:
 
-        The UI shows the available properties that can be applied to the
-        apps in the "`http-ingest`" stream. This example shown in the following
-        image uses the defaults:
-
-        ![Deployment Page](images/dataflow-deploy-http-ingest.png)
+    ![Deployment Page](images/dataflow-deploy-http-ingest.png)
 
 If you are using the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
 
@@ -118,7 +118,7 @@ log-sink                                 : Happy streaming
 
 Now you can list the running applications again and see your
 applications in the list, as the following example shows:
-**TODO get correct listing - or show UI**
+**TODO get correct listing as this is from time | log**
 
     $ cf apps                                                                                                                                                                                                                                         [1h] ✭
     Getting apps in org ORG / space SPACE as email@pivotal.io...
@@ -161,7 +161,7 @@ This information can be found in the [Continuous Delivery Basics Guide](%current
 
 ## Monitoring
 
-\*\*TODO for the local machine, we should show how to view the Grafana Dashboards and do a walkthough.
+**TODO for the local machine, we should show how to view the Grafana Dashboards and do a walk-though.**
 
 ## Stream configuration
 
@@ -184,7 +184,7 @@ When creating a stream definition in the shell, hitting the `TAB` key will provi
 You can also set application properties at deployment time.
 When deploying a stream in the dashboard, you can select the application properties using the 'write' icon as shown below
 
-    ![Deploy Stream Page](images/dataflow-stream-deployment-app-props.png)
+![Deploy Stream Page](images/dataflow-stream-deployment-app-props.png)
 
 When deploying a stream in the shell, the properties are passed with the prefix `app.<application-name>`.
 For example:

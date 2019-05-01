@@ -104,6 +104,8 @@ In your browser, navigate to the [Spring Cloud Data Flow Dashboard URL](http://l
 
 ## Customizing Docker Compose
 
+**TODO do we want to bring up both RabbitMQ and Kafka so that the instructions for developing stream apps cover both cases?**
+
 Out of the box, Spring Cloud Data Flow uses the H2 embedded database for storing state and Kafka for communication.
 Perhaps you want to use MySQL instead, or use RabbitMQ for communication.
 This section covers how to customize these components by editing the `docker-compose.yml` file.

@@ -39,19 +39,6 @@ Kafka or RabbitMQ.
 | storage of message queues, high availability, security, and other
 | concerns.
 
-[[tip]]
-| Only applications registered with a `--uri` property
-| pointing to a Docker resource are supported by the Data Flow Server
-| for Kubernetes. However, we do support Maven resources for the
-| `--metadata-uri` property, which is used to list the properties
-| supported by each application. For example, the following application
-| registration is valid:
-
-    dataflow:>app register --type source --name time --uri docker://springcloudstream/time-source-rabbit:{docker-time-source-rabbit-version} --metadata-uri maven://org.springframework.cloud.stream.app:time-source-rabbit:jar:metadata:{docker-time-source-rabbit-version}
-
-Any application registered with a Maven, HTTP, or File resource or the executable jar (by using a `--uri` property prefixed with
-`maven://`, `http://` or `file://`) is **_not supported_**.
-
 ### Kubernetes Compatibility
 
 The Spring Cloud Data Flow implementation for Kubernetes uses the
@@ -635,6 +622,19 @@ app import --uri  http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
 ```
 
 Change `kafka` to `rabbit` in the above URL if you set `kafka.endabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
+
+[[tip]]
+| Only applications registered with a `--uri` property
+| pointing to a Docker resource are supported by the Data Flow Server
+| for Kubernetes. However, we do support Maven resources for the
+| `--metadata-uri` property, which is used to list the properties
+| supported by each application. For example, the following application
+| registration is valid:
+
+    dataflow:>app register --type source --name time --uri docker://springcloudstream/time-source-rabbit:{docker-time-source-rabbit-version} --metadata-uri maven://org.springframework.cloud.stream.app:time-source-rabbit:jar:metadata:{docker-time-source-rabbit-version}
+
+Any application registered with a Maven, HTTP, or File resource or the executable jar (by using a `--uri` property prefixed with
+`maven://`, `http://` or `file://`) is **_not supported_**.
 
 ## Application and Server Properties
 

@@ -6,6 +6,8 @@ description: 'Create a simple stream processing application on Apache Kafka'
 
 # Stream Processing with Apache Kafka
 
+**TODO Look at TODO comments from the Stream Processing with RabbitMQ for guidance....**
+
 We will start from Spring initializr and create three Spring Cloud Stream applications by choosing `Apache kafka` binder.
 
 The three sample applications include:
@@ -27,7 +29,7 @@ This provides a foundation to understand the steps that Data Flow is will automa
 ### Source
 
 You can develop the source application by following the steps listed below or **TODO download the completed source example**
-
+**TODO - Add actuator dependency**
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender&name=usage-detail-sender&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender`.
@@ -119,6 +121,7 @@ Now, you can see the messages being sent to the Kafka topic `test-usage-detail` 
 ### Processor
 
 You can develop the processor application by following the steps listed below or **TODO download the completed processor example**
+**TODO - Add actuator dependency**
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor&name=usage-cost-processor&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
 
@@ -207,6 +210,8 @@ With the `UsageDetail` data on the `test-usage-detail` Kafka topic using the `Us
 ### Sink
 
 You can develop the sink application by following the steps listed below or **TODO download the completed sink example**
+
+**TODO - Add actuator dependency**
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger&name=usage-cost-logger&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
 

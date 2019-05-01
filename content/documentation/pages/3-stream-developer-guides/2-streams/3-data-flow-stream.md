@@ -8,7 +8,7 @@ description: 'Create and Deploy a Stream Processing Pipeline using Spring Cloud 
 
 In this section we will show how to register stream applications with Data Flow, create a Stream DSL, and deploy the stream to Cloud Foundry, Kubernetes and your local machine.
 
-**TODO this guide is using the shell, I think we want the UI first, shell second in terms of priority...**
+**TODO Switch to using the Shell - use the batch guide as a template to follow wrt to screen shots**
 
 ## Development
 
@@ -26,13 +26,9 @@ When you register an application, you provide:
 - application type (Source, Processor, Sink)
 - application name
 
-**TODO: The node below needs to provide more detailed instructions of what to do for local file access with docs**
+**TODO Follow the application registration steps as done in the batch case, see #application-registration-concepts. Maven for local/PCF, and docker for K8s**
 
-**TODO: the file:// approach won't work for CF and K8s.**
-
-**TODO: We could show how to host a .jar on github**
-
-**TODO: We should create the maven artifact and docker artifact for these OOTB apps so that they can perform the steps quickly without having to create a container or have a public maven repository available**
+**TODO: We should create the maven artifact and docker artifacts for these 'custom' apps so that they can perform the steps quickly without having to create a container or have a public maven repository available**
 
 [[note]]
 | If you are running Spring Cloud Data Flow server on the docker environment, make sure that your application artifact URIs are accessible.
@@ -106,7 +102,7 @@ Deploy to local, Cloud Foundry and Kubernetes
 
 Deploy the stream:
 
-**TODO: this won't work due to port collisions**
+**TODO: add deployer properties so that each app gets a different port**
 
 ```
 stream deploy usage-cost-logger
@@ -114,6 +110,8 @@ stream deploy usage-cost-logger
 
 Once the stream is deployed on `Local` development environment, you can look the runtime applications via Dashboard's runtime page or using the SCDF Shell command `runtime apps`.
 The runtime applications show information about where each application is running in the local environment and their log files locations.
+
+**TODO: Add back in the instruction on how get the logs when using the docker-compose local installation**
 
 ```
 2019-04-19 22:16:04.864  INFO 95238 --- [container-0-C-1] c.e.demo.UsageCostLoggerApplication      : {"userId": "Mark", "callCost": "0.17", "dataCost": "0.32800000000000007" }

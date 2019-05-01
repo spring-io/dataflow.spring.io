@@ -14,9 +14,12 @@ Furthermore, should the upgrade not be what is desired, a quick rollback to a pr
 Spring Cloud Data Flow provides support for continuous delivery of event streaming applications via the Skipper server.
 
 To demonstrate this, lets use some of the out of the box streaming applications that were already registered when installing Data Flow.
-We will showcase this functionality using the local platform, which uses Kafka by default when installing via docker compose.
 
-## Stream create and deploy
+TODO: Note, Use the shell as it is more terse than using the UI for this use-case.
+
+## Local
+
+### Stream Creation and Deployment
 
 Create and deploy a stream that has source which ingests `http` events and the `transform` processor that applies a transformation logic and the `log` sink that shows the result of the transformed events.
 
@@ -178,7 +181,7 @@ stream history --name http-events-transformer
 ╚═══════╧════════════════════════════╧════════╧═══════════════════════╧═══════════════╧════════════════╝
 ```
 
-## Stream Update
+### Stream Update
 
 If you want to update the existing deployed stream to use a different version of the `log` application, you can perform stream `update` action.
 
@@ -275,7 +278,7 @@ log-sink                                 : SPRING!!!
 
 The command `stream history http-events-transformer` will include the new event in the history of this stream.
 
-## Stream Rollback
+### Stream Rollback
 
 If you want to roll back the event stream to a specific version, you can use the command `stream rollback http-events-transformer --releaseVersion <release-version>`.
 
@@ -295,6 +298,30 @@ In the `log` application's log file, you will now see:
 log-sink : SPRING
 ```
 
-### UI
+## Cloud Foundry
 
-TBD
+\*\*TODO older versions of cloudfoundry.md have the converted asciidoc to markdown which includes sections on stream update/rollback along with various cf command line output. use that as the basis for this section
+
+### Stream Creation and Deployment
+
+blah
+
+### Stream Update
+
+blah
+
+### Stream Rollback
+
+### Kubernetes
+
+\*\*TODO older versions of kubernetes.md have the converted asciidoc to markdown which includes sections on stream update/rollback along with various cf command line output. use that as the basis for this section
+
+### Stream Creation and Deployment
+
+blah
+
+### Stream Update
+
+blah
+
+### Stream Rollback

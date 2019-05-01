@@ -29,6 +29,7 @@ This provides a foundation to understand the steps that Data Flow will automate 
 
 You can develop the source application by following the steps listed below or **TODO download the completed source example**
 
+**TODO - Add actuator dependency**
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender&name=usage-detail-sender&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender`.
@@ -95,27 +96,13 @@ If you haven't downloaded the completed source example, you will need to perform
 
 #### Testing
 
-We can individually test these custom applications before creating a pipeline using Spring Cloud Data Flow.
-To test, we can explicitly set the Spring Cloud Stream bindings destination property and run the application.
-
-```
-spring.cloud.stream.bindings.output.destination=test-usage-detail
-```
-
-In this case, we can use some test RabbitMQ `exchanges` to verify the outbound and inbound messages.
-For instance, you can set the `output` binding to a test RabbitMQ exchange `test-usage-detail` and see if the messages get posted to the exchange.
-You can run the standalone `UsageDetailSender` source application as,
-
-```
-java -jar target/usage-detail-sender-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail &
-```
-
-Now, you can see the messages being sent to the exchange `test-usage-detail`.
+** TODO Create unit test as in http appstarters**
 
 ### Processor
 
 You can develop the processor application by following the steps listed below or **TODO download the completed processor example**
 
+**TODO - Add actuator dependency**
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor&name=usage-cost-processor&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor`.
@@ -182,22 +169,12 @@ If you haven't downloaded the completed processor example, you will need to perf
 
 #### Testing
 
-To test this `processor` application, you need to set the `input` binding to the test RabbitMQ exchange `test-usage-detail` to receive the `UsageDetail` data and `output` binding to the test RabbitMQ exchange `test-usage-cost` to send the computed `UsageCostDetail`.
-
-```
-spring.cloud.stream.bindings.input.destination=test-usage-detail
-spring.cloud.stream.bindings.output.destination=test-usage-cost
-```
-
-You can run the standalone `UsageCostProcessor` processor application as,
-
-```
-java -jar target/usage-cost-processor-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost &
-```
+**TODO: Create unit test**
 
 ### Sink
 
 You can develop the sink application by following the steps listed below or **TODO download the completed sink example**
+**TODO - Add actuator dependency**
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger&name=usage-cost-logger&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=cloud-stream&style=amqp)
 
@@ -241,7 +218,7 @@ Now you should `unzip` the `usage-cost-logger.zip` file and import the project i
 
     ```
 
-**TODO some discussion of the annotations should be made**
+**TODO: some discussion of the annotations should be made. See batch guide for guidance as it discusses enabletask.**
 
 #### Building
 
@@ -252,6 +229,56 @@ Now you should `unzip` the `usage-cost-logger.zip` file and import the project i
    ```
 
 #### Testing
+
+**TODO: Create unit test **
+
+## Deployment
+
+In this section we will deploy the apps created previous to the local machine, Cloud Foundry and Kubernetes.
+
+**TODO this section needs to be finished**
+
+### Local
+
+**TODO explain at a high level what we are going to do**
+**TODO mention requirements of getting rabbitmq running, reference back to the installation instructions with docker compose to show creating rabbit server**
+**TODO Current content was cut-n-pasted from first draft. Should show output logs and a screenshot of the rabbitmq admin console with the created queues and exchanges.**
+
+#### Running the Source
+
+We can individually test these custom applications before creating a pipeline using Spring Cloud Data Flow.
+To test, we can explicitly set the Spring Cloud Stream bindings destination property and run the application.
+
+```
+spring.cloud.stream.bindings.output.destination=test-usage-detail
+```
+
+In this case, we can use some test RabbitMQ `exchanges` to verify the outbound and inbound messages.
+For instance, you can set the `output` binding to a test RabbitMQ exchange `test-usage-detail` and see if the messages get posted to the exchange.
+You can run the standalone `UsageDetailSender` source application as,
+
+```
+java -jar target/usage-detail-sender-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail &
+```
+
+Now, you can see the messages being sent to the exchange `test-usage-detail`.
+
+#### Running the Processor
+
+To test this `processor` application, you need to set the `input` binding to the test RabbitMQ exchange `test-usage-detail` to receive the `UsageDetail` data and `output` binding to the test RabbitMQ exchange `test-usage-cost` to send the computed `UsageCostDetail`.
+
+```
+spring.cloud.stream.bindings.input.destination=test-usage-detail
+spring.cloud.stream.bindings.output.destination=test-usage-cost
+```
+
+You can run the standalone `UsageCostProcessor` processor application as,
+
+```
+java -jar target/usage-cost-processor-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost &
+```
+
+#### Running the Sink
 
 To test this `sink` application you need to set the `input` binding that connects to the test RabbitMQ exchange `test-usage-cost` to receive the `UsageCostDetail`.
 
@@ -266,17 +293,6 @@ java -jar target/usage-cost-logger-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bind
 ```
 
 Now, you can see that this application logs the usage cost detail.
-
-## Deployment
-
-In this section we will deploy the apps created previous to the local machine, Cloud Foundry and Kubernetes.
-
-**TODO this section needs to be finished**
-
-### Local
-
-**TODO explain at a high level what we are going to do**
-**TODO mention requirements of getting rabbitmq running. provide instructions for using a docker image**
 
 ### Cloud Foundry
 
