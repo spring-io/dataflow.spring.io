@@ -12,7 +12,6 @@ Spring Cloud Stream provides the flexibility to build the streaming applications
 - _Message Channels_
 - _Functional_
 - _Kafka Streams_
-- _Reactive_
 
 In the following section, we will review how a business logic can be built with different programming models.
 
@@ -84,20 +83,6 @@ public class KafkaStreamsSampleProcessor {
 }
 ```
 
-<!--Reactive-->
-
-```java
-@EnableBinding(Processor.class)
-public class ReactiveStreamSampleProcessor {
-
-	@StreamListener(Processor.INPUT)
-	@SendTo(Processor.OUTPUT)
-	public Flux<String> messenger(Flux<String> data) {
-		return data.map(incoming -> "Hello: " + incoming + "!");
-	}
-}
-```
-
 <!--END_TABS-->
 
 [[note]]
@@ -135,18 +120,9 @@ spring.cloud.stream.bindings.output.destination=outgoingDataTopic
 spring.cloud.stream.kafka.streams.binder.applicationId=kstreams-sample
 ```
 
-<!--Reactive-->
-
-```properties
-spring.cloud.stream.bindings.input.destination=incomingDataTopic
-spring.cloud.stream.bindings.output.destination=outgoingDataTopic
-```
-
 <!--END_TABS-->
 
 [[note]]
-| In Functional sample, it is _required_ to point to the `messenger` function using the `spring.cloud.stream.function.definition` property.
-|
 | In the Kafka Streams configuration, you'd notice the extra property `spring.cloud.stream.kafka.streams.binder.applicationId`, which is required by the framework internally to identify the Kafka Streams application uniquely.
 
 ### Testing
