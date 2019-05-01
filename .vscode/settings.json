@@ -1,7 +1,9 @@
 {
   "cSpell.words": [
     "cloudfoundry",
+    "datasource",
     "deployer",
+    "grafana",
     "initializr",
     "initialzr",
     "kubernetes"

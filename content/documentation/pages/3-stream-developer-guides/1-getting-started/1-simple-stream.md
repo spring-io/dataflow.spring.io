@@ -40,7 +40,7 @@ To create a stream:
 4.  Click **Create Stream**.
 
 5.  Enter `http-ingest` for the stream name, as shown in the following
-    image:
+    image: **TODO on cloud foundry it is likely that the stream name needs an extra suffix make the route unique**
 
     ![Creating a Stream](images/dataflow-stream-create.png)
 
@@ -116,7 +116,27 @@ log-sink                                 : Happy streaming
 
 ### Cloud Foundry
 
-TODO
+Now you can list the running applications again and see your
+applications in the list, as the following example shows:
+**TODO get correct listing - or show UI**
+
+    $ cf apps                                                                                                                                                                                                                                         [1h] ✭
+    Getting apps in org ORG / space SPACE as email@pivotal.io...
+
+    name                         requested state   instances   memory   disk   urls
+    ticker-314-log-v1            started           1/1         1G       1G     ticker-314-log-v1.cfapps.io
+    ticker-314-time-v1           started           1/1         1G       1G     ticker-314-time-v1.cfapps.io
+    skipper-server               started           1/1         1G       1G     skipper-server.cfapps.io
+    dataflow-server              started           1/1         1G       1G     dataflow-server.cfapps.io
+
+Now you can verify the logs, as the following example shows:
+
+    $ cf logs ticker-314-log-v1
+    ...
+    ...
+    2017-11-20T15:39:43.76-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:43.761  INFO 12 --- [ ticker-314.time.ticker-314-1] log-sink                                 : 11/20/17 23:39:43
+    2017-11-20T15:39:44.75-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:44.757  INFO 12 --- [ ticker-314.time.ticker-314-1] log-sink                                 : 11/20/17 23:39:44
+    2017-11-20T15:39:45.75-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:45.757  INFO 12 --- [ ticker-314.time.ticker-314-1] log-sink                                 : 11/20/17 23:39:45
 
 ### Kubernetes
 
@@ -138,6 +158,10 @@ Now you can delete the stream you created. To do so:
 ## Updating and Rolling back a Stream
 
 This information can be found in the [Continuous Delivery Basics Guide](%currentpath%/stream-developer-guides/continuous-delivery/cd-basics)
+
+## Monitoring
+
+\*\*TODO for the local machine, we should show how to view the Grafana Dashboards and do a walkthough.
 
 ## Stream configuration
 
