@@ -6,14 +6,27 @@ description: 'Register and Launch a Spring Cloud Task application using Data Flo
 
 # Deploy a Spring Cloud Task application using Data Flow
 
-In this section, we will demonstrate how to register a Spring Cloud Task application with Data Flow, create a task definition, and launch the task on Cloud Foundry, Kubernetes and your local machine.
+In this section, we will demonstrate how to register a Spring Cloud Task application with Data Flow, create a task definition, and launch the task definition on Cloud Foundry, Kubernetes and your local machine.
+
+## Prerequisites
+
+### Data Flow Installation
+
+Make sure have installed Spring Cloud Data Flow to the platform of your choice:
+
+- [Local](%currentPath%/installation/local/)
+- [Cloud Foundry](%currentPath%/installation/cloudfoundry)
+- [Kubernetes](%currentPath%/installation/kubernetes/)
+
+### Spring Cloud Task Project
+
+For this guide, we will use the [Spring Cloud Task](%currentPath%/batch-developer-guides/batch/simple-task) sample, called `billsetuptask`.
+Follow the instructions to code and build the task if you have not done so already.
 
 ## Create Task Definition
 
-For this guide, we will use the [simple task](%currentPath%/batch-developer-guides/batch/simple-task) sample Spring Cloud Task application, called `billsetuptask`.
-Follow the instructions to code and build the task if you have not done so already.
 We will register a task application, create a simple task definition, and launch the task using the Data Flow Server.
-The Data Flow Server provides a comprehensive [API](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
+The Data Flow server provides a comprehensive [API](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
 The Data Flow server includes a Data Flow Dashboard web UI client. In addition there is a [Data Flow Shell](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) CLI, available as separate download.
 The CLI and the UI both expose the complete API functionality.
 Which one to use is a matter of preference, but the UI is quite nice so we will feature it here.
@@ -36,33 +49,56 @@ The URI conforms to a [schema](http://docs.spring.io/spring-cloud-dataflow/docs/
 Data Flow defines a some logical application types which indicate its role as a streaming component, a task, or a standalone application.
 Spring Cloud Task applications, as you might guess, are always registered as a `task` type.
 
-##### Maven Artifacts
+#### Registering an Application
 
-The URI for a Maven artifact is generally of the form `maven://<groupId>:<artifactId>:<version>`.
+<!--TABS-->
 
-The maven URI for the sample app is:
+<!--Local-->
+
+Spring Cloud Data Flow supports maven, http, file, and docker resources for local deployments. For this example we will use the maven resource.
+The URI for a Maven artifact is generally of the form `maven://<groupId>:<artifactId>:<version>`. The maven URI for the sample app is:
 
 ```
-maven://io.spring:billsetuptask:1.0.0.BUILD-SNAPSHOT
+maven://io.spring:billsetuptask:0.0.1-SNAPSHOT
 ```
 
 The `maven:` protocol specifies a Maven artifact which is resolved using the remote and local Maven repositories configured for the Data Flow Server.
+To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown, and hit `Register the application(s)`.
 
-##### Docker Images
+![Register the billrun batch app](images/SCDF-register-task-app-maven.png)
 
+<!--CloudFoundry-->
+
+**TODO Replace ghillerts repo with a Spring repo or use maven central**
+
+Spring Cloud Data Flow supports maven, http, and docker resources for local deployments. For this example we will use a http resource. The URI for a https is of the form `https://<web-path>/<artifactName>-<version>.jar`. Spring Cloud Data Flow will then pull the artifact from the https URI.
+
+The Https URI for the sample app is:
+
+```
+https://github.com/ghillert/task-apps/raw/master/billsetuptask-0.0.1-SNAPSHOT.jar
+```
+
+To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown, and hit `Register the application(s)`.
+
+![Register the billrun batch app](images/SCDF-register-task-app-http.png)
+
+<!--Kubernetes-->
+
+Spring Cloud Data Flow supports docker resources for Kubernetes deployments. For this example we will use the maven resource.
 The URI for a Docker Image is of the form `docker:<docker-image-path>/<imageName>:<version>` and is resolved using the Docker registry configured for the Data Flow task platform and image pull policy.
 
 The Docker URI for the sample app is:
 
 ```
-docker:springcloudtask/billsetuptask:1.0.0.BUILD-SNAPSHOT
+docker:springcloudtask/billsetuptask:0.0.1-SNAPSHOT
 ```
-
-#### Registering an Application
 
 To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown, and hit `Register the application(s)`.
 
-![Register the billsetup Task app](images/SCDF-register-task-app-maven.png)
+![Register the billrun batch app](images/SCDF-register-task-app-docker.png)
+
+<!--END_TABS-->
 
 ### Creating the Task Definition
 
@@ -84,7 +120,7 @@ In this case, we will use the same name as the task application.
 Press `Create the task`.
 This will display the main `Tasks` view.
 
-## Launch the Task
+### Launch the Task
 
 ![Launch the task](images/SCDF-launch-task.png)
 
@@ -96,15 +132,3 @@ When the execution is complete, the Status will turn to a satisfying green color
 Select the `Executions` tab to view a summary of executions for this task.
 
 ![Task executions](images/SCDF-task-executions.png)
-
-### Local
-
-get the jar run it bla
-
-### Cloud Foundry
-
-As Alana I must ask for an org/space
-
-### Kubernetes
-
-Run the [sample task on Kubernetes](%currentPath%/batch-developer-guides/batch/data-flow-simple-task-kubernetes/).
