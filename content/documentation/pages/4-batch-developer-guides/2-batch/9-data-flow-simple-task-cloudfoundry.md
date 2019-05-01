@@ -8,9 +8,7 @@ description: 'Guide to deploying spring-cloud-stream-task applications on Cloud 
 
 This guide will walk through how to deploy and run simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) applications to Cloud Foundry using [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/).
 
-In this tutorial we would like to take the [2 example task applications](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples) that we previously used to deploy stand-alone to Cloud Foundry and instead deploy them to Cloud Foundry using Spring Cloud Data Flow. This not only provides you with a slick-looking GUI for your Task- and Batch needs but also allows for orchestrating your Batch processes and Task applications.
-
-For example, up until now we have run the 2 example tasks individually. However, using Spring Cloud Data Flow and the [Composed Task](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature, we can execute both Task in one flow.
+In this tutorial we would like to take the [2 example task applications](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples) that we previously used to deploy stand-alone to Cloud Foundry and instead deploy them to Cloud Foundry using Spring Cloud Data Flow, providing you with a slick-looking GUI for your Task- and Batch needs.
 
 When using Spring Cloud Dataflow to deploy task and stream applications to Cloud Foundry, you have 2 options on how to run Spring Cloud Data Flow itself:
 
@@ -198,7 +196,7 @@ applications:
       SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <your-cloud-foundry-username>
       SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <your-cloud-foundry-password>
       SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: true
-      SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: rabbitmq-service
+      SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: postgres-service, rabbitmq-service
       SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: <your-skipper-server-uri> # e.g. https://my-skipper-server.cfapps.io/api
       SPRING_CLOUD_DATAFLOW_SERVER_URI: <your-dataflow-server-uri> # e.g. https://my-data-flow-server.cfapps.io
       SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 2
@@ -225,11 +223,7 @@ Next, go to the Spring Cloud Data Flow dasboard at https://your-data-flow-server
 
 ## Execute the Example
 
-First, we need to import the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), which will give us the `composed-task-runner` application. For the Task App Starters we will use the option **Bulk import application coordinates from an HTTP URI location**. We use the latest release link, e.g. `http://bit.ly/Elston-GA-task-applications-maven` as URI. Click `Import the application(s)`.
-
-![Bulk Import Screen of the Data Flow Dashboard](images/scdf-cf-dashboard-bulk-import-apps.png)
-
-Now import our 2 custom task apps using the option **Register one or more applications**. As name use:
+First, we need to import our 2 custom task apps using the option **Register one or more applications**. As name we will use:
 
 - billsetuptask
 - billrun
@@ -245,23 +239,36 @@ We leave the input field `Metadata URI` empty.
 
 You have the option to run the import dialog twice or to by clicking `New Application`, you can import multipls applications in one go. Once ready to import, press `Register the application(s)`.
 
-Now we are ready to head over to the Flo designer and create the Composed Task. On the main left navigation, select `Tasks` and then click `Create task(s)`. The Flo designer will open up and you should see your 2 custom applications in the tool palette to the left. Drag each application from the palette to the main designer interface and connect the `START` icon to the `billsetuptask` icon, the `billsetuptask` to the `billrun` icon and finally the `billrun` to the `END` icon. Your flow should look like the following:
+Now we are ready to head over to the Flo designer and create 2 separate task definitions. On the main left navigation, select `Tasks` and then click `Create task(s)`. The Flo designer will open up and you should see your 2 custom applications in the tool palette to the left. Drag the first application `billsetuptask` from the palette to the main designer interface and connect the `START` icon to the `billsetuptask` icon and the `billsetuptask` to the `END` icon. Your flow should look like the following:
 
-![Creating a Composed Task using the Flo Designer](images/scdf-cf-dashboard-flo-designer-composed-task.png)
+![Creating the billsetup Task using the Flo Designer](images/scdf-cf-dashboard-flo-designer-billsetup-task.png)
 
-Above the visual editor, you will see the text-based task definition `billsetuptask && billrun`. Press `Create Task` and enter a name for the composed task definition, e.g. `bill_composed_task`.
+Above the visual editor, you will see the text-based task definition `billsetuptask`. Press `Create Task` and enter a name for the task definition `billsetuptask`.
 
-You will return to the task definition screen and you will see 3 tasks that were created for you:
+You will return to the task definition screen and you will see your created task definition as the sole entry.
 
-- bill_composed_task (The parent composed task runner)
-- bill_composed_task_billsetuptask
-- bill_composed_task_billrun
+Next, go back to the Flo designer by pressing `Create task(s)` and create another task definition for the `billrun` task. This time use the name `billrun` for the task definition.
 
-Congratulations, you have created a composed task definition that will deploy and execute your 2 custom tasks in sequence. Let's execute them. Click the `Launch task` icon for the `bill_composed_task` definition.
+Once returned to the task definition list screen you will see 2 task definitions:
 
-![Created Task Definitions](images/scdf-cf-dashboard-created-task-definitions.png)
+- billsetuptask
+- billrun
 
-We don't have to provide any `Arguments` or `Parameters`. Simply click `Launch the task`. The operation may take a few seconds, as the task application will be deployed to Cloud Foundry.
+![Created Task Definitions](images/scdf-cf-dashboard-created-task-definitions2.png)
+
+Let's execute your 2 task definitions. First, click the `Launch task` icon for the `billsetuptask` definition. We don't have to provide any `Arguments` or `Parameters`. Simply click `Launch the task`. The operation may take a few seconds, as the task application will be deployed to Cloud Foundry. It may take a minute or two for the task application to be deployed to Cloud Foundry and to be executed. You should end up with a task execution that looks like the following:
+
+![Created Task Definitions](images/scdf-cf-dashboard-task-execution-billsetup-task.png)
+
+In your Cloud Foundry dashboard under the `Tasks` tab you should also see the result of your first task execution:
+
+![Cloud Foundry Dashboard - Task Tab Results](images/scdf-cf-dashboard-in-cf-billsetup-task-execution.png)
+
+Now, we are ready to execute our second task `billrun`. Click the `Launch task` icon for the `billrun` definition in the task definitions screen. We don't have to provide any `Arguments` or `Parameters`. click `Launch the task`.
+
+After a while, the second task should complete as well. You should end up with a task definitions list like the following:
+
+![Task Definitions List](images/scdf-cf-dashboard-2-task-executions.png)
 
 ## Verify the Results
 
@@ -293,6 +300,6 @@ In any event, you should be able to see the added rows in the `bill_statements` 
 
 With the conclusion of this example you may also want to remove the created task applications. Simply mark them in the task applications table and select `Destroy task(s)`.
 
-![Destroy Task Definitions](images/scdf-cf-dashboard-destroy-task-definitions.png)
+![Destroy Task Definitions](images/scdf-cf-dashboard-destroy-task-definitions2.png)
 
-This will also remove the deployed task applications from Cloud Foundry.
+This will also remove the 2 deployed task applications from Cloud Foundry.
