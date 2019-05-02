@@ -297,25 +297,25 @@
       height: $s;
       background-repeat: no-repeat;
     }
-    &.success {
+    &.important {
       color: #467b17;
       background-color: #f3f5f0;
       &:before {
-        background-image: url(../images/icons/success.svg);
-      }
-    }
-    &.danger {
-      color: #df2500;
-      background-color: #fbf1ef;
-      &:before {
-        background-image: url(../images/icons/danger.svg);
+        background-image: url(../images/icons/important.svg);
       }
     }
     &.warning {
+      color: #df2500;
+      background-color: #fbf1ef;
+      &:before {
+        background-image: url(../images/icons/warning.svg);
+      }
+    }
+    &.caution {
       color: #e06f13;
       background-color: #fff6e7;
       &:before {
-        background-image: url(../images/icons/warning.svg);
+        background-image: url(../images/icons/caution.svg);
       }
     }
     &.note {

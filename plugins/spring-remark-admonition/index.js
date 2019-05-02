@@ -1,21 +1,21 @@
 const get = require(`lodash.get`)
 
 const START_KEYS = [
-  '<!--SUCCESS-->',
+  '<!--IMPORTANT-->',
+  '<!--CAUTION-->',
   '<!--WARNING-->',
-  '<!--DANGER-->',
   '<!--TIP-->',
   '<!--NOTE-->',
 ]
 const END_KEYS = [
-  '<!--END_SUCCESS-->',
+  '<!--END_IMPORTANT-->',
+  '<!--END_CAUTION-->',
   '<!--END_WARNING-->',
-  '<!--END_DANGER-->',
   '<!--END_TIP-->',
   '<!--END_NOTE-->',
 ]
 
-const CLASSNAMES = ['success', 'warning', 'danger', 'tip', 'note']
+const CLASSNAMES = ['important', 'caution', 'warning', 'tip', 'note']
 
 module.exports = ({ markdownAST, markdownNode }, options = {}) => {
   const children = []
