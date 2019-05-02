@@ -6,6 +6,25 @@ description: 'Debugging Batch applications deployed by Data Flow'
 
 # Debugging Tasks in SCDF
 
+## Did the Task Launch?
+
+To determine if your task executed properly, go to the Task Execution page of the UI or from the shell type `task execution list`.
+Find the task execution entry for the task launch.
+
+```mermaid
+graph TD;
+    A{Task execution has start date?} --> |No| D
+    A --> |Yes| B(Task has End Date)
+	B --> |Yes| C(Task has proper Exit Code)
+	B --> |No| E(Task is running)
+	C --> |Yes| F(Task was successful)
+	C --> |No| G(Task launched but execution returned failure code)
+	D(Task failed to launch)
+
+```
+
+## What To Check If Task Failed To Launch
+
 If a task fails to launch:
 
 - Ensure the latest GA of a particular release version is being used
