@@ -46,7 +46,7 @@ graph TD;
 	B --> |No| B
 ```
 
-The environment variables `DATAFLOW_VERSION` and `SKIPPER_VERSION` must be available in the current shell environment via `export` or prefixing the `docker-compose` command.
+The environment variables `DATAFLOW_VERSION` and `SKIPPER_VERSION` must be available in the current terminal environment via `export` or prefixing the `docker-compose` command.
 See [Starting Docker Compose](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-local-deploying-spring-cloud-dataflow-docker-starting) for more information.
 
 # Docker Compose - Runtime
@@ -59,11 +59,14 @@ graph TD;
 ```
 
 By default, the amount of memory allocated to Docker may be too low.
+The recommended amount of memory to allocate is 8GB.
 The command `docker stats` can provide useful information into resource usage.
 If applications are failing to deploy due to resource constraints, increase resource allocations.
 Consult the [Docker documentation](https://docs.docker.com/) for your platform.
 
 As streams are deployed via Skipper, applications that are part of that stream will be launched as Java processes on the Skipper container.
+For every part of a stream, an application is deployed.
+The overall resource allocation (memory, CPU, etc) provided to Docker should account for the number of deployed applications.
 See [Viewing Stream Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-local-deploying-spring-cloud-dataflow-docker-viewing-stream-logs) for more information on viewing log files.
 
 # Cloud Foundry - Startup failures
@@ -132,6 +135,22 @@ When describing a pod, the `events` table section provides useful information wh
 
 `kubectl describe po/pod_name`
 
+For example, the events from a successfully deployed `time` application would look similar to:
+
+```
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  2m    default-scheduler  Successfully assigned default/ticktock-time-v16-869947b6b9-brfc4 to minikube
+  Normal  Pulled     2m    kubelet, minikube  Container image "springcloudstream/time-source-rabbit:2.1.0.RELEASE" already present on machine
+  Normal  Created    2m    kubelet, minikube  Created container
+  Normal  Started    2m    kubelet, minikube  Started container
+```
+
 Application logs can be tailed to watch logs as they come in, for example:
 
 `kubectl logs -f po/pod_name`
+
+# Troubleshooting Help
+
+If none of those above troubleshooting techniques helped and if you're still looking for help, you can reach out to us in [StackOverflow](https://stackoverflow.com/tags/spring-cloud-dataflow/) with the relevant details (see: [Wiki](https://github.com/spring-cloud/spring-cloud-dataflow/wiki/Reporting-Issues)) - we actively monitor the forum threads.
