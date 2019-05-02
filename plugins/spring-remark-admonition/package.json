@@ -1,0 +1,8 @@
+{
+  "name": "spring-remark-admonition",
+  "version": "0.0.1",
+  "description": "Spring admonition",
+  "main": "index.js",
+  "author": "@spring",
+  "private": true
+}

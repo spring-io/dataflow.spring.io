@@ -1,18 +1,4 @@
-const visit = require(`unist-util-visit`)
 const get = require(`lodash.get`)
-
-const splitTabsToTitleAndContent = content => {
-  const titles = content.match(/<!--(.*?)-->/gms)
-  const tabs = content.split(/<!--.*?-->/gms)
-  if (!titles || !tabs || !titles.length || !tabs.length) {
-    return []
-  }
-  tabs.shift()
-  return titles.map((title, idx) => ({
-    title: title.substring(4, title.length - 3).trim(),
-    content: tabs[idx],
-  }))
-}
 
 module.exports = ({ markdownAST, markdownNode }, options = {}) => {
   const children = []

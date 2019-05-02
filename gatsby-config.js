@@ -127,33 +127,35 @@ const plugins = [
           options: {
             blocks: {
               danger: {
-                classes: 'callout danger',
+                classes: 'admonition danger',
                 title: 'optional',
               },
               info: {
-                classes: 'callout info',
+                classes: 'admonition info',
                 title: 'optional',
               },
               note: {
-                classes: 'callout note',
+                classes: 'admonition note',
                 title: 'optional',
               },
               warning: {
-                classes: 'callout warning',
+                classes: 'admonition warning',
                 title: 'optional',
               },
               success: {
-                classes: 'callout success',
+                classes: 'admonition success',
                 title: 'optional',
               },
               tip: {
-                classes: 'callout tip',
+                classes: 'admonition tip',
                 title: 'optional',
               },
             },
           },
         },
         `spring-remark-code`,
+        `spring-remark-callout`,
+        `spring-remark-admonition`,
         `spring-remark-tabs`,
       ],
     },

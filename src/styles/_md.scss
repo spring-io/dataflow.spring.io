@@ -213,6 +213,10 @@
           pre {
             padding: 0;
           }
+          .button-clipboard {
+            right: -20px;
+            top: -12px;
+          }
         }
       }
     }
@@ -235,7 +239,50 @@
     }
   }
 
-  .callout {
+  i.code-callout:before,
+  i.callout:before {
+    display: block;
+    content: attr(data-value);
+    $w: 20px;
+    display: inline-block;
+    color: #fff !important;
+    background-color: rgba(0, 0, 0, 0.8);
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    text-align: center;
+    width: $w;
+    height: $w;
+    font-size: 0.75em;
+    line-height: $w + 2px;
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  i.callout:before {
+    line-height: 20px;
+  }
+
+  ul.callouts {
+    padding: 0;
+    margin: 0 0 $spring-8points * 2;
+    list-style: none;
+    i.callout {
+      position: absolute;
+      left: 0;
+    }
+    li {
+      margin: 0;
+      padding: 0;
+      position: relative;
+      padding-left: 30px;
+      p {
+        margin: 0;
+        padding: 0 0;
+      }
+    }
+  }
+
+  .admonition {
     position: relative;
     padding: $spring-8points * 1.5 $spring-8points * 2;
     padding-left: $spring-8points * 6;
@@ -285,11 +332,23 @@
         background-image: url(../images/icons/tip.svg);
       }
     }
-    .custom-block-heading {
-      font-weight: bold;
-    }
-    .custom-block-heading {
-      padding-top: $spring-8points;
+    // .custom-block-heading {
+    //   font-weight: bold;
+    // }
+    // .custom-block-heading {
+    //   padding-top: $spring-8points;
+    // }
+    .spring-code {
+      margin: $spring-8points 0 $spring-8points * 2 !important;
+      padding: $spring-8points * 2 $spring-8points * 2 !important;
+      border: 0 solid rgba(0, 0, 0, 0.12) !important;
+      position: relative;
+      background: white;
+      .button-clipboard {
+        position: absolute;
+        right: 4px !important;
+        top: 4px !important;
+      }
     }
   }
 

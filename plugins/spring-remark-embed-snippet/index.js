@@ -26,7 +26,7 @@ module.exports = async (
   { markdownAST, markdownNode },
   { classPrefix = `language-` } = {}
 ) => {
-  return await visit(markdownAST, `inlineCode`, async node => {
+  return await visit(markdownAST, `code`, async node => {
     const { value } = node
     if (value.startsWith(KEY)) {
       const url = value.substr(KEY.length)

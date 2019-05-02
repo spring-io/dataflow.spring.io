@@ -120,31 +120,83 @@ public class LoggingSink {
 
 > Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore...
 
-### Callouts
+## Advanced
 
-Lorem ipsum dolor sit amet, consectetur:
+### Variables
 
-[[danger]]
-| This is a [[danger]] callout
+You can define variable in the file `/content/documentation/variables.json`.
 
-[[warning]]
-| This is a [[warning]] callout
+**Default variables**:
 
-[[note]]
-| This is a [[note]] callout
+| Name          | Description     | Value         |
+| ------------- | --------------- | ------------- |
+| `version`     | Current version | %version%     |
+| `currentPath` | currentPath     | %currentPath% |
 
-[[success]]
-| This is a [[success]] callout
+Lorem [ipsum dolor %foo%](https://spring.io/%foo%) sit amet, consectetur `adipisicing %foo%`, sed **do eiusmod %foo%** tempor.
 
-[[tip]]
-| This is a [[tip]] callout
+```html
+<div>
+  <a href="https://spring.io">%version%</a>
+</div>
+```
 
-Callout with a title and paragraphs:
+<!--TIP-->
 
-[[note | Title callout sample]]
-| Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-|
-| Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+Lorem ipsum dolor sit amet, consectetur **%foo%** adipiscing
+
+<!--END_TIP-->
+
+### Admonition
+
+<!--DANGER-->
+
+This is a **danger** admonition
+
+<!--END_DANGER-->
+
+<!--WARNING-->
+
+This is a **warning** admonition
+
+<!--END_WARNING-->
+
+<!--NOTE-->
+
+This is a **note** admonition
+
+<!--END_NOTE-->
+
+<!--TIP-->
+
+This is a **tip** admonition
+
+<!--END_TIP-->
+
+<!--SUCCESS-->
+
+This is a **success** admonition
+
+<!--END_SUCCESS-->
+
+Admonition with a title, paragraphs and code:
+
+<!--NOTE-->
+
+**Title callout sample**
+
+Lorem ipsum dolor sit amet, **consectetur adipiscing elit**, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+
+```md
+# Lorem ipsum dolor sit amet, consectetur adipisicing elit
+
+- Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+- Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+```
+
+<!--END_NOTE-->
 
 ### Mermaid
 
@@ -157,36 +209,37 @@ graph TD;
     D --> F(Elit set do)
 ```
 
-## Advanced
+### Callout
 
-### Variables
+```java
+{/* highlight-range{8-14} */}
+@EnableBinding(Sink.class)
+public class LoggingSink {
 
-You can define variable in the file `/content/documentation/variables.json`.
+  @StreamListener(Sink.INPUT)
+  public void log(String message) {
+      System.out.println(message);
+  }
 
-Default variables:
+  public Launcher(String name, String type, Scheduler scheduler) {
+  	this.name = name;
+  	this.type = type;                                               // <1>
+  	this.scheduler = scheduler;                                     // <2>
+  }
 
-| Name          | Description     | Value         |
-| ------------- | --------------- | ------------- |
-| `version`     | Current version | %version%     |
-| `currentPath` | currentPath     | %currentPath% |
+  public Scheduler getScheduler() {                                 // <3>
+  	return scheduler;
+  }
 
-**Usage:**
-
-| Name      | Description | Value     |
-| --------- | ----------- | --------- |
-| `foo`     | Foo         | %foo%     |
-| `bar.foo` | Bar Foo     | %bar.foo% |
-
-Lorem [ipsum dolor %foo%](https://spring.io/%foo%) sit amet, consectetur `adipisicing %foo%`, sed **do eiusmod %foo%** tempor.
-
-```html
-<div>
-  <a href="https://spring.io">%version%</a>
-</div>
+  public void setScheduler(Scheduler scheduler) {
+  	this.scheduler = scheduler;
+  }
+}
 ```
 
-[[tip]]
-| Lorem ipsum dolor sit amet, consectetur **%foo%** adipiscing
+- <1> Lorem ipsum dolor sit amet, **consectetur adipisicing** elit `HelloWorld`
+- <2> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+- <3> Lorem ipsum dolor sit amet, consectetur adipisicing elit
 
 ### Tabulation
 
@@ -242,40 +295,18 @@ end.
 
 ### Download Github file
 
-**Markdown:**
-
-```markdown
-`download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
-```
-
-**Usage:**
-
 With a custom title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=download sql file`, with the default title `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
 
 ### Embed Github code
 
-**Markdown:**
-
-```markdown
-`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
-
-`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java`
+```
+embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql
 ```
 
-**Usage:**
-
-`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
-
-`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java`
+```
+embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java
+```
 
 ### Embed Youtube video
-
-**Markdown:**
-
-```markdown
-`youtube:https://www.youtube.com/embed/rvAr0KYXBhk`
-```
-
-**Usage:**
 
 `youtube:https://www.youtube.com/embed/rvAr0KYXBhk`
