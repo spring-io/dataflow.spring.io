@@ -4,13 +4,13 @@ title: 'Debugging Stream applications deployed by Data Flow'
 description: 'Debugging Stream applications deployed by Data Flow'
 ---
 
-# Debugging streams
+# Debugging Streams in SCDF
 
 If a stream fails to deploy:
 
 - Ensure the latest GA of a particular release version is being used
 - Ensure platform of choice meets at least the minimum supported version
-- All applications that are part of the stream have been tested as standalone applications outside of SCDF
+- Before deploying stream applications in SCDF ensure the application has been successfully executed standalone. Refer to [Debugging Stream Applications](%currentPath%/stream-developer-guides/troubleshooting/debugging-stream-apps/) before continuing.
 
 Skipper is responsible for deploying streams.
 Stream deployment failure messages can typically be found in the Skipper application logs.

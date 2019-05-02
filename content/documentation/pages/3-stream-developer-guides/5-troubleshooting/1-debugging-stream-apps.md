@@ -1,10 +1,10 @@
 ---
 path: 'stream-developer-guides/troubleshooting/debugging-stream-apps/'
-title: 'Debugging applications'
-description: 'Debugging applications'
+title: 'Debugging Stream Applications'
+description: 'Debugging Stream Applications'
 ---
 
-# Debugging applications
+# Debugging Stream Applications
 
 Applications should be runnable as a standard Java JAR, invoked via `java -jar`.
 All dependencies such as databases and messaging middleware should be available and tested manually for connection issues.

@@ -4,6 +4,8 @@ title: 'Debugging Batch applications'
 description: 'Debugging Batch applications'
 ---
 
+# Debugging Batch Applications
+
 Applications should be runnable as a standard Java JAR, invoked via `java -jar`.
 All dependencies such as databases and messaging middleware should be available and tested manually for connection issues.
 Running and debugging applications is independent of deploying via SCDF and running on a platform.
