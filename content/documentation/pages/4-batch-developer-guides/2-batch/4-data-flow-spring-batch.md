@@ -4,7 +4,7 @@ title: 'Register and launch a Spring Batch application using Data Flow'
 description: 'Register and launch a Spring Batch application using Data Flow'
 ---
 
-# Deploy a Spring Cloud Task application using Data Flow
+# Deploy a Spring Batch application using Data Flow
 
 In this section, we will demonstrate how to register a Spring Batch application with Data Flow, create a task definition, and launch the task definition on Cloud Foundry, Kubernetes and your local machine.
 

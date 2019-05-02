@@ -6,14 +6,19 @@ description: 'Create a simple Spring Boot Application using Spring Cloud Task'
 
 # Batch Processing with Spring Cloud Task
 
-In this guide we will develop a Spring Boot application that uses Spring Cloud Task and deploy it to Cloud Foundry, Kubernetes, and on your local machine. In another guide, we will deploy the Task using Data Flow.
+In this guide we will develop a Spring Boot application that uses Spring Cloud Task and deploy it to Cloud Foundry, Kubernetes, and on your local machine. In another guide, we will deploy the [Task application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-simple-task/).
 
-We will start from the [Spring Initializr](https://start.spring.io/) and create a Spring Cloud Task application.
+The following sections describe how to build this application from scratch. If you prefer, you can download a zip file containing the sources for the application `billsetup`, unzip it, and proceed to the [deployment](#deployment) step.
 
-[[note]]
-| NOTE: All code for this project can be found [here](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples).
+You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser, or from the command-line:
+
+```bash
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
+```
 
 ## Development
+
+We will start from the [Spring Initializr](https://start.spring.io/) and create a Spring Cloud Task application.
 
 Suppose a cell phone data provider needs to create billing statements for customers. The usage data is stored in JSON files that are stored on the file system. The billing solution must pull data from these files, generate the billing data from this usage data, and store it in a `BILLING_STATEMENTS` table.
 
@@ -359,9 +364,35 @@ $ kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-d
 
 ##### Build a Docker image for the sample task application
 
-We will build the `billsetuptask` app, which is configured with the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image):
+We will build the docker image for the [billsetuptask](#batch_processing_with_spring_cloud_task) app.
 
-Clone the task samples git repo, and cd to the `billsetuptask` directory.
+For this we will use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#batch_processing_with_spring_cloud_task), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in pom.xml:
+
+```xml
+<plugin>
+    <groupId>com.google.cloud.tools</groupId>
+    <artifactId>jib-maven-plugin</artifactId>
+    <version>0.10.1</version>
+    <configuration>
+        <from>
+            <image>springcloud/openjdk</image>
+        </from>
+        <to>
+            <image>${docker.org}/${project.artifactId}:${docker.version}</image>
+        </to>
+        <container>
+            <useCurrentTimestamp>true</useCurrentTimestamp>
+        </container>
+    </configuration>
+</plugin>
+```
+
+Then add the referenced properties, under `properties` For this example, we will use:
+
+```xml
+<docker.org>springcloudtask</docker.org>
+<docker.version>${project.version}</docker.version>
+```
 
 ```bash
 $ eval $(minikube docker-env)
