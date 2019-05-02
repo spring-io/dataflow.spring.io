@@ -8,7 +8,13 @@ description: 'Create a Spring Batch Job'
 
 In this guide we will develop a Spring Batch application and deploy it to Cloud Foundry, Kubernetes, and on your local machine. In another guide, we will deploy the [Spring Batch application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-spring-batch/).
 
-The following sections describe how to build this application from scratch. If you prefer, you can [download](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) a zip file containing the sources for the application `billrun`, unzip it, and proceed to the [deployment](#deployment) step.
+The following sections describe how to build this application from scratch. If you prefer, you can download a zip file containing the sources for the application `billsetup`, unzip it, and proceed to the [deployment](#deployment) step.
+
+You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser, or from the command-line:
+
+```bash
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
+```
 
 ## Development
 
