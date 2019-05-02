@@ -92,7 +92,7 @@ graph TD;
 	F --> C
 ```
 
-When debugging deployment issues, raising deployer and Cloud Foundry releated log levels may be useful.
+When debugging deployment issues, raising deployer and Cloud Foundry related log levels may be useful.
 See [Deployment Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for more information.
 
 # Kubernetes - Distributed Deployment Files
