@@ -126,24 +126,20 @@ const plugins = [
           resolve: 'gatsby-remark-custom-blocks',
           options: {
             blocks: {
-              danger: {
-                classes: 'admonition danger',
-                title: 'optional',
-              },
-              info: {
-                classes: 'admonition info',
+              warning: {
+                classes: 'admonition warning',
                 title: 'optional',
               },
               note: {
                 classes: 'admonition note',
                 title: 'optional',
               },
-              warning: {
-                classes: 'admonition warning',
+              caution: {
+                classes: 'admonition caution',
                 title: 'optional',
               },
-              success: {
-                classes: 'admonition success',
+              important: {
+                classes: 'admonition important',
                 title: 'optional',
               },
               tip: {

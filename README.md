@@ -10,7 +10,7 @@ This is the **Spring Cloud Data Flow Website**, located at [https://dataflow.spr
 
 ## Building
 
-You'll need [NodeJS](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed globally.
+You'll need [NodeJS](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed globally. Note that, for Node, you need version 10, not the latest version.)
 
 ```bash
 # Init
