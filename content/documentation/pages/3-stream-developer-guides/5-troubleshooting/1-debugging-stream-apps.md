@@ -1,5 +1,5 @@
 ---
-path: 'stream-developer-guides/troubleshooting/debugging-apps/'
+path: 'stream-developer-guides/troubleshooting/debugging-stream-apps/'
 title: 'Debugging applications'
 description: 'Debugging applications'
 ---

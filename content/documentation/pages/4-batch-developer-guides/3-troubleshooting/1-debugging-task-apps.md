@@ -1,5 +1,5 @@
 ---
-path: 'batch-developer-guides/troubleshooting/debugging/'
+path: 'batch-developer-guides/troubleshooting/debugging-task-apps/'
 title: 'Debugging Batch applications'
 description: 'Debugging Batch applications'
 ---

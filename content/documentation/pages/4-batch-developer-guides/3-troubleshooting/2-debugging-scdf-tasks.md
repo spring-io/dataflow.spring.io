@@ -1,5 +1,5 @@
 ---
-path: 'batch-developer-guides/troubleshooting/debugging-scdf/'
+path: 'batch-developer-guides/troubleshooting/debugging-scdf-tasks/'
 title: 'Debugging Batch applications deployed by Data Flow'
 description: 'Debugging Batch applications deployed by Data Flow'
 ---
