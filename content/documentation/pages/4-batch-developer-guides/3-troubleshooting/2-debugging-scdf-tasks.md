@@ -4,7 +4,7 @@ title: 'Debugging Batch applications deployed by Data Flow'
 description: 'Debugging Batch applications deployed by Data Flow'
 ---
 
-# Debugging Tasks
+# Debugging Tasks in SCDF
 
 If a task fails to launch:
 
@@ -61,12 +61,12 @@ graph TD;
 By default, the amount of memory allocated to Docker may be too low.
 The recommended amount of memory to allocate is 8GB.
 The command `docker stats` can provide useful information into resource usage.
-If applications are failing to deploy due to resource constraints, increase resource allocations.
+If applications are failing to launch due to resource constraints, increase resource allocations.
 Consult the [Docker documentation](https://docs.docker.com/) for your platform.
 
 As tasks are launched via SCDF, applications that are part of that task definition will be launched as Java processes on the SCDF container.
 For every part of a task definition, an application is launched.
-The overall resource allocation (memory, CPU, etc) provided to Docker should account for the number of deployed applications.
+The overall resource allocation (memory, CPU, etc) provided to Docker should account for the number of launched applications.
 
 # Cloud Foundry - Startup failures
 
@@ -89,7 +89,7 @@ graph TD;
 	F --> C
 ```
 
-When debugging deployment issues, raising deployer and Cloud Foundry releated log levels may be useful.
+When debugging deployment issues, raising deployer and Cloud Foundry related log levels may be useful.
 See [Deployment Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for more information.
 
 # Kubernetes - Distributed Deployment Files
@@ -128,7 +128,7 @@ When describing a pod, the `events` table section provides useful information wh
 
 `kubectl describe po/pod_name`
 
-For example, the events from a successfully deployed `timestamp-batch-task` application would look similar to:
+For example, the events from a successfully launched `timestamp-batch-task` application would look similar to:
 
 ```
 Events:
