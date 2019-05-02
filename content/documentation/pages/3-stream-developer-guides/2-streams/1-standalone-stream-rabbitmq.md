@@ -25,11 +25,20 @@ This provides a foundation to understand the steps that Data Flow will automate 
 
 ## Development
 
+The following sections describe how to build this stream from scratch. If you prefer, you can download a zip file containing the sources for the sample stream, unzip it, and proceed to the [build](#building) step.
+
+You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/dist/usage-cost-stream-rabbit.zip?raw=true) from your browser, or from the command-line:
+
+```bash
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/dist/usage-cost-stream-rabbit.zip?raw=true -O usage-cost-stream-rabbit.zip
+```
+
 ### Source
 
-You can develop the source application by following the steps listed below or **TODO download the completed source example**
+You can develop the source application by following the steps listed below.
 
 **TODO - Add actuator dependency**
+
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender&name=usage-detail-sender&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender`.
@@ -100,9 +109,10 @@ If you haven't downloaded the completed source example, you will need to perform
 
 ### Processor
 
-You can develop the processor application by following the steps listed below or **TODO download the completed processor example**
+You can develop the processor application by following the steps listed below.
 
 **TODO - Add actuator dependency**
+
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor&name=usage-cost-processor&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor`.
@@ -173,7 +183,8 @@ If you haven't downloaded the completed processor example, you will need to perf
 
 ### Sink
 
-You can develop the sink application by following the steps listed below or **TODO download the completed sink example**
+You can develop the sink application by following the steps listed below.
+
 **TODO - Add actuator dependency**
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger&name=usage-cost-logger&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=cloud-stream&style=amqp)
@@ -297,6 +308,212 @@ Now, you can see that this application logs the usage cost detail.
 ### Cloud Foundry
 
 ### Kubernetes
+
+This section will walk you through how to deploy and run the sample stream application on Kubernetes.
+
+#### Setting up the Kubernetes cluster
+
+For this we need a running [Kubernetes cluster](%currentPath%/installation/kubernetes/). For this example we will deploy to `minikube`.
+
+##### Verify minikube is up and running:
+
+```bash
+$minikube status
+
+host: Running
+kubelet: Running
+apiserver: Running
+kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
+```
+
+#### Install Rabbit MQ
+
+We will install the Rabbit MQ message broker, using the default configuration from Spring Cloud Data Flow. Execute the following command:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/rabbitmq/rabbitmq-deployment.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/rabbitmq/rabbitmq-svc.yaml
+```
+
+#### Build docker images
+
+For this we will use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#development), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in each pom.xml:
+
+```xml
+<plugin>
+    <groupId>com.google.cloud.tools</groupId>
+    <artifactId>jib-maven-plugin</artifactId>
+    <version>0.10.1</version>
+    <configuration>
+        <from>
+            <image>springcloud/openjdk</image>
+        </from>
+        <to>
+            <image>${docker.org}/${project.artifactId}:${docker.version}</image>
+        </to>
+        <container>
+            <useCurrentTimestamp>true</useCurrentTimestamp>
+        </container>
+    </configuration>
+</plugin>
+```
+
+Then add the referenced properties, under `properties` For this example, we will use:
+
+```xml
+<docker.org>springcloudstream</docker.org>
+<docker.version>${project.version}</docker.version>
+```
+
+Now run the maven build to create the docker images in the `minikube` docker registry:
+
+```bash
+$ eval $(minikube docker-env)
+$./mvnw package jib:dockerBuild
+```
+
+[[tip]]
+| If you downloaded the project source, the project includes a parent pom to build all the modules with a single command. Otherwise, run the build for the source, processor, and sink individually. You only need to execute `eval $(minikube docker-env)` once for each terminal session.
+
+#### Deploy the stream
+
+Copy and paste the following yaml and save it to `usage-cost-stream.yaml`
+
+```yaml
+kind: Pod
+apiVersion: v1
+metadata:
+  name: usage-detail-sender
+  labels:
+    app: usage-cost-stream
+spec:
+  containers:
+    - name: usage-detail-sender
+      image: springcloudstream/usage-detail-sender-rabbit:0.0.1-SNAPSHOT
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_RABBITMQ_ADDRESSES
+          value: rabbitmq
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value: user-details
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: usage-cost-processor
+  labels:
+    app: usage-cost-stream
+spec:
+  containers:
+    - name: usage-cost-processor
+      image: springcloudstream/usage-cost-processor-rabbit:0.0.1-SNAPSHOT
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_RABBITMQ_ADDRESSES
+          value: rabbitmq
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: usage-cost-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: user-details
+        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
+          value: user-cost
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: usage-cost-logger
+  labels:
+    app: usage-cost-stream
+spec:
+  containers:
+    - name: usage-cost-logger
+      image: springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      env:
+        - name: SPRING_RABBITMQ_ADDRESSES
+          value: rabbitmq
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
+          value: usage-cost-stream
+        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
+          value: user-cost
+        - name: SERVER_PORT
+          value: '80'
+  restartPolicy: Always
+```
+
+Then deploy the apps:
+
+```bash
+kubectl apply -f usage-cost-stream.yaml
+```
+
+if all is well, you should see
+
+```
+pod/usage-detail-sender created
+pod/usage-cost-processor created
+pod/usage-cost-logger created
+```
+
+The above yaml, which we presumably created ourselves, specifies three pod resources, for the source, processor, and sink applications. Each pod has a single container, referencing the respective docker image. We set the Kafka binding parameters as environment variables. The input and output destination names have to be correct to wire the stream, specifically, the output of the source must be the same as the input of the processor, and the output of the processor must be the same as the input of the sink. We also set the logical hostname for the Rabbit MQ broker for each app to connect to it. Here we use the Rabbit MQ service name, `rabbitmq` in this case. We set the label `app: user-cost-stream` to logically group our apps.
+
+#### Verify the deployment
+
+Use the following command to tail the log for the `usage-cost-logger` sink:
+
+```bash
+kubectl logs -f usage-cost-logger
+```
+
+You should see messages streaming like:
+
+```bash
+2019-05-02 15:48:18.550  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Mark", "callCost": "21.1", "dataCost": "26.05" }
+2019-05-02 15:48:19.553  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Ilaya", "callCost": "4.2", "dataCost": "15.75" }
+2019-05-02 15:48:20.549  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Mark", "callCost": "28.400000000000002", "dataCost": "15.0" }
+2019-05-02 15:48:21.553  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Ilaya", "callCost": "16.8", "dataCost": "28.5" }
+2019-05-02 15:48:22.551  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Mark", "callCost": "22.700000000000003", "dataCost": "20.3" }
+2019-05-02 15:48:23.556  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Janne", "callCost": "16.6", "dataCost": "2.6" }
+2019-05-02 15:48:24.557  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Janne", "callCost": "6.7", "dataCost": "1.0" }
+2019-05-02 15:48:25.555  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Glenn", "callCost": "3.7", "dataCost": "2.6500000000000004" }
+2019-05-02 15:48:26.557  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Janne", "callCost": "24.200000000000003", "dataCost": "32.9" }
+2019-05-02 15:48:27.556  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Glenn", "callCost": "19.200000000000003", "dataCost": "7.4" }
+2019-05-02 15:48:28.559  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Sabby", "callCost": "17.7", "dataCost": "27.35" }
+2019-05-02 15:48:29.562  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Ilaya", "callCost": "26.8", "dataCost": "32.45" }
+2019-05-02 15:48:30.561  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Janne", "callCost": "26.5", "dataCost": "33.300000000000004" }
+2019-05-02 15:48:31.562  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Sabby", "callCost": "16.1", "dataCost": "5.0" }
+2019-05-02 15:48:32.564  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Janne", "callCost": "16.3", "dataCost": "23.6" }
+2019-05-02 15:48:33.567  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Ilaya", "callCost": "29.400000000000002", "dataCost": "2.1" }
+2019-05-02 15:48:34.567  INFO 1 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "Janne", "callCost": "5.2", "dataCost": "20.200000000000003" }
+```
+
+#### Clean up
+
+To delete the stream we can use the label we created:
+
+```bash
+kubectl delete pod -l app=usage-cost-stream
+```
+
+To uninstall Rabbit MQ:
+
+```bash
+kubectl delete all -l app=rabbitmq
+```
 
 ## Testing
 
