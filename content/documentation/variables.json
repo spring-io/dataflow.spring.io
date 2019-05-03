@@ -1,5 +1,7 @@
 {
   "version": "v2.0.1.RELEASE",
+  "task-app-maven-version": "http://bit.ly/Elston-GA-task-applications-maven",
+  "task-app-docker-version": "http://bit.ly/Elston-GA-task-applications-docker",
   "thing1": "thing1",
   "thing2": {
     "thing1": "thing2"

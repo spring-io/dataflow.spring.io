@@ -12,7 +12,7 @@ In this section, we will demonstrate how to register a Spring Cloud Task applica
 
 ### Data Flow Installation
 
-Make sure have installed Spring Cloud Data Flow to the platform of your choice:
+Make sure you have installed Spring Cloud Data Flow to the platform of your choice:
 
 - [Local](%currentPath%/installation/local/)
 - [Cloud Foundry](%currentPath%/installation/cloudfoundry)
