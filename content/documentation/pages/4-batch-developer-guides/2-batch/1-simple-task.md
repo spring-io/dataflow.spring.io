@@ -8,13 +8,7 @@ description: 'Create a simple Spring Boot Application using Spring Cloud Task'
 
 In this guide we will develop a Spring Boot application that uses Spring Cloud Task and deploy it to Cloud Foundry, Kubernetes, and on your local machine. In another guide, we will deploy the [Task application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-simple-task/).
 
-The following sections describe how to build this application from scratch. If you prefer, you can download a zip file containing the sources for the application `billsetup`, unzip it, and proceed to the [deployment](#deployment) step.
-
-You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser, or from the command-line:
-
-```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
-```
+The following sections describe how to build this application from scratch. If you prefer, you can [download](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) a zip file containing the sources for the application `billsetup`, unzip it, and proceed to the [deployment](#deployment) step.
 
 ## Development
 
@@ -338,7 +332,7 @@ We will deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/b
 
 #### Setting up the Kubernetes cluster
 
-For this we need a running [Kubernetes cluster](%currentPath%/installation/kubernetes/). For this example we will deploy to `minikube`.
+For this we need a running [Kubernetes cluster](%currentPath%/installation/kubernetes#creating-a-kubernetes-cluster). For this example we will deploy to `minikube`.
 
 ##### Verify minikube is up and running:
 
