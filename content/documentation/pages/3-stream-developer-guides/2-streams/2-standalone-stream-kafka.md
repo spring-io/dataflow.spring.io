@@ -39,15 +39,14 @@ You can proceed to the the [deployment](#deployment) section for your platform i
 You can develop the source application by following the steps listed below.
 
 **TODO - Add actuator dependency**
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-kafka&name=usage-detail-sender-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender&name=usage-detail-sender&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
-
-1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender`.
+1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender-kafka`.
 1. In the Dependencies text box, type `Kafka` to select the Kafka binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 1. Click the Generate Project button.
 
-Now you should `unzip` the `usage-detail-sender.zip` file and import the project into your favorite IDE.
+Now you should `unzip` the `usage-detail-sender-kafka.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
@@ -107,6 +106,8 @@ In the directory `usage-detail-sender` use the following command to build the pr
 
 #### Testing
 
+#### Running the Source
+
 We can individually test these custom applications before creating a pipeline using Spring Cloud Data Flow.
 To test, we can explicitly set the Spring Cloud Stream bindings destination property and run the application.
 
@@ -116,10 +117,11 @@ spring.cloud.stream.bindings.output.destination=test-usage-detail
 
 In this case, we can use some test Kafka `topics` to verify the outbound and inbound messages.
 For instance, you can set the `output` binding to a test Kafka topic named `test-usage-detail` and see if the messages get posted to this Kafka topic.
+
 You can run the standalone `UsageDetailSender` source application as,
 
 ```
-java -jar target/usage-detail-sender-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail &
+java -jar target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail &
 ```
 
 Now, you can see the messages being sent to the Kafka topic `test-usage-detail` using Kafka console consumer as follows:
@@ -134,14 +136,14 @@ You can develop the processor application by following the steps listed below.
 
 **TODO - Add actuator dependency**
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor&name=usage-cost-processor&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-kafka&name=usage-cost-processor-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
 
-1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor`.
+1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor-kafka`.
 1. In the Dependencies text box, type `kafka` to select the Kafka binder dependency.
 1. In the Dependencies text box, type `cloud stream` to select the Spring Cloud Stream dependency.
 1. Click the Generate Project button.
 
-Now you should `unzip` the `usage-cost-processor.zip` file and import the project into your favorite IDE.
+Now you should `unzip` the `usage-cost-processor-kafka.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
@@ -206,10 +208,12 @@ spring.cloud.stream.bindings.input.destination=test-usage-detail
 spring.cloud.stream.bindings.output.destination=test-usage-cost
 ```
 
+#### Running the Processor
+
 You can run the standalone `UsageCostProcessor` processor application as,
 
 ```
-java -jar target/usage-cost-processor-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost &
+java -jar target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost &
 ```
 
 With the `UsageDetail` data on the `test-usage-detail` Kafka topic using the `UsageDetailSender` source application, you can see the `UsageCostDetail` from the `test-usage-cost` Kafka topic as follows:
@@ -224,14 +228,14 @@ You can develop the sink application by following the steps listed below.
 
 **TODO - Add actuator dependency**
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger&name=usage-cost-logger&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-kafka&name=usage-cost-logger-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream)
 
-1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-logger`.
+1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-logger-kafka`.
 1. In the Dependencies text box, type `kafka` to select the Kafka binder dependency.
 1. In the Dependencies text box, type `cloud stream` to select the Spring Cloud Stream dependency.
 1. Click the Generate Project button.
 
-Now you should `unzip` the `usage-cost-logger.zip` file and import the project into your favorite IDE.
+Now you should `unzip` the `usage-cost-logger-kafka.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
@@ -283,10 +287,12 @@ To test this `sink` application you need to set the `input` binding that connect
 spring.cloud.stream.bindings.input.destination=test-usage-cost
 ```
 
+#### Running the Sink
+
 You can run the standalone `UsageCostLogger` sink application as,
 
 ```
-java -jar target/usage-cost-logger-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-cost &
+java -jar target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-cost &
 ```
 
 Now, you can see that this application logs the usage cost detail.
