@@ -1,5 +1,5 @@
 ---
-path: 'recipes/polyglot/processor/'
+path: 'recipes/polyglot/processor'
 title: 'Python Stream Processor'
 description: 'Python/Docker as SCDF Stream Processor'
 ---

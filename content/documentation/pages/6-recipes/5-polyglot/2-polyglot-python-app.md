@@ -1,5 +1,5 @@
 ---
-path: 'recipes/polyglot/app/'
+path: 'recipes/polyglot/app'
 title: 'Python App'
 description: 'Python/Docker as SCDF App'
 ---

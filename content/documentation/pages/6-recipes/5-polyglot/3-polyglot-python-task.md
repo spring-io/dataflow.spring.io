@@ -1,5 +1,5 @@
 ---
-path: 'recipes/polyglot/task/'
+path: 'recipes/polyglot/task'
 title: 'Python Task'
 description: 'Python/Docker as SCDF Task'
 ---
