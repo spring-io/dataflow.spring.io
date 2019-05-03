@@ -8,12 +8,28 @@ description: 'Create and Deploy a Stream Processing Pipeline using Spring Cloud 
 
 In this section we will show how to register stream applications with Data Flow, create a Stream DSL, and deploy the stream to Cloud Foundry, Kubernetes and your local machine.
 
-**TODO Switch to using the Shell - use the batch guide as a template to follow wrt to screen shots**
-
 ## Development
 
 In the previous guide, we created `Source`, `Processor` and `Sink` streaming applications and deployed them as standalone applications on multiple platforms.
-In this guide, we will create and deploy streaming data pipeline using these streaming applications using Data Flow using the Dashboard and the shell.
+In this guide, we will create and deploy streaming data pipeline using these streaming applications using the Data Flow Dashboard.
+
+### The Data Flow Dashboard
+
+Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
+
+### Application Registration
+
+The Data Flow Dashboard will land on the Application Registration view where we will register the source, processor, and sink apps.
+
+![Add an application](images/SCDF-add-applications.png)
+
+#### Application Registration Concepts
+
+Applications in Data Flow are registered as named resources so that they may be referenced when using the Data Flow DSL to configure and compose streaming pipelines.
+Registration associates a logical application name and type with a physical resource, given by a URI.
+The URI conforms to a [schema](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL.
+Data Flow defines a some logical application types which indicate its role as a streaming component, a task, or a standalone application.
+For streaming applications, as you might expect, we will use `Source`,`Processor`, and `Sink` types.
 
 ### Application Registration
 
@@ -26,8 +42,6 @@ When you register an application, you provide:
 - application type (Source, Processor, Sink)
 - application name
 
-**TODO Follow the application registration steps as done in the batch case, see #application-registration-concepts. Maven for local/PCF, and docker for K8s**
-
 **TODO: We should create the maven artifact and docker artifacts for these 'custom' apps so that they can perform the steps quickly without having to create a container or have a public maven repository available**
 
 [[note]]
@@ -39,64 +53,54 @@ Let's assume you are running Spring Cloud Data Flow, Skipper servers running on 
 
 Register the `UsageDetailSender` source application:
 
-```
-app register --name usage-detail-sender --type source --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-detail-sender/target/usage-detail-sender-0.0.1-SNAPSHOT.jar
-```
+From the Applications view, select `Add Application(s)`.
+This will display a view to allow you to register applications.
+
+![Register source application](images/SCDF-register-source-rabbit.png)
+
+Select `Register one or more applications` and enter the `name`, `type`, and `URI` for the source application.
+
+Click on `New application` to display another instance of the form to enter the values for the processor.
 
 Register the `UsageCostProcessor` processor application:
 
-```
-app register --name usage-cost-processor --type processor --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-cost-processor/target/usage-cost-processor-0.0.1-SNAPSHOT.jar
-```
+![Register source application](images/SCDF-register-processor-rabbit.png)
 
 Register the `UsageCostLogger` sink application:
 
-```
-app register --name usage-cost-logger --type sink --uri file://<YOUR_GITHUB_CLONE_DIR>/spring-cloud/spring-cloud-dataflow-samples/dataflow-website/stream-developer-guides/streams/usage-cost-logger/target/usage-cost-logger-0.0.1-SNAPSHOT.jar
-```
+![Register sink application](images/SCDF-register-sink-rabbit.png)
 
-### Create Stream DSL
+Click on `Register the application(s)` to complete the registration. This will take you back to the Applications view which lists your applications.
 
-Create a streaming pipeline that has the `Source`, `Processor` and `Sink` applications as registered above.
+![Registered applications](images/SCDF-registered-apps.png)
 
-```
-stream create usage-cost-logger --definition "usage-detail-sender | usage-cost-processor | usage-cost-logger"
-```
+### Create the Stream Definition
 
-### Validate Stream DSL
+Select `Streams` from the left navigation bar. This will display the main Streams view.
 
-Make sure the app coordinates are correct for the stream.
+![Create streams](images/SCDF-create-streams.png)
 
-The command:
+Select `Create stream(s)` to display a graphical editor to create the stream definition.
 
-```
-stream validate usage-cost-logger
-```
+![Create usage cost logger stream](images/SCDF-create-usage-cost-logger-stream.png)
 
-will show the following result:
+You will see the `Source`, `Processor` and `Sink` applications, as registered above, in the left panel. Drag and drop each app to the canvas and then use the handles to connect them together. Notice the equivalent Data Flow DSL definition in the top text panel. Click `Create Stream`.
 
-```
-╔═════════════════╤══════════════════════════════════════════════════════════════╗
-║   Stream Name   │                      Stream Definition                       ║
-╠═════════════════╪══════════════════════════════════════════════════════════════╣
-║usage-cost-logger│usage-detail-sender | usage-cost-processor | usage-cost-logger║
-╚═════════════════╧══════════════════════════════════════════════════════════════╝
+### Deploy the Stream
 
+Click on the arrow head icon to deploy the stream. This will take you to the Deploy Stream page from where you may enter additional deployment properties. For this example we don't need any additional properties, so just select `Deploy stream`.
 
-usage-cost-logger is a valid stream.
-╔══════════════════════════════╤═════════════════╗
-║           App Name           │Validation Status║
-╠══════════════════════════════╪═════════════════╣
-║source:usage-detail-sender    │valid            ║
-║processor:usage-cost-processor│valid            ║
-║sink:usage-cost-logger        │valid            ║
-╚══════════════════════════════╧═════════════════╝
+![Stream created](images/SCDF-stream-created.png)
 
-```
+![Deploy stream](images/SCDF-deploy-stream.png)
+
+When all the applications are running, the stream is successfully deployed.
+
+![Stream deployed](images/SCDF-stream-deployed.png)
 
 ## Deployment
 
-Deploy to local, Cloud Foundry and Kubernetes
+The process described above is basically the same for all platforms. This section addresses platform-specific details for installing and configuring Data Flow on Local, Cloud Foundry, and Kubernetes platforms, and interacting with applications deployed to these platforms.
 
 ### Local
 
