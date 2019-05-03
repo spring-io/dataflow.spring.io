@@ -651,13 +651,37 @@ You need not always have "Download" as the link text. The following example show
 
 The result of setting the link text is that you can write sentences such as "You can download the file from this `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=link`".
 
+### Embedding Markdown Template
+
+You can add markdown templates to include them in the pages.
+
+<!--WARNING-->
+
+The templates are injected on the compilation. If you add a template or update a template content, you have to restart the application to see the changes.
+
+The template file name has to start with the character \_.
+
+<!--END_WARNING-->
+
+The following example includes the file `template/_sample.md` in the page.
+
+```markdown
+!embed-template:template/sample.md
+```
+
+The result of the preceding example is the following content:
+
+!embed-template:template/sample.md
+
 ### Embedding Github Code
 
 Sometimes, it is better to show code rather than link to it. To do so, you need to use the `embed-code` verb. The following example shows how to do so:
 
-```markdown
-`embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
+````markdown
 ```
+embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
+```
+````
 
 The result of the preceding example is the following code listing:
 

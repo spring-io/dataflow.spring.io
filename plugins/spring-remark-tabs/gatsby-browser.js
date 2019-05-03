@@ -1,5 +1,3 @@
-const changeTab = str => {}
-
 exports.onClientEntry = () => {
   window.changeTab = (evt, index) => {
     const target = evt.target

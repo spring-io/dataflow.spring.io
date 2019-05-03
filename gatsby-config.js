@@ -71,6 +71,8 @@ const plugins = [
     options: {
       plugins: [
         `spring-remark-download`,
+        `spring-remark-embed-markdown`,
+        `spring-remark-embed-snippet`,
         {
           resolve: `gatsby-remark-images`,
           options: {
@@ -110,12 +112,6 @@ const plugins = [
           },
         },
         `gatsby-remark-responsive-iframe`,
-        {
-          resolve: 'spring-remark-embed-snippet',
-          options: {
-            classPrefix: 'language-',
-          },
-        },
         {
           resolve: `gatsby-remark-prismjs`,
           options: {

@@ -1,5 +1,3 @@
-const get = require(`lodash.get`)
-
 const START_KEYS = [
   '<!--IMPORTANT-->',
   '<!--CAUTION-->',

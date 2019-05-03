@@ -81,45 +81,63 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
     const frontmatterPath = get(node, 'frontmatter.path')
     const slug = createFilePath({ node, getNode, basePath: `pages` })
     const relativePath = path.relative(__dirname, node.fileAbsolutePath)
-    const version = relativePath.split('/')[1]
+
+    const pathArr = relativePath.split('/')
+    const version = pathArr[1]
+    const filename = pathArr[pathArr.length - 1]
 
     if (startsWith(relativePath, 'data/')) {
-      const category = frontmatterPath
-        .split('/')
-        .slice(0, 1)
-        .join('')
-      const isRoot = frontmatterPath.split('/').length === 2
-      const url = `/documentation/${version}/${frontmatterPath}`
-      createNodeField({
-        node,
-        name: `hash`,
-        value: `documentation`,
-      })
-      createNodeField({
-        node,
-        name: `category`,
-        value: category,
-      })
-      createNodeField({
-        node,
-        name: `version`,
-        value: version,
-      })
-      createNodeField({
-        node,
-        name: `root`,
-        value: isRoot,
-      })
-      createNodeField({
-        node,
-        name: `slug`,
-        value: slug,
-      })
-      createNodeField({
-        node,
-        name: `path`,
-        value: path.join(url, '/'),
-      })
+      if (!startsWith(filename, '_')) {
+        // Page
+        const category = frontmatterPath
+          .split('/')
+          .slice(0, 1)
+          .join('')
+        const isRoot = frontmatterPath.split('/').length === 2
+        const url = `/documentation/${version}/${frontmatterPath}`
+        createNodeField({
+          node,
+          name: `hash`,
+          value: `documentation`,
+        })
+        createNodeField({
+          node,
+          name: `category`,
+          value: category,
+        })
+        createNodeField({
+          node,
+          name: `version`,
+          value: version,
+        })
+        createNodeField({
+          node,
+          name: `root`,
+          value: isRoot,
+        })
+        createNodeField({
+          node,
+          name: `slug`,
+          value: slug,
+        })
+        createNodeField({
+          node,
+          name: `path`,
+          value: path.join(url, '/'),
+        })
+      } else {
+        // Template
+        createNodeField({
+          node,
+          name: `hash`,
+          value: `documentation-template`,
+        })
+        createNodeField({
+          node,
+          name: `version`,
+          value: version,
+        })
+      }
     }
   }
 }
