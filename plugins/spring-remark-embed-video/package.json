@@ -1,7 +1,7 @@
 {
-  "name": "spring-remark-embed-snippet",
+  "name": "spring-remark-embed-video",
   "version": "0.0.1",
-  "description": "Dataflow Embed Snippet",
+  "description": "Dataflow Remark Youtube",
   "main": "index.js",
   "author": "@spring",
   "private": true

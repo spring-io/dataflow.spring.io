@@ -3,14 +3,14 @@ const request = require('request-promise')
 
 const highlightCode = require(`gatsby-remark-prismjs/highlight-code`)
 
+const KEY = /^(<!--CODE:)(.*?)-->/
+
 const FILE_EXTENSION_TO_LANGUAGE_MAP = {
   js: `jsx`,
   md: `markup`,
   sh: `bash`,
   rb: `ruby`,
 }
-
-const KEY = `embed-code:`
 
 const getLanguage = file => {
   if (!file.includes(`.`)) {
@@ -26,10 +26,10 @@ module.exports = async (
   { markdownAST, markdownNode },
   { classPrefix = `language-` } = {}
 ) => {
-  return await visit(markdownAST, `code`, async node => {
+  return await visit(markdownAST, `html`, async node => {
     const { value } = node
-    if (value.startsWith(KEY)) {
-      const url = value.substr(KEY.length)
+    if (value && value.match(KEY)) {
+      const url = value.replace('<!--CODE:', '').replace('-->', '')
       try {
         const filename = url.split('/').slice(-1)[0]
         const code = await request(url)

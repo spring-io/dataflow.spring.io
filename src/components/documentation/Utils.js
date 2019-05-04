@@ -305,7 +305,11 @@ getMeta.proptypes = {
   }),
 }
 
-export const getVersions = function getMeta(arr) {
+/**
+ * Enrich version object
+ * Object to array
+ */
+export const getVersions = function getVersions(arr) {
   return Object.entries(arr).map(([key, value]) => ({
     key: value,
     title: key === 'latest' ? ` ${value} (latest)` : value,
@@ -313,6 +317,6 @@ export const getVersions = function getMeta(arr) {
   }))
 }
 
-getMeta.proptypes = {
+getVersions.proptypes = {
   arr: PropTypes.arrayOf(PropTypes.object).isRequired,
 }

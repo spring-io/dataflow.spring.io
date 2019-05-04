@@ -72,7 +72,14 @@ const plugins = [
       plugins: [
         `spring-remark-download`,
         `spring-remark-embed-markdown`,
-        `spring-remark-embed-snippet`,
+        `spring-remark-embed-code`,
+        {
+          resolve: 'spring-remark-embed-video',
+          options: {
+            width: 800,
+            height: 400,
+          },
+        },
         {
           resolve: `gatsby-remark-images`,
           options: {
@@ -86,7 +93,6 @@ const plugins = [
         {
           resolve: 'gatsby-remark-copy-linked-files',
         },
-        `gatsby-remark-attr`,
         `gatsby-remark-draw`,
         `gatsby-remark-grid-tables`,
         `gatsby-remark-autolink-headers`,
@@ -102,13 +108,6 @@ const plugins = [
           resolve: 'spring-remark-variables',
           options: {
             arrVars: arrVars,
-          },
-        },
-        {
-          resolve: 'gatsby-remark-embed-youtube',
-          options: {
-            width: 800,
-            height: 400,
           },
         },
         `gatsby-remark-responsive-iframe`,

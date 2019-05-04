@@ -3,7 +3,15 @@ const get = require(`lodash.get`)
 module.exports = ({ markdownAST, markdownNode }, options = {}) => {
   const children = []
   const isNodeHeader = str => {
-    return str.match(/<!--(.*?)-->/gms) !== null
+    const KEYS = [
+      /^(<!--TEMPLATE:)(.*?)-->/,
+      /^(<!--CODE:)(.*?)-->/,
+      /^(<!--VIDEO:)(.*?)-->/,
+    ]
+    if (str.match(/<!--(.*?)-->/gms) !== null) {
+      return KEYS.filter(key => str.match(key) !== null).length === 0
+    }
+    return false
   }
 
   for (let i = 0; i < markdownAST.children.length; i++) {

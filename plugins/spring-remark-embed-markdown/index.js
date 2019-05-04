@@ -4,7 +4,7 @@ const unified = require('unified')
 const parse = require('remark-parse')
 const get = require(`lodash.get`)
 
-const KEY = '!embed-template:'
+const KEY = /^(<!--TEMPLATE:)(.*?)-->/
 
 /**
  * Navigates in the root's children to find include declarations
@@ -19,9 +19,13 @@ module.exports = ({ markdownAST, markdownNode }) => {
   const pathFolder = `./${path.parse(relativePath).dir}/`
   for (let i = 0; i < markdownAST.children.length; i++) {
     const node = markdownAST.children[i]
-    const value = get(node, 'children[0].value')
-    if (value && value.startsWith(KEY)) {
-      let filenameArr = value.substr(KEY.length).split('/')
+    const value = get(node, 'value')
+    const type = get(node, 'type')
+    if (value && value.match(KEY) && type !== 'code') {
+      let filenameArr = value
+        .replace('<!--TEMPLATE:', '')
+        .replace('-->', '')
+        .split('/')
       const filename = filenameArr.pop()
       const filePath = `${pathFolder}${filenameArr.join('/')}/_${filename}`
       if (!fs.existsSync(filePath)) {

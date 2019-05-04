@@ -55,11 +55,12 @@ class DocumentationTemplate extends React.Component {
     }
     if (toc) {
       const headings = get(page, 'headings', []).filter(
-        item => get(item, 'depth', 0) > 1
+        item => get(item, 'depth', 0) > 1 && get(item, 'depth', 0) < 4
       )
       if (headings.length === 0) {
         toc = false
       }
+      console.log(headings)
     }
     if (summary) {
       summaryType = getSummaryType(pages, page)

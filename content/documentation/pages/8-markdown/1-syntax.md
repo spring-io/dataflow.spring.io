@@ -29,23 +29,32 @@ You should limit any kind of text highlighting to only the most crucial terms.
 
 You can highlight text by making part of it be **bold**, _italic_, or **_both_**. To do so, wrap bold text in two asterisks (`**`), wrap italic text in one asterisk (`*`), and wrap bold-italic text in three asterisks (`***`). The following listing shows how to do so:
 
-```
+```markdown
 **Bold**
-*Italic*
-***Bold-italic***
+_Italic_
+**_Bold-italic_**
 ```
 
 #### Strikethrough
 
 You can add ~~strikethrough~~ highlighting to text by wrapping the text in double tilde characters (`~~`). The following listing shows how to do so:
 
-`~~strikethrough~~`
+```markdown
+~~strikethrough~~
+```
 
 ### Headings
 
-You can create headings by using hash characters (`#`) at the start of a line. The more hash characters, the less important the heading is. For example, a level-three heading starts with three hash characters. The following listing shows such a heading (the one for this section):
+You can create headings by using hash characters (`#`) at the start of a line. The more hash characters, the less important the heading is. For example, a level-three heading starts with three hash characters.
 
-`### Headings`
+A page must contain only **one level-one heading**, the page's title.
+The following listing shows such a heading (the one for this section):
+
+```
+## Heading Level 2
+### Heading Level 3
+### Heading Level 4
+```
 
 ### Links
 
@@ -53,9 +62,11 @@ You can create links to other pages in the site, to other sites on the Internet,
 
 The following examples show how to create links to other pages:
 
-`[Markdown Lorem](%currentPath%/markdown/lorem/)`  
-`[Installation](%currentPath%/installation/)`  
-`[Features](/features)`
+```markdown
+[Markdown Lorem](%currentPath%/markdown/lorem/)
+[Installation](%currentPath%/installation/)
+[Features](/features)
+```
 
 <!--TIP-->
 
@@ -65,11 +76,15 @@ The following examples show how to create links to other pages:
 
 The following example shows how to create a link to another site on the Internet:
 
-`[Spring.io](https://spring.io/)`
+```markdown
+[Spring.io](https://spring.io/)
+```
 
 The following example (from the preceding tip) shows how to create a link to another place in the document:
 
-`[Using Variables](#using-variables)`
+```markdown
+[Using Variables](#using-variables)
+```
 
 Note that the target of a cross-reference must be a heading. Also, the format for the target is all lower-case with spaces replaced by hyphens. Always use only one hash character, no matter what level the heading may be.
 
@@ -164,7 +179,7 @@ You can insert tables into documents that you create with Markdown. The followin
 
 The following Markdown markup defines the preceding table:
 
-```
+```markdown
 | Color  | Complementary Color |
 | ------ | ------------------- |
 | Red    | Green               |
@@ -180,7 +195,7 @@ You can left-justify, center, and right-justify the contents of a column (but no
 
 The following example shows how to left-justify a table column (which is rarely needed):
 
-```
+```markdown
 | Color |
 | :---- |
 | Red   |
@@ -188,18 +203,18 @@ The following example shows how to left-justify a table column (which is rarely 
 
 The following example shows how to center a table column:
 
-```
+```markdown
 | Color |
 | :---: |
-| Red   |
+|  Red  |
 ```
 
 The following example shows how to right-justify a table column:
 
-```
+```markdown
 | Color |
 | ----: |
-| Red   |
+|   Red |
 ```
 
 ### Sample code
@@ -210,7 +225,7 @@ You can (and nearly always should when writing for developers) add code to your 
 
 To create an inline code snippet, wrap the code in backticks. The following example shows how to do so
 
-```
+```markdown
 `System.out.println("Hello, world!");`
 ```
 
@@ -220,7 +235,7 @@ The result of the preceding example is `System.out.println("Hello, world!");`.
 
 You can add code blocks by using lines of triple backticks before and after the code block. The following example shows how to do so:
 
-````Markdown
+````markdown
 ```java
 {/* highlight-range{8-14} */}
 @EnableBinding(Sink.class)
@@ -245,6 +260,7 @@ public class LoggingSink {
   	this.scheduler = scheduler;
   }
 }
+```
 ````
 
 Note that the preceding listing does not show the trailing line with three backticks. Markdown does not handle blocks within blocks, so we were forced to remove that line. Remember to add it to your code blocks, lest you have a mess in your document.
@@ -287,7 +303,9 @@ public class LoggingSink {
 
 You can insert images in your Markdown content. To do so, make a link to the image and precede it with an exclamation point (`!`). The following example shows how to insert an image:
 
-`![Spring Cloud Data Flow Shell](images/shell.png)`
+```markdown
+![Spring Cloud Data Flow Shell](images/shell.png)
+```
 
 The result of the preceding image link is the following image:
 
@@ -305,164 +323,9 @@ The following code block shows how to create a block quotation:
 > This line is formatted as a block quotation.
 ```
 
-### Admonitions
-
-There are five common admonitions in the software industry (and many other industries): Warning, Caution, Note, Important, and Tip. The following admonitions offer an example of each one:
-
-<!--WARNING-->
-
-**WARNING:** Use a warning admonition to warn readers about potential data loss or other potentially catastrophic problems. Note that, in the broader technical writing community, warnings are used for things that can kill or injure people. In software, they are reserved for data loss. The following code block shows how to make a warning admonition:
-
-<!--END_WARNING-->
-
-The following listing shows how to create a warning in Markdown:
-
-```
-<!--WARNING-->
-
-Your warning admonition goes here.
-
-<!--END_WARNING-->
-```
-
-<!--CAUTION-->
-
-**CAUTION:** Use a caution to warn readers about potentially problematic operations, especially those that can cause a lot of extra work or rework. The following code block shows how to make a caution admonition:
-
-<!--END_CAUTION-->
-
-The following listing shows how to create a caution in Markdown:
-
-```
-<!--CAUTION-->
-
-Your caution admonition goes here.
-
-<!--END_CAUTION-->
-```
-
-<!--NOTE-->
-
-**NOTE:** Use a note to point out something related to the main point of the surrounding paragraphs. If it is important, use an important admonition. Usually, notes contain content that is helpful but not crucial. Crucial content should be in the body of the section or called out with other admonitions. The following code block shows how to make a note admonition:
-
-<!--END_NOTE-->
-
-The following listing shows how to create a note in Markdown:
-
-```
-<!--NOTE-->
-
-Your note admonition goes here.
-
-<!--END_NOTE-->
-```
-
-<!--IMPORTANT-->
-
-| **IMPORTANT:** Use an important admonition to call out things that the reader must not overlook. If there is one thing the reader absolutely must know, that's a case for using an important admonition. The following code block shows how to make an important admonition:
-
-<!--END_IMPORTANT-->
-
-The following listing shows how to create an important admonition in Markdown:
-
-```
-<!--IMPORTANT-->
-
-Your important admonition goes here.
-
-<!--END_IMPORTANT-->
-```
-
-<!--TIP-->
-
-**TIP:** Use a tip to let readers know about shortcuts, ways to save time, and so on. The following code block shows how to make a tip admonition:
-
-<!--END_TIP-->
-
-The following listing shows how to create a tip in Markdown:
-
-```
-<!--TIP-->
-
-Your tip admonition goes here.
-
-<!--END_TIP-->
-```
-
-#### Admonitions with Titles, Paragraphs, Code ...
-
-Admonitions can have titles. Generally, you should use a title on an admonition when you plan to refer to the admonition from elsewhere in the document (from other pages in a multi-page layout) or when you want to create a kind of "aside" within your content.
-
-Admonitions with titles should be used infrequently, because their titles compete with the other titles on the page (potentially causing confusion).
-
-```
-<!--NOTE-->
-
-**My Title**
-
-This example makes a note, but you can add a title to any admonition.
-
-<!--END_NOTE-->
-```
-
-You can make an admonition with multiple paragraphs. To do so, add a pipe character before each line, including the blank lines between paragraphs. The following code block shows how to create a note with two paragraphs
-
-```
-<!--NOTE-->
-This example makes a note with multiple paragraphs, but any admonition can have multiple paragraphs.
-
-Here's a second pargraph.
-
-<!--END_NOTE-->
-```
-
-You can make an admonition with both a title and multiple paragraphs. The following code block shows how to do so:
-
-```
-<!--NOTE-->
-
-**Your Title**
-This example makes a note, but you can add a title and multiple paragraphs to any admonition.
-
-Here's a second paragraph.
-
-<!--END_NOTE-->
-```
-
-### Mermaid
-
-Mermaid (https://mermaidjs.github.io/) is a graphing tool that we have included to support creating graphs and similar art. The following example shows a Mermaid graph:
-
-```mermaid
-graph TD;
-    A(Lorem ipsum) --> B(Sit dolor amet);
-    B --> C{Consectetur?}
-    C -->|Yes| D(tempor incididunt)
-    C -->|No| E(labore et dolore)
-    D --> F(Elit set do)
-```
-
-The following example shows the code used to create the preceding Mermaid graph:
-`mermaid`  
-`graph TD;`  
-`A(Lorem ipsum) --> B(Sit dolor amet);`  
-`B --> C{Consectetur?}`  
-`C -->|Yes| D(tempor incididunt)`  
-`C -->|No| E(labore et dolore)`  
-`D --> F(Elit set do)`
-
-(Note that a quirk of Markdown required putting each line into its own listing. Otherwise,
-it renders as a graph.)
-
 ## Advanced
 
-You can use a number of advanced techniques in your Markdown documentation, including:
-
-- [Using Variables](#using-variables)
-- [Creating Content Tabs](#creating-content-tabs)
-- [Downloading Github Files](#downloading-github-files)
-- [Embedding Github Code](#embedding-github-code)
-- [Embedding Youtube Videos](#embedding-youtube-videos)
+You can use a number of advanced techniques in your Markdown documentation.
 
 ### Using Variables
 
@@ -514,9 +377,9 @@ The following table definition shows how to insert a variable's value in a table
 
 You can also insert a variable in a link ([%thing1%](https://spring.io/%thing1%)), in code (`adipisicing %thing1%`), and in highlighted text (bold in this case: **%thing1%**).
 
-You can also insert a variable in a listing, as the following example shows:
+You can also insert a variable in a code block, as the following example shows:
 
-```
+```html
 <div>
   <a href="https://spring.io">%version%</a>
 </div>
@@ -524,7 +387,7 @@ You can also insert a variable in a listing, as the following example shows:
 
 <!--NOTE-->
 
-| **NOTE:** The value of `%version%` shown in the preceding example does not match the content shown earlier. That happens because the build system for the site has logic to figure out which version definition to use and chose a different version in this case. That logic is in `gatsby-config.js`.
+**NOTE:** The value of `%version%` shown in the preceding example does not match the content shown earlier. That happens because the build system for the site has logic to figure out which version definition to use and chose a different version in this case. That logic is in `gatsby-config.js`.
 
 <!--END_NOTE-->
 
@@ -535,6 +398,161 @@ You can also use a variable in an admonition, as the following example shows:
 Here's a variable in a tip: **%thing1%**. It is also bold.
 
 <!--END_TIP-->
+
+### Admonitions
+
+There are five common admonitions in the software industry (and many other industries): Warning, Caution, Note, Important, and Tip. The following admonitions offer an example of each one:
+
+<!--WARNING-->
+
+**WARNING:** Use a warning admonition to warn readers about potential data loss or other potentially catastrophic problems. Note that, in the broader technical writing community, warnings are used for things that can kill or injure people. In software, they are reserved for data loss. The following code block shows how to make a warning admonition:
+
+<!--END_WARNING-->
+
+The following listing shows how to create a warning in Markdown:
+
+```markdown
+<!--WARNING-->
+
+Your warning admonition goes here.
+
+<!--END_WARNING-->
+```
+
+<!--CAUTION-->
+
+**CAUTION:** Use a caution to warn readers about potentially problematic operations, especially those that can cause a lot of extra work or rework. The following code block shows how to make a caution admonition:
+
+<!--END_CAUTION-->
+
+The following listing shows how to create a caution in Markdown:
+
+```markdown
+<!--CAUTION-->
+
+Your caution admonition goes here.
+
+<!--END_CAUTION-->
+```
+
+<!--NOTE-->
+
+**NOTE:** Use a note to point out something related to the main point of the surrounding paragraphs. If it is important, use an important admonition. Usually, notes contain content that is helpful but not crucial. Crucial content should be in the body of the section or called out with other admonitions. The following code block shows how to make a note admonition:
+
+<!--END_NOTE-->
+
+The following listing shows how to create a note in Markdown:
+
+```markdown
+<!--NOTE-->
+
+Your note admonition goes here.
+
+<!--END_NOTE-->
+```
+
+<!--IMPORTANT-->
+
+| **IMPORTANT:** Use an important admonition to call out things that the reader must not overlook. If there is one thing the reader absolutely must know, that's a case for using an important admonition. The following code block shows how to make an important admonition:
+
+<!--END_IMPORTANT-->
+
+The following listing shows how to create an important admonition in Markdown:
+
+```markdown
+<!--IMPORTANT-->
+
+Your important admonition goes here.
+
+<!--END_IMPORTANT-->
+```
+
+<!--TIP-->
+
+**TIP:** Use a tip to let readers know about shortcuts, ways to save time, and so on. The following code block shows how to make a tip admonition:
+
+<!--END_TIP-->
+
+The following listing shows how to create a tip in Markdown:
+
+```markdown
+<!--TIP-->
+
+Your tip admonition goes here.
+
+<!--END_TIP-->
+```
+
+#### Admonitions with Titles, Paragraphs, Code ...
+
+Admonitions can have titles. Generally, you should use a title on an admonition when you plan to refer to the admonition from elsewhere in the document (from other pages in a multi-page layout) or when you want to create a kind of "aside" within your content.
+
+Admonitions with titles should be used infrequently, because their titles compete with the other titles on the page (potentially causing confusion).
+
+```markdown
+<!--NOTE-->
+
+**My Title**
+
+This example makes a note, but you can add a title to any admonition.
+
+<!--END_NOTE-->
+```
+
+You can make an admonition with multiple paragraphs. To do so, add a pipe character before each line, including the blank lines between paragraphs. The following code block shows how to create a note with two paragraphs
+
+```markdown
+<!--NOTE-->
+
+This example makes a note with multiple paragraphs, but any admonition can have multiple paragraphs.
+
+Here's a second pargraph.
+
+<!--END_NOTE-->
+```
+
+You can make an admonition with both a title and multiple paragraphs. The following code block shows how to do so:
+
+```markdown
+<!--NOTE-->
+
+**Your Title**
+
+This example makes a note, but you can add a title and multiple paragraphs to any admonition.
+
+Here's a second paragraph.
+
+<!--END_NOTE-->
+```
+
+### Mermaid
+
+Mermaid (https://mermaidjs.github.io/) is a graphing tool that we have included to support creating graphs and similar art. The following example shows a Mermaid graph:
+
+```mermaid
+graph TD;
+    A(Lorem ipsum) --> B(Sit dolor amet);
+    B --> C{Consectetur?}
+    C -->|Yes| D(tempor incididunt)
+    C -->|No| E(labore et dolore)
+    D --> F(Elit set do)
+```
+
+The following example shows the code used to create the preceding Mermaid graph:
+
+````
+```mermaid
+graph TD;
+    A(Lorem ipsum) --> B(Sit dolor amet);
+    B --> C{Consectetur?}
+    C -->|Yes| D(tempor incididunt)
+    C -->|No| E(labore et dolore)
+    D --> F(Elit set do)
+```
+````
+
+(Note that a quirk of Markdown required putting each line into its own listing. Otherwise,
+it renders as a graph.)
 
 ### Code Callouts
 
@@ -581,6 +599,7 @@ You can create tabbed content within a page. The following code block shows how 
 
 ```markdown
 <!--TABS-->
+
 <!--First-->
 
 First tab content.
@@ -597,6 +616,7 @@ Second tab content.
 The following example shows four tabs, each showing how to print "Hello, World" in a different programming language:
 
 <!--TABS-->
+
 <!--JavaScript-->
 
 ```js
@@ -653,50 +673,46 @@ The result of setting the link text is that you can write sentences such as "You
 
 ### Embedding Markdown Template
 
-You can add markdown templates to include them in the pages.
+You can add markdown templates to include them in the pages. To do so, you need to use the `TEMPLATE` verb.
 
-<!--WARNING-->
+<!--CAUTION-->
 
-The templates are injected on the compilation. If you add a template or update a template content, you have to restart the application to see the changes.
+The templates are injected on the creation page. If you update a template content, you have to update the parent page to see the changes.
 
 The template file name has to start with the character \_.
 
-<!--END_WARNING-->
+<!--END_CAUTION-->
 
 The following example includes the file `template/_sample.md` in the page.
 
 ```markdown
-!embed-template:template/sample.md
+<!--TEMPLATE:template/sample.md-->
 ```
 
 The result of the preceding example is the following content:
 
-!embed-template:template/sample.md
+<!--TEMPLATE:template/sample.md-->
 
 ### Embedding Github Code
 
-Sometimes, it is better to show code rather than link to it. To do so, you need to use the `embed-code` verb. The following example shows how to do so:
+Sometimes, it is better to show code rather than link to it. To do so, you need to use the `CODE` verb. The following example shows how to do so:
 
-````markdown
+```markdown
+<!--CODE:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java-->
 ```
-embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
-```
-````
 
 The result of the preceding example is the following code listing:
 
-```
-embed-code:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java
-```
+<!--CODE:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java-->
 
-### Embedding Youtube Videos
+### Embedding Videos
 
-You can embed a YouTube video. To do so, you need to use the `youtube` verb. The following example shows how to do so:
+You can embed a YouTube video. To do so, you need to use the `VIDEO` verb. The following example shows how to do so:
 
 ```markdown
-`youtube:https://www.youtube.com/embed/rvAr0KYXBhk`
+<!--VIDEO:https://www.youtube.com/embed/rvAr0KYXBhk-->
 ```
 
 The result of the follwoing example is the followinb embedded video:
 
-`youtube:https://www.youtube.com/embed/rvAr0KYXBhk`
+<!--VIDEO:https://www.youtube.com/embed/rvAr0KYXBhk-->
