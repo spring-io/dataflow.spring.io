@@ -12,6 +12,14 @@ toc: true
 summary: false
 ---
 
+# Writing Markdown
+
+<!--IMPORTANT-->
+
+Please write your markdown following the [one sentence per line](https://rhodesmill.org/brandon/2012/one-sentence-per-line/) style to make diffs easier in the future.
+
+<!--END_IMPORTANT-->
+
 # Markdown Syntax
 
 Markdown is an unstructured text format (as opposed to structured formats, such as Docbook, DITA, and S1000D). Essentially, it supports the creation of content with a minimum of markup (hence the name, Markdown). The notion is that for paragraphs, you can "just type". Headings and other ordinary items one generally finds in a document require simple and minimal markers. Other things can require some complexity, such as creating settings in other files (variables, for example, require defining the variables in a JSON file).

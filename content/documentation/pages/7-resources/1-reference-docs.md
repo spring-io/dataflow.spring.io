@@ -1,11 +1,19 @@
 ---
 path: 'resources/reference-docs/'
-title: 'Reference documentations'
-description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
+title: 'Reference Documentation'
+description: 'Collection of reference guides in Spring Cloud Data Flow ecosystem'
 ---
 
-# Reference documentations
+# Reference Documentation
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The following projects play a pivotal part in the streaming and batch data processing use-cases.
+The projects all individually evolve with different backlog, priorities, and release cadences; however, Spring Cloud Data Flow as a product brings them together for a cohesive developer experience.
+Hence, we broadly refer to these projects as the "Spring Cloud Data Flow Ecosystem".
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+| Name                                                                                         | Description                                                                                                  | Documentation                                                                                                                              |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream)                        | Event-driven Spring Boot microservices that communicate with one another via message broker                  | [Reference Guide](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/%stream-version-latest%/single/spring-cloud-stream.html) |
+| [Spring Cloud Task](https://spring.io/projects/spring-cloud-task)                            | Short-lived Spring Boot microservices - runs as long the business logic runs                                 | [Reference Guide](https://docs.spring.io/spring-cloud-task/docs/%task-version-latest%/reference/htmlsingle/)                               |
+| [Spring Cloud Skipper](http://cloud.spring.io/spring-cloud-skipper/)                         | Lightweight tool to discover Spring Boot applications and manage their lifecycle on multiple Cloud Platforms | [Reference Guide](https://docs.spring.io/spring-cloud-skipper/docs/%skipper-version-latest%/reference/htmlsingle/#getting-started)         |
+| [Spring Cloud Stream App Starters](http://cloud.spring.io/spring-cloud-stream-app-starters/) | A collection of Spring Cloud Stream based applications for common real-time streaming use-cases              | [Reference Guide](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-latest%/reference/htmlsingle/)              |
+| [Spring Cloud Task App Starters](http://cloud.spring.io/spring-cloud-task-app-starters/)     | A collection of Spring Cloud Task based applications for common batch use-cases                              | [Reference Guide](https://docs.spring.io/spring-cloud-task-app-starters/docs/%batch-apps-latest%/reference/htmlsingle/)                    |
