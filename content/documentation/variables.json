@@ -3,5 +3,11 @@
   "thing1": "thing1",
   "thing2": {
     "thing1": "thing2"
-  }
+  },
+  "streaming-apps-latest": "Einstein.SR2",
+  "batch-apps-latest": "Elston.RELEASE",
+  "stream-version-latest": "2.1.2.RELEASE",
+  "task-version-latest": "2.1.1.RELEASE",
+  "skipper-version-latest": "2.0.1.RELEASE",
+  "scdf-version-latest": "2.0.2.RELEASE"
 }
