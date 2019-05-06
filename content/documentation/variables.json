@@ -3,5 +3,6 @@
   "thing1": "thing1",
   "thing2": {
     "thing1": "thing2"
-  }
+  },
+  "dataflow-version": "2.1.0.BUILD-SNAPSHOT"
 }

@@ -6,6 +6,28 @@ description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
 
 # Architecture
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+TODO
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+## System Requirements
+
+**Java:** Data Flow uses Java 8.
+
+**Database:** The Data Flow Server and Skipper Server need to have an RDBMS installed.
+By default, the servers use an embedded H2 database.
+You can easily configure the servers to use external databases.
+The supported databases are H2, HSQLDB, MySQL, Oracle, Postgresql, DB2, and SqlServer.
+The schemas are automatically created when each server starts.
+
+**Messaging Middleware:** Deployed stream applications communicate via messaging middleware
+product.
+We provide prebuilt stream applications that use [RabbitMQ](https://www.rabbitmq.com) or
+[Kafka](https://kafka.apache.org).
+However, other [messaging middleware products](https://cloud.spring.io/spring-cloud-stream/#binder-implementations)
+such as
+[Kafka Streams](https://kafka.apache.org/documentation/streams/),
+[Amazon Kinesis](https://aws.amazon.com/kinesis/),
+[Google Pub/Sub](https://cloud.google.com/pubsub/docs/)
+[Solace PubSub+](https://solace.com/software/)
+and
+[Azure Event Hubs](https://azure.microsoft.com/en-us/services/event-hubs/)
+are supported.
