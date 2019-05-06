@@ -68,7 +68,7 @@ The following listing shows such a heading (the one for this section):
 
 You can create links to other pages in the site, to other sites on the Internet, and to other locations within the same page (the latter generally being called cross-references)
 
-The following examples show how to create links to other pages:
+The following examples show how to create links to other pages within our site:
 
 ```markdown
 [Markdown Lorem](%currentPath%/markdown/lorem/)
@@ -76,11 +76,11 @@ The following examples show how to create links to other pages:
 [Features](/features)
 ```
 
-<!--TIP-->
+<!--IMPORTANT-->
 
-**TIP:** The first two examples use the `currentPath` variable (which evaluates to `documentation` in these cases). See [Using Variables](#using-variables).
+The first two examples use the `% currentPath %` variable (which evaluates to `documentation` in these cases). See [Using Variables](#using-variables).
 
-<!--END_TIP-->
+<!--END_IMPORTANT-->
 
 The following example shows how to create a link to another site on the Internet:
 

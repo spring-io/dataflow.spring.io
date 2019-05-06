@@ -8,8 +8,14 @@
   },
   "streaming-apps-latest": "%streaming-apps-latest%",
   "batch-apps-latest": "Elston.RELEASE",
+  "comment": "These variables will be manged via a plugin",
   "stream-version-latest": "2.1.2.RELEASE",
   "task-version-latest": "2.1.1.RELEASE",
   "skipper-version-latest": "2.0.1.RELEASE",
-  "scdf-version-latest": "2.0.2.RELEASE"
+  "scdf-version-latest": "2.0.2.RELEASE",
+  "dataflow-version": "2.1.0.BUILD-SNAPSHOT",
+  "local-server-image-tag": "latest",
+  "skipper-version": "2.0.2.BUILD-SNAPSHOT",
+  "github-tag": "v2.1.0.BUILD-SNAPSHOT",
+  "version-type-lowercase": "snapshot"
 }

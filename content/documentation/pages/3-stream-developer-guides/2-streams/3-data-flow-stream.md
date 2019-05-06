@@ -200,13 +200,13 @@ following sections describe how to do so:
 
 To download the Spring Cloud Data Flow shell, run the following command:
 
-    wget https://repo.spring.io/{version-type-lowercase}/org/springframework/cloud/spring-cloud-dataflow-shell/{project-version}/spring-cloud-dataflow-shell-{project-version}.jar
+    wget https://repo.spring.io/{version-type-lowercase}/org/springframework/cloud/spring-cloud-dataflow-shell/{%dataflow-version%}/spring-cloud-dataflow-shell-{%dataflow-version%}.jar
 
 ##### Run the Spring Cloud Data Flow Shell
 
 To run the Spring Cloud Data Flow shell, run the following command:
 
-    java -jar spring-cloud-dataflow-shell-{project-version}.jar
+    java -jar spring-cloud-dataflow-shell-{%dataflow-version%}.jar
 
 You should see the following startup message from the shell:
 
