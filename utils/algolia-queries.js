@@ -4,8 +4,10 @@ const versions = require('./../content/versions.json')
 
 const queryDocumentation = `{
 	pages: allMarkdownRemark(
-      filter: { fields: { hash: { eq: "documentation" } } }
-			frontmatter: { exclude: { eq: null } }
+      filter: { 
+				fields: { hash: { eq: "documentation" } } 
+				frontmatter: { exclude: { eq: null } }
+			}
 	) {
 	  edges {
 	    node {
