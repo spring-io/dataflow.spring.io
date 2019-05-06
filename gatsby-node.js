@@ -33,7 +33,10 @@ exports.createPages = ({ graphql, actions }) => {
       graphql(`
         {
           pages: allMarkdownRemark(
-            filter: { fields: { hash: { eq: "documentation" } } }
+            filter: {
+              fields: { hash: { eq: "documentation" } }
+              frontmatter: { exclude: { eq: null } }
+            }
             limit: 1000
           ) {
             edges {
