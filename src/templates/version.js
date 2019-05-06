@@ -93,6 +93,7 @@ export const articleQuery = graphql`
     pages: allMarkdownRemark(
       filter: {
         fields: { hash: { eq: "documentation" }, version: { eq: $version } }
+        frontmatter: { exclude: { eq: null } }
       }
       sort: { fields: fields___slug, order: ASC }
     ) {

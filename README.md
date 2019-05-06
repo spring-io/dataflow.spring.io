@@ -10,15 +10,15 @@ This is the **Spring Cloud Data Flow Website**, located at [https://dataflow.spr
 
 ## Building
 
-You'll need [NodeJS](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed globally. Note that, for Node, you need version 10, not the latest version.)
+You'll need [NodeJS](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed globally. Note that, for Node, you need `version 10`, not the latest version.
 
 ```bash
 # Init
 yarn install        # Install dependencies
 
-# Linter
-yarn lint           # Linter
-yarn fix            # Fix linting errors
+# Linter / Prettier
+yarn run lint       # Linter
+yarn run fix        # Fix linting errors
 
 # Dev
 yarn start          # Run dev
@@ -40,10 +40,7 @@ export ALGOLIA_ADMIN_KEY=<KEY>
 
 Features:
 
-- Markdown syntax
-- Download and embed external files
 - Versioning
-
-[Read more](/doc/help)
-
-### Versioning
+- Markdown syntax
+- Advanced markdown syntax: download external files, embed template/code/video, tabs component ...
+- Search on a documentation version

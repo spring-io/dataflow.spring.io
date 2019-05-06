@@ -60,7 +60,6 @@ class DocumentationTemplate extends React.Component {
       if (headings.length === 0) {
         toc = false
       }
-      console.log(headings)
     }
     if (summary) {
       summaryType = getSummaryType(pages, page)
@@ -176,6 +175,7 @@ export const articleQuery = graphql`
     pages: allMarkdownRemark(
       filter: {
         fields: { hash: { eq: "documentation" }, version: { eq: $version } }
+        frontmatter: { exclude: { eq: null } }
       }
       sort: { fields: fields___slug, order: ASC }
     ) {

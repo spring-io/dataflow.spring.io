@@ -27,6 +27,7 @@ Parameters:
 | `summary`          | `boolean` |    ❌    | After the content, display the summary with all the children.      |
 | `prevNext`         | boolean   |    ❌    | Set `false` to disabled previous/next links                        |
 | `toc`              | boolean   |    ❌    | Set `false` to disabled toc.                                       |
+| `exclude`          | boolean   |    ❌    | Set `false` to exclude the page.                                   |
 
 Page **summary** sample:
 
