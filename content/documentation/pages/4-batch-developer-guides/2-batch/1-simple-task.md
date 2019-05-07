@@ -52,13 +52,13 @@ If you don't have an instance of MySql installed available to you, you can follo
 1. Pull the MySql docker image
 
    ```bash
-   $ docker pull mysql:5.7.25
+   docker pull mysql:5.7.25
    ```
 
 2. Start the MySql
 
    ```bash
-   $ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
+   docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
    -e MYSQL_DATABASE=task -d mysql:5.7.25
    ```
 
@@ -148,7 +148,7 @@ Deploy to local, Cloud Foundry and Kubernetes
    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver'
 
    ```bash
-   $ java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
+   java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
    --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
    --spring.datasource.username=root \
    --spring.datasource.password=password \
@@ -189,7 +189,7 @@ The results will look something like this:
 Spring Cloud Task allows us to change this setting using the `spring.cloud.task.name`. To do this we will add that property to our next execution as follows:
 
 ```bash
-$ java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
+java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
 --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
 --spring.datasource.username=root \
 --spring.datasource.password=password \
@@ -204,8 +204,8 @@ Now when you query the table you will see that the last task execution in the qu
 To stop and remove the mysql container running in the docker instance:
 
 ```bash
-$ docker stop mysql
-$ docker rm mysql
+docker stop mysql
+docker rm mysql
 ```
 
 ### Cloud Foundry
@@ -389,15 +389,15 @@ Then add the referenced properties, under `properties` For this example, we will
 ```
 
 ```bash
-$ eval $(minikube docker-env)
-$ ./mvnw clean package jib:dockerBuild
+eval $(minikube docker-env)
+./mvnw clean package jib:dockerBuild
 ```
 
 This will add the image to the `minikube` Docker registry.
 Verify its presence by finding `springcloudtask/billsetuptask` in the list of images:
 
 ```bash
-$ docker images
+docker images
 ```
 
 ##### Deploy the app
@@ -449,7 +449,7 @@ spec:
 Start the app:
 
 ```bash
-$ kubectl apply -f task-app.yaml
+kubectl apply -f task-app.yaml
 ```
 
 When the task is complete, you should see something like this:
@@ -464,7 +464,7 @@ billsetuptask            0/1     Completed   0          81s
 Delete the Pod.
 
 ```bash
-$ kubectl delete -f task-app.yaml
+kubectl delete -f task-app.yaml
 ```
 
 Log in to the `mysql` container to query the `TASK_EXECUTION` table.
@@ -481,7 +481,7 @@ mysql&gt; select * from task.TASK_EXECUTION;
 To uninstall `mysql`:
 
 ```bash
-$ kubectl delete all -l app=mysql
+kubectl delete all -l app=mysql
 ```
 
 ## What's Next

@@ -88,13 +88,13 @@ Another option instead of using the UI to initialize your project you can do the
    1. Pull the MySql docker image
 
       ```bash
-      $ docker pull mysql:5.7.25
+      docker pull mysql:5.7.25
       ```
 
    2. Start the MySql
 
    ```bash
-   $ docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
+   docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
    -e MYSQL_DATABASE=task -d mysql:5.7.25
    ```
 
@@ -291,7 +291,7 @@ Deploy to local, Cloud Foundry and Kubernetes
     1. _spring.batch.initialize-schema_ - initializes the database with the tables required for Spring Batch. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
 
     ```bash
-    $ java -jar target/billrun-0.0.1-SNAPSHOT.jar \
+    java -jar target/billrun-0.0.1-SNAPSHOT.jar \
     --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
     --spring.datasource.username=root \
     --spring.datasource.password=password \
@@ -324,8 +324,8 @@ The output should look something like:
 To stop and remove the mysql container running in the docker instance:
 
 ```bash
-$ docker stop mysql
-$ docker rm mysql
+docker stop mysql
+docker rm mysql
 ```
 
 ### Cloud Foundry

@@ -76,7 +76,7 @@ Spring Cloud Data Flow supports maven, http, and docker resources for local depl
 The Https URI for the sample app is:
 
 ```
-https://github.com/ghillert/task-apps/raw/master/billsetuptask-0.0.1-SNAPSHOT.jar
+maven://io.spring:billsetuptask:0.0.1-SNAPSHOT
 ```
 
 To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown, and hit `Register the application(s)`.
@@ -86,7 +86,7 @@ To register an application, select `Add Applications` and `Register one or more 
 <!--Kubernetes-->
 
 Spring Cloud Data Flow supports docker resources for Kubernetes deployments. For this example we will use the maven resource.
-The URI for a Docker Image is of the form `docker:<docker-image-path>/<imageName>:<version>` and is resolved using the Docker registry configured for the Data Flow task platform and image pull policy.
+The URI for a Docker image is of the form `docker:<docker-image-path>/<imageName>:<version>` and is resolved using the Docker registry configured for the Data Flow task platform and image pull policy.
 
 The Docker URI for the sample app is:
 
