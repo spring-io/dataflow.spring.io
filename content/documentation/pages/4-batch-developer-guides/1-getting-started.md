@@ -5,11 +5,7 @@ description: 'Getting Started with Batch Processing'
 summary: true
 ---
 
-This is where we use OOTB apps to show timestamp task.
-
-This content can come from the current 'getting started' guide.
-
-Explain the OOTB apps.
+In this guide, we will create a simple task definition, and launch the task. A good starting point is to use the the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), that provide a set of task applications. Specifically, we will use the provided `timestamp` application, which is basically a hello-world-style application that logs the current timestamp. For this guide we assume that the respective `timestamp` task application has already been imported and registered with Spring Cloud Data Flow.
 
 # Creating the Task
 
@@ -43,20 +39,18 @@ To create a task:
 
 ## Execute a Task
 
-Now that you have defined a task definition, let's execute it.
-
-Click the `play` (Launch task) button next to the `timestamp-task` definition that you have created in the previous section:
+Now that you have defined a task definition, let's execute it. Click the `play` (Launch task) button next to the `timestamp-task` definition that you have created in the previous section:
 
 ![Launch Timestamp Task Definition](images/dataflow-task-definitions-click-launch-task.png)
 
-The UI will allow your to provide additional:
+The UI will allow you to provide additional:
 
 - **Arguments**: any properties that need to be passed as command line arguments
 - **Parameters**: Additional properties meant for a TaskLauncher
 
 ![Launch Task - Provide Arguments or Parameters](images/dataflow-task-definitions-click-launch-task-2.png)
 
-As we don't needed to provide additional argument or parameters, click the `Launch the task` button. The UI returns to the task definitions page.
+As we don't need to provide additional argument or parameters, click the `Launch the task` button. The UI returns to the task definitions page.
 
 ![Task Definitions List with Successful Task Execution](images/dataflow-task-definitions-list-with-task-success.png)
 
@@ -64,8 +58,20 @@ After a few moments, the task definition should have the `COMPLETE` status. You 
 
 ## Verifying the Output
 
-If you used Spring Cloud Data Flow locally, you can access the log files in the temporary directory defined by `java.io.tmpdir`. You should find a file `stdout.log` with contents similar to the following:
+Click on the `Executions` tab:
+
+![Task Execution List with Successful Task Execution](images/dataflow-task-execution-result-execution-tab.png)
+
+You will see your executed task application with an exit code of `0`, indicating a successful execution. Click on the `Show details` button to see even more details:
+
+![Task Execution Details with Successful Task Execution](images/dataflow-task-execution-result-execution-details.png)
+
+If you would also like to see the logged timstamp and you use Spring Cloud Data Flow locally, then you can access the log files in the temporary directory defined by `java.io.tmpdir`. You should find a file `stdout.log` with contents similar to the following:
 
 ![Task Definitions List with Successful Task Execution](images/dataflow-task-execution-result.png)
 
-**INFO** This can be overridden by specifying the deployment property `spring.cloud.deployer.local.workingDirectoriesRoot`. For more information see the chapter on [Deployer Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer) in the Spring Cloud Dataflow reference guide.
+<!--NOTE-->
+
+The directory in which all created processes will run and create log files can be overridden by specifying the deployment property `spring.cloud.deployer.local.workingDirectoriesRoot`. For more information see the chapter on [Deployer Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer) in the Spring Cloud Dataflow reference guide.
+
+<!--END_NOTE-->
