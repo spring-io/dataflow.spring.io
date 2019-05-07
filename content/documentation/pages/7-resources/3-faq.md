@@ -158,13 +158,10 @@ If the configuration for each task execution changes for each task launch then y
 task launch myTaskDefinition "--server.port=8080"
 ```
 
-<!--NOTE-->
-
-When using Spring Cloud Data Flow to orchestrate the launches of my task app that utilizes Spring Batch: You will want to use arguments so as to set the Job Parameters required for your batch job.
-
-Remember: if your argument is a non identifying parameter suffix the argument with `--`.
-
-<!--END_NODE-->
+[[note]]
+| When using Spring Cloud Data Flow to orchestrate the launches of my task app that utilizes Spring Batch: You will want to use arguments so as to set the Job Parameters required for your batch job.  
+|
+| Remember: if your argument is a non identifying parameter suffix the argument with `--`.
 
 <!--END_QUESTION-->
 
