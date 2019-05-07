@@ -103,7 +103,7 @@ Only then, you will be able to track all of their execution history from SCDF's 
 Does SCDF use message broker?
 
 No. The Data Flow and Skipper servers do not interact with the message broker.  
-Streaming applications deployed by Data flow connect to the connect to the message broker to publish and consume messages.
+Streaming applications deployed by Data flow connect to the message broker to publish and consume messages.
 
 <!--END_QUESTION-->
 
