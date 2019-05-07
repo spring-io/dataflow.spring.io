@@ -8,7 +8,7 @@ description: 'Create and launch a Composed Task using Data Flow'
 
 In our previous sections we used two applications:
 
-- `billsetuptask`: The `billsetuptask` setups up the database for the `billrun` application.
+- `billsetuptask`: The `billsetuptask` configures the database for the `billrun` application.
 - `billrun`: The `billrun` reads usage information from a file and generates a billing statement record for each entry from a usage file.
 
 Previously we executed the `billsetuptask` app and then the `billrun` app in sequence manually.
@@ -83,11 +83,11 @@ This will display the main `Tasks` view.
 We see that three task definitions were created when we created the ct-statement.
 
 - ct-statement: This definition represents the composed task runner that will execute the tasks in the composed task graph.
-- ct-statement-billsetuptask: This definition represents the billsetuptask app that will be executed.
-- ct-statement-billrun: This definition represents the billrun app that will be executed.
+- ct-statement-billsetuptask: This definition represents the `billsetuptask` app that will be executed.
+- ct-statement-billrun: This definition represents the `billrun` app that will be executed.
 
 Now we will launch the ct-statement by pressing the `play` button (that's the middle icon that looks like an arrow head pointing right).
-This will take you to a form where you can add command line arguments and deployment parameters, but we don't need any for this composed task.
+This will take you to a from where you can add command line arguments and deployment parameters, but we don't need any for this composed task.
 Press `Launch the task` and stand back!
 ![Launch the task](images/SCDF-launch-composed-task.png)
 
