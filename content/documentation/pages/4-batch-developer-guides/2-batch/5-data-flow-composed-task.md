@@ -72,7 +72,7 @@ This will display the main `Tasks` view.
 
 <!--TIP-->
 
-TIP: To see all the things that can be done with the Composed Task Graph take a look at the Composed Task [section](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_composed_tasks_dsl) of the reference documentation.
+**TIP:** To see all the things that can be done with the Composed Task Graph take a look at the Composed Task [section](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_composed_tasks_dsl) of the reference documentation.
 
 <!--END_TIP-->
 
@@ -92,6 +92,12 @@ Press `Launch the task` and stand back!
 ![Launch the task](images/SCDF-launch-composed-task.png)
 
 This will run the Composed Task Runner on the Data Flow server's task platform that will manage the execution of the composed task graph.
+
+<!--TIP-->
+
+**TIP:** If it is required that a Composed Task needs to be executed multiple times then the `increment-instance-enabled` property needs to be set to true for each launch.
+
+<!--END_TIP-->
 
 ### Verify the results
 
