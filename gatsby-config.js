@@ -73,6 +73,7 @@ const plugins = [
         `spring-remark-download`,
         `spring-remark-embed-markdown`,
         `spring-remark-embed-code`,
+        `spring-remark-question`,
         {
           resolve: 'spring-remark-embed-video',
           options: {

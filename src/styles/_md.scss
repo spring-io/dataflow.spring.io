@@ -41,6 +41,9 @@
     padding: $spring-8points * 6 0 $spring-8points * 2;
   }
 
+  h1 + h2 {
+    padding-top: $spring-8points * 3;
+  }
   h2 + h3,
   h3 + h4,
   h4 + h5 {
@@ -400,5 +403,51 @@
   }
   .link-download {
     cursor: pointer;
+  }
+
+  .question-block {
+    padding: $spring-8points 0;
+    .question {
+      position: relative;
+      padding: 0 0;
+      padding-left: $spring-8points * 1.5;
+      cursor: pointer;
+      p {
+        padding: 0;
+        margin: 0;
+      }
+      &:before {
+        position: absolute;
+        content: ' ';
+        width: 10px;
+        height: 15px;
+        background: url(../images/icons/caret.svg) no-repeat 0 0;
+        top: 5px;
+        left: 0;
+        @include transition(all $spring-transition-duration);
+      }
+    }
+    .answer {
+      padding: 0;
+      overflow: hidden;
+      max-height: 0;
+      padding-left: $spring-8points * 2;
+      border-left: 2px dotted lighten($spring-border-color, 10);
+      margin-left: 2px;
+      color: lighten($spring-color, 25);
+      @include transition(all $spring-transition-duration);
+    }
+    &.active {
+      .answer {
+        max-height: 600px;
+      }
+      .question {
+        &:before {
+          transform: rotate(90deg);
+          top: 8px;
+          left: -2px;
+        }
+      }
+    }
   }
 }
