@@ -91,10 +91,9 @@ Though batch/task applications are standalone Spring Boot applications, to recor
 
 What is the relationship of [Composed Task Runner](https://github.com/spring-cloud-task-app-starters/composed-task-runner) and SCDF?
 
-The [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature in SCDF that delegates the execution of the composed to an separate application, named the Composed Task Runner (CTR).
-The CTR to orchestrate the launching of Tasks defined in the composed task graph.
-To use Composed Tasks, it is _required_ to connect SCDF, CTR, and the batch applications to a shared database.
-Only then, you will be able to track all of their execution history from SCDF's dashboard.
+The [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) delegates the execution of the collection of Tasks to a separate application, named the Composed Task Runner (CTR).
+The CTR orchestrates the launching of Tasks defined in the composed task graph.
+To use Composed Tasks, it is required to connect SCDF, CTR, and batch applications to a shared database. Only then, you will be able to track all of their execution history from SCDF’s dashboard.
 
 <!--END_QUESTION-->
 
