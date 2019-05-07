@@ -2,7 +2,6 @@
 path: 'stream-developer-guides/programming-models/'
 title: 'Programming Models'
 description: 'Programming models'
-summary: true
 ---
 
 # Programming Model for Streaming Applications
