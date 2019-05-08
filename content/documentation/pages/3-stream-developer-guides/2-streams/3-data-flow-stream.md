@@ -13,6 +13,38 @@ In this section we will show how to register stream applications with Data Flow,
 In the previous guide, we created `Source`, `Processor` and `Sink` streaming applications and deployed them as standalone applications on multiple platforms.
 In this guide, we will create and deploy streaming data pipeline using these streaming applications using the Data Flow Dashboard.
 
+All the sample applications from the previous guide are available as `maven` and `docker` artifacts at the `https://repo.spring.io` maven repository.
+
+For the `UsageDetailSender` source:
+
+```
+maven://io.spring.dataflow.sample:usage-detail-sender-rabbit:0.0.1-SNAPSHOT
+```
+
+```
+docker://springcloudstream/usage-detail-sender-rabbit:0.0.1-SNAPSHOT
+```
+
+For the `UsageCostProcessor` processor:
+
+```
+maven://io.spring.dataflow.sample:usage-cost-processor-rabbit:0.0.1-SNAPSHOT
+```
+
+```
+docker://springcloudstream/usage-cost-processor-rabbit:0.0.1-SNAPSHOT
+```
+
+For the `UsageCostLogger` sink:
+
+```
+maven://io.spring.dataflow.sample:usage-cost-logger-rabbit:0.0.1-SNAPSHOT
+```
+
+```
+docker://springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT
+```
+
 ### The Data Flow Dashboard
 
 Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
@@ -41,8 +73,6 @@ When you register an application, you provide:
 - application version
 - application type (Source, Processor, Sink)
 - application name
-
-**TODO: We should create the maven artifact and docker artifacts for these 'custom' apps so that they can perform the steps quickly without having to create a container or have a public maven repository available**
 
 [[note]]
 | If you are running Spring Cloud Data Flow server on the docker environment, make sure that your application artifact URIs are accessible.
@@ -88,7 +118,11 @@ You will see the `Source`, `Processor` and `Sink` applications, as registered ab
 
 ### Deploy the Stream
 
-Click on the arrow head icon to deploy the stream. This will take you to the Deploy Stream page from where you may enter additional deployment properties. For this example we don't need any additional properties, so just select `Deploy stream`.
+Click on the arrow head icon to deploy the stream. This will take you to the Deploy Stream page from where you may enter additional deployment properties.
+
+**NOTE** If you are deploying the stream on `local` environment, you need to set a unique value for the `server.port` application property for each application so that they can use different port on `local`.
+
+select `Deploy stream`.
 
 ![Stream created](images/SCDF-stream-created.png)
 
@@ -104,18 +138,12 @@ The process described above is basically the same for all platforms. This sectio
 
 ### Local
 
-Deploy the stream:
-
-**TODO: add deployer properties so that each app gets a different port**
-
-```
-stream deploy usage-cost-logger
-```
-
 Once the stream is deployed on `Local` development environment, you can look the runtime applications via Dashboard's runtime page or using the SCDF Shell command `runtime apps`.
 The runtime applications show information about where each application is running in the local environment and their log files locations.
 
-**TODO: Add back in the instruction on how get the logs when using the docker-compose local installation**
+**NOTE** If you are running SCDF on docker, to access the log files of the streaming applications:
+
+`docker exec <stream-application-docker-container-id> tail -f <stream-application-log-file>`
 
 ```
 2019-04-19 22:16:04.864  INFO 95238 --- [container-0-C-1] c.e.demo.UsageCostLoggerApplication      : {"userId": "Mark", "callCost": "0.17", "dataCost": "0.32800000000000007" }
