@@ -45,11 +45,15 @@ All you have to do is add the `@EnableTask` annotation.
 
 ![SCDF Task Orchestration](images/SCDF-task-orchestration.png)
 Once you have written your batch application using Spring Batch and Spring Cloud Task how do we orchestrate the launching of the application?
-This is where Spring Cloud Data Flow can help. Spring Cloud Data Flow allows a user to launch a batch application via an ad-hoc request or a scheduler.
-More over you can launch your batch applications on the following platforms:
+This is where Spring Cloud Data Flow can help. Spring Cloud Data Flow allows a user to launch a batch application via an ad-hoc request or a batch-job scheduler.
+Moreover you can launch your batch applications on the following platforms:
 
 - Cloud Foundry
 - Kubernetes
 - local server
 
 Spring Cloud Dataflow allows you to launch or schedule the launch of your batch app via the UI, a RESTful api, or the Spring Cloud Data Flow Shell.
+
+## Next Steps
+
+If your interested in writing and deploying your first batch processing application, take a look at our [Batch Developer Guides](%currentPath%/batch-developer-guides/).
