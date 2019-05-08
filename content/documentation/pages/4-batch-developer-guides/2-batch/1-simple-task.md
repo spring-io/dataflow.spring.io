@@ -10,7 +10,7 @@ In this guide we will develop a Spring Boot application that uses Spring Cloud T
 
 The following sections describe how to build this application from scratch. If you prefer, you can download a zip file containing the sources for the application `billsetup`, unzip it, and proceed to the [deployment](#deployment) step.
 
-You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser, or from the command-line:
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser, or from the command-line:
 
 ```bash
 wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
@@ -33,6 +33,8 @@ For this section we will create a Spring Cloud Task/Boot application that will c
 
 ### Initialzr
 
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billsetuptask&groupId=io.spring&artifactId=billsetuptask&name=Bill+Setup+Task&description=Bill+Setup+Task+Sample+App&packageName=io.spring.billsetuptask&packaging=jar&inputSearch=&style=cloud-task&style=jdbc&style=h2&style=mysql).
+
 1. Visit the [Spring Initialzr site](https://start.spring.io/).
 1. Select the latest release of Spring Boot.
 1. Create a new Maven project with a Group name of `io.spring` and an Artifact name of `billsetuptask`.
@@ -43,13 +45,8 @@ For this section we will create a Spring Cloud Task/Boot application that will c
 1. In the Dependencies text box, type `mysql` then select mysql dependency(or your favorite database).
    1. We use MySql for the runtime database.
 1. Click the Generate Project button.
-1. Unzip the billsetuptask.zip file and import the project into your favorite IDE.
 
-Another option instead of using the UI to initialize your project you can do the following:
-
-1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billsetuptask&groupId=io.spring&artifactId=billsetuptask&name=Bill+Setup+Task&description=Bill+Setup+Task+Sample+App&packageName=io.spring.billsetuptask&packaging=jar&inputSearch=&style=cloud-task&style=jdbc&style=h2&style=mysql) to download the preconfigured billsetuptask.zip.
-
-2. Unzip the billsetuptask.zip file and import the project into your favorite IDE
+Now you should `unzip` the `usbillsetuptask.zip` file and import the project into your favorite IDE.
 
 ### Setting up MySql
 
@@ -61,19 +58,19 @@ If you don't have an instance of MySql installed available to you, you can follo
    docker pull mysql:5.7.25
    ```
 
-2. Start the MySql
+2. Start MySql
 
    ```bash
    docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
    -e MYSQL_DATABASE=task -d mysql:5.7.25
    ```
 
-### Biz Logic
+### Business Logic
 
-Now let’s create the elements required for this application.
+Now let’s create the code required for this application.
 
-1.  Using your IDE create the package `io.spring.billsetuptask.configuration`.
-1.  Create a [TaskConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package using your favorite IDE that looks like the contents below.
+1.  Create the package `io.spring.billsetuptask.configuration`.
+1.  Create a [TaskConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class in the `io.spring.billsetuptask.configuration` package that looks like the contents below.
 
 ```java
 @Configuration
@@ -137,7 +134,7 @@ public class BillsetuptaskApplicationTests {
 
 ## Deployment
 
-Deploy to local, Cloud Foundry and Kubernetes
+In this section we will deploy the task application to the local machine, Cloud Foundry and Kubernetes
 
 ### Local
 
@@ -370,7 +367,7 @@ kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dat
 -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/mysql/mysql-svc.yaml
 ```
 
-##### Build a Docker image for the sample task application
+##### Build a Docker image
 
 We will build the docker image for the [billsetuptask](#batch_processing_with_spring_cloud_task) app.
 

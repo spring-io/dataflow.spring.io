@@ -6,55 +6,57 @@ description: 'Create a simple stream processing application on RabbitMQ'
 
 # Stream Processing with RabbitMQ
 
-We will start from Spring initializr and create three Spring Cloud Stream applications by choosing `RabbitMQ` binder.
+In this guide we will develop three Spring Boot applications that uses Spring Cloud Stream's support for RabbitMQ and deploy them to Cloud Foundry, Kubernetes, and on your local machine.
+In another guide, we will [deploy these applications using Data Flow](%currentPath%/stream-developer-guides/streams/data-flow-stream/).
+By deploying the applications manually, you will get a better understanding of the steps that Data Flow will automate for you.
 
-The three sample applications include:
+The following sections describe how to build these applications from scratch.
+If you prefer, you can download a zip file containing the sources for these applications, unzip it, and proceed to the [deployment](#deployment) section.
 
-Source - Usage Detail Sender `source` application sends the `call` and `data` usage per `userId`.
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/dist/usage-cost-stream-rabbit.zip?raw=true) that contains all three applications from your browser, or from the command line:
 
-Processor - Usage Cost Processor `processor` application computes the call and data usage cost per `userId`.
-
-Sink - Usage Cost Logger `sink` application logs the usage cost detail.
-
-**TODO describe what the source, processor and sink will do, introduce the domain model.**
-
-**TODO we can remove a step by not requiring the domain object to be in its own package**
-
-We will then run them on your local machine, Cloud Foundry and Kubernetes without using Data Flow.
-This provides a foundation to understand the steps that Data Flow will automate for you.
+```bash
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/dist/usage-cost-stream-rabbit.zip?raw=true -O usage-cost-stream-rabbit.zip
+```
 
 ## Development
 
-The following sections describe how to build this stream from scratch. If you prefer, you can [download a zip file containing the completed application](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/dist/usage-cost-stream-rabbit.zip?raw=true) for the sample stream, unzip it. There is a top level `pom.xml` that will build all three examples, or you can change directory into each example and build them individually. In both cases, the command to build is the same.
+We will create three Spring Cloud Stream applications that communicate using RabbitMQ.
 
-```bash
-./mvnw clean package
-```
+The scenario is a cell phone company creating bills for its customers.
+Each call made by a user will have a `duration` and an amount of `data` used during the call.
+As part of the process to generate a bill, the raw call data needs to be converted to a cost for the duration of the call and a cost for the amount of data used.
 
-You can proceed to the the [deployment](#deployment) section for your platform if you don't want to build the stream from scratch.
+The call is modeled using the `UsageDetail` class that contains the the `duration` of the call and the amount of `data` used during the call.
+The bill is modeled using the `UsageCostDetail` class that contains the cost of the call (`costCall`) and the cost of the data (`costData`). Each class contains an ID (`userId`) to identify the person making the call.
+
+The three streaming applications are:
+
+- The `Source` application named `UsageDetailSender` generates the users' call `duration` and amount of `data` used per `userId` and sends a message containing the `UsageDetail` object as JSON.
+
+- The `Processor` application named `UsageCostProcessor` Consumes the `UsageDetail` and computes the cost of the call and the cost of the data per `userId`. It sends the `UsageCostDetail` object as JSON.
+
+- The `Sink` application named `UsageCostLogger` Consumes the `UsageCostDetail` object and logs the cost of the call and data.
 
 ### Source
-
-You can develop the source application by following the steps listed below.
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-rabbit&name=usage-detail-sender-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender-rabbit`.
 1. In the Dependencies text box, type `RabbitMQ` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
+1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-detail-sender-rabbit.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
-If you haven't downloaded the completed source example, you will need to perform the following development steps.
+Now let's create the code required for this application.
 
-1.  In your favorite IDE create the `io.spring.dataflow.sample.domain` package.
-1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.domain` package using your favorite IDE that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-detail-sender/src/main/java/io/spring/dataflow/sample/domain/UsageDetail.java).
-    This `UsageDetail` model contains `userId`, `data` and `duration` properties.
-1.  Create the `Source` application produces usage detail for each user including call duration, data usage.
-    Create the class `UsageDetailSender` in the `io.spring.dataflow.sample.usagedetailsender` package using your favorite IDE that looks like the below content:
+1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.usagedetailsender` package that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-detail-sender/src/main/java/io/spring/dataflow/sample/UsageDetail.java).
+    The `UsageDetail` class contains `userId`, `data` and `duration` properties.
+1.  Create the class `UsageDetailSender` in the `io.spring.dataflow.sample.usagedetailsender` package that looks like the contents below content.
 
     ```java
     package io.spring.dataflow.sample.usagedetailsender;
@@ -69,7 +71,6 @@ If you haven't downloaded the completed source example, you will need to perform
     import org.springframework.messaging.support.MessageBuilder;
     import org.springframework.scheduling.annotation.EnableScheduling;
     import org.springframework.scheduling.annotation.Scheduled;
-
     @EnableScheduling
     @EnableBinding(Source.class)
     public class UsageDetailSender {
@@ -77,7 +78,7 @@ If you haven't downloaded the completed source example, you will need to perform
     	@Autowired
     	private Source source;
 
-    	private String[] users = {"Glenn", "Sabby", "Mark", "Janne", "Ilaya"};
+    	private String[] users = {"user1", "user2", "user3", "user4", "user5"};
 
     	@Scheduled(fixedDelay = 1000)
     	public void sendEvents() {
@@ -88,14 +89,20 @@ If you haven't downloaded the completed source example, you will need to perform
     		this.source.output().send(MessageBuilder.withPayload(usageDetail).build());
     	}
     }
-
     ```
 
-**TODO some discussion of the annotations should be made**
+The `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware.
+The annotation takes one or more interfaces as a parameter, in this case the [Source](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Source.java) interface that defines an output channel named `output`.
+In the case of RabbitMQ, messages sent to the `output` channel are in turn sent the RabbitMQ message broker using a `TopicExchange`.
+
+The `@EnableScheduling` annotation indicates that you want to enable Spring's scheduling capabilities, which will invoked `@Scheduled` annotated methods with the specified `fixedDelay` of `1` second.
+
+The `sendEvents` method constructs a `UsageDetail` object and then sends it to the the output channel by accessing the `Source` object's `output().send()` method.
 
 #### Building
 
-Now let’s build the Usage Detail Sender application. In the directory `usage-detail-sender` use the following command to build the project using maven.
+Now let’s build the Usage Detail Sender application.
+In the directory `usage-detail-sender` use the following command to build the project using maven.
 
 ```bash
 ./mvnw clean package
@@ -103,39 +110,89 @@ Now let’s build the Usage Detail Sender application. In the directory `usage-d
 
 #### Testing
 
-** TODO Create unit test as in http appstarters**
+Spring Cloud Stream provides `spring-cloud-stream-test-support` dependency to test the Spring Cloud Stream application.
+Instead of the `RabbitMQ` binder, the tests use the Test binder to trace and test your application's outbound/inbound messages.
+The Test binder uses a utility class `MessageCollector` which stores the messages in-memory.
+
+To unit test the `UsageDetailSender` application, in the class `UsageDetailSenderApplicationTests` add following code:
+
+```java
+package io.spring.dataflow.sample.usagedetailsender;
+
+import java.util.concurrent.TimeUnit;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.spring.dataflow.sample.UsageDetail;
+import org.json.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.test.binder.MessageCollector;
+import org.springframework.messaging.Message;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.Assert;
+
+import static org.junit.Assert.assertTrue;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class UsageDetailSenderApplicationTests {
+
+	@Autowired
+	private MessageCollector messageCollector;
+
+	@Autowired
+	private Source source;
+
+ 	@Test
+ 	public void contextLoads() {
+ 	}
+
+	@Test
+	public void testUsageDetailSender() throws Exception {
+		Message message = this.messageCollector.forChannel(this.source.output()).poll(1, TimeUnit.SECONDS);
+		String usageDetailJSON = message.getPayload().toString();
+		assertTrue(usageDetailJSON.contains("userId"));
+		assertTrue(usageDetailJSON.contains("duration"));
+		assertTrue(usageDetailJSON.contains("data"));
+	}
+}
+```
+
+- The test case `contextLoads` verifies the application starts successfully.
+- The test case `testUsageDetailSender` uses `Test` binder's `MessageCollector` to collect the messages sent by the `UsageDetailSender`.
 
 ### Processor
-
-You can develop the processor application by following the steps listed below.
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-rabbit&name=usage-cost-processor-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor-rabbit`.
 1. In the Dependencies text box, type `Rabbitmq` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
+1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-cost-processor-rabbit.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
-If you haven't downloaded the completed processor example, you will need to perform the following development steps.
+Now let's create the code required for this application.
 
-1.  In your favorite IDE create the `io.spring.dataflow.sample.domain` package.
-1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.domain` using your favorite IDE that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-processor/src/main/java/io/spring/dataflow/sample/domain/UsageDetail.java).
-    This `UsageDetail` model contains `userId`, `data` and `duration` properties
-1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.domain` using using your favorite IDE that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-processor/src/main/java/io/spring/dataflow/sample/domain/UsageCostDetail.java).
-    This `UsageCostDetail` model contains `userId`, `callCost` and `dataCost` properties.
-1.  Create the `Processor` application that receives the `UsageDetail` from the previously created `source`, computes the call/data cost and returning the `UsageCostDetail`.
-    In `io.spring.dataflow.sample.usagecostprocessor` package, create a class `UsageCostProcessor` that looks like the content below:
+1.  Create the `UsageDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-processor/src/main/java/io/spring/dataflow/sample/UsageDetail.java).
+    The `UsageDetail` class contains `userId`, `data` and `duration` properties
+1.  Create the class`UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` package that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-processor/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+    The `UsageCostDetail` class contains `userId`, `callCost` and `dataCost` properties.
+1.  Create the class `UsageCostProcessor` in the `io.spring.dataflow.sample.usagecostprocessor` package that receives the `UsageDetail` message, computes the call/data cost and sends a `UsageCostDetail` message. The source code is listed below.
 
     ```java
 
     package io.spring.dataflow.sample.usagecostprocessor;
 
-    import io.spring.dataflow.sample.domain.UsageCostDetail;
-    import io.spring.dataflow.sample.domain.UsageDetail;
+    import io.spring.dataflow.sample.UsageCostDetail;
+    import io.spring.dataflow.sample.UsageDetail;
 
     import org.springframework.cloud.stream.annotation.EnableBinding;
     import org.springframework.cloud.stream.annotation.StreamListener;
@@ -162,11 +219,16 @@ If you haven't downloaded the completed processor example, you will need to perf
 
     ```
 
-    **TODO some discussion of the annotations should be made**
+In the above application, the `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware. The annotation takes one or more interfaces as a parameter, in this case the [Processor](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Processor.java) that defines and input and output channel.
+
+The annotation `@StreamListener` binds the application's `input` channel to the `processUsageCost` method by converting the incoming JSON into `UsageDetail` object.
+
+The annotation `@SendTo` sends the `processUsageCost` method's output to the application's `output` channel which is in turn sent to the a RabbitMQ message broker using a `TopicExchange`.
 
 #### Building
 
-Now let's build the Usage Cost Processor application. In the directory `usage-cost-processor` use the following command to build the project using maven.
+Now let's build the Usage Cost Processor application.
+In the directory `usage-cost-processor` use the following command to build the project using maven.
 
 ```
 ./mvnw clean package
@@ -174,33 +236,79 @@ Now let's build the Usage Cost Processor application. In the directory `usage-co
 
 #### Testing
 
-**TODO: Create unit test**
+Spring Cloud Stream provides `spring-cloud-stream-test-support` dependency to test the Spring Cloud Stream application. Instead of the RabbitMQ binder, it uses the Test binder to trace and test your application's outbound/inbound messages. The Test binder uses a utility class `MessageCollector` which stores the messages in-memory.
+
+To unit test the `UsageCostProcessor`, in the class `UsageCostProcessorApplicationTests` add the following code.
+
+    ```java
+
+    package io.spring.dataflow.sample.usagecostprocessor;
+
+    import java.util.concurrent.TimeUnit;
+
+    import org.junit.Test;
+    import org.junit.runner.RunWith;
+
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.boot.test.context.SpringBootTest;
+    import org.springframework.cloud.stream.messaging.Processor;
+    import org.springframework.cloud.stream.test.binder.MessageCollector;
+    import org.springframework.messaging.Message;
+    import org.springframework.messaging.support.MessageBuilder;
+    import org.springframework.test.context.junit4.SpringRunner;
+
+    import static org.junit.Assert.assertTrue;
+
+    @RunWith(SpringRunner.class)
+    @SpringBootTest
+    public class UsageCostProcessorApplicationTests {
+
+    	@Autowired
+    	private Processor processor;
+
+    	@Autowired
+    	private MessageCollector messageCollector;
+
+    	@Test
+    	public void contextLoads() {
+    	}
+
+    	@Test
+    	public void testUsageCostProcessor() throws Exception {
+    		this.processor.input().send(MessageBuilder.withPayload("{\"userId\":\"user3\",\"duration\":101,\"data\":502}").build());
+    		Message message = this.messageCollector.forChannel(this.processor.output()).poll(1, TimeUnit.SECONDS);
+    		assertTrue(message.getPayload().toString().equals("{\"userId\":\"user3\",\"callCost\":10.100000000000001,\"dataCost\":25.1}"));
+    	}
+
+    }
+
+    ```
+
+- The test case `contextLoads` verifies the application starts successfully.
+- The test case `testUsageCostProcessor` uses `Test` binder's `MessageCollector` to collect the messages from the `UsageCostProcessor`'s `output`.
 
 ### Sink
-
-You can develop the sink application by following the steps listed below or **TODO download the completed sink example**
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-rabbit&name=usage-cost-logger-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=cloud-stream&style=amqp&style=actuator&style=web)
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow` and an Artifact name of `usage-cost-logger-rabbit`.
 1. In the Dependencies text box, type `rabbitmq` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `cloud stream` to select the Spring Cloud Stream dependency.
+1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the project into your favorite IDE.
 
-#### Biz Logic
+#### Business Logic
 
-1.  In your favorite IDE create the `io.spring.dataflow.sample.domain` package.
-1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.domain` using using your favorite IDE that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-logger/src/main/java/io/spring/dataflow/sample/domain/UsageCostDetail.java).
-    This `UsageCostDetail` model contains `userId`, `callCost` and `dataCost` properties.
-1.  Create the `Sink` application that receives the `UsageCostDetail` from the previously created `processor` and logs it.
-    In `io.spring.dataflow.sample.usagecostlogger` package, create a class `UsageCostLogger` that looks like the content below:
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.sagecostlogger` package that looks like the contents in [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-logger/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+    The `UsageCostDetail` class contains `userId`, `callCost` and `dataCost` properties.
+1.  Create the class `UsageCostLogger` in the `io.spring.dataflow.sample.usagecostlogger` package that receives the `UsageCostDetail` message and logs it. The source code is listed below.
 
     ```java
     package io.spring.dataflow.sample.usagecostlogger;
 
-    import io.spring.dataflow.sample.domain.UsageCostDetail;
+    import io.spring.dataflow.sample.UsageCostDetail;
     import org.slf4j.Logger;
     import org.slf4j.LoggerFactory;
 
@@ -221,11 +329,14 @@ Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the pr
 
     ```
 
-**TODO: some discussion of the annotations should be made. See batch guide for guidance as it discusses enabletask.**
+In the above application, the `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware. The annotation takes one or more interfaces as a parameter, in this case the [Sink](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Sink.java) interface that defines and input channel.
+
+The annotation `@StreamListener` binds the application's `input` channel to the `process` method by converting the incoming JSON to a `UsageCostDetail` object.
 
 #### Building
 
-Now let's build the Usage Cost Logger application. In the directory `usage-cost-logger` use the following command to build the project using maven.
+Now let's build the Usage Cost Logger application.
+In the directory `usage-cost-logger` use the following command to build the project using maven.
 
 ```
 ./mvnw clean package
@@ -233,85 +344,280 @@ Now let's build the Usage Cost Logger application. In the directory `usage-cost-
 
 #### Testing
 
-**TODO: Create unit test **
+To unit test the `UsageCostLogger`, in the class `UsageCostLoggerApplicationTests` add the following code.
+
+    ```java
+
+    package io.spring.dataflow.sample.usagecostlogger;
+
+    import io.spring.dataflow.sample.UsageCostDetail;
+    import org.junit.Test;
+    import org.junit.runner.RunWith;
+    import org.mockito.ArgumentCaptor;
+
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+    import org.springframework.boot.test.context.SpringBootTest;
+    import org.springframework.cloud.stream.annotation.EnableBinding;
+    import org.springframework.cloud.stream.messaging.Sink;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Primary;
+    import org.springframework.messaging.support.MessageBuilder;
+    import org.springframework.test.context.junit4.SpringRunner;
+
+    import static org.mockito.Mockito.spy;
+    import static org.mockito.Mockito.verify;
+
+    @RunWith(SpringRunner.class)
+    @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+    public class UsageCostLoggerApplicationTests {
+
+    	@Autowired
+    	protected Sink sink;
+
+    	@Autowired
+    	protected UsageCostLogger usageCostLogger;
+
+    	@Test
+    	public void contextLoads() {
+    	}
+
+    	@Test
+    	public void testUsageCostLogger() throws Exception {
+    		ArgumentCaptor<UsageCostDetail> captor = ArgumentCaptor.forClass(UsageCostDetail.class);
+    		this.sink.input().send(MessageBuilder.withPayload("{\"userId\":\"user3\",\"callCost\":10.100000000000001,\"dataCost\":25.1}").build());
+    		verify(this.usageCostLogger).process(captor.capture());
+    	}
+
+    	@EnableAutoConfiguration
+    	@EnableBinding(Sink.class)
+    	static class TestConfig {
+
+    		// Override `UsageCostLogger` bean for spying.
+    		@Bean
+    		@Primary
+    		public UsageCostLogger usageCostLogger() {
+    			return spy(new UsageCostLogger());
+    		}
+    	}
+    }
+
+    ```
+
+1.  The test case `contextLoads` verifies the application starts successfully.
+1.  The test case `testUsageCostLogger` verifies if the `process` method of `UsageCostLogger` is invoked using `Mockito`.
+    To do this, the static class `TestConfig` overrides the existing `UsageCostLogger` bean to create a Mock bean of `UsageCostLogger`.
+    Since we are mocking the `UsageCostLogger` bean, the `TestConfig` also annotates `@EnableBinding` and `@EnableAutoConfiguration` explicitly.
 
 ## Deployment
 
-In this section we will deploy the apps created previous to the local machine, Cloud Foundry and Kubernetes.
+In this section we will deploy the applications created above to the local machine, Cloud Foundry and Kubernetes.
 
-\*\*TODO There should be some discussion around how the underlying RabbitMQ messaging is going to be configured via stream properties, for example in the current k8s, section `input groups` are being used, we should explain why.
+When you deploy these three applications (UsageDetailSender, UsageCostProcessor and UsageCostLogger), the flow of message looks like this:
 
-In all 3 deployments, properties related to the quality of service, e.g.
+```
+UsageDetailSender -> UsageCostProcessor -> UsageCostLogger
+```
 
-https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_improving_the_quality_of_service
+The source application `UsageDetailSender`'s output is connected to the `UsageCostProcessor` processor application's input.
+The `UsageCostProcessor` application's output is connected to the `UsageCostLogger` sink application's input.
 
-should be described up front.
+When these applications are run, the `RabbitMQ` binder binds the applications output/input boundaries into the corresponding exchanges/queues at RabbitMQ message broker.
 
-**TODO this section needs to be finished**
+Let's choose our destinations at RabbitMQ:
+**TODO no need to prefix with 'test-', that is not being done in the cf/k8s cases. They should all be the same**
+**TODO inputs aren't bound to an exchange...need another description**
+
+- UsageDetailSender's output and `UsageCostProcessor`'s input are bound to `test-usage-detail` exchange
+- UsageCostProcessor's output and `UsageCostLogger`'s input are bound to `test-usage-cost` exchange.
+
+By default, the Spring Cloud Stream applications that use the `RabbitMQ` binder create a durable topic exchange to produce data.
+Similarly, the Spring Cloud Stream application with the `RabbitMQ` binder and consumes data creates an anonymous auto-delete queue.
+This can result in a message not being stored and forwarded by the producer if the producer application started before the consumer application.
+Even though the exchange is durable, there needs to be a durable queue bound to the exchange for the message to be stored for later consumption.
+
+To pre-create durable queues and bind them to the exchange, producer applications should set the property:
+
+```
+spring.cloud.stream.bindings.<channelName>.producer.requiredGroups
+```
+
+The `requiredGroups` property accepts a comma-separated list of groups to which the producer must ensure message delivery even if they start after it has been created.
+
+To consume from the durable queues, the consumer applications should then specify the property:
+
+```
+spring.cloud.stream.bindings.<channelName>.group
+```
+
+The `group` property accepts a comma-separated list of groups that should generally match with the `requiredGroups`.
+
+NOTE: Consumer groups are also the means by which multiple instances of a consuming application can participate in a competing consumer relationship with other members of the same consumer group.
 
 ### Local
 
-**TODO explain at a high level what we are going to do**
+You can run the above applications as standalone applications on your `local` environment.
 
-**TODO mention requirements of getting rabbitmq running, reference back to the installation instructions with docker compose to show creating rabbit server**
+**TODO replace with docker instructions. Also, I believe the mgmt consle is an add-on that might not be available OOTB , need to find an image that has it installed - bitnami?**
 
-**TODO Current content was cut-n-pasted from first draft. Should show output logs and a screenshot of the rabbitmq admin console with the created queues and exchanges.**
+You can [download](https://www.rabbitmq.com/download.html) and setup `RabbitMQ` on your local.
+
+Once installed, you can login to RabbitMQ management console on your local using on [http://localhost:15672](http://localhost:15672).
+You can use the default account username/password: `guest/guest`.
 
 #### Running the Source
 
-We can individually test these custom applications before creating a pipeline using Spring Cloud Data Flow.
-To test, we can explicitly set the Spring Cloud Stream bindings destination property and run the application.
+To run, we need to explicitly set the Spring Cloud Stream bindings destination property and the server port for accessing the actuator endpoints:
 
 ```
 spring.cloud.stream.bindings.output.destination=test-usage-detail
+server.port=9001
 ```
 
-In this case, we can use some test RabbitMQ `exchanges` to verify the outbound and inbound messages.
-For instance, you can set the `output` binding to a test RabbitMQ exchange `test-usage-detail` and see if the messages get posted to the exchange.
-You can run the standalone `UsageDetailSender` source application as,
+Pass these properties as command line arguments when running the `UsageDetailSender` source application.
 
-```
-java -jar target/usage-detail-sender-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail &
+```bash
+java -jar target/usage-detail-sender-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail --server.port=9001 &
 ```
 
-Now, you can see the messages being sent to the exchange `test-usage-detail`.
+**TODO just show the example that uses the guaranteed message delivery**
+Now, you can see the messages being sent to the `RabbitMQ` exchange `test-usage-detail` every 1 second in the RabbitMQ management console.
+
+![Standalone Usage Detail Sender RabbitMQ](images/standalone-rabbitmq-usage-detail-sender.png)
+
+At this point of time, there will be no `queue` for consuming the messages from the `test-usage-detail` exchange.
+
+If you want to ensure message delivery guarantee for the messages published to the `RabbitMQ` exchange `test-usage-detail` from the `UsageDetailSender` source application, you need to setup the `requiredGroups` property to create `durable` queues.
+
+To set this up, you need the property:
+
+```
+spring.cloud.stream.bindings.output.producer.requiredGroups=usage-detail
+```
+
+You can have a comma separated list of names for the `requiredGroups` property.
+
+When you run your `UsageDetailSender` source application with the `requiredGroups` property:
+
+```
+java -jar target/usage-detail-sender-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail --server.port=9001 --spring.cloud.stream.bindings.output.producer.requiredGroups=usage-detail &
+```
+
+you would see a durable queue created with the name `test-usage-detail.usage-detail` (using the format `<exchange>.<requiredGroup>`) that consumes the messages from the RabbitMQ exchange `test-usage-detail`.
+
+![Standalone Usage Detail Sender RabbitMQ Required Groups](images/standalone-rabbitmq-usage-detail-sender-required-groups.png)
+
+When configuring the consumer applications for this `Source` application, you can set the `group` binding property to connect to the corresponding durable queue.
 
 #### Running the Processor
 
-To test this `processor` application, you need to set the `input` binding to the test RabbitMQ exchange `test-usage-detail` to receive the `UsageDetail` data and `output` binding to the test RabbitMQ exchange `test-usage-cost` to send the computed `UsageCostDetail`.
+**TODO inputs are not bound to exchanges...**
+To run the `UsageCostProcessor` application, you need to set the `input` binding to the test RabbitMQ exchange `test-usage-detail` to receive the `UsageDetail` data and the `output` binding to the test RabbitMQ exchange `test-usage-cost` to send the computed `UsageCostDetail`.
+You also need to set the `server.port` to access the actuator endpoints.
+
+**TODO merge required groups into this section, only have one section to run, not two section to run it in two different ways**
 
 ```
 spring.cloud.stream.bindings.input.destination=test-usage-detail
 spring.cloud.stream.bindings.output.destination=test-usage-cost
+server.port=9002
 ```
 
-You can run the standalone `UsageCostProcessor` processor application as,
+Pass these properties as command line arguments when running the `UsageCostProcessor` processor application.
 
 ```
-java -jar target/usage-cost-processor-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost &
+java -jar target/usage-cost-processor-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost --server.port=9002 &
 ```
+
+Now, you can see that the `UsageCostProcessor` application receives the messages from the `RabbitMQ` exchange `test-usage-detail`, processes the cost and send the result to the `test-usage-cost` RabbitMQ exchange.
+
+From the RabbitMQ console:
+
+![Standalone Usage Cost Processor RabbitMQ](images/standalone-rabbitmq-usage-cost-processor.png)
+
+You can also see that there is an `anonymous` auto-delete queue created that consumes the messages from `test-usage-detail` exchange.
+This `anonymous` queue is bound to the `UsageCostProcessor` application's input.
+
+From the RabbitMQ console:
+
+![Standalone Usage Cost Processor RabbitMQ Anonymous Queue](images/standalone-rabbitmq-usage-cost-processor-anonymous-queue.png)
+
+If you want the processor application to consume from the `durable` queue, you need to make use of the `group` bindings property for the `UsageCostProcessor` application - provided you already have set up the `requiredGroups` for the `UsageDetailSender` application above.
+
+```
+spring.cloud.stream.bindings.input.group=usage-detail
+```
+
+Also, if you want the `UsageCostProcessor` application's output message delivery guarantee, then you need to set the `requiredGroups` for the `output` binding:
+
+```
+spring.cloud.stream.bindings.output.producer.requiredGroups=usage-cost
+```
+
+Pass these properties as command line arguments when running the `UsageCostProcessor` processor application.
+
+```
+java -jar target/usage-cost-processor-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost --server.port=9002 --spring.cloud.stream.bindings.input.group=usage-detail --spring.cloud.stream.bindings.output.producer.requiredGroups=usage-cost &
+```
+
+From the RabbitMQ console, you can see:
+
+1. The `UsageCostProcessor` application consumes from the durable queue `test-usage-detail.usage-detail` - based on the `spring.cloud.stream.bindings.input.group=usage-detail` property.
+1. The `UsageCostProcessor` application produces the `UsageCostDetail` to the exchange `test-usage-cost` - based on the `spring.cloud.stream.bindings.output.destination=test-usage-cost` property
+1. Durable queue `test-usage-cost.usage-cost` is created which consumes the messages from the exchange `test-usage-cost` - based on the `spring.cloud.stream.bindings.output.producer.requiredGroups=usage-cost` property
+
+![Standalone Usage Cost Processor RabbitMQ Required Groups](images/standalone-rabbitmq-usage-cost-processor-required-groups.png)
 
 #### Running the Sink
 
-To test this `sink` application you need to set the `input` binding that connects to the test RabbitMQ exchange `test-usage-cost` to receive the `UsageCostDetail`.
+To run the `UsageCostLogger` application you need to set the `input` binding that connects to the RabbitMQ exchange `test-usage-cost` to receive the `UsageCostDetail` from the `UsageCostProcessor` and the `server.port`:
+**TODO Show with the input group, not two different ways to run it**
 
 ```
 spring.cloud.stream.bindings.input.destination=test-usage-cost
+server.port=9003
 ```
 
-You can run the standalone `UsageCostLogger` sink application as,
+Pass these properties as command line arguments when running the `UsageCostLogger` sink application.
 
 ```
-java -jar target/usage-cost-logger-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-cost &
+java -jar target/usage-cost-logger-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-cost --server.port=9003 &
 ```
 
-Now, you can see that this application logs the usage cost detail.
+Now, you can see that this application logs the usage cost detail it receives from the `test-usage-cost` RabbitMQ exchange:
+
+```
+2019-05-08 08:16:46.442  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "28.3", "dataCost": "29.8" }
+2019-05-08 08:16:47.446  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "12.0", "dataCost": "23.75" }
+2019-05-08 08:16:48.451  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "16.0", "dataCost": "30.05" }
+2019-05-08 08:16:49.454  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user1", "callCost": "17.7", "dataCost": "18.0" }
+```
+
+Here, the `UsageCostLogger` sink application is bound to the `anonymous` queue which consumes from the `test-usage-cost`.
+
+From the RabbitMQ console:
+
+![Standalone Usage Cost Logger RabbitMQ Anonymous Queue](images/standalone-rabbitmq-usage-cost-logger-anonymous-queue.png)
+
+If you want to consume from the `durable` queue created using the `requiredGroups` property in the `UsageCostProcessor` application, you can set:
+
+```
+spring.cloud.stream.bindings.input.group=usage-cost
+```
+
+To run the `UsageCostLogger` application that consumes from the durable queue `usage-cost`:
+
+```
+java -jar target/usage-cost-logger-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-cost --server.port=9003 --spring.cloud.stream.bindings.input.group=usage-cost &
+```
 
 ### Cloud Foundry
 
+**TODO**
+
 ### Kubernetes
 
-This section will walk you through how to deploy and run the sample stream application on Kubernetes.
+This section will walk you through how to deploy the three Spring Cloud Stream applications on Kubernetes.
 
 #### Setting up the Kubernetes cluster
 
@@ -330,14 +636,15 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 
 #### Install RabbitMQ
 
-We will install the RabbitMQ message broker, using the default configuration from Spring Cloud Data Flow. Execute the following command:
+Install the RabbitMQ message broker, using the default configuration from Spring Cloud Data Flow.
+Execute the following command:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/rabbitmq/rabbitmq-deployment.yaml \
 -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/rabbitmq/rabbitmq-svc.yaml
 ```
 
-#### Build docker images
+#### Build the Docker images
 
 For this we will use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#development), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in each pom.xml:
 
@@ -379,6 +686,7 @@ $./mvnw package jib:dockerBuild
 
 #### Deploy the stream
 
+**TODO I think we should deploy as a service/deployment since that is what we will be doing with Data Flow**
 Copy and paste the following yaml and save it to `usage-cost-stream.yaml`
 
 ```yaml
@@ -525,6 +833,6 @@ To uninstall RabbitMQ:
 kubectl delete all -l app=rabbitmq
 ```
 
-## Testing
+## What's next
 
-**TODO We did not cover testing, in order to get to the heart of the matter quickly. We can circle back and show how to create unit test for spring cloud stream apps.**
+**TODO - where to go next?**
