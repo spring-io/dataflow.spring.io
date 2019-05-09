@@ -6,7 +6,7 @@ description: 'How to label stream applications'
 
 # Labeling Applications
 
-When a stream is made up of multiple apps with the same name, they must be qualified with labels:
+When a stream is made up of multiple apps with the same name, they must be qualified with labels so they can be uniquely identified:
 
 ````
 stream create --definition "http | firstLabel: transform --expression=payload.toUpperCase() | secondLabel: transform --expression=payload+'!' | log" --name myStreamWithLabels --deploy```
