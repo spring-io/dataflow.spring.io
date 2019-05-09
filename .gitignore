@@ -9,3 +9,4 @@ content/documentation/files/ext/
 .idea/
 content/files/ext/
 .DS_Store
+cloud-foundry/public
