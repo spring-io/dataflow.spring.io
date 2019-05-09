@@ -2,14 +2,14 @@ $spring-8points: 8px;
 
 $spring-background: #fff;
 
-$spring-color: #394133;
+$spring-color: #222;
 $spring-primary-color: #6db33f;
 $spring-link-color: #6db33f;
-$spring-gray-color: #f8f9f8;
-$spring-dark-color: #98a390;
+$spring-gray-color: #f9f9f9;
+$spring-dark-color: #999;
 
-$spring-border-color: #cfd4cb;
-$spring-border-color-hover: #bfc5ba;
+$spring-border-color: #ccc;
+$spring-border-color-hover: darken($spring-border-color, 5);
 
 $spring-font-size: 16px;
 $spring-font-size-sm: 14px;
