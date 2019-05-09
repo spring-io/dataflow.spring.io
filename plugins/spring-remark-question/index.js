@@ -1,9 +1,5 @@
-const get = require('lodash.get')
-
 const START_KEY = '<!--QUESTION-->'
 const END_KEY = '<!--END_QUESTION-->'
-
-const Q_KEY = /^(<!--)(.*?)-->/
 
 module.exports = ({ markdownAST, markdownNode }, options = {}) => {
   const children = []
