@@ -56,7 +56,11 @@ For this guide we will focus on 5 Spring Batch components:
 
 In the diagram above we see that each phase of the `JobExecution` is stored into a `JobRepository` (our MySql database). This means that each action performed by Spring Batch is recorded to a database for both logging purposes but also for restarting a job.
 
-NOTE: You can read more about this process [here](https://docs.spring.io/spring-batch/4.0.x/reference/html/domain.html#domainLanguageOfBatch).
+<!--NOTE-->
+
+**NOTE:** You can read more about this process [here](https://docs.spring.io/spring-batch/4.0.x/reference/html/domain.html#domainLanguageOfBatch).
+
+<!--END_NOTE-->
 
 ### Our Batch Job
 
@@ -363,7 +367,11 @@ Log into Cloud Foundry using the [Cloud Foundry command line interface](https://
 cf login
 ```
 
+<!--NOTE-->
+
 **INFO** You can also target specific Cloud Foundry instances with the `-a` flag, for example `cf login -a https://api.run.pivotal.io`.
+
+<!--END_NOTE-->
 
 Before you can push the application, please also ensure that you setup the **MySql Service** on Cloud Foundry. You can check what services are available using:
 
@@ -396,7 +404,11 @@ instances: 0
 
 The key is to set the `instances` property to `0`. This will ensure that the app is staged without being actually running. We also do not need a route to be created and can set `no-route` to `true`.
 
-**TIP** Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but if your database service is internal (part of your Cloud Foundry instance) we can use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
+<!--TIP-->
+
+Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but if your database service is internal (part of your Cloud Foundry instance) we can use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
+
+<!--END_TIP-->
 
 #### Running billrun on Cloud Foundry
 
@@ -489,7 +501,11 @@ git clone https://github.com/pivotal-cf/PivotalMySQLWeb.git
 cd PivotalMySQLWeb
 ```
 
+<!--IMPORTANT-->
+
 **IMPORTANT**: Please update the credentials first in `src/main/resources/application-cloud.yml` ([Source on GitHub](https://github.com/pivotal-cf/PivotalMySQLWeb/blob/master/src/main/resources/application-cloud.yml)). By default the username is `admin` and the password is `cfmysqlweb`.
+
+<!--END_IMPORTANT-->
 
 Then build the project:
 
@@ -512,7 +528,11 @@ applications:
       JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
 ```
 
+<!--IMPORTANT-->
+
 **IMPORTANT** specify your MySQL service `task-example-mysql`
+
+<!--END_IMPORTANT-->
 
 In this instance we set the property `random-route` to `true` in order to generate a random URL for the application. Watch the console for a printout of the URL. Push the app to Cloud Foundry:
 

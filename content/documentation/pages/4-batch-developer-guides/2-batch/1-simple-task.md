@@ -276,7 +276,11 @@ instances: 0
 
 The key is to set the `instances` property to `0`. This will ensure that the app is staged without being actually running. We also do not need a route to be created and can set `no-route` to `true`.
 
-**TIP** Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but if your database service is internal (part of your Cloud Foundry instance) we can use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
+<!--TIP-->
+
+Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but if your database service is internal (part of your Cloud Foundry instance) we can use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
+
+<!--END_TIP-->
 
 #### Running billsetuptask on Cloud Foundry
 
@@ -308,7 +312,11 @@ We are now ready to run the task:
 cf run-task billsetuptask ".java-buildpack/open_jdk_jre/bin/java org.springframework.boot.loader.JarLauncher arg1" --name billsetuptask-task
 ```
 
-**TIP** If needed you also can specify the following optional arguments:
+<!--TIP-->
+
+If needed you also can specify the following optional arguments:
+
+<!--END_TIP-->
 
 - `-k` Disk limit (e.g. 256M, 1024M, 1G)
 - `-m` Memory limit (e.g. 256M, 1024M, 1G)
