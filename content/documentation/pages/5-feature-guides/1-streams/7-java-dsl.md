@@ -15,13 +15,13 @@ To get started, you need to add the following dependency to your project, as fol
 <dependency>
 	<groupId>org.springframework.cloud</groupId>
 	<artifactId>spring-cloud-dataflow-rest-client</artifactId>
-	<version>{project-version}</version>
+	<version>%scdf-version-latest%</version>
 </dependency>
 ```
 
 <!--NOTE-->
 
-A complete sample can be found in the [Spring Cloud Data Flow Samples Repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples).
+A complete sample can be found in the [Spring Cloud Data Flow Samples Repository](https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle/#_java_dsl).
 
 <!--END_NOTE-->
 
@@ -41,7 +41,7 @@ Consider the following example, using the `definition` style.
 URI dataFlowUri = URI.create("http://localhost:9393");
 DataFlowOperations dataFlowOperations = new DataFlowTemplate(dataFlowUri);
 dataFlowOperations.appRegistryOperations().importFromResource(
-                     "https://bit.ly/Darwin-SR3-stream-applications-rabbit-maven", true);
+                     "https://bit.ly/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
 StreamDefinition streamDefinition = Stream.builder(dataFlowOperations)
                                       .name("ticktock")
                                       .definition("time | log")
@@ -86,7 +86,7 @@ The Java DSL offers two styles to create Streams.
   You then chain together `processor()` and `sink()` methods to create a stream definition.
 
 To demonstrate both styles, we include a simple stream that uses both approaches.
-A complete sample for you to get started can be found in the [Spring Cloud Data Flow Samples Repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples).
+A complete sample for you to get started can be found in the [Spring Cloud Data Flow Samples Repository](https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle/#_java_dsl).
 
 The following example demonstrates the definition approach:
 
@@ -169,7 +169,7 @@ You can register your application by using the `DataFlowTemplate`, as follows:
 
 ```java
 dataFlowOperations.appRegistryOperations().importFromResource(
-            "https://bit.ly/Darwin-SR3-stream-applications-rabbit-maven", true);
+            "https://bit.ly/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
 ```
 
 The Stream applications can also be beans within your application that are injected in other classes to create Streams.
