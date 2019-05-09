@@ -4,7 +4,7 @@ title: 'Programming Models'
 description: 'Programming models'
 ---
 
-# Programming Model for Streaming Applications
+## Programming Models
 
 Spring Cloud Stream provides the flexibility to build the streaming applications using different programming models.
 
@@ -13,8 +13,6 @@ Spring Cloud Stream provides the flexibility to build the streaming applications
 - _Kafka Streams_
 
 In the following section, we will review how a business logic can be built with different programming models.
-
-## Demonstration
 
 To highlight the use of programming with a concrete example, let's think of a scenario where we are receiving data from an HTTP endpoint. Once when the data is available, suppose we would want to transform the payload by adding prefix and suffixes. Finally, we would want to verify the transformed data.
 
@@ -171,3 +169,39 @@ In the Log-sink application console, we should now see a similar output as follo
 ```
 
 With this result, we are able to verify that the data from the HTTP-source application is processed by the `simple-0.0.1-SNAPSHOT` processor, and the processed data is printed in the console with the prefix "Hello: " and the suffix "!" in the end, which equates to "Hello: test data!" as a result.
+
+### Composing functional beans in Processor applications
+
+The functional composition support is **not** applicable for the out-of-the-box Spring Cloud Stream `Processor` applications, since there is ambiguity in whether the function needs to be applied before or after the existing processor’s application logic.
+It is hard to determine that.
+
+However, you can create your own processor applications that use functional composition with the standard `java.util.Function` APIs, as the following example shows:
+
+```
+@Configuration
+public static class FunctionProcessorConfiguration {
+
+  @Bean
+  public Function<String, String> upperAndConcat() {
+  return upper().andThen(concat());
+  }
+
+  @Bean
+  public Function<String, String> upper() {
+     return value -> value.toUpperCase();
+  }
+
+  @Bean
+  public Function<String, String> concat() {
+     return value -> "Hello "+ value;
+  }
+}
+```
+
+When you deploy your stream with the custom `processor` application, you need to deploy the `processor` application by defining the following property: `spring.cloud.stream.function.definition` to compose functional beans.
+
+In this example it would be set to.
+
+```
+spring.cloud.stream.function.definition=upper|concat
+```

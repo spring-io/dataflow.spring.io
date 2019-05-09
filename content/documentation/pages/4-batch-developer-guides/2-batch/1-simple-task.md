@@ -1,5 +1,5 @@
 ---
-path: 'batch-developer-guides/batch/spring-batch/'
+path: 'batch-developer-guides/batch/spring-task/'
 title: 'Simple Task'
 description: 'Create a simple Spring Boot Application using Spring Cloud Task'
 ---
