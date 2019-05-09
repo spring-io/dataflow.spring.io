@@ -16,14 +16,14 @@ For instance you can specify:
 
 Deployer properties are those properties that tell Spring Cloud Data Flow's deployer how the application should be launched.
 They are in the format of `deployer.<application name>.property`.
-To set the maximum heap to 2048m for this Task launch, would require the following deployer property, `deployer.timestamp.local.javaOpts=-Xmx2048m`.
+For example if you are launching to the local platform, and you want to set the maximum heap to 2048m, the following deployer property would need to be set, `deployer.timestamp.local.javaOpts=-Xmx2048m`.
 
 ## Application Properties
 
 Applications properties are those properties that were created by the application developers that specify the behaviors for the application.
 For example, the timestamp application allows you to set the format of the timestamp via the arguments or properties.
 The format for app properties is `app.<application name>.<property>`.
-So the timestamp format property would look be `app.timestamp.format=YYYY`.
+So the timestamp format property would be `app.timestamp.format=YYYY`.
 
 ## How to set these properties
 
