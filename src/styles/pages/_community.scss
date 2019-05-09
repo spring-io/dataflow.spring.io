@@ -1,0 +1,81 @@
+.community {
+  margin: 0 auto;
+  max-width: 1400px;
+  .page-title {
+    text-align: center;
+    padding: $spring-8points * 6 0;
+    h1 {
+      margin: 0;
+      padding: 0;
+      padding-bottom: $spring-8points * 2;
+    }
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .page-colset {
+    display: flex;
+    article {
+      flex: 1;
+      margin: 0 $spring-8points;
+      background: $spring-gray-color;
+      padding: $spring-8points * 5 $spring-8points;
+      text-align: center;
+      h2 {
+        margin: 0;
+        padding: 0;
+        padding-bottom: $spring-8points * 1.5;
+        font-size: 20px;
+      }
+      p {
+        padding: 0;
+        margin: 0;
+        color: #666666;
+        max-width: 230px;
+        margin: 0 auto;
+        &.social {
+          padding-top: $spring-8points * 3;
+          a {
+            color: $spring-color;
+            padding: 2px;
+            cursor: pointer;
+            margin: 0 $spring-8points/2;
+            @include transition(all $spring-transition-duration);
+            svg {
+              max-width: 25px;
+              max-height: 25px;
+            }
+            &:hover {
+              color: $spring-link-color;
+            }
+          }
+        }
+      }
+    }
+  }
+  .page-footer {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #666666;
+    padding: $spring-8points * 5 0;
+    p {
+      padding: 0;
+      margin: 0;
+      &.love {
+        color: $spring-color;
+        font-size: 18px;
+        font-weight: bold;
+        padding-bottom: $spring-8points;
+      }
+    }
+    .spring {
+      $s: 60px;
+      color: darken($spring-gray-color, 3);
+      width: $s;
+      height: $s;
+      margin: $spring-8points * 6 0 0 0;
+    }
+  }
+}

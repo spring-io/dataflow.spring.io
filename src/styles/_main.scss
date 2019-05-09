@@ -20,6 +20,14 @@ body {
   min-width: 800px;
 }
 
+a {
+  color: $spring-link-color;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 // Header
 
 .header {

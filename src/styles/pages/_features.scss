@@ -1,0 +1,40 @@
+.features {
+  padding-top: $spring-8points * 4;
+  padding-bottom: $spring-8points * 6;
+  .page-title {
+    padding: $spring-8points * 2 0;
+    h1 {
+      margin: 0;
+      padding: 0;
+      padding-bottom: $spring-8points * 2;
+    }
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .colset {
+    display: flex;
+    .col {
+      flex: 1;
+      padding-left: $spring-8points * 6;
+      &:first-child {
+        padding-left: 0;
+      }
+    }
+    article {
+      padding: $spring-8points * 2 0;
+      h2 {
+        margin: 0;
+        padding: 0;
+        font-size: 18px;
+        padding-bottom: $spring-8points;
+      }
+      p {
+        padding: 0;
+        margin: 0;
+        color: #666;
+      }
+    }
+  }
+}
