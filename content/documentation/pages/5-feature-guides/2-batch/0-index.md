@@ -5,4 +5,4 @@ description: 'Batch Features in Data Flow'
 summary: true
 ---
 
-Discuss the set of features that will be covered.
+In this section we will discuss how to use deployer properties as well as scheduling a task.
