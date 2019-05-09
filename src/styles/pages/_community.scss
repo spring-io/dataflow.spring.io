@@ -1,6 +1,8 @@
-.community {
-  margin: 0 auto;
-  max-width: 1400px;
+.page-community {
+  .layout-basic {
+    margin: 0 auto;
+    max-width: 1400px;
+  }
   .page-title {
     text-align: center;
     padding: $spring-8points * 6 0;
@@ -22,6 +24,7 @@
       background: $spring-gray-color;
       padding: $spring-8points * 5 $spring-8points;
       text-align: center;
+      @include effect-box(1.02, $spring-transition-duration);
       h2 {
         margin: 0;
         padding: 0;
@@ -51,6 +54,9 @@
             }
           }
         }
+      }
+      &:hover {
+        cursor: default;
       }
     }
   }

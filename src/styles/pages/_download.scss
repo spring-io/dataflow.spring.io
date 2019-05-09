@@ -1,0 +1,117 @@
+.page-download {
+  .layout-sidebars {
+    padding-bottom: $spring-8points * 4;
+    .main-content {
+      padding-left: $spring-8points * 6;
+    }
+    .sidebar {
+      padding-top: $spring-8points * 2;
+    }
+  }
+  table {
+    border-spacing: 0;
+    td {
+      border-bottom: 1px solid lighten($spring-border-color, 10);
+      padding: 4px 12px;
+      &:first-child {
+        padding-left: 0;
+        padding-right: 20px;
+        font-weight: bold;
+      }
+    }
+    tr {
+      &:last-child {
+        td {
+          border: 0 none;
+        }
+      }
+    }
+  }
+
+  .box {
+    background: $spring-gray-color;
+    padding: $spring-8points * 3 $spring-8points * 3;
+    ul {
+      @include links;
+      li {
+        padding-left: 20px;
+        &:before {
+          left: 0;
+          top: 9px;
+        }
+      }
+    }
+    .box-title {
+      padding-bottom: 4px;
+      font-weight: bold;
+    }
+  }
+
+  h2 {
+    margin: 0;
+    padding: $spring-8points * 3 0 0;
+  }
+
+  ul.links {
+    @include links;
+  }
+
+  ul.installation-links {
+    list-style: none;
+    margin: $spring-8points * 3 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      position: relative;
+      a {
+        display: inline-block;
+        position: relative;
+        padding: $spring-8points * 2.5 $spring-8points * 2;
+        padding-left: 75px;
+        margin-right: $spring-8points;
+        min-width: 150px;
+        color: $spring-color;
+        @include effect-box(1.02, $spring-transition-duration);
+        strong {
+          display: block;
+          @include transition(all $spring-transition-duration);
+        }
+        &:hover {
+          text-decoration: none;
+        }
+        &:before {
+          $s: 50px;
+          content: ' ';
+          width: $s;
+          height: $s;
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          background-repeat: no-repeat;
+          background-position: center center;
+        }
+        &.kubernetes {
+          &:before {
+            $s: 30px;
+            background-image: url(../images/logos/kubernetes.svg);
+            background-size: $s;
+          }
+        }
+        &.cloudfoundry {
+          &:before {
+            $s: 22px;
+            background-image: url(../images/logos/cloudfoundry.svg);
+            background-size: $s;
+          }
+        }
+        &.local {
+          &:before {
+            $s: 30px;
+            background-image: url(../images/logos/local.svg);
+            background-size: $s;
+          }
+        }
+      }
+    }
+  }
+}

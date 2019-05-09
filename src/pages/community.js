@@ -10,10 +10,10 @@ import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
 
 const CommunityPage = () => (
-  <Layout>
+  <Layout className='page-community'>
     <Seo title='Spring Cloud Data Flow Community' />
     <div className='container'>
-      <div className='layout-basic community'>
+      <div className='layout-basic'>
         <div className='page-title'>
           <h1>Community</h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>

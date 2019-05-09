@@ -25,3 +25,34 @@
     box-shadow: $top $left $blur $color;
   }
 }
+
+@mixin effect-box($scale, $duration) {
+  @include transition(all $duration);
+  background: #f7f7f7;
+  &:hover {
+    transform: scale($scale);
+    background: white;
+    box-shadow: 0 2px 6px 0 rgba($spring-color, 0.1);
+  }
+}
+
+@mixin links {
+  list-style: none;
+  padding: 0;
+  li {
+    position: relative;
+    padding-left: 25px;
+    &:before {
+      $s: 10px;
+      content: ' ';
+      width: $s;
+      height: $s;
+      position: absolute;
+      top: 8px;
+      left: 5px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-image: url(../images/icons/chevron-right.svg);
+    }
+  }
+}
