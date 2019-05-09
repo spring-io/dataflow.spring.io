@@ -49,14 +49,6 @@ A graphical representation of the stream woud look similar to the following:
 
 ![Stream Application DSL](images/stream-application-dsl.png)
 
-<!--NOTE-->
-
-Breaking Change! Versions of SCDF Local, Cloud Foundry 1.7.0 to 1.7.2 and SCDF Kubernetes 1.7.0 to 1.7.1 used the `comma` character as the separator between applications.
-This caused breaking changes in the traditional Stream DSL.
-While not ideal, changing the separator character was felt to be the best solution with the least impact on existing users.
-
-<!--END_NOTE-->
-
 There are four applications in this stream.
 The baristaApp has two output destinations, `hotDrinks` and `coldDrinks` intended to be consumed by the `hotDrinkDeliveryApp` and `coldDrinkDeliveryApp` respectively.
 When deploying this stream, you need to set the binding properties so that the `baristaApp` sends hot drink messages to the `hotDrinkDeliveryApp` destination and cold drink messages to the `coldDrinkDeliveryApp` destination.
@@ -70,7 +62,8 @@ app.hotDrinkDeliveryApp.spring.cloud.stream.bindings.input.destination=hotDrinks
 app.coldDrinkDeliveryApp.spring.cloud.stream.bindings.input.destination=coldDrinksDest
 ```
 
-If you want to use consumer groups, you will need to set the Spring Cloud Stream application property `spring.cloud.stream.bindings.<channelName>.producer.requiredGroups` and `spring.cloud.stream.bindings.<channelName>.group` on the producer and consumer applications respectively.
+Like binding properties, the rest of all the Spring Cloud Stream properties can be configured for the producers and consumers.
+For example if you want to use consumer groups, you will need to set the Spring Cloud Stream application property `spring.cloud.stream.bindings.<channelName>.producer.requiredGroups` and `spring.cloud.stream.bindings.<channelName>.group` on the producer and consumer applications respectively.
 
 Another common use case for the Stream Application DSL is to deploy a http gateway application that sends a synchronous request/reply message to a Kafka or RabbitMQ application.
 In this case both the http gateway application and the Kafka or RabbitMQ application can be a Spring Integration application that does not make use of the Spring Cloud Stream library.
