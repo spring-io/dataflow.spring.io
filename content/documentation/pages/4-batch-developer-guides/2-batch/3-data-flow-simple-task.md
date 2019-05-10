@@ -69,8 +69,6 @@ To register an application, select `Add Applications` and `Register one or more 
 
 <!--CloudFoundry-->
 
-**TODO Replace ghillerts repo with a Spring repo or use maven central**
-
 Spring Cloud Data Flow supports maven, http, and docker resources for local deployments. For this example we will use a http resource. The URI for a https is of the form `https://<web-path>/<artifactName>-<version>.jar`. Spring Cloud Data Flow will then pull the artifact from the https URI.
 
 The Https URI for the sample app is:
