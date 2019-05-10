@@ -1,6 +1,6 @@
 ---
 path: 'batch-developer-guides/'
 title: 'Batch Developer guides '
-description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
+description: 'Develop and Launch Batch Jobs'
 summary: true
 ---
