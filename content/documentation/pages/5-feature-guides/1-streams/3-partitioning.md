@@ -8,7 +8,7 @@ Partitioning is a critical concept in stateful processing, for either performanc
 For example, in a time-windowed average calculation example, it is important that all measurements from any given sensor are processed by the same application instance.
 Alternatively, you may want to cache some data related to the incoming events so that it can be enriched without making a remote procedure call to retrieve the related data.
 
-Partitioning support allows for `content` based routing of payloads to the `downstream` application instances in a streaming data pipeline.
+Partitioning support allows for content based routing of payloads to the downstream application instances in a streaming data pipeline.
 This is especially useful when you want to have your downstream application instances processing data from specific partitions from the upstream application.
 For instance, if a processor application in the data pipeline that is performing operations based on a unique identifier from the payload (e.g., customerId), the stream can be partitioned based on that unique identity.
 
@@ -26,7 +26,7 @@ The following list shows variations of deploying partitioned streams:
 
 - **app.[app/label name].producer.partitionSelectorExpression** - A SpEL expression, evaluated against the partition key, to determine the partition index to which the message is routed. The final partition index is the return value (an integer) modulo [nextModule].count. If both the class and expression are null, the underlying binder’s default PartitionSelectorStrategy is applied to the key (default: null)
 
-In summary, an app is partitioned if its count is > 1 and the previous app has a partitionKeyExtractorClass or partitionKeyExpression (partitionKeyExtractorClass takes precedence). When a partition key is extracted, the partitioned app instance is determined by invoking the partitionSelectorClass, if present, or the partitionSelectorExpression % partitionCount. partitionCount is application count, in the case of RabbitMQ, or the underlying partition count of the topic, in the case of Kafka.
+In summary, an app is partitioned if its deployment instances count is >1 and the previous app has a partitionKeyExtractorClass or partitionKeyExpression (partitionKeyExtractorClass takes precedence). When a partition key is extracted, the partitioned app instance is determined by invoking the partitionSelectorClass, if present, or the partitionSelectorExpression % partitionCount. partitionCount is application count, in the case of RabbitMQ, or the underlying partition count of the topic, in the case of Kafka.
 
 If neither a `partitionSelectorClass` nor a `partitionSelectorExpression` is present, the result is key.hashCode() % partitionCount.
 
@@ -44,7 +44,7 @@ Let's consider the following stream:
 
 - `http` source application listens at port 9001 for incoming text/sentence
 - `splitter` processor application splits the sentence into words and partition the words based on their hash value (by using the `payload` as the partitionKeyExpression)
-- `log` sink application is scaled to run `three` application instances and each instance is expected to receive unique hash values from the upstream
+- `log` sink application is scaled to run three application instances and each instance is expected to receive unique hash values from the upstream
 
 From the Spring Cloud Data Flow Dashboard UI, Select `Streams` from the left navigation bar. This will display the main Streams view.
 
