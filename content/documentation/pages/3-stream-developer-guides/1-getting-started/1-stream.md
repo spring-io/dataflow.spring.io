@@ -1,7 +1,7 @@
 ---
-path: 'stream-developer-guides/getting-started/simple-stream'
-title: 'Simple Stream'
-description: 'Create and deploy a data streaming pipeline using pre-built applications on your Local Machine'
+path: 'stream-developer-guides/getting-started/stream/'
+title: 'Stream Processing'
+description: 'Create and deploy a streaming data pipeline using pre-built applications on your Local Machine'
 ---
 
 # Introduction

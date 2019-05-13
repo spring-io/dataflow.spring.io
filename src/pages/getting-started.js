@@ -70,19 +70,17 @@ const GettingStartedPage = () => (
             <h1>Getting started</h1>
 
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco.
+              The first step in getting started is to install Data Flow on your
+              preferred platform.
             </p>
 
             <ul className='installation-links'>
               <li>
                 <a
-                  href='/documentation/master/installation/kubernetes/'
-                  className='kubernetes'
+                  href='/documentation/master/installation/local/'
+                  className='local'
                 >
-                  Installation
-                  <strong>Kubernetes</strong>
+                  <strong>Local machine</strong>
                 </a>
               </li>
               <li>
@@ -90,73 +88,36 @@ const GettingStartedPage = () => (
                   href='/documentation/master/installation/cloudfoundry/'
                   className='cloudfoundry'
                 >
-                  Installation
                   <strong>Cloud Foundry</strong>
                 </a>
               </li>
               <li>
                 <a
-                  href='/documentation/master/installation/local/'
-                  className='local'
+                  href='/documentation/master/installation/kubernetes/'
+                  className='kubernetes'
                 >
-                  Installation
-                  <strong>Local machine</strong>
+                  <strong>Kubernetes</strong>
                 </a>
               </li>
             </ul>
-            {/* <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco:
-            </p>
-            <ul className='links'>
-              <li>
-                <a href='/'>Spring Cloud Data Flow for HashiCorp Nomad</a>
-              </li>
-              <li>
-                <a href='/'>Spring Cloud Data Flow for Red Hat OpenShift</a>
-              </li>
-              <li>
-                <a href='/'>Spring Cloud Data Flow for Apache Mesos</a>
-              </li>
-            </ul> */}
 
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod:
+              Once installed, follow the links below to try out a simple example
+              for Stream and Batch processing.
             </p>
 
             <ul className='links'>
               <li>
-                <a href='/'>Getting started with Stream Processing</a>
+                <a href='/docs/stream-developer-guides/getting-started/stream'>
+                  Getting started with Stream Processing
+                </a>
               </li>
               <li>
-                <a href='/'>Getting started with Batch Processing</a>
+                <a href='/docs/batch-developer-guides/getting-started/task/'>
+                  Getting started with Batch Processing
+                </a>
               </li>
             </ul>
-
-            {/* <h2>More resources</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod:
-            </p>
-            <ul className='links'>
-              <li>
-                <a href='/'>Lorem ipsum dolor sit amet</a>
-              </li>
-              <li>
-                <a href='/'>Consectetur adipiscing elit sed do eiusmod</a>
-              </li>
-              <li>
-                <a href='/'>Excepteur sint occaecat cupidatat non proident</a>
-              </li>
-              <li>
-                <a href='/'>Duis aute irure dolor in reprehenderit </a>
-              </li>
-              <li>
-                <a href='/'>Nemo enim ipsam voluptatem quia voluptas</a>
-              </li>
-            </ul> */}
           </div>
         </div>
       </div>

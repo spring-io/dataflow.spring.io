@@ -26,7 +26,6 @@ const CommunityPage = () => {
         <div className='layout-basic'>
           <div className='page-title'>
             <h1>Community</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             <p className='love'>
               We{' '}
               <span role='img' aria-label='love'>
@@ -42,8 +41,8 @@ const CommunityPage = () => {
                 Spring Cloud <strong>Data Flow</strong>
               </h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Microservice based Streaming and Batch data processing for Cloud
+                Foundry and Kubernetes
               </p>
               <p className='social'>
                 <a
@@ -74,8 +73,8 @@ const CommunityPage = () => {
                 Spring Cloud <strong>Stream</strong>
               </h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Event-driven Spring Boot microservices that communicate with one
+                another via messaging middleware
               </p>
               <p className='social'>
                 <a
@@ -106,8 +105,8 @@ const CommunityPage = () => {
                 Spring Cloud <strong>Task</strong>
               </h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Short-lived Spring Boot microservices that stores task execution
+                information in a database
               </p>
               <p className='social'>
                 <a
@@ -134,24 +133,48 @@ const CommunityPage = () => {
               </p>
             </article>
           </div>
-
+          <div className='box'>
+            <div className='page-colset'>
+              <p>
+                Several community members have made implementations of Data Flow
+                that deploy to other platforms. Thanks!
+              </p>
+              <ul className='links'>
+                <li>
+                  <a href='https://github.com/donovanmuller/spring-cloud-dataflow-server-nomad'>
+                    Spring Cloud Data Flow for HashiCorp Nomad
+                  </a>
+                </li>
+                <li>
+                  <a href='https://github.com/donovanmuller/spring-cloud-dataflow-server-openshift'>
+                    Spring Cloud Data Flow for Red Hat OpenShift
+                  </a>
+                </li>
+                <li>
+                  <a href='https://github.com/trustedchoice/spring-cloud-dataflow-server-mesos'>
+                    Spring Cloud Data Flow for Apache Mesos
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
           <div className='box'>
             <div className='zenhub'>
               <div className='zenhub-content'>
                 <h2>
-                  We use <strong>ZenHub</strong>
+                  We use <strong>ZenHub</strong> to manage our backlog.
                 </h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  To view the backlog please install the ZenHub browser plugin.
+                  ZenHub is available for Google Chrome and Mozilla Firefox as
+                  an extension.
                 </p>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor.
-                </p>
-                <p>
-                  <a href='#' className='button'>
-                    View the projects
+                  <a
+                    href='https://github.com/spring-cloud/spring-cloud-dataflow/pulls#workspaces/scdf-combined--573b0ae28867c41f233bb0f7/board?repos=39469487,52819699,45694880,96455695,72460646,52798744,52803867,126892412,143091335,126892627,47708564,73841717,179378165'
+                    className='button'
+                  >
+                    View the backlog
                   </a>
                 </p>
                 <div className='image'>
@@ -160,54 +183,6 @@ const CommunityPage = () => {
                 </div>
               </div>
             </div>
-
-            <div className='contributors'>
-              <h2>
-                Data Flow <strong>Team</strong>
-              </h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-              <div className='contributors-list'>
-                {contributors().map((contributor, index) => (
-                  <a
-                    href={get(contributor, 'github')}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    key={`a${index}`}
-                  >
-                    <img
-                      title={`${get(contributor, 'firstname')} ${get(
-                        contributor,
-                        'lastname'
-                      )}`}
-                      alt={`${get(contributor, 'firstname')} ${get(
-                        contributor,
-                        'lastname'
-                      )}`}
-                      key={`img${index}`}
-                      src={get(contributor, 'image')}
-                    />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className='page-footer'>
-            <IconSpring />
-
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut{' '}
-              <a
-                href='https://spring.io'
-                target='_blank'
-                rel='noreferrer noopener'
-              >
-                labore et dolore magna aliqua
-              </a>
-              .
-            </p>
           </div>
         </div>
       </div>
