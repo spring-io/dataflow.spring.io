@@ -430,10 +430,9 @@ The source application `UsageDetailSender`'s output is connected to the `UsageCo
 The `UsageCostProcessor` application's output is connected to the `UsageCostLogger` sink application's input.
 
 When these applications are run, the `Kafka` binder binds the applications output/input channels to Kafka topics.
-**TODO no need to prefix with 'test-', that is not being done in the cf/k8s cases. They should all be the same**
 
-- `UsageDetailSender`'s output and `UsageCostProcessor`'s input are bound to `test-usage-detail` topic
-- `UsageCostProcessor`'s output and `UsageCostLogger`'s input are bound to `test-usage-cost` topic.
+- `UsageDetailSender`'s output and `UsageCostProcessor`'s input are bound to `usage-detail` topic
+- `UsageCostProcessor`'s output and `UsageCostLogger`'s input are bound to `usage-cost` topic.
 
 ### Local
 
@@ -453,76 +452,75 @@ After unpacking the downloaded archive, you can start `ZooKeeper` and `Kafka` se
 ./bin/kafka-server-start.sh config/server.properties &
 ```
 
-**TODO this will show an empty list, prob should show later**
-To list the topics:
-
-```
-./bin/kafka-topics.sh --zookeeper localhost:2181 --list
-```
-
 #### Running the Source
 
 To run, we need to explicitly set the Spring Cloud Stream bindings `output.destination` property and `server.port` property.
 
-**TODO don't need the test- prefix for a topic, looks artificial.**
-
 ```
-spring.cloud.stream.bindings.output.destination=test-usage-detail
+spring.cloud.stream.bindings.output.destination=usage-detail
 server.port=0
 ```
 
 Pass these properties as command line arguments when running the `UsageDetailSender` source application.
 
 ```
-java -jar target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail  --server.port=0 &
+java -jar target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=usage-detail  --server.port=0 &
 ```
 
-Now, you can see the messages being sent to the Kafka topic `test-usage-detail` using Kafka console consumer as follows:
+Now, you can see the messages being sent to the Kafka topic `usage-detail` using Kafka console consumer as follows:
 
 ```
-./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-usage-detail
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic usage-detail
+```
+
+To list the topics:
+
+```
+./bin/kafka-topics.sh --zookeeper localhost:2181 --list
 ```
 
 #### Running the Processor
 
-To run the `UsageCostProcessor` application, you need to set the `input` binding to a Kafka topic `test-usage-detail` to receive the `UsageDetail` data and `output` binding to the Kafka topic `test-usage-cost` to send the computed `UsageCostDetail`.
+To run the `UsageCostProcessor` application, you need to set the `input` binding to a Kafka topic `usage-detail` to receive the `UsageDetail` data and `output` binding to the Kafka topic `usage-cost` to send the computed `UsageCostDetail`.
 
 ```
-spring.cloud.stream.bindings.input.destination=test-usage-detail
-spring.cloud.stream.bindings.output.destination=test-usage-cost
+spring.cloud.stream.bindings.input.destination=usage-detail
+spring.cloud.stream.bindings.output.destination=usage-cost
 ```
 
 Pass these properties as command line arguments when running the `UsageCostProcessor` processor application.
 
 ```
-java -jar target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost &
+java -jar target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=usage-detail --spring.cloud.stream.bindings.output.destination=usage-cost &
 ```
 
-With the `UsageDetail` data on the `test-usage-detail` Kafka topic using the `UsageDetailSender` source application, you can see the `UsageCostDetail` from the `test-usage-cost` Kafka topic as follows:
+With the `UsageDetail` data on the `usage-detail` Kafka topic using the `UsageDetailSender` source application, you can see the `UsageCostDetail` from the `usage-cost` Kafka topic as follows:
 
 ```
- ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-usage-cost
+ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic usage-cost
 ```
 
 #### Running the Sink
 
-For the `UsageCostLogger` application, you need to set the `input` binding to a Kafka topic `test-usage-cost` to receive the computed `UsageCostDetail`:
+For the `UsageCostLogger` application, you need to set the `input` binding to a Kafka topic `usage-cost` to receive the computed `UsageCostDetail`:
 
 ```
-spring.cloud.stream.bindings.input.destination=test-usage-cost
+spring.cloud.stream.bindings.input.destination=usage-cost
 ```
 
 Pass these properties as command line arguments when running the `UsageCostLogger` sink application.
 
 ```
-java -jar target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-cost &
+java -jar target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=usage-cost &
 ```
 
 Now, you can see that this application logs the usage cost detail.
 
 ### Cloud Foundry
 
-**TODO**
+This section will walk you through how to deploy the `UsageDetailSender`, `UsageCostProcessor` and `UsageCostLogger` applications on CloudFoundry.
+
+**TODO\***
 
 ### Kubernetes
 
