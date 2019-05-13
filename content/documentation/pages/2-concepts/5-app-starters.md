@@ -1,6 +1,6 @@
 ---
 path: 'concepts/app-starters/'
-title: 'What are Application Starters'
+title: 'Pre-built applications'
 description: 'Application Starter Concepts'
 ---
 
