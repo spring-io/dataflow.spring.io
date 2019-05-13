@@ -1,7 +1,7 @@
 .page-community {
   .layout-basic {
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: 1200px;
   }
   .page-title {
     text-align: center;
@@ -29,7 +29,11 @@
         margin: 0;
         padding: 0;
         padding-bottom: $spring-8points * 1.5;
-        font-size: 20px;
+        font-size: 22px;
+        font-weight: 400;
+        strong {
+          font-weight: 600;
+        }
       }
       p {
         padding: 0;
@@ -46,8 +50,7 @@
             margin: 0 $spring-8points/2;
             @include transition(all $spring-transition-duration);
             svg {
-              max-width: 25px;
-              max-height: 25px;
+              height: 22px;
             }
             &:hover {
               color: $spring-link-color;
@@ -60,6 +63,14 @@
       }
     }
   }
+  p {
+    &.love {
+      color: $spring-color;
+      font-size: 18px;
+      font-weight: bold;
+      padding-bottom: $spring-8points;
+    }
+  }
   .page-footer {
     text-align: center;
     max-width: 600px;
@@ -69,19 +80,93 @@
     p {
       padding: 0;
       margin: 0;
-      &.love {
-        color: $spring-color;
-        font-size: 18px;
-        font-weight: bold;
-        padding-bottom: $spring-8points;
-      }
     }
-    .spring {
+    .icon-spring {
       $s: 60px;
-      color: darken($spring-gray-color, 3);
+      color: $spring-link-color;
       width: $s;
       height: $s;
-      margin: $spring-8points * 6 0 0 0;
+      margin: $spring-8points * 2 0 $spring-8points * 4 0;
+    }
+  }
+
+  .contributors {
+    @include clearfix;
+    padding: $spring-8points * 3 $spring-8points * 4;
+    margin-top: $spring-8points * 5;
+    padding-top: $spring-8points * 6;
+    border-top: 1px solid darken($spring-gray-color, 2);
+    .contributors-list {
+      line-height: 0px;
+      a {
+        display: inline-block;
+        padding: $spring-8points/2;
+        img {
+          width: 60px;
+          border-radius: 30px;
+          @include transition(all $spring-transition-duration);
+          opacity: 0.8;
+        }
+        &:hover {
+          img {
+            transform: scale(1.1);
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  .box {
+    width: 950px;
+    margin: 0 auto;
+    //border: 1px solid darken($spring-gray-color, 4);
+    padding: $spring-8points * 4 $spring-8points * 5;
+    margin-top: $spring-8points * 8;
+    box-shadow: 0 2px 6px 0 rgba($spring-color, 0.1);
+    a.button {
+      @include button-dark($spring-primary-color, white, $spring-8points * 2);
+    }
+    h2 {
+      padding: 0;
+      margin: 0;
+      font-weight: 200;
+      font-size: 26px;
+      strong {
+        font-weight: 600;
+      }
+    }
+    p {
+      padding: 0;
+      padding-bottom: $spring-8points;
+    }
+  }
+
+  .zenhub {
+    height: 360px;
+    border-radius: $spring-radius;
+    padding-top: $spring-8points;
+    .zenhub-content {
+      position: relative;
+      margin: 0 auto;
+      padding-right: 450px;
+      padding-top: $spring-8points * 6;
+      padding-left: $spring-8points * 3;
+    }
+    .image {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 430px;
+      .icon-zenhub {
+        position: absolute;
+        top: 13px;
+        right: 25px;
+        border-radius: 30px;
+        padding: 12px;
+        background: #5e60ba;
+        z-index: 88;
+      }
     }
   }
 }

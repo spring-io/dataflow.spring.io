@@ -1,0 +1,113 @@
+[
+  {
+    "firstname": "Damien",
+    "lastname": "Vitrac",
+    "twitter": "https://twitter.com/oodamien",
+    "github": "https://github.com/oodamien",
+    "image": "https://avatars2.githubusercontent.com/u/487067?s=460&v=4"
+  },
+  {
+    "firstname": "Mark",
+    "lastname": "Pollack",
+    "twitter": "https://twitter.com/markpollack",
+    "github": "https://github.com/markpollack",
+    "image": "https://avatars0.githubusercontent.com/u/247466?s=460&v=4"
+  },
+  {
+    "firstname": "Sabby",
+    "lastname": "Anandan",
+    "twitter": "https://twitter.com/sabbyanandan",
+    "github": "https://github.com/sabbyanandan",
+    "image": "https://avatars1.githubusercontent.com/u/1562654?s=460&v=4"
+  },
+  {
+    "firstname": "Janne",
+    "lastname": "Valkealahti",
+    "github": "https://github.com/jvalkeal",
+    "twitter": "https://twitter.com/tunebluez",
+    "image": "https://avatars3.githubusercontent.com/u/50398?s=460&v=4"
+  },
+  {
+    "firstname": "Chris",
+    "lastname": "Schaefer",
+    "github": "https://github.com/chrisjs",
+    "image": "https://avatars1.githubusercontent.com/u/539358?s=460&v=4"
+  },
+  {
+    "firstname": "Christian",
+    "lastname": "Tzolov",
+    "twitter": "https://twitter.com/christzolov",
+    "github": "https://github.com/tzolov",
+    "image": "https://avatars1.githubusercontent.com/u/1351573?s=460&v=4"
+  },
+  {
+    "firstname": "David",
+    "lastname": "Turanski",
+    "twitter": "https://twitter.com/dturanski",
+    "github": "https://github.com/dturanski",
+    "image": "https://avatars3.githubusercontent.com/u/886859?s=460&v=4"
+  },
+  {
+    "firstname": "Ilayaperumal",
+    "lastname": "Gopinathan",
+    "twitter": "https://twitter.com/ilayaperumalg",
+    "github": "https://github.com/ilayaperumalg",
+    "image": "https://avatars1.githubusercontent.com/u/151690?s=460&v=4"
+  },
+  {
+    "firstname": "Gunnar",
+    "lastname": "Hillert",
+    "lang": ["English", "German"],
+    "twitter": "https://twitter.com/ghillert",
+    "github": "https://github.com/ghillert",
+    "image": "https://avatars0.githubusercontent.com/u/685363?s=460&v=4"
+  },
+  {
+    "firstname": "Michael",
+    "lastname": "Minella",
+    "twitter": "https://twitter.com/michaelminella",
+    "github": "https://github.com/mminella",
+    "image": "https://avatars2.githubusercontent.com/u/630743?s=460&v=4"
+  },
+  {
+    "firstname": "Jay",
+    "lastname": "Bryant",
+    "github": "https://github.com/Buzzardo",
+    "image": "https://avatars3.githubusercontent.com/u/5225162?s=460&v=4"
+  },
+  {
+    "firstname": "Glenn",
+    "lastname": "Renfro",
+    "twitter": "https://twitter.com/cppwfs",
+    "github": "https://github.com/cppwfs",
+    "image": "https://avatars0.githubusercontent.com/u/695673?s=460&v=4"
+  },
+  {
+    "firstname": "Oleg",
+    "lastname": "Zhurakousky",
+    "twitter": "https://twitter.com/z_oleg",
+    "github": "https://github.com/olegz",
+    "image": "https://avatars3.githubusercontent.com/u/172397?s=460&v=4"
+  },
+  {
+    "firstname": "Soby",
+    "lastname": "Chacko",
+    "twitter": "https://twitter.com/sobychacko",
+    "github": "https://github.com/sobychacko",
+    "image": "https://avatars1.githubusercontent.com/u/827682?s=460&v=4"
+  },
+  {
+    "firstname": "Artem",
+    "lastname": "Bilan",
+    "twitter": "https://twitter.com/artem_bilan",
+    "github": "https://github.com/artembilan",
+    "image": "https://avatars1.githubusercontent.com/u/1071590?s=460&v=4"
+  },
+  {
+    "firstname": "Gary",
+    "lastname": "Russell",
+    "twitter": "https://twitter.com/gprussell",
+    "github": "https://github.com/garyrussell",
+    "image": "https://avatars2.githubusercontent.com/u/483832?s=460&v=4"
+  }
+]

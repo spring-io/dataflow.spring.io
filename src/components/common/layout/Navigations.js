@@ -63,12 +63,12 @@ class Navigation extends React.Component {
             <>
               <div className='navigation'>
                 <NavigationLink active name='Features' to='/features/' />
+                <NavigationLink active name='Documentation' to='/docs/' />
                 <NavigationLink
                   active
-                  name='Documentation'
-                  to='/documentation/'
+                  name='Getting Started'
+                  to='/getting-started/'
                 />
-                <NavigationLink active name='Download' to='/download/' />
                 <NavigationLink active name='Community' to='/community/' />
               </div>
               <div className='navigation right'>

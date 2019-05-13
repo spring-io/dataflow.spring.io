@@ -1,0 +1,59 @@
+.page-doc {
+  .links {
+    .col {
+      display: flex;
+      padding: $spring-8points 0;
+      .item {
+        display: block;
+        flex: 280px 0;
+        margin-left: $spring-8points * 2;
+        padding: $spring-8points * 3;
+      }
+      a.item {
+        background: $spring-gray-color;
+        cursor: pointer;
+        @include effect-box(1.02, $spring-transition-duration);
+        text-align: center;
+        h2 {
+          margin: 0;
+          padding: 0;
+          font-size: 18px;
+          color: $spring-color;
+        }
+        div {
+          padding: $spring-8points * 1 0;
+          color: #666;
+          margin: 0 auto;
+          max-width: 260px;
+        }
+        &:hover {
+          text-decoration: none;
+          .read-me {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  .layout-col {
+    display: flex;
+    padding: $spring-8points * 4 $spring-8points * 2;
+    //max-width: 1400px;
+    //margin: 0 auto;
+    .left {
+      flex: 300px 0;
+      padding-right: 120px;
+      border-right: 1px solid lighten($spring-border-color, 10);
+    }
+
+    .links {
+      flex: 1;
+    }
+  }
+
+  .page-title {
+    p {
+      color: #666;
+    }
+  }
+}

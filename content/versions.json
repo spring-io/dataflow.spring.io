@@ -1,4 +1,5 @@
 {
   "1.0.1": "1.0.1",
-  "latest": "master"
+  "current": "master",
+  "next": "next"
 }

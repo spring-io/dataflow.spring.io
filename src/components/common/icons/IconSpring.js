@@ -1,12 +1,16 @@
 import React from 'react'
 
-export const IconSpring = ({ className }) => (
+export const IconSpring = () => (
   <svg
-    xmlns='http://www.w3.org/2000/svg'
+    aria-hidden='true'
+    focusable='false'
     viewBox='0 0 767.8 768'
     width='25'
     height='25'
-    className={className}
+    className='icon-spring'
+    data-icon='spring'
+    role='img'
+    xmlns='http://www.w3.org/2000/svg'
   >
     <path
       fill='currentColor'

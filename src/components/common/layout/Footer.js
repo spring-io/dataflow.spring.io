@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 
 import Logo from './Logo'
+import { IconGithub, IconGitter, IconStackOverflow } from '../icons'
 
 const Footer = () => (
   <footer className='footer'>
@@ -10,13 +11,20 @@ const Footer = () => (
         <div className='col col-copyright'>
           <div className='logo'>
             <Logo />
-            <div>
-              Spring Cloud <strong>Data Flow</strong>
-              <br />
-              <span>Powered by Pivotal</span>
-            </div>
+            <span>Powered by Pivotal</span>
           </div>
           <div className='copyright-links'>
+            <div className='social'>
+              <a>
+                <IconGithub className='github' />
+              </a>
+              <a>
+                <IconGitter className='gitter' />
+              </a>
+              <a>
+                <IconStackOverflow className='stackoverflow' />
+              </a>
+            </div>
             <div className='copyright'>
               <p>
                 © 2013-{new Date().getFullYear()} Pivotal Software, Inc. All

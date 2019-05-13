@@ -1,57 +1,107 @@
 .home-page {
-  .page-title {
-    padding: $spring-8points * 2 0 $spring-8points * 4;
-    text-align: center;
-    h1 {
-      margin: 0;
-      padding: 0;
-      padding-bottom: $spring-8points * 2;
-    }
-    p {
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  .band {
-    height: 680px;
-    text-align: center;
-    .band-background {
-      background: $spring-gray-color;
-      height: 400px;
-      border-bottom: 1px solid darken($spring-gray-color, 5);
-    }
-    .text {
-      padding: $spring-8points * 6 0;
-      p {
+  main {
+    .page-title {
+      padding: $spring-8points * 2 0 $spring-8points * 4;
+      text-align: center;
+      h1 {
+        margin: 0;
         padding: 0;
-        margin: 0 auto;
-        &.title {
-          font-size: 26px;
-        }
-        &.description {
-          color: #666;
-          padding: $spring-8points * 2 0 0 0;
-          max-width: 450px;
-          font-size: 18px;
-          strong {
-            color: $spring-color;
-            font-weight: normal;
+        padding-bottom: $spring-8points * 2;
+      }
+      p {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .band {
+      height: 680px;
+      text-align: center;
+      .band-background {
+        background: $spring-gray-color;
+        height: 400px;
+        border-bottom: 1px solid darken($spring-gray-color, 5);
+      }
+      .text {
+        padding: $spring-8points * 6 0;
+        p {
+          padding: 0;
+          margin: 0 auto;
+          &.title {
+            font-size: 26px;
+            letter-spacing: -1px;
           }
-          a {
+          &.description {
+            color: #666;
+            padding: $spring-8points * 2 0 0 0;
+            max-width: 450px;
+            font-size: 18px;
+            strong {
+              color: $spring-color;
+              font-weight: normal;
+            }
+            a {
+            }
           }
         }
       }
+      .player {
+        background: green;
+        width: 800px;
+        height: 450px;
+        margin: 0 auto;
+        box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.15),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+        border-radius: $spring-radius;
+        overflow: hidden;
+      }
     }
-    .player {
-      background: green;
-      width: 800px;
-      height: 450px;
+
+    .colset {
+      display: flex;
+      max-width: 1400px;
       margin: 0 auto;
-      box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.15),
-        inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-      border-radius: $spring-radius;
-      overflow: hidden;
+      padding-top: $spring-8points;
+      padding-bottom: $spring-8points * 6;
+      .col {
+        flex: 1;
+        margin-left: $spring-8points * 4;
+        background: $spring-gray-color;
+        @include effect-box(1.02, $spring-transition-duration);
+        cursor: default;
+        &.col-1 {
+          margin-left: 0;
+        }
+        &.col-2 {
+        }
+        &.col-1,
+        &.col-3 {
+          margin-top: $spring-8points * 2;
+          margin-bottom: $spring-8points * 2;
+        }
+      }
+      article {
+        padding: 40px;
+        text-align: center;
+        h2,
+        p {
+          margin: 0;
+          padding: 0;
+        }
+        h2 {
+          font-size: 20px;
+        }
+        p {
+          padding-top: $spring-8points * 2;
+        }
+        a {
+          @include button-dark(
+            $spring-primary-color,
+            white,
+            $spring-8points * 2
+          );
+        }
+      }
     }
   }
 }

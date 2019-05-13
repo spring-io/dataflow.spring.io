@@ -57,7 +57,7 @@ class VersionSelect extends React.Component {
                 )}
                 onClick={() => {
                   if (this.props.version !== version.key) {
-                    navigate(`/documentation/${version.key}/`)
+                    navigate(version.path)
                   }
                 }}
                 key={`a${version.key}`}

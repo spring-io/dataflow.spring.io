@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types'
 import get from 'lodash.get'
 import path from 'path'
+const versions = require('../../../content/versions.json')
+const currentVersion = versions.current
+
+const isDev = process.env.NODE_ENV === 'development'
 
 /**
  * Create a formatted node object
@@ -36,13 +40,53 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
   const getNode = (edge, value) => {
     return edge.edges.find(({ node }) => get(node, 'fields.path') === value)
   }
-  while (url !== `/documentation/${get(page, 'fields.version')}/`) {
-    result.push(getNodeFormatted(arr, get(getNode(arr, url), 'node')))
+  while (url !== `/docs/`) {
+    const node = get(getNode(arr, url), 'node')
+    if (!node) {
+      const version = url.substr(`/docs/`.length).replace('/', '')
+      result.push({
+        title: version,
+        path: url,
+        description: '',
+        meta: {
+          title: `Spring Cloud Data Flow Documentation ${version}`,
+          description: 'Spring Cloud Data Flow Documentation',
+          keywords: [],
+        },
+      })
+    } else {
+      result.push(getNodeFormatted(arr, get(getNode(arr, url), 'node')))
+    }
     url = path.join(path.dirname(url), '/')
   }
+
+  if (get(page, 'fields.version') === currentVersion) {
+    result.push({
+      title: `${get(page, 'fields.version')} (current)`,
+      path: `/docs/`,
+      description: '',
+      meta: {
+        title: 'Spring Cloud Data Flow Documentation',
+        description: 'Spring Cloud Data Flow Documentation',
+        keywords: [],
+      },
+    })
+  }
+
+  // result.push({
+  //   title: get(page, 'fields.version'),
+  //   path: `/docs/${get(page, 'fields.version')}`,
+  //   description: '',
+  //   meta: {
+  //     title: 'Spring Cloud Data Flow Documentation',
+  //     description: 'Spring Cloud Data Flow Documentation',
+  //     keywords: [],
+  //   },
+  // })
+
   result.push({
-    title: get(page, 'fields.version'),
-    path: `/documentation/${get(page, 'fields.version')}`,
+    title: 'Documentation',
+    path: '/docs/',
     description: '',
     meta: {
       title: 'Spring Cloud Data Flow Documentation',
@@ -51,16 +95,6 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     },
   })
 
-  result.push({
-    title: 'Documentation',
-    path: '/documentation',
-    description: '',
-    meta: {
-      title: 'Spring Cloud Data Flow Documentation',
-      description: 'Spring Cloud Data Flow Documentation',
-      keywords: [],
-    },
-  })
   return result.reverse()
 }
 
@@ -310,11 +344,20 @@ getMeta.proptypes = {
  * Object to array
  */
 export const getVersions = function getVersions(arr) {
-  return Object.entries(arr).map(([key, value]) => ({
-    key: value,
-    title: key === 'latest' ? ` ${value} (latest)` : value,
-    path: `/documentation/${value}`,
-  }))
+  return Object.entries(arr)
+    .map(([key, value]) => {
+      if (!(!isDev && key === 'next')) {
+        let title = key === 'current' ? `${value} (current)` : value
+        title = title === 'next' ? `${value} (dev)` : title
+        const path = key === 'current' ? `/docs/` : `/docs/${value}`
+        return {
+          key: value,
+          title: title,
+          path: path,
+        }
+      }
+    })
+    .filter(a => !!a)
 }
 
 getVersions.proptypes = {

@@ -1,11 +1,14 @@
 import React from 'react'
 
-export const IconSearch = ({ className }) => (
+export const IconSearch = () => (
   <svg
     aria-hidden='true'
     focusable='false'
     viewBox='0 0 512 512'
-    className={className}
+    className='icon-search'
+    data-icon='search'
+    role='img'
+    xmlns='http://www.w3.org/2000/svg'
   >
     <path
       fill='currentColor'

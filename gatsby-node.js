@@ -4,6 +4,10 @@ const startsWith = require('lodash.startswith')
 const { createFilePath } = require('gatsby-source-filesystem')
 const versions = require('./content/versions.json')
 
+const currentVersion = versions.current
+
+const isDev = process.env.NODE_ENV === 'development'
+
 /**
  * Create Pages
  */
@@ -11,18 +15,25 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   const queryPromises = []
 
+  let excludeKeys = ['current', 'next']
+  if (isDev) {
+    excludeKeys = ['current']
+  }
+
   queryPromises.push(
     new Promise((resolve, reject) => {
-      for (const [, version] of Object.entries(versions)) {
-        const VersionTemplate = path.resolve(`./src/templates/version.js`)
-        createPage({
-          path: `/documentation/${version}/`,
-          component: VersionTemplate,
-          context: {
-            version: version,
-            versionPath: `/documentation/${version}/`,
-          },
-        })
+      for (const [key, version] of Object.entries(versions)) {
+        if (excludeKeys.indexOf(key) === -1) {
+          const VersionTemplate = path.resolve(`./src/templates/version.js`)
+          createPage({
+            path: `/docs/${version}/`,
+            component: VersionTemplate,
+            context: {
+              version: version,
+              versionPath: `/docs/${version}/`,
+            },
+          })
+        }
       }
       return resolve()
     })
@@ -58,14 +69,17 @@ exports.createPages = ({ graphql, actions }) => {
           const DocumentationTemplate = path.resolve(
             `./src/templates/documentation.js`
           )
-          createPage({
-            path: node.fields.path,
-            component: DocumentationTemplate,
-            context: {
-              slug: node.fields.path,
-              version: node.fields.version,
-            },
-          })
+
+          if (!(!isDev && node.fields.version === 'next')) {
+            createPage({
+              path: node.fields.path,
+              component: DocumentationTemplate,
+              context: {
+                slug: node.fields.path,
+                version: node.fields.version,
+              },
+            })
+          }
         })
         return resolve()
       })
@@ -97,7 +111,12 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
           .slice(0, 1)
           .join('')
         const isRoot = frontmatterPath.split('/').length === 2
-        const url = `/documentation/${version}/${frontmatterPath}`
+        let url = `/docs/${version}/${frontmatterPath}`
+
+        if (version === currentVersion) {
+          url = `/docs/${frontmatterPath}`
+        }
+
         createNodeField({
           node,
           name: `hash`,

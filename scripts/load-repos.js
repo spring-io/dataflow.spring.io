@@ -16,7 +16,7 @@ const loadRepos = async () => {
   createDir(DATA_DIR)
   const uniqueVersions = [...new Set(Object.values(versions))]
   for (let version of uniqueVersions) {
-    if (version === 'master') {
+    if (version === 'next' || version === 'master') {
       info(`Skipping master`)
       continue
     }

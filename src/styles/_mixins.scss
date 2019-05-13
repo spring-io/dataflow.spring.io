@@ -56,3 +56,29 @@
     }
   }
 }
+
+@mixin button-dark($background, $color, $padding) {
+  display: inline-block;
+  border: 0 none;
+  background-color: $background;
+  border-radius: $spring-radius;
+  font-family: $spring-font-family;
+  font-size: $spring-font-size;
+  line-height: 38px;
+  padding: 0 $padding;
+  font-weight: normal;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba($color, 0.9);
+
+  @include transition(all $spring-transition-duration);
+  &:hover {
+    background-color: darken($background, 3);
+    color: $color;
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

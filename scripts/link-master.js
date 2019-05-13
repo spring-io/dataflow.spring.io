@@ -8,6 +8,7 @@ const DATA_DIR = path.join(__dirname, '../data')
 
 const linkMaster = async () => {
   info('Linking master')
+  linkFile(MASTER_DIR, path.join(DATA_DIR, 'next'))
   linkFile(MASTER_DIR, path.join(DATA_DIR, 'master'))
 }
 

@@ -2,7 +2,7 @@
   .layout-basic {
     padding-top: $spring-8points * 4;
     padding-bottom: $spring-8points * 6;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
   }
   .page-title {
@@ -22,7 +22,7 @@
     display: flex;
     .col {
       flex: 1;
-      padding-left: $spring-8points * 6;
+      padding-left: $spring-8points * 10;
       &:first-child {
         padding-left: 0;
       }
@@ -58,6 +58,7 @@
         margin: 0 auto;
         &.title {
           font-size: 26px;
+          letter-spacing: -1px;
         }
         &.description {
           color: #666;

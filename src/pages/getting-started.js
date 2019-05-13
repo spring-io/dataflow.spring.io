@@ -3,8 +3,8 @@ import React from 'react'
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
 
-const DownloadPage = () => (
-  <Layout className='page-download'>
+const GettingStartedPage = () => (
+  <Layout className='page-getting-started'>
     <Seo title='Spring Cloud Data Flow Download' />
     <div className='container'>
       <div className='layout-sidebars layout-2-sidebars'>
@@ -67,7 +67,7 @@ const DownloadPage = () => (
         </div>
         <div className='main'>
           <div className='main-content'>
-            <h1>Download</h1>
+            <h1>Getting started</h1>
 
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -104,7 +104,7 @@ const DownloadPage = () => (
                 </a>
               </li>
             </ul>
-            <p>
+            {/* <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco:
@@ -119,49 +119,23 @@ const DownloadPage = () => (
               <li>
                 <a href='/'>Spring Cloud Data Flow for Apache Mesos</a>
               </li>
-            </ul>
+            </ul> */}
 
-            <h2>Download Spring Cloud Data Flow</h2>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod:
             </p>
-            <table>
-              <tbody>
-                <tr>
-                  <td>Kubernetes Server 2.0.1</td>
-                  <td>
-                    <a href='/'>Download</a>
-                  </td>
-                  <td>
-                    <a href='/'>Documentation</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Cloud Foundry Server 2.0.1</td>
-                  <td>
-                    <a href='/'>Download</a>
-                  </td>
-                  <td>
-                    <a href='/'>Documentation</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Local Server 2.0.1</td>
-                  <td>
-                    <a href='/'>Download</a>
-                  </td>
-                  <td>
-                    <a href='/'>Documentation</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <p>
-              Lorem ipsum dolor sit amet, <a href='/'>view all the releases</a>.
-            </p>
 
-            <h2>More resources</h2>
+            <ul className='links'>
+              <li>
+                <a href='/'>Getting started with Stream Processing</a>
+              </li>
+              <li>
+                <a href='/'>Getting started with Batch Processing</a>
+              </li>
+            </ul>
+
+            {/* <h2>More resources</h2>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod:
@@ -182,7 +156,7 @@ const DownloadPage = () => (
               <li>
                 <a href='/'>Nemo enim ipsam voluptatem quia voluptas</a>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
       </div>
@@ -190,4 +164,4 @@ const DownloadPage = () => (
   </Layout>
 )
 
-export default DownloadPage
+export default GettingStartedPage
