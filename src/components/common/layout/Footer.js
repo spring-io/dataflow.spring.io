@@ -1,11 +1,17 @@
+import Helmet from 'react-helmet'
 import React from 'react'
-import { Link } from 'gatsby'
 
 import Logo from './Logo'
 import { IconGithub, IconGitter, IconStackOverflow } from '../icons'
 
 const Footer = () => (
   <footer className='footer'>
+    <Helmet>
+      <script
+        src='https://consent.trustarc.com/notice?domain=pivotal.com&c=teconsent&js=nj&text=true&pcookie&gtm=1'
+        async='async'
+      />
+    </Helmet>
     <div className='container'>
       <div className='colset'>
         <div className='col col-copyright'>
@@ -15,13 +21,25 @@ const Footer = () => (
           </div>
           <div className='copyright-links'>
             <div className='social'>
-              <a>
+              <a
+                target='_blank'
+                rel='noreferrer noopener'
+                href='https://github.com/spring-cloud/spring-cloud-dataflow'
+              >
                 <IconGithub className='github' />
               </a>
-              <a>
+              <a
+                target='_blank'
+                rel='noreferrer noopener'
+                href='https://gitter.im/spring-cloud/spring-cloud-dataflow'
+              >
                 <IconGitter className='gitter' />
               </a>
-              <a>
+              <a
+                target='_blank'
+                rel='noreferrer noopener'
+                href='https://stackoverflow.com/questions/tagged/spring-cloud-dataflow'
+              >
                 <IconStackOverflow className='stackoverflow' />
               </a>
             </div>
@@ -34,13 +52,25 @@ const Footer = () => (
             </div>
             <ul>
               <li>
-                <Link to='/'>Terms of service</Link>
+                <a
+                  target='_blank'
+                  rel='noreferrer noopener'
+                  href='https://pivotal.io/legal'
+                >
+                  Terms of service
+                </a>
               </li>
               <li>
-                <Link to='/'>Privacy</Link>
+                <a
+                  target='_blank'
+                  rel='noreferrer noopener'
+                  href='https://pivotal.io/privacy-policy'
+                >
+                  Privacy
+                </a>
               </li>
               <li>
-                <Link to='/'>Cookie Preferences</Link>
+                <span id='teconsent' />
               </li>
             </ul>
           </div>

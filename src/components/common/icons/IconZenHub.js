@@ -11,7 +11,7 @@ export const IconZenHub = () => (
     role='img'
     xmlns='http://www.w3.org/2000/svg'
   >
-    <g fill='none' fill-rule='evenodd'>
+    <g fill='none' fillRule='evenodd'>
       <path fill='#5e60ba' d='M0 0v176h176V0H0' />
       <path
         fill='#fff'

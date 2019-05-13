@@ -168,11 +168,12 @@ const CommunityPage = () => {
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
               <div className='contributors-list'>
-                {contributors().map(contributor => (
+                {contributors().map((contributor, index) => (
                   <a
                     href={get(contributor, 'github')}
                     target='_blank'
                     rel='noopener noreferrer'
+                    key={`a${index}`}
                   >
                     <img
                       title={`${get(contributor, 'firstname')} ${get(
@@ -183,6 +184,7 @@ const CommunityPage = () => {
                         contributor,
                         'lastname'
                       )}`}
+                      key={`img${index}`}
                       src={get(contributor, 'image')}
                     />
                   </a>
