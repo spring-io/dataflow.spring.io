@@ -8,14 +8,14 @@ description: 'Python/Docker as SCDF Task'
 
 This recipe shows how to run a custom Python script as a [Data Flow Task](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-task) and how to orchestrate later as [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks).
 
-The approach requires the scripts to be bundled as docker images and is applicable for the `Local` and `Kubernetes` runtime platform.
+The approach requires the Python script to be bundled in a docker image, which can then be used in SCDF's `Local` and `Kubernetes` implementations.
 
-Following diagram helps to visualize the component involved and the control flow of this approach.
+Following diagram walks through the architecture and the various components involved in the solution.
 
 ![SCDF Python Tasks](images/python_docker_task_self_managed_status.png)
 
-When launched, the custom script executes its task and completes with either a successfully or failure status.
-Because this is not a standard Sprint Cloud Task, the script is responsible to manage its life cycle state within the Data Flow database!
+When SCDF launches the Python script as a task, the script runs and completes with either a success or failure status.
+Because this is not a standard Sprint Cloud Task application, it is the user's responsibility to manage the life cycle and update the state to the shared database that is also used by SCDF.
 Utilities are provided to help handle the launch arguments and manage the task status within the Data Flow database.
 
 <!--TIP-->
@@ -31,7 +31,7 @@ Follow the [installation instructions](/documentation/master/installation/kubern
 Register and launch a python scrip as SCDF task:
 
 ```bash
-dataflow:>app register --type task  --name python-task-with-status --uri docker://tzolov/python_task_with_status:0.1
+dataflow:>app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
 dataflow:>task create --name python-task --definition "python-task-with-status"
 dataflow:>task launch --name python-task
 ```
@@ -47,7 +47,8 @@ Use the SCDF UI/task or shell (task list) to monitor the status of the python-ta
 
 ## Recipe Details
 
-The [python_task.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/python_task.py) below illustrates a sample Python script that can be registered as Spring Cloud Task. When launched this script prints an acknowledgment message, sleep for 60 seconds and completes successfully.
+The [python_task.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/python_task.py) below illustrates a sample Python script that can be registered as Spring Cloud Task.
+When launched, the Python script prints an acknowledgment message, it then sleeps for 60 seconds and completes afterward.
 If the `--error.message=<Text>` launch argument is present, then the script throws an exception to simulate an execution failure.
 
 ```python
@@ -81,11 +82,11 @@ except Exception as exp:
 
 <!--IMPORTANT-->
 
-Unlike the `Spring Cloud Tasks`, the Python tasks are responsible to manage their own states within the SCDF database.
+Since the Python script is not managed by `Spring Cloud Task`, is the user's responsibility to manage and update the progress with the SCDF database.
 
 <!--END_IMPORTANT-->
 
-To parse the input arguments and to mange its state in Data Flow, the custom script can leverage the following utilities:
+To parse the input arguments and to manage its state in Data Flow, the custom script can leverage the following utilities:
 
 - The [task_status.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_status.py) helps to access and update the Data Flow `TASK_EXECUTION` table in order to reflects task's life cycle changes. The `TaskStatus` class takes `task id` and `sqlalchemy url` arguments, computed from the command line arguments and provides API for setting the task status to `running`, `completed` or `failed(with exitCode, errorMessage)`.
   The following command line arguments are required to allow the task access the Data Flow's database:
@@ -164,22 +165,22 @@ dataflow:>task launch --name sequence1
 - Build the docker image and push it to (your) the DockerHub.
 
   ```bash
-  docker build -t tzolov/python_task_with_status:0.1 .
-  docker push tzolov/python_task_with_status:0.1
+  docker build -t springcloud/python-task-with-status:0.1 .
+  docker push springcloud/python-task-with-status:0.1
   ```
 
-  Tip: replace `tzolov` with your docker hub prefix.
+  Tip: replace `springcloud` with your docker hub prefix.
 
 * Register the docker image as SCDF task application:
 
   ```bash
-  dataflow:>app register --type task  --name python-task-with-status --uri docker://tzolov/python_task_with_status:0.1
+  dataflow:>app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
   ```
 
 * Create task instance and launch it:
 
   ```bash
-  dataflow:>app register --type task  --name python-task-with-status --uri docker://tzolov/python_task_with_status:0.1
+  dataflow:>app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
   dataflow:>task create --name python-task --definition "python-task-with-status"
   dataflow:>task launch --name python-task
   ```
