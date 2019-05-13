@@ -7,8 +7,8 @@ description: 'Scheduling Batch Jobs'
 # Batch Job Scheduling
 
 In [Batch Developers Guide](%currentPath%/batch-developer-guides/) we showed you how to build batch applications and launch them in an adh-hoc fashion.  
-But typically batch are launched at as scheduled time or based on some event.
-In this section we will show you you how you can schedule the launch of your task events using Spring Cloud Data Flow.
+But typically batch jobs are launched at as scheduled time or based on some event.
+In this section, we will show you how you can schedule the launch of the batch jobs using Spring Cloud Data Flow.
 
 ## Spring Cloud Data Flow Scheduling Overview
 
@@ -30,17 +30,17 @@ So for this scenario we want to launch this application once a minute. To do thi
 
 <!--CloudFoundry-->
 
-In the sample below we set the name of the schedule to `timestamp-task-once-a-minute` and the cron expression to `*/1 * ? * *`.  
+In the sample below we set the name of the schedule to `timestamp-task-once-a-minute` and the [cron expression](https://docs.pivotal.io/pcf-scheduler/1-2/using-jobs.html#schedule-job) to `*/1 * ? * *`.
 Notice that the cron expression is expressed in the format used by Quartz.
 Also notice we can add command line arguments and deployment parameters for this schedule, but we will not do so for this example.
-Now press the `Schedule the task button`. Now PCF Scheduler will handle the scheduled launches for your batch application.
+Once you have entered the cron expression, press the `Schedule the task button`. Now PCF Scheduler will handle the scheduled launches for your batch application.
 
 ![Schedule Batch App Cloud Foundry](images/SCDF-schedule-cloud-foundry.png)
 
 <!--Kubernetes-->
 
 In the sample below we set the name of the schedule to `timestamp-task-once-a-minute`
-and the cron expression to `*/1 * * * *`.
+and the [cron expression](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) to `*/1 * * * *`.
 Notice we can add command line arguments and deployment parameters for this schedule, but we will not do so for this example.
 Now press the `Schedule the task button`. Now a Cron Job has been created to handle the scheduled launches for your batch application.
 
