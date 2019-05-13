@@ -8,7 +8,7 @@ description: 'Programming models'
 
 Spring Cloud Stream provides the flexibility to build the streaming applications using different programming models.
 
-- _Message Channels_
+- _Imperative_
 - _Functional_
 - _Kafka Streams_
 
@@ -41,7 +41,7 @@ For the data transformation between the source and sink steps, we will highlight
 **Code:**
 
 <!--TABS-->
-<!--Message Channels-->
+<!--Imperative-->
 
 ```java
 @EnableBinding(Processor.class)
@@ -94,7 +94,7 @@ public class KafkaStreamsSampleProcessor {
 **Configuration: _(application.properties)_**
 
 <!--TABS-->
-<!--Message Channels-->
+<!--Imperative-->
 
 ```properties
 spring.cloud.stream.bindings.input.destination=incomingDataTopic

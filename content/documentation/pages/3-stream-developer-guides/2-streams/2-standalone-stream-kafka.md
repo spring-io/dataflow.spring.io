@@ -1,7 +1,7 @@
 ---
 path: 'stream-developer-guides/streams/standalone-stream-kafka/'
-title: 'Standalone Streaming Application Development on Apache Kafka'
-description: 'Create a simple stream processing application on Apache Kafka'
+title: 'Stream Application Development on Apache Kafka'
+description: 'Create your own microservices for Stream processing using Apache Kafka and deploy them manually'
 ---
 
 # Stream Processing with Apache Kafka
@@ -21,7 +21,7 @@ wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/d
 
 ## Development
 
-We will create three Spring Cloud Stream applications that communicate using RabbitMQ.
+We will create three Spring Cloud Stream applications that communicate using Kafka.
 
 The scenario is a cell phone company creating bills for its customers.
 Each call made by a user will have a `duration` and an amount of `data` used during the call.
@@ -38,14 +38,15 @@ The three streaming applications are:
 
 - The `Sink` application named `UsageCostLogger` Consumes the `UsageCostDetail` object and logs the cost of the call and data.
 
-### Source
+### UsageDetailSender source
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-kafka&name=usage-detail-sender-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web)
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-kafka&name=usage-detail-sender-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web&style=cloud-connectors)
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender-kafka`.
 1. In the Dependencies text box, type `Kafka` to select the Kafka binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
+1. If your target platform is `Cloud Foundry`, then type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-detail-sender-kafka.zip` file and import the project into your favorite IDE.
@@ -95,11 +96,25 @@ Now let's create the code required for this application.
 
 The `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware.
 The annotation takes one or more interfaces as a parameter, in this case the [Source](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Source.java) interface that defines an output channel named `output`.
-In the case of RabbitMQ, messages sent to the `output` channel are in turn sent the RabbitMQ message broker using a `TopicExchange`.
+In the case of Kafka, messages sent to the `output` channel are in turn sent the Kafka topic.
 
 The `@EnableScheduling` annotation indicates that you want to enable Spring's scheduling capabilities, which will invoked `@Scheduled` annotated methods with the specified `fixedDelay` of `1` second.
 
 The `sendEvents` method constructs a `UsageDetail` object and then sends it to the the output channel by accessing the `Source` object's `output().send()` method.
+
+#### Configuring the UsageDetailSender application
+
+When configuring the `producer` application, we need to set:
+
+- the `output` binding destination (Kafka topic) where the producer publishes the data
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.output.destination=usage-detail
+```
+
+1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageDetailSender`'s output to the `usage-detail` Kafka topic.
 
 #### Building
 
@@ -171,14 +186,15 @@ When using the `spring-cloud-stream-test-support` dependency, your application's
 1. The test case `contextLoads` verifies the application starts successfully.
 1. The test case `testUsageDetailSender` uses `Test` binder's `MessageCollector` to collect the messages sent by the `UsageDetailSender`.
 
-### Processor
+### UsageCostProcessor processor
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-kafka&name=usage-cost-processor-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web)
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-kafka&name=usage-cost-processor-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web&style=cloud-connectors)
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor-kafka`.
 1. In the Dependencies text box, type `kafka` to select the Kafka binder dependency.
 1. In the Dependencies text box, type `cloud stream` to select the Spring Cloud Stream dependency.
 1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
+1. If your target platform is `Cloud Foundry`, then type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-cost-processor-kafka.zip` file and import the project into your favorite IDE.
@@ -230,6 +246,26 @@ The annotation `@StreamListener` binds the application's `input` channel to the 
 
 The annotation `@SendTo` sends the `processUsageCost` method's output to the application's `output` channel which is in turn sent to the a Kafka topic that is to be configured later.
 
+#### Configuring the UsageCostProcessor application
+
+When configuring the `consumer` application, we need to set:
+
+- the `input` binding destination (Kafka topic)
+
+Since `UsageCostProcessor` application is also a `producer` application, we need to set:
+
+- the `output` binding destination (Kafka topic) where the producer publishes the data
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.input.destination=usage-detail
+spring.cloud.stream.bindings.output.destination=usage-cost
+```
+
+1. The property `spring.cloud.stream.bindings.input.destination` binds the `UsageCostProcessor`'s `input` to the `usage-detail` Kafka topic.
+1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageCostProcessor`'s output to the `usage-cost` Kafka topic.
+
 #### Building
 
 Now let's build the Usage Cost Processor application.
@@ -241,7 +277,7 @@ In the directory `usage-cost-processor` use the following command to build the p
 
 #### Testing
 
-Spring Cloud Stream provides `spring-cloud-stream-test-support` dependency to test the Spring Cloud Stream application. Instead of the RabbitMQ binder, it uses the Test binder to trace and test your application's outbound/inbound messages. The Test binder uses a utility class `MessageCollector` which stores the messages in-memory.
+Spring Cloud Stream provides `spring-cloud-stream-test-support` dependency to test the Spring Cloud Stream application. Instead of the Kafka binder, it uses the Test binder to trace and test your application's outbound/inbound messages. The Test binder uses a utility class `MessageCollector` which stores the messages in-memory.
 
 To unit test the `UsageCostProcessor`, in the class `UsageCostProcessorApplicationTests` add the following code.
 
@@ -292,14 +328,15 @@ To unit test the `UsageCostProcessor`, in the class `UsageCostProcessorApplicati
 1. The test case `contextLoads` verifies the application starts successfully.
 1. The test case `testUsageCostProcessor` uses `Test` binder's `MessageCollector` to collect the messages from the `UsageCostProcessor`'s `output`.
 
-### Sink
+### UsageCostLogger sink
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-kafka&name=usage-cost-logger-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web)
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-kafka&name=usage-cost-logger-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web&style=cloud-connectors)
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-logger-kafka`.
 1. In the Dependencies text box, type `kafka` to select the Kafka binder dependency.
 1. In the Dependencies text box, type `cloud stream` to select the Spring Cloud Stream dependency.
 1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
+1. If your target platform is `Cloud Foundry`, then type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-cost-logger-kafka.zip` file and import the project into your favorite IDE.
@@ -339,6 +376,20 @@ In the above application, the `@EnableBinding` annotation indicates that you wan
 The annotation `@StreamListener` binds the application's `input` channel to the `process` method by converting the incoming JSON to a `UsageCostDetail` object.
 
 The Kafka topic that will be bound to the input channel will be configured later.
+
+#### Configuring the UsageCostLogger application
+
+When configuring the `consumer` application, we need to set:
+
+- the `input` binding destination (Kafka topic)
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.input.destination=usage-cost
+```
+
+1. The property `spring.cloud.stream.bindings.input.destination` binds the `UsageCostLogger`'s `input` to the `usage-cost` Kafka topic.
 
 #### Building
 
@@ -418,7 +469,7 @@ To unit test the `UsageCostLogger`, in the class `UsageCostLoggerApplicationTest
 
 ## Deployment
 
-In this section we will deploy the applications created above to the local machine, Cloud Foundry and Kubernetes.
+In this section you will deploy the applications created above to the local machine, Cloud Foundry and Kubernetes.
 
 When you deploy these three applications (UsageDetailSender, UsageCostProcessor and UsageCostLogger), the flow of message looks like this:
 
@@ -429,17 +480,11 @@ UsageDetailSender -> UsageCostProcessor -> UsageCostLogger
 The source application `UsageDetailSender`'s output is connected to the `UsageCostProcessor` processor application's input.
 The `UsageCostProcessor` application's output is connected to the `UsageCostLogger` sink application's input.
 
-When these applications are run, the `Kafka` binder binds the applications output/input channels to Kafka topics.
-**TODO no need to prefix with 'test-', that is not being done in the cf/k8s cases. They should all be the same**
-
-- `UsageDetailSender`'s output and `UsageCostProcessor`'s input are bound to `test-usage-detail` topic
-- `UsageCostProcessor`'s output and `UsageCostLogger`'s input are bound to `test-usage-cost` topic.
+When these applications are run, the `Kafka` binder binds the applications' output/input boundaries into the corresponding topics in Kafka.
 
 ### Local
 
-You can run the above applications as standalone applications on your `local` environment.
-
-**TODO replace with docker instructions**
+We will now run the above applications as standalone applications on your `local` environment.
 
 You can [download](https://kafka.apache.org/downloads) and setup `Kafka` on your local.
 
@@ -453,76 +498,139 @@ After unpacking the downloaded archive, you can start `ZooKeeper` and `Kafka` se
 ./bin/kafka-server-start.sh config/server.properties &
 ```
 
-**TODO this will show an empty list, prob should show later**
+#### Running the Source
+
+Using the [pre-defined](#configuring-the-usagedetailsender-application) configuration properties(along with a unique server port) for `UsageDetailSender`, you can run the application as follows:
+
+```
+java -jar target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar --server.port=9001 &
+```
+
+Now, you can see the messages being sent to the Kafka topic `usage-detail` using Kafka console consumer as follows:
+
+```
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic usage-detail
+```
+
 To list the topics:
 
 ```
 ./bin/kafka-topics.sh --zookeeper localhost:2181 --list
 ```
 
-#### Running the Source
-
-To run, we need to explicitly set the Spring Cloud Stream bindings `output.destination` property and `server.port` property.
-
-**TODO don't need the test- prefix for a topic, looks artificial.**
-
-```
-spring.cloud.stream.bindings.output.destination=test-usage-detail
-server.port=0
-```
-
-Pass these properties as command line arguments when running the `UsageDetailSender` source application.
-
-```
-java -jar target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=test-usage-detail  --server.port=0 &
-```
-
-Now, you can see the messages being sent to the Kafka topic `test-usage-detail` using Kafka console consumer as follows:
-
-```
-./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-usage-detail
-```
-
 #### Running the Processor
 
-To run the `UsageCostProcessor` application, you need to set the `input` binding to a Kafka topic `test-usage-detail` to receive the `UsageDetail` data and `output` binding to the Kafka topic `test-usage-cost` to send the computed `UsageCostDetail`.
+Using the [pre-defined](#configuring-the-usagecostprocessor-application) configuration properties(along with a unique server port) for `UsageCostProcessor`, you can run the application as follows:
 
 ```
-spring.cloud.stream.bindings.input.destination=test-usage-detail
-spring.cloud.stream.bindings.output.destination=test-usage-cost
+java -jar target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar --server.port=9002 &
 ```
 
-Pass these properties as command line arguments when running the `UsageCostProcessor` processor application.
+With the `UsageDetail` data on the `usage-detail` Kafka topic using the `UsageDetailSender` source application, you can see the `UsageCostDetail` from the `usage-cost` Kafka topic as follows:
 
 ```
-java -jar target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-detail --spring.cloud.stream.bindings.output.destination=test-usage-cost &
-```
-
-With the `UsageDetail` data on the `test-usage-detail` Kafka topic using the `UsageDetailSender` source application, you can see the `UsageCostDetail` from the `test-usage-cost` Kafka topic as follows:
-
-```
- ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-usage-cost
+ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic usage-cost
 ```
 
 #### Running the Sink
 
-For the `UsageCostLogger` application, you need to set the `input` binding to a Kafka topic `test-usage-cost` to receive the computed `UsageCostDetail`:
+Using the [pre-defined](#configuring-the-usagecostlogger-application) configuration properties(along with a unique server port) for `UsageCostLogger`, you can run the application as follows:
 
 ```
-spring.cloud.stream.bindings.input.destination=test-usage-cost
-```
-
-Pass these properties as command line arguments when running the `UsageCostLogger` sink application.
-
-```
-java -jar target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=test-usage-cost &
+java -jar target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar --server.port=9003 &
 ```
 
 Now, you can see that this application logs the usage cost detail.
 
 ### Cloud Foundry
 
+This section will walk you through how to deploy the `UsageDetailSender`, `UsageCostProcessor` and `UsageCostLogger` applications on CloudFoundry.
+
+#### Create Kafka Cloud Foundry User Provided service
+
 **TODO**
+
+#### Create CF manifest for UsageDetail Sender
+
+Create a CF manifest yaml `usage-detail-sender.yml` file for the `UsageDetailSender` using its configuration properties:
+
+```
+applications:
+- name: usage-detail-sender
+  timeout: 120
+  path: ./target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar
+  memory: 1G
+  buildpack: java_buildpack
+  env:
+    SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: [Kafka_Service_IP_Address:Kafka_Service_Port]
+    SPRING_CLOUD_STREAM_KAFKA_BINDER_ZKNODES: [ZooKeeper_Service_IP_Address:ZooKeeper_Service_Port]
+```
+
+Push the `UsageDetailSender` application using its manifest YAML file:
+
+```
+cf push -f usage-detail-sender.yml
+```
+
+Create a CF manifest yaml `usage-cost-processor.yml` file for the `UsageCostProcessor` using its configuration properties:
+
+```
+applications:
+- name: usage-cost-processor
+  timeout: 120
+  path: ./target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar
+  memory: 1G
+  buildpack: java_buildpack
+  env:
+    SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: [Kafka_Service_IP_Address:Kafka_Service_Port]
+    SPRING_CLOUD_STREAM_KAFKA_BINDER_ZKNODES: [ZooKeeper_Service_IP_Address:ZooKeeper_Service_Port]
+```
+
+Push the `UsageCostProcessor` application using its manifest YAML file:
+
+```
+cf push -f usage-cost-processor.yml
+```
+
+Create a CF manifest yaml `usage-cost-logger.yml` file for the `UsageCostLogger` using its configuration properties:
+
+```
+applications:
+- name: usage-cost-logger
+  timeout: 120
+  path: ./target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar
+  memory: 1G
+  buildpack: java_buildpack
+  env:
+    SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: [Kafka_Service_IP_Address:Kafka_Service_Port]
+    SPRING_CLOUD_STREAM_KAFKA_BINDER_ZKNODES: [ZooKeeper_Service_IP_Address:ZooKeeper_Service_Port]
+```
+
+Push the `UsageCostLogger` application using its manifest YAML file:
+
+```
+cf push -f usage-cost-logger.yml
+```
+
+You can see the applications running using `cf apps` command:
+
+```
+cf apps
+```
+
+```
+name                   requested state   instances   memory   disk   urls
+usage-cost-logger      started           1/1         1G       1G     usage-cost-logger.cfapps.io
+usage-cost-processor   started           1/1         1G       1G     usage-cost-processor.cfapps.io
+usage-detail-sender    started           1/1         1G       1G     usage-detail-sender.cfapps.io
+```
+
+```
+   2019-05-13T23:23:33.36+0530 [APP/PROC/WEB/0] OUT 2019-05-13 17:53:33.362  INFO 15 --- [e-cost.logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user5", "callCost": "1.0", "dataCost": "12.350000000000001" }
+   2019-05-13T23:23:33.46+0530 [APP/PROC/WEB/0] OUT 2019-05-13 17:53:33.467  INFO 15 --- [e-cost.logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user1", "callCost": "19.0", "dataCost": "10.0" }
+   2019-05-13T23:23:34.46+0530 [APP/PROC/WEB/0] OUT 2019-05-13 17:53:34.466  INFO 15 --- [e-cost.logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "2.2", "dataCost": "5.15" }
+   2019-05-13T23:23:35.46+0530 [APP/PROC/WEB/0] OUT 2019-05-13 17:53:35.469  INFO 15 --- [e-cost.logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user3", "callCost": "21.0", "dataCost": "17.3" }
+```
 
 ### Kubernetes
 
@@ -602,7 +710,6 @@ You only need to execute `eval $(minikube docker-env)` once for each terminal se
 #### Deploy the stream
 
 Copy and paste the following yaml and save it to `usage-cost-stream.yaml`
-**TODO I think we should deploy as a service/deployment since that is what we will be doing with Data Flow**
 
 ```yaml
 kind: Pod
@@ -756,4 +863,5 @@ kubectl delete all -l app=kafka
 
 ## What's next
 
-**TODO - where to go next?**
+The [RabiitMQ](%currentPath%/stream-developer-guides/streams/standalone-stream-rabbitmq/) shows you how to create the same three applications but using RabbitMQ instead.
+Alternatively, you can use Data Flow to deploy the three applications in the guide [Create and Deploy a Stream Processing Pipeline using Spring Cloud Data Flow](%currentPath%/stream-developer-guides/streams/data-flow-stream/)

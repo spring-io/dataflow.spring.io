@@ -1,7 +1,7 @@
 ---
 path: 'stream-developer-guides/streams/stream-other-binders/'
-title: 'Spring Cloud Stream with other Messaging Middleware'
-description: 'Using Google Pub/Sub, Amazon Kinesis, Solace JMS'
+title: 'Spring Application Development on other Messaging Middleware'
+description: 'Create your own microservices for Stream processing using other messaging middleware such as Google Pub/Sub, Amazon Kinesis, and Solace JMS'
 ---
 
 # Introduction

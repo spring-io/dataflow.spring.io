@@ -1,6 +1,6 @@
 ---
 path: 'stream-developer-guides/streams/data-flow-stream/'
-title: 'Streaming pipeline in Spring Cloud Data Flow'
+title: 'Stream Processing using Spring Cloud Data Flow'
 description: 'Create and Deploy a Stream Processing Pipeline using Spring Cloud Data Flow'
 ---
 
