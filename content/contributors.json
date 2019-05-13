@@ -14,15 +14,8 @@
     "image": "https://avatars0.githubusercontent.com/u/247466?s=460&v=4"
   },
   {
-    "firstname": "Sabby",
-    "lastname": "Anandan",
-    "twitter": "https://twitter.com/sabbyanandan",
-    "github": "https://github.com/sabbyanandan",
-    "image": "https://avatars1.githubusercontent.com/u/1562654?s=460&v=4"
-  },
-  {
     "firstname": "Janne",
-    "lastname": "Valkealahti",
+    "lastnme": "Valkealahti",
     "github": "https://github.com/jvalkeal",
     "twitter": "https://twitter.com/tunebluez",
     "image": "https://avatars3.githubusercontent.com/u/50398?s=460&v=4"
@@ -39,13 +32,6 @@
     "twitter": "https://twitter.com/christzolov",
     "github": "https://github.com/tzolov",
     "image": "https://avatars1.githubusercontent.com/u/1351573?s=460&v=4"
-  },
-  {
-    "firstname": "David",
-    "lastname": "Turanski",
-    "twitter": "https://twitter.com/dturanski",
-    "github": "https://github.com/dturanski",
-    "image": "https://avatars3.githubusercontent.com/u/886859?s=460&v=4"
   },
   {
     "firstname": "Ilayaperumal",
@@ -68,12 +54,6 @@
     "twitter": "https://twitter.com/michaelminella",
     "github": "https://github.com/mminella",
     "image": "https://avatars2.githubusercontent.com/u/630743?s=460&v=4"
-  },
-  {
-    "firstname": "Jay",
-    "lastname": "Bryant",
-    "github": "https://github.com/Buzzardo",
-    "image": "https://avatars3.githubusercontent.com/u/5225162?s=460&v=4"
   },
   {
     "firstname": "Glenn",

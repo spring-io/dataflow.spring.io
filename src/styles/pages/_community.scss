@@ -25,6 +25,9 @@
       padding: $spring-8points * 5 $spring-8points;
       text-align: center;
       @include effect-box(1.02, $spring-transition-duration);
+      position: relative;
+      padding-bottom: 90px;
+
       h2 {
         margin: 0;
         padding: 0;
@@ -35,6 +38,7 @@
           font-weight: 600;
         }
       }
+
       p {
         padding: 0;
         margin: 0;
@@ -43,6 +47,10 @@
         margin: 0 auto;
         &.social {
           padding-top: $spring-8points * 3;
+          position: absolute;
+          bottom: 35px;
+          left: 0;
+          right: 0;
           a {
             color: $spring-color;
             padding: 2px;

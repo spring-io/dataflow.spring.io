@@ -8,12 +8,14 @@
         flex: 280px 0;
         margin-left: $spring-8points * 2;
         padding: $spring-8points * 3;
+        text-align: center;
+        position: relative;
+        padding-bottom: $spring-8points * 5.5;
       }
       a.item {
         background: $spring-gray-color;
         cursor: pointer;
         @include effect-box(1.02, $spring-transition-duration);
-        text-align: center;
         h2 {
           margin: 0;
           padding: 0;
@@ -25,6 +27,14 @@
           color: #666;
           margin: 0 auto;
           max-width: 260px;
+        }
+        span.read-me {
+          position: absolute;
+          display: block;
+          left: 0;
+          right: 0;
+          bottom: 20px;
+          text-decoration: none;
         }
         &:hover {
           text-decoration: none;

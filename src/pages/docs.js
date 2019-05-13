@@ -93,7 +93,7 @@ class DocsPage extends React.Component {
               {pages.map((block, index) => (
                 <div className='col' key={`i1${index}`}>
                   {block.map((page, index2) => (
-                    <div key={`i2${index2}`}>
+                    <>
                       {get(page, 'id') ? (
                         <Link
                           key={`i6{page.id}`}
@@ -113,7 +113,7 @@ class DocsPage extends React.Component {
                       ) : (
                         <div className='item' key={`i7${index2}`} />
                       )}
-                    </div>
+                    </>
                   ))}
                 </div>
               ))}
