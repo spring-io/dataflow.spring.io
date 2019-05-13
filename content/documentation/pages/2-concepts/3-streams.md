@@ -1,7 +1,7 @@
 ---
 path: 'concepts/streams/'
-title: 'What are streams'
-description: 'Concepts on Streaming pipelines'
+title: 'Streams'
+description: 'Architecture of Stream data pipelines'
 ---
 
 # What are streams
@@ -11,6 +11,22 @@ The streaming data pipeline can be `linear` or `non-linear` based on the data fl
 As an application developer can focus on developing your application’s business logic while delegating the underlying messaging concerns to the Spring Cloud Stream framework. Control over the detailed settings of the underlying messaging middleware is done declaratively though application configuration.
 
 **TODO I think what is below can go into the stream development guide**
+
+## Messaging Middleware
+
+Deployed stream applications communicate via messaging middleware product.
+We provide prebuilt stream applications that use [RabbitMQ](https://www.rabbitmq.com) or
+[Kafka](https://kafka.apache.org).
+
+However, other [messaging middleware products](https://cloud.spring.io/spring-cloud-stream/#binder-implementations)
+such as
+[Kafka Streams](https://kafka.apache.org/documentation/streams/),
+[Amazon Kinesis](https://aws.amazon.com/kinesis/),
+[Google Pub/Sub](https://cloud.google.com/pubsub/docs/)
+[Solace PubSub+](https://solace.com/software/)
+and
+[Azure Event Hubs](https://azure.microsoft.com/en-us/services/event-hubs/)
+are supported.
 
 ## Spring Cloud Stream
 

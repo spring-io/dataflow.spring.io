@@ -1,7 +1,7 @@
 ---
 path: 'concepts/batch-jobs/'
-title: 'What is batch processing'
-description: 'Concepts of batch processing'
+title: 'Batch Jobs'
+description: 'Architecture of Batch data pipelines'
 ---
 
 # What is Batch Processing

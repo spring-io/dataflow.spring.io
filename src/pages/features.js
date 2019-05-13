@@ -24,7 +24,7 @@ const FeaturesPage = () => (
               >
                 Cloud Foundry
               </a>{' '}
-              and{' '}
+            and{' '}
               <a
                 href='https://kubernetes.io/'
                 target='_blank'
