@@ -1,8 +1,8 @@
 ---
 applications:
-  - name: gh-dataflow
+  - name: dataflow-website
     routes:
-      - route: gh-dataflow.cfapps.io
+      - route: dataflow.cfapps.io
     memory: 1G
     disk_quota: 1G
     instances: 1
