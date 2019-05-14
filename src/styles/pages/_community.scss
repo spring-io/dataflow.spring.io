@@ -71,14 +71,29 @@
       }
     }
   }
+
   p {
+    color: #666;
     &.love {
       color: $spring-color;
       font-size: 18px;
       font-weight: bold;
-      padding-bottom: $spring-8points;
+      padding-top: $spring-8points;
     }
   }
+
+  div.more {
+    text-align: center;
+    padding: $spring-8points * 6 0;
+    p {
+      padding: 0;
+      margin: 0;
+    }
+    strong {
+      color: $spring-color;
+    }
+  }
+
   .page-footer {
     text-align: center;
     max-width: 600px;
@@ -129,8 +144,8 @@
     width: 950px;
     margin: 0 auto;
     //border: 1px solid darken($spring-gray-color, 4);
-    padding: $spring-8points * 4 $spring-8points * 5;
-    margin-top: $spring-8points * 8;
+    padding: $spring-8points * 2 $spring-8points * 5;
+    margin-bottom: $spring-8points * 6;
     box-shadow: 0 2px 6px 0 rgba($spring-color, 0.1);
     a.button {
       @include button-dark($spring-primary-color, white, $spring-8points * 2);
@@ -151,21 +166,25 @@
   }
 
   .zenhub {
-    height: 360px;
+    min-height: 320px;
     border-radius: $spring-radius;
     padding-top: $spring-8points;
+    color: #666;
+    h2 {
+      color: $spring-color;
+    }
     .zenhub-content {
       position: relative;
       margin: 0 auto;
       padding-right: 450px;
-      padding-top: $spring-8points * 6;
+      padding-top: $spring-8points * 8;
       padding-left: $spring-8points * 3;
     }
     .image {
       position: absolute;
       right: 0;
       top: 0;
-      width: 430px;
+      width: 380px;
       .icon-zenhub {
         position: absolute;
         top: 13px;

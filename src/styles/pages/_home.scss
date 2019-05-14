@@ -1,41 +1,34 @@
 .home-page {
-  main {
-    .page-title {
-      padding: $spring-8points * 2 0 $spring-8points * 4;
-      text-align: center;
-      h1 {
-        margin: 0;
-        padding: 0;
-        padding-bottom: $spring-8points * 2;
-      }
-      p {
-        margin: 0;
-        padding: 0;
-      }
-    }
+  .header {
+    border-bottom: 0;
+    background: $spring-gray-color;
+  }
 
+  main {
     .band {
-      height: 680px;
-      text-align: center;
-      .band-background {
-        background: $spring-gray-color;
-        height: 400px;
-        border-bottom: 1px solid darken($spring-gray-color, 5);
+      position: relative;
+      background: $spring-gray-color;
+
+      .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        position: relative;
+        height: 450px;
       }
       .text {
-        padding: $spring-8points * 6 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-top: -50px;
+
+        width: 600px;
         p {
-          padding: 0;
-          margin: 0 auto;
-          &.title {
-            font-size: 26px;
-            letter-spacing: -1px;
-          }
+          padding: $spring-8points * 2 0;
+          margin: 0;
           &.description {
             color: #666;
             padding: $spring-8points * 2 0 0 0;
-            max-width: 450px;
-            font-size: 18px;
+            font-size: 20px;
             strong {
               color: $spring-color;
               font-weight: normal;
@@ -45,16 +38,16 @@
           }
         }
       }
-      .player {
-        background: green;
-        width: 800px;
-        height: 450px;
-        margin: 0 auto;
-        box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.15),
-          inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-        border-radius: $spring-radius;
-        overflow: hidden;
+      .image {
+        width: 550px;
+        position: absolute;
+        top: -30px;
+        right: 50px;
       }
+    }
+
+    a.button {
+      @include button-dark($spring-primary-color, white, $spring-8points * 2);
     }
 
     .colset {
@@ -93,13 +86,6 @@
         }
         p {
           padding-top: $spring-8points * 2;
-        }
-        a {
-          @include button-dark(
-            $spring-primary-color,
-            white,
-            $spring-8points * 2
-          );
         }
       }
     }

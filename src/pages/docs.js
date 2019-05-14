@@ -92,29 +92,29 @@ class DocsPage extends React.Component {
             <div className='links'>
               {pages.map((block, index) => (
                 <div className='col' key={`i1${index}`}>
-                  {block.map((page, index2) => (
-                    <>
-                      {get(page, 'id') ? (
-                        <Link
-                          key={`i6{page.id}`}
-                          to={page.path}
-                          className='item'
-                        >
-                          <article key={`i3${index2}`}>
-                            <h2 key={`i4${index2}`} className='title'>
-                              {page.title}
-                            </h2>
-                            <div key={`i5${index2}`} className='description'>
-                              {page.description}
-                            </div>
-                            <span className='read-me'>Read more</span>
-                          </article>
-                        </Link>
-                      ) : (
-                        <div className='item' key={`i7${index2}`} />
-                      )}
-                    </>
-                  ))}
+                  {block.map((page, index2) => {
+                    return get(page, 'id') ? (
+                      <Link
+                        key={`i6${page.id}`}
+                        to={page.path}
+                        className='item'
+                      >
+                        <article key={`i3${index2}`}>
+                          <h2 key={`i4${index2}`} className='title'>
+                            {page.title}
+                          </h2>
+                          <div key={`i5${index2}`} className='description'>
+                            {page.description}
+                          </div>
+                          <span key={`i7${page.id}`} className='read-me'>
+                            Read more
+                          </span>
+                        </article>
+                      </Link>
+                    ) : (
+                      <div className='item' key={`i8${index2}`} />
+                    )
+                  })}
                 </div>
               ))}
             </div>

@@ -26,6 +26,10 @@ const CommunityPage = () => {
         <div className='layout-basic'>
           <div className='page-title'>
             <h1>Community</h1>
+            <p>
+              All our projects are hosted on{' '}
+              <a href='https://GitHub.com/spring-cloud/'>GitHub</a>
+            </p>
             <p className='love'>
               We{' '}
               <span role='img' aria-label='love'>
@@ -133,41 +137,56 @@ const CommunityPage = () => {
               </p>
             </article>
           </div>
-          <div className='box'>
-            <div className='page-colset'>
-              <p>
-                Several community members have made implementations of Data Flow
-                that deploy to other platforms. Thanks!
-              </p>
-              <ul className='links'>
-                <li>
-                  <a href='https://github.com/donovanmuller/spring-cloud-dataflow-server-nomad'>
-                    Spring Cloud Data Flow for HashiCorp Nomad
-                  </a>
-                </li>
-                <li>
-                  <a href='https://github.com/donovanmuller/spring-cloud-dataflow-server-openshift'>
-                    Spring Cloud Data Flow for Red Hat OpenShift
-                  </a>
-                </li>
-                <li>
-                  <a href='https://github.com/trustedchoice/spring-cloud-dataflow-server-mesos'>
-                    Spring Cloud Data Flow for Apache Mesos
-                  </a>
-                </li>
-              </ul>
-            </div>
+
+          <div className='more'>
+            <p>
+              Several <strong>community members</strong> have made
+              implementations of Data Flow that deploy to other platforms.{' '}
+              <strong>Thanks!</strong>
+            </p>
+            <p>
+              Discover Spring Cloud Dataflow for{' '}
+              <a
+                target='_blank'
+                rel='noreferrer noopener'
+                href='https://github.com/donovanmuller/spring-cloud-dataflow-server-nomad'
+              >
+                HashiCorp Nomad
+              </a>
+              ,{' '}
+              <a
+                target='_blank'
+                rel='noreferrer noopener'
+                href='https://github.com/donovanmuller/spring-cloud-dataflow-server-openshift'
+              >
+                Red Hat OpenShift
+              </a>
+              ,{' '}
+              <a
+                target='_blank'
+                rel='noreferrer noopener'
+                href='https://github.com/trustedchoice/spring-cloud-dataflow-server-mesos'
+              >
+                Apache Mesos
+              </a>
+              .
+            </p>
           </div>
+
           <div className='box'>
             <div className='zenhub'>
               <div className='zenhub-content'>
                 <h2>
-                  We use <strong>ZenHub</strong> to manage our backlog.
+                  We use <a href='https://www.zenhub.com/'>ZenHub</a> to manage
+                  our backlog.
                 </h2>
                 <p>
-                  To view the backlog please install the ZenHub browser plugin.
-                  ZenHub is available for Google Chrome and Mozilla Firefox as
-                  an extension.
+                  To view the <strong>backlog</strong> please install the{' '}
+                  <a href='https://www.zenhub.com/extension'>
+                    ZenHub browser plugin
+                  </a>
+                  . <strong>ZenHub</strong> is available for Google Chrome and
+                  Mozilla Firefox as an extension.
                 </p>
                 <p>
                   <a
