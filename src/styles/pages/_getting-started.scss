@@ -57,7 +57,7 @@
     @include links;
   }
 
-  ul.installation-links {
+  ul.block-links {
     list-style: none;
     margin: $spring-8points * 3 0;
     padding: 0;
@@ -109,6 +109,22 @@
           &:before {
             $s: 30px;
             background-image: url(../images/logos/local.svg);
+            background-size: $s;
+          }
+        }
+
+        &.stream-processing {
+          &:before {
+            $s: 30px;
+            background-image: url(../images/logos/stream-processing.svg);
+            background-size: $s;
+          }
+        }
+
+        &.batch-processing {
+          &:before {
+            $s: 30px;
+            background-image: url(../images/logos/batch-processing.svg);
             background-size: $s;
           }
         }
