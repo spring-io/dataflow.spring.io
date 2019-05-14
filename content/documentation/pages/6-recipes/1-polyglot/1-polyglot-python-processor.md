@@ -1,5 +1,5 @@
 ---
-path: 'recipes/polyglot/processor'
+path: 'recipes/polyglot/processor/'
 title: 'Python Stream Processor'
 description: 'Python Application as a Data Flow Stream Processor'
 ---

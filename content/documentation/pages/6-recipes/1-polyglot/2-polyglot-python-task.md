@@ -1,5 +1,5 @@
 ---
-path: 'recipes/polyglot/task'
+path: 'recipes/polyglot/task/'
 title: 'Python Task'
 description: 'Python/Docker as SCDF Task'
 ---
@@ -14,8 +14,8 @@ Following diagram walks through the architecture and the various components invo
 
 ![SCDF Python Tasks](images/python_docker_task_self_managed_status.png)
 
-When SCDF launches the Python script as a task, the script runs and completes with either a success or failure status.
-Because this is not a standard Sprint Cloud Task application, it is the user's responsibility to manage the life cycle and update the state to the shared database that is also used by SCDF.
+When Data Flow launches the Python script as a task, the script runs and completes with either a success or failure status.
+Because this is not a standard Sprint Cloud Task application, it is the user's responsibility to manage the life cycle and update the state to the shared database that is also used by Data Flow.
 Utilities are provided to help handle the launch arguments and manage the task status within the Data Flow database.
 
 <!--TIP-->
@@ -28,7 +28,7 @@ The source code can be found in the samples GitHub [repo](https://github.com/spr
 
 Follow the [installation instructions](/documentation/master/installation/kubernetes/) to set up Data Flow on Kubernetes. Launch the Data Flow server with the task feature enabled!
 
-Register and launch a python scrip as SCDF task:
+Register and launch a python scrip as Data Flow Task:
 
 ```bash
 dataflow:>app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
@@ -39,11 +39,23 @@ dataflow:>task launch --name python-task
 <!--TIP-->
 
 Use `kubectl get all` and `kubectl logs -f po/python-task-XXXXXX` to monitor the output of the task.
-Use the SCDF UI/task or shell (task list) to monitor the status of the python-task.
+Use the Data Flow UI/task or shell (task list) to monitor the status of the python-task.
 
 <!--END_TIP-->
 
-\*\*TODO: It would be nice to see the task execution as being successful or not from the UI to give it a bit more 'splash'.
+On successful task launch you you should see the following report in your Data Flow Task UI:
+
+![Successful Python Tasks](images/successful-python-task-execution.png)
+
+If the `python-task` is launched again, this time with the `--error.message=MyTestError` launch argument (e.g simulate an error):
+
+```
+dataflow:>task launch --name python-task --arguments "--error.message=MyTestError"
+```
+
+then the second task execution (e. g. #2) fails as shown in the Data Flow Task UI:
+
+![Python Tasks Failure](images/python-task-failure.png)
 
 ## Recipe Details
 
@@ -82,14 +94,14 @@ except Exception as exp:
 
 <!--IMPORTANT-->
 
-Since the Python script is not managed by `Spring Cloud Task`, is the user's responsibility to manage and update the progress with the SCDF database.
+Since the Python script is not managed by `Spring Cloud Task`, is the user's responsibility to manage and update the progress with the Data Flow database.
 
 <!--END_IMPORTANT-->
 
 To parse the input arguments and to manage its state in Data Flow, the custom script can leverage the following utilities:
 
 - The [task_status.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_status.py) helps to access and update the Data Flow `TASK_EXECUTION` table in order to reflects task's life cycle changes. The `TaskStatus` class takes `task id` and `sqlalchemy url` arguments, computed from the command line arguments and provides API for setting the task status to `running`, `completed` or `failed(with exitCode, errorMessage)`.
-  The following command line arguments are required to allow the task access the Data Flow's database:
+  To access the Data Flow database, the `task_status` uses the following launch arguments, automatically provided by Data Flow on every task launch:
 
   ```bash
   --spring.datasource.username=root
@@ -98,12 +110,12 @@ To parse the input arguments and to manage its state in Data Flow, the custom sc
   --spring.cloud.task.executionid=26
   ```
 
-  The `spring.cloud.task.executionid` property represents the Task id as persisted in the `TASK_EXECUTION` table.
+  The `spring.cloud.task.executionid` property represents the Task id as known inside Data Flow and persisted in the `TASK_EXECUTION` table.
 
 - The [task_args.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py) utility helps extracting the task arguments for default (e.g. exec) [entry point style](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#_entry_point_style_2).
   The utility also constructs [sqlalchemy](https://www.sqlalchemy.org/) urls for the different databases, that might be configured with SCDF (currently only mysql is tested). Check the [get_db_url()](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py#L22) implementation.
 
-For the `python_task.py` to act as a SCDF task it needs to be bundled in a docker image and uploaded to `DockerHub`. Following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/Dockerfile) illustrates how to bundle a Python script into docker image:
+For the `python_task.py` to act as a Data Flow task it needs to be bundled in a docker image and uploaded to `DockerHub`. Following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/Dockerfile) illustrates how to bundle a Python script into docker image:
 
 ```
 FROM python:3.7.3-slim
@@ -171,7 +183,7 @@ dataflow:>task launch --name sequence1
 
   Tip: replace `springcloud` with your docker hub prefix.
 
-* Register the docker image as SCDF task application:
+* Register the docker image as Data Flow `task` application:
 
   ```bash
   dataflow:>app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
