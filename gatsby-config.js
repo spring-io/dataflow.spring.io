@@ -8,7 +8,7 @@ const siteMetadata = {
   siteUrl: `https://dataflow.spring.io`,
   canonical: `https://dataflow.spring.io`,
   twitter: `@springcloud`,
-  image: `https://dataflow-dev.netlify.com/images/card.jpg`,
+  image: `https://dataflow.spring.io/images/card.jpg`,
   keywords: [`spring`, `cloud`, `dataflow`],
 }
 
