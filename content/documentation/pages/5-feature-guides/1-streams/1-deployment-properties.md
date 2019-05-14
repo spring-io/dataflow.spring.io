@@ -4,6 +4,8 @@ title: 'Deployment Properties'
 description: 'How to set deployment properties'
 ---
 
+# Deployment Properties
+
 When deploying a stream, properties fall into two groups:
 
 - Properties that control how the apps are deployed to the target platform. These properties use a `deployer` prefix and are referred to as _deployer properties_.

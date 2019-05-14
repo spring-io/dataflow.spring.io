@@ -1,7 +1,7 @@
 ---
 path: 'stream-developer-guides/troubleshooting/debugging-scdf-streams/'
 title: 'Debugging Stream applications deployed by Data Flow'
-description: 'Debugging Stream applications deployed by Data Flow'
+description: 'Debugging Data Flow Stream deployments'
 ---
 
 # Debugging Streams in SCDF

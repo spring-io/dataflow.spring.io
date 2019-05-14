@@ -4,6 +4,8 @@ title: 'Data Partitioning'
 description: 'How to use partitioning'
 ---
 
+# Data Partitioning
+
 Partitioning is a critical concept in stateful processing, for either performance or consistency reasons, to ensure that all related data is processed together.
 For example, in a time-windowed average calculation example, it is important that all measurements from any given sensor are processed by the same application instance.
 Alternatively, you may want to cache some data related to the incoming events so that it can be enriched without making a remote procedure call to retrieve the related data.

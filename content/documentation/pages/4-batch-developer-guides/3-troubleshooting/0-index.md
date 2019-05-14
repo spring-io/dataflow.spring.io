@@ -1,8 +1,8 @@
 ---
 path: 'batch-developer-guides/troubleshooting/'
 title: 'Troubleshooting'
-description: 'Troubleshooting streams'
+description: 'Troubleshooting Batch Jobs'
 summary: true
 ---
 
-Introduction
+Various tips and tricks to help you troubleshoot issues when things so south.

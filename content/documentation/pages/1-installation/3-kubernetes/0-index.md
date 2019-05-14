@@ -5,7 +5,7 @@ description: 'Data Flow Kubernetes Installation Guide'
 summary: true
 ---
 
-# Installation
+# Kubernetes
 
 This section covers the installation Data Flow on Kubernetes using the Helm chart as well as using `kubectl`.
 

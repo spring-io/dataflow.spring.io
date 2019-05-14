@@ -1,7 +1,7 @@
 ---
 path: 'stream-developer-guides/troubleshooting/debugging-stream-apps/'
 title: 'Debugging Stream Applications'
-description: 'Debugging Stream Applications'
+description: 'Debugging Stream Applications outside of Data Flow'
 ---
 
 # Debugging Stream Applications

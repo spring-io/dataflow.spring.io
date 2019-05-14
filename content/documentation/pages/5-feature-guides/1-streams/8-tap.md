@@ -4,6 +4,8 @@ title: 'Tapping a Stream'
 description: 'Creating a Stream from an application in another stream..'
 ---
 
+# Tapping a Stream
+
 **TODO Review**
 
 In Spring Cloud Stream terms, a named destination is a specific destination name in the messaging middleware or the streaming platform.

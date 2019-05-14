@@ -5,6 +5,6 @@ description: 'Data Flow Cloud Foundry Installation Guide'
 summary: true
 ---
 
-# Installation
+# Cloud Foundry
 
 This section shows you how to install Data Flow on Cloud Foundry.
