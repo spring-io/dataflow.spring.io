@@ -58,7 +58,7 @@ const Seo = ({ title, description, keywords }) => {
 }
 
 Seo.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   description: PropTypes.string,
   keywords: PropTypes.arrayOf(PropTypes.string),
 }

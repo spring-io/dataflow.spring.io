@@ -7,7 +7,6 @@ const isDisplay = (item, page, depth, depthMax) => {
   if (!item.children.length > 0 || !(depth < depthMax)) {
     return false
   }
-
   if (item.category === page.fields.category) {
     if (depth > 0) {
       return page.fields.path.startsWith(item.path)

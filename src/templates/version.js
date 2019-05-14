@@ -6,7 +6,7 @@ import { Sticky, StickyContainer } from 'react-sticky'
 import { graphql } from 'gatsby'
 
 import versions from './../../content/versions.json'
-import { Layout, SidebarNav } from '../components/common'
+import { Layout, Seo, SidebarNav } from '../components/common'
 import {
   SummaryTile,
   VersionSelect,
@@ -19,17 +19,18 @@ class DocumentationVersion extends React.Component {
     const { page, pages } = this.props.data
     const options = {
       summary: get(page, 'frontmatter.summary') || false,
-      path: get(page, 'fields.path'),
+      path: get(page, 'path'),
     }
-
     const tree = getTree(pages)
-    //const meta = getMeta(pages, page)
     const summary = getTree(pages, options.path)
-
     const optionVersions = getVersions(versions)
-
     return (
       <Layout>
+        <Seo
+          title={`Spring Cloud Data Flow - Documentation v${
+            this.props.data.page.context.version
+          }`}
+        />
         <StickyContainer>
           <div className='container'>
             <div className={classNames('layout-sidebars', 'layout-2-sidebars')}>

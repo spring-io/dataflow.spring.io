@@ -76,7 +76,7 @@ class DocsPage extends React.Component {
     ]
     return (
       <Layout className='page-doc'>
-        <Seo title='Spring Cloud Data Flow Documentation' />
+        <Seo title='Spring Cloud Data Flow - Documentation' />
         <div className='container'>
           <div className='layout-col'>
             <div className='left'>

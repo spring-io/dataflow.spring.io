@@ -49,8 +49,8 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
         path: url,
         description: '',
         meta: {
-          title: `Spring Cloud Data Flow Documentation ${version}`,
-          description: 'Spring Cloud Data Flow Documentation',
+          title: `Spring Cloud Data Flow - Documentation ${version}`,
+          description: 'Spring Cloud Data Flow - Documentation',
           keywords: [],
         },
       })
@@ -66,8 +66,8 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
       path: `/docs/`,
       description: '',
       meta: {
-        title: 'Spring Cloud Data Flow Documentation',
-        description: 'Spring Cloud Data Flow Documentation',
+        title: 'Spring Cloud Data Flow - Documentation',
+        description: 'Spring Cloud Data Flow - Documentation',
         keywords: [],
       },
     })
