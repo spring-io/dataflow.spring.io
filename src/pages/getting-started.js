@@ -70,8 +70,14 @@ const GettingStartedPage = () => (
             <h1>Getting started</h1>
 
             <p>
-              The first step in getting started is to install Data Flow on your
-              preferred platform.
+              In order to use Spring Cloud Data Flow, you will need to choose
+              what platform you want to run it on and install the server
+              component on that platform. Data Flow supports three platforms out
+              of the box: Local, CloudFoundry, and Kubernetes. If you are new to
+              Data Flow, we recommend trying out Local for simplicity to get
+              comfortable with the concepts. Once you are ready to try it out on
+              a platform, the guides for CloudFoundry and Kubernetes are here
+              for you as well.
             </p>
 
             <ul className='installation-links'>
@@ -102,8 +108,12 @@ const GettingStartedPage = () => (
             </ul>
 
             <p>
-              Once installed, follow the links below to try out a simple example
-              for Stream and Batch processing.
+              Once you have the Data Flow server installed on the platform you
+              are using, you will want to get started in writing and deploying
+              the microservices that Data Flow orchestrates. Below we have
+              guides on how to get started with both stream processing (message
+              based microservices) and batch processing (microservices for
+              finite workloads).
             </p>
 
             <ul className='links'>
