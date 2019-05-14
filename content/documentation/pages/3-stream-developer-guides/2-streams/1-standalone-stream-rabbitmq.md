@@ -38,7 +38,7 @@ The three streaming applications are:
 
 - The `Sink` application named `UsageCostLogger` Consumes the `UsageCostDetail` object and logs the cost of the call and data.
 
-### Source
+### UsageDetailSender source
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-rabbit&name=usage-detail-sender-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web&style=cloud-connectors).
 
@@ -99,6 +99,39 @@ In the case of RabbitMQ, messages sent to the `output` channel are in turn sent 
 The `@EnableScheduling` annotation indicates that you want to enable Spring's scheduling capabilities, which will invoked `@Scheduled` annotated methods with the specified `fixedDelay` of `1` second.
 
 The `sendEvents` method constructs a `UsageDetail` object and then sends it to the the output channel by accessing the `Source` object's `output().send()` method.
+
+#### Configuring the UsageDetailSender application
+
+When configuring the `producer` application, we need to set:
+
+- the `output` binding destination (RabbitMQ exchange) where the producer publishes the data
+- the `requiredGroups` to specify the consumer groups to ensure the message delivery guarantee
+
+The `UsageDetailSender` application's `output` binding is connected to the RabbitMQ exchange.
+The `consumer` application's input is actually connected to a `queue` that is bound to the exchange.
+By default, the Spring Cloud Stream consumer application creates an `anonymous` auto-delete queue.
+This can result in a message not being stored and forwarded by the producer if the producer application started before the consumer application.
+Even though the exchange is durable, there needs to be a `durable` queue bound to the exchange for the message to be stored for later consumption.
+Hence, for guaranteed message delivery, you need a `durable` queue.
+
+To pre-create durable queues and bind them to the exchange, the producer application should set the property:
+
+```
+spring.cloud.stream.bindings.<channelName>.producer.requiredGroups
+```
+
+The `requiredGroups` property accepts a comma-separated list of groups to which the producer must ensure message delivery.
+When this property is set, a durable queue is created using the format `<exchange>.<requiredGroup>`.
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.output.destination=usage-detail
+spring.cloud.stream.bindings.output.producer.requiredGroups=usage-cost-consumer
+```
+
+1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageDetailSender`'s output to the `usage-detail` RabbitMQ exchange.
+1. The property `spring.cloud.stream.bindings.output.producer.requiredGroups` makes sure to create a durable queue named `usage-detail.usage-cost-consumer` which consumes from the `usage-detail` RabbitMQ exchange.
 
 #### Building
 
@@ -167,7 +200,7 @@ public class UsageDetailSenderApplicationTests {
 - The test case `contextLoads` verifies the application starts successfully.
 - The test case `testUsageDetailSender` uses `Test` binder's `MessageCollector` to collect the messages sent by the `UsageDetailSender`.
 
-### Processor
+### UsageCostProcessor processor
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-rabbit&name=usage-cost-processor-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web&style=cloud-connectors).
 
@@ -227,6 +260,34 @@ In the above application, the `@EnableBinding` annotation indicates that you wan
 The annotation `@StreamListener` binds the application's `input` channel to the `processUsageCost` method by converting the incoming JSON into `UsageDetail` object.
 
 The annotation `@SendTo` sends the `processUsageCost` method's output to the application's `output` channel which is in turn sent to the a RabbitMQ message broker using a `TopicExchange`.
+
+#### Configuring the UsageCostProcessor application
+
+When configuring the `consumer` application, we need to set:
+
+- the `input` binding destination (RabbitMQ exchange) where this application is subscribed via an `anonymous` auto-delete or `durable` queue
+- the `group` to specify the consumer group that this consumer application belongs to
+
+Since `UsageCostProcessor` application is also a `producer` application, it will have:
+
+- the `output` binding destination (RabbitMQ exchange) where the producer publishes the data
+- the `requiredGroups` to specify the consumer groups to ensure the message delivery guarantee
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.input.destination=usage-detail
+spring.cloud.stream.bindings.input.group=usage-cost-consumer
+spring.cloud.stream.bindings.output.destination=usage-cost
+spring.cloud.stream.bindings.output.producer.requiredGroups=logger
+```
+
+1. The properties `spring.cloud.stream.bindings.input.destination` and `spring.cloud.stream.bindings.input.group` bind the `UsageCostProcessor`'s `input` to the `usage-detail` RabbitMQ exchange via the durable queue `usage-detail.usage-cost-consumer`.
+1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageCostProcessor`'s output to the `usage-cost` RabbitMQ exchange.
+1. The property `spring.cloud.stream.bindings.output.producer.requiredGroups` makes sure to create a durable queue named `usage-cost.logger` which consumes from the `usage-cost` RabbitMQ exchange.
+
+**NOTE**
+If we don't set the `group` property, there will be an `anonymous` auto-delete queue created and bound to the `usage-detail` RabbitMQ exchange to consume messages.
 
 #### Building
 
@@ -290,7 +351,7 @@ To unit test the `UsageCostProcessor`, in the class `UsageCostProcessorApplicati
 - The test case `contextLoads` verifies the application starts successfully.
 - The test case `testUsageCostProcessor` uses `Test` binder's `MessageCollector` to collect the messages from the `UsageCostProcessor`'s `output`.
 
-### Sink
+### UsageCostLogger sink
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-rabbit&name=usage-cost-logger-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=cloud-stream&style=amqp&style=actuator&style=web&style=cloud-connectors)
 
@@ -336,6 +397,22 @@ Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the pr
 In the above application, the `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware. The annotation takes one or more interfaces as a parameter, in this case the [Sink](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Sink.java) interface that defines and input channel.
 
 The annotation `@StreamListener` binds the application's `input` channel to the `process` method by converting the incoming JSON to a `UsageCostDetail` object.
+
+#### Configuring the UsageCostLogger application
+
+When configuring the `consumer` application, we need to set:
+
+- the `input` binding destination (RabbitMQ exchange) where this application is subscribed via an `anonymous` auto-delete or `durable` queue
+- the `group` to specify the consumer group that this consumer application belongs to
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.input.destination=usage-cost
+spring.cloud.stream.bindings.input.group=logger
+```
+
+1. The properties `spring.cloud.stream.bindings.input.destination` and `spring.cloud.stream.bindings.input.group` bind the `UsageCostLogger`'s `input` to the `usage-cost` RabbitMQ exchange via the durable queue `usage-cost.logger`.
 
 #### Building
 
@@ -427,98 +504,25 @@ The `UsageCostProcessor` application's output is connected to the `UsageCostLogg
 
 When these applications are run, the `RabbitMQ` binder binds the applications' output/input boundaries into the corresponding exchanges/queues at RabbitMQ message broker.
 
-While the `producer` application's `output` binding is connected to the RabbitMQ exchange, the `consumer` application's input is actually connected to a `queue` that is bound to the exchange.
-By default, the Spring Cloud Stream consumer application creates an `anonymous` auto-delete queue.
-This can result in a message not being stored and forwarded by the producer if the producer application started before the consumer application.
-Even though the exchange is durable, there needs to be a `durable` queue bound to the exchange for the message to be stored for later consumption.
-Hence, for guaranteed message delivery, you need a `durable` queue.
-
-Let's choose our destinations at RabbitMQ:
-
-- UsageDetailSender's output is bound to the `usage-detail` exchange
-- UsageCostProcessor's input is bound to the `usage-detail` exchange via an anonymous auto-delete queue (by default) or a durable queue (using some additional configuration)
-- UsageCostProcessor's output is bound to the `usage-cost` exchange
-- UsageCostLogger's input is bound to `usage-cost` exchange via an anonymous auto-delete queue (by default) or a durable queue (using some additional configuration)
-
-To pre-create durable queues and bind them to the exchange, the producer application should set the property:
-
-```
-spring.cloud.stream.bindings.<channelName>.producer.requiredGroups
-```
-
-The `requiredGroups` property accepts a comma-separated list of groups to which the producer must ensure message delivery.
-When this property is set, a durable queue is created using the format `<exchange>.<requiredGroup>`.
-
-To consume from the durable queues, the consumer applications should then specify the property:
-
-```
-spring.cloud.stream.bindings.<channelName>.group
-```
-
-The `group` property accepts a comma-separated list of groups that should generally match with the `requiredGroups`.
-
-NOTE: Consumer groups are also the means by which multiple instances of a consuming application can participate in a competing consumer relationship with other members of the same consumer group.
-
-Based on this, you can see the following configuration properties which ensures
-
-- output/input bindings to the corresponding destinations
-- message delivery guarantee
-
-### Configuration Properties for UsageDetailSender application
-
-```
-spring.cloud.stream.bindings.output.destination=usage-detail
-spring.cloud.stream.bindings.output.producer.requiredGroups=usage-cost-consumer
-```
-
-1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageDetailSender`'s output to the `usage-detail` RabbitMQ exchange.
-1. The property `spring.cloud.stream.bindings.output.producer.requiredGroups` makes sure to create a durable queue named `usage-detail.usage-cost-consumer` which consumes from the `usage-detail` RabbitMQ exchange.
-
-### Configuration Properties for UsageCostProcessor application
-
-```
-spring.cloud.stream.bindings.input.destination=usage-detail
-spring.cloud.stream.bindings.input.group=usage-cost-consumer
-spring.cloud.stream.bindings.output.destination=usage-cost
-spring.cloud.stream.bindings.output.producer.requiredGroups=logger
-```
-
-1. The properties `spring.cloud.stream.bindings.input.destination` and `spring.cloud.stream.bindings.input.group` bind the `UsageCostProcessor`'s `input` to the `usage-detail` RabbitMQ exchange via the durable queue `usage-detail.usage-cost-consumer`.
-1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageCostProcessor`'s output to the `usage-cost` RabbitMQ exchange.
-1. The property `spring.cloud.stream.bindings.output.producer.requiredGroups` makes sure to create a durable queue named `usage-cost.logger` which consumes from the `usage-cost` RabbitMQ exchange.
-
-**NOTE**
-If we don't set the `group` property, there will be an `anonymous` auto-delete queue created and bound to the `usage-detail` RabbitMQ exchange to consume messages.
-
-### Configuration Properties for UsageCostLogger application
-
-```
-spring.cloud.stream.bindings.input.destination=usage-cost
-spring.cloud.stream.bindings.input.group=logger
-```
-
-1. The properties `spring.cloud.stream.bindings.input.destination` and `spring.cloud.stream.bindings.input.group` bind the `UsageCostLogger`'s `input` to the `usage-cost` RabbitMQ exchange via the durable queue `usage-cost.logger`.
-
 ### Local
 
 You can run the above applications as standalone applications on your `local` environment.
 
-**TODO replace with docker instructions. Also, I believe the mgmt console is an add-on that might not be available OOTB , need to find an image that has it installed - bitnami?**
+To install and run `RabbitMQ` docker image:
 
-You can [download](https://www.rabbitmq.com/download.html) and setup `RabbitMQ` on your local.
+```bash
+docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 rabbitmq:3.7.14-management
+```
 
 Once installed, you can login to RabbitMQ management console on your local using on [http://localhost:15672](http://localhost:15672).
 You can use the default account username/password: `guest/guest`.
 
-**NOTE**
-When running these applications locally, you need to set the `server.port` property to a unique port for each application.
-
 #### Running the UsageDetailSender Source
 
-Using the configuration properties discussed above, you can run the `UsageDetailSender` application (along with a unique server port) as follows:
+Using the [pre-defined](#configuring-the-usagedetailsender-application) configuration properties(along with a unique server port) for `UsageDetailSender`, you can run the application as follows:
 
 ```
-java -jar target/usage-detail-sender-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=usage-detail --server.port=9001 --spring.cloud.stream.bindings.output.producer.requiredGroups=usage-cost-consumer &
+java -jar target/usage-detail-sender-rabbit-0.0.1-SNAPSHOT.jar --server.port=9001 &
 ```
 
 When this application is running, you can see that the `usage-detail` RabbitMQ exchange is created and the durable queue named `usage-detail.usage-cost-consumer` is bound to this exchange.
@@ -532,20 +536,14 @@ Also, if you click on the `Queues` and check the queue `usage-detail.usage-cost-
 When configuring the consumer applications for this `Source` application, you can set the `group` binding property to connect to the corresponding durable queue.
 
 **NOTE**
-If you pass the configuration properties without `requiredGroups` property as command line arguments when running the `UsageDetailSender` source application.
-
-```bash
-java -jar target/usage-detail-sender-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=usage-detail --server.port=9001 &
-```
-
-you can see that there will be no `queue` for consuming the messages from the `usage-detail` exchange and thereby the messages are lost if the consumer is not up before this application is started.
+If you don't set the `requiredGroups` property, then you can see that there will be no `queue` for consuming the messages from the `usage-detail` exchange and thereby the messages are lost if the consumer is not up before this application is started.
 
 #### Running the Processor
 
-To run the `UsageCostProcessor` application, pass its binding and message delivery guarantee configuration properties as command line arguments when running the `UsageCostProcessor` processor application.
+Using the [pre-defined](#configuring-the-usagecostprocessor-application) configuration properties(along with a unique server port) for `UsageCostProcessor`, you can run the application as follows:
 
 ```
-java -jar target/usage-cost-processor-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=usage-detail --spring.cloud.stream.bindings.output.destination=usage-cost --server.port=9002 --spring.cloud.stream.bindings.input.group=usage-cost-consumer --spring.cloud.stream.bindings.output.producer.requiredGroups=logger &
+java -jar target/usage-cost-processor-rabbit-0.0.1-SNAPSHOT.jar --server.port=9002 &
 ```
 
 From the RabbitMQ console, you can see:
@@ -564,10 +562,10 @@ Also, if you click on the `Queues` and check the queue `usage-cost.logger`, you 
 
 #### Running the Sink
 
-You can pass the binding and message delivery guarantee properties as command line arguments when running the `UsageCostLogger` sink application as follows:
+Using the [pre-defined](#configuring-the-usagecostlogger-application) configuration properties(along with a unique server port) for `UsageCostLogger`, you can run the application as follows:
 
 ```
-java -jar target/usage-cost-logger-rabbit-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=usage-cost --server.port=9003 --spring.cloud.stream.bindings.input.group=logger &
+java -jar target/usage-cost-logger-rabbit-0.0.1-SNAPSHOT.jar --server.port=9003 &
 ```
 
 Now, you can see that this application logs the usage cost detail it receives from the `usage-cost` RabbitMQ exchange via `usage-cost.logger` durable queue:
@@ -594,9 +592,9 @@ You can create a RabbitMQ service instance which uses the `cloudamqp` service on
 cf create-service cloudamqp lemur rabbitmq
 ```
 
-#### Create CF manifest for UsageDetail Sender
+#### Cloud Foundry Deployment
 
-Create a CF manifest yaml `usage-detail-sender.yml` file for the `UsageDetailSender` using its configuration properties:
+Create a CF manifest yaml `usage-detail-sender.yml` file for the `UsageDetailSender` using its [configuration properties](#configuring-the-usagedetailsender-application):
 
 ```
 applications:
@@ -607,9 +605,6 @@ applications:
   buildpack: java_buildpack
   services:
     - rabbitmq
-  env:
-    SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION: usage-detail
-    SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_REQUIREDGROUPS: usage-cost-consumer
 ```
 
 Push the `UsageDetailSender` application using its manifest YAML file:
@@ -618,7 +613,7 @@ Push the `UsageDetailSender` application using its manifest YAML file:
 cf push -f usage-detail-sender.yml
 ```
 
-Create a CF manifest yaml `usage-cost-processor.yml` file for the `UsageCostProcessor` using its configuration properties:
+Create a CF manifest yaml `usage-cost-processor.yml` file for the `UsageCostProcessor` using its [configuration properties](#configuring-the-usagecostprocessor-application)
 
 ```
 applications:
@@ -629,11 +624,6 @@ applications:
   buildpack: java_buildpack
   services:
     - rabbitmq
-  env:
-    SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION: usage-detail
-    SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP: usage-cost-consumer
-    SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION: usage-cost
-    SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_PRODUCER_REQUIREDGROUPS: logger
 ```
 
 Push the `UsageCostProcessor` application using its manifest YAML file:
@@ -642,7 +632,7 @@ Push the `UsageCostProcessor` application using its manifest YAML file:
 cf push -f usage-cost-processor.yml
 ```
 
-Create a CF manifest yaml `usage-cost-logger.yml` file for the `UsageCostLogger` using its configuration properties:
+Create a CF manifest yaml `usage-cost-logger.yml` file for the `UsageCostLogger` using its [configuration properties](#configuring-the-usagecostlogger-application)
 
 ```
 applications:
@@ -653,9 +643,6 @@ applications:
   buildpack: java_buildpack
   services:
     - rabbitmq
-  env:
-    SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION: usage-cost
-    SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP: logger
 ```
 
 Push the `UsageCostLogger` application using its manifest YAML file:
@@ -775,8 +762,6 @@ spec:
       env:
         - name: SPRING_RABBITMQ_ADDRESSES
           value: rabbitmq
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value: user-details
         - name: SERVER_PORT
           value: '80'
   restartPolicy: Always
@@ -798,12 +783,6 @@ spec:
       env:
         - name: SPRING_RABBITMQ_ADDRESSES
           value: rabbitmq
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: usage-cost-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: user-details
-        - name: SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION
-          value: user-cost
         - name: SERVER_PORT
           value: '80'
   restartPolicy: Always
@@ -825,10 +804,6 @@ spec:
       env:
         - name: SPRING_RABBITMQ_ADDRESSES
           value: rabbitmq
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_GROUP
-          value: usage-cost-stream
-        - name: SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION
-          value: user-cost
         - name: SERVER_PORT
           value: '80'
   restartPolicy: Always
@@ -850,13 +825,7 @@ pod/usage-cost-logger created
 
 The above YAML specifies three pod resources, for the source, processor, and sink applications. Each pod has a single container, referencing the respective docker image.
 
-We set the Spring Cloud Stream binding parameters using environment variables. The input and output destination names have to be correct to wire the stream, specifically, the output of the source must be the same as the input of the processor, and the output of the processor must be the same as the input of the sink.
-
-- Usage Detail Sender: `SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION=user-details`
-- Usage Cost Processor: `SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION=user-details` and `SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION=user-cost`
-- Usage Cost Logger: `SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION=user-cost`
-
-We also set the logical hostname for the RabbitMQ broker for each app to connect to it. Here we use the RabbitMQ service name, `rabbitmq` in this case. We also set the label `app: user-cost-stream` to logically group our apps.
+We set the logical hostname for the RabbitMQ broker for each app to connect to it. Here we use the RabbitMQ service name, `rabbitmq` in this case. We also set the label `app: user-cost-stream` to logically group our apps.
 
 #### Verify the deployment
 

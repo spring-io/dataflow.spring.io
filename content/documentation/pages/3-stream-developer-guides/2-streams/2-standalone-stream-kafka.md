@@ -38,7 +38,7 @@ The three streaming applications are:
 
 - The `Sink` application named `UsageCostLogger` Consumes the `UsageCostDetail` object and logs the cost of the call and data.
 
-### Source
+### UsageDetailSender source
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-kafka&name=usage-detail-sender-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web&style=cloud-connectors)
 
@@ -101,6 +101,20 @@ In the case of Kafka, messages sent to the `output` channel are in turn sent the
 The `@EnableScheduling` annotation indicates that you want to enable Spring's scheduling capabilities, which will invoked `@Scheduled` annotated methods with the specified `fixedDelay` of `1` second.
 
 The `sendEvents` method constructs a `UsageDetail` object and then sends it to the the output channel by accessing the `Source` object's `output().send()` method.
+
+#### Configuring the UsageDetailSender application
+
+When configuring the `producer` application, we need to set:
+
+- the `output` binding destination (Kafka topic) where the producer publishes the data
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.output.destination=usage-detail
+```
+
+1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageDetailSender`'s output to the `usage-detail` Kafka topic.
 
 #### Building
 
@@ -172,7 +186,7 @@ When using the `spring-cloud-stream-test-support` dependency, your application's
 1. The test case `contextLoads` verifies the application starts successfully.
 1. The test case `testUsageDetailSender` uses `Test` binder's `MessageCollector` to collect the messages sent by the `UsageDetailSender`.
 
-### Processor
+### UsageCostProcessor processor
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-kafka&name=usage-cost-processor-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web&style=cloud-connectors)
 
@@ -231,6 +245,26 @@ In the above application, the `@EnableBinding` annotation indicates that you wan
 The annotation `@StreamListener` binds the application's `input` channel to the `processUsageCost` method by converting the incoming JSON into `UsageDetail` object. The Kafka topic that will be bound to the input channel will be configured later.
 
 The annotation `@SendTo` sends the `processUsageCost` method's output to the application's `output` channel which is in turn sent to the a Kafka topic that is to be configured later.
+
+#### Configuring the UsageCostProcessor application
+
+When configuring the `consumer` application, we need to set:
+
+- the `input` binding destination (Kafka topic)
+
+Since `UsageCostProcessor` application is also a `producer` application, we need to set:
+
+- the `output` binding destination (Kafka topic) where the producer publishes the data
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.input.destination=usage-detail
+spring.cloud.stream.bindings.output.destination=usage-cost
+```
+
+1. The property `spring.cloud.stream.bindings.input.destination` binds the `UsageCostProcessor`'s `input` to the `usage-detail` Kafka topic.
+1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageCostProcessor`'s output to the `usage-cost` Kafka topic.
 
 #### Building
 
@@ -294,7 +328,7 @@ To unit test the `UsageCostProcessor`, in the class `UsageCostProcessorApplicati
 1. The test case `contextLoads` verifies the application starts successfully.
 1. The test case `testUsageCostProcessor` uses `Test` binder's `MessageCollector` to collect the messages from the `UsageCostProcessor`'s `output`.
 
-### Sink
+### UsageCostLogger sink
 
 Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-kafka&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-kafka&name=usage-cost-logger-kafka&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=kafka&style=cloud-stream&style=actuator&style=web&style=cloud-connectors)
 
@@ -342,6 +376,20 @@ In the above application, the `@EnableBinding` annotation indicates that you wan
 The annotation `@StreamListener` binds the application's `input` channel to the `process` method by converting the incoming JSON to a `UsageCostDetail` object.
 
 The Kafka topic that will be bound to the input channel will be configured later.
+
+#### Configuring the UsageCostLogger application
+
+When configuring the `consumer` application, we need to set:
+
+- the `input` binding destination (Kafka topic)
+
+In `src/main/resources/application.properties`, you can add the following properties:
+
+```
+spring.cloud.stream.bindings.input.destination=usage-cost
+```
+
+1. The property `spring.cloud.stream.bindings.input.destination` binds the `UsageCostLogger`'s `input` to the `usage-cost` Kafka topic.
 
 #### Building
 
@@ -434,39 +482,6 @@ The `UsageCostProcessor` application's output is connected to the `UsageCostLogg
 
 When these applications are run, the `Kafka` binder binds the applications' output/input boundaries into the corresponding topics in Kafka.
 
-Let's choose our destinations (topics) in Kafka:
-
-- UsageDetailSender's output is bound to the `usage-detail` topic
-- UsageCostProcessor's input is bound to the `usage-detail` topic
-- UsageCostProcessor's output is bound to the `usage-cost` topic
-- UsageCostLogger's input is bound to `usage-cost` topic
-
-### Configuration Properties for UsageDetailSender application
-
-```
-spring.cloud.stream.bindings.output.destination=usage-detail
-```
-
-1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageDetailSender`'s output to the `usage-detail` Kafka topic.
-
-### Configuration Properties for UsageCostProcessor application
-
-```
-spring.cloud.stream.bindings.input.destination=usage-detail
-spring.cloud.stream.bindings.output.destination=usage-cost
-```
-
-1. The property `spring.cloud.stream.bindings.input.destination` binds the `UsageCostProcessor`'s `input` to the `usage-detail` Kafka topic.
-1. The property `spring.cloud.stream.bindings.output.destination` binds the `UsageCostProcessor`'s output to the `usage-cost` Kafka topic.
-
-### Configuration Properties for UsageCostLogger application
-
-```
-spring.cloud.stream.bindings.input.destination=usage-cost
-```
-
-1. The property `spring.cloud.stream.bindings.input.destination` binds the `UsageCostLogger`'s `input` to the `usage-cost` Kafka topic.
-
 ### Local
 
 You can run the above applications as standalone applications on your `local` environment.
@@ -487,17 +502,10 @@ After unpacking the downloaded archive, you can start `ZooKeeper` and `Kafka` se
 
 #### Running the Source
 
-To run, we need to explicitly set the Spring Cloud Stream bindings `output.destination` property and `server.port` property.
+Using the [pre-defined](#configuring-the-usagedetailsender-application) configuration properties(along with a unique server port) for `UsageDetailSender`, you can run the application as follows:
 
 ```
-spring.cloud.stream.bindings.output.destination=usage-detail
-server.port=0
-```
-
-Pass these properties as command line arguments when running the `UsageDetailSender` source application.
-
-```
-java -jar target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.output.destination=usage-detail  --server.port=0 &
+java -jar target/usage-detail-sender-kafka-0.0.1-SNAPSHOT.jar --server.port=9001 &
 ```
 
 Now, you can see the messages being sent to the Kafka topic `usage-detail` using Kafka console consumer as follows:
@@ -514,17 +522,10 @@ To list the topics:
 
 #### Running the Processor
 
-To run the `UsageCostProcessor` application, you need to set the `input` binding to a Kafka topic `usage-detail` to receive the `UsageDetail` data and `output` binding to the Kafka topic `usage-cost` to send the computed `UsageCostDetail`.
+Using the [pre-defined](#configuring-the-usagecostprocessor-application) configuration properties(along with a unique server port) for `UsageCostProcessor`, you can run the application as follows:
 
 ```
-spring.cloud.stream.bindings.input.destination=usage-detail
-spring.cloud.stream.bindings.output.destination=usage-cost
-```
-
-Pass these properties as command line arguments when running the `UsageCostProcessor` processor application.
-
-```
-java -jar target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=usage-detail --spring.cloud.stream.bindings.output.destination=usage-cost &
+java -jar target/usage-cost-processor-kafka-0.0.1-SNAPSHOT.jar --server.port=9002 &
 ```
 
 With the `UsageDetail` data on the `usage-detail` Kafka topic using the `UsageDetailSender` source application, you can see the `UsageCostDetail` from the `usage-cost` Kafka topic as follows:
@@ -535,16 +536,10 @@ With the `UsageDetail` data on the `usage-detail` Kafka topic using the `UsageDe
 
 #### Running the Sink
 
-For the `UsageCostLogger` application, you need to set the `input` binding to a Kafka topic `usage-cost` to receive the computed `UsageCostDetail`:
+Using the [pre-defined](#configuring-the-usagecostlogger-application) configuration properties(along with a unique server port) for `UsageCostLogger`, you can run the application as follows:
 
 ```
-spring.cloud.stream.bindings.input.destination=usage-cost
-```
-
-Pass these properties as command line arguments when running the `UsageCostLogger` sink application.
-
-```
-java -jar target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar --spring.cloud.stream.bindings.input.destination=usage-cost &
+java -jar target/usage-cost-logger-kafka-0.0.1-SNAPSHOT.jar --server.port=9003 &
 ```
 
 Now, you can see that this application logs the usage cost detail.
@@ -569,7 +564,6 @@ applications:
   memory: 1G
   buildpack: java_buildpack
   env:
-    SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION: usage-detail
     SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: [Kafka_Service_IP_Address:Kafka_Service_Port]
     SPRING_CLOUD_STREAM_KAFKA_BINDER_ZKNODES: [ZooKeeper_Service_IP_Address:ZooKeeper_Service_Port]
 ```
@@ -590,8 +584,6 @@ applications:
   memory: 1G
   buildpack: java_buildpack
   env:
-    SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION: usage-detail
-    SPRING_CLOUD_STREAM_BINDINGS_OUTPUT_DESTINATION: usage-cost
     SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: [Kafka_Service_IP_Address:Kafka_Service_Port]
     SPRING_CLOUD_STREAM_KAFKA_BINDER_ZKNODES: [ZooKeeper_Service_IP_Address:ZooKeeper_Service_Port]
 ```
@@ -612,7 +604,6 @@ applications:
   memory: 1G
   buildpack: java_buildpack
   env:
-    SPRING_CLOUD_STREAM_BINDINGS_INPUT_DESTINATION: usage-cost
     SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: [Kafka_Service_IP_Address:Kafka_Service_Port]
     SPRING_CLOUD_STREAM_KAFKA_BINDER_ZKNODES: [ZooKeeper_Service_IP_Address:ZooKeeper_Service_Port]
 ```
