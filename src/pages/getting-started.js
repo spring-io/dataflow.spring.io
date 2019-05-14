@@ -56,17 +56,14 @@ const GettingStartedPage = () => (
 
             <ul className='block-links'>
               <li>
-                <a
-                  href='/documentation/master/installation/local/'
-                  className='local'
-                >
+                <a href='/docs/installation/local/' className='local'>
                   Installation
                   <strong>Local machine</strong>
                 </a>
               </li>
               <li>
                 <a
-                  href='/documentation/master/installation/cloudfoundry/'
+                  href='/docs/installation/cloudfoundry/'
                   className='cloudfoundry'
                 >
                   Installation
@@ -74,10 +71,7 @@ const GettingStartedPage = () => (
                 </a>
               </li>
               <li>
-                <a
-                  href='/documentation/master/installation/kubernetes/'
-                  className='kubernetes'
-                >
+                <a href='/docs/installation/kubernetes/' className='kubernetes'>
                   Installation
                   <strong>Kubernetes</strong>
                 </a>
