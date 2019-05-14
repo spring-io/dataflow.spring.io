@@ -7,7 +7,7 @@ import { Video } from '../components/features'
 const FeaturesPage = () => (
   <Layout className='page-features'>
     <Seo title='Spring Cloud Data Flow Features' />
-    <div className='band'>
+    {/* <div className='band'>
       <div className='band-background'>
         <div className='container'>
           <div className='text'>
@@ -39,7 +39,7 @@ const FeaturesPage = () => (
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
     <div className='container'>
       <div className='layout-basic'>
         <div className='page-title'>
