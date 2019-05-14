@@ -1,6 +1,6 @@
 ---
 path: 'batch-developer-guides/'
 title: 'Batch Developer guides '
-description: 'Develop and Launch Batch Jobs'
+description: 'Learn how to create Batch data pipelines using pre-built microservices or create your own'
 summary: true
 ---

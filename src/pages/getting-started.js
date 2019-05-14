@@ -10,56 +10,26 @@ const GettingStartedPage = () => (
       <div className='layout-sidebars layout-2-sidebars'>
         <div className='sidebar'>
           <div className='box'>
-            <div className='box-title'>Download App Starters 2.0.1</div>
+            <div className='box-title'>Learning Corner</div>
             <ul>
               <li>
-                <a href='http://bit.ly/Einstein-SR2-stream-applications-rabbit-maven'>
-                  Stream Apps for <strong>Rabbit</strong>
+                <a href='/documentation/master/concepts/architecture/'>
+                  Data Flow Architecture
                 </a>
               </li>
               <li>
-                <a href='http://bit.ly/Einstein-SR2-stream-applications-rabbit-docker'>
-                  Stream Apps for <strong>Kafka</strong>
+                <a href='/documentation/master/concepts/streams'>
+                  Stream Concepts
                 </a>
               </li>
               <li>
-                <a href='http://bit.ly/Einstein-SR2-stream-applications-kafka-maven'>
-                  Task Apps for <strong>Rabbit</strong>
+                <a href='/documentation/master/concepts/batch-jobs/'>
+                  Batch Concepts
                 </a>
               </li>
               <li>
                 <a href='http://bit.ly/Einstein-SR2-stream-applications-kafka-docker'>
-                  Task Apps for <strong>Kafka</strong>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className='box'>
-            <div className='box-title'>View Github Projects</div>
-            <ul>
-              <li>
-                <a href='https://github.com/spring-cloud/spring-cloud-dataflow'>
-                  Spring Cloud <strong>Data Flow</strong>
-                </a>
-              </li>
-              <li>
-                <a href='https://github.com/spring-cloud/spring-cloud-dataflow-ui'>
-                  Spring Cloud <strong>Data Flow UI</strong>
-                </a>
-              </li>
-              <li>
-                <a href='https://github.com/spring-cloud/spring-cloud-skipper'>
-                  Spring Cloud <strong>Skipper</strong>
-                </a>
-              </li>
-              <li>
-                <a href='https://github.com/spring-cloud/spring-cloud-stream'>
-                  Spring Cloud <strong>Stream</strong>
-                </a>
-              </li>
-              <li>
-                <a href='https://github.com/spring-cloud/spring-cloud-task'>
-                  Spring Cloud <strong>Task</strong>
+                  Pre-built Stream and Batch microservices.
                 </a>
               </li>
             </ul>
@@ -72,12 +42,12 @@ const GettingStartedPage = () => (
             <p>
               In order to use Spring Cloud Data Flow, you will need to choose
               what platform you want to run it on and install the server
-              component on that platform. Data Flow supports three platforms out
-              of the box: Local, CloudFoundry, and Kubernetes. If you are new to
-              Data Flow, we recommend trying out Local for simplicity to get
-              comfortable with the concepts. Once you are ready to try it out on
-              a platform, the guides for CloudFoundry and Kubernetes are here
-              for you as well.
+              components on that platform. Data Flow supports three platforms
+              out of the box: Local, CloudFoundry, and Kubernetes. If you are
+              new to Data Flow, we recommend trying out Local for simplicity to
+              get comfortable with the concepts. Once you are ready to try it
+              out on a platform, the guides for Cloud Foundry and Kubernetes are
+              here for you as well.
             </p>
 
             <ul className='installation-links'>
@@ -109,22 +79,20 @@ const GettingStartedPage = () => (
 
             <p>
               Once you have the Data Flow server installed on the platform you
-              are using, you will want to get started in writing and deploying
-              the microservices that Data Flow orchestrates. Below we have
-              guides on how to get started with both stream processing (message
-              based microservices) and batch processing (microservices for
-              finite workloads).
+              are using, you will want to get started deploying pre-built
+              microservices that Data Flow orchestrates. Below we have guides on
+              how to get started with both Stream and Batch processing.
             </p>
 
             <ul className='links'>
               <li>
-                <a href='/docs/stream-developer-guides/getting-started/stream'>
-                  Getting started with Stream Processing
+                <a href='/docs/stream-developer-guides/getting-started/stream/'>
+                  Stream Processing
                 </a>
               </li>
               <li>
                 <a href='/docs/batch-developer-guides/getting-started/task/'>
-                  Getting started with Batch Processing
+                  Batch Processing
                 </a>
               </li>
             </ul>

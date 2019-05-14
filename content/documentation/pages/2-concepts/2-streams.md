@@ -1,5 +1,5 @@
 ---
-path: 'concepts/what-are-streams/'
+path: 'concepts/streams/'
 title: 'What are streams'
 description: 'Concepts on Streaming pipelines'
 ---

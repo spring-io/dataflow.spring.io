@@ -1,7 +1,7 @@
 ---
 path: 'concepts/'
 title: 'Concepts'
-description: 'All the concepts'
+description: 'Core concepts to understand'
 summary: true
 ---
 

@@ -1,5 +1,5 @@
 ---
-path: 'concepts/what-are-batch-jobs/'
+path: 'concepts/batch-jobs/'
 title: 'What is batch processing'
 description: 'Concepts of batch processing'
 ---

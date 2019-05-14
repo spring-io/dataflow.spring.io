@@ -1,10 +1,11 @@
 ---
 path: 'feature-guides/'
 title: 'Feature guides'
-description: 'Lorem markdownum madefacta, circumtulit aliis, restabat'
+description: 'High level overview of Data Flow Features'
 summary: true
 ---
 
 # Feature guides
 
-Discuss features of data flow by example.
+Data Flow offers a rich feature set of functionality that you can pick from in order to address the specific needs of your use-case.
+These guides cover how to use the most common feature sets for both Stream and Batch processing.

@@ -1,7 +1,7 @@
 ---
 path: 'installation/'
 title: 'Installation'
-description: 'Installing Data Flow'
+description: 'How to install Data Flow'
 summary: true
 ---
 
