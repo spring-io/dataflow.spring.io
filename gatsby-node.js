@@ -53,6 +53,11 @@ exports.createPages = ({ graphql, actions }) => {
             edges {
               node {
                 id
+                fileAbsolutePath
+                headings {
+                  value
+                  depth
+                }
                 fields {
                   path
                   version
@@ -69,6 +74,16 @@ exports.createPages = ({ graphql, actions }) => {
           const DocumentationTemplate = path.resolve(
             `./src/templates/documentation.js`
           )
+
+          const h1 = node.headings.filter(item => item.depth === 1)
+          if (h1.length !== 1) {
+            if (h1.length === 0) {
+              console.log(`Missing h1 on page ${node.fileAbsolutePath}`)
+            }
+            if (h1.length > 1) {
+              console.log(`Too many h1 on page ${node.fileAbsolutePath}`)
+            }
+          }
 
           if (!(!isDev && node.fields.version === 'next')) {
             createPage({
