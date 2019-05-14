@@ -40,12 +40,13 @@ The three streaming applications are:
 
 ### Source
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-rabbit&name=usage-detail-sender-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web).
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-detail-sender-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-detail-sender-rabbit&name=usage-detail-sender-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagedetailsender&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web&style=cloud-connectors).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-detail-sender-rabbit`.
 1. In the Dependencies text box, type `RabbitMQ` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
+1. If your target platform is `Cloud Foundry`, then type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-detail-sender-rabbit.zip` file and import the project into your favorite IDE.
@@ -102,17 +103,6 @@ The `sendEvents` method constructs a `UsageDetail` object and then sends it to t
 #### Building
 
 Now let’s build the Usage Detail Sender application.
-
-**NOTE**
-If you are building this application to deploy on Cloud Foundry environment, make sure to add the following dependency into `usage-detail-sender`'s POM before building.
-
-```
-<dependency>
-  <groupId>io.pivotal.cfenv</groupId>
-  <artifactId>java-cfenv-boot</artifactId>
-  <version>1.0.1.RELEASE</version>
-</dependency>
-```
 
 In the directory `usage-detail-sender` use the following command to build the project using maven.
 
@@ -179,12 +169,13 @@ public class UsageDetailSenderApplicationTests {
 
 ### Processor
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-rabbit&name=usage-cost-processor-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web).
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-processor-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-rabbit&name=usage-cost-processor-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&style=amqp&style=cloud-stream&style=actuator&style=web&style=cloud-connectors).
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor-rabbit`.
 1. In the Dependencies text box, type `Rabbitmq` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
+1. If your target platform is `Cloud Foundry`, then type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-cost-processor-rabbit.zip` file and import the project into your favorite IDE.
@@ -246,17 +237,6 @@ In the directory `usage-cost-processor` use the following command to build the p
 ./mvnw clean package
 ```
 
-**NOTE**
-If you are building this application to deploy on Cloud Foundry environment, make sure to add the following dependency into `usage-detail-sender`'s POM before building.
-
-```
-<dependency>
-  <groupId>io.pivotal.cfenv</groupId>
-  <artifactId>java-cfenv-boot</artifactId>
-  <version>1.0.1.RELEASE</version>
-</dependency>
-```
-
 #### Testing
 
 Spring Cloud Stream provides `spring-cloud-stream-test-support` dependency to test the Spring Cloud Stream application. Instead of the RabbitMQ binder, it uses the Test binder to trace and test your application's outbound/inbound messages. The Test binder uses a utility class `MessageCollector` which stores the messages in-memory.
@@ -312,12 +292,13 @@ To unit test the `UsageCostProcessor`, in the class `UsageCostProcessorApplicati
 
 ### Sink
 
-Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-rabbit&name=usage-cost-logger-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=cloud-stream&style=amqp&style=actuator&style=web)
+Either visit the [Spring Initialzr site](https://start.spring.io/) and follow the instructions below or [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.4.RELEASE&baseDir=usage-cost-logger-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-rabbit&name=usage-cost-logger-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostlogger&packaging=jar&javaVersion=1.8&inputSearch=&style=cloud-stream&style=amqp&style=actuator&style=web&style=cloud-connectors)
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow` and an Artifact name of `usage-cost-logger-rabbit`.
 1. In the Dependencies text box, type `rabbitmq` to select the RabbitMQ binder dependency.
 1. In the Dependencies text box, type `cloud stream` to select the Spring Cloud Stream dependency.
 1. In the Dependencies text box, type `Actuator` to select the Spring Boot actuator dependency.
+1. If your target platform is `Cloud Foundry`, then type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the Generate Project button.
 
 Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the project into your favorite IDE.
@@ -363,17 +344,6 @@ In the directory `usage-cost-logger` use the following command to build the proj
 
 ```
 ./mvnw clean package
-```
-
-**NOTE**
-If you are building this application to deploy on Cloud Foundry environment, make sure to add the following dependency into `usage-detail-sender`'s POM before building.
-
-```
-<dependency>
-  <groupId>io.pivotal.cfenv</groupId>
-  <artifactId>java-cfenv-boot</artifactId>
-  <version>1.0.1.RELEASE</version>
-</dependency>
 ```
 
 #### Testing
@@ -455,7 +425,7 @@ UsageDetailSender -> UsageCostProcessor -> UsageCostLogger
 The source application `UsageDetailSender`'s output is connected to the `UsageCostProcessor` processor application's input.
 The `UsageCostProcessor` application's output is connected to the `UsageCostLogger` sink application's input.
 
-When these applications are run, the `RabbitMQ` binder binds the applications output/input boundaries into the corresponding exchanges/queues at RabbitMQ message broker.
+When these applications are run, the `RabbitMQ` binder binds the applications' output/input boundaries into the corresponding exchanges/queues at RabbitMQ message broker.
 
 While the `producer` application's `output` binding is connected to the RabbitMQ exchange, the `consumer` application's input is actually connected to a `queue` that is bound to the exchange.
 By default, the Spring Cloud Stream consumer application creates an `anonymous` auto-delete queue.
@@ -625,8 +595,6 @@ cf create-service cloudamqp lemur rabbitmq
 ```
 
 #### Create CF manifest for UsageDetail Sender
-
-As mentioned in the [Building](#Building) section, you need to have the `Java CFEnv` dependency to have your application deployed into Cloud Foundry.
 
 Create a CF manifest yaml `usage-detail-sender.yml` file for the `UsageDetailSender` using its configuration properties:
 
