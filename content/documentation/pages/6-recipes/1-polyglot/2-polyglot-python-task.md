@@ -28,7 +28,7 @@ The source code can be found in the samples GitHub [repo](https://github.com/spr
 
 Follow the [installation instructions](/documentation/master/installation/kubernetes/) to set up Data Flow on Kubernetes. Launch the Data Flow server with the task feature enabled!
 
-Register and launch a python scrip as Data Flow Task:
+Register and launch a python script as Data Flow Task:
 
 ```bash
 dataflow:>app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
@@ -43,7 +43,7 @@ Use the Data Flow UI/task or shell (task list) to monitor the status of the pyth
 
 <!--END_TIP-->
 
-On successful task launch you you should see the following report in your Data Flow Task UI:
+On successful task launch you should see the following report in your Data Flow Task UI:
 
 ![Successful Python Tasks](images/successful-python-task-execution.png)
 
@@ -94,13 +94,13 @@ except Exception as exp:
 
 <!--IMPORTANT-->
 
-Since the Python script is not managed by `Spring Cloud Task`, is the user's responsibility to manage and update the progress with the Data Flow database.
+Since the Python script is not managed by `Spring Cloud Task`, it is the user's responsibility to manage and update the progress with the Data Flow database.
 
 <!--END_IMPORTANT-->
 
-To parse the input arguments and to manage its state in Data Flow, the custom script can leverage the following utilities:
+To parse the input arguments and to manage its state in Data Flow, the custom script uses the following utilities:
 
-- The [task_status.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_status.py) helps to access and update the Data Flow `TASK_EXECUTION` table in order to reflects task's life cycle changes. The `TaskStatus` class takes `task id` and `sqlalchemy url` arguments, computed from the command line arguments and provides API for setting the task status to `running`, `completed` or `failed(with exitCode, errorMessage)`.
+- The [task_status.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_status.py) helps to access and update the Data Flow `TASK_EXECUTION` table in order to reflect task's life cycle events. The `TaskStatus` class takes `task id` and `sqlalchemy url` arguments, computed from the command line arguments and provides API for setting the task status to `running`, `completed` or `failed(with exitCode, errorMessage)`.
   To access the Data Flow database, the `task_status` uses the following launch arguments, automatically provided by Data Flow on every task launch:
 
   ```bash
