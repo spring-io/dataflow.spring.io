@@ -13,24 +13,18 @@ const GettingStartedPage = () => (
             <div className='box-title'>Learning</div>
             <ul>
               <li>
-                <a href='/documentation/master/concepts/architecture/'>
+                <a href='/docs/concepts/architecture/'>
                   Data Flow Architecture
                 </a>
               </li>
               <li>
-                <a href='/documentation/master/concepts/streams'>
-                  Stream Concepts
-                </a>
+                <a href='/docs/concepts/streams'>Stream Concepts</a>
               </li>
               <li>
-                <a href='/documentation/master/concepts/batch-jobs/'>
-                  Batch Concepts
-                </a>
+                <a href='/docs/concepts/batch-jobs/'>Batch Concepts</a>
               </li>
               <li>
-                <a href='http://bit.ly/Einstein-SR2-stream-applications-kafka-docker'>
-                  Pre-built Stream and Batch microservices.
-                </a>
+                <a href='/'>Pre-built Stream and Batch microservices.</a>
               </li>
             </ul>
           </div>
