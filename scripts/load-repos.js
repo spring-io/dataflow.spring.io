@@ -5,11 +5,10 @@ import versions from '../content/versions.json'
 import { cleanDir, createDir, execaOptions, info, log, main } from './utils'
 
 const DATA_DIR = path.join(__dirname, '../data')
-const REPO = 'oodamien/dataflow.io'
-const ANAME = 'dataflow.io'
+const REPO = 'spring-io/dataflow.spring.io'
+const ANAME = 'dataflow.spring.io'
 const AEXT = '.tar.gz'
 const url = version => `https://github.com/${REPO}/archive/${version}${AEXT}`
-// https://github.com/oodamien/dataflow.io/archive/1.0.1.tar.gz
 const loadRepos = async () => {
   info('Loading')
   cleanDir(DATA_DIR)

@@ -56,10 +56,6 @@ exports.createPages = ({ graphql, actions }) => {
               node {
                 id
                 fileAbsolutePath
-                headings {
-                  value
-                  depth
-                }
                 frontmatter {
                   title
                   description
@@ -75,6 +71,7 @@ exports.createPages = ({ graphql, actions }) => {
         }
       `).then(result => {
         if (result.errors) {
+          console.log('error', result)
           return reject(result.errors)
         }
         result.data.pages.edges.forEach(({ node }) => {
@@ -89,7 +86,7 @@ exports.createPages = ({ graphql, actions }) => {
               return
             }
           }
-          checkstyles(node)
+          //checkstyles(node)
           createPage({
             path: get(node, 'fields.path'),
             component: DocumentationTemplate,
@@ -173,6 +170,12 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
             name: `exclude`,
             value: !isDev,
           })
+        } else {
+          createNodeField({
+            node,
+            name: `exclude`,
+            value: false,
+          })
         }
       } else {
         // Template
@@ -185,6 +188,11 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
           node,
           name: `version`,
           value: version,
+        })
+        createNodeField({
+          node,
+          name: `exclude`,
+          value: false,
         })
       }
     }
