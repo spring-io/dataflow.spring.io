@@ -15,7 +15,9 @@ If a stream fails to deploy:
 Skipper is responsible for deploying streams.
 Stream deployment failure messages can typically be found in the Skipper application logs.
 
-# Local
+The rest of the guide is divided in to sections for each platform.
+
+## Local
 
 ```mermaid
 graph TD;
@@ -37,7 +39,7 @@ for more information and [Deployment Logs](http://docs.spring.io/spring-cloud-da
 Debugging applications via JDWP can be accomplished by setting the deployer property `debugPort`.
 See [Remote Debugging](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_remote_debugging) for more information.
 
-# Docker Compose - Startup
+### Docker Compose - Startup
 
 ```mermaid
 graph TD;
@@ -49,7 +51,7 @@ graph TD;
 The environment variables `DATAFLOW_VERSION` and `SKIPPER_VERSION` must be available in the current terminal environment via `export` or prefixing the `docker-compose` command.
 See [Starting Docker Compose](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-local-deploying-spring-cloud-dataflow-docker-starting) for more information.
 
-# Docker Compose - Runtime
+### Docker Compose - Runtime
 
 ```mermaid
 graph TD;
@@ -69,7 +71,9 @@ For every part of a stream, an application is deployed.
 The overall resource allocation (memory, CPU, etc) provided to Docker should account for the number of deployed applications.
 See [Viewing Stream Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-local-deploying-spring-cloud-dataflow-docker-viewing-stream-logs) for more information on viewing log files.
 
-# Cloud Foundry - Startup failures
+## Cloud Foundry
+
+### Startup failures
 
 ```mermaid
 graph TD;
@@ -80,7 +84,7 @@ graph TD;
     D --> |No| E(View logs and resolve errors)
 ```
 
-# Cloud Foundry - Application failures
+### Application failures
 
 ```mermaid
 graph TD;
@@ -95,7 +99,9 @@ graph TD;
 When debugging deployment issues, raising deployer and Cloud Foundry related log levels may be useful.
 See [Deployment Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for more information.
 
-# Kubernetes - Distributed Deployment Files
+## Kubernetes
+
+### Distributed Deployment Files
 
 ```mermaid
 graph TD;
@@ -110,7 +116,7 @@ graph TD;
 	E --> |Yes| F(Resolve)
 ```
 
-# Kubernetes - Helm Chart
+### Helm Chart
 
 ```mermaid
 graph TD;
@@ -123,7 +129,7 @@ graph TD;
 	E --> |Yes| F(Resolve)
 ```
 
-# Kubernetes - General
+### General
 
 ```mermaid
 graph TD;

@@ -1,10 +1,10 @@
 ---
 path: 'installation/kubernetes/compatibility'
 title: 'Kubernetes Compatibility'
-description: 'Compatibility with Kubernetes  Versions'
+description: 'Compatibility with Kubernetes Versions'
 ---
 
-### Kubernetes Compatibility
+# Kubernetes Compatibility
 
 The Spring Cloud Data Flow implementation for Kubernetes uses the
 [Spring Cloud Deployer

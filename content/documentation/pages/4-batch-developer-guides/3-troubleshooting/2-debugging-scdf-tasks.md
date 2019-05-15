@@ -4,7 +4,7 @@ title: 'Debugging Batch applications deployed by Data Flow'
 description: 'Debugging Batch applications deployed by Data Flow'
 ---
 
-# Debugging Tasks in SCDF
+# Debugging Tasks
 
 ## Did the Task Launch?
 
@@ -34,7 +34,9 @@ If a task fails to launch:
 SCDF is responsible for launching tasks.
 Task launch failure messages can typically be found in the SCDF application logs.
 
-# Local
+## Platforms
+
+### Local
 
 ```mermaid
 graph TD;
@@ -56,7 +58,7 @@ for more information and [Deployment Logs](http://docs.spring.io/spring-cloud-da
 Debugging applications via JDWP can be accomplished by setting the deployer property `debugPort`.
 See [Remote Debugging](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_remote_debugging) for more information.
 
-# Docker Compose - Startup
+#### Docker Compose - Startup
 
 ```mermaid
 graph TD;
@@ -68,7 +70,7 @@ graph TD;
 The environment variables `DATAFLOW_VERSION` and `SKIPPER_VERSION` must be available in the current terminal environment via `export` or prefixing the `docker-compose` command.
 See [Starting Docker Compose](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-local-deploying-spring-cloud-dataflow-docker-starting) for more information.
 
-# Docker Compose - Runtime
+#### Docker Compose - Runtime
 
 ```mermaid
 graph TD;
@@ -87,7 +89,9 @@ As tasks are launched via SCDF, applications that are part of that task definiti
 For every part of a task definition, an application is launched.
 The overall resource allocation (memory, CPU, etc) provided to Docker should account for the number of launched applications.
 
-# Cloud Foundry - Startup failures
+### Cloud Foundry
+
+#### Startup failures
 
 ```mermaid
 graph TD;
@@ -98,7 +102,7 @@ graph TD;
     D --> |No| E(View logs and resolve errors)
 ```
 
-# Cloud Foundry - Application failures
+#### Application failures
 
 ```mermaid
 graph TD;
@@ -111,7 +115,9 @@ graph TD;
 When debugging deployment issues, raising deployer and Cloud Foundry related log levels may be useful.
 See [Deployment Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for more information.
 
-# Kubernetes - Distributed Deployment Files
+### Kubernetes
+
+#### Distributed Deployment Files
 
 ```mermaid
 graph TD;
@@ -124,7 +130,7 @@ graph TD;
 	E --> |Yes| F(Resolve)
 ```
 
-# Kubernetes - Helm Chart
+#### Helm Chart
 
 ```mermaid
 graph TD;
@@ -135,7 +141,7 @@ graph TD;
 	D --> |Yes| F(Resolve)
 ```
 
-# Kubernetes - General
+#### General
 
 ```mermaid
 graph TD;
@@ -163,6 +169,6 @@ Application logs can be tailed to watch logs as they come in, for example:
 
 `kubectl logs -f po/pod_name`
 
-# Troubleshooting Help
+## Troubleshooting Help
 
 If none of those above troubleshooting techniques helped and if you're still looking for help, you can reach out to us in [StackOverflow](https://stackoverflow.com/tags/spring-cloud-dataflow/) with the relevant details (see: [Wiki](https://github.com/spring-cloud/spring-cloud-dataflow/wiki/Reporting-Issues)) - we actively monitor the forum threads.

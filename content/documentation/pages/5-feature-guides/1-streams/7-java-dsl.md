@@ -25,7 +25,7 @@ A complete sample can be found in the [Spring Cloud Data Flow Samples Repository
 
 <!--END_NOTE-->
 
-# Overview
+## Usage
 
 The classes at the heart of the Java DSL are `StreamBuilder`, `StreamDefinition`, `Stream`, `StreamApplication`, and `DataFlowTemplate`.
 The entry point is a `builder` method on `Stream` that takes an instance of a `DataFlowTemplate`.
@@ -75,7 +75,7 @@ The `StreamApplication` class is used in the 'fluent' Java DSL style and is disc
 The `StreamBuilder` class is returned from the method `Stream.builder(dataFlowOperations)`.
 In larger applications, it is common to create a single instance of the `StreamBuilder` as a Spring `@Bean` and share it across the application.
 
-# Java DSL styles
+## Java DSL styles
 
 The Java DSL offers two styles to create Streams.
 
@@ -223,7 +223,7 @@ public class MyStreamApps {
 
 This style lets you share `StreamApplications` across multiple Streams.
 
-# Using the DeploymentPropertiesBuilder
+## Using the DeploymentPropertiesBuilder
 
 Regardless of style you choose, the `deploy(Map<String, String> deploymentProperties)` method allows customization of how your streams will be deployed.
 We made it a easier to create a map with properties by using a builder style, as well as creating static methods for some properties so you don't need to remember the name of such properties.
@@ -241,7 +241,7 @@ private Map<String, String> createDeploymentProperties() {
 
 This utility class is meant to help with the creation of a Map and adds a few methods to assist with defining pre-defined properties.
 
-# Skipper Deployment Properties
+## Skipper Deployment Properties
 
 In addition to Spring Cloud Data Flow, you need to pass certain Skipper specific deployment properties, for example selecting the target platform.
 The `SkipperDeploymentPropertiesBuilder` provides you all the properties in `DeploymentPropertiesBuilder` and adds those needed for Skipper.

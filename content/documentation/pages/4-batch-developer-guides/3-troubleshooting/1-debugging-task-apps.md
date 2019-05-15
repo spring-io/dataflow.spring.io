@@ -10,7 +10,7 @@ Applications should be runnable as a standard Java JAR, invoked via `java -jar`.
 All dependencies such as databases and messaging middleware should be available and tested manually for connection issues.
 Running and debugging applications is independent of deploying via SCDF and running on a platform.
 
-# Project Build Errors
+## Project Build Errors
 
 ```mermaid
 graph TD;
@@ -23,7 +23,7 @@ graph TD;
 Fixing errors in the IDE will be dependent on which IDE is used.
 By verifying the build is successful outside the IDE, this helps rule out project specific issues.
 
-# Application Startup Exceptions
+## Application Startup Exceptions
 
 ```mermaid
 graph TD;
@@ -40,7 +40,7 @@ When the application starts up, exceptions may occur due to general coding error
 Review the application log file to find the exceptions and fix as appropriate.
 Ensure all external services are reachable, correct credentials are provided and any other required information.
 
-# General Application Debugging
+## General Application Debugging
 
 ```mermaid
 graph TD;
@@ -102,7 +102,9 @@ A common issue raised is that a user launches a batch app after it has already b
 Each batch `Job` instance is unique. Thus if you want to start another `Job` instance you will need to update one of the `Job` parameters (command line arg).
 Or when building the `Job` in your code establish a `Job` [incrementer](https://docs.spring.io/spring-batch/trunk/reference/html/configureJob.html#JobParametersIncrementer).
 
-# Debugging Cloud Foundry Deployments
+## Platforms
+
+### Cloud Foundry
 
 ```mermaid
 graph TD;
@@ -118,7 +120,7 @@ If an application that runs locally, but fails when deployed to Cloud Foundry, f
 This includes any environment variables that must be set, services to bind to and those services created.
 Inspect the application startup log for any exceptions to resolve.
 
-# Debugging Kubernetes Deployments
+### Kubernetes
 
 ```mermaid
 graph TD;
