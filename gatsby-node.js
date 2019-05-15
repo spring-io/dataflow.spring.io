@@ -2,6 +2,8 @@ const path = require('path')
 const get = require('lodash.get')
 const startsWith = require('lodash.startswith')
 const { createFilePath } = require('gatsby-source-filesystem')
+const checkstyles = require('./plugins/spring-checkstyles')
+
 const versions = require('./content/versions.json')
 
 const currentVersion = versions.current
@@ -58,6 +60,10 @@ exports.createPages = ({ graphql, actions }) => {
                   value
                   depth
                 }
+                frontmatter {
+                  title
+                  description
+                }
                 fields {
                   path
                   version
@@ -74,17 +80,7 @@ exports.createPages = ({ graphql, actions }) => {
           const DocumentationTemplate = path.resolve(
             `./src/templates/documentation.js`
           )
-
-          const h1 = node.headings.filter(item => item.depth === 1)
-          if (h1.length !== 1) {
-            if (h1.length === 0) {
-              console.log(`Missing h1 on page ${node.fileAbsolutePath}`)
-            }
-            if (h1.length > 1) {
-              console.log(`Too many h1 on page ${node.fileAbsolutePath}`)
-            }
-          }
-
+          checkstyles(node)
           if (!(!isDev && node.fields.version === 'next')) {
             createPage({
               path: node.fields.path,
