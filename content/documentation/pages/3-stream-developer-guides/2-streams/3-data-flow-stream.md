@@ -51,11 +51,9 @@ Assuming Data Flow is [installed](%currentPath%/installation/) and running on on
 
 ### Application Registration
 
-Applications in Data Flow are registered as named resources so that they may be referenced when using the Data Flow DSL to configure and compose streaming pipelines.
-Registration associates a logical application name and type with a physical resource, given by a URI.
-The URI conforms to a [schema](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL.
-Data Flow defines a some logical application types which indicate its role as a streaming component, a task, or a standalone application.
-For streaming applications, as you might expect, we will use `Source`,`Processor`, and `Sink` types.
+Applications in Data Flow are registered as named resources so that they may be referenced when using the Data Flow DSL to configure and compose streaming pipelines. Registration associates a logical application name and type with a physical resource, given by a URI.
+
+The URI conforms to a [schema](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL. Data Flow defines some logical application types which indicate its role as a streaming component, a task, or a standalone application. For streaming applications, as you might expect, we will use `Source`,`Processor`, and `Sink` types.
 
 The Data Flow Dashboard will land on the Application Registration view where we will register the source, processor, and sink apps.
 
@@ -68,6 +66,12 @@ When you register an application, you provide:
 - application version
 - application type (Source, Processor, Sink)
 - application name
+
+| App Name             | App Type  | App URI                                                                      |
+| -------------------- | --------- | ---------------------------------------------------------------------------- |
+| usage-detail-sender  | Source    | maven://io.spring.dataflow.sample:usage-detail-sender-rabbit:0.0.1-SNAPSHOT  |
+| usage-cost-processor | Processor | maven://io.spring.dataflow.sample:usage-cost-processor-rabbit:0.0.1-SNAPSHOT |
+| usage-cost-logger    | Sink      | maven://io.spring.dataflow.sample:usage-cost-logger-rabbit:0.0.1-SNAPSHOT    |
 
 [[note]]
 | If you are running Spring Cloud Data Flow server on the docker environment, make sure that your application artifact URIs are accessible.
@@ -154,6 +158,20 @@ The runtime applications show information about where each application is runnin
 ```
 
 ### Cloud Foundry
+
+Before registering and deploying stream applications to Cloud Foundry using the instructions above, please ensure that you have an instance of Spring Cloud Data Flow sucessfully running on Cloud Foundry. Follow the [installation guide] for Cloud Foundry (%currentPath%/../installation/cloudfoundry/cf-cli) for reference.
+
+Once you have followed the steps of this chapter above and registered the apps as well as deployed the stream, you will see the sucessfully deployed applications in your in your Org/Space in Cloud Foundry:
+
+![Cloud Foundry Apps Manager with the deployed Stream Application](images/SCDF-CF-dashboard.png)
+
+Of course, you have access to the runtime information of your stream applications in the Spring Cloud Data Flow Dashboard as well. Simply click onto the `Runtime` button in the left navigation:
+
+![Data Flow Runtime Information](images/SCDF-CF-runtime.png)
+
+Besides verifying the runtime status of your stream, you should also verify the logging output produced by the `usage-cost-logger` Sink. In Cloud Foundry Apps Manager, click onto the `Logs` tab of the `usage-cost-logger` sink application. The logging statements should look like the following:
+
+![Data Flow Runtime Information](images/SCDF-CF-dashboard-logging.png)
 
 ### Kubernetes
 
