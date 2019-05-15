@@ -43,7 +43,7 @@ The _Stream Application DSL_ uses a `double pipe`, instead of the `pipe symbol`,
 
 For example:
 
-`dataflow:> stream create --definition "orderGeneratorApp || baristaApp || hotDrinkDeliveryApp || coldDrinkDeliveryApp" --name myCafeStream`
+`stream create --definition "orderGeneratorApp || baristaApp || hotDrinkDeliveryApp || coldDrinkDeliveryApp" --name myCafeStream`
 
 A graphical representation of the stream woud look similar to the following:
 

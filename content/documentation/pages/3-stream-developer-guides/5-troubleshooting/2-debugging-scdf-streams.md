@@ -4,7 +4,7 @@ title: 'Debugging Stream applications deployed by Data Flow'
 description: 'Debugging Data Flow Stream deployments'
 ---
 
-# Debugging Streams in SCDF
+# Debugging Streams in Data Flow
 
 If a stream fails to deploy:
 

@@ -6,8 +6,6 @@ description: 'Python Application as a Data Flow Stream Processor'
 
 # Python Stream Processor
 
-## Overview
-
 The example code illustrates how to run a Python script, in the role of a processor within an Data Flow Stream.
 
 **TODO: Describe what the stream and processor are doing**
@@ -17,7 +15,7 @@ The source code can be found [here](https://github.com/chrisjs/python-processor)
 **TODO provide a .zip file of all the source code**
 **TODO: Source code to be moved into data flow samples repo in a directory structure that mimics the dataflow.io directory structure. There is already some content in there to get an idea of the directory structure.**
 
-## Description
+## Development
 
 The processor uses the [kafka-python](https://github.com/dpkp/kafka-python) library to create consumer and producer connections.
 
@@ -54,8 +52,12 @@ Helper methods are defined in a utility file called `task_args.py` to aid in ext
 
 An `HTTPServer` implementation runs as a thread responding to Spring Boot path health check endpoints (`/actuator/health`, `/actuator/info`), with a default implementation of always returning HTTP 200. A `Dockerfile` is provided to create the image.
 
-## Build & Usage
+### Build
 
 TODO: This needs to be moved into this page.
 
 Follow the [README.md](https://github.com/chrisjs/python-processor/blob/master/README.md) file for more details on building and running the example source code.
+
+## Deployment
+
+TODO

@@ -64,7 +64,6 @@ shows:
 
     server-unknown:>dataflow config server https://198.51.100.0
     Successfully targeted https://198.51.100.0
-    dataflow:>
 
 Alternatively, you can pass in the `--dataflow.uri` command line option. The shell’s `--help` command line option shows what is available.
 

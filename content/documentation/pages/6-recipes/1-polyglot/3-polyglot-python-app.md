@@ -1,26 +1,38 @@
 ---
 path: 'recipes/polyglot/app/'
-title: 'Python App'
-description: 'Python/Docker as SCDF App'
+title: 'Python Application'
+description: 'Create and Deploy a Python Application in a Stream'
 ---
 
-# Python/Docker as SCDF APP
+# Create and Deploy a Python Application
 
-This example illustrates how to deploy a Python script as an [application](http://docs.spring.io/spring-cloud-dataflow/docs/2.1.0.BUILD-SNAPSHOT/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl) in a Stream. This is different than deploying a `source`, `processor` or `sink` since Data Flow will not set environment variables that wire up the producers and consumers or set any other application properties by default.
+This recipe illustrates how to deploy a Python script as an Data Flow [application](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl).
+Unlike the other applications types (e.g. `source`, `processor` or `sink`), Data Flow does not set deployment properties that wire up producers and consumers when deploying the `app` application type.
+It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate using deployment properties.
 
-It uses the [kafka-python](https://github.com/dpkp/kafka-python) to consume from the `orders` topic and publishes to either a `cold.drink` or `hot.drink` topic.
+In this guide we will package the Python script as a Docker image and deploy to Kubernetes. Apache Kafka will be used as the messaging middleware. One could also deploy to the `Local` platform.
+The docker image will be registered in Data Flow as an application of the type `App`.
 
-**TODO: Source code to be moved into data flow samples repo in a directory structure that mimics the dataflow.io directory structure. There is already some content in there to get an idea of the directory structure.**
+The recipe creates a data processing pipelines that emulates part of the operation of a cafe inspired by one of the samples in the [Enterprise Integration Patterns web site](https://www.enterpriseintegrationpatterns.com/ramblings/18_starbucks.html).
+The Pipeline takes customer's `orders` message from an input channel, depending on the order it routes the message to dedicated `hotDrink` or `coldDrink` downstream channels.
 
-**TODO provide a .zip file of all the source code**
+The following diagram shows the architecture of the cafe processing pipelines.
 
-The source code can be found [here](https://github.com/tzolov/scdf-polyglot-experiments/tree/master/scdf_python_app).
+![SCDF Python Tasks](images/polyglot-python-app-architecture.png)
 
-## Description
+To avoid creating a new source applications, the `Customer`, will use the pre-built [Time Source](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-latest%/reference/htmlsingle/#spring-cloud-stream-modules-time-source) application.
+It continuously emits timestamps, that will represent the order, to a downstream Kafka topic called `orders`.
 
-The sample emulates a Barista use-case. It consumes orders (represented by timestamp numbers) from an input Kafka topic and in turn serves Hot and Cold drinks to two output topics. The barista app servers hot drinks for even number orders and cold drinks for odd numbered orders.
+The `Barista` app, implemented by the Python script, consumes the incoming orders (e.g. timestamps) and produces hot drinks for the even timestamps and cold drinks for the odd ones.
+Produced drinks (represented by text messages) are sent downstream to ether the `hotDrink` or `coldDrink` Kafka topics.
 
-The [barista_app.py](https://github.com/tzolov/scdf-polyglot-experiments/blob/master/scdf_python_app/barista_app.py) shows the main application logic.
+The `Deliver Hot Drink` and `Deliver Cold Drink` components are the pre-built [log-sink] applications that consume the `hotDrink` or `coldDrink` topics and prints the incoming message in on the console.
+
+## Development
+
+The source code can be found in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-app) and downloaded as a zipped archive: [polyglot-python-task.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-app.zip).
+
+The [barista_app.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/barista_app.py) implements the Barista application logic.
 
 ```python
 from util.actuator import Actuator
@@ -59,87 +71,127 @@ Barista(
 ```
 
 [[note]]
-| If you happen to use print command inside the processing loop you must flush it (e.g. sys.stdout.flush()), otherwise there is a chance that your output buffer will be filled up causing disruption to the Kafka’s consumer/producer processing flow!
+| If the `print` command is used inside the Python script, later must be flushed with `sys.stdout.flush()` to prevent the output buffer being filled up, causing disruption to the Kafka’s consumer/producer flow!
 
-The Actuator runs the HTTP liveliness server in a separate thread. The kafka-python library is used to consume and produce Kafka messages. The process_orders method continuously consumes orders from the input channel and send hot or cold drinks to the output channels.
+- The [kafka-python](https://github.com/dpkp/kafka-python) library is used to consume and produce Kafka messages. The process_orders method continuously consumes orders from the input channel and send hot or cold drinks to the output channels.
 
-The [Actuator](https://github.com/tzolov/scdf-polyglot-experiments/blob/master/scdf_python_app/util/actuator.py#L7) class inside [actuator.py](https://github.com/tzolov/scdf-polyglot-experiments/blob/master/scdf_python_app/util/actuator.py) utility is used to expose operational information about the running application, such as health/liveliness, info, etc.
-It runs an embedded HTTP server and exposes the /actuator/health and /actuator/info entry-points handles the Kubernetes liveness and readiness probes requests.
+- The [Actuator](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py#L7) class inside [actuator.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py) utility is used to expose operational information about the running application, such as health, liveliness, info, etc.
+  It runs an embedded HTTP server in a separate thread and exposes the `/actuator/health` and `/actuator/info` entry-points handles the Kubernetes liveness and readiness probes requests.
 
-The [arguments.py](https://github.com/tzolov/scdf-polyglot-experiments/blob/master/scdf_python_app/util/arguments.py) utility helps to retrieve the required input parameters from the command line arguments and environment variables.
-The utility assumes default (e.g. exec) [entry point style](http://docs.spring.io/spring-cloud-dataflow/docs/2.1.0.BUILD-SNAPSHOT/reference/htmlsingle/#_entry_point_style_2).
-Note that Data Flow passes the Kafka broker connection properties as environment variables.
+- The [arguments.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/arguments.py) utility helps to retrieve the required input parameters from the command line arguments and environment variables.
+  The utility assumes default (e.g. exec) [entry point style](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#_entry_point_style_2).
+  Note that Data Flow passes the Kafka broker connection properties as environment variables.
 
-## Build
+For the `barista_app.py` to act as a Data Flow `app` it needs to be bundled in a docker image and uploaded to `DockerHub`. Following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/Dockerfile) illustrates how to bundle a Python script into docker image:
 
-From within the `[scdf-polyglot-experiments`, build and push the scdf_python_app Docker image to DockerHub:
-
-```bash
-docker build -t tzolov/scdf_python_app:0.1 .
-docker push tzolov/scdf_python_app:0.1
+```docker
+FROM python:3.7.3-slim
+RUN pip install kafka-python
+RUN pip install flask
+ADD /util/* /util/
+ADD barista_app.py /
+ENTRYPOINT ["python","/barista_app.py"]
 ```
 
-## Usage
+The Dockerfile installs the required dependencies, adds the barista script (e.g. `ADD barista_app.py`) and utilities (under the `util` folder above) and sets the command entry.
 
-Retrieve the Data Flow url from minikube (minikube service --url scdf-server) and configure your dataflow shell:
-`dataflow config server --uri http://192.168.99.100:30868`
+<!--TIP-->
 
-Import the SCDF app starters and register the scdf_python_app as barista-app of type `app`
+Leave the command empty (e.g. `[]`) and set the entry point explicitly.
+
+<!--END_TIP-->
+
+### Build
+
+We will now build the docker image and push it to the DockerHub registry.
+
+Checkout the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples) and navigate to the `polyglot-python-app` folder:
 
 ```bash
-dataflow:> app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
-dataflow:> app register --type app --name barista-app --uri docker://tzolov/scdf_python_app:0.1
+git clone https://github.com/spring-cloud/spring-cloud-dataflow-samples
+cd ./spring-cloud-dataflow-samples/dataflow-website/recipes/polyglot/polyglot-python-app/
 ```
 
-The `docker://tzolov/scdf_python_app:0.1` is resolved from the DockerHub repository.
+From within the `polyglot-python-app`, build and push the polyglot-python-app Docker image to DockerHub:
+
+```bash
+docker build -t springcloud/polyglot-python-app:0.1 .
+docker push springcloud/polyglot-python-app:0.1
+```
+
+<!--TIP-->
+
+Replace `springcloud` with your docker hub prefix.
+
+<!--END_TIP-->
+
+Once published in Docker Hub, the image can be registered in Data Flow and deployed.
+
+## Deployment
+
+Retrieve the Data Flow url from minikube (`minikube service --url scdf-server`) and configure your Data Flow shell:
+
+```bash
+dataflow config server --uri http://192.168.99.100:30868`
+```
+
+Import the SCDF app starters and register the polyglot-python-app as barista-app of type `app`
+
+```bash
+app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
+app register --type app --name barista-app --uri docker://springcloud/polyglot-python-app:0.1
+```
+
+The `docker://springcloud/polyglot-python-app:0.1` is resolved from the [DockerHub repository](https://hub.docker.com/r/springcloud/polyglot-python-app).
 
 Create the orders, cold-drink-line and hot-drink-line, bar pipelines:
 
-** TODO: We may have spoken about this, but it isn't clear what `:hotDrinks > hot-drinks: log` is doing.**
-
 ```bash
-dataflow:> stream create --name orders --definition "customer: time > :orders" --deploy
-dataflow:> stream create --name hot-drink-line --definition ":hotDrinks > hot-drinks: log" --deploy
-dataflow:> stream create --name cold-drink-line --definition ":coldDrinks > cold-drinks: log" --deploy
-dataflow:> stream create --name bar --definition "barista-app"
-
+stream create --name orders-pipeline --definition "customer: time > :orders" --deploy
+stream create --name hot-drink-pipeline --definition ":hotDrinks > hot-drink-log: log" --deploy
+stream create --name cold-drink-pipeline --definition ":coldDrinks > cold-drink-log: log" --deploy
+stream create --name bar-pipeline --definition "barista-app"
 ```
 
-As result the following Stream will be deployed:
+<!--NOTE-->
+
+The stream definitions above make use of the [label feature](%currentPath%/feature-guides/streams/labels/) in the DSL in addition to [named destinations](%currentPath%/feature-guides/streams/named-destinations/). For example, the definition `:hotDrinks > hot-drink-log: log` is using the the named destination `hotDrinks`, which is the destination where the Python application will send messages. The expression `hot-drink-log: log` labels the log appliction with a more descriptive name.
+
+<!--END_NOTE-->
+
+As result the following stream pipelines are created and all but the `bar-pipeline` are deployed:
 
 ![Barista Applications - Not Wired](images/polyglot-python-app-barista.png)
 
-- `orders` generates drink orders using the `time` source application to send timestamps that represent the orders. The orders are sent to the Kafka topic named `orders`.
-- `hot-drink-line` logs the hot drinks coming through the Kafka topic named `hotDrinks`
-- `cold-drink-line` logs the cold drinks coming through Kakfa topic named `coldDrinks`
+- `orders-pipeline` generates drink orders (e.g. timestamps) using the `time` source application and sends them to a Kafka topic: `orders`.
+- `hot-drink-pipeline` logs the hot drinks coming through the Kafka topic named `hotDrinks`.
+- `cold-drink-line` logs the cold drinks coming through Kafka topic named `coldDrinks`.
 
-Note that the barista-app was registered an with the [app](http://docs.spring.io/spring-cloud-dataflow/docs/2.1.0.BUILD-SNAPSHOT/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl) `application` type, e.g. not `source`, `processor` or `sink`.
-Unlike the `source`, `processor` and `sink` types, the `application` type can have multiple input and output bindings and therefore the Data Flow cannot make any assumptions about the flow of data from one application to another.
-It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate.
+<!--IMPORTANT-->
 
-Keeping this in mind we deploy the bar with the following deployment properties:
-**TODO how to format this so the the properties are shown but the copy to buffer still creates a valid string to cut-n-paste into the shell?**
+The `barista-app` is registered as [App](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl) type application and therefore can have multiple input and output bindings (e.g. channels). Data Flow does not make any assumptions about the flow of data from one application to another. It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate.
+
+<!--END_IMPORTANT-->
+
+Keeping this in mind we deploy the `bar-pipeline` with the following deployment properties:
 
 ```bash
-dataflow:> stream deploy --name bar
---properties app.barista-app.spring.cloud.stream.bindings.orders.destination=orders,
-app.barista-app.spring.cloud.stream.bindings.hot.drink.destination=hotDrinks,
-app.barista-app.spring.cloud.stream.bindings.cold.drink.destination=coldDrinks
+stream deploy --name bar-pipeline --properties app.barista-app.spring.cloud.stream.bindings.orders.destination=orders,app.barista-app.spring.cloud.stream.bindings.hot.drink.destination=hotDrinks,app.barista-app.spring.cloud.stream.bindings.cold.drink.destination=coldDrinks
 ```
 
 [[tip]]
-| the app.barrista-app.xxx prefix is a Data Flow convention to map the properties specifed after the prefix to the barista-app in the bar stream.
+| the app.barista-app.xxx prefix is a Data Flow convention to map the properties specified after the prefix to the barista-app in the bar stream.
 
 The orders channel is bound to the orders Kafka topic, the hot.drink barista output channel is bound to the hotDrinks topic and the cold.drink channel is bound to the coldDrinks topic.
-After the deployment the data flow would look like this:
+After the deployment the data flow looks like this:
 
 ![Barista Applications - Wired](images/polyglot-python-app-barista-wired.png)
 
-Use `kubectl get all` command to list the statuses of the deployed k8s containers. Use `kubectl logs -f xxx` to observe the hot and cold drink pipeline output.
-For example `kubectl logs -f po/cold-drink-line-cold-drinks-xxx` should show output:
+- Use `kubectl get all` command to list the statuses of the deployed k8s containers. Use `kubectl logs -f xxx` to observe the hot and cold drink pipeline output.
+  For example `kubectl logs -f po/cold-drink-line-cold-drinks-xxx` should show output:
 
-![Barista -Cold Drink Line Log](images/cold-drink-line-cold-drinks-log.png)
+  ![Barista -Cold Drink Line Log](images/cold-drink-line-cold-drinks-log.png)
 
-For example `kubectl logs -f po/hot-drink-line-hot-drinks-xxx` should show output:
+  For example `kubectl logs -f po/hot-drink-line-hot-drinks-xxx` should show output:
 
-![Barista - Hot Drink Line Log](images/cold-drink-line-hot-drinks-log.png)
+  ![Barista - Hot Drink Line Log](images/cold-drink-line-hot-drinks-log.png)

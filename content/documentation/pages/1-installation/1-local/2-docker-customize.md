@@ -155,7 +155,7 @@ or
 by using the `file://` URI schema. The following example shows how to do
 so:
 
-    dataflow:>app register --type source --name my-app --uri file://root/apps/my-app-1.0.0.RELEASE.jar
+    app register --type source --name my-app --uri file://root/apps/my-app-1.0.0.RELEASE.jar
 
 [[tip]] | Metadata URIs]]
 | You also need to use `--metadata-uri` if the metadata jar is available in the /root/apps folder.
@@ -172,7 +172,7 @@ Now you can use the `maven://` URI schema and Maven coordinates to
 resolve jars installed in the host’s maven repository, as the following
 example shows:
 
-    dataflow:>app register --type processor --name pose-estimation --uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:2.0.2.BUILD-SNAPSHOT --metadata-uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:jar:metadata:2.0.2.BUILD-SNAPSHOT
+    app register --type processor --name pose-estimation --uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:2.0.2.BUILD-SNAPSHOT --metadata-uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:jar:metadata:2.0.2.BUILD-SNAPSHOT
 
 This approach lets you share jars that are built and installed on the
 host machine (for example, by using `mvn clean install`) directly with

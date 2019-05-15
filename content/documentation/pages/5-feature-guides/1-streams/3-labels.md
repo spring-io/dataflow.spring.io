@@ -6,12 +6,18 @@ description: 'How to label stream applications'
 
 # Labeling Applications
 
-When a stream is made up of multiple apps with the same name, they must be qualified with labels so they can be uniquely identified:
+Labels can be used as an alternative reference to an application in the Stream or Batch DSL.
+The syntax is to add the label before the application name.
+Labels must be unique within the entire definition and suffixed with a colon `:`.
 
-````
-stream create --definition "http | firstLabel: transform --expression=payload.toUpperCase() | secondLabel: transform --expression=payload+'!' | log" --name myStreamWithLabels --deploy```
-````
+For example, when a a stream is made up of multiple apps with the same name, they must be qualified with labels so they can be uniquely identified:
 
-This can be visualised in a graphical representation as follows:
+```bash
+stream create --definition "http | firstLabel: transform --expression=payload.toUpperCase() | secondLabel: transform --expression=payload+'!' | log" --name myStreamWithLabels --deploy
+```
+
+This can be visualized in a graphical representation as follows:
 
 ![Stream Labels](images/stream-labels.png)
+
+Alternatively, they can be used to help make the visualization of the Stream and Batch job more descriptive. The example in [Python Application](%currentPath%/recipes/polyglot/app) shows an example of this style of usage.

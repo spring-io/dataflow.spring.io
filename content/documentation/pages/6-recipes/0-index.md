@@ -1,7 +1,7 @@
 ---
 path: 'recipes/'
 title: 'Recipes'
-description: 'Recipes'
+description: 'Recipes that help solve some common use-cases'
 summary: true
 ---
 

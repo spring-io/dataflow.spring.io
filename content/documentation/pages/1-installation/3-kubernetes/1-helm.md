@@ -217,7 +217,7 @@ Change `kafka` to `rabbit` in the above URL if you set `kafka.endabled=true` in 
 | supported by each application. For example, the following application
 | registration is valid:
 
-    dataflow:>app register --type source --name time --uri docker://springcloudstream/time-source-rabbit:{docker-time-source-rabbit-version} --metadata-uri maven://org.springframework.cloud.stream.app:time-source-rabbit:jar:metadata:{docker-time-source-rabbit-version}
+    app register --type source --name time --uri docker://springcloudstream/time-source-rabbit:{docker-time-source-rabbit-version} --metadata-uri maven://org.springframework.cloud.stream.app:time-source-rabbit:jar:metadata:{docker-time-source-rabbit-version}
 
 Any application registered with a Maven, HTTP, or File resource or the executable jar (by using a `--uri` property prefixed with
 `maven://`, `http://` or `file://`) is **_not supported_**.

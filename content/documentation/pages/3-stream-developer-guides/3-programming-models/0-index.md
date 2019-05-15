@@ -164,7 +164,7 @@ curl localhost:9001 -H "Content-type: text/plain" -d "test data"
 **Results:**
 In the Log-sink application console, we should now see a similar output as follows.
 
-```log
+```bash
 2019-04-30 15:03:27.620  INFO 38035 --- [container-0-C-1] log-sink                                 : Hello: test data!
 ```
 
