@@ -63,16 +63,6 @@ class DocsPage extends React.Component {
         },
         {},
       ],
-      [
-        {
-          id: 'resources',
-          title: get(edges, 'edges[7].node.frontmatter.title'),
-          description: get(edges, 'edges[7].node.frontmatter.description'),
-          path: get(edges, 'edges[7].node.fields.path'),
-        },
-        {},
-        {},
-      ],
     ]
     return (
       <Layout className='page-doc'>
@@ -86,7 +76,13 @@ class DocsPage extends React.Component {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
-                <VersionSelect versions={optionVersions} version={'master'} />
+
+                {optionVersions.length > 1 && (
+                  <VersionSelect
+                    versions={optionVersions}
+                    version={versions.current}
+                  />
+                )}
               </div>
             </div>
             <div className='links'>
@@ -133,6 +129,7 @@ export const articleQuery = graphql`
           hash: { eq: "documentation" }
           root: { eq: true }
           version: { eq: "master" }
+          exclude: { ne: true }
         }
       }
       sort: { fields: fields___slug, order: ASC }

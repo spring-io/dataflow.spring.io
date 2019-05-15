@@ -28,11 +28,6 @@ import {
 } from '../components/documentation'
 
 class DocumentationTemplate extends React.Component {
-  changeVersion = event => {
-    // event.target.value
-    navigate(`/documentation/${event.target.value}/`)
-  }
-
   render() {
     const { page, pages } = this.props.data
     const options = {
@@ -90,10 +85,12 @@ class DocumentationTemplate extends React.Component {
                   {({ style }) => (
                     <div style={{ ...style }}>
                       <div className='sidebar-content'>
-                        <VersionSelect
-                          versions={optionVersions}
-                          version={this.props.data.page.fields.version}
-                        />
+                        {optionVersions.length > 1 && (
+                          <VersionSelect
+                            versions={optionVersions}
+                            version={this.props.data.page.fields.version}
+                          />
+                        )}
                         <div className='box'>
                           <SidebarNav page={page} tree={tree} />
                         </div>
@@ -174,7 +171,11 @@ export const articleQuery = graphql`
   query($slug: String, $version: String) {
     pages: allMarkdownRemark(
       filter: {
-        fields: { hash: { eq: "documentation" }, version: { eq: $version } }
+        fields: {
+          hash: { eq: "documentation" }
+          version: { eq: $version }
+          exclude: { ne: true }
+        }
         frontmatter: { exclude: { eq: null } }
       }
       sort: { fields: fields___slug, order: ASC }

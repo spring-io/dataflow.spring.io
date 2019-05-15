@@ -39,10 +39,12 @@ class DocumentationVersion extends React.Component {
                   {({ style }) => (
                     <div style={{ ...style }}>
                       <div className='sidebar-content'>
-                        <VersionSelect
-                          versions={optionVersions}
-                          version={this.props.data.page.context.version}
-                        />
+                        {optionVersions.length > 1 && (
+                          <VersionSelect
+                            versions={optionVersions}
+                            version={this.props.data.page.context.version}
+                          />
+                        )}
                         <div className='box'>
                           <SidebarNav
                             page={{ fields: { category: null } }}
@@ -93,7 +95,11 @@ export const articleQuery = graphql`
     }
     pages: allMarkdownRemark(
       filter: {
-        fields: { hash: { eq: "documentation" }, version: { eq: $version } }
+        fields: {
+          hash: { eq: "documentation" }
+          version: { eq: $version }
+          exclude: { ne: true }
+        }
         frontmatter: { exclude: { eq: null } }
       }
       sort: { fields: fields___slug, order: ASC }

@@ -67,6 +67,7 @@ exports.createPages = ({ graphql, actions }) => {
                 fields {
                   path
                   version
+                  exclude
                 }
               }
             }
@@ -80,17 +81,24 @@ exports.createPages = ({ graphql, actions }) => {
           const DocumentationTemplate = path.resolve(
             `./src/templates/documentation.js`
           )
-          checkstyles(node)
-          if (!(!isDev && node.fields.version === 'next')) {
-            createPage({
-              path: node.fields.path,
-              component: DocumentationTemplate,
-              context: {
-                slug: node.fields.path,
-                version: node.fields.version,
-              },
-            })
+          if (!isDev) {
+            if (get(node, 'fields.version') === 'next') {
+              return
+            }
+            if (get(node, 'fields.exclude') === true) {
+              return
+            }
           }
+          checkstyles(node)
+          createPage({
+            path: get(node, 'fields.path'),
+            component: DocumentationTemplate,
+            context: {
+              slug: get(node, 'fields.path'),
+              version: get(node, 'fields.version'),
+              versionPath: '',
+            },
+          })
         })
         return resolve()
       })
@@ -158,6 +166,14 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
           name: `path`,
           value: path.join(url, '/'),
         })
+
+        if (startsWith(frontmatterPath, `markdown/`)) {
+          createNodeField({
+            node,
+            name: `exclude`,
+            value: !isDev,
+          })
+        }
       } else {
         // Template
         createNodeField({
