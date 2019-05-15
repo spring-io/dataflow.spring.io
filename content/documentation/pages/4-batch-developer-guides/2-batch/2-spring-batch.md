@@ -70,9 +70,9 @@ So for our application we will have a BillRun `Job` that will have one `Step` th
 - `BillProcessor`: Is an `ItemProcessor` that will generate a price based on each row of data sent from the JsonItemReader.
 - `JdbcBatchItemWriter`: Is an `ItemWriter` that will write the priced Bill record to the `BILLING_STATEMENT` table.
 
-### Initialzr
+### Initializr
 
-1. Visit the [Spring Initialzr site](https://start.spring.io/).
+1. Visit the [Spring Initializr site](https://start.spring.io/).
 1. Select the latest release of spring boot.
 1. Create a new Maven project with a Group name of `io.spring` and an Artifact name of `billrun`.
 1. In the Dependencies text box, type `task` to select the Cloud Task dependency.
@@ -108,7 +108,7 @@ Another option instead of using the UI to initialize your project you can do the
    -e MYSQL_DATABASE=task -d mysql:5.7.25
    ```
 
-### Biz Logic
+### Building The Application
 
 1.  Download the `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy it to the /src/main/resources directory.
 
