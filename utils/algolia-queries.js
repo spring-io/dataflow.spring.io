@@ -50,38 +50,40 @@ const documentationNode = ({ node }) => {
   return node
 }
 
-const queries = Object.entries(versions).map(([, version]) => {
-  return {
-    query: queryDocumentation,
-    transformer: ({ data }) => {
-      const nodes = data.pages.edges
-        .map(documentationNode)
-        .filter(node => node.version === version)
+const queries = Object.entries(versions)
+  .filter(([, version]) => version !== 'next')
+  .map(([, version]) => {
+    return {
+      query: queryDocumentation,
+      transformer: ({ data }) => {
+        const nodes = data.pages.edges
+          .map(documentationNode)
+          .filter(node => node.version === version)
 
-      const records = nodes
-        .filter(node => !node.summary)
-        .reduce(fragmentTransformer, [])
+        const records = nodes
+          .filter(node => !node.summary)
+          .reduce(fragmentTransformer, [])
 
-      nodes
-        .filter(node => node.summary)
-        .forEach(node => {
-          records.push({
-            objectID: node.objectID,
-            title: node.title,
-            url: node.url,
-            slug: node.slug,
-            category: node.category,
-            fullTitle: node.title,
-            version: node.version,
-            html: `<p>${node.description ? node.description : ''}</p>`,
+        nodes
+          .filter(node => node.summary)
+          .forEach(node => {
+            records.push({
+              objectID: node.objectID,
+              title: node.title,
+              url: node.url,
+              slug: node.slug,
+              category: node.category,
+              fullTitle: node.title,
+              version: node.version,
+              html: `<p>${node.description ? node.description : ''}</p>`,
+            })
           })
-        })
 
-      return records
-    },
-    indexName: `doc-${version}`,
-    settings: { attributesToSnippet: [`excerpt:20`] },
-  }
-})
+        return records
+      },
+      indexName: `doc-${version}`,
+      settings: { attributesToSnippet: [`excerpt:20`] },
+    }
+  })
 
 module.exports = queries
