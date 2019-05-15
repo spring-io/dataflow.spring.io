@@ -12,7 +12,7 @@ The approach requires the Python script to be bundled in a docker image, which c
 
 Following diagram walks through the architecture and the various components involved in the solution.
 
-![SCDF Python Tasks](images/python_docker_task_self_managed_status.png)
+![SCDF Python Tasks](images/python-task-with-status-2.png)
 
 When Data Flow launches the Python script as a task, the script runs and completes with either a success or failure status.
 Because this is not a standard Sprint Cloud Task application, it is the user's responsibility to manage the life cycle and update the state to the shared database that is also used by Data Flow.
@@ -117,7 +117,7 @@ To parse the input arguments and to manage its state in Data Flow, the custom sc
 
 For the `python_task.py` to act as a Data Flow task it needs to be bundled in a docker image and uploaded to `DockerHub`. Following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/Dockerfile) illustrates how to bundle a Python script into docker image:
 
-```
+```docker
 FROM python:3.7.3-slim
 
 RUN apt-get update
