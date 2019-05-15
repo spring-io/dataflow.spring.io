@@ -108,7 +108,7 @@ Another option instead of using the UI to initialize your project you can do the
    -e MYSQL_DATABASE=task -d mysql:5.7.25
    ```
 
-### Biz Logic
+### Building The Application
 
 1.  Download the `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy it to the /src/main/resources directory.
 
