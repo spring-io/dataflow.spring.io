@@ -70,9 +70,9 @@ So for our application we will have a BillRun `Job` that will have one `Step` th
 - `BillProcessor`: Is an `ItemProcessor` that will generate a price based on each row of data sent from the JsonItemReader.
 - `JdbcBatchItemWriter`: Is an `ItemWriter` that will write the priced Bill record to the `BILLING_STATEMENT` table.
 
-### Initialzr
+### Initializr
 
-1. Visit the [Spring Initialzr site](https://start.spring.io/).
+1. Visit the [Spring Initializr site](https://start.spring.io/).
 1. Select the latest release of spring boot.
 1. Create a new Maven project with a Group name of `io.spring` and an Artifact name of `billrun`.
 1. In the Dependencies text box, type `task` to select the Cloud Task dependency.

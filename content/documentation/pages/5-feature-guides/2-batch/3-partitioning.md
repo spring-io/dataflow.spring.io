@@ -1,28 +1,27 @@
 ---
 path: 'feature-guides/batch/partitioning/'
-title: 'Remote Batch Partitioning'
+title: 'Remote Partitioned Batch Job'
 description: 'How to use remote batch partitioning'
 ---
 
 # Introduction to remote partitioning
 
 The Batch Developer Guide showed you how to create the typical single threaded Spring Batch application.
-While this is a great solution for most batch applications, there are cases where a particular step may take a significant amount time to do the work required.
-Spring Batch has a solution that allows a [Batch Job](https://docs.spring.io/spring-batch/4.0.x/reference/html/domain.html#job) to partition a [Step](https://docs.spring.io/spring-batch/4.0.x/reference/html/domain.html#step) execution, where each partition handles a segment of work.
-In short partitioning allows multiple versions of large batch applications to run concurrently.
-The purpose of this is to reduce the elapsed time required to process long batch jobs.
+While this is a great solution for most batch applications, there are cases where a particular step in the batch-job may take a significant amount time to do the work required.
+Spring Batch has a solution that allows a [Batch Job](https://docs.spring.io/spring-batch/docs/current/reference/html/domain.html#job) to partition a [Step](https://docs.spring.io/spring-batch/docs/current/reference/html/domain.html#step) execution, where each partition handles a segment of work.
+In short partitioning allows multiple instances of large batch applications to run concurrently.
+The purpose of this is to reduce the elapsed time required to process long-running batch jobs.
 Processes that can be successfully partitioned are those where the input file can be split and/or the main database tables partitioned to allow the application to run against different sets of data.
 
 So lets say we have a 3 Step Job:
 
 ![Batch Partitioning](images/batch-partition.png)
 
-The Job runs on the left-hand side as a sequence of Step instances, and `Step 2` is labeled as `<Manager>`.
-The `Manager step` is responsible for allocating the work to and launching each `worker`.
+The Job runs on the left-hand side as a sequence of Step instances, In this case we have one step `Step 1` and it is the `Manager` for the partition.
+The `Manager Step` is responsible for allocating the work to and launching each `worker`.
 In this case the `worker` is a another instance of the Spring Batch application that is executed with a specific profile enabled.
 The workers in our diagram are actually copies of our Spring Batch application that are deployed to the platform.
-The messages sent by the manager to the workers in this pattern do not need to be durable or have guaranteed delivery.
-Spring Batch metadata in the JobRepository ensures that each worker is executed once and only once for each Job execution.
+Spring Batch metadata in the `JobRepository` ensures that each worker is executed once and only once for each Job execution.
 
 ## Building our own Batch Application with Partitioning
 
@@ -30,9 +29,9 @@ In our sample application we will create a batch job that has a single step that
 
 You can view the completed project [here](https://github.com/spring-cloud/spring-cloud-task/tree/master/spring-cloud-task-samples/partitioned-batch-job).
 
-### Initialzr
+### Initializr
 
-1. Visit the [Spring Initialzr site](https://start.spring.io/).
+1. Visit the [Spring Initializr site](https://start.spring.io/).
 1. Select the latest release of spring boot.
 1. Create a new Maven project with a Group name of `io.spring.cloud` and an Artifact name of `partition`.
 1. In the Dependencies text box, type `task` to select the Cloud Task dependency.
@@ -198,13 +197,13 @@ Another option instead of using the UI to initialize your project you can do the
     }
     ```
 
-    - <1> The [PartitionHandler](https://docs.spring.io/spring-batch/4.0.x/reference/html/index-single.html#partitionHandler) is the component that knows about the fabric of the remoting or grid environment. It sends StepExecution requests to the remote Steps.
-    - <2> The [Job](https://docs.spring.io/spring-batch/4.0.x/reference/html/index-single.html#job) manages the batch process.
-    - <3> This [Step](https://docs.spring.io/spring-batch/4.0.x/reference/html/index-single.html#step) will be used by the manager to launch the worker steps
-    - <4> The [Partitioner](https://docs.spring.io/spring-batch/4.0.x/reference/html/index-single.html#stepExecutionSplitter) generates execution contexts as input parameters for new step executions.
+    - <1> The [PartitionHandler](https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#partitionHandler) is the component that knows how the Step is partitioned. It sends StepExecution requests to the remote Steps.
+    - <2> The [Job](https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#job) manages the batch process.
+    - <3> This [Step](https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#step) will be used by the manager to launch the worker steps
+    - <4> The [Partitioner](https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#stepExecutionSplitter) generates execution contexts as input parameters for new step executions.
     - <5> The [DeployerStepExecutionHandler](https://docs.spring.io/spring-cloud-task/docs/current-SNAPSHOT/reference/html/batch-partitioning.html#batch-partitioning) utilizes [Spring Cloud Deployer](https://github.com/spring-cloud/spring-cloud-deployer) to launch the work step executions on the cloud platform.
-    - <6> This [Step](https://docs.spring.io/spring-batch/4.0.x/reference/html/index-single.html#step) will be used by the workers to execute the [Tasklet](https://docs.spring.io/spring-batch/4.0.x/reference/html/index-single.html#taskletStep).
-    - <7> The [Tasklet](https://docs.spring.io/spring-batch/4.0.x/reference/html/index-single.html#taskletStep) that will execute the business logic for the partitioned set of work. In our case, printing the paritition number.
+    - <6> This [Step](https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#step) will be used by the workers to execute the [Tasklet](https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#taskletStep).
+    - <7> The [Tasklet](https://docs.spring.io/spring-batch/docs/current/reference/html/index-single.html#taskletStep) that will execute the business logic for the partitioned set of work. In our case, printing the paritition number.
 
 1.  Now let us add our `@EnableTask` and `@EnableBatchProcessing` annotations to the PartitionApplication class as follows:
 
@@ -220,8 +219,8 @@ public class PartitionApplication {
 }
 ```
 
-    - <1> The `@EnableTask` annotation sets up a TaskRepository which stores information about the task execution such as the start and end time of the task and the exit code.
-    - <2> The `@EnableBatchProcessing` annotation enables Spring Batch features and provide a base configuration for setting up batch jobs.
+- <1> The `@EnableTask` annotation sets up a TaskRepository which stores information about the task execution such as the start and end time of the task and the exit code.
+- <2> The `@EnableBatchProcessing` annotation enables Spring Batch features and provide a base configuration for setting up batch jobs.
 
 ## Deployment
 
@@ -233,7 +232,7 @@ public class PartitionApplication {
 
 2.  Now let’s execute the application with the configurations required to launch our Batch application.
 
-    To configure the execution of the Batch application add the following properties to your environment:
+    To configure the execution of the Batch application, add the following properties to your environment:
 
 ```
 export spring_datasource_url=jdbc:mysql://localhost:3306/task?useSSL\=false // <1>
