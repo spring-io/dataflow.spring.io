@@ -114,7 +114,7 @@ dataflow config server --uri <Your Data Flow URL>
 Import the SCDF app starters and register the `polyglot-python-processor` as `python-processor` of type `processor`.
 
 ```bash
-app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
+app import --uri https://dataflow.spring.io/kafka-docker-latest
 app register --type processor --name python-processor --uri springcloud/polyglot-python-processor:0.1
 ```
 

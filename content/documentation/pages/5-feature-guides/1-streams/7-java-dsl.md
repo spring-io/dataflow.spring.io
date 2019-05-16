@@ -41,7 +41,7 @@ Consider the following example, using the `definition` style.
 URI dataFlowUri = URI.create("http://localhost:9393");
 DataFlowOperations dataFlowOperations = new DataFlowTemplate(dataFlowUri);
 dataFlowOperations.appRegistryOperations().importFromResource(
-                     "https://bit.ly/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
+                     "https://dataflow.spring.io/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
 StreamDefinition streamDefinition = Stream.builder(dataFlowOperations)
                                       .name("ticktock")
                                       .definition("time | log")
@@ -169,7 +169,7 @@ You can register your application by using the `DataFlowTemplate`, as follows:
 
 ```java
 dataFlowOperations.appRegistryOperations().importFromResource(
-            "https://bit.ly/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
+            "https://dataflow.spring.io/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
 ```
 
 The Stream applications can also be beans within your application that are injected in other classes to create Streams.

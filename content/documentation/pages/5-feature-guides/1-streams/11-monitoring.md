@@ -16,7 +16,7 @@ The general architecture of how applications are monitored is shown below.
 
 ![Stream Monitoring Architecture](images/micrometer-arch.png)
 
-To allow aggregating metrics per application type, per instance or per stream the [Spring Cloud Stream Application Starters](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) are configured to use the following Micrometer tags:
+To allow aggregating metrics per application type, per instance or per stream the [Spring Cloud Stream Application Starters](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) are configured to use the following Micrometer tags:
 
 | Tag Name          | Description                                                                   |
 | ----------------- | ----------------------------------------------------------------------------- |
@@ -119,7 +119,7 @@ Start the Skipper server. Then start the Data Flow server with the following pro
 Now if you deploy a simple stream that uses Kafka, such as
 
 ```bash
-dataflow:>app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-maven --force
+dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest --force
 dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
@@ -209,7 +209,7 @@ Start the Skipper server. Then start the Data Flow server with the following pro
 Now if you deploy a simple stream that uses Kafka, such as
 
 ```bash
-dataflow:>app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-maven --force
+dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest --force
 
 dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```

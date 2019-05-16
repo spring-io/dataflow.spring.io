@@ -162,7 +162,7 @@ You can use the `--random-route` option to avoid this when you push the server a
 
 #### Maven repositories
 
-If you need to configure multiple Maven repositories, a proxy, or authorization for a private repository, see [Maven Configuration](http://docs.spring.io/spring-cloud-dataflow/docs//reference/htmlsingle/#getting-started-maven-configuration).
+If you need to configure multiple Maven repositories, a proxy, or authorization for a private repository, see [Maven Configuration](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-maven-configuration).
 
 ### Installing using a Manifest
 
@@ -202,6 +202,17 @@ Once you are ready with the relevant properties in your manifest file,
 you can issue a `cf push` command from the directory where this file is
 stored.
 
+## Shell
+
+The following example shows how to start the Data Flow Shell:
+
+    java -jar spring-cloud-dataflow-shell-{scdf-core-version}.jar
+
+Since the Data Flow Server and shell are not running on the same host, you can point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell.
+
+        server-unknown:>dataflow config server https://<data-flow-server-route-in-cf>
+        Successfully targeted https://<data-flow-server-route-in-cf>
+
 ### Register pre-built applications
 
 All the pre-built streaming applications:
@@ -212,27 +223,12 @@ All the pre-built streaming applications:
 - Contain metadata for application properties used in the UI and code completion in the shell.
 
 Applications can be registered individually using the `app register` functionality or as a group using the `app import` functionality.
-There are also `bit.ly` links that represent the group of pre-built applications for a specific release which is useful for getting started.
+There are also `dataflow.spring.io` links that represent the group of pre-built applications for a specific release which is useful for getting started.
 
 You can register applications using the UI or the shell.
-Even though we are only using two pre-built applications, we will register the full set of pre-built applications.
 
 Since the Cloud Foundry installation guide uses RabbitMQ as the messaging middleware, register the RabbitMQ version of the applications.
 
-**TODO screen shot instead of shell command**
-
+```bash
+dataflow:>app import --uri https://dataflow.spring.io/rabbitmq-maven-latest
 ```
-app import --uri  http://bit.ly/Einstein-SR2-stream-applications-rabbit-maven
-```
-
-## Shell
-
-The following example shows how to start the Data Flow Shell:
-
-    $ java -jar spring-cloud-dataflow-shell-{scdf-core-version}.jar
-
-**TODO add info on setting the url of the data flow server when starting**
-
-## Monitoring
-
-**TODO what to say about monitoring??**

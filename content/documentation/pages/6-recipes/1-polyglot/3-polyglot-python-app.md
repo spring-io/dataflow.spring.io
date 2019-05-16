@@ -6,7 +6,7 @@ description: 'Create and Deploy a Python Application in a Stream'
 
 # Create and Deploy a Python Application
 
-This recipe illustrates how to deploy a Python script as an Data Flow [application](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl).
+This recipe illustrates how to deploy a Python script as an Data Flow [application](https://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl).
 Unlike the other applications types (e.g. `source`, `processor` or `sink`), Data Flow does not set deployment properties that wire up producers and consumers when deploying the `app` application type.
 It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate using deployment properties.
 
@@ -79,7 +79,7 @@ Barista(
   It runs an embedded HTTP server in a separate thread and exposes the `/actuator/health` and `/actuator/info` entry-points handles the Kubernetes liveness and readiness probes requests.
 
 - The [arguments.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/arguments.py) utility helps to retrieve the required input parameters from the command line arguments and environment variables.
-  The utility assumes default (e.g. exec) [entry point style](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#_entry_point_style_2).
+  The utility assumes default (e.g. exec) [entry point style](https://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#_entry_point_style_2).
   Note that Data Flow passes the Kafka broker connection properties as environment variables.
 
 For the `barista_app.py` to act as a Data Flow `app` it needs to be bundled in a docker image and uploaded to `DockerHub`. Following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/Dockerfile) illustrates how to bundle a Python script into docker image:
@@ -134,7 +134,7 @@ dataflow config server --uri http://192.168.99.100:30868`
 Import the SCDF app starters and register the polyglot-python-app as barista-app of type `app`
 
 ```bash
-app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
+app import --uri https://dataflow.spring.io/kafka-docker-latest
 app register --type app --name barista-app --uri docker://springcloud/polyglot-python-app:0.1
 ```
 
@@ -165,7 +165,7 @@ As result the following stream pipelines are created and all but the `bar-pipeli
 
 <!--IMPORTANT-->
 
-The `barista-app` is registered as [App](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl) type application and therefore can have multiple input and output bindings (e.g. channels). Data Flow does not make any assumptions about the flow of data from one application to another. It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate.
+The `barista-app` is registered as [App](https://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl) type application and therefore can have multiple input and output bindings (e.g. channels). Data Flow does not make any assumptions about the flow of data from one application to another. It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate.
 
 <!--END_IMPORTANT-->
 
