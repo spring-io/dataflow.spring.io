@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/function-composition/'
 title: 'Composing Functions'
-description: 'Compose functions to an existing application.'
+description: 'Daisy-chain Java functions in an existing Spring Cloud Stream application'
 ---
 
 # Function Composition

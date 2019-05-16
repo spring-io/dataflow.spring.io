@@ -1,13 +1,13 @@
 ---
 path: 'feature-guides/streams/named-destinations/'
 title: 'Named Destinations'
-description: 'Use of Named Destinations in the DSL'
+description: 'Use the Named Destinations to interact with the Topics/Queues directly'
 ---
 
 # Named Destinations
 
 Instead of referencing a source or sink application, you can use a named destination.
-A named destination corresponds to a specific destination name in the middleware broker (Rabbit, Kafka, and others). When using the | symbol, applications are connected to each other with messaging middleware destination names created by the Data Flow server.
+A named destination corresponds to a specific destination name in the middleware broker (RabbitMQ, Kafka, and others). When using the | symbol, applications are connected to each other with messaging middleware destination names created by the Data Flow server.
 In keeping with the Unix analogy, one can redirect standard input and output using the less-than (`<`) and greater-than (`>`) characters.
 To specify the name of the destination, prefix it with a colon (`:`). For example, the following stream has the destination name in the `source` position:
 

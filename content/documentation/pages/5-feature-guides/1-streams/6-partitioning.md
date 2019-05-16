@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/partitioning/'
 title: 'Data Partitioning'
-description: 'How to use partitioning'
+description: 'Learn more about data partitioning support to build stateful streaming data pipelines'
 ---
 
 # Data Partitioning

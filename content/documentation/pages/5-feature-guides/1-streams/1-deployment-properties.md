@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/deployment-properties/'
 title: 'Deployment Properties'
-description: 'How to set deployment properties'
+description: 'Initiate a stream deployment with deployment property overrides'
 ---
 
 # Deployment Properties

@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/labels/'
 title: 'Labeling Applications'
-description: 'How to label stream applications'
+description: 'Label the stream applications to uniquely interact with them'
 ---
 
 # Labeling Applications

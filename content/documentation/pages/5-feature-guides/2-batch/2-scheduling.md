@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/batch/scheduling/'
 title: 'Scheduling Batch Jobs'
-description: 'Scheduling Batch Jobs'
+description: 'Learn how to schedule the Batch Jobs'
 ---
 
 # Batch Job Scheduling

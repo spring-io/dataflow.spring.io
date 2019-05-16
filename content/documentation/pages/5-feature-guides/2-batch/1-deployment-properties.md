@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/batch/deployment-properties/'
 title: 'Deployment Properties'
-description: 'How to set deployment properties'
+description: 'Initiate a Batch deployment with deployment property overrides'
 ---
 
 # Deployment Properties
