@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
+import { IconGithub } from '../components/common/icons'
 import { Image } from '../components/home'
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
@@ -11,40 +12,62 @@ const IndexPage = () => (
 
     <div className='band'>
       <div className='container'>
-        <div className='text'>
-          <p className='description'>
-            Microservice based <strong>Streaming</strong> and{' '}
-            <strong>Batch</strong> data processing for{' '}
-            <a
-              href='https://www.cloudfoundry.org/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              Cloud Foundry
-            </a>{' '}
-            and{' '}
-            <a
-              href='https://kubernetes.io/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              Kubernetes
-            </a>
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-          <p>
-            <Link className='button' to='/getting-started/'>
-              Getting Started
-            </Link>
-          </p>
-        </div>
-        <div className='image'>
-          <Image />
+        <div className='band-content'>
+          <div className='text'>
+            <p className='description'>
+              Microservice based <strong>Streaming</strong> and{' '}
+              <strong>Batch</strong> data processing for{' '}
+              <a
+                href='https://www.cloudfoundry.org/'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Cloud Foundry
+              </a>{' '}
+              and{' '}
+              <a
+                href='https://kubernetes.io/'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Kubernetes
+              </a>
+            </p>
+            <ul className='links'>
+              <li>
+                <strong>Develop and test microservices</strong> for data
+                integration that do one thing and to it well
+              </li>
+              <li>
+                Use <strong>pre-built microservices</strong> to kick start
+                development
+              </li>
+              <li>
+                <strong>Compose complex topologies</strong> for streaming and
+                batch data pipelines
+              </li>
+              <li>
+                <strong>Open Source</strong>, Apache Licensed
+              </li>
+            </ul>
+            <p>
+              <Link className='button' to='/getting-started/'>
+                Getting Started
+              </Link>{' '}
+              <a
+                className='button light icon'
+                href='https://github.com/spring-cloud/spring-cloud-dataflow'
+                target='_blank'
+                rel='noreferrer noopener'
+              >
+                <IconGithub />
+                View on Github
+              </a>
+            </p>
+          </div>
+          <div className='image'>
+            <Image />
+          </div>
         </div>
       </div>
     </div>
@@ -53,7 +76,7 @@ const IndexPage = () => (
       <div className='layout-basic'>
         <div className='colset'>
           <div className='col col-1'>
-            <article>
+            <a>
               <h2>Familiar Tools</h2>
               <p>
                 Kick-start the solution for your use-case using our drag and
@@ -62,14 +85,12 @@ const IndexPage = () => (
                 RESTful API.
               </p>
               <p>
-                <a className='button' href='#'>
-                  Learn more
-                </a>
+                <span>Read more</span>
               </p>
-            </article>
+            </a>
           </div>
           <div className='col col-2'>
-            <article>
+            <a>
               <h2>Flexible</h2>
               <p>
                 Write Stream and Batch processing logic in multiple programming
@@ -78,14 +99,12 @@ const IndexPage = () => (
                 dashboards.
               </p>
               <p>
-                <a className='button' href='#'>
-                  Learn more
-                </a>
+                <span>Read more</span>
               </p>
-            </article>
+            </a>
           </div>
           <div className='col col-3'>
-            <article>
+            <a>
               <h2>Spring Opinionated</h2>
               <p>
                 Are you already building microservices with Spring Boot? Jump to
@@ -93,11 +112,9 @@ const IndexPage = () => (
                 streaming and batch applications.
               </p>
               <p>
-                <a className='button' href='#'>
-                  Learn more
-                </a>
+                <span>Read more</span>
               </p>
-            </article>
+            </a>
           </div>
         </div>
       </div>
