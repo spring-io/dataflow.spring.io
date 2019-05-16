@@ -38,7 +38,7 @@ You need to fill in `\{org}`, `\{space}`, `\{email}`, and `\{password}` before u
 
 Now you are ready to start the server application, as follows:
 
-    java -jar spring-cloud-dataflow-server-{%dataflow-version%}.jar --spring.config.additional-location=<PATH-TO-FILE>/foo.properties
+    java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.config.additional-location=<PATH-TO-FILE>/foo.properties
 
 # Configure Skipper Server on Local Machine
 

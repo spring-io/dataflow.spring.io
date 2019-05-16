@@ -12,9 +12,9 @@ If Docker does not suit your needs, you can manually install the parts you need 
 
 1.  Download the Spring Cloud Data Flow Server and shell by using the following commands:
 
-        wget https://repo.spring.io/{version-type-lowercase}/org/springframework/cloud/spring-cloud-dataflow-server/{%dataflow-version%}/spring-cloud-dataflow-server-{%dataflow-version%}.jar
+        wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-server/{%dataflow-version%}/spring-cloud-dataflow-server-%dataflow-version%.jar
 
-        wget https://repo.spring.io/{version-type-lowercase}/org/springframework/cloud/spring-cloud-dataflow-shell/{%dataflow-version%}/spring-cloud-dataflow-shell-{%dataflow-version%}.jar
+        wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-shell/{%dataflow-version%}/spring-cloud-dataflow-shell-%dataflow-version%.jar
 
 2.  Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the
     following commands:
@@ -45,18 +45,18 @@ docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 rabbitmq:3.7.14
     downloaded Data Flow, run the server by using `java -jar`, as
     follows:
 
-        java -jar spring-cloud-dataflow-server-{%dataflow-version%}.jar
+        java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
 
     If Skipper and the Data Flow server are not running on the same
     host, set the `spring.cloud.skipper.client.serverUri` configuration
     property to the location of Skipper, as shown in the following
     example
 
-        java -jar spring-cloud-dataflow-server-{%dataflow-version%}.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
+        java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
 
 3.  If you want to use the shell to use Data Flow, start it with the following command:
 
-         java -jar spring-cloud-dataflow-shell-{%dataflow-version%}.jar
+         java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
 
     If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell.
 
@@ -102,5 +102,5 @@ Depending on if you are using RabbitMQ or Kafka, register the applications using
 From the Data Flow Shell, you can bulk import and register the applications. For example:
 
 ```bash
-dataflow:>app import --uri http://dataflow.spring.io/kafka-maven-latest
+dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest
 ```
