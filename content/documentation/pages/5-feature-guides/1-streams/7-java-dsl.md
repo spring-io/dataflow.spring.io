@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/java-dsl/'
 title: 'Java DSL'
-description: 'How to create streams using Java'
+description: 'Programmatically create streams using the Java DSL'
 ---
 
 # Stream Java DSL

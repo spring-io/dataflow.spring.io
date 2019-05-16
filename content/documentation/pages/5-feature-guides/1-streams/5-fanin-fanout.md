@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/fanin-fanout/'
 title: 'Fan-in and Fan-out'
-description: 'How to support fan-in and fan-out use cases.'
+description: 'Publish and subscribe to multiple destinations using the fan-in and fan-out capabilities'
 ---
 
 # Fan-in and Fan-out

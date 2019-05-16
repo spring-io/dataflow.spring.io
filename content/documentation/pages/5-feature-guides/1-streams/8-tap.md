@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/taps/'
 title: 'Tapping a Stream'
-description: 'Creating a Stream from an application in another stream..'
+description: 'Create a stream from another stream without interrupting the data processing'
 ---
 
 # Tapping a Stream

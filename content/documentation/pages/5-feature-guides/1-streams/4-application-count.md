@@ -1,7 +1,7 @@
 ---
 path: 'feature-guides/streams/application-count/'
 title: 'Application Count'
-description: 'How many instances of a stream application to initially deploy'
+description: 'Initiate stream deployment with multiple application instances'
 ---
 
 # Application Count
