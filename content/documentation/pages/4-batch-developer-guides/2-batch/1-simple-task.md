@@ -65,7 +65,7 @@ If you don't have an instance of MySql installed available to you, you can follo
    -e MYSQL_DATABASE=task -d mysql:5.7.25
    ```
 
-### Business Logic
+### Building The Application
 
 Now let’s create the code required for this application.
 
