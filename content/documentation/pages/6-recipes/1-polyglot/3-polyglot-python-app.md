@@ -134,7 +134,7 @@ dataflow config server --uri http://192.168.99.100:30868`
 Import the SCDF app starters and register the polyglot-python-app as barista-app of type `app`
 
 ```bash
-app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
+app import --uri http://dataflow.spring.io/kafka-docker-latest
 app register --type app --name barista-app --uri docker://springcloud/polyglot-python-app:0.1
 ```
 

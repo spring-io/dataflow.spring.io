@@ -119,7 +119,7 @@ Start the Skipper server. Then start the Data Flow server with the following pro
 Now if you deploy a simple stream that uses Kafka, such as
 
 ```bash
-dataflow:>app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-maven --force
+dataflow:>app import --uri http://dataflow.spring.io/kafka-maven-latest --force
 dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
@@ -209,7 +209,7 @@ Start the Skipper server. Then start the Data Flow server with the following pro
 Now if you deploy a simple stream that uses Kafka, such as
 
 ```bash
-dataflow:>app import --uri http://bit.ly/Einstein-SR2-stream-applications-kafka-maven --force
+dataflow:>app import --uri http://dataflow.spring.io/kafka-maven-latest --force
 
 dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```

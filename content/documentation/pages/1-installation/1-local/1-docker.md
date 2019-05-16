@@ -16,7 +16,7 @@ Alternatively, you can follow the [manual installation steps](%currentPath%/inst
 
 Download the Spring Cloud Data Flow Server Docker Compose file:
 
-```
+```bash
 wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%dataflow-version%/spring-cloud-dataflow-server/docker-compose.yml
 ```
 
@@ -39,7 +39,7 @@ The Docker Compose file will start up the following:
 
 In the directory where you downloaded `docker-compose.yml`, start the system, as follows:
 
-```
+```bash
 export DATAFLOW_VERSION=%local-server-image-tag%
 export SKIPPER_VERSION=%skipper-version%
 docker-compose up
@@ -60,7 +60,7 @@ The preceding commands first set the `DATAFLOW_VERSION`, `SKIPPER_VERSION` to us
 
 You can also use a shorthand version that exposes only the `DATAFLOW_VERSION`, `SKIPPER_VERSION` variables to the `docker-compose` process (rather than setting it in the environment), as follows:
 
-```
+```bash
 DATAFLOW_VERSION=%local-server-image-tag% SKIPPER_VERSION=%skipper-version% docker-compose up
 ```
 
@@ -83,14 +83,16 @@ In your browser, navigate to the [Spring Cloud Data Flow Dashboard URL](http://l
 
 When you want to shut down Data Flow use the `docker-compose down` command.
 
-1.  Open a new terminal window.
+1. Open a new terminal window.
 
-2.  Change directory to the directory in which you started (where the
-    `docker-compose.yml` file is located).
+1. Change directory to the directory in which you started (where the
+   `docker-compose.yml` file is located).
 
-3.  Run the following command:
+1. Run the following command:
 
-        $ DATAFLOW_VERSION=%local-server-image-tag% SKIPPER_VERSION=%skipper-version% docker-compose down
+```bash
+DATAFLOW_VERSION=%local-server-image-tag% SKIPPER_VERSION=%skipper-version% docker-compose down
+```
 
 <!--NOTE-->
 
@@ -108,22 +110,23 @@ The shell supports tab completion for commands and also for stream/task applicat
 If you have started Data Flow using Docker compose, the shell is is also included in the springcloud/spring-cloud-dataflow-server Docker image.
 To use it, open another console window and type the following:
 
-    $ docker exec -it dataflow-server java -jar shell.jar
+```bash
+docker exec -it dataflow-server java -jar shell.jar
+```
 
 If you have started the Data Flow server via `java -jar`, download and start the shell using the following commands:
 
-1.  Download the Spring Cloud Data Flow Shell application by using the following command:
+Download the Spring Cloud Data Flow Shell application by using the following command:
 
-        wget https://repo.spring.io/{version-type-lowercase}/org/springframework/cloud/spring-cloud-dataflow-shell/{%dataflow-version%}/spring-cloud-dataflow-shell-{%dataflow-version%}.jar
+```bash
+wget https://repo.spring.io/{version-type-lowercase}/org/springframework/cloud/spring-cloud-dataflow-shell/{%dataflow-version%}/spring-cloud-dataflow-shell-{%dataflow-version%}.jar
+```
 
-**TODO add link/create content for shell**
-Using Spring Cloud Data Flow Shell is further described in
-[Shell](#shell).
+<!-- **TODO add link/create content for shell** -->
 
 ## Monitoring
 
 By default, the Data Flow `docker-compose` configures Stream monitoring with Prometheus and pre-built dashboards for Grafana.
 See the section [Using InfluxDB instead of Prometheus](%currentPath%/installation/local/docker-customize/#using-influxdb-instead-of-prometheus-for-monitoring) to how to perform an InfluxDB based installation.
 
-**TODO Include some screen shots of dashboard**
-**TODO Provide some 'next step' links to getting started task/stream**
+To further learn more about the monitoring experience in SCDF with Prometheus and InfluxDB, please refer to the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring#local) feature guide.

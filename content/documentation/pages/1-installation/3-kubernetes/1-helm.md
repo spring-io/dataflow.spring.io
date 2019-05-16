@@ -193,7 +193,7 @@ All the pre-built streaming applications:
 - Contain metadata for application properties used in the UI and code completion in the shell.
 
 Applications can be registered individually using the `app register` functionality or as a group using the `app import` functionality.
-There are also `bit.ly` links that represent the group of pre-built applications for a specific release which is useful for getting started.
+There are also `dataflow.spring.io` links that represent the group of pre-built applications for a specific release which is useful for getting started.
 
 You can register applications using the UI or the shell.
 Even though we are only using two pre-built applications, we will register the full set of pre-built applications.
@@ -201,10 +201,8 @@ Even though we are only using two pre-built applications, we will register the f
 The easiest way to install Data Flow on Kubernetes is using the Helm chart that uses RabbitMQ as the default messaging middleware.
 The command to import the Kafka version of the applications is
 
-**TODO screen shot instead of shell command**
-
-```
-app import --uri  http://bit.ly/Einstein-SR2-stream-applications-kafka-docker
+```bash
+dataflow:>app import --uri http://dataflow.spring.io/kafka-docker-latest
 ```
 
 Change `kafka` to `rabbit` in the above URL if you set `kafka.endabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
@@ -730,4 +728,4 @@ shows:
 
 ## Monitoring
 
-**TODO where do we discuss monitoring deployed apps on k8s??**s
+To learn more about the monitoring experience in SCDF using Prometheus running on Kubernetes, please refer to the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/#kubernetes) feature guide.

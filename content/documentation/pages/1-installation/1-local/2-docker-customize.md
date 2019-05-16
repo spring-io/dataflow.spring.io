@@ -50,8 +50,8 @@ You can use RabbitMQ rather than Kafka for communication. To do so:
 
 4.  Modify the `app-import` service definition `command` attribute to
     replace
-    `https://bit.ly/Einstein-SR2-stream-applications-kafka-maven` with
-    `https://bit.ly/Einstein-SR2-stream-applications-rabbit-maven`.
+    `https://dataflow.spring.io/kafka-maven-latest` with
+    `https://dataflow.spring.io/rabbitmq-maven-latest`.
 
 ## Using InfluxDB Instead of Prometheus
 
