@@ -80,9 +80,10 @@ const IndexPage = () => (
               <h2>Familiar Tools</h2>
               <p>
                 Kick-start the solution for your use-case using our drag and
-                drop designer. Don’t like designers? Use pipes and filters based
-                textual Domain Specific Language instead. Integrate using a
-                RESTful API.
+                drop designer. <br />
+                Don’t like designers? Use pipes and filters based textual Domain
+                Specific Language instead. <br />
+                Integrate using a RESTful API.
               </p>
               <p>
                 <span>Read more</span>
@@ -94,9 +95,9 @@ const IndexPage = () => (
               <h2>Flexible</h2>
               <p>
                 Write Stream and Batch processing logic in multiple programming
-                languages. Use your favorite messaging middleware for Stream
-                processing. Interact with popular monitoring systems and
-                dashboards.
+                languages. <br />
+                Use your favorite messaging middleware for Stream processing.
+                Interact with popular monitoring systems and dashboards.
               </p>
               <p>
                 <span>Read more</span>
@@ -107,9 +108,10 @@ const IndexPage = () => (
             <a>
               <h2>Spring Opinionated</h2>
               <p>
-                Are you already building microservices with Spring Boot? Jump to
-                the developer guide and extend the same learnings to build
-                streaming and batch applications.
+                Are you already building microservices with Spring Boot?
+                <br />
+                Jump to the developer guide and extend the same learnings to
+                build streaming and batch applications.
               </p>
               <p>
                 <span>Read more</span>
