@@ -161,15 +161,15 @@ The runtime applications show information about where each application is runnin
 
 Before registering and deploying stream applications to Cloud Foundry using the instructions above, please ensure that you have an instance of Spring Cloud Data Flow sucessfully running on Cloud Foundry. Follow the [installation guide] for Cloud Foundry (%currentPath%/../installation/cloudfoundry/cf-cli) for reference.
 
-Once you have followed the steps of this chapter above and registered the apps as well as deployed the stream with its 3 orchestrated stream applications, you will see the sucessfully deployed applications in your Cloud Foundry Dashboard:
+Once you have followed the steps of this chapter above and registered the apps as well as deployed the stream, you will see the sucessfully deployed applications in your in your Org/Space in Cloud Foundry:
 
-![Cloud Foundry Dashboard with the deployed Stream Application](images/SCDF-CF-dashboard.png)
+![Cloud Foundry Apps Manager with the deployed Stream Application](images/SCDF-CF-dashboard.png)
 
-Of course, you have access to the runtime information of your stream applications in the Spring Cloud Data Flow dashboard as well. Simply click onto the `Runtime` button in the left navigation:
+Of course, you have access to the runtime information of your stream applications in the Spring Cloud Data Flow Dashboard as well. Simply click onto the `Runtime` button in the left navigation:
 
 ![Data Flow Runtime Information](images/SCDF-CF-runtime.png)
 
-Besides verifying the runtime status of your stream, you should also verify the logging output produced by the `usage-cost-logger` Sink. In your Cloud Foundry dashboard, click onto the `Logs` tab of the `usage-cost-logger` sink application. The logging statements should look like the following:
+Besides verifying the runtime status of your stream, you should also verify the logging output produced by the `usage-cost-logger` Sink. In Cloud Foundry Apps Manager, click onto the `Logs` tab of the `usage-cost-logger` sink application. The logging statements should look like the following:
 
 ![Data Flow Runtime Information](images/SCDF-CF-dashboard-logging.png)
 
