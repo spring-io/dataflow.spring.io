@@ -30,7 +30,7 @@ The `Deliver Hot Drink` and `Deliver Cold Drink` components are the pre-built [l
 
 ## Development
 
-The source code can be found in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-app) and downloaded as a zipped archive: [polyglot-python-task.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-app.zip).
+The source code can be found in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-app) and downloaded as a zipped archive: [polyglot-python-app.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-app.zip).
 
 The [barista_app.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/barista_app.py) implements the Barista application logic.
 
@@ -95,12 +95,6 @@ ENTRYPOINT ["python","/barista_app.py"]
 
 The Dockerfile installs the required dependencies, adds the barista script (e.g. `ADD barista_app.py`) and utilities (under the `util` folder above) and sets the command entry.
 
-<!--TIP-->
-
-Leave the command empty (e.g. `[]`) and set the entry point explicitly.
-
-<!--END_TIP-->
-
 ### Build
 
 We will now build the docker image and push it to the DockerHub registry.
@@ -128,6 +122,8 @@ Replace `springcloud` with your docker hub prefix.
 Once published in Docker Hub, the image can be registered in Data Flow and deployed.
 
 ## Deployment
+
+Follow the [installation instructions](%currentPath%/installation/kubernetes/) to set up Data Flow on Kubernetes.
 
 Retrieve the Data Flow url from minikube (`minikube service --url scdf-server`) and configure your Data Flow shell:
 
@@ -165,7 +161,7 @@ As result the following stream pipelines are created and all but the `bar-pipeli
 
 - `orders-pipeline` generates drink orders (e.g. timestamps) using the `time` source application and sends them to a Kafka topic: `orders`.
 - `hot-drink-pipeline` logs the hot drinks coming through the Kafka topic named `hotDrinks`.
-- `cold-drink-line` logs the cold drinks coming through Kafka topic named `coldDrinks`.
+- `cold-drink-pipeline` logs the cold drinks coming through Kafka topic named `coldDrinks`.
 
 <!--IMPORTANT-->
 
