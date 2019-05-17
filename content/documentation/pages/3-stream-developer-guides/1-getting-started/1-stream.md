@@ -188,4 +188,4 @@ This information can be found in the [Continuous Delivery](%currentpath%/stream-
 
 ## Monitoring
 
-This information can be found in the [Stream Monitoring](%currentpath%/eature-guides/streams/monitoring/) guide.
+This information can be found in the [Stream Monitoring](%currentpath%/feature-guides/streams/monitoring/) guide.
