@@ -52,11 +52,11 @@ graph TD;
 Application log files can be inspected on a per application basis.
 To aggregate logs from all applications into one, the deployer property `inheritLogging=true` can be set.
 See
-[Log Redirect](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_log_redirect)
-for more information and [Deployment Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for enabling more log output.
+[Log Redirect](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_log_redirect)
+for more information and [Deployment Logs](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for enabling more log output.
 
 Debugging applications via JDWP can be accomplished by setting the deployer property `debugPort`.
-See [Remote Debugging](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_remote_debugging) for more information.
+See [Remote Debugging](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_remote_debugging) for more information.
 
 #### Docker Compose - Startup
 
@@ -68,7 +68,7 @@ graph TD;
 ```
 
 The environment variables `DATAFLOW_VERSION` and `SKIPPER_VERSION` must be available in the current terminal environment via `export` or prefixing the `docker-compose` command.
-See [Starting Docker Compose](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-local-deploying-spring-cloud-dataflow-docker-starting) for more information.
+See [Starting Docker Compose](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-local-deploying-spring-cloud-dataflow-docker-starting) for more information.
 
 #### Docker Compose - Runtime
 
@@ -113,7 +113,7 @@ graph TD;
 ```
 
 When debugging deployment issues, raising deployer and Cloud Foundry related log levels may be useful.
-See [Deployment Logs](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for more information.
+See [Deployment Logs](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#troubleshooting-deployment-logs) for more information.
 
 ### Kubernetes
 
