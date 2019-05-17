@@ -8,13 +8,15 @@
     .band {
       position: relative;
       background: $spring-gray-color;
+      background: $spring-gray-color url(../images/radial.svg) no-repeat bottom
+        center;
+      background-size: 80% 80%;
 
       .links {
         @include links;
         color: #666;
         strong {
           font-weight: normal;
-          color: $spring-color;
         }
       }
 

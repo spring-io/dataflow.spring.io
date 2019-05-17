@@ -26,7 +26,7 @@ const Seo = ({ title, description, keywords }) => {
   const siteMetadata = site.siteMetadata
   const meta = {
     ...siteMetadata,
-    title: title ? title : siteMetadata.title,
+    title: `${title ? title + ' | ' : ''} ${siteMetadata.title} `,
     description: description ? description : siteMetadata.description,
     keywords: keywords ? keywords : siteMetadata.keywords,
   }
@@ -34,6 +34,7 @@ const Seo = ({ title, description, keywords }) => {
     <>
       <Helmet>
         <title>{meta.title}</title>
+        <html lang='en' className='f-dataflow' />
         <meta name='description' content={meta.description} />
         <link rel='canonical' href={meta.siteUrl} />
         <meta property='og:site_name' content={meta.title} />

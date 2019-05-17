@@ -8,7 +8,7 @@ import { Seo } from '../components/common/seo'
 
 const IndexPage = () => (
   <Layout className='home-page'>
-    <Seo title='Spring Cloud Data Flow' />
+    <Seo />
 
     <div className='band'>
       <div className='container'>

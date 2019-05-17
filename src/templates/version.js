@@ -26,11 +26,7 @@ class DocumentationVersion extends React.Component {
     const optionVersions = getVersions(versions)
     return (
       <Layout>
-        <Seo
-          title={`Spring Cloud Data Flow - Documentation v${
-            this.props.data.page.context.version
-          }`}
-        />
+        <Seo title={`Documentation ${this.props.data.page.context.version}`} />
         <StickyContainer>
           <div className='container'>
             <div className={classNames('layout-sidebars', 'layout-2-sidebars')}>

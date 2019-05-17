@@ -5,7 +5,7 @@ import { Seo } from '../components/common/seo'
 
 const FeaturesPage = () => (
   <Layout className='page-features'>
-    <Seo title='Spring Cloud Data Flow - Features' />
+    <Seo title='Features' />
     {/* <div className='band'>
       <div className='band-background'>
         <div className='container'>

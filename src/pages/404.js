@@ -10,7 +10,7 @@ import { Seo } from '../components/common/seo'
 
 const NotFoundPage = () => (
   <div className='page-404'>
-    <Seo title='Spring Cloud Data Flow - 404' />
+    <Seo title='404' />
 
     <div className='container'>
       <main>

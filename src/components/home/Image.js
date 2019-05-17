@@ -8,14 +8,14 @@ const Image = () => (
       query {
         placeholderImage: file(relativePath: { eq: "screen-dataflow.png" }) {
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid
+            fixed(width: 568, height: 469) {
+              ...GatsbyImageSharpFixed
             }
           }
         }
       }
     `}
-    render={data => <Img fluid={data.placeholderImage.childImageSharp.fluid} />}
+    render={data => <Img fixed={data.placeholderImage.childImageSharp.fixed} />}
   />
 )
 export default Image

@@ -13,7 +13,7 @@ import { ZenhubImage } from '../components/community'
 const CommunityPage = () => {
   return (
     <Layout className='page-community'>
-      <Seo title='Spring Cloud Data Flow - Community' />
+      <Seo title='Community' />
       <div className='container'>
         <div className='layout-basic'>
           <div className='page-title'>

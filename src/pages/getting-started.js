@@ -5,7 +5,7 @@ import { Seo } from '../components/common/seo'
 
 const GettingStartedPage = () => (
   <Layout className='page-getting-started'>
-    <Seo title='Spring Cloud Data Flow - Getting Started' />
+    <Seo title='Getting Started' />
     <div className='container'>
       <div className='layout-sidebars layout-2-sidebars'>
         <div className='sidebar'>
