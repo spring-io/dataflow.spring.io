@@ -89,7 +89,6 @@ const plugins = [
         {
           resolve: `gatsby-remark-images`,
           options: {
-            sizeByPixelDensity: true,
             withWebp: true,
             linkImagesToOriginal: false,
             quality: 80,
