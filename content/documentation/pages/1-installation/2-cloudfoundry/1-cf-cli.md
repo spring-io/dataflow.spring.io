@@ -213,9 +213,9 @@ Since the Data Flow Server and shell are not running on the same host, you can p
         server-unknown:>dataflow config server https://<data-flow-server-route-in-cf>
         Successfully targeted https://<data-flow-server-route-in-cf>
 
-### Register pre-built applications
+### Register prebuilt applications
 
-All the pre-built streaming applications:
+All the prebuilt streaming applications:
 
 - Are available as Apache Maven artifacts or Docker images.
 - Use RabbitMQ or Apache Kafka.
@@ -223,7 +223,7 @@ All the pre-built streaming applications:
 - Contain metadata for application properties used in the UI and code completion in the shell.
 
 Applications can be registered individually using the `app register` functionality or as a group using the `app import` functionality.
-There are also `dataflow.spring.io` links that represent the group of pre-built applications for a specific release which is useful for getting started.
+There are also `dataflow.spring.io` links that represent the group of prebuilt applications for a specific release which is useful for getting started.
 
 You can register applications using the UI or the shell.
 

@@ -148,7 +148,7 @@ Instead, you can define a placeholder environment variable (such as `HOST_APP_FO
 
 <!--END_TIP-->
 
-Once you mount the host folder, you can register the app starters (from `/root/apps`), with the SCDF
+Once you mount the host folder, you can register the app starters (from `/root/apps`), with the Data Flow
 [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell)
 or
 [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps)
@@ -190,5 +190,5 @@ the `app-import` block configuration, as the following example shows:
             wget -qO- 'https://dataflow-server:9393/apps/source/my-app' --post-data='uri=file:/root/apps/my-app.jar&metadata-uri=file:/root/apps/my-app-metadata.jar';
             echo 'My custom apps imported'"
 
-See the [SCDF REST API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#resources-registered-applications)
+See the [Data Flow REST API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#resources-registered-applications)
 for further details.

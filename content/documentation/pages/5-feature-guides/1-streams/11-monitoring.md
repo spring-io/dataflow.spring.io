@@ -137,7 +137,7 @@ docker-compose down
 
 <!--NOTE-->
 
-By default the Data Flow docker-compose configures Stream monitoring with InfluxDB and pre-built dashboards for Grafana. The follow instructions are provided to let you configure InfluxDB and Grafana in case you decide to install Data Flow manually, without the the help of the getting started docker-compose.
+By default the Data Flow docker-compose configures Stream monitoring with InfluxDB and prebuilt dashboards for Grafana. The follow instructions are provided to let you configure InfluxDB and Grafana in case you decide to install Data Flow manually, without the the help of the getting started docker-compose.
 
 <!--END_NOTE-->
 

@@ -6,7 +6,7 @@ description: 'Installation using Docker Compose'
 
 # Install using Docker Compose
 
-Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus and pre-built dashboards for Grafana, instead of having to install them manually.
+Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus and prebuilt dashboards for Grafana, instead of having to install them manually.
 Alternatively, you can follow the [manual installation steps](%currentPath%/installation/local/manual)
 
 [[tip | Upgrade to latest version of Docker ]]
@@ -126,7 +126,7 @@ wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataf
 
 ## Monitoring
 
-By default, the Data Flow `docker-compose` configures Stream monitoring with Prometheus and pre-built dashboards for Grafana.
+By default, the Data Flow `docker-compose` configures Stream monitoring with Prometheus and prebuilt dashboards for Grafana.
 See the section [Using InfluxDB instead of Prometheus](%currentPath%/installation/local/docker-customize/#using-influxdb-instead-of-prometheus-for-monitoring) to how to perform an InfluxDB based installation.
 
 To further learn more about the monitoring experience in SCDF with Prometheus and InfluxDB, please refer to the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring#local) feature guide.

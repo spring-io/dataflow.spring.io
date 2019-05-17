@@ -10,7 +10,7 @@ The Data Flow metrics architecture is designed around the Micrometer library whi
 It provides a simple facade over the instrumentation clients for the most popular monitoring systems.
 Micrometer is the instrumentation library powering the delivery of application metrics from Spring Boot and includes metrics for message rates and errors which is critical to the monitoring of deployed Streams.
 
-The pre-built applications are configured to support two of the most popular monitoring systems, Prometheus and InfluxDB. You can declaratively select which monitoring system to use.
+The prebuilt applications are configured to support two of the most popular monitoring systems, Prometheus and InfluxDB. You can declaratively select which monitoring system to use.
 
 To help you get started monitoring Streams, Data Flow provides Grafana Dashboards you can install and customize for your needs.
 

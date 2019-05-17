@@ -1,7 +1,7 @@
 ---
 path: 'concepts/'
 title: 'Concepts'
-description: 'Core concepts to understand'
+description: 'Core Concepts in Spring Cloud Data Flow'
 summary: true
 ---
 

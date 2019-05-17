@@ -20,13 +20,13 @@ The following diagram shows the architecture of the cafe processing pipelines.
 
 ![SCDF Python Tasks](images/polyglot-python-app-architecture.png)
 
-To avoid creating a new source applications, the `Customer`, will use the pre-built [Time Source](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-time-source) application.
+To avoid creating a new source applications, the `Customer`, will use the prebuilt [Time Source](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-time-source) application.
 It continuously emits timestamps, that will represent the order, to a downstream Kafka topic called `orders`.
 
 The `Barista` app, implemented by the Python script, consumes the incoming orders (e.g. timestamps) and produces hot drinks for the even timestamps and cold drinks for the odd ones.
 Produced drinks (represented by text messages) are sent downstream to ether the `hotDrink` or `coldDrink` Kafka topics.
 
-The `Deliver Hot Drink` and `Deliver Cold Drink` components are the pre-built [log-sink] applications that consume the `hotDrink` or `coldDrink` topics and prints the incoming message in on the console.
+The `Deliver Hot Drink` and `Deliver Cold Drink` components are the prebuilt [log-sink] applications that consume the `hotDrink` or `coldDrink` topics and prints the incoming message in on the console.
 
 ## Development
 

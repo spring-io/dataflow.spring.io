@@ -90,7 +90,7 @@ deployment, pod, and service resources are running. You can use
 Metrics are "`scraped`" from deployed pods by Prometheus when configured
 with the appropriate annotations. The scraped metrics are viewable
 through Grafana dashboards. Out of the box, Grafana comes pre-configured
-with a Prometheus data source connection along with SCDF-specific
+with a Prometheus data source connection along with Data Flow specific
 Grafana dashboards to monitor the streaming applications composed in a
 data pipeline.
 

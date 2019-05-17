@@ -1,10 +1,10 @@
 ---
 path: 'concepts/batch-jobs/'
-title: 'Batch Jobs'
-description: 'Architecture of Batch data pipelines'
+title: 'Batch Processing'
+description: 'Batch Processing Framework and Concepts'
 ---
 
-# What is Batch Processing
+# Batch Processing
 
 Batch processing, is defined as the processing of a finite amount of data without interaction or interruption.
 Applications that implement batch processing are referred to as ephemeral or short lived apps.
@@ -43,9 +43,10 @@ All you have to do is add the `@EnableTask` annotation.
 
 ## Orchestrating Batch apps
 
-![SCDF Task Orchestration](images/SCDF-task-orchestration.png)
+![Data Flow Task Orchestration](images/SCDF-task-orchestration.png)
 Once you have written your batch application using Spring Batch and Spring Cloud Task how do we orchestrate the launching of the application?
-This is where Spring Cloud Data Flow can help. Spring Cloud Data Flow allows a user to launch a batch application via an ad-hoc request or a batch-job scheduler.
+This is where Spring Cloud Data Flow can help.
+Spring Cloud Data Flow allows a user to launch a batch application via an ad-hoc request or a batch-job scheduler.
 Moreover you can launch your batch applications on the following platforms:
 
 - Cloud Foundry
@@ -56,4 +57,8 @@ Spring Cloud Dataflow allows you to launch or schedule the launch of your batch 
 
 ## Next Steps
 
-If your interested in writing and deploying your first batch processing application, take a look at our [Batch Developer Guides](%currentPath%/batch-developer-guides/).
+If you are interested in using the prebuilt applications to create streaming data pipeline,
+look at the [Stream Getting Started Guide](%currentPath%/batch-developer-guides/getting-started/)
+
+If your interested in writing and deploying your first custom batch processing application,
+take a look at our [Batch Developer Guides](%currentPath%/batch-developer-guides/batch).

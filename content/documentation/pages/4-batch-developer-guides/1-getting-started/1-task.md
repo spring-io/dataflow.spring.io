@@ -1,7 +1,7 @@
 ---
 path: 'batch-developer-guides/getting-started/task/'
 title: 'Task Processing'
-description: 'Create and deploy a simple task pipeline using a pre-built task application on your Local Machine'
+description: 'Create and deploy a simple task pipeline using a prebuilt task application on your Local Machine'
 summary: true
 ---
 

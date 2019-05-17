@@ -32,7 +32,7 @@ For this guide we assume that the respective `http`, `transformer`, and `log` ap
 
 ## Using three applications
 
-For the first stream, we will use the pre-built `http`, `transform` and `log` applications.
+For the first stream, we will use the prebuilt `http`, `transform` and `log` applications.
 
 Create the following stream:
 

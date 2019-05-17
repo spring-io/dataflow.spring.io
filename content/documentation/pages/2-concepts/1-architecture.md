@@ -93,7 +93,7 @@ Applications come in two flavors:
   - The second is an extension of the first which includes the Spring Batch framework as the foundation of performing batch processing.
 
 It is common to write long-lived applications based on the Spring Cloud Stream framework and short-lived applications based on the Spring Cloud Task or Spring Batch framework.  
-There are many guides in the documentation that show you how to use these frameworks in developing data pipelins.
+There are many guides in the documentation that show you how to use these frameworks in developing data pipelines.
 However, it is also possible to write long-lived and short-lived applications that do not use Spring.
 They can also be written in other programming languages.
 
@@ -120,7 +120,7 @@ The Data Flow server delegates to the Skipper server to deploy long-lived applic
 
 #### Streams with Sources, Processors and Sinks
 
-Spring Cloud Stream's defines the concept of a binding interface that encapsulates in code a message exchange pattern, namely what are the applications inputs and outputs.
+Spring Cloud Stream defines the concept of a binding interface that encapsulates in code a message exchange pattern, namely what are the applications inputs and outputs.
 Several binding interfaces are provided by Spring Cloud Stream that correspond to the follow common message exchange contracts:
 
 - `Source`: Message producer to a destination
@@ -231,9 +231,9 @@ The graph of tasks are executed through an task application called the _Composed
 
 Additional guides will go into more detail on how to develop, test and register short-lived applications and how to deploy them.
 
-## Pre-built applications
+## Prebuilt applications
 
-To kick start your development, there are many pre-built applications that you can use to integrate with common data sources and sinks.
+To kick start your development, there are many prebuilt applications that you can use to integrate with common data sources and sinks.
 For example, use there is a `cassandra` sink that writes data to cassandra and a `groovy-transform` processor that transform the incoming data using a groovy script.
 
 The installation instructions show how to register these applications with Data Flow.
@@ -258,7 +258,7 @@ For example, in Cloud Foundry, it would bind specified services to the applicati
 The Data Flow Server helps simplify the deployment of multiple, related, applications onto a target runtime, setting up necessary input and output topics, partitions, and metrics functionality.
 However, one could also opt to deploy each of the microservice applications manually and not use Data Flow or Skipper at all.
 This approach might be more appropriate to start out with for small scale deployments, gradually adopting the convenience and consistency of Data Flow as you develop more applications.
-Manual deployment of Stream- and Task-based microservices is also a useful educational exercise that can help you better understand some of the automatic application configuration and platform targeting steps that the Data Flow Server provides.
+Manual deployment of Stream and Task-based microservices is also a useful educational exercise that can help you better understand some of the automatic application configuration and platform targeting steps that the Data Flow Server provides.
 The Stream and Batch developer guides follow this approach.
 
 #### Comparison to other architectures
@@ -284,7 +284,7 @@ Data that is posted to the HTTP application will then be stored in a database.
 
 <!--NOTE-->
 
-he `http` source and `jdbc` sink applications are running on the specified platform and have no connection to the Data Flow or Skipper server.
+The `http` source and `jdbc` sink applications are running on the specified platform and have no connection to the Data Flow or Skipper server.
 
 <!--END_NOTE-->
 

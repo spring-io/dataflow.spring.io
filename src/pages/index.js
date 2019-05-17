@@ -39,7 +39,7 @@ const IndexPage = () => (
                 integration that do one thing and to it well
               </li>
               <li>
-                Use <strong>pre-built microservices</strong> to kick start
+                Use <strong>prebuilt microservices</strong> to kick start
                 development
               </li>
               <li>

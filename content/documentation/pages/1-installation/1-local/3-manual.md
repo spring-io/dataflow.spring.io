@@ -78,11 +78,11 @@ docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 rabbitmq:3.7.14
 You can now navigate to Spring Cloud Data Flow Dashboard. In your browser, navigate to the [Spring Cloud Data
 Flow Dashboard URL](http://localhost:9393/dashboard).
 
-## Register pre-built applications
+## Register prebuilt applications
 
 <!-- **TODO feels like this can go in some generic section** -->
 
-All the pre-built streaming applications:
+All the prebuilt streaming applications:
 
 - Are available as Apache Maven artifacts or Docker images.
 - Use RabbitMQ or Apache Kafka.
@@ -90,7 +90,7 @@ All the pre-built streaming applications:
 - Contain metadata for application properties used in the UI and code completion in the shell.
 
 Applications can be registered individually using the `app register` command or in bulk using the `app import` command.
-There are also bulk-registration links that represent the group of pre-built applications for a specific release which is useful for getting started.
+There are also bulk-registration links that represent the group of prebuilt applications for a specific release which is useful for getting started.
 
 You can register applications using the UI or the shell.
 
