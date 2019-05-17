@@ -44,8 +44,8 @@ const GettingStartedPage = () => (
               <strong>Data Flow</strong>, we recommend trying out Local for
               simplicity to get comfortable with the concepts. Once you are
               ready to try it out on a platform, the guides for{' '}
-              <strong>Cloud Foundry</strong>
-              and <strong>Kubernetes</strong> are here for you as well.
+              <strong>Cloud Foundry</strong> and <strong>Kubernetes</strong> are
+              here for you as well.
             </p>
 
             <ul className='block-links'>
@@ -73,11 +73,10 @@ const GettingStartedPage = () => (
             </ul>
 
             <p>
-              Once you have the <strong>Data Flow server</strong> installed on
-              the platform you are using, you will want to get started deploying
-              pre-built microservices that Data Flow orchestrates. Below we have
-              guides on how to get started with both Stream and Batch
-              processing.
+              After installing <strong>Data Flow</strong> you will want to get
+              started deploying pre-built microservices that Data Flow
+              orchestrates. Below are the guides on how to get started with both
+              Stream and Batch processing.
             </p>
 
             <ul className='block-links'>

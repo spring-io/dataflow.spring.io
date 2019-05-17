@@ -190,7 +190,7 @@ const CommunityPage = () => {
                 </p>
                 <p>
                   <a
-                    href='https://github.com/spring-cloud/spring-cloud-dataflow/pulls#workspaces/scdf-combined--573b0ae28867c41f233bb0f7/board?repos=39469487,52819699,45694880,96455695,72460646,52798744,52803867,126892412,143091335,126892627,47708564,73841717,179378165'
+                    href='https://github.com/spring-cloud/spring-cloud-dataflow/#workspaces/scdf-combined--573b0ae28867c41f233bb0f7/board?repos=39469487,52819699,45694880,96455695,72460646,52798744,52803867,126892412,143091335,126892627,47708564,73841717,179378165'
                     className='button'
                   >
                     View the backlog
