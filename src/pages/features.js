@@ -2,7 +2,6 @@ import React from 'react'
 
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
-import { Video } from '../components/features'
 
 const FeaturesPage = () => (
   <Layout className='page-features'>

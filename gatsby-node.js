@@ -2,7 +2,6 @@ const path = require('path')
 const get = require('lodash.get')
 const startsWith = require('lodash.startswith')
 const { createFilePath } = require('gatsby-source-filesystem')
-const checkstyles = require('./plugins/spring-checkstyles')
 
 const versions = require('./content/versions.json')
 

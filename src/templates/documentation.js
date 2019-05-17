@@ -3,7 +3,7 @@ import React from 'react'
 import classNames from 'classnames'
 import get from 'lodash.get'
 import { Sticky, StickyContainer } from 'react-sticky'
-import { graphql, navigate } from 'gatsby'
+import { graphql } from 'gatsby'
 
 import versions from './../../content/versions.json'
 import {

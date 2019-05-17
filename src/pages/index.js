@@ -76,7 +76,7 @@ const IndexPage = () => (
       <div className='layout-basic'>
         <div className='colset'>
           <div className='col col-1'>
-            <a>
+            <a href='/docs/concepts/'>
               <h2>Flexible</h2>
               <p>
                 Write Stream and Batch processing logic in multiple programming
@@ -85,14 +85,12 @@ const IndexPage = () => (
                 Interact with popular monitoring systems and dashboards.
               </p>
               <p>
-                <span>
-                  <a href='/docs/concepts/'>Read more</a>
-                </span>
+                <span>Read more</span>
               </p>
             </a>
           </div>
           <div className='col col-2'>
-            <a>
+            <a href='/docs/concepts/tooling/'>
               <h2>Familiar Tools</h2>
               <p>
                 Kick-start the solution for your use-case using our drag and
@@ -102,14 +100,12 @@ const IndexPage = () => (
                 Integrate using a RESTful API.
               </p>
               <p>
-                <span>
-                  <a href='/docs/concepts/tooling/'>Read more</a>
-                </span>
+                <span>Read more</span>
               </p>
             </a>
           </div>
           <div className='col col-3'>
-            <a>
+            <a href='/getting-started'>
               <h2>Spring Opinionated</h2>
               <p>
                 Are you already building microservices with Spring Boot?
@@ -118,9 +114,7 @@ const IndexPage = () => (
                 build streaming and batch applications.
               </p>
               <p>
-                <span>
-                  <a href='/getting-started'>Read more</a>
-                </span>
+                <span>Read more</span>
               </p>
             </a>
           </div>

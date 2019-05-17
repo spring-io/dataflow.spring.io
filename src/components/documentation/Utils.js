@@ -356,6 +356,7 @@ export const getVersions = function getVersions(arr) {
           path: path,
         }
       }
+      return null
     })
     .filter(a => !!a)
 }

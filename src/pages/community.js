@@ -1,22 +1,14 @@
 import React from 'react'
-import get from 'lodash.get'
 
-import Contributors from '../../content/contributors.json'
 import {
   IconGithub,
   IconGitter,
-  IconSpring,
   IconStackOverflow,
   IconZenHub,
 } from '../components/common/icons'
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
 import { ZenhubImage } from '../components/community'
-
-const contributors = () =>
-  Contributors.sort((a, b) => {
-    return get(a, 'lastname') > get(b, 'lastname') ? 1 : -1
-  })
 
 const CommunityPage = () => {
   return (
