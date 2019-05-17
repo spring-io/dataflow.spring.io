@@ -77,6 +77,22 @@ const IndexPage = () => (
         <div className='colset'>
           <div className='col col-1'>
             <a>
+              <h2>Flexible</h2>
+              <p>
+                Write Stream and Batch processing logic in multiple programming
+                languages. <br />
+                Use your favorite messaging middleware for Stream processing.
+                Interact with popular monitoring systems and dashboards.
+              </p>
+              <p>
+                <span>
+                  <a href='/docs/concepts/'>Read more</a>
+                </span>
+              </p>
+            </a>
+          </div>
+          <div className='col col-2'>
+            <a>
               <h2>Familiar Tools</h2>
               <p>
                 Kick-start the solution for your use-case using our drag and
@@ -86,21 +102,9 @@ const IndexPage = () => (
                 Integrate using a RESTful API.
               </p>
               <p>
-                <span>Read more</span>
-              </p>
-            </a>
-          </div>
-          <div className='col col-2'>
-            <a>
-              <h2>Flexible</h2>
-              <p>
-                Write Stream and Batch processing logic in multiple programming
-                languages. <br />
-                Use your favorite messaging middleware for Stream processing.
-                Interact with popular monitoring systems and dashboards.
-              </p>
-              <p>
-                <span>Read more</span>
+                <span>
+                  <a href='/docs/concepts/tooling/'>Read more</a>
+                </span>
               </p>
             </a>
           </div>
@@ -114,7 +118,9 @@ const IndexPage = () => (
                 build streaming and batch applications.
               </p>
               <p>
-                <span>Read more</span>
+                <span>
+                  <a href='/getting-started'>Read more</a>
+                </span>
               </p>
             </a>
           </div>

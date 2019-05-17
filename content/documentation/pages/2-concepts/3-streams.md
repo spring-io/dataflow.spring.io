@@ -22,8 +22,8 @@ We provide prebuilt stream applications that communicate [RabbitMQ](https://www.
 Other [messaging middleware products](https://cloud.spring.io/spring-cloud-stream/#binder-implementations) such as
 [Kafka Streams](https://kafka.apache.org/documentation/streams/),
 [Amazon Kinesis](https://aws.amazon.com/kinesis/),
-[Google Pub/Sub](https://cloud.google.com/pubsub/docs/)
-[Solace PubSub+](https://solace.com/software/)
+[Google Pub/Sub](https://cloud.google.com/pubsub/docs/),
+[Solace PubSub+](https://solace.com/software/),
 and
 [Azure Event Hubs](https://azure.microsoft.com/en-us/services/event-hubs/)
 are also supported.

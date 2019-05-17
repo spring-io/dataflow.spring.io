@@ -71,14 +71,13 @@ const GettingStartedPage = () => (
                 </a>
               </li>
             </ul>
-
+            <h2>Developer Guides</h2>
             <p>
               After installing <strong>Data Flow</strong> you will want to get
               started deploying prebuilt microservices that Data Flow
               orchestrates. Below are the guides on how to get started with both
               Stream and Batch processing.
             </p>
-
             <ul className='block-links'>
               <li>
                 <a

@@ -1,6 +1,6 @@
 ---
 path: 'stream-developer-guides/'
-title: 'Stream Developer Guides '
+title: 'Stream Developer guides '
 description: 'Learn how to create Streaming data pipelines using prebuilt microservices or create your own.'
 summary: true
 ---
