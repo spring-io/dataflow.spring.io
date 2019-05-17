@@ -455,7 +455,7 @@ There are multiple options available on how to access database data in Cloud Fou
 
 ##### Using local tools (MySQLWorkbench)
 
-First we need to create a [key for a service instance](http://cli.cloudfoundry.org/en-US/cf/create-service-key.html) using the `cf create-service-key` command:
+First we need to create a [key for a service instance](https://cli.cloudfoundry.org/en-US/cf/create-service-key.html) using the `cf create-service-key` command:
 
 ```bash
 cf create-service-key task-example-mysql EXTERNAL-ACCESS-KEY

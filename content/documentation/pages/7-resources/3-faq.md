@@ -55,7 +55,7 @@ More details in the Spring Cloud Stream App Starter's reference guide section [F
 
 Where can I download the latest applications?
 
-Links available in the [stream](http://cloud.spring.io/spring-cloud-stream-app-starters/#http-repository-location-for-apps) and [task](http://cloud.spring.io/spring-cloud-task-app-starters/#http-repository-location-for-apps) apps project sites.
+Links available in the [stream](https://cloud.spring.io/spring-cloud-stream-app-starters/#http-repository-location-for-apps) and [task](https://cloud.spring.io/spring-cloud-task-app-starters/#http-repository-location-for-apps) apps project sites.
 
 <!--END_QUESTION-->
 
@@ -118,7 +118,7 @@ SCDF delegates and relies on Skipper for the life cycle management of streaming 
 
 What tools are available to interact with SCDF?
 
-[Shell](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#shell), [Dashboard](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#dashboard), [Java DSL](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-java-dsl), and [REST-APIs](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources).
+[Shell](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#shell), [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#dashboard), [Java DSL](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-java-dsl), and [REST-APIs](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources).
 
 <!--END_QUESTION-->
 

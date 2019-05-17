@@ -23,13 +23,13 @@ To demonstrate the before mentioned use-case, we will start by downloading two o
 - [HTTP Source](https://github.com/spring-cloud-stream-app-starters/http)
 
 ```bash
-wget http://repo.spring.io/release/org/springframework/cloud/stream/app/http-source-kafka/2.1.0.RELEASE/http-source-kafka-2.1.0.RELEASE.jar
+wget https://repo.spring.io/release/org/springframework/cloud/stream/app/http-source-kafka/2.1.0.RELEASE/http-source-kafka-2.1.0.RELEASE.jar
 ```
 
 - [Log Sink](https://github.com/spring-cloud-stream-app-starters/log)
 
 ```bash
-wget http://repo.spring.io/release/org/springframework/cloud/stream/app/log-sink-kafka/2.1.1.RELEASE/log-sink-kafka-2.1.1.RELEASE.jar
+wget https://repo.spring.io/release/org/springframework/cloud/stream/app/log-sink-kafka/2.1.1.RELEASE/log-sink-kafka-2.1.1.RELEASE.jar
 ```
 
 ### Custom Processor
