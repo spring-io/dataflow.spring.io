@@ -26,8 +26,8 @@ Follow the instructions to code and build the Spring Batch application if you ha
 ## Create Task Definition
 
 We will register the batch application, create a simple task definition for the batch application, and launch the task definition using the Data Flow Server.
-The Data Flow server provides a comprehensive [API](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
-The Data Flow server includes a Data Flow Dashboard web UI client. In addition there is a [Data Flow Shell](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) CLI, available as separate download.
+The Data Flow server provides a comprehensive [API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
+The Data Flow server includes a Data Flow Dashboard web UI client. In addition there is a [Data Flow Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) CLI, available as separate download.
 The CLI and the UI both expose the complete API functionality.
 Which one to use is a matter of preference, but the UI is quite nice so we will feature it here.
 
@@ -45,7 +45,7 @@ The Data Flow Dashboard will land on the Application Registration view where we 
 
 Applications in Data Flow are registered as named resources so that they may be referenced when using the Data Flow DSL to configure and compose tasks.
 Registration associates a logical application name and type with a physical resource, given by a URI.
-The URI conforms to a [schema](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL.
+The URI conforms to a [schema](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL.
 Data Flow defines a some logical application types which indicate its role as a streaming component, a task, or a standalone application.
 In this case our Spring Batch application, as you might guess, are always registered as a `task` type.
 

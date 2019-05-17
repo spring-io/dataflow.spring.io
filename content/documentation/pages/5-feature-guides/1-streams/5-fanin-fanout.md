@@ -6,7 +6,7 @@ description: 'Publish and subscribe to multiple destinations using the fan-in an
 
 # Fan-in and Fan-out
 
-By using [named destinations](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-dsl-named-destinations), you can support fan-in and fan-out use cases.
+By using [named destinations](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-dsl-named-destinations), you can support fan-in and fan-out use cases.
 Fan-in use cases are when multiple sources all send data to the same named destination, as shown in the following example:
 
 ```

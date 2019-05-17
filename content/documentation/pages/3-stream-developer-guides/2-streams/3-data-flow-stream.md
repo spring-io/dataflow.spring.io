@@ -53,7 +53,7 @@ Assuming Data Flow is [installed](%currentPath%/installation/) and running on on
 
 Applications in Data Flow are registered as named resources so that they may be referenced when using the Data Flow DSL to configure and compose streaming pipelines. Registration associates a logical application name and type with a physical resource, given by a URI.
 
-The URI conforms to a [schema](http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL. Data Flow defines some logical application types which indicate its role as a streaming component, a task, or a standalone application. For streaming applications, as you might expect, we will use `Source`,`Processor`, and `Sink` types.
+The URI conforms to a [schema](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL. Data Flow defines some logical application types which indicate its role as a streaming component, a task, or a standalone application. For streaming applications, as you might expect, we will use `Source`,`Processor`, and `Sink` types.
 
 The Data Flow Dashboard will land on the Application Registration view where we will register the source, processor, and sink apps.
 
