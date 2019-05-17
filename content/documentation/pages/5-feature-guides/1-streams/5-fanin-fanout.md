@@ -6,7 +6,7 @@ description: 'Publish and subscribe to multiple destinations using the fan-in an
 
 # Fan-in and Fan-out
 
-By using [named destinations](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-dsl-named-destinations), you can support fan-in and fan-out use cases.
+By using [named destinations](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-dsl-named-destinations), you can support fan-in and fan-out use cases.
 Fan-in use cases are when multiple sources all send data to the same named destination, as shown in the following example:
 
 ```
@@ -25,6 +25,6 @@ A graphical representation can be seen as follows:
 ![Fan-in Fan-out](images/fan-in-fan-out.png)
 
 The fan-out use case is when you determine the destination of a stream based on some information that is only known at runtime.
-In this case, the [Router Application](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-latest%/reference/html/spring-cloud-stream-modules-sinks.html#spring-cloud-stream-modules-router-sink) can be used to specify how to direct the incoming message to one of N named destinations.
+In this case, the [Router Application](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/html/spring-cloud-stream-modules-sinks.html#spring-cloud-stream-modules-router-sink) can be used to specify how to direct the incoming message to one of N named destinations.
 
 A nice [Video](https://youtu.be/l8SgHtP5QCI) showing Fan-in and Fan-out behavior is also available.

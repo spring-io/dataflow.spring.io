@@ -387,13 +387,13 @@ You can also insert a variable in a code block, as the following example shows:
 
 ```html
 <div>
-  <a href="https://spring.io">%version%</a>
+  <a href="https://spring.io">%test-variable%</a>
 </div>
 ```
 
 <!--NOTE-->
 
-**NOTE:** The value of `%version%` shown in the preceding example does not match the content shown earlier. That happens because the build system for the site has logic to figure out which version definition to use and chose a different version in this case. That logic is in `gatsby-config.js`.
+**NOTE:** The value of `%test-variable%` shown in the preceding example does not match the content shown earlier. That happens because the build system for the site has logic to figure out which version definition to use and chose a different version in this case. That logic is in `gatsby-config.js`.
 
 <!--END_NOTE-->
 

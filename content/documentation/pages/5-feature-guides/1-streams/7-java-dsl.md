@@ -15,7 +15,7 @@ To get started, you need to add the following dependency to your project, as fol
 <dependency>
 	<groupId>org.springframework.cloud</groupId>
 	<artifactId>spring-cloud-dataflow-rest-client</artifactId>
-	<version>%scdf-version-latest%</version>
+	<version>%dataflow-version%</version>
 </dependency>
 ```
 
@@ -41,7 +41,7 @@ Consider the following example, using the `definition` style.
 URI dataFlowUri = URI.create("http://localhost:9393");
 DataFlowOperations dataFlowOperations = new DataFlowTemplate(dataFlowUri);
 dataFlowOperations.appRegistryOperations().importFromResource(
-                     "https://dataflow.spring.io/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
+                     "https://dataflow.spring.io/rabbitmq-maven-latest", true);
 StreamDefinition streamDefinition = Stream.builder(dataFlowOperations)
                                       .name("ticktock")
                                       .definition("time | log")
@@ -169,7 +169,7 @@ You can register your application by using the `DataFlowTemplate`, as follows:
 
 ```java
 dataFlowOperations.appRegistryOperations().importFromResource(
-            "https://dataflow.spring.io/%streaming-apps-latest%-stream-applications-rabbit-maven", true);
+            "https://dataflow.spring.io/rabbitmq-maven-latest", true);
 ```
 
 The Stream applications can also be beans within your application that are injected in other classes to create Streams.

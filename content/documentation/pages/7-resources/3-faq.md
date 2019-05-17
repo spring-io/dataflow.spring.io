@@ -1,7 +1,7 @@
 ---
 path: 'resources/faq/'
 title: 'Frequently Asked Questions'
-description: 'FAQ'
+description: ''
 ---
 
 # Frequently Asked Questions
@@ -38,7 +38,7 @@ Refer to the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-c
 
 Is it possible to patch and extend the out-of-the-box applications?
 
-Yes. More details in the reference guide section on [Patching Application Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-latest%/reference/htmlsingle/#_patching_pre_built_applications) as well as documentation on Functional Composition.
+Yes. More details in the reference guide section on [Patching Application Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_patching_pre_built_applications) as well as documentation on Functional Composition.
 **TODO Link to functional composition.**
 
 <!--END_QUESTION-->
@@ -47,7 +47,7 @@ Yes. More details in the reference guide section on [Patching Application Starte
 
 How to build a new application based on the same infrastructure as the out-of-the-box applications?
 
-More details in the Spring Cloud Stream App Starter's reference guide section [FAQ on Spring Cloud Stream App Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-latest%/reference/htmlsingle/#_general_faq_on_spring_cloud_stream_app_starters).
+More details in the Spring Cloud Stream App Starter's reference guide section [FAQ on Spring Cloud Stream App Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_general_faq_on_spring_cloud_stream_app_starters).
 
 <!--END_QUESTION-->
 
@@ -91,7 +91,7 @@ Though batch/task applications are standalone Spring Boot applications, to recor
 
 What is the relationship of [Composed Task Runner](https://github.com/spring-cloud-task-app-starters/composed-task-runner) and SCDF?
 
-The [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) delegates the execution of the collection of Tasks to a separate application, named the Composed Task Runner (CTR).
+The [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) delegates the execution of the collection of Tasks to a separate application, named the Composed Task Runner (CTR).
 The CTR orchestrates the launching of Tasks defined in the composed task graph.
 To use Composed Tasks, it is required to connect SCDF, CTR, and batch applications to a shared database. Only then, you will be able to track all of their execution history from SCDF’s dashboard.
 
@@ -118,7 +118,7 @@ SCDF delegates and relies on Skipper for the life cycle management of streaming 
 
 What tools are available to interact with SCDF?
 
-[Shell](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#shell), [Dashboard](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#dashboard), [Java DSL](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-stream-java-dsl), and [REST-APIs](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#api-guide-resources).
+[Shell](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#shell), [Dashboard](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#dashboard), [Java DSL](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-java-dsl), and [REST-APIs](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources).
 
 <!--END_QUESTION-->
 
@@ -137,7 +137,7 @@ As such, we ship the binaries directly instead. And we expect the users either u
 
 Can SCDF work with Oracle database?
 
-Yes. Read more about the [supported databases here.](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#configuration-local-rdbms).
+Yes. Read more about the [supported databases here.](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#configuration-local-rdbms).
 
 <!--END_QUESTION-->
 
@@ -188,7 +188,7 @@ See the [compatibility matrix](https://github.com/spring-cloud/spring-cloud-stre
 
 What is a Composed Task Runner (CTR)?
 
-The [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature in SCDF that delegates the execution of the composed to an separate application, named the Composed Task Runner (CTR).
+The [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature in SCDF that delegates the execution of the composed to an separate application, named the Composed Task Runner (CTR).
 The CTR to orchestrate the launching of Tasks defined in the composed task graph.
 The Composed Task Runner (CTR) parses the graph DSL and for each node in the graph it will execute a RESTful call against a specified Spring Cloud Data Flow instance to launch the associated task definition.
 For each task definition that is executed the Composed Task Runner will poll the database to verify that the task completed.

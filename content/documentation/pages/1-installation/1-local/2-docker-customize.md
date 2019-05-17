@@ -61,7 +61,7 @@ database. To do so:
 1.  Replace the following configuration under the `services` section:
 
           prometheus:
-            image: springcloud/spring-cloud-dataflow-prometheus-local:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=local-server-image-tag'}
+            image: springcloud/spring-cloud-dataflow-prometheus-local:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=dataflow-version'}
             container_name: 'prometheus'
             volumes:
               - 'scdf-targets:/etc/prometheus/'

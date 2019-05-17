@@ -40,7 +40,7 @@ The Docker Compose file will start up the following:
 In the directory where you downloaded `docker-compose.yml`, start the system, as follows:
 
 ```bash
-export DATAFLOW_VERSION=%local-server-image-tag%
+export DATAFLOW_VERSION=%dataflow-version%
 export SKIPPER_VERSION=%skipper-version%
 docker-compose up
 ```
@@ -48,7 +48,7 @@ docker-compose up
 If you use Windows, environment variables are defined by using the `set`
 command. To start the system on Windows, enter the following commands:
 
-    C:\ set DATAFLOW_VERSION=%local-server-image-tag%
+    C:\ set DATAFLOW_VERSION=%dataflow-version%
     C:\ set SKIPPER_VERSION=%skipper-version%
     C:\ docker-compose up
 
@@ -61,7 +61,7 @@ The preceding commands first set the `DATAFLOW_VERSION`, `SKIPPER_VERSION` to us
 You can also use a shorthand version that exposes only the `DATAFLOW_VERSION`, `SKIPPER_VERSION` variables to the `docker-compose` process (rather than setting it in the environment), as follows:
 
 ```bash
-DATAFLOW_VERSION=%local-server-image-tag% SKIPPER_VERSION=%skipper-version% docker-compose up
+DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% docker-compose up
 ```
 
 [[note]]
@@ -91,7 +91,7 @@ When you want to shut down Data Flow use the `docker-compose down` command.
 1. Run the following command:
 
 ```bash
-DATAFLOW_VERSION=%local-server-image-tag% SKIPPER_VERSION=%skipper-version% docker-compose down
+DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% docker-compose down
 ```
 
 <!--NOTE-->
@@ -119,7 +119,7 @@ If you have started the Data Flow server via `java -jar`, download and start the
 Download the Spring Cloud Data Flow Shell application by using the following command:
 
 ```bash
-wget https://repo.spring.io/{version-type-lowercase}/org/springframework/cloud/spring-cloud-dataflow-shell/{%dataflow-version%}/spring-cloud-dataflow-shell-{%dataflow-version%}.jar
+wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 <!-- **TODO add link/create content for shell** -->
