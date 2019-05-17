@@ -152,8 +152,6 @@ For the below app register `--uri` option, replace the directory name and path o
 
 The maven/docker artifacts of the `http-transformer` application are readily available in both the `Kafka` and `RabbitMQ` binders.
 
-**TODO we need to let users know about how to register our maven repo?**
-
 Maven artifact with Kafka binder:
 
 ```
@@ -196,7 +194,7 @@ stream deploy helloComposed --properties "app.http-transformer.spring.cloud.stre
 
 ```
 
-**TODO why not specify function.definition in the stream definition?**
+<!-- TODO why not specify function.definition in the stream definition? -->
 
 The above deployment composes the `upper` and `concat` function beans into the `http` source application.
 

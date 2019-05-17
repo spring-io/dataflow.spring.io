@@ -72,6 +72,6 @@ Streams can be monitored using a variety of popular monitoring systems, we demon
 ## Next Steps
 
 If you are interested in using the prebuilt applications to create streaming data pipeline,
-look at the [Stream Getting Started Guide](%currentPath%/stream/developer-guides/getting-started/)
+look at the [Stream Getting Started Guide](%currentPath%/stream-developer-guides/getting-started)
 
 If your interested in writing and deploying your a custom stream processing application using Spring Cloud Stream, take a look at our [Stream Developer Guides](%currentPath%/stream-developer-guides/streams).

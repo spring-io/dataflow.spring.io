@@ -57,8 +57,8 @@ Spring Cloud Dataflow allows you to launch or schedule the launch of your batch 
 
 ## Next Steps
 
-If you are interested in using the prebuilt applications to create streaming data pipeline,
-look at the [Stream Getting Started Guide](%currentPath%/batch-developer-guides/getting-started/)
+If you are interested in using the prebuilt applications to create a batch processing data pipeline,
+look at the [Batch Getting Started Guide](%currentPath%/batch-developer-guides/getting-started/)
 
 If your interested in writing and deploying your first custom batch processing application,
 take a look at our [Batch Developer Guides](%currentPath%/batch-developer-guides/batch).

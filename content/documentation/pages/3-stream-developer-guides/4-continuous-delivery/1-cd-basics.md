@@ -281,9 +281,9 @@ In the `log` application's log file, you will now see:
 log-sink : SPRING
 ```
 
+<!--
 ## Cloud Foundry
-
-\*\*TODO older versions of cloudfoundry.md have the converted asciidoc to markdown which includes sections on stream update/rollback along with various cf command line output. use that as the basis for this section
+older versions of cloudfoundry.md have the converted asciidoc to markdown which includes sections on stream update/rollback along with various cf command line output. use that as the basis for this section
 
 ### Stream Creation and Deployment
 
@@ -297,7 +297,7 @@ blah
 
 ### Kubernetes
 
-\*\*TODO older versions of kubernetes.md have the converted asciidoc to markdown which includes sections on stream update/rollback along with various cf command line output. use that as the basis for this section
+**TODO** older versions of kubernetes.md have the converted asciidoc to markdown which includes sections on stream update/rollback along with various cf command line output. use that as the basis for this section
 
 ### Stream Creation and Deployment
 
@@ -308,3 +308,4 @@ blah
 blah
 
 ### Stream Rollback
+-->
