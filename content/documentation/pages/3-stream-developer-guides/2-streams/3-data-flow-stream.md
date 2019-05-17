@@ -81,26 +81,39 @@ When you register an application, you provide:
 Let's assume you are running Spring Cloud Data Flow, Skipper servers running on your local development environment.
 
 **TODO - the images are too small to see what to type.....**
-**TODO - for k8s deployment, they will need to be docker:: , need to handle this so that users don't try to deploy maven:// registered artifact on docker.**
 
 Register the `UsageDetailSender` source application:
 
 From the Applications view, select `Add Application(s)`.
 This will display a view to allow you to register applications.
 
-![Register source application](images/SCDF-register-source-rabbit.png)
+Register the `maven` artifact of the `UsageDetailSender` application with the name `usage-detail-sender`:
+
+![Register source application maven](images/SCDF-register-source-rabbit.png)
+
+If you are using `docker` artifact, then
+
+![Register source application docker](images/SCDF-register-source-rabbit-docker.png)
 
 Select `Register one or more applications` and enter the `name`, `type`, and `URI` for the source application.
 
 Click on `New application` to display another instance of the form to enter the values for the processor.
 
-Register the `UsageCostProcessor` processor application:
+Register the `maven` artifact of the `UsageCostProcessor` processor application with the name `usage-cost-processor`:
 
-![Register source application](images/SCDF-register-processor-rabbit.png)
+![Register source application maven](images/SCDF-register-processor-rabbit.png)
 
-Register the `UsageCostLogger` sink application:
+If you are using `docker` artifact, then
 
-![Register sink application](images/SCDF-register-sink-rabbit.png)
+![Register source application docker](images/SCDF-register-processor-rabbit-docker.png)
+
+Register the `maven` artifact of the `UsageCostLogger` sink application with the name `usage-cost-logger`
+
+![Register sink application maven](images/SCDF-register-sink-rabbit.png)
+
+If you are using `docker` artifact, then
+
+![Register source application docker](images/SCDF-register-sink-rabbit-docker.png)
 
 Click on `Register the application(s)` to complete the registration. This will take you back to the Applications view which lists your applications.
 
@@ -118,6 +131,8 @@ Select `Create stream(s)` to display a graphical editor to create the stream def
 
 You will see the `Source`, `Processor` and `Sink` applications, as registered above, in the left panel. Drag and drop each app to the canvas and then use the handles to connect them together. Notice the equivalent Data Flow DSL definition in the top text panel. Click `Create Stream`.
 
+You can type the name of the stream `usage-cost-logger` when create the stream.
+
 ## Deployment
 
 Click on the arrow head icon to deploy the stream. This will take you to the Deploy Stream page from where you may enter additional deployment properties.
@@ -125,6 +140,8 @@ Click on the arrow head icon to deploy the stream. This will take you to the Dep
 Select `Deploy Stream`.
 
 ![Stream created](images/SCDF-stream-created.png)
+
+When deploying the stream, choose the target platform accounts from local, Kubernetes, Cloud Foundry - based on the Spring Cloud Skipper server deployer platform account setup.
 
 ![Deploy stream](images/SCDF-deploy-stream.png)
 
@@ -175,23 +192,59 @@ Besides verifying the runtime status of your stream, you should also verify the 
 
 ### Kubernetes
 
-**TODO - not finished**
+Once you have the Spring Cloud Data Flow server up and running on kubernetes environment using the instructions from the [installation guide](/docs/installation/kubernetes/helm/), you can:
+
+- register the stream applications
+- create, deploy and manage streams
+
+#### Registering applications with Spring Cloud Data Flow server
+
+The kubernetes environment requires the application artifacts to be `docker` images and hence you need to register the docker based artifacts from [above](#development) when registering the applications with Spring Cloud Data Flow server.
+
+For the `UsageDetailSender` source:
+
+```
+docker://springcloudstream/usage-detail-sender-rabbit:0.0.1-SNAPSHOT
+```
+
+For the `UsageCostProcessor` processor:
+
+```
+docker://springcloudstream/usage-cost-processor-rabbit:0.0.1-SNAPSHOT
+```
+
+For the `UsageCostLogger` sink:
+
+```
+docker://springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT
+```
+
+You can register these applications as described in the app registration step [above](#application-registration)
+
+#### Stream Deployment
+
+Once the applications registered, you can deploy the stream as per the instructions from the stream deployment [above](#deployment).
 
 ##### List the Pods
 
-The following command (with output) shows how to list the pods.
+The following command:
 
-    $ kubectl get pods
-    NAME                              READY     STATUS    RESTARTS   AGE
-    mystream-log-v1-0-2k4r8             1/1       Running   0          2m
-    mystream-time-v1-qhdqq              1/1       Running   0          2m
-    mysql-777890292-z0dsw          1/1       Running   0          49m
-    rabbitmq-317767540-2qzrr       1/1       Running   0          49m
-    scdf-server-2734071167-bjd3g   1/1       Running   0          12m
-    skipper-2408247821-50z31       1/1       Running   0          15m
+```bash
+ kubectl get pods
+```
 
-    ...
-    ...
+lists the pods (including the server components and the streaming applications):
+
+```
+NAME                                                         READY   STATUS    RESTARTS   AGE
+scdf-release-data-flow-server-795c77b85c-tqdtx               1/1     Running   0          36m
+scdf-release-data-flow-skipper-85b6568d6b-2jgcv              1/1     Running   0          36m
+scdf-release-mysql-744757b689-tsnnz                          1/1     Running   0          36m
+scdf-release-rabbitmq-5fb7f7f644-878pz                       1/1     Running   0          36m
+usage-cost-logger-usage-cost-logger-v1-568599d459-hk9b6      1/1     Running   0          2m41s
+usage-cost-logger-usage-cost-processor-v1-79745cf97d-dwjpw   1/1     Running   0          2m42s
+usage-cost-logger-usage-detail-sender-v1-6cd7d9d9b8-m2qf6    1/1     Running   0          2m41s
+```
 
 ##### Verify the Logs
 
@@ -199,13 +252,25 @@ To be sure the steps in the previous sections have worked correctly, you
 should verify the logs. The following example shows how to make sure
 that the values you expect appear in the logs:
 
-    $ kubectl logs -f mystream-log-v1-0-2k4r8
-    ...
-    ...
-    2017-10-30 22:59:04.966  INFO 1 --- [ mystream.time.mystream-1] log-sink                                 : 10/30/17 22:59:04
-    2017-10-30 22:59:05.968  INFO 1 --- [ mystream.time.mystream-1] log-sink                                 : 10/30/17 22:59:05
-    2017-10-30 22:59:07.000  INFO 1 --- [ mystream.time.mystream-1] log-sink                                 : 10/30/17 22:59:06
+```bash
+kubectl logs -f usage-cost-logger-usage-cost-logger-v1-568599d459-hk9b6
+```
+
+```
+2019-05-17 17:53:44.189  INFO 1 --- [e-cost-logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "0.7000000000000001", "dataCost": "23.950000000000003" }
+2019-05-17 17:53:45.190  INFO 1 --- [e-cost-logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "2.9000000000000004", "dataCost": "10.65" }
+2019-05-17 17:53:46.190  INFO 1 --- [e-cost-logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user3", "callCost": "5.2", "dataCost": "28.85" }
+2019-05-17 17:53:47.192  INFO 1 --- [e-cost-logger-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "1.7000000000000002", "dataCost": "30.35" }
+```
 
 ## Comparison with standalone deployment
 
-**Discuss what is being done behind the scenes to simplify the experience..make the case for data flow**
+In this section, we deployed the stream using Spring Cloud Data Flow using the stream DSL:
+
+```
+usage-detail-sender | usage-cost-processor | usage-cost-logger
+```
+
+When these three applications were deployed as standalone applications, you need to set the binding properties that connect these applications and make them as a stream.
+
+Instead, Spring Cloud Data Flow lets you deploy all these three streaming applications as a single stream by taking care of the plumbing of one application to the other to form the data flow.
