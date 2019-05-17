@@ -6,7 +6,7 @@ description: 'Create and deploy a streaming data pipeline using pre-built applic
 
 # Introduction
 
-Spring Cloud Data Flow provides over 70 pre-built streaming applications that you can use right away to implement common streaming use cases.
+Spring Cloud Data Flow provides over >70 pre-built streaming applications that you can use right away to implement common streaming use cases.
 In this guide we will use two of these applications to construct a simple data pipeline that produces data sent from an external http request and consumes that data by logging the payload to the terminal.
 
 Instructions for registering these pre-built applications with Data Flow are provided in the [Installation guide](%currentPath%/installation/).
@@ -31,7 +31,7 @@ To create a stream:
 
 2.  Click the **Create Stream(s)** button.
 
-    The screen changes to the following image: **TODO Update image, old time | log image**
+    The screen changes to the following image:
 
     ![Create Stream Page](images/dataflow-stream-create-start.png)
 
@@ -40,7 +40,7 @@ To create a stream:
 4.  Click **Create Stream**.
 
 5.  Enter `http-ingest` for the stream name, as shown in the following
-    image: **TODO on cloud foundry it is likely that the stream name needs an extra suffix make the route unique. There is a batch PR from gunnar that address this issue, let's look at that.**
+    image:
 
     ![Creating a Stream](images/dataflow-stream-create.png)
 
@@ -56,7 +56,6 @@ Now that you have defined a stream, you can deploy it. To do so:
 
 1.  Click the play (deploy) button next to the "`http-ingest`" definition
     that you created in the previous section.
-    **TODO add images**
     ![Initiate Deployment of a Stream](images/dataflow-stream-definition-deploy.png)
 
     The UI shows the available properties that can be applied to the
@@ -65,13 +64,9 @@ Now that you have defined a stream, you can deploy it. To do so:
 
     ![Deployment Page](images/dataflow-deploy-http-ingest.png)
 
-If you are using the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
+    If you are using the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
 
-**TODO show in UI**
-
-```
-stream deploy http-ingest --properties app.http.server.port=9000
-```
+    ![Unique Port](images/dataflow-unique-port.png)
 
 2.  Click the **Deploy Stream** button.
 
@@ -81,17 +76,19 @@ stream deploy http-ingest --properties app.http.server.port=9000
     "`deployed`" when it is finished deploying. You may need to refresh
     your browser to see the updated status.
 
-## Sending data to the Stream
-
-Once the stream is deployed and running, you can now post some `HTTP` events:
-
-```
-TODO: Use curl and show successful response
-```
-
-## Verifying output
+## Verifying Output
 
 ### Local
+
+#### Test Data
+
+Once the stream is deployed and running, you can now post some data.
+
+```bash
+curl http://localhost:9000 -H "Content-type: text/plain" -d "Happy streaming"
+```
+
+#### Results
 
 Once a stream is deployed, you can view its logs. To do so:
 
@@ -110,37 +107,74 @@ Once a stream is deployed, you can view its logs. To do so:
     The output of the log sink appears in the new window. You will see output as shown below.
     When you have seen enough output from sending http requests, press Ctrl+C to end the `tail` command.
 
-```
+```bash
 log-sink                                 : Happy streaming
 ```
 
 ### Cloud Foundry
 
+#### Test Data
+
+Once the stream is deployed and running in Cloud Foundry, you can now post some data.
+
+```bash
+curl http://http-ingest-314-log-v1.cfapps.io -H "Content-type: text/plain" -d "Happy streaming"
+```
+
+#### Results
+
 Now you can list the running applications again and see your
 applications in the list, as the following example shows:
-**TODO get correct listing as this is from time | log**
 
     $ cf apps                                                                                                                                                                                                                                         [1h] ✭
     Getting apps in org ORG / space SPACE as email@pivotal.io...
 
     name                         requested state   instances   memory   disk   urls
-    ticker-314-log-v1            started           1/1         1G       1G     ticker-314-log-v1.cfapps.io
-    ticker-314-time-v1           started           1/1         1G       1G     ticker-314-time-v1.cfapps.io
+    http-ingest-314-log-v1       started           1/1         1G       1G     http-ingest-314-log-v1.cfapps.io
+    http-ingest-314-http-v1      started           1/1         1G       1G     http-ingest-314-http-v1.cfapps.io
     skipper-server               started           1/1         1G       1G     skipper-server.cfapps.io
     dataflow-server              started           1/1         1G       1G     dataflow-server.cfapps.io
 
-Now you can verify the logs, as the following example shows:
+Now you can verify the logs.
 
-    $ cf logs ticker-314-log-v1
-    ...
-    ...
-    2017-11-20T15:39:43.76-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:43.761  INFO 12 --- [ ticker-314.time.ticker-314-1] log-sink                                 : 11/20/17 23:39:43
-    2017-11-20T15:39:44.75-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:44.757  INFO 12 --- [ ticker-314.time.ticker-314-1] log-sink                                 : 11/20/17 23:39:44
-    2017-11-20T15:39:45.75-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:45.757  INFO 12 --- [ ticker-314.time.ticker-314-1] log-sink                                 : 11/20/17 23:39:45
+```bash
+cf logs http-ingest-314-log-v1
+...
+...
+2017-11-20T15:39:43.76-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:43.761  INFO 12 --- [ http-ingest-314.http.ticker-314-1] log-sink                                 : Happy streaming
+```
 
 ### Kubernetes
 
-TODO
+#### Test Data
+
+Once the stream is deployed and running in Kubernetes, you can now post some data.
+
+```bash
+curl http://<EXTERNAL_IP_OF_http-ingest-log-v1-0-2k4r8_SERVICE> -H "Content-type: text/plain" -d "Happy streaming"
+```
+
+#### Results
+
+```bash
+kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+http-ingest-log-v1-0-2k4r8          1/1       Running   0          2m
+http-ingest-http-v1-qhdqq           1/1       Running   0          2m
+mysql-777890292-z0dsw               1/1       Running   0          49m
+rabbitmq-317767540-2qzrr            1/1       Running   0          49m
+scdf-server-2734071167-bjd3g        1/1       Running   0          12m
+skipper-2408247821-50z31            1/1       Running   0          15m
+```
+
+Now you can verify the logs.
+
+```bash
+kubectl logs -f http-ingest-log-v1-0-2k4r8
+...
+...
+2017-10-30 22:59:04.966  INFO 1 --- [ http-ingest.http.http-ingest-1] log-sink                                 : Happy streaming
+```
 
 ## Deleting a Stream
 
@@ -157,59 +191,8 @@ Now you can delete the stream you created. To do so:
 
 ## Updating and Rolling back a Stream
 
-This information can be found in the [Continuous Delivery Basics Guide](%currentpath%/stream-developer-guides/continuous-delivery/cd-basics)
+This information can be found in the [Continuous Delivery](%currentPath%/stream-developer-guides/continuous-delivery) guide.
 
 ## Monitoring
 
-**TODO for the local machine, we should show how to view the Grafana Dashboards and do a walk-though.**
-
-## Stream configuration
-
-**TODO: THIS FEELS LIKE IT SHOULD BE IN ANOTHER SECTION**
-
-The streaming data pipeline can be configured in two distinct ways.
-
-The first is at the stream definition and the second is when deploying the stream.
-
-As an example of configuring an application's property at the stream definition level, instead of using `http | log` as the stream definition, you can add an option that sets the logging level to `WARN` instead of the default `INFO`.
-This is done by adding a `--level` option in the stream DSL, much as you would do with unix commands
-
-```
-http | log --level=WARN
-```
-
-When creating a stream definition in the dashboard, the available application options are presented to you.  
-When creating a stream definition in the shell, hitting the `TAB` key will provide auto-complete suggestions.
-
-You can also set application properties at deployment time.
-When deploying a stream in the dashboard, you can select the application properties using the 'write' icon as shown below
-
-![Deploy Stream Page](images/dataflow-stream-deployment-app-props.png)
-
-When deploying a stream in the shell, the properties are passed with the prefix `app.<application-name>`.
-For example:
-
-```
-stream deploy http-ingest --properties "app.http.server.port=9000"
-```
-
-It is more common to set platform specific properties when deploying a stream.
-These are also available in the 'Deploy Stream Definition' dashboard as shown the previous picture.
-There are two categories of platform properties, those that are common across all platforms (memory, CPU, disk, and initial count) and those that are specific to the platform.
-
-When using the shell, the common platform deployment properties need to be prefixed with `deployer.<application-name>`.
-For example:
-
-```
-stream deploy http-ingest --properties "deployer.log.memory=2048m"
-```
-
-To set specific platform properties, use the prefix `deployer.<application-name>.<platform-name>` where platform name is `local`, `cloudfoundry`, or `kubernetes`
-
-For example:
-
-```
-stream deploy http-ingest --properties "deployer.log.local.javaOpts=-Xmx2048m -Dtest=foo
-```
-
-**TODO: Need a reference to available properties, perhaps point to the reference guide**
+This information can be found in the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/) guide.
