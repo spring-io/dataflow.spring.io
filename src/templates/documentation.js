@@ -91,7 +91,11 @@ class DocumentationTemplate extends React.Component {
                             version={this.props.data.page.fields.version}
                           />
                         )}
-                        <div className='box'>
+                        <div
+                          className={`box ${
+                            optionVersions.length === 0 ? 'no-margin' : ''
+                          }`}
+                        >
                           <SidebarNav page={page} tree={tree} />
                         </div>
                       </div>

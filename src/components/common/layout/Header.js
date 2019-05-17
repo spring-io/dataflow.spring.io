@@ -7,12 +7,12 @@ import Navigation from './Navigations'
 const Header = () => (
   <div className='header'>
     <div className='container'>
-      <h1 className='logo'>
+      <div className='logo-dataflow'>
         <Link to='/'>
           <Logo />
           Spring Cloud <strong>Data Flow</strong>
         </Link>
-      </h1>
+      </div>
 
       <Navigation />
     </div>

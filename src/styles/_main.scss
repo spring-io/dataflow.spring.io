@@ -46,41 +46,47 @@ h5 {
   padding: 32px 0;
   line-height: $spring-8points * 4;
   border-bottom: 1px solid darken($spring-gray-color, 5);
-  h1.logo {
-    margin: 0;
-    padding: 0;
+  height: $spring-8points * 5;
+}
+
+div.logo-dataflow {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  font-weight: normal;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+
+  height: 40px;
+  line-height: 40px;
+
+  a {
     display: inline-block;
-    font-weight: normal;
+    position: relative;
+    color: lighten($spring-color, 10);
+    font-family: $spring-font-family-special;
+    text-decoration: none;
     font-size: 20px;
-    letter-spacing: -0.5px;
-    a {
-      display: inline-block;
-      position: relative;
-      color: lighten($spring-color, 10);
-      font-family: $spring-font-family-special;
-      text-decoration: none;
-      font-size: 20px;
-      padding-left: 55px;
-      font-weight: 400;
-      strong {
-        font-weight: 600;
-        color: $spring-color;
-        @include transition(all $spring-transition-duration);
-      }
+    padding-left: 55px;
+    font-weight: 400;
+    strong {
+      font-weight: 600;
+      color: $spring-color;
+      @include transition(all $spring-transition-duration);
+    }
+    svg {
+      width: 52px;
+      position: absolute;
+      top: -2px;
+      left: 0;
+      width: 50px;
+      color: $spring-primary-color;
+      @include transition(all $spring-transition-duration);
+    }
+    &:hover {
+      strong,
       svg {
-        width: 52px;
-        position: absolute;
-        top: -6px;
-        left: 0;
-        width: 50px;
-        color: $spring-primary-color;
-        @include transition(all $spring-transition-duration);
-      }
-      &:hover {
-        strong,
-        svg {
-          color: darken($spring-primary-color, 3);
-        }
+        color: darken($spring-primary-color, 3);
       }
     }
   }
@@ -138,6 +144,11 @@ h5 {
     }
     strong {
       font-weight: 600;
+    }
+    a {
+      color: lighten($spring-dark-color, 20);
+      &:hover {
+      }
     }
     svg {
       position: absolute;
@@ -402,6 +413,9 @@ h5 {
     margin: 0;
     margin-top: $spring-8points * 2;
     font-size: $spring-font-size - 1;
+    &.no-margin {
+      margin-top: 0;
+    }
     ul {
       list-style: none;
       padding: 0;

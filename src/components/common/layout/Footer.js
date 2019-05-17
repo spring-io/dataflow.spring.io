@@ -17,7 +17,16 @@ const Footer = () => (
         <div className='col col-copyright'>
           <div className='logo'>
             <Logo />
-            <span>Powered by Pivotal</span>
+            <span>
+              Powered by{' '}
+              <a
+                target='_blank'
+                rel='noreferrer noopener'
+                href='https://pivotal.io/'
+              >
+                Pivotal
+              </a>
+            </span>
           </div>
           <div className='copyright-links'>
             <div className='social'>

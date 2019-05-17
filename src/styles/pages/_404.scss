@@ -1,0 +1,30 @@
+.page-404 {
+  .container {
+    text-align: center;
+    max-width: 500px;
+  }
+  main {
+    padding: $spring-8points * 8 0;
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+    }
+    ul {
+      margin: 0;
+      @include links;
+      color: #666;
+      padding: 24px 0;
+      display: inline-block;
+      text-align: left;
+    }
+  }
+  .gatsby-image-wrapper {
+    width: 457px;
+    margin: 36px auto;
+  }
+}
