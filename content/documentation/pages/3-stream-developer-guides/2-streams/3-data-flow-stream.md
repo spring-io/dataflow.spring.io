@@ -80,8 +80,6 @@ When you register an application, you provide:
 
 Let's assume you are running Spring Cloud Data Flow, Skipper servers running on your local development environment.
 
-**TODO - the images are too small to see what to type.....**
-
 Register the `UsageDetailSender` source application:
 
 From the Applications view, select `Add Application(s)`.
@@ -89,9 +87,13 @@ This will display a view to allow you to register applications.
 
 Register the `maven` artifact of the `UsageDetailSender` application with the name `usage-detail-sender`:
 
+> (uri = `maven://io.spring.dataflow.sample:usage-detail-sender-rabbit:0.0.1-SNAPSHOT`)
+
 ![Register source application maven](images/SCDF-register-source-rabbit.png)
 
 If you are using a `docker` artifact, then
+
+> (uri = `docker://springcloudstream/usage-detail-sender-rabbit:0.0.1-SNAPSHOT`)
 
 ![Register source application docker](images/SCDF-register-source-rabbit-docker.png)
 
@@ -101,17 +103,25 @@ Click on `New application` to display another instance of the form to enter the 
 
 Register the `maven` artifact of the `UsageCostProcessor` processor application with the name `usage-cost-processor`:
 
+> (uri = `maven://io.spring.dataflow.sample:usage-cost-processor-rabbit:0.0.1-SNAPSHOT`)
+
 ![Register source application maven](images/SCDF-register-processor-rabbit.png)
 
 If you are using a `docker` artifact, then
+
+> (uri = `docker://springcloudstream/usage-cost-processor-rabbit:0.0.1-SNAPSHOT`)
 
 ![Register source application docker](images/SCDF-register-processor-rabbit-docker.png)
 
 Register the `maven` artifact of the `UsageCostLogger` sink application with the name `usage-cost-logger`
 
+> (uri = `maven://io.spring.dataflow.sample:usage-cost-logger-rabbit:0.0.1-SNAPSHOT`)
+
 ![Register sink application maven](images/SCDF-register-sink-rabbit.png)
 
 If you are using a `docker` artifact, then
+
+> (uri = `docker://springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT`)
 
 ![Register source application docker](images/SCDF-register-sink-rabbit-docker.png)
 

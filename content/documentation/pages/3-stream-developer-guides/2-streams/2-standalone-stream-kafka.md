@@ -546,10 +546,6 @@ Now, you can see that this application logs the usage cost detail.
 
 This section will walk you through how to deploy the `UsageDetailSender`, `UsageCostProcessor` and `UsageCostLogger` applications on CloudFoundry.
 
-#### Create Kafka Cloud Foundry User Provided service
-
-**TODO**
-
 #### Create CF manifest for UsageDetail Sender
 
 Create a CF manifest yaml `usage-detail-sender.yml` file for the `UsageDetailSender` using its configuration properties:
