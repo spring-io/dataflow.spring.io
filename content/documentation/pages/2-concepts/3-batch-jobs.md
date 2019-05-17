@@ -1,10 +1,10 @@
 ---
 path: 'concepts/batch-jobs/'
-title: 'Batch Processing'
-description: 'Batch Processing Framework and Concepts'
+title: 'What is batch processing'
+description: 'Concepts of batch processing'
 ---
 
-# Batch Processing
+# What is Batch Processing
 
 Batch processing, is defined as the processing of a finite amount of data without interaction or interruption.
 Applications that implement batch processing are referred to as ephemeral or short lived apps.

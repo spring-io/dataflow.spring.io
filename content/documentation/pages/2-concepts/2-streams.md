@@ -1,62 +1,54 @@
 ---
 path: 'concepts/streams/'
-title: 'Stream Processing'
-description: 'Stream Processing Framework and Concepts'
+title: 'What are streams'
+description: 'Concepts on Streaming pipelines'
 ---
 
-# Stream Processing
+# What are streams
 
-Stream processing, is defined as the processing of infinite amount of data without interaction or interruption. Applications that implement stream processing are referred to long lived apps. An example of a stream processing would be the real-time credit card fraud detection, IoT, or real-time predictive analytics.
+A streaming data pipeline is made up off independent event-driven streaming applications that connect using `messaging middleware`.
+The streaming data pipeline can be `linear` or `non-linear` based on the data flow through the independent applications that comprise the streaming data pipeline.
+As an application developer can focus on developing your application’s business logic while delegating the underlying messaging concerns to the Spring Cloud Stream framework. Control over the detailed settings of the underlying messaging middleware is done declaratively though application configuration.
 
-A streaming data pipeline is made up of independent event-driven streaming applications that connect using messaging middleware (example: RabbitMQ, Apache Kafka, or others).
-The streaming data pipeline can be linear or non-linear depending on the data flows between the applications.
+**TODO I think what is below can go into the stream development guide**
 
 ## Spring Cloud Stream
 
-[Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) is a framework for building highly scalable event-driven microservices connected with shared messaging systems.
+The streaming application can produce or consume events to/from the messaging middleware or the streaming platform.
+In Spring Cloud Stream:
 
-As a developer, you can focus on developing the application’s business logic while delegating the underlying connectivity and configuration boilerplate with the message broker to Spring Cloud Stream.
+- the application’s endpoints which produce the events to the messaging middleware or the streaming platform represent the `outbound` boundary
+- the application's endpoints which consume the events from the messaging middleware or the streaming platform represent the `inbound` boundary.
 
-At a high level, streaming applications can produce or consume events to/from the messaging middleware. In Spring Cloud Stream:
-
-- An app that produce the events to the messaging middleware represents the `outbound` destination
-- An app that consume the events from the messaging middleware represents the `inbound` destination
+Spring Cloud Stream framework provides `@Input` and `@Output` annotations which you can use to qualify these input and output elements.
 
 ### Spring Cloud Stream Binding
 
-When a Spring Cloud Stream application is deployed, by default, the `inbound` and `outbound` destinations are automatically configured using the `@Input` and `@Output` annotations by the framework, which are then bound to the messaging middleware using the `binding` properties for each destination.
+When the Spring Cloud Stream application gets deployed, its `input` and `output` elements that are configured using the `@Input` and `@Output` annotations are bound to the messaging middleware or the streaming platform using the `binding` properties per destination on the messaging middleware or the streaming platform.
 
 #### Spring Cloud Stream Binding Properties
 
 Binding properties require `spring.cloud.stream.bindings.<inbound/outbound-name>` prefix.
 
-Currently, the following properties are supported:
+Currently, following properties are supported:
 
-- `destination` - the destination on the messaging middleware
-- `group` - the consumer group name to be used for the application. Only for consumer applications. In Spring Cloud Data Flow, this will always be the `stream name`
-- `contentType` - the content type to be used
-- `binder` - the name of the binder to use for the binding. This property is useful for multi-binder use cases
+- destination - the destination on the messaging middleware or the streaming platform (example: RabbitMQ exchange or Apache Kafka topic)
+- group - the consumer group name to be used for the application. Only for consumer applications. In Spring Cloud Data Flow, this will always be the `stream name`.
+- contentType - the content type to be used
+- binder - the name of the binder to use for the binding. This property is useful for multi binder use cases.
 
 #### Spring Cloud Stream Properties for Messaging Middleware
 
-Spring Cloud Stream provides a Binder abstraction for use in connecting to physical destinations at the external middleware.
-
-Depending on the binder implementation in use, you can customize to override the configuration properties between the application and the messaging middleware.
+Depending on the binder used for binding your application to the Messaging Middleware or the Streaming platform, you can provide the configuration properties for each binder.
 All these properties would take the prefix as `spring.cloud.stream.<binderName>.binder`.
 
-For instance, all the Apache Kafka binder configuration properties will have the `spring.cloud.stream.kafka.binder` prefix.
-
-You can learn more about the binder properties in Spring Cloud Stream [reference guide](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/%stream-version%/spring-cloud-stream.html#_binder_implementations).
+For instance, all the Apache Kafka binder related configuration properties have the prefix `spring.cloud.stream.kafka.binder`
 
 ### Streams in Spring Cloud Data Flow
 
-Spring Cloud Data Flow automates the configuration and deployment of Spring Cloud Stream application. For instance, the following properties automatically derived and assigned to the deployed applications:
+When the Spring Cloud Stream application gets deployed, the following properties are implicitly assigned as follows:
 
-- The value for `<input/output>` in `spring.cloud.stream.bindings.<input/output>.destination` is derived based on `streamName.<application/label name>` naming convention.
-- The value for `<input/output>` in `spring.cloud.stream.bindings.<input/output>.group` is derived based on the stream name naming convention.
+- The property `spring.cloud.stream.bindings.<input/output>.destination` is assigned to use the `streamName.<application/label name>`
+- The property `spring.cloud.stream.bindings.<input/output>.group` is set to use the stream `name`.
 
-You can still override these properties explicitly for each application.
-
-## Next Steps
-
-If your interested in writing and deploying your first stream processing application, take a look at our [Stream Developer Guides](%currentPath%/stream-developer-guides/).
+You can still override these properties by setting the bindings properties explicitly for each application.
