@@ -44,7 +44,6 @@ const FeaturesPage = () => (
       <div className='layout-basic'>
         <div className='page-title'>
           <h1>Features</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
 
         <div className='colset'>
