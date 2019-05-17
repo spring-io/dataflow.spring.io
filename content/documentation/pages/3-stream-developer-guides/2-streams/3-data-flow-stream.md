@@ -91,7 +91,7 @@ Register the `maven` artifact of the `UsageDetailSender` application with the na
 
 ![Register source application maven](images/SCDF-register-source-rabbit.png)
 
-If you are using `docker` artifact, then
+If you are using a `docker` artifact, then
 
 ![Register source application docker](images/SCDF-register-source-rabbit-docker.png)
 
@@ -103,7 +103,7 @@ Register the `maven` artifact of the `UsageCostProcessor` processor application 
 
 ![Register source application maven](images/SCDF-register-processor-rabbit.png)
 
-If you are using `docker` artifact, then
+If you are using a `docker` artifact, then
 
 ![Register source application docker](images/SCDF-register-processor-rabbit-docker.png)
 
@@ -111,7 +111,7 @@ Register the `maven` artifact of the `UsageCostLogger` sink application with the
 
 ![Register sink application maven](images/SCDF-register-sink-rabbit.png)
 
-If you are using `docker` artifact, then
+If you are using a `docker` artifact, then
 
 ![Register source application docker](images/SCDF-register-sink-rabbit-docker.png)
 
@@ -131,7 +131,7 @@ Select `Create stream(s)` to display a graphical editor to create the stream def
 
 You will see the `Source`, `Processor` and `Sink` applications, as registered above, in the left panel. Drag and drop each app to the canvas and then use the handles to connect them together. Notice the equivalent Data Flow DSL definition in the top text panel. Click `Create Stream`.
 
-You can type the name of the stream `usage-cost-logger` when create the stream.
+You can type the name of the stream `usage-cost-logger` when creating the stream.
 
 ## Deployment
 
@@ -141,7 +141,7 @@ Select `Deploy Stream`.
 
 ![Stream created](images/SCDF-stream-created.png)
 
-When deploying the stream, choose the target platform accounts from local, Kubernetes, Cloud Foundry - based on the Spring Cloud Skipper server deployer platform account setup.
+When deploying the stream, choose the target platform accounts from local, Kubernetes or Cloud Foundry. This is based on the Spring Cloud Skipper server deployer platform account setup.
 
 ![Deploy stream](images/SCDF-deploy-stream.png)
 
@@ -176,7 +176,7 @@ The runtime applications show information about where each application is runnin
 
 ### Cloud Foundry
 
-Before registering and deploying stream applications to Cloud Foundry using the instructions above, please ensure that you have an instance of Spring Cloud Data Flow sucessfully running on Cloud Foundry. Follow the [installation guide] for Cloud Foundry (%currentPath%/../installation/cloudfoundry/cf-cli) for reference.
+Before registering and deploying stream applications to Cloud Foundry using the instructions above, please ensure that you have an instance of Spring Cloud Data Flow sucessfully running on Cloud Foundry. Follow the Cloud Foundry [installation guide](%currentPath%/installation/cloudfoundry/cf-cli) for reference.
 
 Once you have followed the steps of this chapter above and registered the apps as well as deployed the stream, you will see the sucessfully deployed applications in your in your Org/Space in Cloud Foundry:
 
@@ -192,14 +192,14 @@ Besides verifying the runtime status of your stream, you should also verify the 
 
 ### Kubernetes
 
-Once you have the Spring Cloud Data Flow server up and running on kubernetes environment using the instructions from the [installation guide](/docs/installation/kubernetes/helm/), you can:
+Once you have the Spring Cloud Data Flow server up and running in Kubernetes using the instructions from the [installation guide](%currentPath%/installation/kubernetes/), you can:
 
-- register the stream applications
-- create, deploy and manage streams
+- Register the stream applications
+- Create, deploy and manage streams
 
 #### Registering applications with Spring Cloud Data Flow server
 
-The kubernetes environment requires the application artifacts to be `docker` images and hence you need to register the docker based artifacts from [above](#development) when registering the applications with Spring Cloud Data Flow server.
+The Kubernetes environment requires the application artifacts to be `docker` images.
 
 For the `UsageDetailSender` source:
 
@@ -219,11 +219,11 @@ For the `UsageCostLogger` sink:
 docker://springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT
 ```
 
-You can register these applications as described in the app registration step [above](#application-registration)
+You can register these applications as described in the app registration step [above](#application-registration).
 
 #### Stream Deployment
 
-Once the applications registered, you can deploy the stream as per the instructions from the stream deployment [above](#deployment).
+Once the applications are registered, you can deploy the stream per the instructions from the stream deployment section [above](#deployment).
 
 ##### List the Pods
 
@@ -248,9 +248,8 @@ usage-cost-logger-usage-detail-sender-v1-6cd7d9d9b8-m2qf6    1/1     Running   0
 
 ##### Verify the Logs
 
-To be sure the steps in the previous sections have worked correctly, you
-should verify the logs. The following example shows how to make sure
-that the values you expect appear in the logs:
+To be sure the steps in the previous sections have worked correctly, you should verify the logs.
+The following example shows how to make sure that the values you expect appear in the logs:
 
 ```bash
 kubectl logs -f usage-cost-logger-usage-cost-logger-v1-568599d459-hk9b6
@@ -271,6 +270,6 @@ In this section, we deployed the stream using Spring Cloud Data Flow using the s
 usage-detail-sender | usage-cost-processor | usage-cost-logger
 ```
 
-When these three applications were deployed as standalone applications, you need to set the binding properties that connect these applications and make them as a stream.
+When these three applications are deployed as standalone applications, you need to set the binding properties that connect the applications to make them a stream.
 
 Instead, Spring Cloud Data Flow lets you deploy all these three streaming applications as a single stream by taking care of the plumbing of one application to the other to form the data flow.
