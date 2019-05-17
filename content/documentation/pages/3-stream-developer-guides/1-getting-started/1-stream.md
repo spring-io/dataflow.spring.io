@@ -64,7 +64,7 @@ Now that you have defined a stream, you can deploy it. To do so:
 
     ![Deployment Page](images/dataflow-deploy-http-ingest.png)
 
-If you are using the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
+    If you are using the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
 
     ![Unique Port](images/dataflow-unique-port.png)
 
@@ -81,12 +81,15 @@ If you are using the local Data Flow Server, add the following deployment proper
 ### Local
 
 #### Test Data
+
 Once the stream is deployed and running, you can now post some data.
 
 ```bash
 curl http://localhost:9000 -H "Content-type: text/plain" -d "Happy streaming"
 ```
+
 #### Results
+
 Once a stream is deployed, you can view its logs. To do so:
 
 1.  Click **Runtime** in the menu.
@@ -111,6 +114,7 @@ log-sink                                 : Happy streaming
 ### Cloud Foundry
 
 #### Test Data
+
 Once the stream is deployed and running in Cloud Foundry, you can now post some data.
 
 ```bash
@@ -118,6 +122,7 @@ curl http://http-ingest-314-log-v1.cfapps.io -H "Content-type: text/plain" -d "H
 ```
 
 #### Results
+
 Now you can list the running applications again and see your
 applications in the list, as the following example shows:
 
@@ -133,15 +138,16 @@ applications in the list, as the following example shows:
 Now you can verify the logs.
 
 ```bash
-cf logs ticker-314-log-v1
+cf logs http-ingest-314-log-v1
 ...
 ...
 2017-11-20T15:39:43.76-0800 [APP/PROC/WEB/0] OUT 2017-11-20 23:39:43.761  INFO 12 --- [ http-ingest-314.http.ticker-314-1] log-sink                                 : Happy streaming
 ```
-    
+
 ### Kubernetes
 
 #### Test Data
+
 Once the stream is deployed and running in Kubernetes, you can now post some data.
 
 ```bash
@@ -149,6 +155,7 @@ curl http://<EXTERNAL_IP_OF_http-ingest-log-v1-0-2k4r8_SERVICE> -H "Content-type
 ```
 
 #### Results
+
 ```bash
 kubectl get pods
 NAME                              READY     STATUS    RESTARTS   AGE
@@ -163,7 +170,7 @@ skipper-2408247821-50z31            1/1       Running   0          15m
 Now you can verify the logs.
 
 ```bash
-kubectl logs -f http-ingest-log-v1-0-2k4r8 
+kubectl logs -f http-ingest-log-v1-0-2k4r8
 ...
 ...
 2017-10-30 22:59:04.966  INFO 1 --- [ http-ingest.http.http-ingest-1] log-sink                                 : Happy streaming
@@ -184,8 +191,8 @@ Now you can delete the stream you created. To do so:
 
 ## Updating and Rolling back a Stream
 
-This information can be found in the [Continuous Delivery](%currentpath%/stream-developer-guides/continuous-delivery) guide.
+This information can be found in the [Continuous Delivery](%currentPath%/stream-developer-guides/continuous-delivery) guide.
 
 ## Monitoring
 
-This information can be found in the [Stream Monitoring](%currentpath%/feature-guides/streams/monitoring/) guide.
+This information can be found in the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/) guide.
