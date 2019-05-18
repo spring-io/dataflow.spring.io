@@ -14,3 +14,4 @@ export {
 export { IconSearch } from './IconSearch'
 export { IconSpring } from './IconSpring'
 export { IconZenHub } from './IconZenHub'
+export { IconAlgolia } from './IconAlgolia'

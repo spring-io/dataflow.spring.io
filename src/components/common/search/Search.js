@@ -12,6 +12,8 @@ import {
 } from 'react-instantsearch-dom'
 import { navigate } from 'gatsby'
 
+import { IconAlgolia } from '../icons'
+
 const HitTemplate = ({ hit }) => (
   <Link to={hit.url} className='link'>
     <div className={`title`}>
@@ -132,6 +134,7 @@ class Results extends React.Component {
           getSectionSuggestions={this.getSectionSuggestions}
         />
         <Index indexName='doc-master' />
+        <IconAlgolia />
       </>
     )
   }

@@ -49,7 +49,7 @@ $input-border: $spring-border-color;
   &:focus {
     border-color: $spring-primary-color;
     outline: none;
-    box-shadow: 0 0 0 3px rgba($spring-primary-color, 0.1);
+    box-shadow: 0 0px 4px 0 rgba($spring-primary-color, 0.5);
   }
 }
 
@@ -84,13 +84,12 @@ $input-border: $spring-border-color;
     display: none;
     background-color: $input-bg;
     background-image: none;
-    border: 1px solid #cfd4cb;
     border-radius: $input-border-radius;
     right: 0;
     left: 0;
     top: 40px;
     z-index: 1000;
-    box-shadow: 0 0 0 3px rgba($spring-color, 0.06);
+    box-shadow: 0 0px 4px 0 rgba($spring-color, 0.25);
     .item {
       cursor: pointer;
       padding: ($spring-8points/2) $spring-8points * 2;
@@ -112,7 +111,7 @@ $input-border: $spring-border-color;
     }
     .dropdown-toggle {
       border-color: $spring-primary-color;
-      box-shadow: 0 0 0 3px rgba($spring-primary-color, 0.1);
+      box-shadow: 0 0px 4px 0 rgba($spring-primary-color, 0.5);
     }
   }
 }

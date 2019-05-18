@@ -64,6 +64,7 @@
 
     a.button {
       @include button-dark($spring-primary-color, white, $spring-8points * 2);
+      margin-right: $spring-8points;
       &.light {
         @include button-dark(
           darken($spring-gray-color, 6),

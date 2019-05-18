@@ -258,6 +258,15 @@ div.logo-dataflow {
   display: inline-block;
   position: relative;
   line-height: 1.6em;
+  .input-control {
+    padding-right: 120px;
+  }
+  .icon-algolia {
+    position: absolute;
+    transform: scale(0.6);
+    right: -20px;
+    top: 6px;
+  }
   .result {
     position: absolute;
     display: block;
@@ -265,9 +274,10 @@ div.logo-dataflow {
     background: white;
     right: 0;
     top: 42px;
-    width: 500px;
-    border: 1px solid $spring-border-color;
-    box-shadow: 0 0 0 4px rgba($spring-color, 0.04);
+    width: 550px;
+
+    box-shadow: 0 2px 8px 0 rgba($spring-color, 0.2);
+
     border-radius: 4px;
     padding: $spring-8points 0;
     .section {
