@@ -23,9 +23,9 @@ const GettingStartedPage = () => (
               <li>
                 <a href='/docs/concepts/batch-jobs/'>Batch Concepts</a>
               </li>
-              <li>
+              {/* <li>
                 <a href='/'>Pre-built Stream and Batch microservices.</a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

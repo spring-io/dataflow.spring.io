@@ -36,7 +36,7 @@ const IndexPage = () => (
             <ul className='links'>
               <li>
                 <strong>Develop and test microservices</strong> for data
-                integration that do one thing and to it well
+                integration that do one thing and do it well
               </li>
               <li>
                 Use <strong>prebuilt microservices</strong> to kick start
@@ -82,6 +82,7 @@ const IndexPage = () => (
                 Write Stream and Batch processing logic in multiple programming
                 languages. <br />
                 Use your favorite messaging middleware for Stream processing.
+                <br />
                 Interact with popular monitoring systems and dashboards.
               </p>
               <p>
@@ -97,7 +98,7 @@ const IndexPage = () => (
                 drop designer. <br />
                 Don’t like designers? Use pipes and filters based textual Domain
                 Specific Language instead. <br />
-                Integrate using a RESTful API.
+                Integrate using RESTful APIs.
               </p>
               <p>
                 <span>Read more</span>

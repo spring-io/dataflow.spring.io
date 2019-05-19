@@ -57,7 +57,7 @@ const Footer = () => (
                 © 2013-{new Date().getFullYear()} Pivotal Software, Inc. All
                 Rights Reserved.
               </p>
-              <p>Spring CLoud Data Flow is under the Apache 2.0 license.</p>
+              <p>Spring Cloud Data Flow is under the Apache 2.0 license.</p>
             </div>
             <ul>
               <li>
