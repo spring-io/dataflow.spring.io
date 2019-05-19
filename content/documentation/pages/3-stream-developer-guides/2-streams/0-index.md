@@ -5,7 +5,7 @@ description: 'Stream Processing Developer Guide'
 summary: true
 ---
 
-# Stream Processing
+# Stream Development
 
 In this stream processing guide, you will see how you can:
 

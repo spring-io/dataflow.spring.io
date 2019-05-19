@@ -12,9 +12,11 @@ files.
 They have the required metadata set for service discovery needed by the different applications and services deployed.
 To check out the code, enter the following commands:
 
-    $ git clone https://github.com/{github-repo}
-    $ cd spring-cloud-dataflow
-    $ git checkout %github-tag%
+```bash
+$ git clone https://github.com/{github-repo}
+$ cd spring-cloud-dataflow
+$ git checkout %github-tag%
+```
 
 The latest tag is `v%dataflow-version%`.
 
@@ -79,7 +81,9 @@ If you do modify the password, you must also provide it as base64-encoded string
 
 Run the following command to start the MySQL service:
 
-    kubectl create -f src/kubernetes/mysql/
+```
+kubectl create -f src/kubernetes/mysql/
+```
 
 You can use `kubectl get all -l app=mysql` to verify that the
 deployment, pod, and service resources are running. You can use
@@ -106,15 +110,19 @@ If you use Minikube and you want Prometheus and Grafana running in it, you need 
 Run the following commands to create the cluster role, binding, and
 service account:
 
-    $ kubectl create -f src/kubernetes/prometheus/prometheus-clusterroles.yaml
-    $ kubectl create -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
-    $ kubectl create -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
+```
+$ kubectl create -f src/kubernetes/prometheus/prometheus-clusterroles.yaml
+$ kubectl create -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
+$ kubectl create -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
+```
 
 Run the following commands to deploy Prometheus:
 
-    $ kubectl create -f src/kubernetes/prometheus/prometheus-configmap.yaml
-    $ kubectl create -f src/kubernetes/prometheus/prometheus-deployment.yaml
-    $ kubectl create -f src/kubernetes/prometheus/prometheus-service.yaml
+```
+$ kubectl create -f src/kubernetes/prometheus/prometheus-configmap.yaml
+$ kubectl create -f src/kubernetes/prometheus/prometheus-deployment.yaml
+$ kubectl create -f src/kubernetes/prometheus/prometheus-service.yaml
+```
 
 You can use `kubectl get all -l app=prometheus` to verify that the
 deployment, pod, and service resources are running. You can use
@@ -122,11 +130,15 @@ deployment, pod, and service resources are running. You can use
 cleanup roles, bindings, and the service account for Prometheus, run the
 following command:
 
-    kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
+```
+kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
+```
 
 Run the following command to deploy Grafana:
 
-    $ kubectl create -f src/kubernetes/grafana/
+```
+$ kubectl create -f src/kubernetes/grafana/
+```
 
 You can use `kubectl get all -l app=grafana` to verify that the
 deployment, pod, and service resources are running. You can use
@@ -139,8 +151,10 @@ You should replace the `url` attribute value shown in the following example in `
 On Minikube, you can obtain the value by running the command `minikube service --url grafana`.
 This configuration is needed for Grafana links to be accessible when accessing the dashboard from a web browser.
 
-              grafana-info:
-                url: 'https://grafana:3000'
+```yml
+grafana-info:
+  url: 'https://grafana:3000'
+```
 
 <!--END_TIP-->
 
@@ -154,32 +168,36 @@ using Prometheus and Grafana, you should remove the following section of
 `src/kubernetes/server/server-config-kafka.yaml`. You can edit the
 appropriate file based on the messaging middleware deployed earlier:
 
-              applicationProperties:
-                stream:
-                  management:
-                    metrics:
-                      export:
-                        prometheus:
-                          enabled: true
-                    endpoints:
-                      web:
-                        exposure:
-                          include: 'prometheus,info,health'
-                  spring:
-                    cloud:
-                      streamapp:
-                        security:
-                          enabled: false
-              grafana-info:
-                url: 'https://grafana:3000'
+```yml
+applicationProperties:
+  stream:
+    management:
+      metrics:
+        export:
+          prometheus:
+            enabled: true
+      endpoints:
+        web:
+          exposure:
+            include: 'prometheus,info,health'
+    spring:
+      cloud:
+        streamapp:
+          security:
+            enabled: false
+grafana-info:
+  url: 'https://grafana:3000'
+```
 
 ### Create Data Flow Role Bindings and Service Account
 
 To create Role Bindings and Service account, run the following commands:
 
-    kubectl create -f src/kubernetes/server/server-roles.yaml
-    kubectl create -f src/kubernetes/server/server-rolebinding.yaml
-    kubectl create -f src/kubernetes/server/service-account.yaml
+```
+kubectl create -f src/kubernetes/server/server-roles.yaml
+kubectl create -f src/kubernetes/server/server-rolebinding.yaml
+kubectl create -f src/kubernetes/server/service-account.yaml
+```
 
 You can use `kubectl get roles` and `kubectl get sa` to list the
 available roles and service accounts.
@@ -187,9 +205,11 @@ available roles and service accounts.
 To cleanup roles, bindings and the service account, use the following
 commands:
 
-    $ kubectl delete role scdf-role
-    $ kubectl delete rolebinding scdf-rb
-    $ kubectl delete serviceaccount scdf-sa
+```
+$ kubectl delete role scdf-role
+$ kubectl delete rolebinding scdf-rb
+$ kubectl delete serviceaccount scdf-sa
+```
 
 ### Deploy Skipper
 
@@ -203,27 +223,38 @@ version of Skipper gets deployed, you can modify the tag used for the
 Docker image in the container specification, as the following example
 shows:
 
-        spec:
-          containers:
-          - name: skipper
-            image: springcloud/spring-cloud-skipper-server:%skipper-version%   #
+```yml
+spec:
+  containers:
+    - name: skipper
+      image: springcloud/spring-cloud-skipper-server:%skipper-version% #
+```
 
 - You may change the version as you like.
 
-[tip | Multiple platform support]
-| Skipper includes the concept of
-| [platforms](https://docs.spring.io/spring-cloud-skipper/docs/current/reference/htmlsingle/#using-platforms),
-| so it is important to define the "`accounts`" based on the project
-| preferences.
+<!--TIP-->
+
+**Multiple platform support**
+
+Skipper includes the concept of
+[platforms](https://docs.spring.io/spring-cloud-skipper/docs/current/reference/htmlsingle/#using-platforms),
+so it is important to define the "`accounts`" based on the project
+preferences.
+
+<!--END_TIP-->
 
 To use RabbitMQ as the messaging middleware, run the following command:
 
-    kubectl create -f src/kubernetes/skipper/skipper-config-rabbit.yaml
+```
+kubectl create -f src/kubernetes/skipper/skipper-config-rabbit.yaml
+```
 
 To use Apache Kafka as the messaging middleware, run the following
 command:
 
-    kubectl create -f src/kubernetes/skipper/skipper-config-kafka.yaml
+```
+kubectl create -f src/kubernetes/skipper/skipper-config-kafka.yaml
+```
 
 Additionally, to use the [Apache Kafka Streams
 Binder](https://docs.spring.io/spring-cloud-stream/docs/current/reference/htmlsingle/#_apache_kafka_streams_binder),
@@ -231,13 +262,17 @@ update the `environmentVariables` attribute to include the Kafka Streams
 Binder configuraton in
 `src/kubernetes/skipper/skipper-config-kafka.yaml` as follows:
 
-    environmentVariables: 'SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=${KAFKA_SERVICE_HOST}:${KAFKA_SERVICE_PORT},SPRING_CLOUD_STREAM_KAFKA_BINDER_ZK_NODES=${KAFKA_ZK_SERVICE_HOST}:${KAFKA_ZK_SERVICE_PORT}, SPRING_CLOUD_STREAM_KAFKA_STREAMS_BINDER_BROKERS=${KAFKA_SERVICE_HOST}:${KAFKA_SERVICE_PORT},SPRING_CLOUD_STREAM_KAFKA_STREAMS_BINDER_ZK_NODES=${KAFKA_ZK_SERVICE_HOST}:${KAFKA_ZK_SERVICE_PORT}'
+```yaml
+environmentVariables: 'SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=${KAFKA_SERVICE_HOST}:${KAFKA_SERVICE_PORT},SPRING_CLOUD_STREAM_KAFKA_BINDER_ZK_NODES=${KAFKA_ZK_SERVICE_HOST}:${KAFKA_ZK_SERVICE_PORT}, SPRING_CLOUD_STREAM_KAFKA_STREAMS_BINDER_BROKERS=${KAFKA_SERVICE_HOST}:${KAFKA_SERVICE_PORT},SPRING_CLOUD_STREAM_KAFKA_STREAMS_BINDER_ZK_NODES=${KAFKA_ZK_SERVICE_HOST}:${KAFKA_ZK_SERVICE_PORT}'
+```
 
 Run the following commands to start Skipper as the companion server for
 Spring Cloud Data Flow:
 
-    kubectl create -f src/kubernetes/skipper/skipper-deployment.yaml
-    kubectl create -f src/kubernetes/skipper/skipper-svc.yaml
+```
+kubectl create -f src/kubernetes/skipper/skipper-deployment.yaml
+kubectl create -f src/kubernetes/skipper/skipper-svc.yaml
+```
 
 You can use `kubectl get all -l app=skipper` to verify that the
 deployment, pod, and service resources are running. You can use
@@ -250,10 +285,12 @@ The deployment is defined in the
 version of Spring Cloud Data Flow server gets deployed, modify the tag
 used for the Docker image in the container specification, as follows:
 
-        spec:
-          containers:
-          - name: scdf-server
-            image: springcloud/spring-cloud-dataflow-server:%dataflow-version%      #
+```yaml
+spec:
+  containers:
+    - name: scdf-server
+      image: springcloud/spring-cloud-dataflow-server:%dataflow-version%
+```
 
 You must specify the version of Spring Cloud Data Flow server that you want to deploy.
 
@@ -288,18 +325,24 @@ You should change these values in `src/kubernetes/server/server-config-rabbit.ya
 To create the configuration map when using RabbitMQ, run the following
 command:
 
-    kubectl create -f src/kubernetes/server/server-config-rabbit.yaml
+```
+kubectl create -f src/kubernetes/server/server-config-rabbit.yaml
+```
 
 To create the configuration map when using Kafka, run the following
 command:
 
-    kubectl create -f src/kubernetes/server/server-config.yaml
+```
+kubectl create -f src/kubernetes/server/server-config.yaml
+```
 
 Now you need to create the server deployment, by running the following
 commands:
 
-    kubectl create -f src/kubernetes/server/server-svc.yaml
-    kubectl create -f src/kubernetes/server/server-deployment.yaml
+```
+kubectl create -f src/kubernetes/server/server-svc.yaml
+kubectl create -f src/kubernetes/server/server-deployment.yaml
+```
 
 You can use `kubectl get all -l app=scdf-server` to verify that the
 deployment, pod, and service resources are running. You can use
@@ -310,9 +353,11 @@ You can use the `kubectl get svc scdf-server` command to locate the
 address later to connect from the shell. The following example (with
 output) shows how to do so:
 
-    $ kubectl get svc scdf-server
-    NAME         CLUSTER-IP       EXTERNAL-IP       PORT(S)    AGE
-    scdf-server  10.103.246.82    130.211.203.246   80/TCP     4m
+```
+$ kubectl get svc scdf-server
+NAME         CLUSTER-IP       EXTERNAL-IP       PORT(S)    AGE
+scdf-server  10.103.246.82    130.211.203.246   80/TCP     4m
+```
 
 In this case, the URL you need to use is `https://130.211.203.246`.
 
@@ -321,5 +366,7 @@ If you use Minikube, you do not have an external load balancer, and the
 assigned for the `scdf-server` service. You can use the following
 command to look up the URL to use:
 
-    $ minikube service --url scdf-server
-    https://192.168.99.100:31991
+```
+$ minikube service --url scdf-server
+https://192.168.99.100:31991
+```

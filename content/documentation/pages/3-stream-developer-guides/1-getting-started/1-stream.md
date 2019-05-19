@@ -4,7 +4,7 @@ title: 'Stream Processing'
 description: 'Create and deploy a streaming data pipeline using prebuilt applications on your Local Machine'
 ---
 
-# Introduction
+# Getting Started with Stream Processing
 
 Spring Cloud Data Flow provides over 70 prebuilt streaming applications that you can use right away to implement common streaming use cases.
 In this guide we will use two of these applications to construct a simple data pipeline that produces data sent from an external http request and consumes that data by logging the payload to the terminal.
@@ -191,8 +191,8 @@ Now you can delete the stream you created. To do so:
 
 ## Updating and Rolling back a Stream
 
-This information can be found in the [Continuous Delivery](%currentpath%/stream-developer-guides/continuous-delivery) guide.
+This information can be found in the [Continuous Delivery](%currentPath%/stream-developer-guides/continuous-delivery) guide.
 
 ## Monitoring
 
-This information can be found in the [Stream Monitoring](%currentpath%/feature-guides/streams/monitoring/) guide.
+This information can be found in the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/) guide.
