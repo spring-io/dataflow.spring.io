@@ -2,15 +2,16 @@
 path: 'batch-developer-guides/getting-started/task/'
 title: 'Task Processing'
 description: 'Create and deploy a simple task pipeline using a prebuilt task application on your Local Machine'
-summary: true
 ---
+
+# Getting Started with Task Processing
 
 In this guide, we will create a simple task definition, and launch the task.
 
 The starting point is to use the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), that provides a set of task applications.
 Specifically, we will use the provided `timestamp` application, which is basically a hello-world-style application that logs the current timestamp. For this guide we assume that the respective `timestamp` task application has already been imported and registered with Spring Cloud Data Flow as described in the [Installation guide](%currentPath%/installation/).
 
-# Creating the Task
+## Creating the Task
 
 To create a task:
 

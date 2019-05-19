@@ -18,11 +18,10 @@ release versions.
 The following listing outlines the compatibility between Spring Cloud
 Data Flow for Kubernetes Server and Kubernetes versions:
 
-    | Versions: SCDF K8S Server - K8S Deployer \ Kubernetes | 1.9.x | 1.10.x | 1.11.x |
-    |-------------------------------------------------------|-------|--------|--------|
-    | Server: 1.4.x - Deployer: 1.3.2                       | ✓     | ✓      | ✓      |
-    | Server: 1.5.x - Deployer: 1.3.6                       | ✓     | ✓      | ✓      |
-    | Server: 1.6.x - Deployer: 1.3.7                       | ✓     | ✓      | ✓      |
-    | Server: 1.7.x - Deployer: 1.3.9                       | ✓     | ✓      | ✓      |
-    | Server: 2.0.x - Deployer: 2.0.1                       | ✓     | ✓      | ✓      |
-    |---------------------------------------------------------------------------------|
+|                                              | Kubernetes 1.9.x | Kubernetes 1.10.x | Kubernetes 1.11.x |
+| -------------------------------------------- | :--------------: | :---------------: | :---------------: |
+| SCDF K8S Server: 1.4.x - K8S Deployer: 1.3.2 |        ✅        |        ✅         |        ✅         |
+| SCDF K8S Server: 1.5.x - K8S Deployer: 1.3.6 |        ✅        |        ✅         |        ✅         |
+| SCDF K8S Server: 1.6.x - K8S Deployer: 1.3.7 |        ✅        |        ✅         |        ✅         |
+| SCDF K8S Server: 1.7.x - K8S Deployer: 1.3.9 |        ✅        |        ✅         |        ✅         |
+| SCDF K8S Server: 2.0.x - K8S Deployer: 2.0.1 |        ✅        |        ✅         |        ✅         |

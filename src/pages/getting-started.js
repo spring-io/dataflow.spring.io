@@ -18,7 +18,7 @@ const GettingStartedPage = () => (
                 </a>
               </li>
               <li>
-                <a href='/docs/concepts/streams'>Stream Concepts</a>
+                <a href='/docs/concepts/streams/'>Stream Concepts</a>
               </li>
               <li>
                 <a href='/docs/concepts/batch-jobs/'>Batch Concepts</a>

@@ -33,7 +33,9 @@ RabbitMQ is used as a messaging middleware between streaming apps and is availab
 You can use `cf marketplace` to discover which plans are available to you, depending on the details of your Cloud Foundry setup.
 For example, you can use [Pivotal Web Services](https://run.pivotal.io/), as the following example shows:
 
-    cf create-service cloudamqp lemur rabbit
+```bash
+cf create-service cloudamqp lemur rabbit
+```
 
 ### Provision a PostgreSQL Service Instance
 
@@ -41,14 +43,21 @@ An RDBMS is used to persist Data Flow state, such as stream and task definitions
 
 You can use `cf marketplace` to discover which plans are available to you, depending on the details of your Cloud Foundry setup. For example, you can use [Pivotal Web Services](https://run.pivotal.io/), as the following example shows:
 
-    cf create-service elephantsql panda my_postgres
+```bash
+cf create-service elephantsql panda my_postgres
+```
 
-[[tip | Database Connection Limits]]
-| If you intend to create and run batch-jobs as Task pipelines in SCDF,
-| you must ensure that the underlying database instance includes enough
-| connections capacity so that the batch-jobs, Task, and SCDF can
-| concurrently connect to the same database instance without running
-| into connection limits. This usually means you can't use any free plans.
+<!--TIP-->
+
+**Database Connection Limits**
+
+If you intend to create and run batch-jobs as Task pipelines in SCDF,
+you must ensure that the underlying database instance includes enough
+connections capacity so that the batch-jobs, Task, and SCDF can
+concurrently connect to the same database instance without running
+into connection limits. This usually means you can't use any free plans.
+
+<!--END_TIP-->
 
 ## Manifest based installation on Cloud Foundry
 
@@ -57,16 +66,19 @@ To install Cloud Foundry:
 1.  Download the Data Flow server and shell applications, by running the
     following example commands:
 
-        wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
-
-        wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+    ```bash
+    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+    ```
 
 2.  Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/),
     to which Data Flow delegates stream lifecycle operations, such as
     deployment, upgrading and rolling back. To do so, use the following
     command:
 
-        wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+    ```bash
+    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+    ```
 
 3.  Push Skipper to Cloud Foundry
 
@@ -77,37 +89,39 @@ To install Cloud Foundry:
 
     The following example shows a typical manifest for Skipper:
 
-        ---
-        applications:
-        - name: skipper-server
-          host: skipper-server
-          memory: 1G
-          disk_quota: 1G
-          instances: 1
-          timeout: 180
-          buildpack: java_buildpack
-          path: <PATH TO THE DOWNLOADED SKIPPER SERVER UBER-JAR>
-          env:
-            SPRING_APPLICATION_NAME: skipper-server
-            SPRING_PROFILES_ACTIVE: cloud
-            JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-            SPRING_CLOUD_SKIPPER_SERVER_STRATEGIES_HEALTHCHECK_TIMEOUTINMILLIS: 300000
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.run.pivotal.io
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: <org>
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: <space>
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DOMAIN: cfapps.io
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <email>
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <password>
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: false
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DELETE_ROUTES: false
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: <serviceName>
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_STREAM_ENABLE_RANDOM_APP_NAME_PREFIX: false
-            SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_MEMORY: 2048m
-        services:
-        - <services>
+    ```yml
+    ---
+    applications:
+      - name: skipper-server
+        host: skipper-server
+        memory: 1G
+        disk_quota: 1G
+        instances: 1
+        timeout: 180
+        buildpack: java_buildpack
+        path: <PATH TO THE DOWNLOADED SKIPPER SERVER UBER-JAR>
+        env:
+          SPRING_APPLICATION_NAME: skipper-server
+          SPRING_PROFILES_ACTIVE: cloud
+          JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+          SPRING_CLOUD_SKIPPER_SERVER_STRATEGIES_HEALTHCHECK_TIMEOUTINMILLIS: 300000
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.run.pivotal.io
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: <org>
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: <space>
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DOMAIN: cfapps.io
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <email>
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <password>
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: false
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DELETE_ROUTES: false
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: <serviceName>
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_STREAM_ENABLE_RANDOM_APP_NAME_PREFIX: false
+          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_MEMORY: 2048m
+    services:
+      - <services>
+    ```
 
     You need to fill in `<org>`, `<space>`, `<email>`, `<password>`,
-    `<middlewareServiceName>` (RabbitMQ or Apache Kafka) and
+    `<serviceName>` (RabbitMQ or Apache Kafka) and
     `<services>` (such as PostgresSQL) before running these commands.
     Once you have the desired config values in `manifest.yml`, you can
     run the `cf push` command to provision the skipper-server.
@@ -170,33 +184,38 @@ As an alternative to setting environment variables with the `cf set-env` command
 `manifest.yml` file and use the `cf push` command to provision the server.
 The following example shows such a manifest file:
 
-    ---
-    applications:
-    - name: data-flow-server
-      host: data-flow-server
-      memory: 2G
-      disk_quota: 2G
-      instances: 1
-      path: {PATH TO SERVER UBER-JAR}
-      env:
-        SPRING_APPLICATION_NAME: data-flow-server
-        SPRING_PROFILES_ACTIVE: cloud
-        JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-        MAVEN_REMOTEREPOSITORIES[REPO1]_URL: https://repo.spring.io/libs-snapshot
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.huron.cf-app.com
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: sabby20
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: sabby20
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_DOMAIN: apps.huron.cf-app.com
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: admin
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: ***
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: true
-        SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: postgreSQL
-        SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://<skipper-host-name>/api
-    services:
-    - postgreSQL
+```yml
+---
+applications:
+- name: data-flow-server
+  host: data-flow-server
+  memory: 2G
+  disk_quota: 2G
+  instances: 1
+  path: {PATH TO SERVER UBER-JAR}
+  env:
+    SPRING_APPLICATION_NAME: data-flow-server
+    SPRING_PROFILES_ACTIVE: cloud
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+    MAVEN_REMOTEREPOSITORIES[REPO1]_URL: https://repo.spring.io/libs-snapshot
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.huron.cf-app.com
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: sabby20
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: sabby20
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_DOMAIN: apps.huron.cf-app.com
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: admin
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: ***
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: true
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: postgreSQL
+    SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://<skipper-host-name>/api
+services:
+- postgreSQL
+```
 
-[[tip]]
-| You must deploy Skipper first and then configure the URI location where the Skipper server runs.
+<!--TIP-->
+
+You must deploy Skipper first and then configure the URI location where the Skipper server runs.
+
+<!--END_TIP-->
 
 Once you are ready with the relevant properties in your manifest file,
 you can issue a `cf push` command from the directory where this file is
@@ -206,12 +225,16 @@ stored.
 
 The following example shows how to start the Data Flow Shell:
 
-    java -jar spring-cloud-dataflow-shell-{scdf-core-version}.jar
+```bash
+java -jar spring-cloud-dataflow-shell-{scdf-core-version}.jar
+```
 
 Since the Data Flow Server and shell are not running on the same host, you can point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell.
 
-        server-unknown:>dataflow config server https://<data-flow-server-route-in-cf>
-        Successfully targeted https://<data-flow-server-route-in-cf>
+```bash
+server-unknown:>dataflow config server https://<data-flow-server-route-in-cf>
+Successfully targeted https://<data-flow-server-route-in-cf>
+```
 
 ### Register prebuilt applications
 

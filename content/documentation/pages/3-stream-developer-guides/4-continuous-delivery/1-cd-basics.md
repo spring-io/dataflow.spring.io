@@ -4,7 +4,7 @@ title: 'Continuous Delivery of streaming applications'
 description: 'Continuous Delivery of Streaming applications'
 ---
 
-# Introduction
+# Continuous Delivery of streaming applications
 
 The applications composed in the streaming dta pipeline will often need to be changed.
 The change can be a new version of the application that fixes a bug or setting a different value of an application property.

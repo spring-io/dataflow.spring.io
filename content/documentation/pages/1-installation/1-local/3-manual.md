@@ -12,14 +12,17 @@ If Docker does not suit your needs, you can manually install the parts you need 
 
 1.  Download the Spring Cloud Data Flow Server and shell by using the following commands:
 
-        wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
-
-        wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+    ```bash
+    wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+    wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+    ```
 
 2.  Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the
     following commands:
 
-        wget https://repo.spring.io/%skipper-version%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+    ```bash
+    wget https://repo.spring.io/%skipper-version%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+    ```
 
 ## Install messaging middleware
 
@@ -37,7 +40,9 @@ docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 rabbitmq:3.7.14
     directory where you downloaded Skipper, run the server by using
     `java -jar`, as follows:
 
-        java -jar spring-cloud-skipper-server-%skipper-version%.jar
+    ```bash
+    java -jar spring-cloud-skipper-server-%skipper-version%.jar
+    ```
 
 2.  Start the Data Flow Server
 
@@ -45,33 +50,46 @@ docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 rabbitmq:3.7.14
     downloaded Data Flow, run the server by using `java -jar`, as
     follows:
 
-        java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
+    ```bash
+    java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
+    ```
 
     If Skipper and the Data Flow server are not running on the same
     host, set the `spring.cloud.skipper.client.serverUri` configuration
     property to the location of Skipper, as shown in the following
     example
 
-        java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
+    ```bash
+    java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
+    ```
 
 3.  If you want to use the shell to use Data Flow, start it with the following command:
 
-         java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
+    ```bash
+    java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
+    ```
 
     If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell.
 
-         server-unknown:>dataflow config server https://198.51.100.0
-         Successfully targeted https://198.51.100.0
+    ```bash
+     server-unknown:>dataflow config server https://198.51.100.0
+     Successfully targeted https://198.51.100.0
+    ```
 
     Alternatively, you can pass in the `--dataflow.uri` command line option. The shell’s `--help` command line option shows what is available.
 
-[[tip | Proxy Servers]]
-| If you run Spring Cloud Data Flow Server behind a proxy server (such
-| as [Zuul](https://github.com/Netflix/zuul)), you may also need to set
-| the `server.use-forward-headers` property to `true`. An example that
-| uses Zuul is available in the [Spring Cloud Data Flow Samples
-| repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-zuul)
-| on GitHub. Additional information is also available in the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server).
+<!--TIP-->
+
+**Proxy Servers**
+
+If you run Spring Cloud Data Flow Server behind a proxy server (such
+as [Zuul](https://github.com/Netflix/zuul)), you may also need to set
+the `server.use-forward-headers` property to `true`. An example that
+uses Zuul is available in the [Spring Cloud Data Flow Samples
+repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-zuul)
+on GitHub. Additional information is also available in the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server).
+
+<!--END_TIP-->
 
 ## Access Data Flow Dashboard
 
