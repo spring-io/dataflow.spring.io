@@ -13,9 +13,9 @@ They have the required metadata set for service discovery needed by the differen
 To check out the code, enter the following commands:
 
 ```bash
-$ git clone https://github.com/{github-repo}
-$ cd spring-cloud-dataflow
-$ git checkout %github-tag%
+git clone https://github.com/{github-repo}
+cd spring-cloud-dataflow
+git checkout %github-tag%
 ```
 
 The latest tag is `v%dataflow-version%`.
@@ -111,17 +111,17 @@ Run the following commands to create the cluster role, binding, and
 service account:
 
 ```
-$ kubectl create -f src/kubernetes/prometheus/prometheus-clusterroles.yaml
-$ kubectl create -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
-$ kubectl create -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
+kubectl create -f src/kubernetes/prometheus/prometheus-clusterroles.yaml
+kubectl create -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
+kubectl create -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
 ```
 
 Run the following commands to deploy Prometheus:
 
 ```
-$ kubectl create -f src/kubernetes/prometheus/prometheus-configmap.yaml
-$ kubectl create -f src/kubernetes/prometheus/prometheus-deployment.yaml
-$ kubectl create -f src/kubernetes/prometheus/prometheus-service.yaml
+kubectl create -f src/kubernetes/prometheus/prometheus-configmap.yaml
+kubectl create -f src/kubernetes/prometheus/prometheus-deployment.yaml
+kubectl create -f src/kubernetes/prometheus/prometheus-service.yaml
 ```
 
 You can use `kubectl get all -l app=prometheus` to verify that the
@@ -137,7 +137,7 @@ kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
 Run the following command to deploy Grafana:
 
 ```
-$ kubectl create -f src/kubernetes/grafana/
+kubectl create -f src/kubernetes/grafana/
 ```
 
 You can use `kubectl get all -l app=grafana` to verify that the
@@ -206,9 +206,9 @@ To cleanup roles, bindings and the service account, use the following
 commands:
 
 ```
-$ kubectl delete role scdf-role
-$ kubectl delete rolebinding scdf-rb
-$ kubectl delete serviceaccount scdf-sa
+kubectl delete role scdf-role
+kubectl delete rolebinding scdf-rb
+kubectl delete serviceaccount scdf-sa
 ```
 
 ### Deploy Skipper
@@ -354,7 +354,7 @@ address later to connect from the shell. The following example (with
 output) shows how to do so:
 
 ```
-$ kubectl get svc scdf-server
+kubectl get svc scdf-server
 NAME         CLUSTER-IP       EXTERNAL-IP       PORT(S)    AGE
 scdf-server  10.103.246.82    130.211.203.246   80/TCP     4m
 ```
@@ -367,6 +367,6 @@ assigned for the `scdf-server` service. You can use the following
 command to look up the URL to use:
 
 ```
-$ minikube service --url scdf-server
+minikube service --url scdf-server
 https://192.168.99.100:31991
 ```

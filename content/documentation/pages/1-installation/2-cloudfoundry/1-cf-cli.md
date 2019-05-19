@@ -121,7 +121,7 @@ To install Cloud Foundry:
     ```
 
     You need to fill in `<org>`, `<space>`, `<email>`, `<password>`,
-    `<middlewareServiceName>` (RabbitMQ or Apache Kafka) and
+    `<serviceName>` (RabbitMQ or Apache Kafka) and
     `<services>` (such as PostgresSQL) before running these commands.
     Once you have the desired config values in `manifest.yml`, you can
     run the `cf push` command to provision the skipper-server.

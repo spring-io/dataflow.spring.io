@@ -23,7 +23,7 @@ If Tiller has not been installed on your cluster, run the following
 `Helm` client command:
 
 ```bash
-$ helm init
+helm init
 ```
 
 To verify that the `Tiller` pod is running, run the following command:
@@ -42,14 +42,14 @@ repository and install the chart for Spring Cloud Data Flow.
 To update the `Helm` repository, run the following command:
 
 ```bash
-$ helm repo update
+helm repo update
 ```
 
 To install the chart for Spring Cloud Data Flow, run the following
 command:
 
 ```bash
-$ helm install --name my-release stable/spring-cloud-data-flow
+helm install --name my-release stable/spring-cloud-data-flow
 ```
 
 #### Configuring Helm
@@ -59,9 +59,9 @@ As of Spring Cloud Data Flow 1.7.0, the `Helm` chart has been promoted to the `S
 > access to the incubator repository. To add this repository to your `Helm` set and install the chart, run the following commands:
 
 ```bash
-$ helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com
-$ helm repo update
-$ helm install --name my-release incubator/spring-cloud-data-flow
+helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com
+helm repo update
+helm install --name my-release incubator/spring-cloud-data-flow
 ```
 
 <!--TIP-->
@@ -176,7 +176,7 @@ my-release-data-flow-server   1        1        1           0          1s
 
 Get the application URL by running these commands:
 
-```
+```bash
 export SERVICE_IP=$(kubectl get svc --namespace default my-release-data-flow-server -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo http://$SERVICE_IP:80
 ```
@@ -202,7 +202,7 @@ If you run on Minikube, you can use the following command to get the URL for the
 
 <!--END_TIP-->
 
-```
+```bash
 minikube service --url my-release-data-flow-server
 ```
 
@@ -326,7 +326,7 @@ You can also control the default values to which to set the `cpu` and
 
 The following example shows how to set the CPU and memory for streams:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -344,7 +344,7 @@ data:
 
 The following example shows how to set the CPU and memory for tasks:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -414,7 +414,7 @@ deployer.<app>.kubernetes.livenessProbePeriod=20
 You can declare the same as part of the server global configuration for
 streams, as the following example shows:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -445,7 +445,7 @@ deployer.<app>.kubernetes.livenessProbePort=7000
 You can declare the same as part of the global configuration for
 streams, as the following example shows:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -506,7 +506,7 @@ To create a new secret:
     base64 string:
 
     ```bash
-    $ echo -n "user:pass" | base64
+    echo -n "user:pass" | base64
     dXNlcjpwYXNz
     ```
 
@@ -530,7 +530,7 @@ To create a new secret:
     shows:
 
     ```bash
-    $ kubectl create -f ./myprobesecret.yml
+    kubectl create -f ./myprobesecret.yml
     secret "myprobesecret" created
     ```
 
@@ -581,7 +581,7 @@ You can also configure the image pull secret at the global server level.
 
 The following example shows how to do so for streams:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -597,7 +597,7 @@ data:
 
 The following example shows how to do so for tasks:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -676,7 +676,7 @@ You can also configure the entry point style at the global server level.
 
 The following example shows how to do so for streams:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -692,7 +692,7 @@ data:
 
 The following example shows how to do so for tasks:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -735,8 +735,8 @@ through properties. You can use an existing service account or create a
 new one. One way to create a service account is by using `kubectl`, as
 the following example shows:
 
-```
-$ kubectl create serviceaccount myserviceaccountname
+```bash
+kubectl create serviceaccount myserviceaccountname
 serviceaccount "myserviceaccountname" created
 ```
 
@@ -754,7 +754,7 @@ level.
 
 The following example shows how to do so for streams:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -770,17 +770,19 @@ data:
 
 The following example shows how to do so for tasks:
 
-    data:
-      application.yaml: |-
-        spring:
-          cloud:
-            dataflow:
-              task:
-                platform:
-                  kubernetes:
-                    accounts:
-                      default:
-                        deploymentServiceAccountName: myserviceaccountname
+```yaml
+data:
+  application.yaml: |-
+    spring:
+      cloud:
+        dataflow:
+          task:
+            platform:
+              kubernetes:
+                accounts:
+                  default:
+                    deploymentServiceAccountName: myserviceaccountname
+```
 
 Replace `myserviceaccountname` with the service account name to be
 applied to all deployments.
@@ -811,7 +813,7 @@ You can configure an image pull policy at the global server level.
 
 The following example shows how to do so for streams:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
@@ -827,7 +829,7 @@ data:
 
 The following example shows how to do so for tasks:
 
-```
+```yaml
 data:
   application.yaml: |-
     spring:
