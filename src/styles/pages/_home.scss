@@ -88,7 +88,7 @@
       display: flex;
       max-width: 1400px;
       margin: 0 auto;
-      padding-top: $spring-8points;
+      padding-top: $spring-8points * 2;
       padding-bottom: $spring-8points * 6;
       .col {
         flex: 1;
