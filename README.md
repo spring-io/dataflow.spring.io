@@ -6,7 +6,7 @@
 
 ## Introduction
 
-This is the **Spring Cloud Data Flow Website**, located at [https://dataflow.spring.io](https://dataflow.spring.io).
+This project contains the Markdown files that get automatically generated as documentation and guides for the [Spring Cloud Data Flow Microsite](https://dataflow.spring.io/) site.
 
 ## Building
 
@@ -28,19 +28,29 @@ yarn build          # Run dev
 yarn serve          # Serve the prod build
 ```
 
-## Configure
+## Contributing
 
-### Algolia
+We welcome contributions!
+All documentation for this project is written using `Markdown`.
+An example segment from our [Stream Processing Getting Started Guide](https://dataflow.spring.io/docs/stream-developer-guides/getting-started/stream/) is shown below:
 
-```bash
-export ALGOLIA_ADMIN_KEY=<KEY>
+```markdown
+# Getting Started with Stream Processing
+
+Spring Cloud Data Flow provides over 70 prebuilt streaming applications that you can use right away to implement common streaming use cases.
+In this guide we will use two of these applications to construct a simple data pipeline that produces data sent from an external http request and consumes that data by logging the payload to the terminal.
+
+Instructions for registering these prebuilt applications with Data Flow are provided in the [Installation guide](%currentPath%/installation/).
 ```
 
-## Documentation
+## Q&A and issue tracking
 
-Features:
+If you have any feedback, additions, or changes to the documentation or guides, don't hesitate to [add an issue](https://github.com/spring-io/dataflow.spring.io/issues).
 
-- Versioning
-- Markdown syntax
-- Advanced markdown syntax: download external files, embed template/code/video, tabs component ...
-- Search on a documentation version
+## Code of Conduct
+
+This project is governed by the [Spring Code of Conduct](CODE_OF_CONDUCT.adoc). By participating, you are expected to uphold this code of conduct. Please report unacceptable behavior to spring-code-of-conduct@pivotal.io.
+
+## License
+
+The Spring Framework is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
