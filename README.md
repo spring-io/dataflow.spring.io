@@ -6,7 +6,7 @@
 
 ## Introduction
 
-This project contains the documentation and guides for the [dataflow.spring.io](https://dataflow.spring.io) site.
+This project contains the Markdown files that get automatically generated as documentation and guides for the [Spring Cloud Data Flow Microsite](https://dataflow.spring.io/) site.
 
 ## Building
 
@@ -30,11 +30,22 @@ yarn serve          # Serve the prod build
 
 ## Contributing
 
-We welcome contributions! Follow this [link](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-docs/src/main/asciidoc/appendix-contributing.adoc) for more information on how to contribute.
+We welcome contributions!
+All documentation for this project is written using `Markdown`.
+An example segment from our [Stream Processing Getting Started Guide](https://dataflow.spring.io/docs/stream-developer-guides/getting-started/stream/) is shown below:
+
+```markdown
+# Getting Started with Stream Processing
+
+Spring Cloud Data Flow provides over 70 prebuilt streaming applications that you can use right away to implement common streaming use cases.
+In this guide we will use two of these applications to construct a simple data pipeline that produces data sent from an external http request and consumes that data by logging the payload to the terminal.
+
+Instructions for registering these prebuilt applications with Data Flow are provided in the [Installation guide](%currentPath%/installation/).
+```
 
 ## Q&A and issue tracking
 
-If you have any feedback, or feature requests, don't hesitate to [add an issue](https://github.com/spring-io/dataflow.spring.io/issues).
+If you have any feedback, additions, or changes to the documentation or guides, don't hesitate to [add an issue](https://github.com/spring-io/dataflow.spring.io/issues).
 
 ## Code of Conduct
 
