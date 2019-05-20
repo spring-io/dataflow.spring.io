@@ -6,7 +6,7 @@
 
 ## Introduction
 
-This is the **Spring Cloud Data Flow Website**, located at [https://dataflow.spring.io](https://dataflow.spring.io).
+This project contains the documentation and guides for the [dataflow.spring.io](https://dataflow.spring.io) site.
 
 ## Building
 
@@ -28,19 +28,18 @@ yarn build          # Run dev
 yarn serve          # Serve the prod build
 ```
 
-## Configure
+## Contributing
 
-### Algolia
+We welcome contributions! Follow this [link](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-docs/src/main/asciidoc/appendix-contributing.adoc) for more information on how to contribute.
 
-```bash
-export ALGOLIA_ADMIN_KEY=<KEY>
-```
+## Q&A and issue tracking
 
-## Documentation
+If you have any feedback, or feature requests, don't hesitate to [add an issue](https://github.com/spring-io/dataflow.spring.io/issues).
 
-Features:
+## Code of Conduct
 
-- Versioning
-- Markdown syntax
-- Advanced markdown syntax: download external files, embed template/code/video, tabs component ...
-- Search on a documentation version
+This project is governed by the [Spring Code of Conduct](CODE_OF_CONDUCT.adoc). By participating, you are expected to uphold this code of conduct. Please report unacceptable behavior to spring-code-of-conduct@pivotal.io.
+
+## License
+
+The Spring Framework is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
