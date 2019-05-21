@@ -511,7 +511,7 @@ You can run the above applications as standalone applications on your `local` en
 To install and run `RabbitMQ` docker image:
 
 ```bash
-docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 rabbitmq:3.7.14-management
+docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.7.14-management
 ```
 
 Once installed, you can login to RabbitMQ management console on your local using on [http://localhost:15672](http://localhost:15672).

@@ -31,7 +31,7 @@ These instructions require that RabbitMQ be running on the same machine as Skipp
 To install and run RabbitMQ docker image:
 
 ```bash
-docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 rabbitmq:3.7.14-management
+docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.7.14-management
 ```
 
 ## Start server jars
