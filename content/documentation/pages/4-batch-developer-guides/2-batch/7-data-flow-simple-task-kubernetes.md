@@ -8,7 +8,7 @@ description: 'Guide to deploying spring-cloud-stream-task applications on Kubern
 
 This guide will walk through how to deploy and run a simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) application on Kubernetes using Spring Cloud Data Flow.
 
-We will deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task) application to Kubernetes.
+We will deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/batch/spring-task) application to Kubernetes.
 
 ## Setting up SCDF the Kubernetes cluster
 
