@@ -42,6 +42,7 @@ For the data transformation between the source and sink steps, we will highlight
 <!--Imperative-->
 
 ```java
+@EnableBinding(Processor.class)
 public class SimpleStreamSampleProcessor {
 
 	@StreamListener(Processor.INPUT)
@@ -55,7 +56,6 @@ public class SimpleStreamSampleProcessor {
 <!--Functional-->
 
 ```java
-@EnableBinding(Processor.class)
 public class FunctionStreamSampleProcessor {
 
 	@Bean
