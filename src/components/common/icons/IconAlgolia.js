@@ -10,7 +10,6 @@ export const IconAlgolia = () => (
     className='icon-algolia'
     data-icon='algolia'
     role='img'
-    xmlns='http://www.w3.org/2000/svg'
   >
     <g fill='none'>
       <path
