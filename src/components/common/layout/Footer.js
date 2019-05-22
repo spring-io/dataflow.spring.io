@@ -1,4 +1,3 @@
-import Helmet from 'react-helmet'
 import React from 'react'
 
 import Logo from './Logo'
@@ -6,12 +5,6 @@ import { IconGithub, IconGitter, IconStackOverflow } from '../icons'
 
 const Footer = () => (
   <footer className='footer'>
-    <Helmet>
-      <script
-        src='https://consent.trustarc.com/notice?domain=pivotal.com&c=teconsent&js=nj&text=true&pcookie&gtm=1'
-        async='async'
-      />
-    </Helmet>
     <div className='container'>
       <div className='colset'>
         <div className='col col-copyright'>
