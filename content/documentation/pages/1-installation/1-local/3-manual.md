@@ -13,15 +13,15 @@ If Docker does not suit your needs, you can manually install the parts you need 
 1.  Download the Spring Cloud Data Flow Server and shell by using the following commands:
 
     ```bash
-    wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
-    wget https://repo.spring.io/%dataflow-version%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
     ```
 
 2.  Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the
     following commands:
 
     ```bash
-    wget https://repo.spring.io/%skipper-version%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
     ```
 
 ## Install messaging middleware
