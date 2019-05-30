@@ -1,0 +1,347 @@
+// Endpoint Medium
+
+@media (max-width: 1100px) {
+  .layout-sidebars {
+    .sidebar-toc {
+      display: none;
+    }
+    .sidebar {
+      width: 30%;
+    }
+    .main {
+      width: 70%;
+      .main-content {
+        padding: 8px;
+        padding-left: 32px;
+      }
+    }
+  }
+
+  div.logo-dataflow {
+    height: auto;
+    line-height: 26px;
+    width: 50px;
+    height: 42px;
+    margin: 0;
+    display: block;
+    float: left;
+    a {
+      display: block;
+      text-align: center;
+      padding: 0;
+      padding-top: 45px;
+      svg {
+        top: -2px;
+        left: 50%;
+        margin-left: -25px;
+      }
+      span {
+        display: none;
+      }
+      strong {
+        display: block;
+      }
+    }
+  }
+
+  .page-doc {
+    .page-title {
+      padding-bottom: $spring-8points * 2;
+      h1 {
+        margin-bottom: $spring-8points;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: $spring-8points;
+      }
+    }
+    .layout-col {
+      display: block;
+      padding: 0;
+      .left,
+      .links {
+        flex: none;
+        display: block;
+        padding: 0;
+        border: 0 none;
+      }
+      .col {
+        .item:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  .home-page main {
+    .band {
+      .image {
+        width: 50%;
+        top: 0;
+      }
+      .text {
+        padding-right: 50%;
+      }
+    }
+  }
+
+  .page-community {
+    .box {
+      width: auto;
+    }
+    .zenhub {
+      min-height: 0;
+      .zenhub-content {
+        padding: 0;
+        padding-top: 80px;
+        text-align: center;
+        .image {
+          top: 0;
+          right: auto;
+          left: 50%;
+          width: 50px;
+          margin-left: -25px;
+          .gatsby-image-wrapper {
+            display: none;
+          }
+          .icon-zenhub {
+            position: relative;
+            top: auto;
+            left: auto;
+            right: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Endpoint Small
+
+@media (max-width: 800px) {
+  body {
+    min-width: 0;
+  }
+  .home-page {
+    .header {
+      border-bottom: 1px solid lighten($spring-border-color, 10);
+    }
+  }
+
+  .header {
+    padding: $spring-8points 0;
+    height: auto;
+    border-bottom: 1px solid lighten($spring-border-color, 10);
+    .navigation {
+      display: none;
+    }
+  }
+
+  div.logo-dataflow {
+    float: none;
+  }
+
+  // Home page
+
+  .home-page {
+    main {
+      .colset {
+        display: block;
+        margin: 0;
+        padding: 0;
+        max-width: none;
+        .col {
+          flex: none;
+          margin: 0;
+          margin: $spring-8points 0;
+          a {
+            padding: 30px 10px;
+          }
+        }
+      }
+      .band {
+        .band-content {
+          height: auto;
+          max-width: none;
+          margin: 0;
+          .text {
+            position: relative;
+            top: auto;
+            margin: 0;
+            padding: 0;
+            transform: none;
+            p.description {
+              font-size: 16px;
+            }
+            .button {
+              display: block;
+              margin-bottom: $spring-8points;
+            }
+          }
+          .image {
+            position: relative;
+            max-width: 100%;
+            width: 100%;
+            top: 0;
+            left: auto;
+            margin: 0;
+            padding-top: 10px;
+            .gatsby-image-wrapper {
+              max-width: 100%;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .page-features {
+    .page-title h1 {
+      margin: 0;
+      padding: 0;
+      padding-bottom: 0;
+    }
+    .colset {
+      display: block;
+      .col {
+        flex: none;
+        padding: 0;
+        article {
+          padding: $spring-8points 0;
+        }
+      }
+    }
+  }
+
+  .container {
+    max-width: auto;
+    min-width: auto;
+    padding: 0 $spring-8points * 2;
+  }
+
+  .page-getting-started {
+    .layout-sidebars {
+      .sidebar {
+        display: none;
+      }
+      .main {
+        float: none;
+        width: 100%;
+
+        .main-content {
+          padding: 0;
+        }
+      }
+    }
+    ul.block-links li {
+      display: block;
+      padding: $spring-8points 0;
+      a {
+        display: block;
+        width: auto;
+      }
+    }
+  }
+
+  .page-community {
+    .page-colset {
+      display: block;
+      article {
+        flex: none;
+        margin: $spring-8points 0;
+      }
+    }
+    .box {
+      width: auto;
+    }
+  }
+
+  .layout-sidebars {
+    .sidebar,
+    .sidebar-toc {
+      display: none;
+    }
+    .main {
+      width: 100%;
+      padding: 0;
+      .main-content {
+        padding: 8px;
+      }
+    }
+  }
+
+  .md,
+  body {
+    h1 {
+      font-size: 26px;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    h4 {
+      font-size: 18px;
+    }
+
+    h5 {
+      font-size: 16px;
+    }
+  }
+
+  .page-doc {
+    .page-title {
+      padding-bottom: $spring-8points * 2;
+      h1 {
+        margin-bottom: $spring-8points;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: $spring-8points;
+      }
+    }
+    .layout-col {
+      display: block;
+      padding: 0;
+      .left,
+      .links,
+      .links .col {
+        flex: none;
+        display: block;
+        padding: 0;
+        border: 0 none;
+      }
+      .links .col {
+        .item-empty {
+          display: none;
+        }
+        .item {
+          margin: $spring-8points 0;
+        }
+        a.item {
+          padding: $spring-8points * 2 $spring-8points * 3;
+          div,
+          span,
+          h2 {
+            position: relative;
+            padding: 0;
+            top: auto;
+            margin: 0;
+            text-align: left;
+            bottom: auto;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .mb-menu {
+    display: block;
+  }
+}

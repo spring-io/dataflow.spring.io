@@ -1,9 +1,13 @@
 import React from 'react'
 
-const Logo = ({ className }) => {
+const Logo = () => {
   return (
     <svg
-      className={className}
+      aria-hidden='true'
+      focusable='false'
+      data-icon='spring'
+      role='img'
+      className='icon-spring'
       viewBox='0 0 400 400'
       xmlns='http://www.w3.org/2000/svg'
     >
