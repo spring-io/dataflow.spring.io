@@ -254,7 +254,7 @@ The command to import the Kafka version of the applications is
 dataflow:>app import --uri https://dataflow.spring.io/kafka-docker-latest
 ```
 
-Change `kafka` to `rabbit` in the above URL if you set `kafka.endabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
+Change `kafka` to `rabbitmq` in the above URL if you set `kafka.endabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
 
 <!--TIP-->
 
