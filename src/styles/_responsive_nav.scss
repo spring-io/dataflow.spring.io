@@ -1,0 +1,88 @@
+.bm-burger-button {
+  display: none;
+}
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+  display: none;
+}
+
+.bm-menu-wrap {
+  /* General sidebar styles */
+  .bm-menu {
+    background: $spring-gray-color;
+    //padding: 1rem;
+    font-size: 1.15em;
+    border-top: 4px solid $spring-primary-color;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+
+    a {
+      outline: none;
+    }
+
+    .navigation {
+      padding: 0;
+      margin: 0;
+      display: block;
+      font-size: $spring-font-size;
+      a {
+        display: block;
+        padding: 0.8rem 1rem;
+        border-top: 1px solid lighten($spring-border-color, 10);
+        &:hover {
+          background: white;
+        }
+
+        &.active {
+          border-right: 4px solid $spring-primary-color;
+          background: white;
+        }
+      }
+    }
+  }
+  div.logo-dataflow {
+    height: auto;
+    outline: none;
+    a {
+      display: block;
+      text-align: center;
+      padding: 1rem 0 0.4rem;
+      height: auto;
+      line-height: 20px;
+      outline: none;
+      svg {
+        position: relative;
+      }
+    }
+  }
+}
+
+.bm-overlay {
+  background: rgba(#fff, 0.7) !important;
+}
+
+.mb-menu {
+  position: absolute;
+  right: 20px;
+  top: 2px;
+
+  button {
+    border: 0 none;
+    background: transparent;
+    padding: $spring-8points $spring-8points * 1.5;
+    margin: 0;
+    line-height: 22px;
+    cursor: pointer;
+    outline: none;
+    color: $spring-color;
+    svg {
+      padding: 0;
+      margin: 0;
+      display: block;
+    }
+    &:hover {
+      color: $spring-primary-color;
+    }
+  }
+}

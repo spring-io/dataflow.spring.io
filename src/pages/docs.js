@@ -108,7 +108,7 @@ class DocsPage extends React.Component {
                         </article>
                       </Link>
                     ) : (
-                      <div className='item' key={`i8${index2}`} />
+                      <div className='item item-empty' key={`i8${index2}`} />
                     )
                   })}
                 </div>

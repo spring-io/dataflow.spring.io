@@ -13,6 +13,9 @@ const IndexPage = () => (
     <div className='band'>
       <div className='container'>
         <div className='band-content'>
+          <div className='image'>
+            <Image />
+          </div>
           <div className='text'>
             <p className='description'>
               Microservice based <strong>Streaming</strong> and{' '}
@@ -64,9 +67,6 @@ const IndexPage = () => (
                 View on Github
               </a>
             </p>
-          </div>
-          <div className='image'>
-            <Image />
           </div>
         </div>
       </div>

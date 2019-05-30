@@ -27,4 +27,55 @@
     width: 457px;
     margin: 36px auto;
   }
+
+  div.logo-dataflow {
+    padding: 0;
+    display: block;
+    font-weight: normal;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    margin: 0 auto;
+    text-align: center;
+    width: 250px;
+
+    line-height: 40px;
+    position: relative;
+    float: none;
+    height: auto;
+
+    a {
+      display: block;
+      position: relative;
+      color: lighten($spring-color, 10);
+      font-family: $spring-font-family-special;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 400;
+      padding: 0;
+      width: auto;
+      height: auto;
+      padding-top: 34px;
+      strong {
+        font-weight: 600;
+        color: $spring-color;
+        display: inline-block;
+      }
+      svg {
+        width: 52px;
+        position: absolute;
+        top: -2px;
+        left: 50%;
+        margin: 0;
+        margin-left: -25px;
+        width: 50px;
+        color: $spring-primary-color;
+      }
+      &:hover {
+        strong,
+        svg {
+          color: darken($spring-primary-color, 3);
+        }
+      }
+    }
+  }
 }

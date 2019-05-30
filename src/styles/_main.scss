@@ -14,7 +14,6 @@ body {
   position: relative;
   cursor: auto;
   line-height: 1.6em;
-  border-top: 4px solid $spring-primary-color;
   height: 100%;
   background-color: $spring-background;
   min-width: 800px;
@@ -47,6 +46,10 @@ h5 {
   line-height: $spring-8points * 4;
   border-bottom: 1px solid darken($spring-gray-color, 5);
   height: $spring-8points * 5;
+  border-top: 4px solid $spring-primary-color;
+  .container {
+    position: relative;
+  }
 }
 
 div.logo-dataflow {
@@ -72,7 +75,6 @@ div.logo-dataflow {
     strong {
       font-weight: 600;
       color: $spring-color;
-      @include transition(all $spring-transition-duration);
     }
     svg {
       width: 52px;
@@ -81,7 +83,6 @@ div.logo-dataflow {
       left: 0;
       width: 50px;
       color: $spring-primary-color;
-      @include transition(all $spring-transition-duration);
     }
     &:hover {
       strong,
@@ -778,4 +779,8 @@ button.button {
       color: $spring-primary-color;
     }
   }
+}
+
+.mb-menu {
+  display: none;
 }
