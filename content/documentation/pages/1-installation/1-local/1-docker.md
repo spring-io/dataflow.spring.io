@@ -17,12 +17,12 @@ Alternatively, you can follow the [manual installation steps](%currentPath%/inst
 Download the Spring Cloud Data Flow Server Docker Compose file:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%dataflow-version%/spring-cloud-dataflow-server/docker-compose.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose.yml
 ```
 
 <!--NOTE-->
 
-If wget is unavailable, you can use curl or another platform-specific utility. [Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%dataflow-version%/spring-cloud-dataflow-server/docker-compose.yml) to download the docker-compose.yml file.
+If wget is unavailable, you can use curl or another platform-specific utility. [Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose.yml) to download the docker-compose.yml file.
 
 <!--END_NOTE-->
 
