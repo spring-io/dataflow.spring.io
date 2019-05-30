@@ -13,6 +13,11 @@
  */
 
 const algoliasearch = require(`algoliasearch`)
+
+if (process.env.ALGOLIA_ADMIN_KEY_PASSWORD) {
+  process.env.ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY_PASSWORD
+}
+
 const client = algoliasearch(
   process.env.GATSBY_ALGOLIA_APP_ID,
   process.env.ALGOLIA_ADMIN_KEY

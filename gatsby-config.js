@@ -173,6 +173,10 @@ const plugins = [
   },
 ]
 
+if (process.env.ALGOLIA_ADMIN_KEY_PASSWORD) {
+  process.env.ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY_PASSWORD
+}
+
 if (process.env.ALGOLIA_ADMIN_KEY) {
   plugins.push({
     resolve: `gatsby-plugin-algolia`,
