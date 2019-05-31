@@ -110,12 +110,14 @@ All the prebuilt streaming applications:
 Applications can be registered individually using the `app register` command or in bulk using the `app import` command.
 There are also bulk-registration links that represent the group of prebuilt applications for a specific release which is useful for getting started.
 
-You can register applications using the UI or the shell.
+You can register stream and task applications using the UI or the shell.
 
-Depending on if you are using RabbitMQ or Kafka, register the applications using the respective URLs.
+For streams, depending on if you are using Kafka or RabbitMQ, register the applications using the respective URLs.
 
 - Kafka - https://dataflow.spring.io/kafka-maven-latest
 - RabbitMQ - https://dataflow.spring.io/rabbitmq-maven-latest
+
+For tasks: https://dataflow.spring.io/task-maven-latest
 
 From the Data Flow Shell, you can bulk import and register the applications. For example:
 
