@@ -1,7 +1,7 @@
 #!/bin/bash
 
-rm -Rf cloud-foundry/public
-cp -r public cloud-foundry/public
+./prepare-cf-push.sh
+
 cf push
 cf map-route dataflow-website-staging spring.io --hostname dataflow
 cf map-route dataflow-website-staging cfapps.io --hostname dataflow

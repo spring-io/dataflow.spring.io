@@ -1,0 +1,9 @@
+---
+applications:
+  - name: dataflow-website-preview
+    routes:
+      - route: dataflow-preview.cfapps.io
+    memory: 1G
+    disk_quota: 1G
+    instances: 1
+    path: ./cloud-foundry
