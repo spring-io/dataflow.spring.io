@@ -224,7 +224,7 @@ You should see dashboards similar to these.
 
 Prometheus is a popular pull based time series database that pulls metrics from the target applications from a pre-configured endpoint. When running in Kubernetes, Prometheus will "scrape" metrics from target applications that have specific pod level annotation. The endpoint to scrape is provided by Spring Boot, under the default path of `/actuator/prometheus`.
 
-Out of the box, each binder middleware configuration file defines attributes to enable metrics and supporting properties. Settings for RabbitMQ can be found in: `src/kubernetes/server/server-config-rabbit.yaml` and `src/kubernetes/server/server-config-kafka.yaml` for Kafka. The main point of interest is the following configuration section:
+Out of the box, each binder middleware configuration file defines attributes to enable metrics and supporting properties. Settings can be found in: `src/kubernetes/server/server-config.yaml`. The main point of interest is the following configuration section:
 
 ```yaml
 applicationProperties:

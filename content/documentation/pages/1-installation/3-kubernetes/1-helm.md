@@ -291,7 +291,7 @@ override global server level properties on a per-application basis.
 <!--END_TIP-->
 
 Properties to be applied for all deployed Tasks are defined in the
-`src/kubernetes/server/server-config-(binder).yaml` file and for Streams
+`src/kubernetes/server/server-config.yaml` file and for Streams
 in `src/kubernetes/skipper/skipper-config-(binder).yaml`. Replace
 `(binder)` with the messaging middleware you are using — for example,
 `rabbit` or `kafka`.

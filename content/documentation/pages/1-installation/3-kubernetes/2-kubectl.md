@@ -147,7 +147,7 @@ afterwards.
 
 <!--TIP-->
 
-You should replace the `url` attribute value shown in the following example in `src/kubernetes/server/server-config-rabbit.yaml` or `src/kubernetes/server/server-config-kafka.yaml` to reflect the address and port Grafana is running on.
+You should replace the `url` attribute value shown in the following example in `src/kubernetes/server/server-config.yaml` to reflect the address and port Grafana is running on.
 On Minikube, you can obtain the value by running the command `minikube service --url grafana`.
 This configuration is needed for Grafana links to be accessible when accessing the dashboard from a web browser.
 
@@ -164,8 +164,7 @@ a password of `password`. You can change these defaults by modifying the
 
 In the event that you would not like to deploy metrics collection by
 using Prometheus and Grafana, you should remove the following section of
-`src/kubernetes/server/server-config-rabbit.yaml` or
-`src/kubernetes/server/server-config-kafka.yaml`. You can edit the
+`src/kubernetes/server/server-config.yaml`. You can edit the
 appropriate file based on the messaging middleware deployed earlier:
 
 ```yml
@@ -307,29 +306,14 @@ the [Spring Cloud Kubernetes library](https://github.com/spring-cloud/spring-clo
 [`ConfigMap`](https://kubernetes.io/docs/user-guide/configmap/) and
 [`Secrets`](https://kubernetes.io/docs/user-guide/secrets/) settings.
 
-The `ConfigMap` settings for RabbitMQ are specified in the `src/kubernetes/server/server-config-rabbit.yaml` file and for Kafka in
-the `src/kubernetes/server/server-config-kafka.yaml` file.
+The `ConfigMap` settings for RabbitMQ are specified in the `src/kubernetes/skipper/skipper-config-rabbit.yaml` file and for Kafka in
+the `src/kubernetes/skipper/skipper-config-kafka.yaml` file.
 
 MySQL secrets are located in the `src/kubernetes/mysql/mysql-secrets.yaml` file.
 If you modified the password for MySQL, you should change it in the `src/kubernetes/mysql/mysql-secrets.yaml` file.
 Any secrets have to be provided in base64 encoding.
 
-<!--NOTE-->
-
-We configure the Data Flow server using file-based security. The default user is _user_ with a password of _password_.
-
-You should change these values in `src/kubernetes/server/server-config-rabbit.yaml` for RabbitMQ or `src/kubernetes/server/server-config-kafka.yaml` for Kafka.
-
-<!--END_NOTE-->
-
-To create the configuration map when using RabbitMQ, run the following
-command:
-
-```
-kubectl create -f src/kubernetes/server/server-config-rabbit.yaml
-```
-
-To create the configuration map when using Kafka, run the following
+To create the configuration map with the default settings, run the following
 command:
 
 ```
