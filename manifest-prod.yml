@@ -1,0 +1,10 @@
+---
+applications:
+  - name: dataflow-website
+    routes:
+      - route: dataflow.cfapps.io
+      - route: dataflow.spring.io
+    memory: 1G
+    disk_quota: 1G
+    instances: 1
+    path: ./cloud-foundry
