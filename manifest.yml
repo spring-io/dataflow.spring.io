@@ -1,9 +1,8 @@
 ---
 applications:
-  - name: dataflow-website
+  - name: dataflow-website-staging
     routes:
-      - route: dataflow.cfapps.io
-      - route: dataflow.spring.io
+      - route: dataflow-staging.cfapps.io
     memory: 1G
     disk_quota: 1G
     instances: 1
