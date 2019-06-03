@@ -5,7 +5,6 @@ import get from 'lodash.get'
 import { Sticky, StickyContainer } from 'react-sticky'
 import { graphql } from 'gatsby'
 
-import versions from './../../content/versions.json'
 import {
   Breadcrumb,
   Layout,
@@ -24,7 +23,6 @@ import {
   getPrevNext,
   getSummaryType,
   getTree,
-  getVersions,
 } from '../components/documentation'
 
 class DocumentationTemplate extends React.Component {
@@ -59,9 +57,7 @@ class DocumentationTemplate extends React.Component {
     if (summary) {
       summaryType = getSummaryType(pages, page)
     }
-
-    const optionVersions = getVersions(versions)
-
+    const optionVersions = this.props.data.site.siteMetadata.versions
     return (
       <Layout>
         <Seo
@@ -173,6 +169,16 @@ DocumentationTemplate.propTypes = {
 
 export const articleQuery = graphql`
   query($slug: String, $version: String) {
+    site: site {
+      siteMetadata {
+        versions {
+          key
+          title
+          path
+          current
+        }
+      }
+    }
     pages: allMarkdownRemark(
       filter: {
         fields: {
@@ -213,6 +219,7 @@ export const articleQuery = graphql`
         path
         version
         category
+        currentVersion
       }
       frontmatter {
         title

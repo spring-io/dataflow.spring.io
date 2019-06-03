@@ -7,7 +7,9 @@ const versions = require('./content/versions.json')
 
 const currentVersion = versions.current
 
-const isDev = process.env.NODE_ENV === 'development'
+const isDev =
+  get(process, 'env.NODE_ENV', '') === 'development' ||
+  get(process, 'env.FORCE_NEXT', false)
 
 /**
  * Create Pages
@@ -81,11 +83,10 @@ exports.createPages = ({ graphql, actions }) => {
             if (get(node, 'fields.version') === 'next') {
               return
             }
-            if (get(node, 'fields.exclude') === true) {
-              return
-            }
           }
-          //checkstyles(node)
+          if (get(node, 'fields.exclude') === true) {
+            return
+          }
           createPage({
             path: get(node, 'fields.path'),
             component: DocumentationTemplate,
@@ -132,6 +133,11 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
           url = `/docs/${frontmatterPath}`
         }
 
+        createNodeField({
+          node,
+          name: `currentVersion`,
+          value: version === currentVersion,
+        })
         createNodeField({
           node,
           name: `hash`,

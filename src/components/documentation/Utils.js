@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types'
 import get from 'lodash.get'
 import path from 'path'
-const versions = require('../../../content/versions.json')
-const currentVersion = versions.current
-
-const isDev = process.env.NODE_ENV === 'development'
 
 /**
  * Create a formatted node object
@@ -60,7 +56,7 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     url = path.join(path.dirname(url), '/')
   }
 
-  if (get(page, 'fields.version') === currentVersion) {
+  if (get(page, 'fields.currentVersion', false)) {
     result.push({
       title: `${get(page, 'fields.version')} (current)`,
       path: `/docs/`,
@@ -337,30 +333,4 @@ getMeta.proptypes = {
       title: PropTypes.string.isRequired,
     }).isRequired,
   }),
-}
-
-/**
- * Enrich version object
- * Object to array
- */
-export const getVersions = function getVersions(arr) {
-  return Object.entries(arr)
-    .map(([key, value]) => {
-      if (!(!isDev && key === 'next')) {
-        let title = key === 'current' ? `${value} (current)` : value
-        title = title === 'next' ? `${value} (dev)` : title
-        const path = key === 'current' ? `/docs/` : `/docs/${value}`
-        return {
-          key: value,
-          title: title,
-          path: path,
-        }
-      }
-      return null
-    })
-    .filter(a => !!a)
-}
-
-getVersions.proptypes = {
-  arr: PropTypes.arrayOf(PropTypes.object).isRequired,
 }

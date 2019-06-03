@@ -1,5 +1,27 @@
 const queries = require(`./utils/algolia-queries`)
 const versions = require('./content/versions.json')
+const get = require('lodash.get')
+
+const isDev =
+  get(process, 'env.NODE_ENV', '') === 'development' ||
+  get(process, 'env.FORCE_NEXT', false)
+
+const arrVersion = Object.entries(versions)
+  .map(([name, version]) => {
+    if (name === 'next' && !isDev) {
+      return null
+    }
+    let title = name === 'current' ? `${version} (current)` : name
+    title = title === 'next' ? `${name} (dev)` : title
+    const path = name === 'current' ? `/docs/` : `/docs/${name}`
+    return {
+      key: version,
+      current: name === 'current',
+      title: title,
+      path: path,
+    }
+  })
+  .filter(version => !!version)
 
 const siteMetadata = {
   title: `Spring Cloud Data Flow`,
@@ -10,6 +32,7 @@ const siteMetadata = {
   twitter: `@springcloud`,
   image: `https://dataflow.spring.io/images/card.jpg`,
   keywords: [`spring`, `cloud`, `dataflow`],
+  versions: arrVersion,
 }
 
 const arrVars = Object.entries(versions).map(([name, version]) => {

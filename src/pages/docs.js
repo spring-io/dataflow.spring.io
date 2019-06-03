@@ -2,16 +2,15 @@ import React from 'react'
 import get from 'lodash.get'
 import { Link, graphql } from 'gatsby'
 
-import versions from './../../content/versions.json'
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
-import { VersionSelect, getVersions } from '../components/documentation'
+import { VersionSelect } from '../components/documentation'
 
 class DocsPage extends React.Component {
   render() {
     const edges = this.props.data.pages
-    const optionVersions = getVersions(versions)
-
+    const optionVersions = this.props.data.site.siteMetadata.versions
+    const current = optionVersions.find(version => !!version.current).key
     const pages = [
       [
         {
@@ -78,10 +77,7 @@ class DocsPage extends React.Component {
                 </p>
 
                 {optionVersions.length > 1 && (
-                  <VersionSelect
-                    versions={optionVersions}
-                    version={versions.current}
-                  />
+                  <VersionSelect versions={optionVersions} version={current} />
                 )}
               </div>
             </div>
@@ -123,12 +119,22 @@ class DocsPage extends React.Component {
 
 export const articleQuery = graphql`
   query {
+    site: site {
+      siteMetadata {
+        versions {
+          key
+          title
+          path
+          current
+        }
+      }
+    }
     pages: allMarkdownRemark(
       filter: {
         fields: {
           hash: { eq: "documentation" }
           root: { eq: true }
-          version: { eq: "master" }
+          currentVersion: { eq: true }
           exclude: { ne: true }
         }
       }

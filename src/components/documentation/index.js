@@ -7,5 +7,4 @@ export {
   getBreadcrumb,
   getMeta,
   getSummaryType,
-  getVersions,
 } from './Utils'

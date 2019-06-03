@@ -5,13 +5,11 @@ import get from 'lodash.get'
 import { Sticky, StickyContainer } from 'react-sticky'
 import { graphql } from 'gatsby'
 
-import versions from './../../content/versions.json'
 import { Layout, Seo, SidebarNav } from '../components/common'
 import {
   SummaryTile,
   VersionSelect,
   getTree,
-  getVersions,
 } from '../components/documentation'
 
 class DocumentationVersion extends React.Component {
@@ -23,7 +21,7 @@ class DocumentationVersion extends React.Component {
     }
     const tree = getTree(pages)
     const summary = getTree(pages, options.path)
-    const optionVersions = getVersions(versions)
+    const optionVersions = this.props.data.site.siteMetadata.versions
     return (
       <Layout>
         <Seo title={`Documentation ${this.props.data.page.context.version}`} />
@@ -82,6 +80,16 @@ DocumentationVersion.propTypes = {
 
 export const articleQuery = graphql`
   query($versionPath: String, $version: String) {
+    site: site {
+      siteMetadata {
+        versions {
+          key
+          title
+          path
+          current
+        }
+      }
+    }
     page: sitePage(context: { versionPath: { eq: $versionPath } }) {
       id
       path
