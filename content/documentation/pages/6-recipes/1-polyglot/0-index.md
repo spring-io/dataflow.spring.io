@@ -20,4 +20,4 @@ To demonstrate this functionality, we will create three types of Python applicat
 - The second application will be deployed by Data Flow as a Task.
 - The third application will be deployed by Data Flow as an `applications` in a Stream. This is different than deploying a `source`, `processor` or `sink` since Data Flow will not set environment variables that wire up the producers and consumers.
   Instead you must set those environment variables yourself as deployment properties.
-  It uses the [kafka-python](https://github.com/dpkp/kafka-python) to consume from the `orders` topic and publishes to either a `coldDrink` or `hotDrink` topic.
+  The recipe implements the [Dynamic Router](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DynamicRouter.html) integration pattern to dispatch `input` stream of timestamps to either `even` or `odd` downstream channels.
