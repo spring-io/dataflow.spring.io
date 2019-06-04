@@ -128,22 +128,13 @@ Leave the command empty (e.g. `[]`) and set the entry point explicitly.
   app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
   ```
 
-* Create task instance and launch it:
-
-  ```bash
-  app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
-  task create --name python-task --definition "python-task-with-status"
-  task launch --name python-task
-  ```
-
 ## Deployment
 
 Follow the [installation instructions](%currentPath%/installation/kubernetes/) to set up Data Flow on Kubernetes.
 
-Register and launch a python script as Data Flow Task:
+Create and launch the python script as a Data Flow Task:
 
 ```bash
-app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
 task create --name python-task --definition "python-task-with-status"
 task launch --name python-task
 ```
@@ -155,7 +146,7 @@ Use the Data Flow UI/task or shell (task list) to monitor the status of the pyth
 
 <!--END_TIP-->
 
-On successful task launch you should see the following report in your Data Flow Task UI:
+On successful task launch, you should see the following report in your Data Flow Task UI:
 
 ![Successful Python Tasks](images/successful-python-task-execution.png)
 
@@ -165,7 +156,7 @@ If the `python-task` is launched again, this time with the `--error.message=MyTe
 task launch --name python-task --arguments "--error.message=MyTestError"
 ```
 
-then the second task execution (e. g. #2) fails as shown in the Data Flow Task UI:
+The second task execution (e. g. #2) fails as shown in the Data Flow Task UI:
 
 ![Python Tasks Failure](images/python-task-failure.png)
 

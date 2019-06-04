@@ -6,12 +6,12 @@ description: 'Python Application as a Data Flow Stream Processor'
 
 # Python Stream Processor
 
-The example code illustrates how to run a Python script, in the role of a processor within an Data Flow Stream.
+The example code illustrates how to run a Python script, as a processor within an Data Flow Stream.
 
-In this guide we will package the Python script as a Docker image and deploy to Kubernetes. Apache Kafka will be used as the messaging middleware. One could also deploy to the `Local` platform.
+In this guide, we will package the Python script as a Docker image and deploy to Kubernetes. Apache Kafka will be used as the messaging middleware.
 The docker image will be registered in Data Flow as an application of the type `Processor`.
 
-The recipe creates a text processing, Stream pipeline, that receives text messages over HTTP, delegates the text processing to a Python script registered as Data Flow processor and prints the output in a log. The Python script reverses the input text is the `reverestring` command line argument is set to true or pass the message unchanged otherwise.
+The guide demonstrates a text processing streaming data pipeline. It receives text-messages over HTTP, delegates the text processing to a Python script registered as Data Flow processor, and the result is printed to the logs. The Python script reverses the input text if the `reversestring` property is set to true; otherwise, the resulting message remains unchanged.
 
 The following diagram shows the text-reversing processing pipeline.
 
@@ -24,7 +24,7 @@ The source code can be found in the samples GitHub [repository](https://github.c
 The processor uses the [kafka-python](https://github.com/dpkp/kafka-python) library to create consumer and producer connections.
 
 The main loop of execution resides in [python_processor.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-processor/python_processor.py).
-For each message received on the inbound kafka topic, send to the output kafka topic as-is, or if `--reverestring=true` is passed to the processor as part of the stream definition, reverse the string then send to the output.
+For each message received on the inbound kafka topic, send to the output kafka topic as-is, or if `--reversestring=true` is passed to the processor as part of the stream definition, reverse the string then send to the output.
 
 ```python
 #!/usr/bin/env python
@@ -115,7 +115,7 @@ Import the SCDF app starters and register the `polyglot-python-processor` as `py
 
 ```bash
 app import --uri https://dataflow.spring.io/kafka-docker-latest
-app register --type processor --name python-processor --uri springcloud/polyglot-python-processor:0.1
+app register --type processor --name python-processor --uri docker://springcloud/polyglot-python-processor:0.1
 ```
 
 The `docker://springcloud/polyglot-python-processor:0.1` is resolved from the [DockerHub repository](https://hub.docker.com/r/springcloud/polyglot-python-processor).
@@ -134,13 +134,20 @@ Deploy the stream using the `kubernetes.createNodePort` property to expose the H
 stream deploy text-reversal --properties "deployer.http.kubernetes.createNodePort=32123"
 ```
 
-Post a message
+Retrieve the http-source url from minikube to publish the test data :
+
+```bash
+minikube service --url text-reversal-http-v1
+http://192.168.99.104:32123
+```
+
+Post a sample message against the http-source application.
 
 ```
 http post --target http://192.168.99.104:32123 --data "hello world"
 ```
 
-If post is successful you should see a conformation message like this:
+If post is successful you should see a confirmation message like this:
 
 ```
 > POST (text/plain) http://192.168.99.104:32123 hello world
