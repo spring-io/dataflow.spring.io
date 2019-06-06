@@ -163,6 +163,198 @@ task launch myTaskDefinition "--server.port=8080"
 
 <!--END_QUESTION-->
 
+<!--QUESTION-->
+
+How to configure remote Maven repositories?
+
+You can set the maven properties such as local maven repository location, remote maven repositories, authentication credentials, and proxy server properties through command line properties when starting the Data Flow server.
+Alternatively, you can set the properties using `SPRING_APPLICATION_JSON` environment property for the Data Flow server.
+
+The remote maven repositories need to be configured explicitly if the apps are resolved using maven repository, except for a `local` Data Flow server.
+The other Data Flow server implementations (that use maven resources for app artifacts resolution) have no default value for remote repositories.
+The `local` server has `https://repo.spring.io/libs-snapshot` as the default remote repository.
+
+To pass the properties as commandline options, run the server with a command similar to the following:
+
+```bash
+java -jar <dataflow-server>.jar --maven.localRepository=mylocal
+--maven.remote-repositories.repo1.url=https://repo1
+--maven.remote-repositories.repo1.auth.username=repo1user
+--maven.remote-repositories.repo1.auth.password=repo1pass
+--maven.remote-repositories.repo2.url=https://repo2 --maven.proxy.host=proxyhost
+--maven.proxy.port=9018 --maven.proxy.auth.username=proxyuser
+--maven.proxy.auth.password=proxypass
+```
+
+You can also use the `SPRING_APPLICATION_JSON` environment property:
+
+```bash
+export SPRING_APPLICATION_JSON='{ "maven": { "local-repository": "local","remote-repositories": { "repo1": { "url": "https://repo1", "auth": { "username": "repo1user", "password": "repo1pass" } },
+"repo2": { "url": "https://repo2" } }, "proxy": { "host": "proxyhost", "port": 9018, "auth": { "username": "proxyuser", "password": "proxypass" } } } }'
+```
+
+Here is the same content in nicely formatted JSON:
+
+```yaml
+SPRING_APPLICATION_JSON='{
+  "maven": {
+    "local-repository": "local",
+    "remote-repositories": {
+      "repo1": {
+        "url": "https://repo1",
+        "auth": {
+          "username": "repo1user",
+          "password": "repo1pass"
+        }
+      },
+      "repo2": {
+        "url": "https://repo2"
+      }
+    },
+    "proxy": {
+      "host": "proxyhost",
+      "port": 9018,
+      "auth": {
+        "username": "proxyuser",
+        "password": "proxypass"
+      }
+    }
+  }
+}'
+```
+
+[[note]]
+| Depending on the Spring Cloud Data Flow server implementation, you may have to pass the environment properties by using the platform specific environment-setting capabilities. For instance, in Cloud Foundry,
+| you would pass them as `cf set-env SPRING_APPLICATION_JSON`.
+
+<!--END_QUESTION-->
+
+<!--QUESTION-->
+
+How do I enable DEBUG logs for platform deployments?
+
+Spring Cloud Data Flow builds upon [Spring Cloud Deployer](https://github.com/spring-cloud/spring-cloud-deployer) SPI, and the platform-specific dataflow server uses the respective [SPI implementations](https://github.com/spring-cloud?utf8=%E2%9C%93&q=spring-cloud-deployer).
+Specifically, if we were to troubleshoot deployment specific issues, such as network errors, it would be useful to enable the DEBUG logs at the underlying deployer and the libraries used by it.
+
+To enable DEBUG logs for the [local-deployer](https://github.com/spring-cloud/spring-cloud-deployer-local), start the server as follows:
+
+```bash
+java -jar <dataflow-server>.jar --logging.level.org.springframework.cloud.deployer.spi.local=DEBUG
+```
+
+(where `org.springframework.cloud.deployer.spi.local` is the global package for everything local-deployer
+related.)
+
+To enable DEBUG logs for the [cloudfoundry-deployer](https://github.com/spring-cloud/spring-cloud-deployer-cloudfoundry), set the following environment variable and, after restaging the dataflow server, you can see more logs around request and response and see detailed stack traces for failures.
+The cloudfoundry deployer uses [cf-java-client](https://github.com/cloudfoundry/cf-java-client), so you must also enable DEBUG logs for this library.
+
+```bash
+cf set-env dataflow-server JAVA_OPTS '-Dlogging.level.cloudfoundry-client=DEBUG'
+cf restage dataflow-server
+```
+
+(where `cloudfoundry-client` is the global package for everything `cf-java-client` related.)
+
+To review Reactor logs, which are used by the `cf-java-client`, then the following commad would be helpful:
+
+```bash
+cf set-env dataflow-server JAVA_OPTS '-Dlogging.level.cloudfoundry-client=DEBUG -Dlogging.level.reactor.ipc.netty=DEBUG'
+cf restage dataflow-server
+```
+
+(where `reactor.ipc.netty` is the global package for everything `reactor-netty` related.)
+
+[[note]]
+| Similar to the `local-deployer` and `cloudfoundry-deployer` options as discussed above, there are equivalent settings available for Kubernetes.
+| See the respective link:https://github.com/spring-cloud?utf8=%E2%9C%93&q=spring-cloud-deployer[SPI implementations] for more detail about the packages to configure for logging.
+
+<!--END_QUESTION-->
+
+<!--QUESTION-->
+
+How do I enable DEBUG logs for application deployments?
+
+The streaming applications in Spring Cloud Data Flow are Spring Cloud Stream applications, which are in turn based on Spring Boot. They can be independently setup with logging configurations.
+
+For instance, if you must troubleshoot the `header` and `payload` specifics that are being passed around source, processor, and sink channels, you should deploy the stream with the following options:
+
+```bash
+dataflow:>stream create foo --definition "http --logging.level.org.springframework.integration=DEBUG | transform --logging.level.org.springframework.integration=DEBUG | log --logging.level.org.springframework.integration=DEBUG" --deploy
+```
+
+(where `org.springframework.integration` is the global package for everything Spring Integration related,
+which is responsible for messaging channels.)
+
+These properties can also be specified with `deployment` properties when deploying the stream, as follows:
+
+```bash
+dataflow:>stream deploy foo --properties "app.*.logging.level.org.springframework.integration=DEBUG"
+```
+
+<!--END_QUESTION-->
+
+<!--QUESTION-->
+
+How do I remote debug deployed applications?
+
+The Data Flow local server lets you debug the deployed applications.
+This is accomplished by enabling the remote debugging feature of the JVM through deployment properties, as shown in the following example:
+
+```bash
+stream deploy --name mystream --properties "deployer.fooApp.local.debugPort=9999"
+```
+
+The preceding example starts the `fooApp` application in debug mode, allowing a remote debugger to be attached on port 9999.
+By default, the application starts in a ’suspend’ mode and waits for the remote debug session to be attached (started). Otherwise, you can provide an additional `debugSuspend` property with value `n`.
+
+Also, when there is more then one instance of the application, the debug port for each instance is the value of `debugPort` + instanceId.
+
+[[note]]
+| Unlike other properties you must NOT use a wildcard for the application name, since each application must use a unique debug port.
+
+<!--END_QUESTION-->
+
+<!--QUESTION-->
+
+Is it possible to aggregate Local deployments into a single log?
+
+Given that each application is a separate process that maintains its own set of logs, accessing individual logs could be a bit inconvenient, especially in the early stages of development, when logs are accessed more often.
+Since it is also a common pattern to rely on a local SCDF Server that deploys each application as a local JVM process, you can redirect the stdout and stdin from the deployed applications to the parent process.
+Thus, with a local SCDF Server, the application logs appear in the logs of the running local SCDF Server.
+
+Typically when you deploy the stream, you see something resembling the following in the server logs:
+
+```bash
+017-06-28 09:50:16.372  INFO 41161 --- [nio-9393-exec-7] o.s.c.d.spi.local.LocalAppDeployer       : Deploying app with deploymentId mystream.myapp instance 0.
+   Logs will be in /var/folders/l2/63gcnd9d7g5dxxpjbgr0trpw0000gn/T/spring-cloud-dataflow-5939494818997196225/mystream-1498661416369/mystream.myapp
+```
+
+However, by setting `local.inheritLogging=true` as a deployment property, you can see the following:
+
+```bash
+017-06-28 09:50:16.372  INFO 41161 --- [nio-9393-exec-7] o.s.c.d.spi.local.LocalAppDeployer       : Deploying app with deploymentId mystream.myapp instance 0.
+   Logs will be inherited.
+```
+
+After that, the application logs appear alongside the server logs, as shown in the following example:
+
+```bash
+stream deploy --name mystream --properties "deployer.*.local.inheritLogging=true”
+```
+
+The preceding stream definition enables log redirection for each application in the stream.
+The following stream definition enables log redirection for only the application named ‘my app’.
+
+```bash
+stream deploy --name mystream --properties "deployer.myapp.local.inheritLogging=true”
+```
+
+Likewise, you can use the same option to redirect and aggregate all logs for the launched Task applications as well. The property is the same for Tasks, too.
+
+NOTE: Log redirect is only supported with link:https://github.com/spring-cloud/spring-cloud-deployer-local[local-deployer].
+
+<!--END_QUESTION-->
+
 ## Streaming
 
 <!--QUESTION-->

@@ -497,4 +497,4 @@ kubectl delete all -l app=mysql
 
 ## What's Next
 
-Congratulations you have just created and deployed a Spring Cloud Task application. Now lets go onto the [next section](/documentation/master/batch-developer-guides/batch/spring-batch/) and create a Spring Batch Application.
+Congratulations you have just created and deployed a Spring Cloud Task application.
