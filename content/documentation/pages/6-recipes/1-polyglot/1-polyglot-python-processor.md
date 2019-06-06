@@ -123,10 +123,10 @@ The `docker://springcloud/polyglot-python-processor:0.1` is resolved from the [D
 Create Data Flow `text-reversal` Stream.
 
 ```
-stream create --name text-reversal --definition "http --server.port=32123 | python-processor --reverestring=true  | log"
+stream create --name text-reversal --definition "http --server.port=32123 | python-processor --reversestring=true  | log"
 ```
 
-The `http` source listens for incoming http messages on port `32123` and forwards them to the `python-processor`. The processor is configured to reverse the input messages (e.g. `reverestring=true`) and sends them downstream to the `log` sink.
+The `http` source listens for incoming http messages on port `32123` and forwards them to the `python-processor`. The processor is configured to reverse the input messages (e.g. `reversestring=true`) and sends them downstream to the `log` sink.
 
 Deploy the stream using the `kubernetes.createNodePort` property to expose the HTTP port to the local host
 
@@ -134,7 +134,7 @@ Deploy the stream using the `kubernetes.createNodePort` property to expose the H
 stream deploy text-reversal --properties "deployer.http.kubernetes.createNodePort=32123"
 ```
 
-Retrieve the http-source url from minikube to publish the test data :
+Retrieve the http-source url from minikube to publish the test data:
 
 ```bash
 minikube service --url text-reversal-http-v1
