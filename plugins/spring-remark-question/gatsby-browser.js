@@ -13,3 +13,15 @@ exports.onClientEntry = () => {
     }
   }
 }
+
+exports.onRouteUpdate = ({ location, prevLocation }) => {
+  const hash = window.location.hash.replace('#', '')
+  if (hash) {
+    setTimeout(() => {
+      const block = document.getElementById(hash)
+      if (block && block.className === 'question-block') {
+        block.className = 'question-block active'
+      }
+    }, 100)
+  }
+}

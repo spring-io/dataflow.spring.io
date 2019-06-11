@@ -314,7 +314,7 @@ Also, when there is more then one instance of the application, the debug port fo
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#anchor-sample-->
 
 Is it possible to aggregate Local deployments into a single log?
 
