@@ -1,0 +1,8 @@
+{
+  "name": "spring-plugin-checkstyles",
+  "version": "0.0.1",
+  "description": "Spring checkstyles",
+  "main": "index.js",
+  "author": "@spring",
+  "private": true
+}

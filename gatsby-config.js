@@ -171,6 +171,44 @@ const plugins = [
       icon: `src/images/dataflow-icon.png`,
     },
   },
+  {
+    resolve: `spring-plugin-checkstyles`,
+    options: {
+      query: `{
+      	pages: allMarkdownRemark(
+            filter: { 
+      				fields: { 
+      					hash: { eq: "documentation" } 
+                exclude: { ne: true }
+      					version: { ne: "next" }
+      				} 
+      				frontmatter: { 
+      					exclude: { eq: null } 
+      				}
+      			}
+      	) {
+      	  edges {
+      	    node {
+      	      objectID:id
+      				html
+              htmlAst
+      				fields {
+      					category
+      					version
+      					path
+      					slug
+      				}
+              frontmatter {
+                title
+      					description
+      					summary
+              }
+      	    }
+      	  }
+      	}
+      }`,
+    },
+  },
 ]
 
 if (process.env.ALGOLIA_ADMIN_KEY_PASSWORD) {
