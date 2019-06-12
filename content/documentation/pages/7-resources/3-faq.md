@@ -8,7 +8,7 @@ description: ''
 
 ## Application Starters
 
-<!--QUESTION-->
+<!--QUESTION#findstreamapps-->
 
 Where to find the latest Spring Cloud Stream and Spring Cloud Task application starters?
 
@@ -17,7 +17,7 @@ You can find the latest release versions from the [Spring Cloud Stream App Start
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#findtaskapps-->
 
 Where to find the latest Spring Cloud Stream and Spring Cloud Task application starters?
 
@@ -26,7 +26,7 @@ You can find the latest release versions from the [Spring Cloud Stream App Start
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#appreleases-->
 
 Where do I find the docs for the latest application releases?
 
@@ -34,7 +34,7 @@ Refer to the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-c
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#extendapps-->
 
 Is it possible to patch and extend the out-of-the-box applications?
 
@@ -42,7 +42,7 @@ Yes. More details in the reference guide section on [Patching Application Starte
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#buildappstarters-->
 
 How to build a new application based on the same infrastructure as the out-of-the-box applications?
 
@@ -50,7 +50,7 @@ More details in the Spring Cloud Stream App Starter's reference guide section [F
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#downloadapps-->
 
 Where can I download the latest applications?
 
@@ -58,7 +58,7 @@ Links available in the [stream](https://cloud.spring.io/spring-cloud-stream-app-
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#appdockerimages-->
 
 Where are the Docker images hosted?
 
@@ -68,7 +68,7 @@ See [stream](https://hub.docker.com/u/springcloudstream) and [task](https://hub.
 
 ## Data Flow
 
-<!--QUESTION-->
+<!--QUESTION#appsandscdf-->
 
 How are streaming applications and SCDF related?
 
@@ -78,7 +78,7 @@ However, based on user actions, SCDF will interact with the platform runtime to 
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#batchandscdf-->
 
 How are task and batch applications and SCDF related?
 
@@ -86,7 +86,7 @@ Though batch/task applications are standalone Spring Boot applications, to recor
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#ctrandscdf-->
 
 What is the relationship of [Composed Task Runner](https://github.com/spring-cloud-task-app-starters/composed-task-runner) and SCDF?
 
@@ -96,7 +96,7 @@ To use Composed Tasks, it is required to connect SCDF, CTR, and batch applicatio
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#brokerandscdf-->
 
 Does SCDF use message broker?
 
@@ -105,7 +105,7 @@ Streaming applications deployed by Data flow connect to the message broker to pu
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#skipperandscdf-->
 
 What is the role of Skipper in SCDF?
 
@@ -113,7 +113,7 @@ SCDF delegates and relies on Skipper for the life cycle management of streaming 
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#scdftools-->
 
 What tools are available to interact with SCDF?
 
@@ -121,7 +121,7 @@ What tools are available to interact with SCDF?
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#intializrandscdf-->
 
 Why SCDF is not in Spring Initializr?
 
@@ -132,7 +132,7 @@ As such, we ship the binaries directly instead. And we expect the users either u
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#oracleandscdf-->
 
 Can SCDF work with Oracle database?
 
@@ -140,7 +140,7 @@ Yes. Read more about the [supported databases here.](https://docs.spring.io/spri
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#propsvsargs-->
 
 When/Where to use Task properties vs. arguments?
 
@@ -163,7 +163,7 @@ task launch myTaskDefinition "--server.port=8080"
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#mavenconfig-->
 
 How to configure remote Maven repositories?
 
@@ -229,7 +229,7 @@ SPRING_APPLICATION_JSON='{
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#debuglogs-->
 
 How do I enable DEBUG logs for platform deployments?
 
@@ -270,7 +270,7 @@ cf restage dataflow-server
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#debugapps-->
 
 How do I enable DEBUG logs for application deployments?
 
@@ -293,7 +293,7 @@ dataflow:>stream deploy foo --properties "app.*.logging.level.org.springframewor
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#remotedebug-->
 
 How do I remote debug deployed applications?
 
@@ -314,7 +314,7 @@ Also, when there is more then one instance of the application, the debug port fo
 
 <!--END_QUESTION-->
 
-<!--QUESTION#anchor-sample-->
+<!--QUESTION#aggregatelogs-->
 
 Is it possible to aggregate Local deployments into a single log?
 
@@ -357,7 +357,7 @@ NOTE: Log redirect is only supported with link:https://github.com/spring-cloud/s
 
 ## Streaming
 
-<!--QUESTION-->
+<!--QUESTION#connectexistingrabbit-->
 
 What if I want to connect to existing RabbitMQ queues?
 
@@ -365,7 +365,7 @@ Follow the steps in the [reference guide](https://cloud.spring.io/spring-cloud-s
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#kafkacompatibility-->
 
 What is the Apache Kafka vs. Spring Cloud Stream compatibility?
 
@@ -375,7 +375,7 @@ See the [compatibility matrix](https://github.com/spring-cloud/spring-cloud-stre
 
 ## Batch
 
-<!--QUESTION-->
+<!--QUESTION#ctr-->
 
 What is a Composed Task Runner (CTR)?
 
@@ -387,7 +387,7 @@ Once complete the Composed Task Runner will either continue to the next task in 
 
 <!--END_QUESTION-->
 
-<!--QUESTION-->
+<!--QUESTION#restartjob-->
 
 How do I restart a Spring Batch Job from the beginning, not from where it failed?
 

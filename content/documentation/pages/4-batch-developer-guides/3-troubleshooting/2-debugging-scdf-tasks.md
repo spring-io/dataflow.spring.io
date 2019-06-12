@@ -52,11 +52,11 @@ graph TD;
 Application log files can be inspected on a per application basis.
 To aggregate logs from all applications into one, the deployer property `inheritLogging=true` can be set.
 See
-["Is it possible to aggregate Local deployments into a single log?"](%currentPath%/resources/faq/)
-for more information and ["How do I enable DEBUG logs for platform deployments?"](%currentPath%/resources/faq/) for enabling more log output.
+["Is it possible to aggregate Local deployments into a single log?"](%currentPath%/resources/faq/#aggregatelogs)
+for more information and ["How do I enable DEBUG logs for platform deployments?"](%currentPath%/resources/faq/#debuglogs) for enabling more log output.
 
 Debugging applications via JDWP can be accomplished by setting the deployer property `debugPort`.
-See [Remote Debugging](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_remote_debugging) for more information.
+See ["How do I remote debug deployed applications?"](%currentPath%/resources/faq/#remotedebug) for more information.
 
 #### Docker Compose - Startup
 
@@ -113,7 +113,7 @@ graph TD;
 ```
 
 When debugging deployment issues, raising deployer and Cloud Foundry related log levels may be useful.
-See ["How do I enable DEBUG logs for platform deployments?"](%currentPath%/resources/faq/) for more information.
+See ["How do I enable DEBUG logs for platform deployments?"](%currentPath%/resources/faq/#debuglogs) for more information.
 
 ### Kubernetes
 
