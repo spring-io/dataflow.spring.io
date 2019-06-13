@@ -56,9 +56,9 @@ java -jar rabbit-source-rabbit-2.1.0.RELEASE.jar --server.port=9001 --rabbit.que
 ```
 
 [[note]]
-| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configuration are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
+| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
 | properties.
-| That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other RabbitMQ credential for the binder configuration.
+| That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
 [[note]]
 | - `sabbyfooz` is the queue from which we will be polling for new data.
@@ -72,9 +72,9 @@ java -jar transform-processor-rabbit-2.1.0.RELEASE.jar --server.port=9002 --spri
 ```
 
 [[note]]
-| - `rabzysrc` is the destination from which we will be receiving new data from the source application
+| - `rabzysrc` is the destination from which we will be receiving new data from the source application.
 |
-| - `rabzysink` is the destination to which the transformed data will be published
+| - `rabzysink` is the destination to which the transformed data will be published.
 
 ### Sink
 
@@ -83,12 +83,12 @@ java -jar rabbit-sink-rabbit-2.1.0.RELEASE.jar --server.port=9003 --rabbit.excha
 ```
 
 [[note]]
-| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configuration are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
+| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
 | properties.
-| That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other RabbitMQ credential for the binder configuration.
+| That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
 [[note]]
-| - `rabzysrc` is the destination from which the transformed data will be received.
+| - `rabzysink` is the destination from which the transformed data will be received.
 |
 | - `sabbyexchange` with the `foo` routing-key is where the data will finally reach.
 
