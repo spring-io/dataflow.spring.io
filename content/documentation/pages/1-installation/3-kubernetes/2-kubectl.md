@@ -13,7 +13,7 @@ They have the required metadata set for service discovery needed by the differen
 To check out the code, enter the following commands:
 
 ```bash
-git clone https://github.com/{github-repo}
+git clone https://github.com/spring-cloud/spring-cloud-dataflow
 cd spring-cloud-dataflow
 git checkout %github-tag%
 ```
