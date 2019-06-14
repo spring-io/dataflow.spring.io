@@ -290,7 +290,7 @@ The `http` source and `jdbc` sink applications are running on the specified plat
 
 The runtime architecture of a stream consisting of applications that can have multiple inputs and outputs is shown below.
 
-![Stream Architecture with multiple inputs and outputs](images/arch-stream-dsl.png)
+![Stream Architecture with multiple inputs and outputs](images/arch-app-dsl.png)
 
 Architecturally it is the same as when using `Source`, `Sink` or `Processor` applications.
 The Stream Application DSL to define this architecture the double pipe symbol (`||`) instead of the single pipe (`|`) symbol.
