@@ -6,7 +6,8 @@ description: 'RabbitMQ as Source and Sink + RabbitMQ binder'
 
 # RabbitMQ as Source and Sink
 
-Reading from and writing to RabbitMQ is a very common use-case. Primarily when the source and sink applications use spring Cloud Stream's RabbitMQ binder implementation, the configurations can be confusing. The goal of this recipe is to unpack the complexity step by step.
+Reading from and writing to RabbitMQ is a very common use-case. Primarily when the source and sink applications use spring Cloud Stream's RabbitMQ binder implementation, the configurations can be confusing.
+The goal of this recipe is to unpack the complexity step by step.
 
 Before we begin, let's describe the use-case requirements.
 
@@ -56,8 +57,9 @@ java -jar rabbit-source-rabbit-2.1.0.RELEASE.jar --server.port=9001 --rabbit.que
 ```
 
 [[note]]
-| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
-| properties. You'd have to replace `<USER>`, `<PASSWORD>`, and `<HOST>` with external cluster credentials.
+| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties.
+| The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*` properties.
+| You'd have to replace `<USER>`, `<PASSWORD>`, and `<HOST>` with external cluster credentials.
 | That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
 [[note]]
@@ -83,8 +85,9 @@ java -jar rabbit-sink-rabbit-2.1.0.RELEASE.jar --server.port=9003 --rabbit.excha
 ```
 
 [[note]]
-| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
-| properties. You'd have to replace `<USER>`, `<PASSWORD>`, and `<HOST>` with external cluster credentials.
+| External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties.
+| The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*` properties.
+| You'd have to replace `<USER>`, `<PASSWORD>`, and `<HOST>` with external cluster credentials.
 | That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
 [[note]]
