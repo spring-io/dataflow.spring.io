@@ -51,13 +51,13 @@ With all the prerequisites from the previous step complete, we can now start the
 ### Source
 
 ```bash
-java -jar rabbit-source-rabbit-2.1.0.RELEASE.jar --server.port=9001 --rabbit.queues=sabbyfooz --spring.rabbitmq.addresses=amqp://<user>:<PASSWORD>@<HOST> --spring.rabbitmq.port=5672 --spring.rabbitmq.username=<USER> --spring.rabbitmq.password=<PASSWORD> --spring.cloud.stream.binders.rabbitBinder.type=rabbit --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.addresses=amqp://guest:guest@127.0.0.1 --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.port=5672 --spring.cloud.stream.bindings.output.destination=rabzysrc
+java -jar rabbit-source-rabbit-2.1.0.RELEASE.jar --server.port=9001 --rabbit.queues=sabbyfooz --spring.rabbitmq.addresses=amqp://<USER>:<PASSWORD>@<HOST> --spring.rabbitmq.port=5672 --spring.rabbitmq.username=<USER> --spring.rabbitmq.password=<PASSWORD> --spring.cloud.stream.binders.rabbitBinder.type=rabbit --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.addresses=amqp://guest:guest@127.0.0.1 --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.port=5672 --spring.cloud.stream.bindings.output.destination=rabzysrc
 
 ```
 
 [[note]]
 | External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
-| properties.
+| properties. You'd have to replace `<USER>`, `<PASSWORD>`, and `<HOST>` with external cluster credentials.
 | That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
 [[note]]
@@ -79,12 +79,12 @@ java -jar transform-processor-rabbit-2.1.0.RELEASE.jar --server.port=9002 --spri
 ### Sink
 
 ```bash
-java -jar rabbit-sink-rabbit-2.1.0.RELEASE.jar --server.port=9003 --rabbit.exchange=sabbyexchange --rabbit.routing-key=foo --spring.rabbitmq.addresses=amqp://<user>:<PASSWORD>@<HOST> --spring.rabbitmq.port=5672 --spring.rabbitmq.username=<USER> --spring.rabbitmq.password=<PASSWORD> --spring.cloud.stream.binders.rabbitBinder.type=rabbit --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.addresses=amqp://guest:guest@127.0.0.1 --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.port=5672 --spring.cloud.stream.bindings.input.destination=rabzysink
+java -jar rabbit-sink-rabbit-2.1.0.RELEASE.jar --server.port=9003 --rabbit.exchange=sabbyexchange --rabbit.routing-key=foo --spring.rabbitmq.addresses=amqp://<USER>:<PASSWORD>@<HOST> --spring.rabbitmq.port=5672 --spring.rabbitmq.username=<USER> --spring.rabbitmq.password=<PASSWORD> --spring.cloud.stream.binders.rabbitBinder.type=rabbit --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.addresses=amqp://guest:guest@127.0.0.1 --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.port=5672 --spring.cloud.stream.bindings.input.destination=rabzysink
 ```
 
 [[note]]
 | External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties. The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*`
-| properties.
+| properties. You'd have to replace `<USER>`, `<PASSWORD>`, and `<HOST>` with external cluster credentials.
 | That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
 [[note]]
