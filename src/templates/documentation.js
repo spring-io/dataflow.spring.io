@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import get from 'lodash.get'
 import { Sticky, StickyContainer } from 'react-sticky'
 import { graphql } from 'gatsby'
+import { IconEdit } from '../components/common/icons'
 
 import versions from './../../content/versions.json'
 import {
@@ -135,6 +136,17 @@ class DocumentationTemplate extends React.Component {
                     </div>
                   )}
                 </div>
+                <div className='main-content'>
+                  <a
+                    href={`https://github.com/spring-io/dataflow.spring.io/blob/master/content/documentation/${
+                      this.props.data.page.fields.sourcePath
+                    }`}
+                  >
+                    <IconEdit />
+                    {` `}
+                    Edit this page on GitHub
+                  </a>
+                </div>
               </div>
               {toc && (
                 <div className='sidebar-toc'>
@@ -213,6 +225,7 @@ export const articleQuery = graphql`
         path
         version
         category
+        sourcePath
       }
       frontmatter {
         title
