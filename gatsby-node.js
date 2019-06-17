@@ -125,6 +125,10 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
           .split('/')
           .slice(0, 1)
           .join('')
+        const sourcePath = relativePath
+          .split('/')
+          .slice(2)
+          .join('/')
         const isRoot = frontmatterPath.split('/').length === 2
         let url = `/docs/${version}/${frontmatterPath}`
 
@@ -136,6 +140,11 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
           node,
           name: `hash`,
           value: `documentation`,
+        })
+        createNodeField({
+          node,
+          name: `sourcePath`,
+          value: sourcePath,
         })
         createNodeField({
           node,

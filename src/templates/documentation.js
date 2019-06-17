@@ -15,6 +15,7 @@ import {
   SidebarNav,
   Toc,
 } from '../components/common'
+import { IconEdit } from '../components/common/icons'
 import {
   SummaryNav,
   SummaryTile,
@@ -126,13 +127,23 @@ class DocumentationTemplate extends React.Component {
                       )}
                     </>
                   )}
+                  <div className='edit-on-github'>
+                    <a
+                      className='button icon'
+                      href={`https://github.com/spring-io/dataflow.spring.io/blob/master/content/documentation/${
+                        this.props.data.page.fields.sourcePath
+                      }`}
+                    >
+                      <IconEdit />
+                      {` `}
+                      Edit this page on GitHub
+                    </a>
+                  </div>
                   {(get(prevNext, 'prev') || get(prevNext, 'next')) && (
-                    <div>
-                      <PrevNext
-                        next={get(prevNext, 'next')}
-                        prev={get(prevNext, 'prev')}
-                      />
-                    </div>
+                    <PrevNext
+                      next={get(prevNext, 'next')}
+                      prev={get(prevNext, 'prev')}
+                    />
                   )}
                 </div>
               </div>
@@ -213,6 +224,7 @@ export const articleQuery = graphql`
         path
         version
         category
+        sourcePath
       }
       frontmatter {
         title

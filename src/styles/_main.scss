@@ -525,13 +525,21 @@ div.logo-dataflow {
   padding: $spring-8points * 2 $spring-8points * 6;
 }
 
+// Edit on GitHub
+
+.edit-on-github {
+  margin-top: $spring-8points * 3;
+  text-align: center;
+  padding-top: $spring-8points * 2;
+}
+
 // Prev Next
 
 .prev-next {
   border-top: 3px solid #f0f0f0;
   padding: $spring-8points * 3 0;
   display: flex;
-  margin-top: $spring-8points * 6;
+  margin-top: $spring-8points * 5;
   justify-content: space-between;
   .prev,
   .next {
@@ -699,6 +707,16 @@ button.button {
   }
   &:focus {
     outline: none;
+  }
+  &.icon {
+    position: relative;
+    padding-left: 30px;
+    svg {
+      position: absolute;
+      top: 4px;
+      left: 8px;
+      width: 18px;
+    }
   }
 }
 
