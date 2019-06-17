@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import get from 'lodash.get'
 import { Sticky, StickyContainer } from 'react-sticky'
 import { graphql } from 'gatsby'
-import { IconEdit } from '../components/common/icons'
 
 import versions from './../../content/versions.json'
 import {
@@ -16,6 +15,7 @@ import {
   SidebarNav,
   Toc,
 } from '../components/common'
+import { IconEdit } from '../components/common/icons'
 import {
   SummaryNav,
   SummaryTile,
@@ -127,25 +127,24 @@ class DocumentationTemplate extends React.Component {
                       )}
                     </>
                   )}
+                  <div className='edit-on-github'>
+                    <a
+                      className='button icon'
+                      href={`https://github.com/spring-io/dataflow.spring.io/blob/master/content/documentation/${
+                        this.props.data.page.fields.sourcePath
+                      }`}
+                    >
+                      <IconEdit />
+                      {` `}
+                      Edit this page on GitHub
+                    </a>
+                  </div>
                   {(get(prevNext, 'prev') || get(prevNext, 'next')) && (
-                    <div>
-                      <PrevNext
-                        next={get(prevNext, 'next')}
-                        prev={get(prevNext, 'prev')}
-                      />
-                    </div>
+                    <PrevNext
+                      next={get(prevNext, 'next')}
+                      prev={get(prevNext, 'prev')}
+                    />
                   )}
-                </div>
-                <div className='main-content'>
-                  <a
-                    href={`https://github.com/spring-io/dataflow.spring.io/blob/master/content/documentation/${
-                      this.props.data.page.fields.sourcePath
-                    }`}
-                  >
-                    <IconEdit />
-                    {` `}
-                    Edit this page on GitHub
-                  </a>
                 </div>
               </div>
               {toc && (
