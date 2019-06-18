@@ -177,7 +177,7 @@ If you downloaded and built the [sample project](https://github.com/spring-cloud
 Otherwise use the published maven jar:
 
 ```bash
-app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflow:ingest:1.0.0.BUILD-SNAPSHOT
+app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflow.ingest:ingest:1.0.0.BUILD-SNAPSHOT
 ```
 
 Register the prepackaged `sftp` source and `task-launcher` sink applications:
@@ -353,7 +353,7 @@ This also requires:
 #### Register the applications
 
 ```bash
-app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflow:ingest:1.0.0.BUILD-SNAPSHOT
+app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflow.ingest:ingest:1.0.0.BUILD-SNAPSHOT
 ```
 
 Register the prepackaged `sftp` source and `task-launcher` sink applications:
