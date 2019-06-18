@@ -181,7 +181,7 @@ if (process.env.ALGOLIA_ADMIN_KEY) {
   plugins.push({
     resolve: `gatsby-plugin-algolia`,
     options: {
-      appId: `ES999KPS5F`,
+      appId: `ZFB6X2VA6A`,
       apiKey: `${process.env.ALGOLIA_ADMIN_KEY}`,
       queries,
       chunkSize: 10000, // default: 1000
