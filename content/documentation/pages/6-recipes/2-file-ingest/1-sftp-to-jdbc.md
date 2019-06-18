@@ -45,11 +45,10 @@ Make sure you have installed Spring Cloud Data Flow to the platform of your choi
 - [Cloud Foundry](%currentPath%/installation/cloudfoundry)
 - [Kubernetes](%currentPath%/installation/kubernetes/)
 
+<!-- TODO: Support for Postgres -->
 <!--NOTE-->
 
 **NOTE**: For kubernetes, the sample task application is configured to use `mysql`. The Data Flow server must also be configured for mysql.
-
-**TODO**: Support for Postgres
 
 <!--END_NOTE-->
 
@@ -85,7 +84,7 @@ To run this example, we will need:
 **NOTE:** For simplicity, this example assumes the `nfs` service is created with common configuration as follows with a common mount point `/var/scdf` for all bound apps. It is also possible to set these parameters when binding the nfs service to an application using [deployment propterties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configure-service-binding-parameters):
 
 ```bash
-$cf create-service nfs Existing nfs -c '{"share":<nfs-host>/staging","uid":<uid>,"gid":<gid>, "mount":"/var/scdf"}'
+cf create-service nfs Existing nfs -c '{"share":<nfs-host>/staging","uid":<uid>,"gid":<gid>, "mount":"/var/scdf"}'
 ```
 
 <!--END_NOTE-->
@@ -99,21 +98,21 @@ Make sure minikube is started. The commands below provide NFS access to the mini
 Here we will expose a shared directory called `/staging`.
 
 ```bash
-$ sudo mkdir /staging
-$ sudo chmod 777 /staging
-$ sudo echo "/staging -alldirs -mapall="$(id -u)":"$(id -g)" $(minikube ip)" >> /etc/exports
-$ sudo nfsd restart
+sudo mkdir /staging
+sudo chmod 777 /staging
+sudo echo "/staging -alldirs -mapall="$(id -u)":"$(id -g)" $(minikube ip)" >> /etc/exports
+sudo nfsd restart
 ```
 
 Verify the nfs mounts:
 
 ```bash
-$ showmount -e 127.0.0.1
+showmount -e 127.0.0.1
 Exports list on 127.0.0.1:
 /staging 192.168.99.105
 ```
 
-Configure persistent volume and persistent volume claim resources. Copy the following to `nfs-config.yml`:
+Configure persistent volume and persistent volume claim resources. Copy the following and save it to a file named `nfs-config.yml`:
 
 ```yaml
 ---
@@ -157,7 +156,7 @@ spec:
 Create the resources:
 
 ```bash
-$kubectl apply -f nfs-config.yml
+kubectl apply -f nfs-config.yml
 ```
 
 ## Deployment
@@ -168,7 +167,7 @@ For local deployment, this example uses Kafka as the message broker.
 Create directories for the remote and local files:
 
 ```bash
-$ mkdir -p /tmp/remote-files /tmp/local-files
+mkdir -p /tmp/remote-files /tmp/local-files
 ```
 
 #### Register the applications
@@ -183,11 +182,11 @@ app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflo
 Register the prepackaged `sftp` source and `task-launcher` sink applications:
 
 ```bash
-app register --name sftp --type source  maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:2.1.0.RELEASE
+app register --name sftp --type source  --uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:2.1.0.RELEASE
 ```
 
 ```bash
-app register --name task-launcher --type sink maven://org.springframework.cloud.stream.app:task-launcher-dataflow-sink-kafka:1.0.1.RELEASE
+app register --name task-launcher --type sink --uri maven://org.springframework.cloud.stream.app:task-launcher-dataflow-sink-kafka:1.0.1.RELEASE
 ```
 
 #### Create the task
@@ -211,6 +210,12 @@ and `port` defaults to `22`.
 ```bash
 stream create --name inboundSftp --definition "sftp --username=<user> --password=<pass> --allow-unknown-keys=true --task.launch.request.taskName=fileIngestTask --remote-dir=/tmp/remote-files/ --local-dir=/tmp/local-files/ | task-launcher" --deploy
 ```
+
+<!--TIP-->
+
+The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/master/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [PollableMessageSource](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every 1 second. If there are no task launch requests, the polling period will continue to double up to a maximum of 30 seconds. If a task launch request is present, the trigger resets to 1 second. The trigger parameters may be configured by setting the `task-launcher` sink properties `trigger.period` and `trigger.max-period` in the stream definition.
+
+<!--END_TIP-->
 
 #### Verify Stream deployment
 
@@ -269,11 +274,10 @@ When this file is detected, the `sftp` source will download it to the `/tmp/loca
 The Task Launch Request includes the name of the task to launch along with the local file path, given as a command line argument.
 Spring Batch binds each command line argument to a corresponding JobParameter.
 The FileIngestTask job processes the file given by the JobParameter named `localFilePath`.
-The `task-launcher` sink polls for messages using an exponential back-off.
-Since there have not been any recent requests, the task will launch within 30 seconds after the request is published.
+Since there have not been any recent requests, the task will launch within 30 seconds after the request is published (see tip above about configuring the launch trigger).
 
 ```bash
-$ cp data/name-list.csv /tmp/remote-files
+cp data/name-list.csv /tmp/remote-files
 ```
 
 When the batch job launches, you will see something like this in the SCDF console log:
@@ -359,11 +363,11 @@ app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflo
 Register the prepackaged `sftp` source and `task-launcher` sink applications:
 
 ```bash
-app register --name sftp --type source  maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:2.1.0.RELEASE
+app register --name sftp --type source  --uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:2.1.0.RELEASE
 ```
 
 ```bash
-app register --name task-launcher --type sink maven://org.springframework.cloud.stream.app:task-launcher-dataflow-sink-kafka:1.0.1.RELEASE
+app register --name task-launcher --type sink --uri maven://org.springframework.cloud.stream.app:task-launcher-dataflow-sink-kafka:1.0.1.RELEASE
 ```
 
 #### Create the task
@@ -386,6 +390,12 @@ The launch request binds the `nfs` service to the task container using deploymen
 ```bash
 stream create --name inboundSftp --definition "sftp --username=<user> --password=<pass> --host=<host>  --allow-unknown-keys=true --remote-dir=/remote-files/ --local-dir=/var/scdf/shared-files/ --task.launch.request.taskName=fileIngestTask --task.launch.request.deployment-properties=deployer.*.cloudfoundry.services=nfs | task-launcher --spring.cloud.dataflow.client.server-uri=<data-flow-server-uri>"
 ```
+
+<!--TIP-->
+
+The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/master/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [PollableMessageSource](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every 1 second. If there are no task launch requests, the polling period will continue to double up to a maximum of 30 seconds. If a task launch request is present, the trigger resets to 1 second. The trigger parameters may be configured by setting the `task-launcher` sink properties `trigger.period` and `trigger.max-period` in the stream definition.
+
+<!--END_TIP-->
 
 #### Deploy the stream
 
@@ -416,7 +426,7 @@ dataflow:>stream list
 Use the Cloud Foundry CLI to list the apps. The `source` and `sink` applications should be in a started state.
 
 ```bash
-$cf apps
+cf apps
 Getting apps in org myorg / space myspace as someuser...
 OK
 
@@ -445,8 +455,7 @@ When this file is detected, the `sftp` source will download it to the `/var/scdf
 The Task Launch Request includes the name of the task to launch along with the local file path, given as a command line argument.
 Spring Batch binds each command line argument to a corresponding JobParameter.
 The FileIngestTask job processes the file given by the JobParameter named `localFilePath`.
-The `task-launcher` sink polls for messages using an exponential back-off.
-Since there have not been any recent requests, the task will launch within 30 seconds after the request is published.
+Since there have not been any recent requests, the task will launch within 30 seconds after the request is published (see tip above about configuring the launch trigger).
 
 #### Inspect Job Executions
 
@@ -500,7 +509,7 @@ Use [PivotalMySQLWeb](https://github.com/pivotal-cf/PivotalMySQLWeb) to inspect 
 This example assumes Data Flow is installed on minikube with `kafka` and `mysql`. It is recommended to use the [helm chart](%currentPath%/installation/kubernetes/helm).
 
 ```bash
-$helm install --name my-release --set kafka.enabled=true,rabbitmq.enabled=false,server.service.type=NodePort stable/spring-cloud-data-flow
+helm install --name my-release --set kafka.enabled=true,rabbitmq.enabled=false,server.service.type=NodePort stable/spring-cloud-data-flow
 ```
 
 Running this example on Kubernetes requires configuring an NFS server and creating an corresponding `persistent volume` and `persistent volume claim` resources as described in the [Kubernetes NFS Configuration](%currentPath%/recipes/file-ingest/sftp-to-jdbc/#kubernetes-nfs-configuration) section.
@@ -511,8 +520,8 @@ We also require an external SFTP server with a `/remote-files` directory.
 If you downloaded the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true) you can build and publish the docker image to the minikube registry:
 
 ```bash
-$eval $(minikube docker-env)
-$./mvnw clean package docker:build -Pkubernetes
+eval $(minikube docker-env)
+./mvnw clean package docker:build -Pkubernetes
 ```
 
 Otherwise, you can skip this step to pull the image from dockerhub.
@@ -551,11 +560,11 @@ The launch request mounts the nfs share to the task pod using deployment propert
 To get the `<data-flow-server-uri>` find the name of the service and use the `minikube service` command:
 
 ```bash:
-$kubectl get svc
+kubectl get svc
 ...
 my-release-data-flow-server     NodePort       10.97.74.123     <none>        80:30826/TCP
 
-$minikube service my-release-data-flow-server --url
+minikube service my-release-data-flow-server --url
 http://192.168.99.105:30826
 ```
 
@@ -564,6 +573,12 @@ http://192.168.99.105:30826
 ```bash
 stream create inboundSftp --definition "sftp --host=192.168.99.1 --username=<user> --password=<pass> --allow-unknown-keys=true --remote-dir=/remote-files --local-dir=/staging/shared-files --task.launch.request.taskName=fileIngestTask --task.launch.request.deployment-properties=deployer.*.kubernetes.volumes=[{'name':'staging','persistentVolumeClaim':{'claimName':'nfs-volume-claim'}}],deployer.*.kubernetes.volumeMounts=[{'mountPath':'/staging/shared-files','name':'staging'}] | task-launcher --spring.cloud.dataflow.client.server-uri=<dataflow-uri>"
 ```
+
+<!--TIP-->
+
+The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/master/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [PollableMessageSource](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every 1 second. If there are no task launch requests, the polling period will continue to double up to a maximum of 30 seconds. If a task launch request is present, the trigger resets to 1 second. The trigger parameters may be configured by setting the `task-launcher` sink properties `trigger.period` and `trigger.max-period` in the stream definition.
+
+<!--END_TIP-->
 
 #### Deploy the stream
 
@@ -594,7 +609,7 @@ dataflow:>stream list
 Use `kubectl` to list the apps. The `source` and `sink` applications should be in a started state.
 
 ```bash
-$kubectl get pods
+kubectl get pods
 NAME                                             READY   STATUS    RESTARTS   AGE
 ...
 inboundsftp-sftp-v12-6d55d469bd-t8znd            1/1     Running   0          6m24s
@@ -605,7 +620,7 @@ inboundsftp-task-launcher-v12-555d4785c5-zjr6b   1/1     Running   0          6m
 The log files of the `sftp` source would be useful to debug issues such as SFTP connection failures and to verify SFTP downloads.
 
 ```bash
-$kubectl logs inboundsftp-sftp-v12-6d55d469bd-t8znd
+kubectl logs inboundsftp-sftp-v12-6d55d469bd-t8znd
 ```
 
 The logs for the `task-launcher` application would be useful to debug data flow connection issues and verify task launch requests:
@@ -620,8 +635,7 @@ When this file is detected, the `sftp` source will download it to the `/var/scdf
 The Task Launch Request includes the name of the task to launch along with the local file path, given as a command line argument.
 Spring Batch binds each command line argument to a corresponding JobParameter.
 The FileIngestTask job processes the file given by the JobParameter named `localFilePath`.
-The `task-launcher` sink polls for messages using an exponential back-off.
-Since there have not been any recent requests, the task will launch within 30 seconds after the request is published.
+Since there have not been any recent requests, the task will launch within 30 seconds after the request is published (see tip above about configuring the launch trigger).
 
 #### Inspect Job Executions
 
@@ -674,7 +688,7 @@ When the the batch job runs, it processes the file in the local directory `/stag
 Open a shell in the `mysql` container to query the `people` table.:
 
 ```bash
-$kubectl get pods
+kubectl get pods
 ...
 my-release-mysql-56f988dd6c-qlm8q                1/1     Running
 ...
@@ -682,7 +696,7 @@ my-release-mysql-56f988dd6c-qlm8q                1/1     Running
 
 <!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
-<pre class="language-bash"><code>$ kubectl exec -it my-release-mysql-56f988dd6c-qlm8q -- /bin/bash
+<pre class="language-bash"><code>kubectl exec -it my-release-mysql-56f988dd6c-qlm8q -- /bin/bash
 # mysql -u root -p$MYSQL_ROOT_PASSWORD
 mysql&gt; select * from dataflow.people;
 </code></pre></div>
@@ -730,7 +744,7 @@ cf set-env <dataflow-server> SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_LOCAL_ACCOUNTS[
 If running on Kubernetes, edit the Data Flow server `configmap`, for example:
 
 ```
-$kubectl edit configmap my-release-data-flow-server
+kubectl edit configmap my-release-data-flow-server
 ```
 
 Add the 'maximum-concurrent-tasks` property as shown below:
@@ -770,7 +784,7 @@ Tail the `task-launcher` container logs.
 You can also monitor the Data Flow server for current task executions:
 
 ```bash
-$ watch curl <dataflow-server-url>/tasks/executions/current
+watch curl <dataflow-server-url>/tasks/executions/current
 Every 2.0s: curl http://192.168.99.105:30826/tasks/executions/current
 
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -818,7 +832,7 @@ With the sample stream deployed, upload the 20 files in `data/spilt` to `/remote
 
 The `sftp` source will not process files that it has already seen.
 It uses a [Metadata Store](https://docs.spring.io/spring-integration/docs/current/reference/html/#jdbc-metadata-store) to keep track of files by extracting content from messages at runtime.
-Out of the box, it uses an in-memory Metadata Store.
+Out of the box, it uses an in-memory Metadata Store, but it is pluggable to a persistent store used for production deployments
 Thus, if we re-deploy the stream, or restart the `sftp` source, this state is lost and files will be reprocessed.
 
 Thanks to the magic of Spring, we can auto-configure one of the available persistent Metadata Stores to prevent duplicate processing.
@@ -833,8 +847,8 @@ Clone the [sftp]https://github.com/spring-cloud-stream-app-starters/sftp stream 
 From the sftp directory. Replace `<binder>` below with `kafka` or `rabbit` as appropriate for your configuration:
 
 ```bash
-$ ./mvnw clean install -DskipTests -PgenerateApps
-$ cd apps/sftp-dataflow-source-<binder>
+./mvnw clean install -DskipTests -PgenerateApps
+cd apps/sftp-dataflow-source-<binder>
 ```
 
 Add the following dependencies to `pom.xml`:
@@ -926,7 +940,7 @@ If we view the `PEOPLE` table, it should look something like this:
 Now let's upload the same file to the SFTP server, or if you are logged into it, you can just update the timestamp:
 
 ```bash
-$touch /remote-files/names_aa.csv
+touch /remote-files/names_aa.csv
 ```
 
 Now the file will be reprocessed and the `PEOPLE` table will contain duplicate data. If you `ORDER BY FIRST_NAME`, you will see something like this:
