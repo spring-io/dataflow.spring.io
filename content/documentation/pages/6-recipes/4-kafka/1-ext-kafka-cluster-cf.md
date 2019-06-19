@@ -34,7 +34,7 @@ The next question Cloud Foundry developers stumble upon is whether or not to set
 
 In Cloud Foundry, there isn't a Spring Cloud Connector or CF JavaEnv support for Kafka, so by service-binding the Kafka CUPS with the application, you _will not_ automatically be able to parse `VCAP_SERVICES` and pass the connection credentials to the applications dynamically.
 Even with CUPS in place, it is your responsibility to parse the `VCAP_SERVICES` JSON and pass them as Boot properties, so no real benefit.
-You can see an example of CUPS in action in the Spring Cloud Data Flow's reference guide.
+You can see an example of CUPS in action in the Spring Cloud Data Flow's [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-ups).
 
 For this walk-through, we will stick to the Spring Boot properties.
 
