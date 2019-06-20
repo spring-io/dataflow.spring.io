@@ -6,9 +6,9 @@ description: 'Connect to an external Kafka Cluster from Cloud Foundry'
 
 # Connect to External Kafka Cluster
 
-The Pivotal Cloud Foundry does not have Apache Kafka as a managed service in the Marketplace.
+Pivotal Cloud Foundry does not have Apache Kafka as a managed service in the Marketplace.
 However, it is common for developers to develop and deploy applications to Cloud Foundry that interact with an external Kafka cluster.
-This recipe specifically walks through the developer expectations from Spring Cloud Stream, Spring Cloud Data Flow, and as well as the [Spring Cloud Data Flow for PCF](https://network.pivotal.io/products/p-dataflow) tile.
+This recipe specifically walks through the developer expectations from Spring Cloud Stream, Spring Cloud Data Flow, and as well as the [Spring Cloud Data Flow for PCF](https://network.pivotal.io/products/p-dataflow) Tile.
 
 We will review the required Spring Cloud Stream properties and how they are translated over to the applications for the following deployment options in Cloud Foundry.
 
@@ -26,15 +26,15 @@ The brokers individually can be reached through its external IP addresses or a w
 For this walk-through, though, we will stick to a simpler setup of 3-broker cluster with their DNS addresses being `foo0.broker.foo`, `foo1.broker.foo`, and `foo2.broker.foo`. The default port of the brokers is `9092`.
 
 If the cluster is secured, depending on the security option in use at the broker, different properties are expected to be supplied for when applications attempt to connect to the external cluster.
-Again, for simplicity, we will use `PlainLoginModule` with username as `test` and password as `bestest`.
+Again, for simplicity, we will use Kafka's [JAAS](https://en.wikipedia.org/wiki/Java_Authentication_and_Authorization_Service) set up of `PlainLoginModule` with username as `test` and password as `bestest`.
 
 ## User-provided Services vs. Spring Boot Properties
 
-The next question Cloud Foundry developers stumble upon is whether or not to set up Kafka connection as Cloud Foundry custom user-provided service (CUPS) or simply passing connection credentials as Spring Boot properties.
+The next question Cloud Foundry developers stumble upon is whether or not to set up Kafka connection as a Cloud Foundry custom user-provided service (CUPS) or simply pass connection credentials as Spring Boot properties.
 
-In Cloud Foundry, there isn't a Spring Cloud Connector or CF JavaEnv support for Kafka, so by service-binding the Kafka CUPS with the application, you _will not_ automatically be able to parse `VCAP_SERVICES` and pass the connection credentials to the applications dynamically.
-Even with CUPS in place, it is your responsibility to parse the `VCAP_SERVICES` JSON and pass them as Boot properties, so no real benefit.
-You can see an example of CUPS in action in the Spring Cloud Data Flow's [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-ups).
+In Cloud Foundry, there isn't a [Spring Cloud Connector](https://github.com/spring-cloud/spring-cloud-connectors) or [CF-JavaEnv](https://github.com/pivotal-cf/java-cfenv) support for Kafka, so by service-binding the Kafka CUPS with the application, you _will not_ automatically be able to parse `VCAP_SERVICES` and pass the connection credentials to the applications at runtime.
+Even with CUPS in place, it is your responsibility to parse the `VCAP_SERVICES` JSON and pass them as Boot properties, so no real benefit here.
+For the curious, you can see an example of CUPS in action in the Spring Cloud Data Flow's [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-ups).
 
 For this walk-through, we will stick to the Spring Boot properties.
 
@@ -53,6 +53,8 @@ applications:
   instances: 1
   path: source-sample.jar
 env:
+    ... # other application properties
+    ... # other application properties
     SPRING_APPLICATION_JSON: '{"spring.cloud.stream.kafka.binder.brokers":"foo0.broker.foo,foo1.broker.foo,foo2.broker.foo","spring.spring.cloud.stream.kafka.binder.jaas.options.username":"test","spring.spring.cloud.stream.kafka.binder.jaas.options.password":"bestest","spring.spring.cloud.stream.kafka.binder.jaas.loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule",
     "spring.cloud.stream.bindings.output.destination":"fooTopic"}'
 ```
@@ -89,14 +91,13 @@ applications:
   instances: 1
   path: spring-cloud-dataflow-server-2.1.0.RELEASE.jar
 env:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_URL:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_ORG:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_SPACE:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_DOMAIN:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_USERNAME:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_PASSWORD:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_SKIP_SSL_VALIDATION:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_DEPLOYMENT_SERVICES:
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_URL: # your cf connection properties
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_ORG: # your cf connection properties
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_SPACE: # your cf connection properties
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_DOMAIN: # your cf connection properties
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_USERNAME: # your cf connection properties
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_PASSWORD: # your cf connection properties
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_DEPLOYMENT_SERVICES:  # your cf connection properties
     SPRING_PROFILES_ACTIVE: cloud
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
     SPRING_APPLICATION_JSON: '{"spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers":"foo0.broker.foo,foo1.broker.foo,foo2.broker.foo","spring.cloud.dataflow.applicationProperties.stream.spring.spring.cloud.stream.kafka.binder.jaas.options.username":"test","spring.cloud.dataflow.applicationProperties.stream.spring.spring.cloud.stream.kafka.binder.jaas.options.password":"bestest","spring.cloud.dataflow.applicationProperties.stream.spring.spring.cloud.stream.kafka.binder.jaas.loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule",
@@ -105,7 +106,7 @@ services:
 - mysql
 ```
 
-With the above `manifest.yml`, SCDF should now be in the position to automatically propagated the required Kafka connection credentials to all the stream application deployments.
+With the above `manifest.yml`, SCDF should now be in the position to automatically propagate the Kafka connection credentials to all the stream application deployments.
 
 ```bash
 dataflow:>stream create fooz --definition "time | log"
@@ -115,7 +116,7 @@ dataflow:>stream deploy --name fooz
 Deployment request has been sent for stream 'fooz'
 ```
 
-When the `time` and `log` applications are successfully deployed and started in Cloud Foundry, they should automatically connect to the external Kafka cluster.
+When the `time` and `log` applications are successfully deployed and started in Cloud Foundry, they should automatically connect to the configured external Kafka cluster.
 
 You can verify the connection credentials by accessing `time` or `log`'s `/configprops` actuator endpoints.
 Likewise, you will also see the connection credentials printed in the app logs.
