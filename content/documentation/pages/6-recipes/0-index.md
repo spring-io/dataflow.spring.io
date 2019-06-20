@@ -7,4 +7,4 @@ summary: true
 
 # Recipes
 
-Recipes that help solve some common use-cases.
+This section contains recipes that help solve some common use cases.

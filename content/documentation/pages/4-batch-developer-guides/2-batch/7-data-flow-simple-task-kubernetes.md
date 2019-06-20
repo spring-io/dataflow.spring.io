@@ -4,19 +4,20 @@ title: 'Deploying a task application on Kubernetes with Data Flow'
 description: 'Guide to deploying spring-cloud-stream-task applications on Kubernetes using Spring Cloud Data Flow'
 ---
 
-# Deploying a task application in Kubernetes
+# Deploying a Task Application in Kubernetes
 
-This guide will walk through how to deploy and run a simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) application on Kubernetes using Spring Cloud Data Flow.
+This guide walks through how to deploy and run a simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) application on Kubernetes by using Spring Cloud Data Flow.
 
-We will deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/batch/spring-task) application to Kubernetes.
+We deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/batch/spring-task) application to Kubernetes.
 
-## Setting up SCDF the Kubernetes cluster
+## Setting up SCDF the Kubernetes Cluster
 
-For this we need a running [Kubernetes cluster with Spring Cloud Data Flow deployed](%currentPath%/installation/kubernetes/). For this example we will use `minikube`.
+For this, we need a running [Kubernetes cluster with Spring Cloud Data Flow deployed](%currentPath%/installation/kubernetes/). For this example, we use `minikube`.
 
-### Verify Spring Cloud Data Flow is up and running
+### Verifying that Spring Cloud Data Flow is Running
 
 When SCDF is running on Kubernetes, you should see the `scdf-server` pod in a `Running` state and the associated service created.
+You can use the following command (shown with typical output) to see the `scdf-server`:
 
 ```bash
 $ kubectl get all -l app=scdf-server
@@ -33,35 +34,37 @@ NAME                                    DESIRED   CURRENT   READY   AGE
 replicaset.apps/scdf-server-65789665d   1         1         1       5m39s
 ```
 
-NOTE: On minikube, `EXTRNAL-IP = <pending>` for the `service` is normal.
+NOTE: On Minikube, `EXTRNAL-IP = <pending>` for the `service` is normal.
 
-### Build a Docker image for the sample task application
+### Building a Docker Image for the Sample Task Application
 
-We will build the `billsetuptask` app, which is configured with the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image):
+We build the `billsetuptask` app, which is configured with the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). To do so:
 
-Clone or download the task samples git repo, and navigate to the `billsetuptask` directory.
+1. Clone or download the task samples git repo and navigate to the `billsetuptask` directory.
 
-```bash
-$ eval $(minikube docker-env)
-$ ./mvnw clean package jib:dockerBuild
-```
+1. Run the following commands to build the docker image:
 
-This will add the image to the `minikube` Docker registry.
-Verify its presence by finding `springcloudtask/billsetuptask` in the list of images:
+   ```bash
+   $ eval $(minikube docker-env)
+   $ ./mvnw clean package jib:dockerBuild
+   ```
 
-```bash
-$ docker images
-```
+   Those commands add the image to the `minikube` Docker registry.
 
-### Register, Create and Launch the Task using Data Flow
+1. Verify its presence by finding `springcloudtask/billsetuptask` in the list of images provided by running the following command:
+   ```bash
+   $ docker images
+   ```
 
-We will use the `Data Flow Dashboard` to set up and launch the `billsetuptask` application.
+### Registering, Creating, and Launching the Task by Using Data Flow
 
-First we need to get the SCDF Server URL
+We use the `Data Flow Dashboard` to set up and launch the `billsetuptask` application.
+
+First, we need to get the SCDF Server URL, which we can do with the following command (the listing includes the output):
 
 ```bash
 $ minikube service --url scdf-server
 http://192.168.99.100:30403
 ```
 
-Follow the instructions to [register and launch a task application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-simple-task), using the docker image we just built to register the application.
+Now you can follow the instructions to [register and launch a task application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-simple-task), using the docker image we just built to register the application.

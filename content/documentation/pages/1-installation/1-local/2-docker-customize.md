@@ -8,162 +8,149 @@ description: 'Customize the Docker Compose installation'
 
 This section covers how to customize the Docker Compose installation by editing the `docker-compose.yml` file.
 
-The Docker Compose file uses the Apache Kafka for the messaging middleware and Prometheus for monitoring.
-If you want to use RabbitMQ or InfluxDB instead, this guide will show you the changes to make in the docker compose file.
+The Docker Compose file uses Apache Kafka for the messaging middleware and Prometheus for monitoring.
+If you want to use RabbitMQ or InfluxDB instead, this guide shows you the changes to make in the docker compose file.
 
-Also, when doing development of custom applications you will need to enable the Docker container that is running the Data Flow Server to see your local file system. This guide will show you how to do that as well.
+Also, when doing development of custom applications, you need to enable the Docker container that runs the Data Flow Server to see your local file system. This guide shows you how to do that as well.
 
 ## Using RabbitMQ Instead of Kafka
 
 You can use RabbitMQ rather than Kafka for communication. To do so:
 
-1.  Delete the following configuration under the `services:` section:
+1. Delete the following configuration under the `services:` section:
 
-    ```yaml
-    kafka:
-      image: confluentinc/cp-kafka:5.2.1
-      ...
-    zookeeper:
-      image: confluentinc/cp-zookeeper:5.2.1
-      ....
-    ```
+   ```yaml
+   kafka:
+     image: confluentinc/cp-kafka:5.2.1
+     ...
+   zookeeper:
+     image: confluentinc/cp-zookeeper:5.2.1
+     ....
+   ```
 
-    With the following:
+1. Insert the following:
 
-    ```yaml
-    rabbitmq:
-      image: rabbitmq:3.7
-      expose:
-        - '5672'
-    ```
+   ```yaml
+   rabbitmq:
+     image: rabbitmq:3.7
+     expose:
+       - '5672'
+   ```
 
-2.  In the `dataflow-server` services configuration block, add the
-    following `environment` entry:
+1. In the `dataflow-server` services configuration block, add the
+   following `environment` entry:
 
-    ```yaml
-    - spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.host=rabbitmq
-    ```
+   ```yaml
+   - spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.host=rabbitmq
+   ```
 
-3.  Replace the following:
+1. Delete the following:
 
-    ```yaml
-    depends_on:
-      - kafka
-    ```
+   ```yaml
+   depends_on:
+     - kafka
+   ```
 
-    With:
+1. Insert the following:
 
-    ```yaml
-    depends_on:
-      - rabbitmq
-    ```
+   ```yaml
+   depends_on:
+     - rabbitmq
+   ```
 
-4.  Modify the `app-import` service definition `command` attribute to
-    replace
-    `https://dataflow.spring.io/kafka-maven-latest` with
-    `https://dataflow.spring.io/rabbitmq-maven-latest`.
+1. Modify the `app-import` service definition `command` attribute to replace `https://dataflow.spring.io/kafka-maven-latest` with `https://dataflow.spring.io/rabbitmq-maven-latest`.
 
 ## Using InfluxDB Instead of Prometheus
 
-You can use InfluxDB rather than Prometheus for monitoring time-series
-database. To do so:
+You can use InfluxDB rather than Prometheus to monitor time-series database. To do so:
 
-1.  Replace the following configuration under the `services` section:
+1. Delete the following configuration under the `services` section:
 
-    ```yaml
-    prometheus:
-      image: springcloud/spring-cloud-dataflow-prometheus-local:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=dataflow-version'}
-      container_name: 'prometheus'
-      volumes:
-        - 'scdf-targets:/etc/prometheus/'
-      ports:
-        - '9090:9090'
-      depends_on:
-        - service-discovery
+   ```yaml
+   prometheus:
+     image: springcloud/spring-cloud-dataflow-prometheus-local:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=dataflow-version'}
+     container_name: 'prometheus'
+     volumes:
+       - 'scdf-targets:/etc/prometheus/'
+     ports:
+       - '9090:9090'
+     depends_on:
+       - service-discovery
 
-    service-discovery:
-      image: springcloud/spring-cloud-dataflow-prometheus-service-discovery:0.0.3
-      container_name: 'service-discovery'
-      volumes:
-        - 'scdf-targets:/tmp/scdf-targets/'
-      expose:
-        - '8181'
-      ports:
-        - '8181:8181'
-      environment:
-        - metrics.prometheus.target.refresh.cron=0/20 * * * * *
-        - metrics.prometheus.target.discovery.url=http://localhost:9393/runtime/apps
-        - metrics.prometheus.target.file.path=/tmp/targets.json
-      depends_on:
-        - dataflow-server
-    ```
+   service-discovery:
+     image: springcloud/spring-cloud-dataflow-prometheus-service-discovery:0.0.3
+     container_name: 'service-discovery'
+     volumes:
+       - 'scdf-targets:/tmp/scdf-targets/'
+     expose:
+       - '8181'
+     ports:
+       - '8181:8181'
+     environment:
+       - metrics.prometheus.target.refresh.cron=0/20 * * * * *
+       - metrics.prometheus.target.discovery.url=http://localhost:9393/runtime/apps
+       - metrics.prometheus.target.file.path=/tmp/targets.json
+     depends_on:
+       - dataflow-server
+   ```
 
-    With the following:
+1. Insert the following:
 
-    ```yaml
-    influxdb:
-      image: influxdb:1.7.4
-      container_name: 'influxdb'
-      ports:
-        - '8086:8086'
-    ```
+   ```yaml
+   influxdb:
+     image: influxdb:1.7.4
+     container_name: 'influxdb'
+     ports:
+       - '8086:8086'
+   ```
 
-2.  In the `dataflow-server` services configuration block, replace the
-    following `environment` entries:
+1. In the `dataflow-server` services configuration block, delete the following `environment` entries:
 
-    ```yaml
-    - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.enabled=true
-    - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.streamapp.security.enabled=false
-    - spring.cloud.dataflow.applicationProperties.stream.management.endpoints.web.exposure.include=prometheus,info,health
-    ```
+   ```yaml
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.enabled=true
+   - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.streamapp.security.enabled=false
+   - spring.cloud.dataflow.applicationProperties.stream.management.endpoints.web.exposure.include=prometheus,info,health
+   ```
 
-    With the following:
+1. Insert the following:
 
-    ```yaml
-    - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled=true
-    - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db=myinfluxdb
-    - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri=http://influxdb:8086
-    ```
+   ```yaml
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled=true
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db=myinfluxdb
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri=http://influxdb:8086
+   ```
 
-3.  Modify the `grafana` service definition `image` attribute to replace
-    `spring-cloud-dataflow-grafana-prometheus` with
-    `spring-cloud-dataflow-grafana-influxdb`.
+1. Modify the `grafana` service definition `image` attribute to replace `spring-cloud-dataflow-grafana-prometheus` with `spring-cloud-dataflow-grafana-influxdb`.
 
-## Accessing the host file system
+## Accessing the Host File System
 
-If you are developing custom applications on your local machine, you will need to register them with Data Flow.
-Since Data Flow is running inside of a Docker container, so the Docker container needs to be configured to access to your local file system in order to resolve the registration reference.
+If you develop custom applications on your local machine, you need to register them with Spring Cloud Data Flow.
+Since Spring Cloud Data Flow runs inside of a Docker container, you need to configure the Docker container to access to your local file system to resolve the registration reference.
 
-You can enable local disk access from Docker container running the Data Flow Server by following these steps.
+You can enable local disk access from Docker container by running the Spring Cloud Data Flow Server. To do so:
 
-1.  Mount the source host folders to the `dataflow-server` container.
+1. Mount the source host folders to the `dataflow-server` container. For example, if the `my-app.jar` is in the `/thing1/thing2/apps` folder on your host machine, add the following `volumes` block to the `dataflow-server` service definition:
+   ```yaml
+   dataflow-server:
+     image: springcloud/spring-cloud-dataflow-server:${DATAFLOW_VERSION}
+     container_name: dataflow-server
+     ports:
+       - '9393:9393'
+     environment:
+       - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka:9092
+       - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=zookeeper:2181
+     volumes:
+       - /thing1/thing2/apps:/root/apps
+   ```
 
-    For example, if the `my-app.jar` is in the `/thing1/thing2/apps`
-    folder on your host machine, add the following `volumes` block to
-    the `dataflow-server` service definition:
-
-    ```yaml
-    dataflow-server:
-      image: springcloud/spring-cloud-dataflow-server:${DATAFLOW_VERSION}
-      container_name: dataflow-server
-      ports:
-        - '9393:9393'
-      environment:
-        - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka:9092
-        - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=zookeeper:2181
-      volumes:
-        - /foo/bar/apps:/root/apps
-    ```
-
-    This configuration provides access to the directory `/foo/bar/apps` that contains your `my-app.jar` from within container’s `/root/apps/` folder.
-    See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
+This configuration provides access to the `/thing1/thing2/apps` directory that contains your `my-app.jar` from within container’s `/root/apps/` folder. See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
 
 <!--TIP-->
 
 **Volume Mounting**
 
 The explicit volume mounting couples docker-compose to your host’s file system, limiting the portability to other machines and operating systems.
-Unlike `docker`, `docker-compose` does not allow volume mounting from the command line (for example, no `-v` parameter).
+Unlike `docker`, `docker-compose` does not allow volume mounting from the command line (for example, there is no `-v` parameter).
 Instead, you can define a placeholder environment variable (such as `HOST_APP_FOLDER`) in place of the hardcoded path by using `- ${HOST_APP_FOLDER}:/root/apps` and setting this variable before starting docker-compose.
 
 <!--END_TIP-->
@@ -179,16 +166,16 @@ so:
 app register --type source --name my-app --uri file://root/apps/my-app-1.0.0.RELEASE.jar
 ```
 
-<!--TIP-->
+<!--NOTE-->
 
 **Metadata URIs**
 
-You also need to use `--metadata-uri` if the metadata jar is available in the /root/apps folder.
+You also need to use `--metadata-uri` if the metadata jar is available in the `/root/apps` folder.
 
-<!--END_TIP-->
+<!--END_NOTE-->
 
-To access the host’s local maven repository from within the `dataflow-server` container, you should mount the host maven local repository (defaults to `~/.m2` for OSX and Linux and `C:\Documents and Settings\{your-username}\.m2` for Windows) to a `dataflow-server` volume called `/root/.m2/`. For MacOS or Linux host
-machines, this looks like the following:
+To access the host’s local maven repository from within the `dataflow-server` container, you must mount the host maven local repository (defaults to `~/.m2` for OSX and Linux and `C:\Documents and Settings\{your-username}\.m2` for Windows) to a `dataflow-server` volume called `/root/.m2/`. For MacOS or Linux host
+machines, this looks like the following listing:
 
 ```
 dataflow-server:
@@ -209,7 +196,7 @@ This approach lets you share jars that are built and installed on the
 host machine (for example, by using `mvn clean install`) directly with
 the dataflow-server container.
 
-You can also pre-register the apps directly in the docker-compose. For
+You can also pre-register the apps directly in the docker-compose instance. For
 every pre-registered app starer, add an additional `wget` statement to
 the `app-import` block configuration, as the following example shows:
 

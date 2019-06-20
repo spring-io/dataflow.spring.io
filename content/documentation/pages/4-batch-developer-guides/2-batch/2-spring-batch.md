@@ -6,11 +6,11 @@ description: 'Create a Spring Batch Job'
 
 # Batch Processing with Spring Batch
 
-In this guide we will develop a Spring Batch application and deploy it to Cloud Foundry, Kubernetes, and on your local machine. In another guide, we will deploy the [Spring Batch application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-spring-batch/).
+In this guide, we develop a Spring Batch application and deploy it to Cloud Foundry, Kubernetes, and your local machine. In another guide, we deploy the [Spring Batch application using Data Flow](%currentPath%/batch-developer-guides/batch/data-flow-spring-batch/).
 
-The following sections describe how to build this application from scratch. If you prefer, you can download a zip file containing the sources for the application `billsetup`, unzip it, and proceed to the [deployment](#deployment) step.
+This guide describes how to build this application from scratch. If you prefer, you can download a zip file that contains the sources for the `billsetup` application, unzip it, and proceed to the [deployment](#deployment) step.
 
-You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser, or from the command-line:
+You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or run the following command to download it from the command-line:
 
 ```bash
 wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
@@ -18,20 +18,22 @@ wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/d
 
 ## Development
 
-We will start from [Spring Initializr](https://start.spring.io/) and create a Spring Batch application.
+We start from [Spring Initializr](https://start.spring.io/) and create a Spring Batch application.
 
 Suppose a cell phone data provider needs to create billing statements for customers. The usage data is stored in JSON files that are stored on the file system. The billing solution must pull data from these files, generate the billing data from this usage data, and store it in a `BILL_STATEMENTS` table.
 
-We could implement this entire solution into a single Spring Boot Application that utilizes Spring Batch, however for this example we will break up the solution into 2 phases:
+We could implement this entire solution in a single Spring Boot Application that uses Spring Batch. However, for this example, we break up the solution into two phases:
 
-1. [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task/): The [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task/) application will be a Spring Boot application using Spring Cloud Task that will simply create the `BILL_STATEMENTS` table.
-1. _billrun_: The _billrun_ application will be a Spring Boot application using Spring Cloud Task and Spring Batch that will read usage data from a JSON file and price the each row and put the resulting data into the `BILL_STATEMENTS` table.
+1. [`billsetuptask`](%currentPath%/batch-developer-guides/batch/simple-task/): The [`billsetuptask`](%currentPath%/batch-developer-guides/batch/simple-task/) application is a Spring Boot application that uses Spring Cloud Task to create the `BILL_STATEMENTS` table.
+1. `billrun`: The `billrun` application is a Spring Boot application that uses Spring Cloud Task and Spring Batch to read usage data and price for each row from a JSON file and put the resulting data into the `BILL_STATEMENTS` table.
 
-For this section we will create a Spring Cloud Task/Spring Batch billrun application that will read usage information from a JSON file containing customer usage data and price each entry and place the result into the `BILL_STATEMENTS` table.
+For this section, we create a Spring Cloud Task and Spring Batch `billrun` application that reads usage information from a JSON file that contains customer usage data and price for each entry and places the result into the `BILL_STATEMENTS` table.
+
+The following image shows the `BILL_STATEMENTS` table:
 
 ![BILL_STATMENTS](images/bill_statements.png)
 
-### Intoducing Spring Batch
+### Introducing Spring Batch
 
 Spring Batch is a lightweight, comprehensive batch framework designed to enable the development of robust batch applications. Spring Batch provides reusable functions that are essential in processing large volumes of records by offering features such as:
 
@@ -42,19 +44,19 @@ Spring Batch is a lightweight, comprehensive batch framework designed to enable 
 - Retry/Skip
 - Resource management
 
-It also provides more advanced technical services and features that will enable extremely high-volume and high performance batch jobs through optimization and partitioning techniques.
+It also provides more advanced technical services and features that enable extremely high-volume and high-performance batch jobs through optimization and partitioning techniques.
 
-For this guide we will focus on 5 Spring Batch components:
+For this guide, we focus on five Spring Batch components, which the following image shows:
 
 ![BILL_STATMENTS](images/spring-batch-reference-model.png)
 
 - `Job`: A `job` is an entity that encapsulates an entire batch process. A job is comprised of one or more `steps`.
-- `Step`: A `Step` is a domain object that encapsulates an independent, sequential phase of a batch job. Each `step` is comprised of a `ItemReader`, `ItemProcessor`, and a `ItemWriter`.
-- `ItemReader`: `ItemReader` is an abstraction that represents the retrieval of input for a Step, one item at a time.
+- `Step`: A `Step` is a domain object that encapsulates an independent, sequential phase of a batch job. Each `step` is comprised of an `ItemReader`, an `ItemProcessor`, and an `ItemWriter`.
+- `ItemReader`: `ItemReader` is an abstraction that represents the retrieval of input for a `Step`, one item at a time.
 - `ItemProcessor`: `ItemProcessor` is an abstraction that represents the business processing of an item.
-- `ItemWriter`: `ItemWriter` is an abstraction that represents the output of a Step
+- `ItemWriter`: `ItemWriter` is an abstraction that represents the output of a `Step`.
 
-In the diagram above we see that each phase of the `JobExecution` is stored into a `JobRepository` (our MySql database). This means that each action performed by Spring Batch is recorded to a database for both logging purposes but also for restarting a job.
+In the preceding diagram, we see that each phase of the `JobExecution` is stored in a `JobRepository` (in this case, our MySql database). This means that each action performed by Spring Batch is recorded to a database for both logging purposes and for restarting a job.
 
 <!--NOTE-->
 
@@ -64,44 +66,46 @@ In the diagram above we see that each phase of the `JobExecution` is stored into
 
 ### Our Batch Job
 
-So for our application we will have a BillRun `Job` that will have one `Step` that will comprised of:
+So, for our application, we have a `BillRun` `Job` that has one `Step`, which consists of:
 
-- `JsonItemReader`: Is an `ItemReader` that will read a JSON file containing the usage data.
-- `BillProcessor`: Is an `ItemProcessor` that will generate a price based on each row of data sent from the JsonItemReader.
-- `JdbcBatchItemWriter`: Is an `ItemWriter` that will write the priced Bill record to the `BILLING_STATEMENT` table.
+- `JsonItemReader`: An `ItemReader` that reads a JSON file containing the usage data.
+- `BillProcessor`: An `ItemProcessor` that generates a price based on each row of data sent from the `JsonItemReader`.
+- `JdbcBatchItemWriter`: An `ItemWriter` that writes the priced `Bill` record to the `BILLING_STATEMENT` table.
 
 ### Initializr
 
+We use [Spring Initializr](https://start.spring.io/) to create our application. To do so:
+
 1. Visit the [Spring Initializr site](https://start.spring.io/).
-1. Select the latest release of spring boot.
+1. Select the latest release of Spring Boot.
 1. Create a new Maven project with a Group name of `io.spring` and an Artifact name of `billrun`.
-1. In the Dependencies text box, type `task` to select the Cloud Task dependency.
-1. In the Dependencies text box, type `jdbc` then select the JDBC dependency.
-1. In the Dependencies text box, type `h2` then select the H2 dependency.
-   1. We use H2 for unit testing.
-1. In the Dependencies text box, type `mysql` then select mysql dependency (or your favorite database).
-   1. We use MySql for the runtime database.
-1. In the Dependencies text box, type `batch` then select Batch.
-1. Click the Generate Project button.
-1. Unzip the billrun.zip file and import the project into your favorite IDE.
+1. In the **Dependencies** text box, type `task` to select the Cloud Task dependency.
+1. In the **Dependencies** text box, type `jdbc` then select the JDBC dependency.
+1. In the **Dependencies** text box, type `h2` then select the H2 dependency.
+   We use H2 for unit testing.
+1. In the **Dependencies** text box, type `mysql` and then select the MySQL dependency (or your favorite database).
+   We use MySql for the runtime database.
+1. In the **Dependencies** text box, type `batch` and then select Batch.
+1. Click the **Generate Project** button.
+1. Unzip the `billrun.zip` file and import the project into your favorite IDE.
 
-Another option instead of using the UI to initialize your project you can do the following:
+Alternatively, you can initialize your project by downloading a pre-built file. To do so:
 
-1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billrun&groupId=io.spring&artifactId=billrun&name=Bill+Run&description=Bill+Run+Sample+App&packageName=io.spring.billrun&packaging=jar&inputSearch=&style=batch&style=cloud-task&style=jdbc&style=h2&style=mysql) to download the preconfigured billrun.zip.
+1. Click [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billrun&groupId=io.spring&artifactId=billrun&name=Bill+Run&description=Bill+Run+Sample+App&packageName=io.spring.billrun&packaging=jar&inputSearch=&style=batch&style=cloud-task&style=jdbc&style=h2&style=mysql) to download the preconfigured `billrun.zip` file.
 
-2. Unzip the billrun.zip file and import the project into your favorite IDE
+2. Unzip the billrun.zip file and import the project into your favorite IDE.
 
 ### Setting up MySql
 
-1. If you don't have an instance of MySql available to you, you can follow these instructions to run a MySql docker image for this example.
+If you do not have an instance of MySql available to you, you can follow these instructions to run a MySql docker image for this example:
 
-   1. Pull the MySql docker image
+1. Pull the MySql docker image by running the following command:
 
-      ```bash
-      docker pull mysql:5.7.25
-      ```
+   ```bash
+   docker pull mysql:5.7.25
+   ```
 
-   2. Start the MySql
+1. Start MySQL by running the following command:
 
    ```bash
    docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
@@ -110,18 +114,19 @@ Another option instead of using the UI to initialize your project you can do the
 
 ### Building The Application
 
-1.  Download the `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy it to the /src/main/resources directory.
+1.  Run `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy the resulting file to the `/src/main/resources` directory.
 
-1.  Download the `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy it to the /src/main/resources directory.
+1.  Run `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy the resulting file to the `/src/main/resources` directory.
 
-1.  In your favorite IDE create the `io.spring.billrun.model` package
-1.  Create a `Usage` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Usage.java).
+1.  In your favorite IDE create the `io.spring.billrun.model` package.
 
-1.  Create a `Bill` class in the `io.spring.billrun.model` using your favorite IDE that looks like the contents in [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Bill.java).
+1.  Create a `Usage` class in the `io.spring.billrun.model` that looks like the contents of [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Usage.java).
 
-1.  In your favorite IDE create the `io.spring.billrun.configuration` package
+1.  Create a `Bill` class in the `io.spring.billrun.model` that looks like the contents of [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Bill.java).
 
-1.  Now lets create our `ItemProcessor` for pricing each Usage record. Create a [BillProcessor](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  In your favorite IDE, create the `io.spring.billrun.configuration` package.
+
+1.  Create an `ItemProcessor` for pricing each `Usage` record. To do so, create a [`BillProcessor`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` that looks like the following listing:
 
     ```java
     public class BillProcessor implements ItemProcessor<Usage, Bill> {
@@ -135,10 +140,10 @@ Another option instead of using the UI to initialize your project you can do the
     }
     ```
 
-    Notice that we are implementing the `ItemProcessor` interface that has the `process` method that we need to override.
-    Our parameter is a `Usage` object and the return value is of type `Bill`.
+    Notice that we implement the `ItemProcessor` interface that has the `process` method that we need to override.
+    Our parameter is a `Usage` object, and the return value is of type `Bill`.
 
-1.  Now we will create a Java configuration that will specify the beans required for the BillRun `Job`. In this case create a [BillingConfiguration](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` using your favorite IDE that looks like the contents below.
+1.  Now we can create a Java configuration that specifies the beans required for the `BillRun` `Job`. In this case, we need to create a [`BillingConfiguration`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` package that looks like the following listing:
 
     ```java
     @Configuration
@@ -205,17 +210,16 @@ Another option instead of using the UI to initialize your project you can do the
     }
     ```
 
-    Before moving on let's look at our configuration a little bit.
-    The `@EnableBatchProcessing` annotation enables Spring Batch features and provide a base configuration for setting up batch jobs.
-    The `@EnableTask` annotation sets up a TaskRepository which stores information about the task execution such as the start and end time of the task and the exit code.
-    In the configuration above we see that our `ItemReader` bean is an instance of `JsonItemReader`. The `JsonItemReader` will read the contents of a resource and unmarshall the JSON data into Usage objects. The `JsonItemReader` is one of the `ItemReader`s provided by Spring Batch.
-    We also see that our `ItemWriter` bean is an instance of `JdbcBatchItemWriter`. The `JdbcBatchItemWriter` will write the results to our database. The `JdbcBatchItemWriter` is one of the `ItemWriter`s provided by Spring Batch.
-    And the `ItemProcessor` is our very own `BillProcessor`. To make life easier notice that all the beans that use Spring Batch provided classes (`Job`, `Step`, `ItemReader`, `ItemWriter`) are being built using builders provided by Spring Batch.
+    The `@EnableBatchProcessing` annotation enables Spring Batch features and provides a base configuration for setting up batch jobs.
+    The `@EnableTask` annotation sets up a `TaskRepository`, which stores information about the task execution (such as the start and end times of the task and the exit code).
+    In the preceding configuration, we see that our `ItemReader` bean is an instance of `JsonItemReader`. The `JsonItemReader` instance reads the contents of a resource and unmarshalls the JSON data into `Usage` objects. `JsonItemReader` is one of the `ItemReader` implementations provided by Spring Batch.
+    We also see that our `ItemWriter` bean is an instance of `JdbcBatchItemWriter`. The `JdbcBatchItemWriter` instance writes the results to our database. `JdbcBatchItemWriter` is one of the `ItemWriter` implementations provided by Spring Batch.
+    The `ItemProcessor` is our very own `BillProcessor`. To make life easier, notice that all the beans that use Spring Batch-provided classes (`Job`, `Step`, `ItemReader`, `ItemWriter`) are being built with builders provided by Spring Batch.
 
 ### Testing
 
-Now that we have written our code, its time to write our test. In this case we want to make sure that the bill information has been properly inserted into the `BILLING_STATEMENTS` table.
-Let’s create our test. Update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that looks like the contents below.
+Now that we have written our code, it is time to write our test. In this case, we want to make sure that the bill information has been properly inserted into the `BILLING_STATEMENTS` table.
+To create your test, update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that it looks like the following listing:
 
 ```java
 package io.spring.billrun;
@@ -277,40 +281,40 @@ public class BillrunApplicationTests {
 }
 ```
 
-For this test we will use `JdbcTemplate` to execute a query to retrieve the results of the billrun. Once the query has been executed we verify that the data in the table is what we expect.
+For this test, we use `JdbcTemplate` to execute a query and retrieve the results of the `billrun`. Once the query has run, we verify that the data in the table is what we expect.
 
 ## Deployment
 
-Deploy to local, Cloud Foundry and Kubernetes
+In this section, we deploy to a local machine, Cloud Foundry, and Kubernetes.
 
 ### Local
 
-1.  Now let’s take the next step of building the project.
-    From a command line change directory to the location of your project and build the project using maven:
-    `./mvnw clean package`.
+Now we can build the project.
 
-2.  Now let’s execute the application with the configurations required to process the usage information in the database.
+1. From a command line, change directory to the location of your project and build the project by running the following Maven command: `./mvnw clean package`.
 
-    To configure the execution of the billrun application utilize the following arguments:
+1. Run the application with the configurations required to process the usage information in the database.
 
-    1. _spring.datasource.url_ - set the URL to your database instance. In the sample below we are connecting to a mysql `task` database on our local machine at port 3306.
-    1. _spring.datasource.username_ - the user name to be used for the MySql database. In the sample below it is `root`
-    1. _spring.datasource.password_ - the password to be used for the MySql database. In the sample below it is `password`
-    1. _spring.datasource.driverClassName_ - The driver to use to connect to the MySql database. In the sample below it is `com.mysql.jdbc.Driver`
-    1. _spring.datasource.initialization-mode_ - initializes the database with the BILL_STATEMENTS and BILL_USAGE tables required for this app. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
-    1. _spring.batch.initialize-schema_ - initializes the database with the tables required for Spring Batch. In the sample below we state that we `always` want to do this. This will not overwrite the tables if they already exist.
+   To configure the execution of the `billrun` application, use the following arguments:
 
-    ```bash
-    java -jar target/billrun-0.0.1-SNAPSHOT.jar \
-    --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
-    --spring.datasource.username=root \
-    --spring.datasource.password=password \
-    --spring.datasource.driverClassName=com.mysql.jdbc.Driver \
-    --spring.datasource.initialization-mode=always \
-    --spring.batch.initialize-schema=always
-    ```
+   - `spring.datasource.url`: Set the URL to your database instance. In the following sample, we connect to a MySQL `task` database on our local machine at port 3306.
+   - `spring.datasource.username`: The user name to be used for the MySQL database. In the following sample, it is `root`.
+   - `spring.datasource.password`: The password to be used for the MySQL database. In the following sample, it is `password`.
+   - `spring.datasource.driverClassName`: The driver to use to connect to the MySQL database. In the following sample, it is `com.mysql.jdbc.Driver`.
+   - `spring.datasource.initialization-mode`: Initializes the database with the `BILL_STATEMENTS` and `BILL_USAGE` tables required for this application. In the following sample, we state that we `always` want to do this. Doing so does not overwrite the tables if they already exist.
+   - `spring.batch.initialize-schema`: Initializes the database with the tables required for Spring Batch. In the following sample, we state that we `always` want to do this. Doing so does not overwrite the tables if they already exist.
 
-3.  Log in to the `mysql` container to query the `BILL_STATEMENTS` table.
+   ```bash
+   java -jar target/billrun-0.0.1-SNAPSHOT.jar \
+   --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
+   --spring.datasource.username=root \
+   --spring.datasource.password=password \
+   --spring.datasource.driverClassName=com.mysql.jdbc.Driver \
+   --spring.datasource.initialization-mode=always \
+   --spring.batch.initialize-schema=always
+   ```
+
+1. Log in to the `mysql` container to query the `BILL_STATEMENTS` table. To do so, run the following commands:
 
 <!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
@@ -319,7 +323,7 @@ Deploy to local, Cloud Foundry and Kubernetes
 mysql&gt; select * from task.BILL_STATEMENTS;
 </code></pre></div>
 
-The output should look something like:
+The output should look something like the following:
 
 | id  | first_name | last_name | minutes | data_usage | bill_amount |
 | --- | ---------- | --------- | ------- | ---------- | ----------- |
@@ -331,7 +335,7 @@ The output should look something like:
 
 #### Cleanup
 
-To stop and remove the mysql container running in the docker instance:
+To stop and remove the MySQL container running in the Docker instance, run the following commands:
 
 ```bash
 docker stop mysql
@@ -340,7 +344,7 @@ docker rm mysql
 
 ### Cloud Foundry
 
-This guide will walk through how to deploy and run simple [spring-batch](https://spring.io/projects/spring-batch) stand-alone applications to Cloud Foundry.
+This guide walk through how to deploy and run simple [spring-batch](https://spring.io/projects/spring-batch) stand-alone applications to Cloud Foundry.
 
 #### Requirements
 
@@ -348,52 +352,45 @@ On your local machine, you will need to have installed:
 
 - Java
 - [Git](https://git-scm.com/)
+- The [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) installed (see the [documentation](https://docs.run.pivotal.io/cf-cli/)).
 
-Please also make sure that you have the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) installed ([documentation](https://docs.run.pivotal.io/cf-cli/)).
+#### Building the Application
 
-#### Building the application
-
-Now let’s take the next step of building the project.
-From a command line change directory to the location of your project and build the project using maven
-`./mvnw clean package`
+Now you can build the project.
+From a command line, change directory to the location of your project and build the project by using the following Maven command: `./mvnw clean package`.
 
 #### Setting up Cloud Foundry
 
-First of all you need a Cloud Foundry account. You can create a free account using [Pivotal Web Services](https://run.pivotal.io/) (PWS). We will use PWS for this example. If you use a different provider, your experience may vary slightly.
+First, you need a Cloud Foundry account. You can create a free account by using [Pivotal Web Services](https://run.pivotal.io/) (PWS). We use PWS for this example. If you use a different provider, your experience may differ slightly from this document.
 
-Log into Cloud Foundry using the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools):
+To get started, log into Cloud Foundry by using the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools):
 
 ```bash
 cf login
 ```
 
-<!--NOTE-->
+[[tip]]
+| You can also target specific Cloud Foundry instances with the `-a` flag, for example `cf login -a https://api.run.pivotal.io`.
 
-**INFO** You can also target specific Cloud Foundry instances with the `-a` flag, for example `cf login -a https://api.run.pivotal.io`.
-
-<!--END_NOTE-->
-
-Before you can push the application, please also ensure that you setup the **MySql Service** on Cloud Foundry. You can check what services are available using:
+Before you can push the application, you must set up the **MySql Service** on Cloud Foundry. You can check what services are available by running the following command:
 
 ```bash
 cf marketplace
 ```
 
-On [Pivotal Web Services](https://run.pivotal.io/) (PWS) you should be able to use the following command to install the MySQL service:
+On [Pivotal Web Services](https://run.pivotal.io/) (PWS), you should be able to use the following command to install the MySQL service:
 
 ```bash
 cf create-service cleardb spark task-example-mysql
 ```
 
-Please make sure you name your MySQL service is `task-example-mysql`.
+Make sure you name your MySQL service is `task-example-mysql`. We use that value throughout this document.
 
 #### Task Concepts in Cloud Foundry
 
-In order to provide configuration parameters for Cloud Foundry, we will create dedicated `manifest` YAML files for each application.
+To provide configuration parameters for Cloud Foundry, we create dedicated `manifest` YAML files for each application. For additional information on setting up a manifest see [here](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html)
 
-**INFO** For additional information on setting up a manifest see [here](https://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html)
-
-Running tasks on Cloud Foundry is a 2-stage process. Before you can actually run any tasks you need to first push an app that is staged without any running instances. We are providing the following common properties to the manifest YAML file to each application:
+Running tasks on Cloud Foundry is a two-stage process. Before you can actually run any tasks, you need to first push an app that is staged without any running instances. We provide the following common properties to the manifest YAML file to each application:
 
 ```yml
 memory: 32M
@@ -402,17 +399,17 @@ no-route: true
 instances: 0
 ```
 
-The key is to set the `instances` property to `0`. This will ensure that the app is staged without being actually running. We also do not need a route to be created and can set `no-route` to `true`.
+The key is to set the `instances` property to `0`. Doing so ensures that the app is staged without being actually running. We also do not need a route to be created and can set `no-route` to `true`.
 
 <!--TIP-->
 
-Having this app staged but not running has a second advantage as well. Not only do we need this staged application to run a task in a subsequent step, but if your database service is internal (part of your Cloud Foundry instance) we can use this application to establish an SSH tunnel to the associated MySql database service to see the persisted data. But we go into the details for that a little bit further down below.
+Having this app staged but not running has a second advantage, as well. Not only do we need this staged application to run a task in a subsequent step, but, if your database service is internal (part of your Cloud Foundry instance), we can use this application to establish an SSH tunnel to the associated MySQL database service to see the persisted data. We go into the details for that a little bit later in this document.
 
 <!--END_TIP-->
 
-#### Running billrun on Cloud Foundry
+#### Running `billrun` on Cloud Foundry
 
-Now we will deploy and run the second task application. In order to deploy, create file `manifest-billrun.yml`:
+Now we can deploy and run the second task application. In order to deploy, create a file called `manifest-billrun.yml` with the following content:
 
 ```yaml
 applications:
@@ -430,13 +427,13 @@ applications:
       - task-example-mysql
 ```
 
-Now run `cf push -f ./manifest-billrun.yml`. This will stage the application. We are now ready to run the task:
+Now run `cf push -f ./manifest-billrun.yml`. Doing so stages the application. We are now ready to run the task by running the following command:
 
 ```bash
 cf run-task billrun ".java-buildpack/open_jdk_jre/bin/java org.springframework.boot.loader.JarLauncher arg1" --name billrun-task
 ```
 
-This should produce output like the following:
+Doing so should produce output similar to the following:
 
 ```bash
 Task has been submitted successfully for execution.
@@ -444,25 +441,25 @@ task name:   billrun-task
 task id:     1
 ```
 
-Verifying the task on the Cloud Foundry dashboard, the task should have executed successfully. But how do we verify that the task application successfuly populated the database table?
+If we verify the task on the Cloud Foundry dashboard, we should see that the task successfully ran. But how do we verify that the task application successfuly populated the database table? We do that next.
 
 #### Validating the Database Results
 
-There are multiple options available on how to access database data in Cloud Foundry also depending on your individual Cloud Foundry environment. Two options that we will look at are:
+You have multiple options for how to access a database in Cloud Foundry, depending on your individual Cloud Foundry environment. We deal with the following two options:
 
-- Using local tools (via SSH or external database provider)
-- Using a Database GUI deployed to Cloud Foundry
+- Using local tools (through SSH or an external database provider)
+- Using a database GUI deployed to Cloud Foundry
 
-##### Using local tools (MySQLWorkbench)
+##### Using Local Tools (MySQLWorkbench)
 
-First we need to create a [key for a service instance](https://cli.cloudfoundry.org/en-US/cf/create-service-key.html) using the `cf create-service-key` command:
+First, we need to create a [key for a service instance](https://cli.cloudfoundry.org/en-US/cf/create-service-key.html) by using the `cf create-service-key` command, as the following example shows:
 
 ```bash
 cf create-service-key task-example-mysql EXTERNAL-ACCESS-KEY
 cf service-key task-example-mysql EXTERNAL-ACCESS-KEY
 ```
 
-This should give you back the credentials neccessary to access the database, e.g.:
+Doing so should give you back the credentials necessary to access the database, such as those in the following example:
 
 ```json
 Getting key EXTERNAL-ACCESS-KEY for service instance task-example-mysql as ghillert@gopivotal.com...
@@ -478,23 +475,23 @@ Getting key EXTERNAL-ACCESS-KEY for service instance task-example-mysql as ghill
 }
 ```
 
-This should result in a response detailing the access information for the respective database. The result will be different depending on whether the used database service is running internally or whether the service is provided by a third-party. In case of PWS, using ClearDB, we can directly connect to the database as it is a third-party provider.
+This should result in a response that details the access information for the respective database. The result differs, depending on whether the database service runs internally or the service is provided by a third-party. In the case of PWS and using ClearDB, we can directly connect to the database, as it is a third-party provider.
 
-If you are dealing with an internal service, you may have to create an SSH tunnel via the `cf ssh` command, e.g.:
+If you deal with an internal service, you may have to create an SSH tunnel by using the `cf ssh` command, as the following example shows:
 
 ```bash
 cf ssh -L 3306:<host_name>:<port> task-example-mysql
 ```
 
-Using the free [MySQLWorkbench](https://www.mysql.com/products/workbench/) you should see the following populated data:
+By using the free [MySQLWorkbench](https://www.mysql.com/products/workbench/), you should see the following populated data:
 
 ![billrun database results](images/CF-task-standalone-task2-database-result.png)
 
-##### Using a Database GUI deployed to Cloud Foundry
+##### Using a Database GUI Deployed to Cloud Foundry
 
-Another interesting option to keep an eye on your MySQL instance is to use [PivotalMySQLWeb](https://github.com/pivotal-cf/PivotalMySQLWeb). In a nutshell, you can push PivotalMySQLWeb to your Cloud Foundry space and bind it to your MySql instance allowing you to introspect your MySQL service without having to use local tooling.
+Another interesting option for keeping an eye on your MySQL instance is to use [PivotalMySQLWeb](https://github.com/pivotal-cf/PivotalMySQLWeb). In a nutshell, you can push PivotalMySQLWeb to your Cloud Foundry space and bind it to your MySql instance to introspect your MySQL service without having to use local tooling.
 
-Check out the project:
+Check out the following project:
 
 ```bash
 git clone https://github.com/pivotal-cf/PivotalMySQLWeb.git
@@ -503,17 +500,17 @@ cd PivotalMySQLWeb
 
 <!--IMPORTANT-->
 
-**IMPORTANT**: Please update the credentials first in `src/main/resources/application-cloud.yml` ([Source on GitHub](https://github.com/pivotal-cf/PivotalMySQLWeb/blob/master/src/main/resources/application-cloud.yml)). By default the username is `admin` and the password is `cfmysqlweb`.
+**IMPORTANT**: You must first update your credentials in `src/main/resources/application-cloud.yml` ([Source on GitHub](https://github.com/pivotal-cf/PivotalMySQLWeb/blob/master/src/main/resources/application-cloud.yml)). By default, the username is `admin` and the password is `cfmysqlweb`.
 
 <!--END_IMPORTANT-->
 
-Then build the project:
+Then you can build the project, by running the following command:
 
 ```bash
 ./mvnw -DskipTests=true package
 ```
 
-Next, update the `manifest.yml` file:
+Next, you need to update the `manifest.yml` file, as the following example shows:
 
 ```yml
 applications:
@@ -530,23 +527,23 @@ applications:
 
 <!--IMPORTANT-->
 
-**IMPORTANT** specify your MySQL service `task-example-mysql`
+**IMPORTANT** You must specify your MySQL service to be `task-example-mysql`. We use that value throughout this document.
 
 <!--END_IMPORTANT-->
 
-In this instance we set the property `random-route` to `true` in order to generate a random URL for the application. Watch the console for a printout of the URL. Push the app to Cloud Foundry:
+In this instance, we set the `random-route` property to `true`, to generate a random URL for the application. You can watch the console for the value of the URL. Then you push the application to Cloud Foundry by running the following command:
 
 ```bash
 cf push
 ```
 
-Now you can login into the application an take a look at the table populated by the `billrun` task application.
+Now you can login into the application and take a look at the table populated by the `billrun` task application. The following image shows its content after we have worked through the content of this example:
 
 ![billrun database results](images/CF-task-standalone-task2-database-result-PivotalMySQLWeb.png)
 
-#### Teardown of all Task Applications and Services
+#### Tearing down all Task Applications and Services
 
-With the conclusion of this example you may also want to remove all instances on Cloud Foundry. The following commands will accomplish that:
+With the conclusion of this example, you may also want to remove all instances on Cloud Foundry. The following commands accomplish that:
 
 ```bash
 cf delete billsetuptask -f
@@ -556,20 +553,22 @@ cf delete-service-key task-example-mysql EXTERNAL-ACCESS-KEY -f
 cf delete-service task-example-mysql -f
 ```
 
-The important thing to note here is that we need to delete the service key `EXTERNAL-ACCESS-KEY` before we can delete the `task-example-mysql` service itself. Additionally employed command flags are:
+The important thingis that we need to delete the `EXTERNAL-ACCESS-KEY` service key before we can delete the `task-example-mysql` service itself. Additionally, the employed command flags are as follows:
 
 - `-f` Force deletion without confirmation
 - `-r` Also delete any mapped routes
 
 ### Kubernetes
 
-This section will walk you the billrun application on Kubernetes.
+This section walks you through running the `billrun` application on Kubernetes.
 
-#### Setting up the Kubernetes cluster
+#### Setting up the Kubernetes Cluster
 
-For this we need a running [Kubernetes cluster](%currentPath%/installation/kubernetes#creating-a-kubernetes-cluster). For this example we will deploy to `minikube`.
+For this example, we need a running [Kubernetes cluster](%currentPath%/installation/kubernetes#creating-a-kubernetes-cluster). For this example, we deploy to `minikube`.
 
-##### Verify minikube is up and running:
+##### Verifying that Minikube is Running
+
+To verify that Minikube is running, run the following command (shown with its output):
 
 ```bash
 minikube status
@@ -579,9 +578,9 @@ apiserver: Running
 kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 ```
 
-##### Install the database
+##### Installing the Database
 
-We will install a MySQL server, using the default configuration from Spring Cloud Data Flow. Execute the following command:
+We install a MySQL server by using the default configuration from Spring Cloud Data Flow. To do so, run the following command:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/mysql/mysql-deployment.yaml \
@@ -590,11 +589,11 @@ kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dat
 -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/mysql/mysql-svc.yaml
 ```
 
-##### Build a Docker image for the sample task application
+##### Building a Docker Image for the Sample Task Application
 
-We will build the docker image for the [billrun](#batch_processing_with_spring_batch) app.
+We need to build the docker image for the [`billrun`](#batch_processing_with_spring_batch) app.
 
-For this we will use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#batch_processing_with_spring_batch), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in pom.xml:
+To do so, we use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#batch_processing_with_spring_batch), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in `pom.xml`:
 
 ```xml
 <plugin>
@@ -615,31 +614,32 @@ For this we will use the [jib maven plugin](https://github.com/GoogleContainerTo
 </plugin>
 ```
 
-Then add the referenced properties, under `properties` For this example, we will use:
+Then add the referenced properties under `properties` For this example, we use the following properties:
 
 ```xml
 <docker.org>springcloudtask</docker.org>
 <docker.version>${project.version}</docker.version>
 ```
 
+Now you can run the following commands to add the image to the `minikube` Docker registry:
+
 ```bash
 eval $(minikube docker-env)
 ./mvnw clean package jib:dockerBuild
 ```
 
-This will add the image to the `minikube` Docker registry.
-Verify its presence by finding `springcloudtask/billrun` in the list of images:
+Run the following command to verify its presence (by finding `springcloudtask/billrun` in the list of images):
 
 ```bash
 docker images
 ```
 
-##### Deploy the app
+##### Deploying the Application
 
 The simplest way to deploy a batch application is as a standalone [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/).
-Deploying batch apps as a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/) or [CronJob](https://kubernetes.io/docs/tasks/job/) is considered best practice for production environments, but is beyond the scope of this guide.
+Deploying batch apps as a [Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/) or [CronJob](https://kubernetes.io/docs/tasks/job/) is considered best practice for production environments but is beyond the scope of this guide.
 
-Save the following to `batch-app.yaml`
+Save the following content to `batch-app.yaml`:
 
 ```yaml
 apiVersion: v1
@@ -680,13 +680,13 @@ spec:
         ]
 ```
 
-Start the app:
+To start the application, run the following command:
 
 ```bash
 kubectl apply -f batch-app.yaml
 ```
 
-When the task is complete, you should see something like this:
+When the task is complete, you should see output similar to the following:
 
 ```bash
 kubectl get pods
@@ -694,15 +694,15 @@ NAME                     READY   STATUS      RESTARTS   AGE
 mysql-5cbb6c49f7-ntg2l   1/1     Running     0          4h
 ```
 
-Delete the Pod.
+Now you can delete the pod. To do so, run the following command:
 
 ```bash
 kubectl delete -f batch-app.yaml
 ```
 
-Log in to the `mysql` container to query the `BILL_STATEMENTS` table.
-Get the name of the `mysql`pod using`kubectl get pods`, as shown above.
-Then login:
+Now log in to the `mysql` container to query the `BILL_STATEMENTS` table.
+Get the name of the `mysql`pod by using `kubectl get pods`, as shown earlier.
+Then log in:
 
 <!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
@@ -711,7 +711,7 @@ Then login:
 mysql&gt; select * from task.BILL_STATEMENTS;
 </code></pre></div>
 
-The output should look something like:
+The output should look something like the following:
 
 | id  | first_name | last_name | minutes | data_usage | bill_amount |
 | --- | ---------- | --------- | ------- | ---------- | ----------- |
@@ -721,7 +721,7 @@ The output should look something like:
 | 4   | michael    | smith     | 650     | 1500       | 8.00        |
 | 5   | mary       | jones     | 700     | 1500       | 8.50        |
 
-To uninstall `mysql`:
+To uninstall `mysql`, run the following command:
 
 ```bash
 kubectl delete all -l app=mysql
