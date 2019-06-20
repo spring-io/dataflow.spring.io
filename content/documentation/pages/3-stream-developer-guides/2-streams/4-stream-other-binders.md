@@ -6,7 +6,7 @@ description: 'Create your own microservices for Stream processing using other me
 
 # Introduction
 
-Spring Cloud Stream provides binders for the following messaging middleware/streaming platform:
+Spring Cloud Stream provides binders for the following messaging middleware and streaming platforms:
 
 - RabbitMQ
 - Apache Kafka

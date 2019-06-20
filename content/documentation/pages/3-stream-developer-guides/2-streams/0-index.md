@@ -7,7 +7,7 @@ summary: true
 
 # Stream Development
 
-In this stream processing guide, you will see how you can:
+This stream processing guide describes how you can:
 
-- Design, develop, test and deploy an individual streaming application without Data Flow
-- Create a streaming data pipeline using these individual applications in Spring Cloud Data Flow
+- Design, develop, test, and deploy an individual streaming application without Spring Cloud Data Flow.
+- Create a streaming data pipeline by using these individual applications in Spring Cloud Data Flow.

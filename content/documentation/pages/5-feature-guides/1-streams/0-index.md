@@ -5,4 +5,6 @@ description: 'Stream Features in Data Flow'
 summary: true
 ---
 
-# Stream feature guides
+# Stream Feature Guides
+
+This section describes how to use various features of streams in Spring Cloud Data Flow.

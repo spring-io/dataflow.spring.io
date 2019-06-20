@@ -10,43 +10,38 @@ description: ''
 
 <!--QUESTION#findstreamapps-->
 
-Where to find the latest Spring Cloud Stream and Spring Cloud Task application starters?
-
-The latest releases of Stream and Task application starters are published to Maven Central and Docker Hub.
-You can find the latest release versions from the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-cloud-stream-app-starters/) and [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/) project sites.
-
-<!--END_QUESTION-->
+## Application Starters
 
 <!--QUESTION#findtaskapps-->
 
-Where to find the latest Spring Cloud Stream and Spring Cloud Task application starters?
+Where can I find the latest Spring Cloud Stream and Spring Cloud Task application starters?
 
-The latest releases of Stream and Task application starters are published to Maven Central and Docker Hub.
+The latest releases of the Stream and Task application starters are published to Maven Central and Docker Hub.
 You can find the latest release versions from the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-cloud-stream-app-starters/) and [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/) project sites.
 
 <!--END_QUESTION-->
 
 <!--QUESTION#appreleases-->
 
-Where do I find the docs for the latest application releases?
+Where can I find the documentation for the latest application releases?
 
-Refer to the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-cloud-stream-app-starters/) and [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/) project sites.
+See the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-cloud-stream-app-starters/) and [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/) project sites.
 
 <!--END_QUESTION-->
 
 <!--QUESTION#extendapps-->
 
-Is it possible to patch and extend the out-of-the-box applications?
+Can I patch and extend the out-of-the-box applications?
 
-Yes. More details in the reference guide section on [Patching Application Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_patching_pre_built_applications) as well as documentation on [Functional Composition](%currentPath%/feature-guides/streams/function-composition).
+Yes. You can find more details in the reference guide section on [Patching Application Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_patching_pre_built_applications) as well as documentation on [Functional Composition](%currentPath%/feature-guides/streams/function-composition).
 
 <!--END_QUESTION-->
 
 <!--QUESTION#buildappstarters-->
 
-How to build a new application based on the same infrastructure as the out-of-the-box applications?
+Can I build a new application based on the same infrastructure as the out-of-the-box applications?
 
-More details in the Spring Cloud Stream App Starter's reference guide section [FAQ on Spring Cloud Stream App Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_general_faq_on_spring_cloud_stream_app_starters).
+Yes. You can find more details in the Spring Cloud Stream App Starter's reference guide section [FAQ on Spring Cloud Stream App Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_general_faq_on_spring_cloud_stream_app_starters).
 
 <!--END_QUESTION-->
 
@@ -54,7 +49,7 @@ More details in the Spring Cloud Stream App Starter's reference guide section [F
 
 Where can I download the latest applications?
 
-Links available in the [stream](https://cloud.spring.io/spring-cloud-stream-app-starters/#http-repository-location-for-apps) and [task](https://cloud.spring.io/spring-cloud-task-app-starters/#http-repository-location-for-apps) apps project sites.
+See the [stream](https://cloud.spring.io/spring-cloud-stream-app-starters/#http-repository-location-for-apps) and [task](https://cloud.spring.io/spring-cloud-task-app-starters/#http-repository-location-for-apps) apps project sites.
 
 <!--END_QUESTION-->
 
@@ -70,19 +65,19 @@ See [stream](https://hub.docker.com/u/springcloudstream) and [task](https://hub.
 
 <!--QUESTION#appsandscdf-->
 
-How are streaming applications and SCDF related?
+How are streaming applications and Spring Cloud Data Flow (SCDF) related?
 
-Streaming applications are standalone and they communicate with other applications through message brokers like RabbitMQ or Apache Kafka.
-They run independently and there's no runtime dependency between applications and SCDF.
-However, based on user actions, SCDF will interact with the platform runtime to update the currently running application, query the current status, or stop the application from running.
+Streaming applications are standalone, and they communicate with other applications through message brokers, such as RabbitMQ or Apache Kafka.
+They run independently and no runtime dependency between applications and SCDF exists.
+However, based on user actions, SCDF interacts with the platform runtime to update the currently running application, query the current status, or stop the application from running.
 
 <!--END_QUESTION-->
 
 <!--QUESTION#batchandscdf-->
 
-How are task and batch applications and SCDF related?
+How are task and batch applications and Spring Cloud Data FLow (SCDF) related?
 
-Though batch/task applications are standalone Spring Boot applications, to record the execution status of batch/task applications, it is _required_ to connect both SCDF and the batch applications to the same database. The individual batch applications (deployed by SCDF) in turn attempt to update their execution status to the shared database, which in turn is used by SCDF to show the execution history and among other details about the batch applications in SCDF's dashboard. You can also construct your batch/task applications to connect to the SCDF Database only for recording execution status but performing work in another database.
+Though batch and task applications are standalone Spring Boot applications, to record the execution status of batch and task applications, you _must_ connect both SCDF and the batch applications to the same database. The individual batch applications (deployed by SCDF), in turn, attempt to update their execution status to the shared database. The database, in turn, is used by SCDF to show the execution history and other details about the batch applications in SCDF's dashboard. You can also construct your batch and task applications to connect to the SCDF Database only for recording execution status but perform the work in another database.
 
 <!--END_QUESTION-->
 
@@ -90,9 +85,9 @@ Though batch/task applications are standalone Spring Boot applications, to recor
 
 What is the relationship of [Composed Task Runner](https://github.com/spring-cloud-task-app-starters/composed-task-runner) and SCDF?
 
-The [Composed Tasks](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) delegates the execution of the collection of Tasks to a separate application, named the Composed Task Runner (CTR).
+[Composed tasks](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) delegate the running of the collection of tasks to a separate application, named the Composed Task Runner (CTR).
 The CTR orchestrates the launching of Tasks defined in the composed task graph.
-To use Composed Tasks, it is required to connect SCDF, CTR, and batch applications to a shared database. Only then, you will be able to track all of their execution history from SCDF’s dashboard.
+To use composed tasks, you must connect SCDF, CTR, and batch applications to a shared database. Only then can you track all of their execution history from SCDF’s dashboard.
 
 <!--END_QUESTION-->
 
@@ -107,59 +102,64 @@ Streaming applications deployed by Data flow connect to the message broker to pu
 
 <!--QUESTION#skipperandscdf-->
 
-What is the role of Skipper in SCDF?
+What is the role of Skipper in Spring Cloud Data Flow (SCDF)?
 
-SCDF delegates and relies on Skipper for the life cycle management of streaming applications. With Skipper, applications contained within the streaming data pipelines are versioned and can be rolling-updated and rolled-back to previous versions.
+SCDF delegates and relies on Skipper for the life cycle management of streaming applications. With Skipper, applications contained within the streaming data pipelines are versioned and can be updated (on a rolling basis) and rolled back to previous versions.
 
 <!--END_QUESTION-->
 
 <!--QUESTION#scdftools-->
 
-What tools are available to interact with SCDF?
+What tools are available to interact with Spring Cloud Data Flow (SCDF)?
 
-[Shell](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#shell), [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#dashboard), [Java DSL](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-java-dsl), and [REST-APIs](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources).
+You can use the following tools to interact with Spring Cloud Data Flow:
+
+- [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#shell)
+- [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#dashboard)
+- [Java DSL](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-java-dsl)
+- [REST-APIs](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources).
 
 <!--END_QUESTION-->
 
 <!--QUESTION#intializrandscdf-->
 
-Why SCDF is not in Spring Initializr?
+Why is Spring Cloud Data Flow (SCDF) not in Spring Initializr?
 
-Initializr's goal is to provide a getting started experience to creating a Spring Boot Application.
-It is not the goal of initializr to create a production ready server application.
-We had tried this in the past, but were not able to succeed because of the need for us to have very fine grained control over dependent libraries.
-As such, we ship the binaries directly instead. And we expect the users either use the binaries as-is or extend by building SCDF locally from the source.
+Initializr's goal is to provide a getting started experience for creating a Spring Boot Application.
+It is not the goal of Initializr to create a production-ready server application.
+We had tried this in the past, but we were not able to succeed because of the need for us to have very fine grained control over dependent libraries.
+As such, we ship the binaries directly instead. We expect the users to either use the binaries as-is or extend them by building SCDF locally from the source.
 
 <!--END_QUESTION-->
 
 <!--QUESTION#oracleandscdf-->
 
-Can SCDF work with Oracle database?
+Can Spring Cloud Data Flow (SCDF) work with an Oracle database?
 
-Yes. Read more about the [supported databases here.](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#configuration-local-rdbms).
+Yes. You can read more about the [supported databases here.](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#configuration-local-rdbms).
 
 <!--END_QUESTION-->
 
 <!--QUESTION#propsvsargs-->
 
-When/Where to use Task properties vs. arguments?
+When and where should I use Task properties versus arguments?
 
-If the configuration for each task execution remains the same across all task launches, then set the properties at the time in which you create the task definition.
+If the configuration for each task execution remains the same across all task launches, you can set the properties at the time in which you create the task definition. The following example shows how to do so:
 
 ```
 task create myTaskDefinition --definition "timestamp --format='yyyy'"
 ```
 
-If the configuration for each task execution changes for each task launch then you will want to use the arguments at task launch time. For example:
+If the configuration for each task execution changes for each task launch, you can use the arguments at task launch time, as the following example shows:
 
 ```
 task launch myTaskDefinition "--server.port=8080"
 ```
 
 [[note]]
-| When using Spring Cloud Data Flow to orchestrate the launches of my task app that utilizes Spring Batch: You will want to use arguments so as to set the Job Parameters required for your batch job.  
+| When you use Spring Cloud Data Flow to orchestrate the launches of a task application that uses Spring Batch, you should use arguments to set the Job Parameters required for your batch job.  
 |
-| Remember: if your argument is a non identifying parameter suffix the argument with `--`.
+| Remember: If your argument is a non-identifying parameter, suffix the argument with `--`.
 
 <!--END_QUESTION-->
 
@@ -359,7 +359,7 @@ NOTE: Log redirect is only supported with link:https://github.com/spring-cloud/s
 
 <!--QUESTION#connectexistingrabbit-->
 
-What if I want to connect to existing RabbitMQ queues?
+Can I connect to existing RabbitMQ queues?
 
 Follow the steps in the [reference guide](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-rabbit/2.2.0.RC1/spring-cloud-stream-binder-rabbit.html#_using_existing_queuesexchanges) to connect with existing RabbitMQ queues.
 
@@ -367,7 +367,7 @@ Follow the steps in the [reference guide](https://cloud.spring.io/spring-cloud-s
 
 <!--QUESTION#kafkacompatibility-->
 
-What is the Apache Kafka vs. Spring Cloud Stream compatibility?
+What is the Apache Kafka versus Spring Cloud Stream compatibility?
 
 See the [compatibility matrix](https://github.com/spring-cloud/spring-cloud-stream/wiki/Kafka-Client-Compatibility) in the Wiki.
 
@@ -379,30 +379,30 @@ See the [compatibility matrix](https://github.com/spring-cloud/spring-cloud-stre
 
 What is a Composed Task Runner (CTR)?
 
-The [Composed Tasks](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature in SCDF that delegates the execution of the composed to an separate application, named the Composed Task Runner (CTR).
-The CTR to orchestrate the launching of Tasks defined in the composed task graph.
-The Composed Task Runner (CTR) parses the graph DSL and for each node in the graph it will execute a RESTful call against a specified Spring Cloud Data Flow instance to launch the associated task definition.
-For each task definition that is executed the Composed Task Runner will poll the database to verify that the task completed.
-Once complete the Composed Task Runner will either continue to the next task in the graph or fail based on how the DSL specified the sequence of tasks should be executed.
+The [Composed Tasks](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) feature in Spring Cloud Data Flow (SCDF) delegates the running of the composed task to a separate application, named the Composed Task Runner (CTR).
+The CTR orchestrates the launching of tasks (which are defined in the composed task graph).
+The Composed Task Runner (CTR) parses the graph DSL and, for each node in the graph, runs a RESTful call against a specified Spring Cloud Data Flow instance to launch the associated task definition.
+For each task definition that is run, the Composed Task Runner polls the database to verify that the task completed.
+Once a task is complete, the Composed Task Runner either continues to the next task in the graph or fails based on how the DSL specified that the sequence of tasks should be run.
 
 <!--END_QUESTION-->
 
 <!--QUESTION#restartjob-->
 
-How do I restart a Spring Batch Job from the beginning, not from where it failed?
+How do I restart a Spring Batch Job from the beginning rather than from where it failed?
 
-In short, you will need to create a new Job Instance for the new task launch. This can be done by changing an existing identifying job parameter or add a new identifying job parameter on the next task launch. For example:
-
-```
-task launch myBatchApp --arguments="foo=bar"
-```
-
-Assuming this task launch fails we can now launch the task and a new job instance will be created if we change the value of the `foo` parameter as shown here:
+In short, you need to create a new Job Instance for the new task launch. You can do so by changing an existing identifying job parameter or by adding a new identifying job parameter on the next task launch. The following example shows a typical task launch:
 
 ```
-task launch myBatchApp --arguments="foo=que"
+task launch myBatchApp --arguments="team=yankees"
 ```
 
-But the preferred way is to write your task/batch app such that it can handle be restarted with a new job instance. One way to do this is to set a `JobParamsIncrementer` for your batch job as discussed in the Spring Batch [reference guide](https://docs.spring.io/spring-batch/trunk/reference/html/configureJob.html#JobParametersIncrementer).
+Assuming that the preceding task launch fails, we can launch the task again, and a new job instance is created if we change the value of the `team` parameter, as the following example shows:
+
+```
+task launch myBatchApp --arguments="team=cubs"
+```
+
+However, the preferred way is to write your task or batch application such that it can handle being restarted with a new job instance. One way to do this is to set a `JobParamsIncrementer` for your batch job, as discussed in the Spring Batch [reference guide](https://docs.spring.io/spring-batch/trunk/reference/html/configureJob.html#JobParametersIncrementer).
 
 <!--END_QUESTION-->

@@ -8,75 +8,71 @@ description: 'Manual installation'
 
 If Docker does not suit your needs, you can manually install the parts you need to run Spring Cloud Data Flow.
 
-## Download server jars
+## Downloading Server Jars
 
-1.  Download the Spring Cloud Data Flow Server and shell by using the following commands:
+To begin, you need to download the server jars. To do so:
 
-    ```bash
-    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
-    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
-    ```
+1. Download the Spring Cloud Data Flow Server and shell by using the following commands:
 
-2.  Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the
-    following commands:
+   ```bash
+   wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+   wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+   ```
 
-    ```bash
-    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
-    ```
+2. Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the following command:
+   ```bash
+   wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+   ```
 
-## Install messaging middleware
+## Install Messaging Middleware
 
-These instructions require that RabbitMQ be running on the same machine as Skipper, Spring Cloud Data Flow server and Shell.
+These instructions require that RabbitMQ be running on the same machine as Skipper, Spring Cloud Data Flow server, and Shell.
 
-To install and run RabbitMQ docker image:
+To install and run the RabbitMQ docker image, use the following command:
 
 ```bash
 docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.7.14-management
 ```
 
-## Start server jars
+## Starting Server Jars
 
-1.  Start Skipper. To do so, in the
-    directory where you downloaded Skipper, run the server by using
-    `java -jar`, as follows:
+Now you need to start the applications that comprise the server. To do so:
 
-    ```bash
-    java -jar spring-cloud-skipper-server-%skipper-version%.jar
-    ```
+1. Start Skipper. To do so, in the directory where you downloaded Skipper, run the server by using `java -jar`, as follows:
 
-2.  Start the Data Flow Server
+   ```bash
+   java -jar spring-cloud-skipper-server-%skipper-version%.jar
+   ```
 
-    In a different terminal window and in the directory where you
-    downloaded Data Flow, run the server by using `java -jar`, as
-    follows:
+1. Start the Data Flow Server. To do so, in a different terminal window and in the directory where you downloaded Data Flow, run the server by using `java -jar`, as follows:
 
-    ```bash
-    java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
-    ```
+   ```bash
+   java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
+   ```
 
-    If Skipper and the Data Flow server are not running on the same
-    host, set the `spring.cloud.skipper.client.serverUri` configuration
-    property to the location of Skipper, as shown in the following
-    example
+   If Skipper and the Data Flow server are not running on the same
+   host, set the `spring.cloud.skipper.client.serverUri` configuration
+   property to the location of Skipper, as shown in the following
+   example:
 
-    ```bash
-    java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
-    ```
+   ```bash
+   java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
+   ```
 
-3.  If you want to use the shell to use Data Flow, start it with the following command:
+1. If you want to use the Spring Cloud Data Flow shell, start it with the following command:
 
-    ```bash
-    java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
-    ```
+   ```bash
+   java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
+   ```
 
-    If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell.
+   If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell, as the following example shows:
 
-    ```bash
-     server-unknown:>dataflow config server https://198.51.100.0
-     Successfully targeted https://198.51.100.0
-    ```
+   ```bash
+    server-unknown:>dataflow config server https://198.51.100.0
+    Successfully targeted https://198.51.100.0
+   ```
 
-    Alternatively, you can pass in the `--dataflow.uri` command line option. The shell’s `--help` command line option shows what is available.
+   Alternatively, you can pass in the `--dataflow.uri` command line option. The shell’s `--help` command line option shows what is available.
 
 <!--TIP-->
 
@@ -91,12 +87,12 @@ on GitHub. Additional information is also available in the [Spring Boot Referenc
 
 <!--END_TIP-->
 
-## Access Data Flow Dashboard
+## Accessing Data Flow Dashboard
 
 You can now navigate to Spring Cloud Data Flow Dashboard. In your browser, navigate to the [Spring Cloud Data
 Flow Dashboard URL](http://localhost:9393/dashboard).
 
-## Register prebuilt applications
+## Registering Prebuilt Applications
 
 <!-- **TODO feels like this can go in some generic section** -->
 
@@ -104,22 +100,22 @@ All the prebuilt streaming applications:
 
 - Are available as Apache Maven artifacts or Docker images.
 - Use RabbitMQ or Apache Kafka.
-- Support monitoring via Prometheus and InfluxDB.
+- Support monitoring through Prometheus and InfluxDB.
 - Contain metadata for application properties used in the UI and code completion in the shell.
 
-Applications can be registered individually using the `app register` command or in bulk using the `app import` command.
-There are also bulk-registration links that represent the group of prebuilt applications for a specific release which is useful for getting started.
+You can register applications individually by using the `app register` command or in bulk by using the `app import` command.
+There are also bulk-registration links that represent the group of prebuilt applications for a specific release, which are useful for getting started.
 
-You can register stream and task applications using the UI or the shell.
+You can register stream and task applications by using the UI or the shell.
 
-For streams, depending on if you are using Kafka or RabbitMQ, register the applications using the respective URLs.
+For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using the respective URLs:
 
 - Kafka - https://dataflow.spring.io/kafka-maven-latest
 - RabbitMQ - https://dataflow.spring.io/rabbitmq-maven-latest
 
-For tasks: https://dataflow.spring.io/task-maven-latest
+For tasks, you can use the following URL: https://dataflow.spring.io/task-maven-latest
 
-From the Data Flow Shell, you can bulk import and register the applications. For example:
+From the Data Flow Shell, you can bulk import and register the applications, as the following example shows:
 
 ```bash
 dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest

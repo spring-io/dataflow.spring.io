@@ -7,4 +7,4 @@ summary: true
 
 # Getting Started
 
-This section shows how to create Batch data pipeline with an existing Task applications and deploy it using Spring Cloud Data Flow.
+This section shows how to create a Spring Batch data pipeline with an existing Spring Cloud Task application and use Spring Cloud Data Flow to deploy it.
