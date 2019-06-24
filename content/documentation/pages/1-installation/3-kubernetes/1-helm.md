@@ -108,7 +108,7 @@ helm install --name my-release stable/spring-cloud-data-flow --set server.versio
 **Full chart options**
 
 To see all of the settings that you can configure on the Spring Cloud Data Flow chart, view the
-[README](https://github.com/kubernetes/charts/tree/master/incubator/spring-cloud-data-flow/README.md).
+[README](https://github.com/kubernetes/charts/tree/master/stable/spring-cloud-data-flow/README.md).
 
 <!--END_TIP-->
 
