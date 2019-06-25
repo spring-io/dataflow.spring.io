@@ -7,7 +7,7 @@ description: 'Creating a Kubernetes Cluster'
 # Creating a Cluster
 
 The Kubernetes [Picking the Right
-Solution](https://kubernetes.io/docs/setup/pick-right-solution/) guide
+Solution](https://kubernetes.io/docs/setup/#production-environment) guide
 lets you choose among many options, so you can pick the one that you are
 most comfortable using.
 
