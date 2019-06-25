@@ -33,7 +33,7 @@ Again, for simplicity, we will use Kafka's [JAAS](https://en.wikipedia.org/wiki/
 The next question Cloud Foundry developers stumble upon is whether or not to set up Kafka connection as a Cloud Foundry custom user-provided service (CUPS) or simply pass connection credentials as Spring Boot properties.
 
 In Cloud Foundry, there isn't a [Spring Cloud Connector](https://github.com/spring-cloud/spring-cloud-connectors) or [CF-JavaEnv](https://github.com/pivotal-cf/java-cfenv) support for Kafka, so by service-binding the Kafka CUPS with the application, you _will not_ automatically be able to parse `VCAP_SERVICES` and pass the connection credentials to the applications at runtime.
-Even with CUPS in place, it is your responsibility to parse the `VCAP_SERVICES` JSON and pass them as Boot properties, so no real benefit here.
+Even with CUPS in place, it is your responsibility to parse the `VCAP_SERVICES` JSON and pass them as Boot properties, so there's no automation in place for Kafka.
 For the curious, you can see an example of CUPS in action in the Spring Cloud Data Flow's [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-ups).
 
 For this walk-through, we will stick to the Spring Boot properties.
@@ -144,4 +144,22 @@ We don't yet have support to supply global configuration properties through the 
 
 However, the option discussed at [Explicit Stream Configuration](%currentPath%/recipes/kafka/ext-kafka-cluster-cf/#explicit-stream-level-kafka-connection-configuration) should still work when deploying a stream from Spring Cloud Data Flow running as a managed service in Pivotal Cloud Foundry.
 
-We look forward to supporting the global configurations in SCDF for PCF tile in the future.
+Alternatively, you could supply Kafka connection credentials as CUPS when creating the service instance of SCDF for PCF Tile.
+
+```bash
+cf create-service p-dataflow standard data-flow -c '{"messaging-data-service": { "user-provided": {"brokers":"foo0.broker.foo,foo1.broker.foo,foo2.broker.foo","username":"test","password":"bestest"}}}'
+```
+
+With that, when deploying the stream, you'd supply the CUPS properties as values from `VCAP_SERVICES`.
+
+```bash
+dataflow:>stream create fooz --definition "time | log"
+Created new stream 'fooz'
+
+dataflow:>stream deploy --name fooz --properties "app.*.spring.cloud.stream.kafka.binder.brokers=${vcap.services.messaging-<GENERATED_GUID>.credentials.brokers},app.*.spring.spring.cloud.stream.kafka.binder.jaas.options.username=${vcap.services.messaging-<GENERATED_GUID>.credentials.username},app.*.spring.spring.cloud.stream.kafka.binder.jaas.options.password=${vcap.services.messaging-<GENERATED_GUID>.credentials.password},app.*.spring.spring.cloud.stream.kafka.binder.jaas.loginModule=org.apache.kafka.common.security.plain.PlainLoginModule"
+Deployment request has been sent for stream 'fooz'
+```
+
+[[note]]
+| Replace `<GENERATED_GUID>` with the GUID of the generated messaging service-instance name, which you can find from `cf services` command.
+| Example: `messaging-b3e76c87-c5ae-47e4-a83c-5fabf2fc4f11`.
