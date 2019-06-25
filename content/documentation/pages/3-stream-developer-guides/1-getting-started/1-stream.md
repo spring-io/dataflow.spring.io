@@ -15,7 +15,7 @@ Instructions for registering these prebuilt applications with Data Flow are prov
 
 You can create streams by using a Domain Specific Language (DSL) through the shell or the dashboard as well as programmatically in Java.
 The dashboard also lets you drag and drop applications onto a palate and connect them visually.
-The dDashboard is bi-directional, so visual actions update the DSL and edits to the DSL update the view of the stream.
+The dashboard is bi-directional, so visual actions update the DSL and edits to the DSL update the view of the stream.
 
 The DSL is modeled after the Unix pipes and filter syntax.
 As an example, a stream DSL defined as `http | log` represents an `http` application sending the data it received from a HTTP post to the messaging middleware.  
@@ -207,4 +207,4 @@ You can find this information in the [Continuous Delivery](%currentPath%/stream-
 
 ## Monitoring
 
-YOu can find this information in the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/) guide.
+You can find this information in the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/) guide.

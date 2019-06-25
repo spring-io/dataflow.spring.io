@@ -553,7 +553,7 @@ cf delete-service-key task-example-mysql EXTERNAL-ACCESS-KEY -f
 cf delete-service task-example-mysql -f
 ```
 
-The important thingis that we need to delete the `EXTERNAL-ACCESS-KEY` service key before we can delete the `task-example-mysql` service itself. Additionally, the employed command flags are as follows:
+The important thing is that we need to delete the `EXTERNAL-ACCESS-KEY` service key before we can delete the `task-example-mysql` service itself. Additionally, the employed command flags are as follows:
 
 - `-f` Force deletion without confirmation
 - `-r` Also delete any mapped routes

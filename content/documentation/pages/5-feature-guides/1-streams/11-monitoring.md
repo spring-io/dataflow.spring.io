@@ -10,7 +10,7 @@ This section describes how to monitor the applications that were deployed as par
 
 The Data Flow 2.x metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Starting with Spring Boot 2.0, Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Integration provides [additional integration](https://docs.spring.io/spring-integration/docs/current/reference/html/#micrometer-integration) to expose metrics around message rates and errors, which is critical to the monitoring of deployed streams.
 
-All the Spring Cloud Stream App Starters are configured to support two of the most popular monitoring systems, Prometheus and InfluxDB. You can declaratively select which monitoring system to use. If you do not use Prometheus or InfluxDB, you can customize the App starters to use a different monitoring system as well as include your preferred Micrometer monitoring system library in your own custom applications. To help you get started monitoring atreams, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
+All the Spring Cloud Stream App Starters are configured to support two of the most popular monitoring systems, Prometheus and InfluxDB. You can declaratively select which monitoring system to use. If you do not use Prometheus or InfluxDB, you can customize the App starters to use a different monitoring system as well as include your preferred Micrometer monitoring system library in your own custom applications. To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
 
 The following image shows the general architecture of how applications are monitored:
 
@@ -38,7 +38,7 @@ This section describes how to set up Prometheus and InfluxDB for a local machine
 
 ### Prometheus
 
-Prometheus is a popular pull-based time series database that pulls the metrics from the target applications from preconfigured endpoints. Prometheus needs to be regularly provided with the URLs of the target applications to monitor. This task is delegated to a component called Service Discovery, which is usually a platform-specific implementation. The Data Flow server provides a standalone Service Discovery service that uses the Data Flow `/runtime/apps` REST endpoint to compute the URL locations of the deployed application’s Prometheus endpoints.
+Prometheus is a popular pull-based time series database that pulls the metrics from the target applications from preconfigured endpoints. Prometheus needs to be regularly provided with the URLs of the target applications to monitor. This task is delegated to a component called Service Discovery, which is usually a platform-specific implementation. The Spring Cloud Data Flow server provides a standalone Service Discovery service that uses the Data Flow `/runtime/apps` REST endpoint to compute the URL locations of the deployed application’s Prometheus endpoints.
 
 To enable Micrometer’s Prometheus meter registry for Spring Cloud Stream application starters, set the following properties.
 
@@ -55,7 +55,7 @@ spring.cloud.streamapp.security.enabled=false
 
 The next steps is to start up Prometheus, Grafana, and the local service discovery application.
 
-First, clone the Data Flow Github repository for the tagged release and change to the `prometheus/docker` folder, as follows:
+First, clone the Spring Cloud Data Flow Github repository for the tagged release and change to the `prometheus/docker` folder, as follows:
 
 ```bash
 cd ./src/grafana/prometheus/docker

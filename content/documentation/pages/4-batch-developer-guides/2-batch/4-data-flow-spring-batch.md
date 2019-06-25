@@ -139,10 +139,10 @@ The following image shows the Tasks view, from which you can launch a task:
 
 To launch a task:
 
-1. Press the "play" button (the middle icon that looks like an arrowhead pointing right).
+1. Click the "play" button (the middle icon that looks like an arrowhead pointing right).
    Doing so takes you to a form where you can add command line arguments and deployment parameters, but we do not need any for this task.
 
-1. Press **Launch the task**.
+1. Click **Launch the task**.
    Doing so runs the task on the Data Flow server's task platform and records a new task `execution`.
    When the execution is complete, the Status turns to a green color and shows `Complete.`
    Select the **Executions** tab to view a summary of executions for this task.

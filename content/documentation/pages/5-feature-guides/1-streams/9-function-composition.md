@@ -178,7 +178,7 @@ app register --name http-transformer --type source --uri docker://springcloudstr
 
 ### Deploying the Stream
 
-We can now deploy a new stream byusing the `http-transform` application that includes the functional beans with the names `upper` and `concat`.
+We can now deploy a new stream by using the `http-transform` application that includes the functional beans with the names `upper` and `concat`.
 
 ```
 stream create helloComposed --definition "http-transformer --server.port=9001 | log"

@@ -87,12 +87,15 @@ Now we can create the code required for this application. To do so:
         	public void sendEvents() {
         		UsageDetail usageDetail = new UsageDetail();
 
-    // usageDetail.setUserId(this.users[new Random().nextInt(5)]); {JB}
+    usageDetail.setUserId(this.users[new Random().nextInt(5)]);
     usageDetail.setDuration(new Random().nextInt(300));
     usageDetail.setData(new Random().nextInt(700));
     this.source.output().send(MessageBuilder.withPayload(usageDetail).build());
     }
     }
+
+    ```
+
     ```
 
 The `@EnableBinding` annotation indicates that you want to bind your application to messaging middleware.

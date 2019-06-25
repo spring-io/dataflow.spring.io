@@ -139,7 +139,7 @@ To do so:
 
 1. Select the checkbox next to the ct-statement definition
 
-1. Press the `Actions` button at the upper left hand corner
+1. Click the `Actions` button at the upper left hand corner
 
 1. Select the `Destroy Tasks` option (shown in the following image).
 

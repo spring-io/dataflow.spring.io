@@ -1,9 +1,7 @@
-              ---
-
+---
 path: 'concepts/architecture/'
 title: 'Architecture'
 description: "Introduction to Data Flow's Architecture."
-
 ---
 
 # Architecture
@@ -86,7 +84,7 @@ Applications come in two flavors:
 - Short-lived applications that process a finite set of data and then terminate.  
   There are two variations of short-lived applications.
 
-  - The first is a Task that runs your code and records the status of the run in the Data Flow database.
+  - The first is a Task that runs your code and records the status of the execution in the Data Flow database.
     It can, optionally, use the Spring Cloud Task framework and need not be a Java application.
     However, the application does need to record its run status in Data Flow's database.
   - The second is an extension of the first that includes the Spring Batch framework as the foundation of performing batch processing.
@@ -238,9 +236,7 @@ For example, you can use a `cassandra` sink that writes data to Cassandra and a 
 
 The installation instructions show how to register these applications with Spring Cloud Data Flow.
 
-You can find more information on pre-built applications in the concepts guide.
-
-<!-- **TODO This should be a link. ** -->
+You can find more information on pre-built applications in the [concepts guide](%currentPath%/concepts/).
 
 ## Microservice Architectural Style
 
@@ -268,7 +264,7 @@ The Stream and Batch developer guides follow this approach.
 Spring Cloud Data Flow’s architectural style is different than other Stream and Batch processing platforms.
 For example in Apache Spark, Apache Flink, and Google Cloud Dataflow, applications run on a dedicated compute engine cluster.
 The nature of the compute engine gives these platforms a richer environment for performing complex calculations on the data as compared to Spring Cloud Data Flow, but it introduces the complexity of another execution environment that is often not needed when creating data-centric applications.
-That does not mean you that cannot do real-time data computations when you use Spring Cloud Data Flow.
+That does not mean that you cannot do real-time data computations when you use Spring Cloud Data Flow.
 For example, you can develop applications that use the Kafka Streams API that time-sliding-window and moving-average functionality as well as joins of the incoming messages against sets of reference data.
 
 A benefit of this approach is that we can delegate to popular platforms as the execution runtime.
@@ -293,7 +289,7 @@ The runtime architecture of a stream consisting of applications that can have mu
 
 Architecturally, it is the same as when using `Source`, `Sink` or `Processor` applications.
 The Stream Application DSL to define this architecture uses the double pipe symbol (`||`) instead of the single pipe (`|`) symbol.
-Also, when you deploy this stream, you must provide more information that describes how to connect each application to another byi using the messaging system.
+Also, when you deploy this stream, you must provide more information that describes how to connect each application to another by using the messaging system.
 
 ### Tasks and Batch Jobs
 

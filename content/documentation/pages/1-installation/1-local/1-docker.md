@@ -72,7 +72,7 @@ DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% docker-com
 Now that docker compose is up, you can access the Spring Cloud Data Flow Dashboard.
 In your browser, navigate to the [Spring Cloud Data Flow Dashboard URL](http://localhost:9393/dashboard).
 
-## Stopping Docker Compose
+## Stopping Spring Cloud Data Flow
 
 When you want to shut down Spring Cloud Data Flow, you can use the `docker-compose down` command. To do so:
 

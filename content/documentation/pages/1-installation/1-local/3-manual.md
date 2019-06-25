@@ -59,7 +59,7 @@ Now you need to start the applications that comprise the server. To do so:
    java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
    ```
 
-1. If you want to use the shell to use Data Flow, start it with the following command:
+1. If you want to use the Spring Cloud Data Flow shell, start it with the following command:
 
    ```bash
    java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
