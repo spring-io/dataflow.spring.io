@@ -24,6 +24,15 @@ To begin, you need to download the server jars. To do so:
    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
    ```
 
+[[note]]
+| If you're interested in trying out the latest `BUILD-SNAPSHOT` (aka: snapshot build from the `master` branch) of SCDF and Skipper's upstream versions, please use the following `wget` commands.
+|
+| `bash | wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-snapshot-version%/spring-cloud-dataflow-server-%dataflow-snapshot-version%.jar | wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-snapshot-version%/spring-cloud-dataflow-shell-%dataflow-snapshot-version%.jar |`
+|
+| `bash | wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-skipper-server/%skipper-snapshot-version%/spring-cloud-skipper-server-%skipper-snapshot-version%.jar |`
+
+The Docker Compose file starts instances of the following products:
+
 ## Install Messaging Middleware
 
 These instructions require that RabbitMQ be running on the same machine as Skipper, Spring Cloud Data Flow server, and Shell.
