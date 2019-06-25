@@ -24,12 +24,20 @@ To begin, you need to download the server jars. To do so:
    wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
    ```
 
-[[note]]
-| If you're interested in trying out the latest `BUILD-SNAPSHOT` (aka: snapshot build from the `master` branch) of SCDF and Skipper's upstream versions, please use the following `wget` commands.
-|
-| `bash | wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-snapshot-version%/spring-cloud-dataflow-server-%dataflow-snapshot-version%.jar | wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-snapshot-version%/spring-cloud-dataflow-shell-%dataflow-snapshot-version%.jar |`
-|
-| `bash | wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-skipper-server/%skipper-snapshot-version%/spring-cloud-skipper-server-%skipper-snapshot-version%.jar |`
+<!--NOTE-->
+
+If you're interested in trying out the latest `BUILD-SNAPSHOT` (aka: snapshot build from the `master` branch) of SCDF and Skipper's upstream versions, please use the following `wget` commands.
+
+```bash
+wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-snapshot-version%/spring-cloud-dataflow-server-%dataflow-snapshot-version%.jar
+wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-snapshot-version%/spring-cloud-dataflow-shell-%dataflow-snapshot-version%.jars
+```
+
+```bash
+wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-skipper-server/%skipper-snapshot-version%/spring-cloud-skipper-server-%skipper-snapshot-version%.jars
+```
+
+<!--END_NOTE-->
 
 ## Install Messaging Middleware
 
