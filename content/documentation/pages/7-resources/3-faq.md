@@ -8,10 +8,6 @@ description: ''
 
 ## Application Starters
 
-<!--QUESTION#findstreamapps-->
-
-## Application Starters
-
 <!--QUESTION#findtaskapps-->
 
 Where can I find the latest Spring Cloud Stream and Spring Cloud Task application starters?
