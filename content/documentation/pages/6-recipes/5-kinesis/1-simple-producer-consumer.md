@@ -15,6 +15,9 @@ In this walk-through, though, we will review a simple use-case to showcase how t
 
 The only requirement for the demonstration is the "Access Key", "Secret Key", and "Region" credentials, which can be gathered from your AWS account.
 
+Alternatively, if you decide to run the applications directly as AWS EC2 instances, you do not need to explicitly provide any of these credentials.
+They are automatically discovered and autoconfigured while bootstrapping.
+
 ## Applications
 
 As for the sample producer and consumer applications, you can clone the repository at [sabbyanandan/kinesisdemo](https://github.com/sabbyanandan/kinesisdemo) to follow along with the sample walk-through.
