@@ -71,6 +71,10 @@ public class KinesisConsumerApplication {
 
 <!--END_TABS-->
 
+[[note]]
+| Both of the applications _require_ `spring-cloud-stream-binder-kinesis` dependency in the classpath.
+| Refer to [sabbyanandan/kinesisdemo](https://github.com/sabbyanandan/kinesisdemo) for more details.
+
 Let's review the producer and consumer's binder configurations:
 
 <!--TABS-->
@@ -84,7 +88,6 @@ spring:
       bindings:
         output:
           destination: test-kinesis-stream
-          group: test-kinesis-stream-group
           content-type: text/plain
 
 cloud:
@@ -163,3 +166,5 @@ Since we stopped the application after 7 records, you will notice that 7 records
 ![Total Number of Records](images/Total-Records-In-Kinesis.png)
 
 That's all! This concludes the demonstration.
+
+Though this is only a simple demonstration, the Kinesis binder provides comprehensive coverage in terms of binder configurations, both on the producer and consumer side (including support for [DynamoDB Streams](https://github.com/spring-cloud/spring-cloud-stream-binder-aws-kinesis/blob/master/spring-cloud-stream-binder-kinesis-docs/src/main/asciidoc/overview.adoc#configuration-options)!), so check out the [binder-documentation](https://github.com/spring-cloud/spring-cloud-stream-binder-aws-kinesis/blob/master/spring-cloud-stream-binder-kinesis-docs/src/main/asciidoc/overview.adoc#configuration-options) for more details.
