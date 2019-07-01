@@ -343,7 +343,7 @@ cf delete-service task-example-mysql -f
 
 This section walks through how to deploy and run a simple [spring-cloud-task](https://spring.io/projects/spring-cloud-task) application on Kubernetes.
 
-We deploy the [billsetuptask](%currentPath%/batch-developer-guides/batch/simple-task/) sample application to Kubernetes.
+We deploy the [billsetuptask](%currentPath%/batch-developer-guides/batch/data-flow-simple-task/) sample application to Kubernetes.
 
 #### Setting up the Kubernetes Cluster
 
@@ -503,4 +503,4 @@ kubectl delete all -l app=mysql
 
 ## What's Next
 
-Congratulations! You have created and deployed a Spring Cloud Task application. Now you can go on to the [next section](/documentation/master/batch-developer-guides/batch/spring-batch/) and create a Spring Batch Application.
+Congratulations! You have created and deployed a Spring Cloud Task application. Now you can go on to the [next section](/docs/batch-developer-guides/batch/spring-batch/) and create a Spring Batch Application.

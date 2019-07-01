@@ -25,7 +25,7 @@ You must you have installed Spring Cloud Data Flow to one of the following platf
 
 ### Installing the Spring Cloud Task Project
 
-For this guide, we use the [Spring Cloud Task](%currentPath%/batch-developer-guides/batch/simple-task) sample, called `billsetuptask`.
+For this guide, we use the [Spring Cloud Task](%currentPath%/batch-developer-guides/batch/data-flow-simple-task) sample, called `billsetuptask`.
 Follow the instructions to code and build the task if you have not done so already.
 
 ## Create Task Definition

@@ -91,7 +91,7 @@ To use composed tasks, you must connect SCDF, CTR, and batch applications to a s
 
 Does SCDF use message broker?
 
-No. The Data Flow and Skipper servers do not interact with the message broker.  
+No. The Data Flow and Skipper servers do not interact with the message broker.
 Streaming applications deployed by Data flow connect to the message broker to publish and consume messages.
 
 <!--END_QUESTION-->
@@ -153,7 +153,7 @@ task launch myTaskDefinition "--server.port=8080"
 ```
 
 [[note]]
-| When you use Spring Cloud Data Flow to orchestrate the launches of a task application that uses Spring Batch, you should use arguments to set the Job Parameters required for your batch job.  
+| When you use Spring Cloud Data Flow to orchestrate the launches of a task application that uses Spring Batch, you should use arguments to set the Job Parameters required for your batch job.
 |
 | Remember: If your argument is a non-identifying parameter, suffix the argument with `--`.
 
@@ -347,7 +347,7 @@ stream deploy --name mystream --properties "deployer.myapp.local.inheritLogging=
 
 Likewise, you can use the same option to redirect and aggregate all logs for the launched Task applications as well. The property is the same for Tasks, too.
 
-NOTE: Log redirect is only supported with link:https://github.com/spring-cloud/spring-cloud-deployer-local[local-deployer].
+NOTE: Log redirect is only supported with [local-deployer](https://github.com/spring-cloud/spring-cloud-deployer-local).
 
 <!--END_QUESTION-->
 
