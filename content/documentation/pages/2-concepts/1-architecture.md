@@ -81,7 +81,7 @@ Applications come in two flavors:
   - Message-driven applications where an unbounded amount of data is consumed or produced through a single input or output (or both).
   - The second is a message-driven application that can have multiple inputs and outputs. It could also be an application that does not use messaging middleware at all.
 
-- Short-lived applications that process a finite set of data and then terminate.  
+- Short-lived applications that process a finite set of data and then terminate.
   There are two variations of short-lived applications.
 
   - The first is a Task that runs your code and records the status of the execution in the Data Flow database.
@@ -89,7 +89,7 @@ Applications come in two flavors:
     However, the application does need to record its run status in Data Flow's database.
   - The second is an extension of the first that includes the Spring Batch framework as the foundation of performing batch processing.
 
-It is common to write long-lived applications based on the Spring Cloud Stream framework and short-lived applications based on the Spring Cloud Task or Spring Batch frameworks.  
+It is common to write long-lived applications based on the Spring Cloud Stream framework and short-lived applications based on the Spring Cloud Task or Spring Batch frameworks.
 There are many guides in the documentation that show you how to use these frameworks in developing data pipelines.
 However, you can also write long-lived and short-lived applications that do not use Spring.
 They can also be written in other programming languages.
@@ -147,7 +147,7 @@ With `http` and `log` registered with Data Flow, a stream definition can be crea
 dataflow:>stream create --name httpStream --definition "http | log"
 ```
 
-The pipe symbol in `http | log` represents the connection of the source output to the sink input.  
+The pipe symbol in `http | log` represents the connection of the source output to the sink input.
 Data Flow sets the appropriate properties when deploying the stream so that the `source` can communicate with the `sink` over the messaging middleware.
 
 #### Streams with Multiple Inputs and Outputs
@@ -182,7 +182,7 @@ The next major section discusses the runtime architecture of the deployed stream
 
 ### Short-lived Applications
 
-Short-lived applications run for a period of time (often minutes to hours) and then terminate.  
+Short-lived applications run for a period of time (often minutes to hours) and then terminate.
 Their runs may be based on a schedule (for example, execute at 6pm every weekday) or in response to an event (for example, a file being put in an FTP server).
 
 The Spring Cloud Task framework lets you develop a short-lived microservice that records the life cycle events (such as the start time, end time and the exit code) of a short lived application.
@@ -218,7 +218,7 @@ Spring Cloud Data Flow lets a user create a directed graph, where each node of t
 
 This is done by using the Composed Task Domain Specific Language for composed tasks.
 There are several symbols in the Composed Task DSL that determine the overall flow.
-The [reference guide](http://docs.spring.io/spring-cloud-dataflow/docs/%scdf-version-latest%/reference/htmlsingle/##_composed_tasks_dsl) goes into detail. The following example shows how the double ampersand symbol (`&&`) is used for conditional execution:
+The [reference guide](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/##_composed_tasks_dsl) goes into detail. The following example shows how the double ampersand symbol (`&&`) is used for conditional execution:
 
 ```
 dataflow:> task create simpleComposedTask --definition "task1 && task2"
@@ -268,7 +268,7 @@ That does not mean that you cannot do real-time data computations when you use S
 For example, you can develop applications that use the Kafka Streams API that time-sliding-window and moving-average functionality as well as joins of the incoming messages against sets of reference data.
 
 A benefit of this approach is that we can delegate to popular platforms as the execution runtime.
-Data Flow can benefit from their feature set (resilience, scalability) as well as the knowledge you may already have about those platforms as you maybe using them for other purposes.  
+Data Flow can benefit from their feature set (resilience, scalability) as well as the knowledge you may already have about those platforms as you maybe using them for other purposes.
 This reduces the cognitive distance for creating and managing data-centric applications as many of the same skills used for deploying other end-user/web applications are applicable.
 
 ### Streams

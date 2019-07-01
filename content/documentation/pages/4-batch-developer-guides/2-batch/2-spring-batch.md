@@ -24,7 +24,7 @@ Suppose a cell phone data provider needs to create billing statements for custom
 
 We could implement this entire solution in a single Spring Boot Application that uses Spring Batch. However, for this example, we break up the solution into two phases:
 
-1. [`billsetuptask`](%currentPath%/batch-developer-guides/batch/simple-task/): The [`billsetuptask`](%currentPath%/batch-developer-guides/batch/simple-task/) application is a Spring Boot application that uses Spring Cloud Task to create the `BILL_STATEMENTS` table.
+1. [`billsetuptask`](%currentPath%/batch-developer-guides/batch/data-flow-simple-task/): The [`billsetuptask`](%currentPath%/batch-developer-guides/batch/data-flow-simple-task/) application is a Spring Boot application that uses Spring Cloud Task to create the `BILL_STATEMENTS` table.
 1. `billrun`: The `billrun` application is a Spring Boot application that uses Spring Cloud Task and Spring Batch to read usage data and price for each row from a JSON file and put the resulting data into the `BILL_STATEMENTS` table.
 
 For this section, we create a Spring Cloud Task and Spring Batch `billrun` application that reads usage information from a JSON file that contains customer usage data and price for each entry and places the result into the `BILL_STATEMENTS` table.
