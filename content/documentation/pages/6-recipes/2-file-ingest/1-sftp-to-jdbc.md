@@ -134,9 +134,6 @@ spec:
     # grant access to the `minikube ip` IP address.
     server: 192.168.99.1
     path: '/staging'
-  mountOptions:
-    - nfsvers=3
-    - udp
 
 ---
 kind: PersistentVolumeClaim
