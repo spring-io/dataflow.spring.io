@@ -68,9 +68,9 @@ helm install --name my-release incubator/spring-cloud-data-flow
 
 **Setting server.service.type**
 
-If you run on a Kubernetes cluster without a load balancer, such as in
-Minikube, you should override the service type to use `NodePort`. To
-do so, add the `--set server.service.type=NodePort` override, as follows:
+If you run on a Kubernetes cluster without a load balancer, you can
+override the service type to use `NodePort`. To do so, add the
+`--set server.service.type=NodePort` override, as follows:
 
 <!--END_TIP-->
 
@@ -80,7 +80,7 @@ helm install --name my-release --set server.service.type=NodePort stable/spring-
 
 ##### Helm RBAC setting
 
-If you run on a Kubernetes cluster without RBAC, such as in Minikube, you should set `rbac.create` to `false`. By default, it is set to
+If you run on a Kubernetes cluster without RBAC, you should set `rbac.create` to `false`. By default, it is set to
 `true` (based on best practices). To do so, add the `--set rbac.create=false` override, as follows:
 
 ```bash
