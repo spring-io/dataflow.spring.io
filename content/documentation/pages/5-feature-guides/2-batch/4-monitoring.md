@@ -41,11 +41,9 @@ The following image shows the general architecture of how applications are monit
 To allow aggregating metrics per application type and per instance id or per task name, the Spring Cloud Task applications are configured to use the following Micrometer tags:
 
 - `task.name`: The name of the Task that contains the applications that send the metrics
-- `task.execution.id`: [The instance id of the executed task](https://docs.spring.io/spring-cloud-task/docs/2.2.0.M1/reference/#features-generated_task_id).
-- `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.M1/reference/#features-external_task_id) as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics
-- `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.M1/reference/#features-parent_task_id) used to identify task that executes another task or tasks.
-
-If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and Data Flow UI provides you with Grafana-buttons that can open a particular dashboard for a given task, application, or application instance.
+- `task.execution.id`: [The instance id of the executed task](https://docs.spring.io/spring-cloud-task/docs/2.2.0.BUILD-SNAPSHOT/reference/#features-generated_task_id).
+- `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.BUILD-SNAPSHOT/reference/#features-external_task_id) as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics
+- `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.BUILD-SNAPSHOT/reference/#features-parent_task_id) used to identify task that executes another task or tasks.
 
 As setting up InfluxDB is different depending on the platform on which you run, we provide instructions for each platform. In Spring Cloud Data Flow 2.x, local server and Cloud Foundry instructions for InfluxDB have been provided.
 
@@ -76,7 +74,7 @@ Instead of having to install them manually, for a quick bootstrap, Spring Cloud 
 To download the Spring Cloud Data Flow Server Docker Compose file, run the following command:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v2.2.0.M1/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml
 ```
 
 - Starting Docker Compose
@@ -84,8 +82,8 @@ wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v2.2.0
 In the directory where you downloaded `docker-compose-influxdb.yml`, start the system, by running the following commands:
 
 ```bash
-export DATAFLOW_VERSION=2.2.0.M1
-export SKIPPER_VERSION=2.1.0.M1
+export DATAFLOW_VERSION=2.2.0.BUILD-SNAPSHOT
+export SKIPPER_VERSION=2.1.0.BUILD-SNAPSHOT
 docker-compose -f ./docker-compose-influxdb.yml up
 ```
 
@@ -142,14 +140,14 @@ Complete example of a DataFlow manifest that enables metrics collection for both
 ```yml
 ---
 applications:
-- name: tzolov-data-flow-server
-  host: tzolov-data-flow-server
+- name: data-flow-server
+  host: data-flow-server
   memory: 2G
   disk_quota: 2G
   instances: 1
-  path: ./spring-cloud-dataflow-server-2.2.0.M1.jar
+  path: ./spring-cloud-dataflow-server-2.2.0.BUILD-SNAPSHOT.jar
   env:
-    SPRING_APPLICATION_NAME: tzolov-data-flow-server
+    SPRING_APPLICATION_NAME: data-flow-server
     SPRING_PROFILES_ACTIVE: cloud
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
     MAVEN_REMOTEREPOSITORIES[REPO1]_URL: https://repo.spring.io/libs-snapshot
