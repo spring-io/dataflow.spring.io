@@ -6,16 +6,16 @@ description: 'Monitoring task data pipelines with InfluxDB'
 
 # Task and Batch Monitoring with InfluxDB
 
-This section describes how to monitor the applications that were deployed as part of a Task. The setup for each platform is different, but the general architecture is the same across the platforms.
+This section describes how to monitor the applications that were deployed as part of a Task definition in SCDF. The setup for each platform is different, but the general architecture is the same across the platforms.
 
-The Data Flow 2.x metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Starting with Spring Boot 2.0, Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Batch provides [additional integration](https://docs.spring.io/spring-batch/4.2.x/reference/html/monitoring-and-metrics.html) to expose metrics around task durations, rates and errors, which is critical to the monitoring of deployed batches.
+The Data Flow 2.x metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Starting with Spring Boot 2.0, Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Batch provides [additional integration](https://docs.spring.io/spring-batch/4.2.x/reference/html/monitoring-and-metrics.html) to expose metrics around task durations, rates and errors, which is critical to the monitoring of deployed batch-jobs.
 
 The core of the Micrometer task integration is part of the Spring Cloud Task’s 2.2.0 release-line, which is a prerequisite for the Task-metrics and the Data Flow integration.
-Any Spring Cloud Task 2.2.0 and newer application can be build and configured to emit Task and Batch metrics to the pre-configured monitoring systems. supported by Micromter.
+Task applications built on the Spring Cloud Task 2.2.0 version can be configured to emit Task and Batch metrics to the pre-configured monitoring systems supported by Micrometer.
 
 <!--NOTE-->
 
-To enable Task metrics integration with DataFlow you must add the `spring-boot-starter-actuator` and the selected `micrometer-registry-xxx` dependencies to the Task POM.
+To enable Task metrics integration with DataFlow you must add the `spring-boot-starter-actuator` and include the desired Micrometer registry as the dependency in the Task POM.
 
 <!--END_NOTE-->
 
@@ -32,11 +32,11 @@ For example:
 </dependency>
 ```
 
-To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
+To help you get started monitoring tasks, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
 
 The following image shows the general architecture of how applications are monitored:
 
-![Stream Monitoring Architecture](images/task-metrics-architecture.png)
+![Task Monitoring Architecture](images/task-metrics-architecture.png)
 
 To allow aggregating metrics per application type and per instance id or per task name, the Spring Cloud Task applications are configured to use the following Micrometer tags:
 
@@ -45,7 +45,7 @@ To allow aggregating metrics per application type and per instance id or per tas
 - `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.M1/reference/#features-external_task_id) as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics
 - `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.M1/reference/#features-parent_task_id) used to identify task that executes another task or tasks.
 
-If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and Data Flow UI provides you with Grafana-buttons that can open a particular dashboard for a given stream, application, or application instance.
+If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and Data Flow UI provides you with Grafana-buttons that can open a particular dashboard for a given task, application, or application instance.
 
 As setting up InfluxDB is different depending on the platform on which you run, we provide instructions for each platform. In Spring Cloud Data Flow 2.x, local server and Cloud Foundry instructions for InfluxDB have been provided.
 
@@ -66,7 +66,7 @@ To enable Micrometer’s Influx meter registry for Spring Cloud Task application
 --spring.cloud.dataflow.grafana-info.url=http://localhost:3000
 ```
 
-Instead of having to install them manually, for a quick bootstrap, Spring Cloud Data Flow provides a [Docker Compose Influx](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml) file which bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Influx, and prebuilt dashboards for Grafana. Instructions below leverage this approach.
+Instead of having to install them manually, for a quick bootstrap, Spring Cloud Data Flow provides a [Docker Compose Influx](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml) file, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Influx, and prebuilt dashboards for Grafana. Instructions below leverage this approach..
 
 [[tip | Upgrade to latest version of Docker ]]
 | We recommended that you upgrade to the [latest version](https://docs.docker.com/compose/install/) of Docker before running the `docker-compose` command. We have tested with Docker Engine version `18.09.2`.
@@ -76,7 +76,7 @@ Instead of having to install them manually, for a quick bootstrap, Spring Cloud 
 To download the Spring Cloud Data Flow Server Docker Compose file, run the following command:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v2.2.0.M1/spring-cloud-dataflow-server/docker-compose-influxdb.yml
 ```
 
 - Starting Docker Compose
@@ -84,8 +84,8 @@ wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%data
 In the directory where you downloaded `docker-compose-influxdb.yml`, start the system, by running the following commands:
 
 ```bash
-export DATAFLOW_VERSION=%dataflow-version%
-export SKIPPER_VERSION=%skipper-version%
+export DATAFLOW_VERSION=2.2.0.M1
+export SKIPPER_VERSION=2.1.0.M1
 docker-compose -f ./docker-compose-influxdb.yml up
 ```
 
@@ -120,8 +120,8 @@ This section describes how to set up InfluxDB for Cloud Foundry.
 
 ### InfluxDB
 
-You can follow the general [Manifest based installation on Cloud Foundry](http://localhost:8000/docs/installation/cloudfoundry/cf-cli/#manifest-based-installation-on-cloud-foundry) instructions for installing `Skipper` and `DataFlow` on Cloud Foundry.
-To enabling the Task metrics integration you need to extend the [DataFlow manifest](http://localhost:8000/docs/installation/cloudfoundry/cf-cli/#installing-using-a-manifest) with following `SPRING_APPLICATION_JSON` variable:
+You can follow the general [Manifest based installation on Cloud Foundry](%currentPath%/installation/cloudfoundry/cf-cli/#manifest-based-installation-on-cloud-foundry) instructions for installing `Skipper` and `DataFlow` on Cloud Foundry.
+To enabling the Task metrics integration you need to extend the [DataFlow manifest](%currentPath%/installation/cloudfoundry/cf-cli/#installing-using-a-manifest) with following `SPRING_APPLICATION_JSON` variable:
 
 ```json
 {
@@ -131,7 +131,7 @@ To enabling the Task metrics integration you need to extend the [DataFlow manife
   "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.uri": "https://your-influx-uri:port",
   "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.userName": "influxusername",
   "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.password": "******",
-  "spring.cloud.dataflow.grafana-info.url": "https://yor-grafana-uri:443"
+  "spring.cloud.dataflow.grafana-info.url": "https://your-grafana-uri:443"
 }
 ```
 
@@ -153,17 +153,17 @@ applications:
     SPRING_PROFILES_ACTIVE: cloud
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
     MAVEN_REMOTEREPOSITORIES[REPO1]_URL: https://repo.spring.io/libs-snapshot
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.cf.violet.springapps.io
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: tzolov
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: demo
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_DOMAIN: apps.violet.springapps.io
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: admin
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: ****
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.run.pivotal.io
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: <org>
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: <space>
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_DOMAIN: cfapps.io
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <email>
+    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <password>
     SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: true
     SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: mysql
-    SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: http://tzolov-skipper-server.apps.violet.springapps.io/api
-    SPRING_APPLICATION_JSON: '{"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.enabled": true,"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.db": "defaultdb","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.autoCreateDb": false,"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.uri": "https://influx-cloud.com:13865","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.userName": "admin","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.password": "******","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled": true,"spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db": "defaultdb","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.autoCreateDb": false,"spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri": "https://influx-cloud.com:13865","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.userName": "admin","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.password": "******",
-    "spring.cloud.dataflow.grafana-info.url": "https://grafana-cloud.com:443"}'
+    SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: http://your-skipper-server-uri/api
+    SPRING_APPLICATION_JSON: '{"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.enabled": true,"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.db": "defaultdb","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.autoCreateDb": false,"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.uri": "https://influx-uri:port","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.userName": "guest","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.password": "******","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled": true,"spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db": "defaultdb","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.autoCreateDb": false,"spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri": "https://influx-uri:port","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.userName": "guest","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.password": "******",
+    "spring.cloud.dataflow.grafana-info.url": "https://grafana-uri:port"}'
 
 services:
 - mysql
