@@ -735,7 +735,7 @@ For running tasks on a local server, restart the server, adding a command line a
 If running on Cloud Foundry:
 
 ```bash
-cf set-env <dataflow-server> SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_LOCAL_ACCOUNTS[DEFAULT].MAXIMUM_CONCURRENT_TASKS 3
+cf set-env <dataflow-server> SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[DEFAULT]_DEPLOYMENT_MAXIMUMCONCURRENTTASKS 3
 ```
 
 If running on Kubernetes, edit the Data Flow server `configmap`, for example:
