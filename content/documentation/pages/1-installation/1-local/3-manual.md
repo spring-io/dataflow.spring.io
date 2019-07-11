@@ -30,11 +30,11 @@ If you're interested in trying out the latest `BUILD-SNAPSHOT` (aka: snapshot bu
 
 ```bash
 wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-snapshot-version%/spring-cloud-dataflow-server-%dataflow-snapshot-version%.jar
-wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-snapshot-version%/spring-cloud-dataflow-shell-%dataflow-snapshot-version%.jars
+wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-snapshot-version%/spring-cloud-dataflow-shell-%dataflow-snapshot-version%.jar
 ```
 
 ```bash
-wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-skipper-server/%skipper-snapshot-version%/spring-cloud-skipper-server-%skipper-snapshot-version%.jars
+wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-skipper-server/%skipper-snapshot-version%/spring-cloud-skipper-server-%skipper-snapshot-version%.jar
 ```
 
 <!--END_NOTE-->
