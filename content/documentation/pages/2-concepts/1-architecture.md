@@ -115,7 +115,7 @@ There are binding libraries for the following messaging middleware products:
 - [Amazon Kinesis](https://aws.amazon.com/kinesis/)
 - [Google Pub/Sub](https://cloud.google.com/pubsub/docs/)
 - [Solace PubSub+](https://solace.com/software/)
-  [Azure Event Hubs](https://azure.microsoft.com/en-us/services/event-hubs/)
+- [Azure Event Hubs](https://azure.microsoft.com/en-us/services/event-hubs/)
 
 [[note]]
 | The Data Flow server delegates to the Skipper server to deploy long-lived applications.
