@@ -64,7 +64,7 @@ Now that you have defined a stream, you can deploy it. To do so:
 
     ![Deployment Page](images/dataflow-deploy-http-ingest.png)
 
-If you use the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
+    If you use the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
 
     ![Unique Port](images/dataflow-unique-port.png)
 
