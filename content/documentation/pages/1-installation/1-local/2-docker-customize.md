@@ -174,15 +174,31 @@ You also need to use `--metadata-uri` if the metadata jar is available in the `/
 
 <!--END_NOTE-->
 
-To access the host’s local maven repository from within the `dataflow-server` container, you must mount the host maven local repository (defaults to `~/.m2` for OSX and Linux and `C:\Documents and Settings\{your-username}\.m2` for Windows) to a `dataflow-server` volume called `/root/.m2/`. For MacOS or Linux host
-machines, this looks like the following listing:
+**Maven Local Repository Mounting**
+
+To access the host’s local maven repository from Spring Cloud Data Flow you must mount the host maven local repository to a `dataflow-server` and `skipper-server` volume called `/root/.m2/`. The Maven Local Repository location defaults to `~/.m2` for OSX and Linux and `C:\Documents and Settings\{your-username}\.m2` for Windows.
+
+For MacOS or Linux host machines, this looks like the following listing:
 
 ```
 dataflow-server:
 .........
   volumes:
     - ~/.m2:/root/.m2
+    
+ skipper-server:
+ ........
+   volumes:
+    - ~/.m2:/root/.m2
 ```
+
+<!--NOTE-->
+
+Dataflow Server requires access to the Maven Local repository in order to properly register applications to the Spring Cloud Data Flow server.  The Skipper Server manages application runtime deployment directly and thereby also requires access to Maven Local in order to deploy applications created and installed on the host machine. 
+
+Mounting this volume allows you to develop applications and install them using `mvn install` while the server is still running and have immediate access to the applications
+
+<!--END_NOTE-->
 
 Now you can use the `maven://` URI schema and Maven coordinates to
 resolve jars installed in the host’s maven repository, as the following
@@ -192,9 +208,9 @@ example shows:
 app register --type processor --name pose-estimation --uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:2.0.2.BUILD-SNAPSHOT --metadata-uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:jar:metadata:2.0.2.BUILD-SNAPSHOT
 ```
 
-This approach lets you share jars that are built and installed on the
+This approach lets you use applications that are built and installed on the
 host machine (for example, by using `mvn clean install`) directly with
-the dataflow-server container.
+the Spring Cloud Data Flow server.
 
 You can also pre-register the apps directly in the docker-compose instance. For
 every pre-registered app starer, add an additional `wget` statement to
