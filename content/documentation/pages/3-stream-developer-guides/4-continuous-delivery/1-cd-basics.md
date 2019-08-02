@@ -166,7 +166,7 @@ If you want to update the existing deployed stream to use a different version of
 First, you can register the required version of the `log` application:
 
 ```
-app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-kafka:2.1.0.RELEASE
+app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:2.1.0.RELEASE
 ```
 
 and perform the stream update as follows:
@@ -196,26 +196,19 @@ stream manifest http-ingest
 "metadata":
   "name": "log"
 "spec":
-  "resource": "maven://org.springframework.cloud.stream.app:log-sink-kafka:jar"
-  "resourceMetadata": "maven://org.springframework.cloud.stream.app:log-sink-kafka:jar:jar:metadata:2.1.0.RELEASE"
+  "resource": "maven://org.springframework.cloud.stream.app:log-sink-rabbit:jar"
+  "resourceMetadata": "maven://org.springframework.cloud.stream.app:log-sink-rabbit:jar:jar:metadata:2.1.0.RELEASE"
   "version": "2.1.0.RELEASE"
   "applicationProperties":
-    "spring.cloud.dataflow.stream.app.label": "log"
-    "management.metrics.export.influx.uri": "http://influxdb:8086"
-    "spring.cloud.stream.kafka.streams.binder.zkNodes": "zookeeper:2181"
-    "spring.cloud.stream.metrics.properties": "spring.application.name,spring.application.index,spring.cloud.application.*,spring.cloud.dataflow.*"
-    "spring.cloud.dataflow.stream.name": "http-ingest"
-    "version": "2.1.0.RELEASE"
-    "spring.cloud.stream.kafka.streams.binder.brokers": "PLAINTEXT://kafka:9092"
     "spring.metrics.export.triggers.application.includes": "integration**"
+    "spring.cloud.dataflow.stream.app.label": "log"
     "spring.cloud.stream.metrics.key": "http-ingest.log.${spring.cloud.application.guid}"
     "spring.cloud.stream.bindings.input.group": "http-ingest"
-    "management.metrics.export.influx.enabled": "true"
-    "management.metrics.export.influx.db": "myinfluxdb"
-    "spring.cloud.stream.kafka.binder.zkNodes": "zookeeper:2181"
+    "spring.cloud.stream.metrics.properties": "spring.application.name,spring.application.index,spring.cloud.application.*,spring.cloud.dataflow.*"
+    "server.port": "9002"
+    "spring.cloud.dataflow.stream.name": "http-ingest"
     "spring.cloud.dataflow.stream.app.type": "sink"
     "spring.cloud.stream.bindings.input.destination": "http-ingest.transform"
-    "spring.cloud.stream.kafka.binder.brokers": "PLAINTEXT://kafka:9092"
   "deploymentProperties":
     "spring.cloud.deployer.count": "1"
     "spring.cloud.deployer.group": "http-ingest"
