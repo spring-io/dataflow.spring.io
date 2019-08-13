@@ -192,7 +192,7 @@ A task application is registered with Data Flow using the name `task` to describ
 The following example shows the shell syntax for registering a `timestamp` task (an application that prints the current time and exits):
 
 ```
-dataflow:> app register --name timestamp --type task --uri maven://org.springframework.cloud.task.app:timestamp-task:1.3.0.RELEASE
+dataflow:> app register --name timestamp --type task --uri maven://org.springframework.cloud.task.app:timestamp-task:2.1.0.RELEASE
 ```
 
 The task definition is created by referencing the name of the task, as the following example shows:
