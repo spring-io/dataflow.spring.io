@@ -192,7 +192,7 @@ export SPRING_APPLICATION_JSON='{ "maven": { "local-repository": "local","remote
 Here is the same content in nicely formatted JSON:
 
 ```yaml
-SPRING_APPLICATION_JSON='{
+export SPRING_APPLICATION_JSON='{
   "maven": {
     "local-repository": "local",
     "remote-repositories": {
@@ -221,7 +221,7 @@ SPRING_APPLICATION_JSON='{
 
 [[note]]
 | Depending on the Spring Cloud Data Flow server implementation, you may have to pass the environment properties by using the platform specific environment-setting capabilities. For instance, in Cloud Foundry,
-| you would pass them as `cf set-env SPRING_APPLICATION_JSON`.
+| you would pass them as `cf set-env <your app> SPRING_APPLICATION_JSON '{...`.
 
 <!--END_QUESTION-->
 

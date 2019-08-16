@@ -556,7 +556,17 @@ do so:
 ```yaml
 env:
   - name: SPRING_APPLICATION_JSON
-    value: '{ "maven": { "local-repository": null, "remote-repositories": { "repo1": { "url": "https://repo.spring.io/libs-snapshot"} } } }'
+    value: -|
+    {
+      "maven": {
+        "local-repository": null,
+        "remote-repositories": {
+          "repo1": {
+            "url": "https://repo.spring.io/libs-snapshot"
+          }
+        }
+      }
+    }
 ```
 
 ### Private Docker Registry
