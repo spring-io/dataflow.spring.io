@@ -55,8 +55,18 @@ applications:
 env:
     ... # other application properties
     ... # other application properties
-    SPRING_APPLICATION_JSON: '{"spring.cloud.stream.kafka.binder.brokers":"foo0.broker.foo,foo1.broker.foo,foo2.broker.foo","spring.spring.cloud.stream.kafka.binder.jaas.options.username":"test","spring.spring.cloud.stream.kafka.binder.jaas.options.password":"bestest","spring.spring.cloud.stream.kafka.binder.jaas.loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule",
-    "spring.cloud.stream.bindings.output.destination":"fooTopic"}'
+    SPRING_APPLICATION_JSON: |-
+        {
+            "spring.cloud.stream.kafka.binder": {
+                "brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
+                "jaas.options": {
+                    "username": "test",
+                    "password":"bestest"
+                },
+                "jaas.loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule"
+            },
+            "spring.cloud.stream.bindings.output.destination":"fooTopic"
+        }
 ```
 
 With the above setting, when the `source-sample` source is deployed to Cloud Foundry, it should be able to connect to the external cluster.
@@ -83,27 +93,55 @@ With that flexibility, every stream application deployed through SCDF will autom
 ```yaml
 ---
 applications:
-- name: scdf-server
-  host: scdf-server
-  memory: 2G
-  disk_quota: 2G
-  timeout: 180
-  instances: 1
-  path: spring-cloud-dataflow-server-2.1.0.RELEASE.jar
+  - name: scdf-server
+    host: scdf-server
+    memory: 2G
+    disk_quota: 2G
+    timeout: 180
+    instances: 1
+    path: spring-cloud-dataflow-server-%dataflow-version%.jar
 env:
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_URL: # your cf connection properties
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_ORG: # your cf connection properties
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_SPACE: # your cf connection properties
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_DOMAIN: # your cf connection properties
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_USERNAME: # your cf connection properties
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_CONNECTION_PASSWORD: # your cf connection properties
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[foo]_DEPLOYMENT_SERVICES:  # your cf connection properties
-    SPRING_PROFILES_ACTIVE: cloud
-    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-    SPRING_APPLICATION_JSON: '{"spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers":"foo0.broker.foo,foo1.broker.foo,foo2.broker.foo","spring.cloud.dataflow.applicationProperties.stream.spring.spring.cloud.stream.kafka.binder.jaas.options.username":"test","spring.cloud.dataflow.applicationProperties.stream.spring.spring.cloud.stream.kafka.binder.jaas.options.password":"bestest","spring.cloud.dataflow.applicationProperties.stream.spring.spring.cloud.stream.kafka.binder.jaas.loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule",
-    "spring.cloud.skipper.client.serverUri": "https://<SKIPPER_URI>/api"}'
+  SPRING_PROFILES_ACTIVE: cloud
+  JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+  SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: http://your-skipper-server-uri/api
+  SPRING_APPLICATION_JSON: |-
+    {
+        "spring.cloud": {
+            "dataflow.task.platform.cloudfoundry": {
+                "accounts": {
+                    "foo": {
+                        "connection": {
+                            "url": <api-url>,
+                            "org": <org>,
+                            "space": <space>,
+                            "domain": <app-domain>, 
+                            "username": <email>, 
+                            "password": <password>,
+                            "skipSslValidation": true
+                        },
+                        "deployment": {
+                            "services": <comma delimited list of service>"
+                        }
+                    }
+                }
+            }, 
+            "stream": { 
+                "kafka.binder": {
+                    "brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
+                    "jaas": {
+                        "options": {
+                            "username": "test",
+                            "password":"bestest"
+                        },
+                        "loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule"
+                    }
+                },
+                "bindings.output.destination":"fooTopic"
+            }
+        }
+    }
 services:
-- mysql
+  - mysql
 ```
 
 With the above `manifest.yml`, SCDF should now be in the position to automatically propagate the Kafka connection credentials to all the stream application deployments.

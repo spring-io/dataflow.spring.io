@@ -123,12 +123,16 @@ To enabling the Task metrics integration you need to extend the [DataFlow manife
 
 ```json
 {
-  "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.enabled": true,
-  "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.db": "yourinfluxdb",
-  "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.autoCreateDb": false,
-  "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.uri": "https://your-influx-uri:port",
-  "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.userName": "influxusername",
-  "spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.password": "******",
+  "spring.cloud.dataflow.applicationProperties": {
+    "task.management.metrics.export.influx": {
+      "enabled": true,
+      "db": "defaultdb",
+      "autoCreateDb": false,
+      "uri": "https://influx-uri:port",
+      "userName": "guest",
+      "password": "******"
+    }
+  },
   "spring.cloud.dataflow.grafana-info.url": "https://your-grafana-uri:443"
 }
 ```
@@ -140,29 +144,67 @@ Complete example of a DataFlow manifest that enables metrics collection for both
 ```yml
 ---
 applications:
-- name: data-flow-server
-  host: data-flow-server
-  memory: 2G
-  disk_quota: 2G
-  instances: 1
-  path: ./spring-cloud-dataflow-server-2.2.0.BUILD-SNAPSHOT.jar
-  env:
-    SPRING_APPLICATION_NAME: data-flow-server
-    SPRING_PROFILES_ACTIVE: cloud
-    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-    MAVEN_REMOTEREPOSITORIES[REPO1]_URL: https://repo.spring.io/libs-snapshot
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.run.pivotal.io
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: <org>
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: <space>
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_DOMAIN: cfapps.io
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <email>
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <password>
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: true
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: mysql
-    SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: http://your-skipper-server-uri/api
-    SPRING_APPLICATION_JSON: '{"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.enabled": true,"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.db": "defaultdb","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.autoCreateDb": false,"spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.uri": "https://influx-uri:port","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.userName": "guest","spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.password": "******","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled": true,"spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db": "defaultdb","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.autoCreateDb": false,"spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri": "https://influx-uri:port","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.userName": "guest","spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.password": "******",
-    "spring.cloud.dataflow.grafana-info.url": "https://grafana-uri:port"}'
+  - name: data-flow-server
+    host: data-flow-server
+    memory: 2G
+    disk_quota: 2G
+    instances: 1
+    path: ./spring-cloud-dataflow-server-%dataflow-version%.jar
+    env:
+      SPRING_APPLICATION_NAME: data-flow-server
+      SPRING_PROFILES_ACTIVE: cloud
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: http://your-skipper-server-uri/api
+      SPRING_APPLICATION_JSON: |-
+        {   
+            "maven" : {
+                "remoteRepositories": {
+                    "repo1" : {
+                        "url": "https://repo.spring.io/libs-snapshot"
+                    }
+                }
+            },
+            "spring.cloud.dataflow.task.platform": {
+                "cloudfoundry": {
+                    "accounts": {
+                        "default": {
+                            "connection":{
+                                "url": <api-url>,
+                                "org": <org>,
+                                "space": <space>,
+                                "domain": <app-domain>,
+                                "username": <email>,
+                                "password": <password>,
+                                "skipSslValidation": true
+                            },
+                            "deployment" : {
+                                "services": "mysql"
+                            }
+                        }
+                    }
+                }
+            },
+            "spring.cloud.dataflow.applicationProperties": {
+                "task.management.metrics.export.influx": {
+                    "enabled": true,
+                    "db": "defaultdb",
+                    "autoCreateDb": false,
+                    "uri": "https://influx-uri:port",
+                    "userName": "guest",
+                    "password": "******"
+                },
+                "stream.management.metrics.export.influx": {
+                    "enabled": true,
+                    "db": "defaultdb",
+                    "autoCreateDb": false,
+                    "uri": "https://influx-uri:port",
+                    "userName": "guest",
+                    "password": "******"
+                }, 
+                "spring.cloud.dataflow.grafana-info.url": "https://grafana-uri:port"
+            }
+        }
 
 services:
-- mysql
+  - mysql
 ```
