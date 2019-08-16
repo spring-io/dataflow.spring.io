@@ -159,6 +159,19 @@ task launch myTaskDefinition "--server.port=8080"
 
 <!--END_QUESTION-->
 
+<!--QUESTION#ctrargs-->
+
+How do I pass command line arguments to the child tasks of a Composed Task graph?
+This is done by using the `composedTaskArguments` property of the Composed Task Runner.
+
+In the example below the command line argument `--timestamp.format=YYYYMMDD` will be applied to all child tasks in the composed task graph.
+
+```
+task launch myComposedTask --arguments “--composedTaskArguments=--timestamp.format=YYYYMMDD”
+```
+
+<!--END_QUESTION-->
+
 <!--QUESTION#mavenconfig-->
 
 How to configure remote Maven repositories?

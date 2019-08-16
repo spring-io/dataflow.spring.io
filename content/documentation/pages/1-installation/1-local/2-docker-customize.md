@@ -185,7 +185,7 @@ dataflow-server:
 .........
   volumes:
     - ~/.m2:/root/.m2
-    
+
  skipper-server:
  ........
    volumes:
@@ -194,7 +194,7 @@ dataflow-server:
 
 <!--NOTE-->
 
-Dataflow Server requires access to the Maven Local repository in order to properly register applications to the Spring Cloud Data Flow server.  The Skipper Server manages application runtime deployment directly and thereby also requires access to Maven Local in order to deploy applications created and installed on the host machine. 
+Dataflow Server requires access to the Maven Local repository in order to properly register applications to the Spring Cloud Data Flow server. The Skipper Server manages application runtime deployment directly and thereby also requires access to Maven Local in order to deploy applications created and installed on the host machine.
 
 Mounting this volume allows you to develop applications and install them using `mvn install` while the server is still running and have immediate access to the applications
 
