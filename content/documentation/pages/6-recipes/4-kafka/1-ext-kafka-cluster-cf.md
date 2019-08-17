@@ -55,18 +55,16 @@ applications:
 env:
     ... # other application properties
     ... # other application properties
-    SPRING_APPLICATION_JSON: -|
+    SPRING_APPLICATION_JSON: |-
         {
             "spring.cloud.stream.kafka.binder": {
-                   "brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
-                   "jaas.options": {
-                          "username": "test",
-                          "password":"bestest"
-                   },
-                   "jaas.loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule"
-                   }
+                "brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
+                "jaas.options": {
+                    "username": "test",
+                    "password":"bestest"
                 },
-            }
+                "jaas.loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule"
+            },
             "spring.cloud.stream.bindings.output.destination":"fooTopic"
         }
 ```
@@ -112,29 +110,30 @@ env:
                 "accounts": {
                     "foo": {
                         "connection": {
-                            "url": <url>,
+                            "url": <api-url>,
                             "org": <org>,
                             "space": <space>,
-                            "domain": <domain>, 
+                            "domain": <app-domain>, 
                             "username": <email>, 
-                            "password": <password>, 
+                            "password": <password>,
+                            "skipSslValidation": true
                         },
                         "deployment": {
                             "services": <comma delimited list of service>"
                         }
                     }
                 }
-            } , 
+            }, 
             "stream": { 
                 "kafka.binder": {
-                brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
-                "jaas": {
-                    "options": {
-                        "username": "test",
-                        "password":"bestest"
-                    },
-                    "loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule"
-                }
+                    brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
+                    "jaas": {
+                        "options": {
+                            "username": "test",
+                            "password":"bestest"
+                        },
+                        "loginModule":"org.apache.kafka.common.security.plain.PlainLoginModule"
+                    }
                 },
                 "bindings.output.destination":"fooTopic"
             },

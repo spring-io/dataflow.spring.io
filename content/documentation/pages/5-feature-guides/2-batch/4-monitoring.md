@@ -163,27 +163,27 @@ applications:
                         "url": "https://repo.spring.io/libs-snapshot"
                     }
                 }
-            }
+            },
             "spring.cloud.dataflow.task.platform": {
                 "cloudfoundry": {
                     "accounts": {
                         "default": {
                             "connection":{
-                                "url": <api-url>
-                                "org": <org>
-                                "space": <space>
-                                "domain": <app-domain>
-                                "username": <email>
-                                "password": <password>
+                                "url": <api-url>,
+                                "org": <org>,
+                                "space": <space>,
+                                "domain": <app-domain>,
+                                "username": <email>,
+                                "password": <password>,
                                 "skipSslValidation": true
-                            }
+                            },
                             "deployment" : {
                                 "services": "mysql"
                             }
                         }
                     }
                 }
-            }
+            },
             "spring.cloud.dataflow.applicationProperties": {
                 "task.management.metrics.export.influx": {
                     "enabled": true,
