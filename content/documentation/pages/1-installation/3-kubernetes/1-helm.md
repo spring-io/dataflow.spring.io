@@ -556,7 +556,7 @@ do so:
 ```yaml
 env:
   - name: SPRING_APPLICATION_JSON
-    value: -|
+    value: |-
     {
       "maven": {
         "local-repository": null,

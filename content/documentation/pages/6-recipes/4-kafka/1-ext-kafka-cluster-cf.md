@@ -99,10 +99,11 @@ applications:
     disk_quota: 2G
     timeout: 180
     instances: 1
-    path: spring-cloud-dataflow-server-2.1.0.RELEASE.jar
+    path: spring-cloud-dataflow-server-%dataflow-version%.jar
 env:
   SPRING_PROFILES_ACTIVE: cloud
   JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+  SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: http://your-skipper-server-uri/api
   SPRING_APPLICATION_JSON: |-
     {
         "spring.cloud": {
@@ -126,7 +127,7 @@ env:
             }, 
             "stream": { 
                 "kafka.binder": {
-                    brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
+                    "brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
                     "jaas": {
                         "options": {
                             "username": "test",
@@ -136,8 +137,7 @@ env:
                     }
                 },
                 "bindings.output.destination":"fooTopic"
-            },
-            "skipper.client.serverUri": "https://<SKIPPER_URI>/api"
+            }
         }
     }
 services:

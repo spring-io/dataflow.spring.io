@@ -149,7 +149,7 @@ applications:
     memory: 2G
     disk_quota: 2G
     instances: 1
-    path: ./spring-cloud-dataflow-server-2.2.0.BUILD-SNAPSHOT.jar
+    path: ./spring-cloud-dataflow-server-%dataflow-version%.jar
     env:
       SPRING_APPLICATION_NAME: data-flow-server
       SPRING_PROFILES_ACTIVE: cloud
@@ -194,7 +194,7 @@ applications:
                     "password": "******"
                 },
                 "stream.management.metrics.export.influx": {
-                     "enabled": true,
+                    "enabled": true,
                     "db": "defaultdb",
                     "autoCreateDb": false,
                     "uri": "https://influx-uri:port",
