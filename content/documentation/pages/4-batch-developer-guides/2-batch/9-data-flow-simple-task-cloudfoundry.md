@@ -62,7 +62,7 @@ cf create-service cloudamqp lemur rabbitmq-service
 [[important]]
 | **IMPORTANT**: When choosing a Postgres service, keep an eye on the provided number of connections. On PWS, for example, the free service tier of `elephantsql` provides only four parallel database connections, which is too limiting to successfully run this example.
 
-Make sure you name your PostgresSQL service `postgres-service`. We use that name in the rest of the examples in this document
+Make sure you name your PostgresSQL service `postgres-service`. We use that name in the rest of the examples in this document.
 
 ## Setting up Skipper on Cloud Foundry
 
@@ -81,25 +81,38 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
        timeout: 180
        buildpacks:
          - java_buildpack
-       path: ./spring-cloud-skipper-server-2.0.2.RC1.jar
+       path: ./spring-cloud-skipper-server-%skipper-version%.jar
        env:
          SPRING_APPLICATION_NAME: skipper-server
          SPRING_PROFILES_ACTIVE: cloud
          JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-         SPRING_CLOUD_SKIPPER_SERVER_STRATEGIES_HEALTHCHECK_TIMEOUTINMILLIS: 300000
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.run.pivotal.io
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: <your-cloud-foundry-org>
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: <your-cloud-foundry-space>
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DOMAIN: cfapps.io
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <your-cloud-foundry-username>
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <your-cloud-foundry-password>
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: false
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DELETE_ROUTES: false
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: rabbitmq-service
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_STREAM_ENABLE_RANDOM_APP_NAME_PREFIX: false
-         SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_MEMORY: 2048m
          SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 1
          SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 4
+         SPRING_APPLICATION_JSON: |-
+           {
+             "spring.cloud.skipper.server" : {
+                "platform.cloudfoundry.accounts" : {
+                      "default" : {
+                          "connection" : {
+                              "url" : <cf-api-url>,
+                              "domain" : <cf-apps-domain>,
+                              "org" : <org>,
+                              "space" : <space>,
+                              "username": <email>,
+                              "password" : <password>,
+                              "skipSsValidation" : false 
+                          },
+                          "deployment" : {
+                              "deleteRoutes" : false,
+                              "services" : "rabbitmq-service",
+                              "enableRandomAppNamePrefix" : false,
+                              "memory" : 2048
+                          }
+                     }
+                 }
+              }
+           }
+
        services:
          - postgres-service
    ```
@@ -126,21 +139,43 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
          SPRING_APPLICATION_NAME: data-flow-server
          SPRING_PROFILES_ACTIVE: cloud
          JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-         MAVEN_REMOTEREPOSITORIES[REPO1]_URL: https://repo.spring.io/libs-snapshot
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.run.pivotal.io
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: <your-cloud-foundry-org>
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: <your-cloud-foundry-space>
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_DOMAIN: cfapps.io
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <your-cloud-foundry-username>
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <your-cloud-foundry-password>
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIP_SSL_VALIDATION: true
-         SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: postgres-service, rabbitmq-service
-         SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: <your-skipper-server-uri> # e.g. https://my-skipper-server.cfapps.io/api
-         SPRING_CLOUD_DATAFLOW_SERVER_URI: <your-dataflow-server-uri> # e.g. https://my-data-flow-server.cfapps.io
-         SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 2
-         SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 4
-         SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_TASK_SPRING_DATASOURCE_HIKARI_MINIMUMIDLE: 1
-         SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_TASK_SPRING_DATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 2
+         SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://<skipper-host-name>/api
+         SPRING_APPLICATION_JSON: |-
+           {
+             "maven" : {
+                 "remoteRepositories" : {
+                     "repo1" : {
+                       "url" : "https://repo.spring.io/libs-snapshot"
+                     }
+                 }
+             }, 
+             "spring.cloud.dataflow" : {
+                   "task.platform.cloudfoundry.accounts": {
+                       "default" : {
+                           "connection" : {
+                               "url": <cf-api-url>,
+                               "domain": <cf-apps-domain>,
+                               "org": <org>,
+                               "space" : <space>,
+                               "username": <email>,
+                               "password" : <password>,
+                               "skipSsValidation" : true 
+                           },
+                           "deployment" : {
+                             "services" : "postgres-service"
+                           }
+                       }
+                   },
+                   "applicationProperties" : {
+                       "task": {
+                           "spring.datasource.hikari" : {
+                                 "minimumIdle" : 1, ,  
+                                 "maximumPoolSize" : 2
+                           }
+                       }
+                   }
+             }
+           }
        services:
          - postgres-service
    ```
