@@ -62,7 +62,7 @@ cf create-service cloudamqp lemur rabbitmq-service
 [[important]]
 | **IMPORTANT**: When choosing a Postgres service, keep an eye on the provided number of connections. On PWS, for example, the free service tier of `elephantsql` provides only four parallel database connections, which is too limiting to successfully run this example.
 
-Make sure you name your PostgresSQL service `postgres-service`. We use that name in the rest of the examples in this document
+Make sure you name your PostgresSQL service `postgres-service`. We use that name in the rest of the examples in this document.
 
 ## Setting up Skipper on Cloud Foundry
 
@@ -91,7 +91,6 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
          SPRING_APPLICATION_JSON: |-
            {
              "spring.cloud.skipper.server" : {
-                "strategies.healthcheck.timeoutInMillis" : 300000, 
                 "platform.cloudfoundry.accounts" : {
                       "default" : {
                           "connection" : {
@@ -105,7 +104,7 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
                           },
                           "deployment" : {
                               "deleteRoutes" : false,
-                              "services" : "rabbitmq",
+                              "services" : "rabbitmq-service",
                               "enableRandomAppNamePrefix" : false,
                               "memory" : 2048
                           }
@@ -163,7 +162,7 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
                                "skipSsValidation" : true 
                            },
                            "deployment" : {
-                             "services" : "postgresSQL, rabbitmq"
+                             "services" : "postgres-service"
                            }
                        }
                    },

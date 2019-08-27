@@ -85,7 +85,7 @@ To install Cloud Foundry:
     Once you have installed Cloud Foundry, you can push Skipper to
     Cloud Foundry. To do so, you need to create a manifest for Skipper.
 
-    You will use the default deployment platform `deployment.services` setting in the `Skipper Server` configuration, as shown below, to configure Skipper to bind the RabbitMQ service to all deployed streaming applications.
+    You will use the "default" deployment platform `deployment.services` setting in the `Skipper Server` configuration, as shown below, to configure Skipper to bind the RabbitMQ service to all deployed streaming applications. Note "rabbitmq" is the name of the service instance in this case.
 
     The following example shows a typical manifest for Skipper:
 
@@ -107,7 +107,6 @@ To install Cloud Foundry:
           SPRING_APPLICATION_JSON: |-
             {
               "spring.cloud.skipper.server" : {
-                 "strategies.healthcheck.timeoutInMillis" : 300000, 
                  "platform.cloudfoundry.accounts":  {
                        "default": {
                            "connection" : {
@@ -195,7 +194,8 @@ If you need to configure multiple Maven repositories, a proxy, or authorization 
 
 As an alternative to setting environment variables with the `cf set-env` command, you can curate all the relevant environment variables in a
 `manifest.yml` file and use the `cf push` command to provision the server.
-The following example shows such a manifest file:
+
+The following example shows such a manifest file. Note that "postgresSQL" is the name of the database service instance:
 
 ```yml
 ---
@@ -240,7 +240,7 @@ applications:
            }
         }
 services:
-  - postgreSQL
+  - postgresSQL
 ```
 
 <!--TIP-->
