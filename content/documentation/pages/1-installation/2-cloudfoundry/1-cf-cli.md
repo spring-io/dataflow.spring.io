@@ -85,7 +85,7 @@ To install Cloud Foundry:
     Once you have installed Cloud Foundry, you can push Skipper to
     Cloud Foundry. To do so, you need to create a manifest for Skipper.
 
-    You will use the `SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[pws]_DEPLOYMENT_SERVICES` setting in the `Skipper Server` configuration, which automatically binds RabbitMQ to the deployed streaming applications.
+    You will use the default deployment platform `deployment.services` setting in the `Skipper Server` configuration, as shown below, to configure Skipper to bind the RabbitMQ service to all deployed streaming applications.
 
     The following example shows a typical manifest for Skipper:
 
@@ -104,18 +104,31 @@ To install Cloud Foundry:
           SPRING_APPLICATION_NAME: skipper-server
           SPRING_PROFILES_ACTIVE: cloud
           JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-          SPRING_CLOUD_SKIPPER_SERVER_STRATEGIES_HEALTHCHECK_TIMEOUTINMILLIS: 300000
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.run.pivotal.io
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: <org>
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: <space>
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DOMAIN: cfapps.io
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: <email>
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: <password>
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIPSSLVALIDATION: false
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_DELETEROUTES: false
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: <serviceName>
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_ENABLERANDOMAPPNAMEPREFIX: false
-          SPRING_CLOUD_SKIPPER_SERVER_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_MEMORY: 2048m
+          SPRING_APPLICATION_JSON: |-
+            {
+              "spring.cloud.skipper.server" : {
+                 "strategies.healthcheck.timeoutInMillis" : 300000, 
+                 "platform.cloudfoundry.accounts":  {
+                       "default": {
+                           "connection" : {
+                               "url" : <cf-api-url>,
+                               "domain" : <cf-apps-domain>,
+                               "org" : <org>,
+                               "space" : <space>,
+                               "username": <email>,
+                               "password" : <password>,
+                               "skipSsValidation" : false 
+                           }
+                           "deployment" : {
+                               "deleteRoutes" : false,
+                               "services" : "rabbitmq",
+                               "enableRandomAppNamePrefix" : false,
+                               "memory" : 2048
+                           }
+                      }
+                  }
+               }
+            }
     services:
       - <services>
     ```
@@ -187,28 +200,47 @@ The following example shows such a manifest file:
 ```yml
 ---
 applications:
-- name: data-flow-server
-  host: data-flow-server
-  memory: 2G
-  disk_quota: 2G
-  instances: 1
-  path: {PATH TO SERVER UBER-JAR}
-  env:
-    SPRING_APPLICATION_NAME: data-flow-server
-    SPRING_PROFILES_ACTIVE: cloud
-    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-    MAVEN_REMOTEREPOSITORIES[REPO1]_URL: https://repo.spring.io/libs-snapshot
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_URL: https://api.huron.cf-app.com
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_ORG: sabby20
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SPACE: sabby20
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_DOMAIN: apps.huron.cf-app.com
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_USERNAME: admin
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_PASSWORD: ***
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_CONNECTION_SKIPSSLVALIDATION: true
-    SPRING_CLOUD_DATAFLOW_TASK_PLATFORM_CLOUDFOUNDRY_ACCOUNTS[default]_DEPLOYMENT_SERVICES: postgreSQL
-    SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://<skipper-host-name>/api
+  - name: data-flow-server
+    host: data-flow-server
+    memory: 2G
+    disk_quota: 2G
+    instances: 1
+    path: { PATH TO SERVER UBER-JAR }
+    env:
+      SPRING_APPLICATION_NAME: data-flow-server
+      SPRING_PROFILES_ACTIVE: cloud
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://<skipper-host-name>/api
+      SPRING_APPLICATION_JSON: |-
+        {
+           "maven" : {
+               "remoteRepositories" : {
+                  "repo1" : {
+                    "url" : "https://repo.spring.io/libs-snapshot"
+                  }
+               }
+           }, 
+           "spring.cloud.dataflow" : {
+                "task.platform.cloudfoundry.accounts" : {
+                    "default" : {
+                        "connection" : {
+                            "url" : <cf-api-url>,
+                            "domain" : <cf-apps-domain>,
+                            "org" : <org>,
+                            "space" : <space>,
+                            "username" : <email>,
+                            "password" : <password>,
+                            "skipSsValidation" : true 
+                        }
+                        "deployment" : {
+                          "services" : "postgresSQL"
+                        }
+                    }
+                }
+           }
+        }
 services:
-- postgreSQL
+  - postgreSQL
 ```
 
 <!--TIP-->
