@@ -6,8 +6,7 @@ description: 'Installation using Docker Compose'
 
 # Installing by Using Docker Compose
 
-Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana (instead of having to install them manually).
-Alternatively, you can follow the [manual installation steps](%currentPath%/installation/local/manual)
+Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, and MySQL, Apache Kafka. Follow the [customizing](%currentPath%/installation/local/docker-customize) guide to switch to RabbitMQ or to a different database. Prometheus or InfluxDB, along with Grafana can be configured for monitoring the stream and task applications.
 
 [[tip | Upgrade to latest version of Docker ]]
 | We recommended that you upgrade to the [latest version](https://docs.docker.com/compose/install/) of Docker before running the `docker-compose` command. We have tested with Docker Engine version `18.09.2`.
@@ -29,8 +28,6 @@ The Docker Compose file starts instances of the following products:
 1. Spring Cloud Skipper Server
 1. MySQL
 1. Apache Kafka
-1. Prometheus
-1. Grafana
 
 ## Starting Docker Compose
 
@@ -115,7 +112,6 @@ wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataf
 
 ## Monitoring
 
-By default, the Data Flow `docker-compose` configures Stream monitoring with Prometheus and prebuilt dashboards for Grafana.
-See the [Using InfluxDB instead of Prometheus](%currentPath%/installation/local/docker-customize/#using-influxdb-instead-of-prometheus-for-monitoring) section for how to perform an InfluxDB-based installation.
+By default, the Data Flow docker-compose does not enable the monitoring functionality for Stream and Task applications. To enable that, follow the [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-prometheus-and-grafana) or [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana) sections for how to configure Prometheus or InfluxDB based monitoring set up for Spring Cloud Data Flow.
 
 To learn more about the monitoring experience in Spring Cloud Data Flow with Prometheus and InfluxDB, see the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring#local) feature guide.
