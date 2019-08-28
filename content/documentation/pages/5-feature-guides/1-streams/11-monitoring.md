@@ -38,17 +38,7 @@ This section describes how to set up Prometheus and InfluxDB for a local machine
 
 ### Prometheus
 
-Prometheus is a popular pull-based time series database that pulls the metrics from the target applications from pre-configured endpoints. Prometheus needs to be regularly provided with the URLs of the target applications to monitor. This task is delegated to a component called Service Discovery, which is usually a platform-specific implementation. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) RSocket based service discovery mechanism.
-
-To enable Micrometer’s Prometheus-RSocket meter registry for Spring Cloud Stream application starters, start the Data Flow server with the following properties:
-
-```bash
---spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.enabled=true
---spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.rsocket.enabled=true
---spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.rsocket.host=prometheus-rsocket-proxy
---spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.rsocket.port=7001
---spring.cloud.dataflow.grafana-info.url=http://localhost:3000
-```
+Prometheus is a popular pull-based time-series database that pulls the metrics from the target applications with pre-configured endpoints. Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), `rsocket` based service-discovery mechanism.
 
 Instead of having to install them manually, for a quick start, follow the [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-prometheus-and-grafana) docker-compose instructions, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana.
 
@@ -81,24 +71,7 @@ You should see dashboards similar to those shown in the following image:
 
 InfluxDB is a popular open-source push-based time series database. It supports downsampling, automatically expiring and deleting unwanted data, and backup and restore. Analysis of data is done through an SQL-like query language.
 
-To enable Micrometer’s Influx meter registry for Spring Cloud Stream application starters, start the Data Flow server with the following properties:
-
-```bash
---spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled=true
---spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db=myinfluxdb
---spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri=http://localhost:8086
---spring.cloud.dataflow.grafana-info.url=http://localhost:3000
-```
-
-To enable Micrometer’s Influx meter registry for Spring Cloud Stream application starters, set the following property:
-
-```bash
-management.metrics.export.influx.enabled=true
-```
-
-In the docker setup provided later in this section, the InfluxDB server runs on `localhost:8086`. If you use a different InfluxDB server, setting Common Application Properties for Influx is a convenient way to have all deployed applications configured to send metrics to Influx. The property to set is `management.metrics.export.influx.uri`. Alternatively, when deploying a stream, you can pass this as a deployment property (`app.\*.management.metrics.export.influx.uri={influxdb-server-url}`). The Micrometer influx documentation shows the full list of Spring Boot properties to configure sending metrics to Influx.
-
-Instead of having to install them manually, for a quick start, follow the [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana) docker-compose instruction, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Influx, and prebuilt dashboards for Grafana.
+Instead of having to install them manually, you can use the docker-compose instructions for [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana), which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, InfluxDB, and prebuilt dashboards for Grafana.
 
 Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard). Also you can reach the Grafana dashboard at http://localhost:3000 using the user: admin, password: admin credentials.
 
