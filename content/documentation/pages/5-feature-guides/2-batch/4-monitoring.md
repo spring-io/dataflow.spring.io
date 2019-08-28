@@ -67,7 +67,7 @@ This section describes how to set up Prometheus and InfluxDB for a local machine
 
 ### Prometheus
 
-Prometheus is a popular pull-based time-series database that pulls the metrics from the target applications with pre-configured endpoints. Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), `rsocket` based service-discovery mechanism. Later also provides support for [Short-lived application](https://github.com/micrometer-metrics/prometheus-rsocket-proxy#support-for-short-lived-or-serverless-applications) such as Tasks.
+Prometheus is a popular pull-based time-series database that pulls the metrics from the target applications with pre-configured endpoints. Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism. This method consistently provides support for long-running streaming and as well as [short-lived task/batch applications](https://github.com/micrometer-metrics/prometheus-rsocket-proxy#support-for-short-lived-or-serverless-applications).
 
 Instead of having to install them manually, you can use the docker-compose instructions for [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-prometheus-and-grafana), which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana.
 
@@ -76,7 +76,7 @@ Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashbo
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
 ```bash
-dataflow:>app register --name myTask --type task --uri uri=https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/src/main/asciidoc/micrometer/prometheus/task-demo-metrics-0.0.1-SNAPSHOT.jar
+dataflow:>app register --name myTask --type task --uri uri=https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"
