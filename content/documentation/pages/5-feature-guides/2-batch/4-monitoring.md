@@ -76,7 +76,7 @@ Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashbo
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
 ```bash
-dataflow:>app register --name myTask --type task --uri uri=https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
+dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"
@@ -102,7 +102,7 @@ Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashbo
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
 ```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/src/main/asciidoc/micrometer/influx/task-demo-metrics-0.0.1-SNAPSHOT.jar
+dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/influx-task-demo-metrics-0.0.1-SNAPSHOT.jar
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"
