@@ -427,3 +427,12 @@ There are 3 reasons that this may occur:
 3. You are running a Spring Cloud Task application where the context is held open (for example: if you are using a TaskExecutor). In these cases you can set the `spring.cloud.task.closecontext_enabled` property to `true` when launching your task. This will close the application's context once the task is complete. Thus allowing the application to terminate and record the end time.
 
 <!--END_QUESTION-->
+
+<!--QUESTION#useexistingbatchtables-->
+
+I want to migrate from Spring Batch Admin to Spring Cloud Data Flow. Can I use the existing database that is already used by the Spring Batch jobs?
+
+No. Spring Cloud Data Flow creates its own schema including the Spring Batch tables.
+To allow Spring Cloud Data Flow to show the status of Spring Batch Job executions via the dashboard or shell, your Spring Batch Apps need to use the same "datasource" configuration as Spring Cloud Data Flow.
+
+<!--END_QUESTION-->
