@@ -415,3 +415,15 @@ task launch myBatchApp --arguments="team=cubs"
 However, the preferred way is to write your task or batch application such that it can handle being restarted with a new job instance. One way to do this is to set a `JobParamsIncrementer` for your batch job, as discussed in the Spring Batch [reference guide](https://docs.spring.io/spring-batch/trunk/reference/html/configureJob.html#JobParametersIncrementer).
 
 <!--END_QUESTION-->
+
+<!--QUESTION#taskdidnotterminate-->
+
+Why doesn't my task execution show an end time?
+
+There are 3 reasons that this may occur:
+
+1. Your application is in fact still running. You can view the task's log via the task execution detail page for that task execution, to check the status.
+2. Your application was terminated using a SIG-KILL. In that case Spring Cloud Task did not get a signal that the application was terminating, rather the task's process was killed.
+3. You are running a Spring Cloud Task application where the context is held open (for example: if you are using a TaskExecutor). In these cases you can set the `spring.cloud.task.closecontext_enabled` property to `true` when launching your task. This will close the application's context once the task is complete. Thus allowing the application to terminate and record the end time.
+
+<!--END_QUESTION-->
