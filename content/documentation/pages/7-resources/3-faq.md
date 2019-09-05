@@ -416,7 +416,6 @@ However, the preferred way is to write your task or batch application such that 
 
 <!--END_QUESTION-->
 
-
 <!--QUESTION#taskdidnotterminate-->
 
 Why doesn't my task execution show an end time?
@@ -431,9 +430,9 @@ There are 3 reasons that this may occur:
 
 <!--QUESTION#useexistingbatchtables-->
 
-Can I use Spring Cloud Data Flow on my existing Spring Batch tables?
+I want to migrate from Spring Batch Admin to Spring Cloud Data Flow. Can I use the existing database that is already used by the Spring Batch jobs?
 
 No. Spring Cloud Data Flow creates its own schema including the Spring Batch tables.
-The Spring Batch tables created by Spring Cloud Data Flow will be used by your Spring Batch applications and require no change to your apps, they just need to use the same data source configuration as Spring Cloud Data Flow.
+To allow Spring Cloud Data Flow to show the status of Spring Batch Job executions via the dashboard or shell, your Spring Batch Apps need to use the same data source configuration as Spring Cloud Data Flow.
 
 <!--END_QUESTION-->
