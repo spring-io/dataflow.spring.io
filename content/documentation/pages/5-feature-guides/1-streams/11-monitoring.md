@@ -121,7 +121,8 @@ This section describes how to set up Prometheus and InfluxDB for Kubernetes.
 
 ### Prometheus
 
-Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint. When running in Kubernetes, Prometheus "scrapes" metrics from target applications that have a specific pod-level annotation. The endpoint to scrape is provided by Spring Boot, under the default path of `/actuator/prometheus`.
+Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint.
+Data Flow leverages the [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) to establish a persistent, bidirectional `RSocket` connections between all Stream and Task applications and one or more `Prometheus RSocket Proxy` instances. Prometheus is configured to scrape each proxy instance. Proxies in turn use the connection to pull metrics from each application. The scraped metrics are viewable through Grafana dashboards.
 
 Out of the box, each binder middleware configuration file defines attributes to enable metrics and their supporting properties. You can find settings in: `src/kubernetes/server/server-config.yaml`. The main point of interest is the following configuration section:
 
@@ -133,20 +134,15 @@ applicationProperties:
         export:
           prometheus:
             enabled: true
-      endpoints:
-        web:
-          exposure:
-            include: 'prometheus,info,health'
-    spring:
-      cloud:
-        streamapp:
-          security:
-            enabled: false
+            rsocket:
+              enabled: true
+              host: prometheus-proxy
+              port: 7001
 grafana-info:
-  url: 'http://grafana:3000'
+  url: 'https://grafana:3000'
 ```
 
-In this configuration, Prometheus metrics are enabled, along with the appropriate endpoints and security settings.
+In this configuration, the metrics are enabled and configured.
 
 With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Kubernetes](%currentPath%/installation/kubernetes) section up and running, you are ready to collect metrics.
 
@@ -178,34 +174,9 @@ You can collect metrics on a per-application, per-stream basis or apply metrics 
 To deploy a single stream with metrics enabled, enter the following into the Spring Cloud Data Flow shell:
 
 ```bash
-dataflow:>stream create metricstest --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log"
-dataflow:>stream deploy --name metricstest --properties "deployer.*.kubernetes.podAnnotations=prometheus.io/path:/actuator/prometheus,prometheus.io/port:8080,prometheus.io/scrape:true"
-```
-
-The preceding example creates a stream definition and sets the `podAnnotations` property on each application in the stream. The annotations applied to the pod indicate to Prometheus that it should be scraped for metrics by using the provided endpoint path and the port.
-
-As a global setting, to deploy all streams with metrics enabled, you can append the following `podAnnotations` entry to the configuration in either `src/kubernetes/skipper/skipper-config-rabbit.yaml` (when using RabbitMQ) or `src/kubernetes/skipper/skipper-config-kafka.yaml` (when using Kafka):
-
-```yaml
-data:
-  application.yaml: |-
-    spring:
-      cloud:
-        skipper:
-          server:
-            platform:
-              kubernetes:
-                accounts:
-                  myaccountname:
-                    podAnnotations: 'prometheus.io/path:/actuator/prometheus,prometheus.io/port:8080,prometheus.io/scrape:true'
-```
-
-All streams and their containing applications then have the appropriate pod annotations applied, which instructs Prometheus to scrape metrics. The shell command to deploy the same stream shown earlier, for example becomes the following:
-
-```bash
 dataflow:>stream create metricstest --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
-Either way, metrics are enabled. After deploying a stream, you can visit the Grafana UI and see dashboard graphs similar to those shown in the following image:
+After deploying a stream, you can launch to view the Grafana dashboard as shown in the following image:
 
 ![SCDF Grafana Prometheus](images/grafana-prometheus-scdf-applications-dashboard.png)

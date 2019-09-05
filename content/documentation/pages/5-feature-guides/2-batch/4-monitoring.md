@@ -89,7 +89,13 @@ dataflow:>task launch --name task1
 dataflow:>task launch --name task2
 ```
 
-In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions).
+In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions) you should see:
+
+![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
+
+And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?refresh=10s):
+
+![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
 
 ### InfluxDB
 
@@ -218,3 +224,93 @@ applications:
 services:
   - mysql
 ```
+
+## Kubernetes
+
+This section describes how to set up Prometheus or InfluxDB for Kubernetes.
+
+### Prometheus
+
+Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint.
+Data Flow leverages the [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) to establish a persistent, bidirectional connections between all Task applications and one or more `Prometheus RSocket Proxy` instances. Prometheus is configured to scrape each proxy instance. Proxies in turn use the connection to pull metrics from each Task application. The scraped task metrics are viewable through Grafana dashboards.
+
+Out of the box, each binder middleware configuration file defines attributes to enable metrics and their supporting properties. You can find settings in: `src/kubernetes/server/server-config.yaml`. The main point of interest is the following configuration section:
+
+```yaml
+applicationProperties:
+  task:
+    management:
+      metrics:
+        export:
+          prometheus:
+            enabled: true
+            rsocket:
+              enabled: true
+              host: prometheus-proxy
+              port: 7001
+grafana-info:
+  url: 'https://grafana:3000'
+```
+
+In this configuration, Prometheus metrics are enabled and configured to send to a prometheus rsocket proxy.
+
+With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Kubernetes](%currentPath%/installation/kubernetes) section up and running, you are ready to collect metrics.
+
+<!--IMPORTANT-->
+
+The address used to access the Grafana Dashboard depends on the Kubernetes platform the system is deployed to. If you are using (for example) GKE, the load balancer address would be used. If using Minikube (which does not provide a load balancer implementation), the IP of the Minikube (along with an assigned port) is used. In the following examples, for simplicity, we use Minikube.
+
+<!--END_IMPORTANT-->
+
+To obtain the URL of the Grafana UI when it is deployed to Minikube, run the following command:
+
+```bash
+$ minikube service --url grafana
+http://192.168.99.100:31595
+```
+
+In the preceding example, you can reach the Grafana dashboard at http://192.168.99.100:31595. The default credentials are as follows:
+
+- User name: admin
+- Password: password
+
+The Grafana instance is pre-provisioned with two dashboards:
+
+- Tasks: http://192.168.99.100:31595/d/scdf-tasks/tasks?refresh=10s
+
+You can collect metrics on a per-task or per-batch basis, or apply metrics collection to all deployed applications globally.
+
+Let's use a custom Task application (i.e., `task-demo-metrics`) and define two different task definitions with this application (i.e., `task1` and `task2`):
+
+```bash
+dataflow:>app register --name myTask --type task --uri docker://springcloud/task-demo-metrics:latest
+
+dataflow:>task create --name task1 --definition "myTask"
+dataflow:>task create --name task2 --definition "myTask"
+```
+
+Launch the tasks several times:
+
+```bash
+dataflow:>task launch --name task1
+dataflow:>task launch --name task2
+dataflow:>task launch --name task1
+dataflow:>task launch --name task2
+dataflow:>task launch --name task1
+dataflow:>task launch --name task2
+```
+
+To obtain the SCDF URL. When it is deployed to Minikube, run the following command:
+
+```bash
+minikube service --url scdf-server
+http://192.168.99.100:32121
+```
+
+In the [DataFlow task execution UI](http://192.168.99.100:32121/dashboard/#/tasks/executions) you should see:
+
+![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
+
+Open the [Grafana dashboard for Tasks](http://192.168.99.100:31595/d/scdf-tasks/tasks?refresh=10s):
+
+![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
