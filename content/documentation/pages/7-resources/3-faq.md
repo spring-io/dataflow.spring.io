@@ -433,6 +433,6 @@ There are 3 reasons that this may occur:
 I want to migrate from Spring Batch Admin to Spring Cloud Data Flow. Can I use the existing database that is already used by the Spring Batch jobs?
 
 No. Spring Cloud Data Flow creates its own schema including the Spring Batch tables.
-To allow Spring Cloud Data Flow to show the status of Spring Batch Job executions via the dashboard or shell, your Spring Batch Apps need to use the same data source configuration as Spring Cloud Data Flow.
+To allow Spring Cloud Data Flow to show the status of Spring Batch Job executions via the dashboard or shell, your Spring Batch Apps need to use the same "datasource" configuration as Spring Cloud Data Flow.
 
 <!--END_QUESTION-->
