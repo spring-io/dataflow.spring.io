@@ -202,7 +202,7 @@ kubectl get pods -n kafkazone
 NAME                                READY   STATUS    RESTARTS   AGE
 foo-cassandra-v1-5d79b8bdcd-94kw4   1/1     Running   0          63s
 foo-cardata-v1-6cdc98fbd-cmrr2      1/1     Running   0          63s
-foo-predict-v1-758dc44575-tcdkd     1/1     Pending   0          63s
+foo-predict-v1-758dc44575-tcdkd     1/1     Running   0          63s
 ```
 
 Alternatively, the platform dropdown in the SCDF Dashboard can be used to make the selection to create and launch Tasks.
@@ -394,3 +394,138 @@ j6wQUU3-foo-cassandra-v1        started           1/1         3G       1G     j6
 ```
 
 Alternatively, the platform dropdown in the SCDF Dashboard can be used to make the selection to create and launch Tasks.
+
+## Mixing Cloud Foundry and Kubernetes Deployments
+
+There are cases when you want to orchestrate a deployment model where specific workloads are deployed to Kubernetes,
+and the rest in Cloud Foundry. After all, both the platforms offer different levels of support from the runtime perspective
+and having the flexibility to deploy the workloads to different platforms is an added advantage.
+
+Imagine a scenario with Spring Cloud Data Flow is running on Cloud Foundry. Only by configuration settings, it is possible
+also to define and stage one or many Kubernetes accounts within the same SCDF instance. This flexibility opens up
+compelling deployment scenarios where the streaming and batch data pipelines can be deployed to a variety of platforms!
+
+Let's take the same Cloud Foundry scenario. Apart from the `default` and `highmemory` platform accounts, you will
+notice the `gpuzone` as another account in Skipper's `manifest.yml` below.
+
+```yaml
+applications:
+  - name: skipper-server
+    host: skipper-server
+    memory: 1G
+    disk_quota: 1G
+    instances: 1
+    timeout: 180
+    buildpack: java_buildpack
+    path: <PATH TO THE DOWNLOADED SKIPPER SERVER UBER-JAR>
+    env:
+      SPRING_APPLICATION_NAME: skipper-server
+      SPRING_PROFILES_ACTIVE: cloud
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_APPLICATION_JSON: |-
+        {
+          "spring.cloud.skipper.server" : {
+             "platform.cloudfoundry.accounts":  {
+                   "default": {
+                       "connection" : {
+                           "url" : <cf-api-url>,
+                           "domain" : <cf-apps-domain>,
+                           "org" : <org>,
+                           "space" : <space>,
+                           "username": <email>,
+                           "password" : <password>,
+                           "skipSsValidation" : false
+                       }
+                       "deployment" : {
+                           "deleteRoutes" : false,
+                           "services" : "rabbitmq",
+                           "enableRandomAppNamePrefix" : false,
+                           "memory" : 2048
+                       }
+                  },
+                  "kafkazone": {
+                     "connection" : {
+                         "url" : <cf-api-url>,
+                         "domain" : <cf-apps-domain>,
+                         "org" : kafka-org,
+                         "space" : kafka-space,
+                         "username": <email>,
+                         "password" : <password>,
+                         "skipSsValidation" : false
+                     }
+                     "deployment" : {
+                         "deleteRoutes" : false,
+                         "services" : "kafkacups",
+                         "enableRandomAppNamePrefix" : false,
+                         "memory" : 3072
+                     }
+                  }
+              }
+           },
+           "platform.kubernetes.accounts":  {
+                   "gpuzone": {
+                       "fabric8" : {
+                           "masterUrl" : <k8s-master-api-url>,
+                           "namespace" : "gpuzone",
+                           "trustCerts" : "true"
+                  }
+              }
+           }
+        }
+services:
+  - <services>
+```
+
+In this case, the `gpuzone` is targeting the GPU VM node-pool in Kubernetes. With simple declarative configuration,
+the same SCDF instance is now ready to deploy streaming and batch data pipelines to three different compute environments.
+
+With this setup, you have an option to choose between three platform accounts (`default`, `highmemory`, and `gpuzone`)
+to deploying the streaming or batch data pipelines.
+
+List the available platforms.
+
+```bash
+dataflow:>stream platform-list
+╔═════════╤════════════╤═════════════════════════════════════════════════════════════════════════════════╗
+║  Name   │    Type    │                               Description                                       ║
+╠═════════╪════════════╪═════════════════════════════════════════════════════════════════════════════════╣
+║default  │cloudfoundry│org = [scdf-%%], space = [space-%%%%%], url = [https://api.run.pivotal.io]       ║
+║kafkazone│cloudfoundry│org = [kafka-org], space = [kafka-space], url = [https://api.run.pivotal.io]     ║
+║gpuzone  │kubernetes  │master url = [https://10.0.0.1:443/], namespace = [gpuzone], api version = [v1]  ║
+╚═════════╧════════════╧═════════════════════════════════════════════════════════════════════════════════╝
+```
+
+Create a stream.
+
+```bash
+dataflow:>stream create foo --definition "cardata | predict | cassandra"
+Created new stream 'foo'
+```
+
+Deploy a stream.
+
+```bash
+dataflow:>stream deploy --name foo --platformName gpuzone
+```
+
+Verify new pods in Kubernetes.
+
+```bash
+kubectl get pods -n gpuzone
+NAME                                READY   STATUS    RESTARTS   AGE
+foo-cassandra-v1-aakhslff-94kw4     1/1     Running   0          73s
+foo-cardata-v1-fdalsssdf2-cmrr2     1/1     Running   0          73s
+foo-predict-v1-p1j35435-tcdkd       1/1     Running   0          73s
+```
+
+No new applications should be deployed in Cloud Foundry, however. Let's verify.
+
+```bash
+cf apps
+Getting apps in org scdf-%%% / space space-%%%%% as $$$$$@com.io...
+OK
+
+name                         requested state   instances   memory   disk   urls
+sabby-skipper                started           1/1         1G       1G     sabby-skipper.....
+sabby-test-dataflow-server   started           1/1         1G       1G     sabby-test-dataflow-server....
+```
