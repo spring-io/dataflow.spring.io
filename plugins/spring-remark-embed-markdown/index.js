@@ -3,6 +3,7 @@ const fs = require('fs')
 const unified = require('unified')
 const parse = require('remark-parse')
 const get = require(`lodash.get`)
+const request = require('request-promise')
 
 const KEY = /^(<!--TEMPLATE:)(.*?)-->/
 
@@ -10,7 +11,7 @@ const KEY = /^(<!--TEMPLATE:)(.*?)-->/
  * Navigates in the root's children to find include declarations
  * Loads and parses a MD file to an AST object. This AST replaces the include declaration.
  */
-module.exports = ({ markdownAST, markdownNode }) => {
+module.exports = async ({ markdownAST, markdownNode }) => {
   const children = []
   const relativePath = path.relative(
     `${__dirname}/../../`,
@@ -26,15 +27,24 @@ module.exports = ({ markdownAST, markdownNode }) => {
         .replace('<!--TEMPLATE:', '')
         .replace('-->', '')
         .split('/')
+
+      let param = value.replace('<!--TEMPLATE:', '').replace('-->', '')
+
+      let code
       const filename = filenameArr.pop()
       const filePath = `${pathFolder}${filenameArr.join('/')}/_${filename}`
-      if (!fs.existsSync(filePath)) {
-        throw Error(`Invalid fragment specified; no such file "${filePath}"`)
+      try {
+        if (!fs.existsSync(filePath)) {
+          code = await request(param)
+        } else {
+          code = fs.readFileSync(filePath, 'utf8')
+        }
+        const markdown = unified().use(parse)
+        const ast = markdown.parse(code)
+        children.push(...ast.children)
+      } catch (e) {
+        throw Error(`Error embed markdown ${param}`)
       }
-      const code = fs.readFileSync(filePath, 'utf8')
-      const markdown = unified().use(parse)
-      const ast = markdown.parse(code)
-      children.push(...ast.children)
     } else {
       children.push(node)
     }
@@ -42,3 +52,11 @@ module.exports = ({ markdownAST, markdownNode }) => {
   markdownAST.children = children
   return markdownAST
 }
+
+/*
+
+"<!--TEMPLATE:https://raw.githubusercontent.com/spring-io/dataflow.spring.io/master/content/documentation/pages/8-markdown/template/_sample.md-->"
+.replace('<!--TEMPLATE:', '')
+.replace('-->', '')
+
+ */

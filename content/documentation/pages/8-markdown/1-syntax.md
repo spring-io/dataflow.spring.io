@@ -699,6 +699,16 @@ The result of the preceding example is the following content:
 
 <!--TEMPLATE:template/sample.md-->
 
+The following example includes the file `https://raw.githubusercontent.com/spring-io/dataflow.spring.io/master/content/documentation/pages/8-markdown/template/_sample.md` in the page.
+
+```markdown
+<!--TEMPLATE:https://raw.githubusercontent.com/spring-io/dataflow.spring.io/master/content/documentation/pages/8-markdown/template/_sample.md-->
+```
+
+The result of the preceding example is the following content:
+
+<!--TEMPLATE:https://raw.githubusercontent.com/spring-io/dataflow.spring.io/master/content/documentation/pages/8-markdown/template/_sample.md-->
+
 ### Embedding Github Code
 
 Sometimes, it is better to show code rather than link to it. To do so, you need to use the `CODE` verb. The following example shows how to do so:
