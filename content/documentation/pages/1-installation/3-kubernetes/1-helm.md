@@ -4,8 +4,6 @@ title: 'Helm'
 description: 'Installation using Helm'
 ---
 
-# Helm
-
 ## Helm Installation
 
 Spring Cloud Data Flow offers a [Helm Chart](https://hub.kubeapps.com/charts/stable/spring-cloud-data-flow)
@@ -26,6 +24,10 @@ If Tiller has not been installed on your cluster, run the following
 helm init
 ```
 
+```bash
+helm repo update
+```
+
 To verify that the `Tiller` pod is running, run the following command:
 
 ```bash
@@ -36,81 +38,7 @@ You should see the `Tiller` pod running.
 
 ### Installing the Spring Cloud Data Flow Server and Required Services
 
-Before you install Spring Cloud Data Flow, you need to update the Helm
-repository and install the chart for Spring Cloud Data Flow.
-
-To update the `Helm` repository, run the following command:
-
-```bash
-helm repo update
-```
-
-To install the chart for Spring Cloud Data Flow, run the following
-command:
-
-```bash
-helm install --name my-release stable/spring-cloud-data-flow
-```
-
-#### Configuring Helm
-
-As of Spring Cloud Data Flow 1.7.0, the `Helm` chart has been promoted to the `Stable` repository. To install a previous version, you need
-
-> access to the incubator repository. To add this repository to your `Helm` set and install the chart, run the following commands:
-
-```bash
-helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com
-helm repo update
-helm install --name my-release incubator/spring-cloud-data-flow
-```
-
-<!--TIP-->
-
-**Setting server.service.type**
-
-If you run on a Kubernetes cluster without a load balancer, you can
-override the service type to use `NodePort`. To do so, add the
-`--set server.service.type=NodePort` override, as follows:
-
-<!--END_TIP-->
-
-```bash
-helm install --name my-release --set server.service.type=NodePort stable/spring-cloud-data-flow
-```
-
-##### Helm RBAC setting
-
-If you run on a Kubernetes cluster without RBAC, you should set `rbac.create` to `false`. By default, it is set to
-`true` (based on best practices). To do so, add the `--set rbac.create=false` override, as follows:
-
-```bash
-helm install --name my-release --set server.service.type=NodePort --set rbac.create=false stable/spring-cloud-data-flow
-```
-
-##### Using Kafka
-
-If you prefer to use Kafka rather than RabbitMQ as the messaging middleware, you can override properties as shown below. RabbitMQ is enabled by default.
-
-```bash
-helm install --name my-release --set kafka.enabled=true,rabbitmq.enabled=false stable/spring-cloud-data-flow
-```
-
-#### Specify Data Flow version
-
-If you wish to specify a version of Spring Cloud Data Flow other than the current GA release, you can set the `server.version` (replacing `stable` with `incubator` if needed), as follows:
-
-```bash
-helm install --name my-release stable/spring-cloud-data-flow --set server.version=<version-you-want>
-```
-
-<!--TIP-->
-
-**Full chart options**
-
-To see all of the settings that you can configure on the Spring Cloud Data Flow chart, view the
-[README](https://github.com/kubernetes/charts/tree/master/stable/spring-cloud-data-flow/README.md).
-
-<!--END_TIP-->
+<!--TEMPLATE:https://raw.githubusercontent.com/helm/charts/master/stable/spring-cloud-data-flow/README.md-->
 
 #### Version Compatibility
 
