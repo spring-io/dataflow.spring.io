@@ -61,42 +61,40 @@ Now we can create the code required for this application. To do so:
     The `UsageDetail` class contains `userId`, `data`, and `duration` properties.
 1.  Create the `UsageDetailSender` class in the `io.spring.dataflow.sample.usagedetailsender` package, which resembles the following listing:
 
-        ```Java
-        package io.spring.dataflow.sample.usagedetailsender;
+```Java
+package io.spring.dataflow.sample.usagedetailsender;
 
-        import java.util.Random;
+import java.util.Random;
 
-        import io.spring.dataflow.sample.domain.UsageDetail;
+import io.spring.dataflow.sample.domain.UsageDetail;
 
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.cloud.stream.annotation.EnableBinding;
-        import org.springframework.cloud.stream.messaging.Source;
-        import org.springframework.messaging.support.MessageBuilder;
-        import org.springframework.scheduling.annotation.EnableScheduling;
-        import org.springframework.scheduling.annotation.Scheduled;
-        @EnableScheduling
-        @EnableBinding(Source.class)
-        public class UsageDetailSender {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+@EnableScheduling
+@EnableBinding(Source.class)
+public class UsageDetailSender {
 
-        	@Autowired
-        	private Source source;
+  @Autowired
+  private Source source;
 
-        	private String[] users = {"user1", "user2", "user3", "user4", "user5"};
+  private String[] users = {"user1", "user2", "user3", "user4", "user5"};
 
-        	@Scheduled(fixedDelay = 1000)
-        	public void sendEvents() {
-        		UsageDetail usageDetail = new UsageDetail();
+  @Scheduled(fixedDelay = 1000)
+  public void sendEvents() {
+    UsageDetail usageDetail = new UsageDetail();
 
     usageDetail.setUserId(this.users[new Random().nextInt(5)]);
     usageDetail.setDuration(new Random().nextInt(300));
     usageDetail.setData(new Random().nextInt(700));
     this.source.output().send(MessageBuilder.withPayload(usageDetail).build());
-    }
-    }
+  }
+}
 
-    ```
-
-    ```
+```
 
 The `@EnableBinding` annotation indicates that you want to bind your application to messaging middleware.
 The annotation takes one or more interfaces as a parameter &#151; in this case, the [Source](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Source.java) interface that defines an output channel named `output`.
