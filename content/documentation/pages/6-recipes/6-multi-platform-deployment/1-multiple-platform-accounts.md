@@ -6,13 +6,13 @@ description: 'A walk-through of multiple platform requirements and the configura
 
 # Role of Multiple Platform Deployments
 
-The goal of this recipe is to unpack the scenarios for when multiple platform deployments becomes a necessity. Let's start
+The goal of this recipe is to unpack the scenarios when multiple platform deployments become a necessity. Let's start
 with the use-cases and then dive into the details of how that can be set up in Spring Cloud Data Flow.
 
 ## Use Cases
 
-- For certain use-cases, there is the desire to distinguish the deployment of streaming and the batch data pipelines to
-  a unique environment. For instance, you may want to run a predictive model training routine that requires high memory. That
+- For certain use-cases, there is a desire to isolate the deployment of streaming and batch data pipelines to
+  a unique environment. For instance, you may want to run a predictive model training routine that requires high memory. Where
   compute is usually defined with specific boundaries, and only the particular workloads are allowed to run on them.
   In other words, you don't want the regular applications to use the high-compute resource pool and saturate its availability.
   This is particularly important when you're running machines on a pay-by-use basis, to avoid premium costs.
@@ -20,12 +20,12 @@ with the use-cases and then dive into the details of how that can be set up in S
 - Similar to the previous use-case, there might be a need to run the applications closer to where the message broker is
   (i.e., run the business logic close to where the data is). Doing so can avoid the I/O latency to meet the high throughput
   and low latency service-level agreements (SLAs). Once again, having to orchestrate a deployment pattern where the streaming
-  applications can be targeted to deploy on the same VMs where Kafka is running could help with the SLAs.
+  applications can be targeted to deploy on the same VMs where message broker is running could help with the SLAs.
 
 - There's evidence of users using the "single" Spring Cloud Data Flow instance to orchestrate a deployment
   model in which the streaming and batch data pipelines are deployed and launched to multiple environments. This
   deployment pattern is primarily curated in order to organize the deployment topologies with well-defined boundaries, where
-  a single SCDF mothership can centrally orchestrate, monitor, and manage the data pipelines.
+  a single SCDF instance can centrally orchestrate, monitor, and manage the data pipelines.
 
 Above scenarios require Spring Cloud Data Flow to deploy streaming and batch applications with flexible platform
 configurations. Thankfully, though, starting with v2.0, Spring Cloud Data Flow supports the multi-platform deployment
@@ -39,8 +39,8 @@ accounts in Kubernetes and Cloud Foundry.
 
 ### Kubernetes
 
-Let's suppose you'd want to deploy a stream with 3 applications to `kafkazone` namespace. Likewise, if you'd want to launch
-a batch-job to `highmemory` namespace, the following configurations can be defined in the SCDF's deployment files.
+Let's suppose you'd want to deploy a stream with 3 applications to the `kafka-namespace`. Likewise, if you'd want to launch
+a batch-job to the `highmemory-namespace`, the following configurations can be defined in the SCDF's deployment files.
 
 Since the streaming data pipelines are managed through Skipper, you'd change the `skipper-config-kafka.yaml` with the
 following.
@@ -73,7 +73,7 @@ data:
                     readinessProbeDelay: 120
                     livenessProbeDelay: 90
                   kafkazone:
-                    namespace: kafkazone
+                    namespace: kafka-namespace
                     environmentVariables: 'SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=${KAFKA_SERVICE_HOST}:${KAFKA_SERVICE_PORT},SPRING_CLOUD_STREAM_KAFKA_BINDER_ZK_NODES=${KAFKA_ZK_SERVICE_HOST}:${KAFKA_ZK_SERVICE_PORT}'
                     limits:
                       memory: 2048Mi
@@ -139,7 +139,7 @@ data:
                     limits:
                       memory: 1024Mi
                   highmemory:
-                    namespace: highmemory
+                    namespace: highmemory-namespace
                     limits:
                       memory: 4096Mi
       datasource:
@@ -161,20 +161,20 @@ List the available platforms.
 
 ```bash
 dataflow:>stream platform-list
-╔═════════╤══════════╤═════════════════════════════════════════════════════════════════════════════════╗
-║  Name   │   Type   │                                   Description                                   ║
-╠═════════╪══════════╪═════════════════════════════════════════════════════════════════════════════════╣
-║default  │kubernetes│master url = [https://10.0.0.1:443/], namespace = [default], api version = [v1]  ║
-║kafkazone│kubernetes│master url = [https://10.0.0.1:443/], namespace = [kafkazone], api version = [v1]║
-╚═════════╧══════════╧═════════════════════════════════════════════════════════════════════════════════╝
+╔═════════╤══════════╤═══════════════════════════════════════════════════════════════════════════════════════╗
+║  Name   │   Type   │                                   Description                                         ║
+╠═════════╪══════════╪═══════════════════════════════════════════════════════════════════════════════════════╣
+║default  │kubernetes│master url = [https://10.0.0.1:443/], namespace = [default], api version = [v1]        ║
+║kafkazone│kubernetes│master url = [https://10.0.0.1:443/], namespace = [kafka-namespace], api version = [v1]║
+╚═════════╧══════════╧═══════════════════════════════════════════════════════════════════════════════════════╝
 
 dataflow:>task platform-list
-╔═════════════╤═════════════╤══════════════════════════════════════════════════════════════════════════════════╗
-║Platform Name│Platform Type│                                   Description                                    ║
-╠═════════════╪═════════════╪══════════════════════════════════════════════════════════════════════════════════╣
-║default      │Kubernetes   │master url = [https://10.0.0.1:443/], namespace = [default], api version = [v1]   ║
-║highmemory   │Kubernetes   │master url = [https://10.0.0.1:443/], namespace = [highmemory], api version = [v1]║
-╚═════════════╧═════════════╧══════════════════════════════════════════════════════════════════════════════════╝
+╔═════════════╤═════════════╤════════════════════════════════════════════════════════════════════════════════════════════╗
+║Platform Name│Platform Type│                                   Description                                              ║
+╠═════════════╪═════════════╪════════════════════════════════════════════════════════════════════════════════════════════╣
+║default      │Kubernetes   │master url = [https://10.0.0.1:443/], namespace = [default], api version = [v1]             ║
+║highmemory   │Kubernetes   │master url = [https://10.0.0.1:443/], namespace = [highmemory-namespace], api version = [v1]║
+╚═════════════╧═════════════╧════════════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 Create a stream.
@@ -193,12 +193,12 @@ dataflow:>stream deploy --name foo --platformName kafkazone
 Verify deployment.
 
 ```bash
-kubectl get svc -n kafkazone
+kubectl get svc -n kafka-namespace
 NAME          TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)                      AGE
 kafka         ClusterIP      10.0.7.155    <none>          9092/TCP                     7m29s
 kafka-zk      ClusterIP      10.0.15.169   <none>          2181/TCP,2888/TCP,3888/TCP   7m29s
 
-kubectl get pods -n kafkazone
+kubectl get pods -n kafka-namespace
 NAME                                READY   STATUS    RESTARTS   AGE
 foo-cassandra-v1-5d79b8bdcd-94kw4   1/1     Running   0          63s
 foo-cardata-v1-6cdc98fbd-cmrr2      1/1     Running   0          63s
@@ -401,8 +401,8 @@ There are cases when you want to orchestrate a deployment model where specific w
 and the rest in Cloud Foundry. After all, both the platforms offer different levels of support from the runtime perspective
 and having the flexibility to deploy the workloads to different platforms is an added advantage.
 
-Imagine a scenario with Spring Cloud Data Flow is running on Cloud Foundry. Only by configuration settings, it is possible
-also to define and stage one or many Kubernetes accounts within the same SCDF instance. This flexibility opens up
+Imagine a scenario with Spring Cloud Data Flow is running on Cloud Foundry. Only by configuration settings, it is also possible
+to define and stage one or many Kubernetes accounts within the same SCDF instance. This flexibility opens up
 compelling deployment scenarios where the streaming and batch data pipelines can be deployed to a variety of platforms!
 
 Let's take the same Cloud Foundry scenario. Apart from the `default` and `highmemory` platform accounts, you will
@@ -466,7 +466,7 @@ applications:
                    "gpuzone": {
                        "fabric8" : {
                            "masterUrl" : <k8s-master-api-url>,
-                           "namespace" : "gpuzone",
+                           "namespace" : "gpuzone-namespace",
                            "trustCerts" : "true"
                   }
               }
@@ -486,13 +486,13 @@ List the available platforms.
 
 ```bash
 dataflow:>stream platform-list
-╔═════════╤════════════╤═════════════════════════════════════════════════════════════════════════════════╗
-║  Name   │    Type    │                               Description                                       ║
-╠═════════╪════════════╪═════════════════════════════════════════════════════════════════════════════════╣
-║default  │cloudfoundry│org = [scdf-%%], space = [space-%%%%%], url = [https://api.run.pivotal.io]       ║
-║kafkazone│cloudfoundry│org = [kafka-org], space = [kafka-space], url = [https://api.run.pivotal.io]     ║
-║gpuzone  │kubernetes  │master url = [https://10.0.0.1:443/], namespace = [gpuzone], api version = [v1]  ║
-╚═════════╧════════════╧═════════════════════════════════════════════════════════════════════════════════╝
+╔═════════╤════════════╤═══════════════════════════════════════════════════════════════════════════════════════════╗
+║  Name   │    Type    │                               Description                                                 ║
+╠═════════╪════════════╪═══════════════════════════════════════════════════════════════════════════════════════════╣
+║default  │cloudfoundry│org = [scdf-%%], space = [space-%%%%%], url = [https://api.run.pivotal.io]                 ║
+║kafkazone│cloudfoundry│org = [kafka-org], space = [kafka-space], url = [https://api.run.pivotal.io]               ║
+║gpuzone  │kubernetes  │master url = [https://10.0.0.1:443/], namespace = [gpuzone-namespace], api version = [v1]  ║
+╚═════════╧════════════╧═══════════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 Create a stream.
@@ -511,7 +511,7 @@ dataflow:>stream deploy --name foo --platformName gpuzone
 Verify new pods in Kubernetes.
 
 ```bash
-kubectl get pods -n gpuzone
+kubectl get pods -n gpuzone-namespace
 NAME                                READY   STATUS    RESTARTS   AGE
 foo-cassandra-v1-aakhslff-94kw4     1/1     Running   0          73s
 foo-cardata-v1-fdalsssdf2-cmrr2     1/1     Running   0          73s

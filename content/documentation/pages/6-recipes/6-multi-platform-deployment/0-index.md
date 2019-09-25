@@ -7,4 +7,4 @@ summary: true
 
 # Multi-platform Deployments
 
-A few frequently discussed architecture topics in regards to multiple-platform deployments is the focus of this recipe.
+Frequently discussed architecture topics in regards to multiple-platform deployments is the focus of this recipe.
