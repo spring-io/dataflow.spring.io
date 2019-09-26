@@ -62,7 +62,7 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
 
   if (get(page, 'fields.version') === currentVersion) {
     result.push({
-      title: `${get(page, 'fields.version')} (current)`,
+      title: `Current`,
       path: `/docs/`,
       description: '',
       meta: {
@@ -347,7 +347,7 @@ export const getVersions = function getVersions(arr) {
   return Object.entries(arr)
     .map(([key, value]) => {
       if (!(!isDev && key === 'next')) {
-        let title = key === 'current' ? `${value} (current)` : value
+        let title = key === 'current' ? `Current` : key
         title = title === 'next' ? `${value} (dev)` : title
         const path = key === 'current' ? `/docs/` : `/docs/${value}`
         return {
