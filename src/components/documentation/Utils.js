@@ -36,6 +36,7 @@ const getNodeFormatted = (arr, item) => {
 export const getBreadcrumb = function getBreadcrumb(arr, page) {
   const result = []
   let url = get(page, 'fields.path')
+  const optionVersions = getVersions(versions)
 
   const getNode = (edge, value) => {
     return edge.edges.find(({ node }) => get(node, 'fields.path') === value)
@@ -44,8 +45,11 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     const node = get(getNode(arr, url), 'node')
     if (!node) {
       const version = url.substr(`/docs/`.length).replace('/', '')
+
+      const currentVersion = optionVersions.find(v => v.key === version)
+
       result.push({
-        title: version,
+        title: currentVersion.title,
         path: url,
         description: '',
         meta: {
@@ -62,7 +66,7 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
 
   if (get(page, 'fields.version') === currentVersion) {
     result.push({
-      title: `${get(page, 'fields.version')} (current)`,
+      title: `Current`,
       path: `/docs/`,
       description: '',
       meta: {
@@ -344,14 +348,16 @@ getMeta.proptypes = {
  * Object to array
  */
 export const getVersions = function getVersions(arr) {
-  return Object.entries(arr)
-    .map(([key, value]) => {
+  return Object.keys(arr)
+    .map(key => {
+      const value = arr[key]
       if (!(!isDev && key === 'next')) {
-        let title = key === 'current' ? `${value} (current)` : value
-        title = title === 'next' ? `${value} (dev)` : title
-        const path = key === 'current' ? `/docs/` : `/docs/${value}`
+        let title = value.name
+        title = title === 'next' ? `${value.name} (dev)` : title
+        title = !!value['current'] ? `${value.name} (Current)` : title
+        const path = !!value['current'] ? `/docs/` : `/docs/${key}`
         return {
-          key: value,
+          key: key,
           title: title,
           path: path,
         }
@@ -362,5 +368,20 @@ export const getVersions = function getVersions(arr) {
 }
 
 getVersions.proptypes = {
+  arr: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
+
+/**
+ * Get Current version ID
+ * Return a string
+ */
+export const getCurrentVersion = function getCurrentVersion(arr) {
+  return Object.keys(arr).find(versionId => {
+    const version = arr[versionId]
+    return !!version['current']
+  })
+}
+
+getCurrentVersion.proptypes = {
   arr: PropTypes.arrayOf(PropTypes.object).isRequired,
 }

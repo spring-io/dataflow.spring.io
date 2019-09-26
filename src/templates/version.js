@@ -24,6 +24,10 @@ class DocumentationVersion extends React.Component {
     const tree = getTree(pages)
     const summary = getTree(pages, options.path)
     const optionVersions = getVersions(versions)
+
+    const currentVersion = optionVersions.find(
+      version => version.key === this.props.data.page.context.version
+    )
     return (
       <Layout>
         <Seo title={`Documentation ${this.props.data.page.context.version}`} />
@@ -54,7 +58,7 @@ class DocumentationVersion extends React.Component {
               </div>
               <div className='main'>
                 <div className='main-content'>
-                  <h1>Version {this.props.data.page.context.version}</h1>
+                  <h1>Version {currentVersion.title}</h1>
                   <div className='post-content md' />
                   {summary && (
                     <>

@@ -8,4 +8,5 @@ export {
   getMeta,
   getSummaryType,
   getVersions,
+  getCurrentVersion,
 } from './Utils'

@@ -19,16 +19,15 @@
   },
   "scripts": {
     "clean": "rimraf .cache",
-    "prestart": "yarn run clean && yarn run load-repos && yarn run link-master",
+    "prestart": "yarn run clean && yarn run load-repos",
     "start": "gatsby develop",
-    "prebuild": "yarn run clean && yarn run lint && yarn run load-repos && yarn run link-master && yarn run test",
+    "prebuild": "yarn run clean && yarn run lint && yarn run load-repos && yarn run test",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "fix": "NODE_ENV=test import-sort --write '(src|utils|plugins)/**/*.js' && eslint . --fix && prettier --write '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "lint": "NODE_ENV=test import-sort -l '(src|utils|plugins)/**/*.js' && eslint . && prettier --check '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "test": "echo TODO",
     "load-repos": "babel-node --no-babelrc --presets @babel/env ./scripts/load-repos.js",
-    "link-master": "babel-node --no-babelrc --presets @babel/env ./scripts/link-master.js",
     "check-links-local": "linkinator http://localhost:9000/",
     "check-links-ci": "linkinator https://dataflow-preview.cfapps.io/"
   },

@@ -8801,7 +8801,7 @@ merge2@^1.2.3:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.2.3.tgz#7ee99dbd69bb6481689253f018488a1b902b0ed5"
   integrity sha512-gdUU1Fwj5ep4kplwcmftruWofEFt6lfpkkr3h860CXbAB9c3hGb55EOL2ali0Td5oebvW0E1+3Sr+Ur7XfKpRA==
 
-mermaid@^8.0.0:
+mermaid@8.0.0, mermaid@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/mermaid/-/mermaid-8.0.0.tgz#8f6c75017e788a8c3997e20c5e5046c2b88d1a8f"
   integrity sha512-vUQRykev0A6RtxIVqQT3a9TDxcSbdZbQF5JDyKgidnYuJy8BE8jp6LM+HKDSQuroKm6buu4NlpMO+qhxIP/cTg==

@@ -5,7 +5,10 @@ const { createFilePath } = require('gatsby-source-filesystem')
 
 const versions = require('./content/versions.json')
 
-const currentVersion = versions.current
+const currentVersion = Object.keys(versions).find(versionId => {
+  const version = versions[versionId]
+  return !!version['current']
+})
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -16,22 +19,18 @@ exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   const queryPromises = []
 
-  let excludeKeys = ['current', 'next']
-  if (isDev) {
-    excludeKeys = ['current']
-  }
-
   queryPromises.push(
     new Promise((resolve, reject) => {
-      for (const [key, version] of Object.entries(versions)) {
-        if (excludeKeys.indexOf(key) === -1) {
+      for (const versionId of Object.keys(versions)) {
+        const version = versions[versionId]
+        if (!version['current'] || (isDev && versionId === 'next')) {
           const VersionTemplate = path.resolve(`./src/templates/version.js`)
           createPage({
-            path: `/docs/${version}/`,
+            path: `/docs/${versionId}/`,
             component: VersionTemplate,
             context: {
-              version: version,
-              versionPath: `/docs/${version}/`,
+              version: versionId,
+              versionPath: `/docs/${versionId}/`,
             },
           })
         }
@@ -155,6 +154,11 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
           node,
           name: `version`,
           value: version,
+        })
+        createNodeField({
+          node,
+          name: `currentVersion`,
+          value: version === currentVersion,
         })
         createNodeField({
           node,
