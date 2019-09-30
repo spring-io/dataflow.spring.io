@@ -180,3 +180,96 @@ dataflow:>stream create metricstest --definition "time --fixed-delay=10 --time-u
 After deploying a stream, you can launch to view the Grafana dashboard as shown in the following image:
 
 ![SCDF Grafana Prometheus](images/grafana-prometheus-scdf-applications-dashboard.png)
+
+## Cloud Foundry
+
+This section describes how to set up Prometheus monitoring for a Cloud Foundry.
+
+### Prometheus
+
+Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint.
+Data Flow leverages the [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) to establish a persistent, bidirectional `RSocket` connections between all Stream and Task applications and one or more `Prometheus RSocket Proxy` instances. Prometheus is configured to scrape each proxy instance. Proxies in turn use the connection to pull metrics from each application. The scraped metrics are viewable through Grafana dashboards.
+
+Having the `Prometheus RSocket Proxy`, `Prometheus` and `Grafana` pre-configured and accessible at `<Prometheus-RSocket-Proxy host:port>` and `<Grafana root URL>`, we can enable the stream monitoring by adding the following `applicationProperties.stream.management.metrics.export.prometheus` and `grafana-info.url`, configuration sections to the Data Server `manifest.yml`.
+
+```yml
+---
+applications:
+  - name: data-flow-server
+    host: data-flow-server
+    memory: 2G
+    disk_quota: 2G
+    instances: 1
+    path: { PATH TO SERVER UBER-JAR }
+    env:
+      SPRING_APPLICATION_NAME: data-flow-server
+      SPRING_PROFILES_ACTIVE: cloud
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://<skipper-host-name>/api
+      SPRING_APPLICATION_JSON: |-
+        {
+           "maven" : {
+               "remoteRepositories" : {
+                  "repo1" : {
+                    "url" : "https://repo.spring.io/libs-snapshot"
+                  }
+               }
+           },
+
+           "spring.cloud.dataflow" : {
+                "task.platform.cloudfoundry.accounts" : {
+                    "default" : {
+                        "connection" : {
+                            "url" : <cf-api-url>,
+                            "domain" : <cf-apps-domain>,
+                            "org" : <org>,
+                            "space" : <space>,
+                            "username" : <email>,
+                            "password" : <password>,
+                            "skipSsValidation" : true 
+                        }
+                        "deployment" : {
+                          "services" : "postgresSQL"
+                        }
+                    }
+                },
+                "applicationProperties" : {
+                    "stream.management.metrics.export.prometheus" : {
+                        "enabled" : true,
+                        "rsocket.enabled" : true,
+                        "rsocket.host" : <prometheus-rsocket-proxy host>,
+                        "rsocket.port" : <prometheus-rsocket-proxy TCP or Websocket port>
+                    },
+                },
+                "grafana-info.url": <grafana root URL>
+           }
+        }
+services:
+  - postgresSQL
+```
+
+In this configuration, the metrics are enabled and configured.
+
+With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Cloud Foundry](%currentPath%/installation/cloudfoundry/cf-cli) section up and running, you are ready to collect metrics.
+
+Reach the Grafana dashboard using the default credentials as follows:
+
+- User name: admin
+- Password: password
+
+Provision Grafana with following two dashboards:
+
+- Streams: https://grafana.com/grafana/dashboards/9933
+- Applications: https://grafana.com/grafana/dashboards/9934
+
+Then you can collect metrics on a per-application, per-stream basis or apply metrics collection to all deployed applications globally.
+
+To deploy a single stream with metrics enabled, enter the following into the Spring Cloud Data Flow shell:
+
+```bash
+dataflow:>stream create metricstest --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
+```
+
+After deploying a stream, you can launch to view the Grafana dashboard as shown in the following image:
+
+![SCDF Grafana Prometheus](images/grafana-prometheus-scdf-applications-dashboard.png)
