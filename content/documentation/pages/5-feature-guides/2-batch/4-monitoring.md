@@ -130,7 +130,104 @@ You should see dashboards similar to those shown in the following image:
 
 ## Cloud Foundry
 
-This section describes how to set up InfluxDB for Cloud Foundry.
+This section describes how to set up Prometheus and InfluxDB monitoring for Cloud Foundry.
+
+### Prometheus
+
+Prometheus is a popular pull-based time-series database that pulls the metrics from the target applications with pre-configured endpoints. Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism. This method consistently provides support for long-running streaming and as well as [short-lived task/batch applications](https://github.com/micrometer-metrics/prometheus-rsocket-proxy#support-for-short-lived-or-serverless-applications).
+
+Having the `Prometheus RSocket Proxy`, `Prometheus` and `Grafana` pre-configured and accessible at `<Prometheus-RSocket-Proxy host:port>` and `<Grafana root URL>`, we can enable the task monitoring by adding the following `applicationProperties.task.management.metrics.export.prometheus` and `grafana-info.url`, configuration sections to the Data Server `manifest.yml`.
+
+```yml
+---
+applications:
+  - name: data-flow-server
+    host: data-flow-server
+    memory: 2G
+    disk_quota: 2G
+    instances: 1
+    path: { PATH TO SERVER UBER-JAR }
+    env:
+      SPRING_APPLICATION_NAME: data-flow-server
+      SPRING_PROFILES_ACTIVE: cloud
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI: https://<skipper-host-name>/api
+      SPRING_APPLICATION_JSON: |-
+        {
+           "maven" : {
+               "remoteRepositories" : {
+                  "repo1" : {
+                    "url" : "https://repo.spring.io/libs-snapshot"
+                  }
+               }
+           },
+
+           "spring.cloud.dataflow" : {
+                "task.platform.cloudfoundry.accounts" : {
+                    "default" : {
+                        "connection" : {
+                            "url" : <cf-api-url>,
+                            "domain" : <cf-apps-domain>,
+                            "org" : <org>,
+                            "space" : <space>,
+                            "username" : <email>,
+                            "password" : <password>,
+                            "skipSsValidation" : true 
+                        }
+                        "deployment" : {
+                          "services" : "postgresSQL"
+                        }
+                    }
+                },
+                "applicationProperties" : {
+                    "task.management.metrics.export.prometheus" : {
+                        "enabled" : true,
+                        "rsocket.enabled" : true,
+                        "rsocket.host" : <prometheus-rsocket-proxy host>,
+                        "rsocket.port" : <prometheus-rsocket-proxy TCP or Websocket port>
+                    },
+                },
+                "grafana-info.url": <grafana root URL>
+           }
+        }
+services:
+  - postgresSQL
+```
+
+In this configuration, the metrics are enabled and configured.
+
+With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Cloud Foundry](%currentPath%/installation/cloudfoundry/cf-cli) section up and running, you are ready to collect metrics.
+
+Reach the Grafana dashboard using the default credentials as follows:
+
+- User name: admin
+- Password: password
+
+Provision Grafana with following task dashboards: [scdf-task-batch.json](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/src/grafana/prometheus/docker/grafana/dashboards/scdf-task-batch.json)
+
+Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
+
+```bash
+dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
+
+dataflow:>task create --name task1 --definition "myTask"
+dataflow:>task create --name task2 --definition "myTask"
+```
+
+Launch the tasks several times:
+
+```bash
+dataflow:>task launch --name task1
+dataflow:>task launch --name task2
+```
+
+In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions) you should see:
+
+![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
+
+And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?refresh=10s):
+
+![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
 
 ### InfluxDB
 
