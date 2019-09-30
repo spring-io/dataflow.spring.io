@@ -6,17 +6,25 @@ description: 'Monitoring streaming data pipelines with Prometheus and InfluxDB'
 
 # Stream Monitoring with Prometheus and InfluxDB
 
-This section describes how to monitor the applications that were deployed as part of a Stream. The setup for each platform is different, but the general architecture is the same across the platforms.
+This section describes how to monitor the applications that were deployed as part of a Stream. The setup for each platform is different, but the general architecture is the same across all the platforms.
 
 The Data Flow 2.x metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Starting with Spring Boot 2.0, Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Integration provides [additional integration](https://docs.spring.io/spring-integration/docs/current/reference/html/#micrometer-integration) to expose metrics around message rates and errors, which is critical to the monitoring of deployed streams.
 
-All the Spring Cloud Stream App Starters are configured to support two of the most popular monitoring systems, Prometheus and InfluxDB. You can declaratively select which monitoring system to use. If you do not use Prometheus or InfluxDB, you can customize the App starters to use a different monitoring system as well as include your preferred Micrometer monitoring system library in your own custom applications. To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
+All the [Spring Cloud Stream Application Starters](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) are configured to support two of the most popular monitoring systems, [Prometheus](https://prometheus.io/) and [InfluxDB](https://www.influxdata.com/). You can declaratively select which monitoring system the deployed applications will use.
 
-The following image shows the general architecture of how applications are monitored:
+[Prometheus](https://prometheus.io/) is a popular pull-based Time Series Database that pulls the metrics from the target applications with pre-configured endpoints and provides a query language to select and aggregate time series data in real time.
+
+[InfluxDB](https://www.influxdata.com/) is a popular open-source push-based Time Series Database. It supports downsampling, automatically expiring and deleting unwanted data, and backup and restore. Analysis of data is done through an SQL-like query language.
+
+If you do not use Prometheus or InfluxDB, you can [customize the Application Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle/#_patching_pre_built_applications) to use a different monitoring system. To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
+
+The following image shows the general architecture of how streaming applications are monitored:
 
 ![Stream Monitoring Architecture](images/micrometer-arch.png)
 
-To allow aggregating metrics per application type and per instance or per stream, the [Spring Cloud Stream Application Starters](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) are configured to use the following Micrometer tags:
+Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism. The RSocket Proxy approach is used so that we can monitor tasks, which are short lived, as well as long lived stream applications using the same architecture. See the micrometer documentation on [short-lived task/batch applications](https://github.com/micrometer-metrics/prometheus-rsocket-proxy#support-for-short-lived-or-serverless-applications) for more information. In addition, the RSocket approach allows for the same monitoring architecture to be used across all the platforms. Prometheus is configured to scrape each proxy instance. Proxies in turn use the RSocket connection to pull metrics from each application. The scraped metrics are then viewable through Grafana dashboards.
+
+To allow aggregating metrics per application type and per instance or per stream, the Spring Cloud Stream Application Starters are configured to use the following Micrometer tags:
 
 - `stream.name`: The name of the Stream that contains the applications that send the metrics
 - `application.name`: The name or label of the application that reports the metrics
@@ -24,39 +32,39 @@ To allow aggregating metrics per application type and per instance or per stream
 - `application.guid`: Unique instance identifier of the application instance that reports the metrics
 - `application.index`: Application instance ID (when available)
 
-If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and Data Flow UI provides you with Grafana-buttons that can open a particular dashboard for a given stream, application, or application instance. The following screenshots illustrate these buttons:
+If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given stream, application, or application instance. The following screenshots illustrate these buttons, look for the spiral icon.
 
 ![Stream List Monitoring](images/grafana-scdf-ui-buttons-apps.png)
 
 ![Runtime Applications Monitoring](images/grafana-scdf-ui-buttons-streams.png)
 
-As setting up Prometheus and InfluxDB is different depending on the platform on which you run, we provide instructions for each platform. In Spring Cloud Data Flow 2.x, local server and Kubernetes instructions have been provided.
+Installing Prometheus and InfluxDB is different depending on the platform on which you run. Links to installation instructions are provides in each section below.
+
+For the local server, you can customize the [Docker Compose installation](%currentPath%/installation/local/docker-customize/#monitoring-with-prometheus-and-grafana). This will bring up
 
 ## Local
 
-This section describes how to set up Prometheus and InfluxDB for a local machine.
+This section describes how to view application metrics for streams using either Prometheus or InfluxDB as the metrics store on your local machine.
 
 ### Prometheus
 
-Prometheus is a popular pull-based time-series database that pulls the metrics from the target applications with pre-configured endpoints. Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism.
+To install Prometheus and Grafana, follow the [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana.
 
-Instead of having to install them manually, for a quick start, follow the [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-prometheus-and-grafana) docker-compose instructions, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana.
-
-Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard).
+Once all the containers are running, you can access the Spring Cloud Data Flow Dashboard at http://localhost:9393/dashboard
 
 Also you can reach the Prometheus UI at http://localhost:9090/graph and http://localhost:9090/targets
 
-You can reach the Grafana dashboard at http://localhost:3000 with the following credentials:
+You can access the Grafana dashboard at http://localhost:3000 using the credentials:
 
-- User: `admin`
-- Password: `admin`
+- user: `admin`
+- password: `admin`
 
-It comes with two provisioned dashboards:
+There are two provisioned dashboards:
 
 - Streams: http://localhost:3000/d/scdf-streams/streams?refresh=10s
 - Applications: http://localhost:3000/d/scdf-applications/applications?refresh=10s
 
-Now you can deploy a simple stream that uses Kafka, as follows:
+To see the dashboard in action, deploy a simple stream that uses Kafka.
 
 ```bash
 dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest --force
@@ -69,11 +77,29 @@ You should see dashboards similar to those shown in the following image:
 
 ### InfluxDB
 
-InfluxDB is a popular open-source push-based time series database. It supports downsampling, automatically expiring and deleting unwanted data, and backup and restore. Analysis of data is done through an SQL-like query language.
+To install InfluxDB and Grafana, follow the [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, InfluxDB, and prebuilt dashboards for Grafana.
 
-Instead of having to install them manually, you can use the docker-compose instructions for [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana), which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, InfluxDB, and prebuilt dashboards for Grafana.
+Once all the containers are running, you can access the Spring Cloud Data Flow Dashboard at http://localhost:9393/dashboard. You can access the Grafana dashboard at http://localhost:3000 using the credentials:
 
-Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard). Also you can reach the Grafana dashboard at http://localhost:3000 using the user: admin, password: admin credentials.
+- user: `admin`
+- password: `admin`
+
+There are two provisioned dashboards:
+
+- Streams: http://localhost:3000/d/scdf-streams/streams?refresh=10s
+- Applications: http://localhost:3000/d/scdf-applications/applications?refresh=10s
+
+Now you can deploy a simple stream that uses Kafka, such as the following:
+
+```bash
+dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest --force
+
+dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
+```
+
+You should see dashboards similar to those shown in the following image:
+
+![SCDF Grafana InfluxDB](images/grafana-influxdb-scdf-streams-dashboard.png)
 
 To validate the setup, you can log in to those containers by using the following commands:
 
@@ -93,58 +119,13 @@ Then you can check the content of InfluxDB by running the following commands:
 > select * from spring_integration_send limit 10
 </code></pre></div>
 
-You can reach the Grafana dashboard at http://localhost:3000 with the following credentials:
-
-- User: admin
-- password: admin
-
-It comes with two provisioned dashboards.
-
-- Streams: http://localhost:3000/d/scdf-streams/streams?refresh=10s
-- Applications: http://localhost:3000/d/scdf-applications/applications?refresh=10s
-
-Now you can deploy a simple stream that uses Kafka, such as the following:
-
-```bash
-dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest --force
-
-dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
-```
-
-You should see dashboards similar to those shown in the following image:
-
-![SCDF Grafana InfluxDB](images/grafana-influxdb-scdf-streams-dashboard.png)
-
 ## Kubernetes
 
-This section describes how to set up Prometheus and InfluxDB for Kubernetes.
+This section describes how to view application metrics for streams using Prometheus as the metrics store on Kubernetes.
 
 ### Prometheus
 
-Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint.
-Data Flow leverages the [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) to establish a persistent, bidirectional `RSocket` connections between all Stream and Task applications and one or more `Prometheus RSocket Proxy` instances. Prometheus is configured to scrape each proxy instance. Proxies in turn use the connection to pull metrics from each application. The scraped metrics are viewable through Grafana dashboards.
-
-Out of the box, each binder middleware configuration file defines attributes to enable metrics and their supporting properties. You can find settings in: `src/kubernetes/server/server-config.yaml`. The main point of interest is the following configuration section:
-
-```yaml
-applicationProperties:
-  stream:
-    management:
-      metrics:
-        export:
-          prometheus:
-            enabled: true
-            rsocket:
-              enabled: true
-              host: prometheus-proxy
-              port: 7001
-grafana-info:
-  url: 'https://grafana:3000'
-```
-
-In this configuration, the metrics are enabled and configured.
-
-With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Kubernetes](%currentPath%/installation/kubernetes) section up and running, you are ready to collect metrics.
+To install Prometheus and Grafana on Kubernetes, you will need to follow the instructions for a [kubectl based installation](%currentPath%/installation/kubernetes/kubectl/#deploy-prometheus-and-grafana).
 
 <!--IMPORTANT-->
 
@@ -159,17 +140,49 @@ $ minikube service --url grafana
 http://192.168.99.100:31595
 ```
 
-In the preceding example, you can reach the Grafana dashboard at http://192.168.99.100:31595. The default credentials are as follows:
+You can access the Grafana dashboard at http://192.168.99.100:31595 usng the credentials:
 
 - User name: admin
 - Password: password
 
-The Grafana instance is pre-provisioned with two dashboards:
+There are two provisioned dashboards:
 
 - Streams: http://192.168.99.100:31595/d/scdf-streams/streams?refresh=10s
 - Applications: http://192.168.99.100:31595/d/scdf-applications/applications?refresh=10s
 
 You can collect metrics on a per-application, per-stream basis or apply metrics collection to all deployed applications globally.
+
+To deploy a single stream with metrics enabled, enter the following into the Spring Cloud Data Flow shell:
+
+```bash
+dataflow:>stream create metricstest --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
+```
+
+You should see dashboards similar to those shown in the following image:
+
+![SCDF Grafana Prometheus](images/grafana-prometheus-scdf-applications-dashboard.png)
+
+## Cloud Foundry
+
+This section describes how to view application metrics for streams using Prometheus as the metrics store on Cloud Foundry.
+
+### Prometheus
+
+To configure the Data Flow server's manifest to send metrics data from stream applications to the Prometheus RSocket gateway, follow the [Manifest based installation instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-prometheus).
+
+With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Cloud Foundry](%currentPath%/installation/cloudfoundry/cf-cli) section up and running, you are ready to collect metrics.
+
+Depending on where you have installed Grafana, access the Grafana dashboard using the credentials:
+
+- User name: admin
+- Password: password
+
+There are two dashboards that can be installed using the following links.
+
+- Streams: https://grafana.com/grafana/dashboards/9933
+- Applications: https://grafana.com/grafana/dashboards/9934
+
+Then you can collect metrics on a per-application, per-stream basis or apply metrics collection to all deployed applications globally.
 
 To deploy a single stream with metrics enabled, enter the following into the Spring Cloud Data Flow shell:
 
