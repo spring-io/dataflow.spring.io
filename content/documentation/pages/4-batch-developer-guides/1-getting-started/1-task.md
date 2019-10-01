@@ -11,6 +11,8 @@ In this guide, we create a simple task definition and launch the task.
 The starting point is to use the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), which provide a set of task applications.
 Specifically, we use the provided `timestamp` application, which is basically a hello-world-style application that logs the current timestamp. For this guide, we assume that the respective `timestamp` task application has already been imported and registered with Spring Cloud Data Flow, as described in the [Installation guide](%currentPath%/installation/).
 
+<img src="images/dataflow-task-lifecycle.gif" alt="SCDF Task Lifecycle" width="765"/>
+
 ## Creating the Task
 
 To create a task:

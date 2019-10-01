@@ -119,6 +119,8 @@ spring.cloud.stream.kafka.streams.binder.applicationId=kstreams-sample
 [[note]]
 | In the Kafka Streams configuration, you'd notice the extra property `spring.cloud.stream.kafka.streams.binder.applicationId`, which is required by the framework internally to identify the Kafka Streams application uniquely.
 
+<img src="images/SCDF-stream-programming-models.gif" alt="Stream Programming Models" width="765"/>
+
 ## Testing
 
 1. Start Kafka on localhost.

@@ -23,6 +23,10 @@ The `log` application receives the message with that data from the messaging mid
 Each name in the DSL is associated with an application through the application registration process.
 The applications are connected through a `|` symbol that represents the messaging middleware that acts as the 'pipe' between the applications.
 
+Following diagram illustrates the Stream processing life cycle:
+
+<img src="images/SCDF-event-driven-applications.gif" alt="Event-Driven Applications" width="760"/>
+
 ## Creating the Stream
 
 To create a stream:

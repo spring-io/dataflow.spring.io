@@ -6,12 +6,14 @@ description: 'Continuous Delivery of Streaming applications'
 
 # Continuous Delivery of streaming applications
 
-The applications composed in the streaming dta pipeline will often need to be changed.
+The applications composed in the streaming data pipeline will often need to be changed.
 The change can be a new version of the application that fixes a bug or setting a different value of an application property.
 To avoid downtime from stream processing, we would like to do a rolling upgrade of just the applications in the stream that have changed.
 Furthermore, should the upgrade not be what is desired, a quick rollback to a previous version of the application should be easy to perform.
 
 Spring Cloud Data Flow provides support for continuous delivery of event streaming applications via the Skipper server.
+
+<img src="images/scdf-stream-upgrade-rollback.gif" alt="Stream Rolling Upgrade and Rollbacks" width="740"/>
 
 To demonstrate this, lets use some of the out of the box streaming applications that were already registered when installing Data Flow.
 
