@@ -62,8 +62,14 @@ app.hotDrinkDeliveryApp.spring.cloud.stream.bindings.input.destination=hotDrinks
 app.coldDrinkDeliveryApp.spring.cloud.stream.bindings.input.destination=coldDrinksDest
 ```
 
+Following diagram illustrates how the binding properties are used to wire the applications and the channel destinations:
+
+<img src="images/SCDF-application-dsl.gif" alt="Multiple Input/Output channels" width="800"/>
+
 As with binding properties, you can configure the rest of the Spring Cloud Stream properties for the producers and consumers.
 For example, if you want to use consumer groups, you need to set the Spring Cloud Stream application properties, `spring.cloud.stream.bindings.<channelName>.producer.requiredGroups` and `spring.cloud.stream.bindings.<channelName>.group`, on the producer and consumer applications respectively.
+
+<img src="images/SCDF-application-dsl-bindings.gif" alt="Multiple Input/Output channels Bindings" width="800"/>
 
 Another common use case for the Stream Application DSL is to deploy an HTTP gateway application that sends a synchronous request or reply message to a Kafka or RabbitMQ application.
 In this case, both the HTTP gateway application and the Kafka or RabbitMQ application can be a Spring Integration application that does not use the Spring Cloud Stream library.
