@@ -16,11 +16,11 @@ Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring u
 To download the Spring Cloud Data Flow Server Docker Compose file, run the following command:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-milestone-version%/spring-cloud-dataflow-server/docker-compose.yml
 ```
 
 [[note]]
-| If wget is unavailable, you can use curl or another platform-specific utility. [Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose.yml) to download the docker-compose.yml file.
+| If wget is unavailable, you can use curl or another platform-specific utility. [Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-milestone-version%/spring-cloud-dataflow-server/docker-compose.yml) to download the docker-compose.yml file.
 
 The Docker Compose file starts instances of the following products:
 
@@ -34,7 +34,7 @@ The Docker Compose file starts instances of the following products:
 In the directory where you downloaded `docker-compose.yml`, start the system, by running the following commands:
 
 ```bash
-export DATAFLOW_VERSION=%dataflow-version%
+export DATAFLOW_VERSION=%dataflow-milestone-version%
 export SKIPPER_VERSION=%skipper-version%
 docker-compose up
 ```
@@ -42,7 +42,7 @@ docker-compose up
 If you use Windows, you can define environment variables by using the `set`
 command. To start the system on Windows, enter the following commands:
 
-    C:\ set DATAFLOW_VERSION=%dataflow-version%
+    C:\ set DATAFLOW_VERSION=%dataflow-milestone-version%
     C:\ set SKIPPER_VERSION=%skipper-version%
     C:\ docker-compose up
 
@@ -54,7 +54,7 @@ The preceding commands first set the `DATAFLOW_VERSION` and `SKIPPER_VERSION` to
 You can also use a shorthand version that exposes only the `DATAFLOW_VERSION` and `SKIPPER_VERSION` variables to the `docker-compose` process (rather than setting it in the environment), as follows:
 
 ```bash
-DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% docker-compose up
+DATAFLOW_VERSION=%dataflow-milestone-version% SKIPPER_VERSION=%skipper-version% docker-compose up
 ```
 
 [[note]]
@@ -81,7 +81,7 @@ When you want to shut down Spring Cloud Data Flow, you can use the `docker-compo
 1. Run the following command:
 
 ```bash
-DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% docker-compose down
+DATAFLOW_VERSION=%dataflow-milestone-version% SKIPPER_VERSION=%skipper-version% docker-compose down
 ```
 
 [[note]]
@@ -105,7 +105,7 @@ If you have started the Data Flow server with `java -jar`, you can download and 
 To download the Spring Cloud Data Flow Shell application, run the following command:
 
 ```bash
-wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-milestone-version%/spring-cloud-dataflow-shell-%dataflow-milestone-version%.jar
 ```
 
 <!-- **TODO add link/create content for shell** -->

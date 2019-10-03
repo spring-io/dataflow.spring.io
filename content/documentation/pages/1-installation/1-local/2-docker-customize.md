@@ -18,7 +18,7 @@ Also, when doing development of custom applications, you need to enable the Dock
 Extend the default configuration in `docker-compose.yml` to enable the Stream and Task monitoring with Prometheus and Grafana. To do so, you need to download the additional `docker-compose-prometheus.yml` file:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-prometheus.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-milestone-version%/spring-cloud-dataflow-server/docker-compose-prometheus.yml
 ```
 
 In the directory where you downloaded `docker-compose.yml` and `docker-compose-prometheus.yml` files, start the system, by running the following commands:
@@ -34,7 +34,7 @@ In addition to the basic services the extended configuration also starts `Promet
 Extend the default configuration in `docker-compose.yml` to enable the Stream and Task monitoring with InfluxDB and Grafana. To do so, you need to download the additional `docker-compose-influxdb.yml` file:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-milestone-version%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
 ```
 
 Then in the directory where you downloaded `docker-compose.yml` and `docker-compose-influxdb.yml`, start the system, by running the following commands:
@@ -52,7 +52,7 @@ You can use PostgreSQL rather than MySQL for both Spring Cloud Data Flow and SKi
 To override the default `docker-compose.yml` configuration you need to download the additional `docker-compose-postgres.yml` file:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-postgres.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-milestone-version%/spring-cloud-dataflow-server/docker-compose-postgres.yml
 ```
 
 In the directory where you downloaded `docker-compose.yml` and `docker-compose-postgres.yml` files, start the system, by running the following commands:
@@ -68,7 +68,7 @@ You can use RabbitMQ rather than Kafka for communication. To do so you need to d
 For convenience, we provide an out-of-the-box `docker-compose-rabbitmq.yml` file to help override the default `docker-compose.yml` from Kafka to RabbitMQ. You can download the `docker-compose-rabbitmq.yml` file:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-milestone-version%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
 ```
 
 In the directory where you downloaded `docker-compose.yml` and `docker-compose-rabbitmq.yml` files, start the system, by running the following commands:
