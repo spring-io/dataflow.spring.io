@@ -105,7 +105,7 @@ If you have started the Data Flow server with `java -jar`, you can download and 
 To download the Spring Cloud Data Flow Shell application, run the following command:
 
 ```bash
-wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-milestone-version%/spring-cloud-dataflow-shell-%dataflow-milestone-version%.jar
+wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 <!-- **TODO add link/create content for shell** -->
