@@ -36,6 +36,7 @@ const getNodeFormatted = (arr, item) => {
 export const getBreadcrumb = function getBreadcrumb(arr, page) {
   const result = []
   let url = get(page, 'fields.path')
+  const optionVersions = getVersions(versions)
 
   const getNode = (edge, value) => {
     return edge.edges.find(({ node }) => get(node, 'fields.path') === value)
@@ -44,8 +45,11 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     const node = get(getNode(arr, url), 'node')
     if (!node) {
       const version = url.substr(`/docs/`.length).replace('/', '')
+
+      const currentVersion = optionVersions.find(v => v.key === version)
+
       result.push({
-        title: version,
+        title: currentVersion.title,
         path: url,
         description: '',
         meta: {
