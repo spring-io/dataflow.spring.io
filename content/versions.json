@@ -1,5 +1,5 @@
 {
-  "2.3.0.SNAPSHOT": "2.3.0",
-  "current": "master",
+  "current": "2.2.x",
+  "2.3.0.SNAPSHOT": "master",
   "next": "next"
 }
