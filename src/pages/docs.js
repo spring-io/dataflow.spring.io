@@ -5,12 +5,17 @@ import { Link, graphql } from 'gatsby'
 import versions from './../../content/versions.json'
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
-import { VersionSelect, getVersions } from '../components/documentation'
+import {
+  VersionSelect,
+  getCurrentVersion,
+  getVersions,
+} from '../components/documentation'
 
 class DocsPage extends React.Component {
   render() {
     const edges = this.props.data.pages
     const optionVersions = getVersions(versions)
+    const currentVersion = getCurrentVersion(versions)
 
     const pages = [
       [
@@ -80,7 +85,7 @@ class DocsPage extends React.Component {
                 {optionVersions.length > 1 && (
                   <VersionSelect
                     versions={optionVersions}
-                    version={versions.current}
+                    version={currentVersion}
                   />
                 )}
               </div>
@@ -128,7 +133,7 @@ export const articleQuery = graphql`
         fields: {
           hash: { eq: "documentation" }
           root: { eq: true }
-          version: { eq: "master" }
+          currentVersion: { eq: true }
           exclude: { ne: true }
         }
       }

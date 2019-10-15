@@ -4,6 +4,7 @@ import path from 'path'
 import versions from '../content/versions.json'
 import { cleanDir, createDir, execaOptions, info, log, main } from './utils'
 
+const MASTER_DIR = path.join(__dirname, '../content/documentation')
 const DATA_DIR = path.join(__dirname, '../data')
 const REPO = 'spring-io/dataflow.spring.io'
 const ANAME = 'dataflow.spring.io'
@@ -13,17 +14,19 @@ const loadRepos = async () => {
   info('Loading')
   cleanDir(DATA_DIR)
   createDir(DATA_DIR)
-  const uniqueVersions = [...new Set(Object.values(versions))]
-  for (let version of uniqueVersions) {
-    if (version === 'next' || version === 'master') {
-      info(`Skipping master`)
-      continue
+  for (let versionId of Object.keys(versions)) {
+    info(versionId)
+    const version = versions[versionId]
+    if (version.branch === 'master') {
+      info(`Link version ${versionId} (name: ${version.name})`)
+      linkFile(MASTER_DIR, path.join(DATA_DIR, versionId))
+    } else {
+      info(`Loading version ${versionId} (name: ${version.name})`)
+      const archive = path.join(DATA_DIR, `${versionId}${AEXT}`)
+      downloadVersion(url(versionId), archive)
+      extractVersion(archive, versionId)
+      cleanDir(archive)
     }
-    info(`Loading version ${version}`)
-    const archive = path.join(DATA_DIR, `${version}${AEXT}`)
-    downloadVersion(url(version), archive)
-    extractVersion(archive, version)
-    cleanDir(archive)
   }
 }
 
@@ -50,6 +53,12 @@ const extractVersion = (file, version) => {
     execaOptions
   )
   if (failed) throw new Error(`Couldn't extract ${file}`)
+}
+
+const linkFile = (src, dest) => {
+  log('Linking', src, 'to', dest)
+  const { failed } = execa.sync('ln', ['-s', src, dest], execaOptions)
+  if (failed) throw new Error(`Couldn't link ${src} to ${dest}`)
 }
 
 main('load-repos', loadRepos)
