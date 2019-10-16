@@ -23,7 +23,7 @@ const arrVars = Object.keys(versions).map(versionId => {
     vars.version = versionId
   }
   return {
-    versionId,
+    version: versionId,
     vars,
   }
 })
@@ -110,12 +110,12 @@ const plugins = [
             theme: null,
           },
         },
-        // {
-        //   resolve: 'spring-remark-variables',
-        //   options: {
-        //     arrVars: arrVars,
-        //   },
-        // },
+        {
+          resolve: 'spring-remark-variables',
+          options: {
+            arrVars: arrVars,
+          },
+        },
         `gatsby-remark-responsive-iframe`,
         {
           resolve: `gatsby-remark-prismjs`,
