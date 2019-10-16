@@ -4,8 +4,8 @@
     "branch": "2.2.x",
     "current": true
   },
-  "2.3.0.SNAPSHOT": {
-    "name": "2.3.0 SNAPSHOT",
+  "2.3.0.M1": {
+    "name": "2.3.0 M1",
     "branch": "master"
   },
   "next": {
