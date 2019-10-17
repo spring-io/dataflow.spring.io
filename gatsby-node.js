@@ -23,17 +23,21 @@ exports.createPages = ({ graphql, actions }) => {
     new Promise((resolve, reject) => {
       for (const versionId of Object.keys(versions)) {
         const version = versions[versionId]
-        if (!version['current'] || (isDev && versionId === 'next')) {
-          const VersionTemplate = path.resolve(`./src/templates/version.js`)
-          createPage({
-            path: `/docs/${versionId}/`,
-            component: VersionTemplate,
-            context: {
-              version: versionId,
-              versionPath: `/docs/${versionId}/`,
-            },
-          })
+        if (version['current']) {
+          continue
         }
+        if (!isDev && versionId === 'next') {
+          continue
+        }
+        const VersionTemplate = path.resolve(`./src/templates/version.js`)
+        createPage({
+          path: `/docs/${versionId}/`,
+          component: VersionTemplate,
+          context: {
+            version: versionId,
+            versionPath: `/docs/${versionId}/`,
+          },
+        })
       }
       return resolve()
     })
