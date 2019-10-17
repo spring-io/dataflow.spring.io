@@ -845,7 +845,7 @@ kubectl delete pod -l app=usage-cost-stream
 To uninstall Kafka, run the following command:
 
 ```bash
-kubectl delete all -l app=kafka
+kubectl delete all -l app=kafka-broker
 ```
 
 ## What's Next

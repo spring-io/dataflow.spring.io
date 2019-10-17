@@ -45,8 +45,8 @@ You need to configure only one message broker.
   kubectl create -f src/kubernetes/kafka/
   ```
 
-  You can use `kubectl get all -l app=kafka` to verify that the deployment, pod, and service resources are running.
-  Use `kubectl delete all -l app=kafka` to clean up afterwards.
+  You can use `kubectl get all -l app=kafka-broker` to verify that the deployment, pod, and service resources are running.
+  Use `kubectl delete all -l app=kafka-broker` to clean up afterwards.
 
 ## Deploy Services, Skipper, and Data Flow
 
