@@ -35,7 +35,7 @@ class Navigation extends React.Component {
                   fields: {
                     hash: { eq: "documentation" }
                     root: { eq: true }
-                    version: { eq: "master" }
+                    currentVersion: { eq: true }
                   }
                 }
                 sort: { fields: fields___slug, order: ASC }

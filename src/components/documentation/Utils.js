@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import get from 'lodash.get'
 import path from 'path'
 const versions = require('../../../content/versions.json')
-const currentVersion = versions.current
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -46,10 +45,10 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     if (!node) {
       const version = url.substr(`/docs/`.length).replace('/', '')
 
-      const currentVersion = optionVersions.find(v => v.key === version)
+      const versionItem = optionVersions.find(v => v.key === version)
 
       result.push({
-        title: currentVersion.title,
+        title: versionItem.title,
         path: url,
         description: '',
         meta: {
@@ -63,6 +62,8 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
     }
     url = path.join(path.dirname(url), '/')
   }
+
+  const currentVersion = getCurrentVersion(versions)
 
   if (get(page, 'fields.version') === currentVersion) {
     result.push({

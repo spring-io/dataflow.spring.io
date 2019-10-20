@@ -50,20 +50,18 @@ const documentationNode = ({ node }) => {
   return node
 }
 
-const queries = Object.entries(versions)
-  .filter(([, version]) => version !== 'next')
-  .map(([, version]) => {
+const queries = Object.keys(versions)
+  .filter(versionId => versionId !== 'next')
+  .map(versionId => {
     return {
       query: queryDocumentation,
       transformer: ({ data }) => {
         const nodes = data.pages.edges
           .map(documentationNode)
-          .filter(node => node.version === version)
-
+          .filter(node => node.version === versionId)
         const records = nodes
           .filter(node => !node.summary)
           .reduce(fragmentTransformer, [])
-
         nodes
           .filter(node => node.summary)
           .forEach(node => {
@@ -74,14 +72,14 @@ const queries = Object.entries(versions)
               slug: node.slug,
               category: node.category,
               fullTitle: node.title,
-              version: node.version,
+              version: versionId,
               html: `<p>${node.description ? node.description : ''}</p>`,
             })
           })
 
         return records
       },
-      indexName: `doc-${version}`,
+      indexName: `doc-${versionId}`,
       settings: { attributesToSnippet: [`excerpt:20`] },
     }
   })
