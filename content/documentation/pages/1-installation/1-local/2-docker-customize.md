@@ -58,7 +58,7 @@ docker-compose -f ./docker-compose.yml -f ./docker-compose-postgres.yml up
 [docker-compose-rabbitmq.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-snapshot-version%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml) - Use RabbitMQ instead of Kafka as message broker. It disables the default `kafka` and `zookeeper` services, add a new `rabbitmq` service and override the `dataflow-server`'s service binder configuration to RabbitMQ (e.g. `spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.host=rabbitmq`). Finally overrides the `app-import` service to register the rabbit apps:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-snapshot-version%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/d3304ad40e0b9ff8b4e1421b4ec4b4e900a9c803/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml up
 ```
 
