@@ -16,11 +16,11 @@ Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring u
 To download the Spring Cloud Data Flow Server Docker Compose file, run the following command:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-snapshot-version%/spring-cloud-dataflow-server/docker-compose.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose.yml
 ```
 
 [[note]]
-| If wget is unavailable, you can use curl or another platform-specific utility. [Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-snapshot-version%/spring-cloud-dataflow-server/docker-compose.yml) to download the docker-compose.yml file.
+| If wget is unavailable, you can use curl or another platform-specific utility. [Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose.yml) to download the docker-compose.yml file.
 
 The Docker Compose file starts instances of the following products:
 
