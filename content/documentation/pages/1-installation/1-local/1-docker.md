@@ -58,7 +58,8 @@ DATAFLOW_VERSION=%dataflow-snapshot-version% SKIPPER_VERSION=%skipper-version% d
 ```
 
 [[note]]
-| By default, the latest GA releases of Stream and Task applications are imported automatically.
+| By default, the latest GA releases of Stream and Task applications are imported automatically. Use the `STREAM_APPS_URI` and `TASK_APPS_URI` to alter the default imported Stream and Task applications. For example to override the default maven apps (https://dataflow.spring.io/kafka-maven-latest) with docker based distribution (https://dataflow.spring.io/kafka-docker-latest) run:
+| `bash | STREAM_APPS_URI=https://dataflow.spring.io/kafka-docker-latest docker-compose up |`
 
 [[tip]]
 | By default, Docker Compose uses locally available images. For example, when using the `latest` tag, you can run `docker-compose pull` prior to `docker-compose up` to ensure the latest image is downloaded.

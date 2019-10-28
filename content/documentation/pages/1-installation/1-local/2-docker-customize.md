@@ -67,16 +67,23 @@ docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml up
 [docker-compose-cf.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-cf.yml) Adds a remote `Cloud Foundry` account as a Data Flow runtime platform under the name `cf`. You will need to edit the `docker-compose-cf.yml` to add your CF API URL and access credentials.
 
 ```bash
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
 wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-cf.yml
-docker-compose -f ./docker-compose.yml -f ./docker-compose-cf.yml up
+docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml -f ./docker-compose-cf.yml up
 ```
+
+Because `Kafka` is not supported on CF you, also will need to switch to `Rabbit` using the `docker-compose-rabbitmq.yml`. The `docker-compose-cf.yml` expects a `rabbit` service configured in the target CF environment.
 
 [docker-compose-k8s.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-cf.yml) Adds a remote `Kubernetes` account as a Data Flow runtime platform under the name `k8s`. You will need to edit the `docker-compose-k8s.yml` to add your Kubernetes master URL and access credentials.
 
 ```bash
 wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-k8s.yml
-docker-compose -f ./docker-compose.yml -f ./docker-compose-k8s.yml up
+STREAM_APPS_URI=https://dataflow.spring.io/kafka-docker-latest docker-compose -f ./docker-compose.yml -f ./docker-compose-k8s.yml up
 ```
+
+The default maven based app starters can not be deployed in a Kubernetes environment. Switch to the docker based app distribution using the `STREAM_APPS_URI` variable.
+
+The `docker-compose-k8s.yml` expects a `kafka-broker` service pre-deployed in the target Kubernetes environment. Follow the [choose a message broker](%currentPath%/installation/kubernetes/kubectl/#choose-a-message-broker) instructions to deploy kafka-broker service.
 
 ### Debug Data Flow Server
 
@@ -90,6 +97,13 @@ docker-compose -f ./docker-compose.yml -f ./docker-compose-debug-dataflow.yml up
 It makes the `dataflow-server` service wait for a debugger to connect on port `5005` to start debugging. Following snippet shows how to configure remote debug with IntelliJ. Set the `Host:` with the IP address of you local machine. Do not use `localhost` as it won't work inside the docker containers.
 
   <img src="../images/scdf-remote-debugging.png" alt="SCDF Remote Debug" width="100"/>
+
+Often while debugging you will need to build new, local `spring-cloud-dataflow-server:latest` docker image. You can achieve this running the following commands from the DataFlow root directory:
+
+```bash
+./mvnw clean install -DskipTests
+./mvnw docker:build -pl spring-cloud-dataflow-server
+```
 
 ### Integration Testing
 
