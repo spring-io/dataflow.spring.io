@@ -38,13 +38,70 @@ This section describes how to set up Prometheus and InfluxDB for a local machine
 
 ### Prometheus
 
-Prometheus is a popular pull-based time-series database that pulls the metrics from the target applications with pre-configured endpoints. Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism.
+Prometheus is a popular pull-based time series database that pulls the metrics from the target applications from preconfigured endpoints. Prometheus needs to be regularly provided with the URLs of the target applications to monitor. This task is delegated to a component called Service Discovery, which is usually a platform-specific implementation. The Spring Cloud Data Flow server provides a standalone Service Discovery service that uses the Data Flow `/runtime/apps` REST endpoint to compute the URL locations of the deployed application’s Prometheus endpoints.
 
-Instead of having to install them manually, for a quick start, follow the [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-prometheus-and-grafana) docker-compose instructions, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana.
+To enable Micrometer’s Prometheus meter registry for Spring Cloud Stream application starters, set the following properties.
 
-Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard).
+```bash
+management.metrics.export.prometheus.enabled=true
+management.endpoints.web.exposure.include=prometheus
+```
 
-Also you can reach the Prometheus UI at http://localhost:9090/graph and http://localhost:9090/targets
+Disable the application’s security, which allows for a simple Prometheus configuration to scrape monitoring information by setting the following property:
+
+```bash
+spring.cloud.streamapp.security.enabled=false
+```
+
+The next steps is to start up Prometheus, Grafana, and the local service discovery application.
+
+First, clone the Spring Cloud Data Flow Github repository for the tagged release and change to the `prometheus/docker` folder, as follows:
+
+```bash
+cd ./src/grafana/prometheus/docker
+```
+
+Next, set the `SCDF_HOST_IP` environment variable to the IP address of your local host, as follows:
+
+```bash
+export SCDF_HOST_IP=<YOUR locahost IP address>
+```
+
+Use the real IP address and not `localhost/127.0.0.1`. You can use `ifconfig` to find out your IP address.
+
+In many cases, the `find_host_ip.sh` script (included in the distribution) can give you the IP address. To use it, run the following command:
+
+```bash
+source ./find_host_ip.sh
+```
+
+Now you can start Prometheus and Grafana + Service-Discovery by using `docker-compose`, as follows:
+
+```bash
+docker-compose up -d --build
+```
+
+You should check that the containers have started by using the `docker ps` command, as the following example shows (with output):
+
+```bash
+docker ps
+CONTAINER ID IMAGE              ...  PORTS                    NAMES
+2b8b6a442365 tzolov/spring-...  ...  0.0.0.0:8181->8181/tcp   service-discovery
+bff63c4902d5 docker_prometheus  ...  0.0.0.0:9090->9090/tcp   prometheus
+40190da6aa4b docker_grafana     .... 0.0.0.0:3000->3000/tcp   grafana
+```
+
+To validate the setup, you can log in to those containers by using the following commands:
+
+```bash
+docker exec -it service-discovery /bin/sh
+docker exec -it prometheus /bin/sh
+docker exec -it grafana /bin/bash
+```
+
+Then, on the `prometheus` and `service-discovery` containers, you can check the content of the `targets.json` file by running `cat /tmp/scdf-targets/targets.json`.
+
+You can reach the Prometheus UI at http://localhost:9090/graph and http://localhost:9090/targets
 
 You can reach the Grafana dashboard at http://localhost:3000 with the following credentials:
 
@@ -55,6 +112,15 @@ It comes with two provisioned dashboards:
 
 - Streams: http://localhost:3000/d/scdf-streams/streams?refresh=10s
 - Applications: http://localhost:3000/d/scdf-applications/applications?refresh=10s
+
+Start the Skipper server. Then start the Data Flow server with the following properties:
+
+```bash
+--spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.enabled=true
+--spring.cloud.dataflow.applicationProperties.stream.spring.cloud.streamapp.security.enabled=false
+--spring.cloud.dataflow.applicationProperties.stream.management.endpoints.web.exposure.include=prometheus,info,health
+--spring.cloud.dataflow.grafana-info.url=http://localhost:3000
+```
 
 Now you can deploy a simple stream that uses Kafka, as follows:
 
@@ -67,13 +133,52 @@ You should see dashboards similar to those shown in the following image:
 
 ![SCDF Grafana Prometheus](images/grafana-prometheus-scdf-applications-dashboard.png)
 
+You can destroy all containers by running the following command:
+
+```bash
+docker-compose down
+```
+
 ### InfluxDB
+
+<!--NOTE-->
+
+By default, the Data Flow `docker-compose` configures Stream monitoring with InfluxDB and prebuilt dashboards for Grafana. The following instructions are provided to let you configure InfluxDB and Grafana, in case you decide to install Data Flow manually, without the the help of the getting started `docker-compose`.
+
+<!--END_NOTE-->
 
 InfluxDB is a popular open-source push-based time series database. It supports downsampling, automatically expiring and deleting unwanted data, and backup and restore. Analysis of data is done through an SQL-like query language.
 
-Instead of having to install them manually, you can use the docker-compose instructions for [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana), which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, InfluxDB, and prebuilt dashboards for Grafana.
+To enable Micrometer’s Influx meter registry for Spring Cloud Stream application starters, set the following property:
 
-Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard). Also you can reach the Grafana dashboard at http://localhost:3000 using the user: admin, password: admin credentials.
+```bash
+management.metrics.export.influx.enabled=true
+```
+
+In the docker setup provided later in this section, the InfluxDB server runs on `localhost:8086`. If you use a different InfluxDB server, setting Common Application Properties for Influx is a convenient way to have all deployed applications configured to send metrics to Influx. The property to set is `management.metrics.export.influx.uri`. Alternatively, when deploying a stream, you can pass this as a deployment property (`app.\*.management.metrics.export.influx.uri={influxdb-server-url}`). The Micrometer influx documentation shows the full list of Spring Boot properties to configure sending metrics to Influx.
+
+To start Influx and Grafana:
+
+1. Clone the Data Flow Github repository for tagged release and change to the `influxdb/docker` folder, as follows:
+
+   ```bash
+   cd ./src/grafana/influxdb/docker
+   ```
+
+1. Start Influx and Grafna by using `docker-compose`, as follows:
+
+   ```bash
+   docker-compose up -d --build
+   ```
+
+1. Check that the containers have started by running the `docker ps` command, as follows (shown with its output):
+
+```bash
+docker ps
+CONTAINER ID        IMAGE               PORTS                    NAMES
+1b7633c63ba1        docker_influxdb     0.0.0.0:8086->8086/tcp   influxdb
+2f42e88f0606        docker_grafana      0.0.0.0:3000->3000/tcp   grafana
+```
 
 To validate the setup, you can log in to those containers by using the following commands:
 
@@ -103,6 +208,15 @@ It comes with two provisioned dashboards.
 - Streams: http://localhost:3000/d/scdf-streams/streams?refresh=10s
 - Applications: http://localhost:3000/d/scdf-applications/applications?refresh=10s
 
+Now you can start the Skipper server. Then start the Data Flow server with the following properties:
+
+```bash
+--spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled=true
+--spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db=myinfluxdb
+--spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri=http://localhost:8086
+--spring.cloud.dataflow.grafana-info.url=http://localhost:3000
+```
+
 Now you can deploy a simple stream that uses Kafka, such as the following:
 
 ```bash
@@ -121,8 +235,7 @@ This section describes how to set up Prometheus and InfluxDB for Kubernetes.
 
 ### Prometheus
 
-Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint.
-Data Flow leverages the [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) to establish a persistent, bidirectional `RSocket` connections between all Stream and Task applications and one or more `Prometheus RSocket Proxy` instances. Prometheus is configured to scrape each proxy instance. Proxies in turn use the connection to pull metrics from each application. The scraped metrics are viewable through Grafana dashboards.
+Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint. When running in Kubernetes, Prometheus "scrapes" metrics from target applications that have a specific pod-level annotation. The endpoint to scrape is provided by Spring Boot, under the default path of `/actuator/prometheus`.
 
 Out of the box, each binder middleware configuration file defines attributes to enable metrics and their supporting properties. You can find settings in: `src/kubernetes/server/server-config.yaml`. The main point of interest is the following configuration section:
 
@@ -134,15 +247,20 @@ applicationProperties:
         export:
           prometheus:
             enabled: true
-            rsocket:
-              enabled: true
-              host: prometheus-proxy
-              port: 7001
+      endpoints:
+        web:
+          exposure:
+            include: 'prometheus,info,health'
+    spring:
+      cloud:
+        streamapp:
+          security:
+            enabled: false
 grafana-info:
-  url: 'https://grafana:3000'
+  url: 'http://grafana:3000'
 ```
 
-In this configuration, the metrics are enabled and configured.
+In this configuration, Prometheus metrics are enabled, along with the appropriate endpoints and security settings.
 
 With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Kubernetes](%currentPath%/installation/kubernetes) section up and running, you are ready to collect metrics.
 
@@ -174,9 +292,34 @@ You can collect metrics on a per-application, per-stream basis or apply metrics 
 To deploy a single stream with metrics enabled, enter the following into the Spring Cloud Data Flow shell:
 
 ```bash
+dataflow:>stream create metricstest --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log"
+dataflow:>stream deploy --name metricstest --properties "deployer.*.kubernetes.podAnnotations=prometheus.io/path:/actuator/prometheus,prometheus.io/port:8080,prometheus.io/scrape:true"
+```
+
+The preceding example creates a stream definition and sets the `podAnnotations` property on each application in the stream. The annotations applied to the pod indicate to Prometheus that it should be scraped for metrics by using the provided endpoint path and the port.
+
+As a global setting, to deploy all streams with metrics enabled, you can append the following `podAnnotations` entry to the configuration in either `src/kubernetes/skipper/skipper-config-rabbit.yaml` (when using RabbitMQ) or `src/kubernetes/skipper/skipper-config-kafka.yaml` (when using Kafka):
+
+```yaml
+data:
+  application.yaml: |-
+    spring:
+      cloud:
+        skipper:
+          server:
+            platform:
+              kubernetes:
+                accounts:
+                  myaccountname:
+                    podAnnotations: 'prometheus.io/path:/actuator/prometheus,prometheus.io/port:8080,prometheus.io/scrape:true'
+```
+
+All streams and their containing applications then have the appropriate pod annotations applied, which instructs Prometheus to scrape metrics. The shell command to deploy the same stream shown earlier, for example becomes the following:
+
+```bash
 dataflow:>stream create metricstest --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
-After deploying a stream, you can launch to view the Grafana dashboard as shown in the following image:
+Either way, metrics are enabled. After deploying a stream, you can visit the Grafana UI and see dashboard graphs similar to those shown in the following image:
 
 ![SCDF Grafana Prometheus](images/grafana-prometheus-scdf-applications-dashboard.png)

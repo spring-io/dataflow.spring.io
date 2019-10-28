@@ -8,74 +8,119 @@ description: 'Customize the Docker Compose installation'
 
 This section covers how to customize the Docker Compose installation by editing the `docker-compose.yml` file.
 
-The Docker Compose file uses Apache Kafka for the messaging middleware and MySQL as database.
-If you want to use RabbitMQ or PostgreSQL instead or to enable Data Flow for monitoring, you can extend or update the docker-compose files to achieve it.
+The Docker Compose file uses Apache Kafka for the messaging middleware and Prometheus for monitoring.
+If you want to use RabbitMQ or InfluxDB instead, this guide shows you the changes to make in the docker compose file.
 
 Also, when doing development of custom applications, you need to enable the Docker container that runs the Data Flow Server to see your local file system. This guide shows you how to do that as well.
 
-## Monitoring with Prometheus and Grafana
-
-Extend the default configuration in `docker-compose.yml` to enable the Stream and Task monitoring with Prometheus and Grafana. To do so, you need to download the additional `docker-compose-prometheus.yml` file:
-
-```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-prometheus.yml
-```
-
-In the directory where you downloaded `docker-compose.yml` and `docker-compose-prometheus.yml` files, start the system, by running the following commands:
-
-```bash
-docker-compose -f ./docker-compose.yml -f ./docker-compose-prometheus.yml up
-```
-
-In addition to the basic services the extended configuration also starts `Prometheus`, `Prometheus-RSocket-Proxy` for service-discovery, and `Grafana` with pre-built Stream and Task dashboards.
-
-## Monitoring with InfluxDB and Grafana
-
-Extend the default configuration in `docker-compose.yml` to enable the Stream and Task monitoring with InfluxDB and Grafana. To do so, you need to download the additional `docker-compose-influxdb.yml` file:
-
-```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
-```
-
-Then in the directory where you downloaded `docker-compose.yml` and `docker-compose-influxdb.yml`, start the system, by running the following commands:
-
-```bash
-docker-compose -f ./docker-compose.yml -f ./docker-compose-influxdb.yml up
-```
-
-In addition to the basic services the extension starts `InfluxDb` time-series database and `Grafana` with pre-built Stream and Task dashboards.
-
-## Using PostgreSQL Instead of MySQL
-
-You can use PostgreSQL rather than MySQL for both Spring Cloud Data Flow and SKipper. To do so you need to disable the default `mysql` service, add a new `postgres` service and override the Data Flow and Skipper configurations to use the postgres service instead of mysql.
-
-To override the default `docker-compose.yml` configuration you need to download the additional `docker-compose-postgres.yml` file:
-
-```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-postgres.yml
-```
-
-In the directory where you downloaded `docker-compose.yml` and `docker-compose-postgres.yml` files, start the system, by running the following commands:
-
-```bash
-docker-compose -f ./docker-compose.yml -f ./docker-compose-postgres.yml up
-```
-
 ## Using RabbitMQ Instead of Kafka
 
-You can use RabbitMQ rather than Kafka for communication. To do so you need to disable the default `kafka` and `zookeeper` services, add a new `rabbitmq` service and override the `dataflow-server`'s service binder configuration to RabbitMQ (e.g. `spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.host=rabbitmq`). Finally override the `app-import` service to register the rabbit apps.
+You can use RabbitMQ rather than Kafka for communication. To do so:
 
-For convenience, we provide an out-of-the-box `docker-compose-rabbitmq.yml` file to help override the default `docker-compose.yml` from Kafka to RabbitMQ. You can download the `docker-compose-rabbitmq.yml` file:
+1. Delete the following configuration under the `services:` section:
 
-```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v%dataflow-version%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
-```
+   ```yaml
+   kafka:
+     image: confluentinc/cp-kafka:5.2.1
+     ...
+   zookeeper:
+     image: confluentinc/cp-zookeeper:5.2.1
+     ....
+   ```
 
-In the directory where you downloaded `docker-compose.yml` and `docker-compose-rabbitmq.yml` files, start the system, by running the following commands:
+1. Insert the following:
 
-```bash
-docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml up
-```
+   ```yaml
+   rabbitmq:
+     image: rabbitmq:3.7
+     expose:
+       - '5672'
+   ```
+
+1. In the `dataflow-server` services configuration block, add the
+   following `environment` entry:
+
+   ```yaml
+   - spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.host=rabbitmq
+   ```
+
+1. Delete the following:
+
+   ```yaml
+   depends_on:
+     - kafka
+   ```
+
+1. Insert the following:
+
+   ```yaml
+   depends_on:
+     - rabbitmq
+   ```
+
+1. Modify the `app-import` service definition `command` attribute to replace `https://dataflow.spring.io/kafka-maven-latest` with `https://dataflow.spring.io/rabbitmq-maven-latest`.
+
+## Using InfluxDB Instead of Prometheus
+
+You can use InfluxDB rather than Prometheus to monitor time-series database. To do so:
+
+1. Delete the following configuration under the `services` section:
+
+   ```yaml
+   prometheus:
+     image: springcloud/spring-cloud-dataflow-prometheus-local:${DATAFLOW_VERSION:?DATAFLOW_VERSION is not set! Use 'export DATAFLOW_VERSION=dataflow-version'}
+     container_name: 'prometheus'
+     volumes:
+       - 'scdf-targets:/etc/prometheus/'
+     ports:
+       - '9090:9090'
+     depends_on:
+       - service-discovery
+
+   service-discovery:
+     image: springcloud/spring-cloud-dataflow-prometheus-service-discovery:0.0.3
+     container_name: 'service-discovery'
+     volumes:
+       - 'scdf-targets:/tmp/scdf-targets/'
+     expose:
+       - '8181'
+     ports:
+       - '8181:8181'
+     environment:
+       - metrics.prometheus.target.refresh.cron=0/20 * * * * *
+       - metrics.prometheus.target.discovery.url=http://localhost:9393/runtime/apps
+       - metrics.prometheus.target.file.path=/tmp/targets.json
+     depends_on:
+       - dataflow-server
+   ```
+
+1. Insert the following:
+
+   ```yaml
+   influxdb:
+     image: influxdb:1.7.4
+     container_name: 'influxdb'
+     ports:
+       - '8086:8086'
+   ```
+
+1. In the `dataflow-server` services configuration block, delete the following `environment` entries:
+
+   ```yaml
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.prometheus.enabled=true
+   - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.streamapp.security.enabled=false
+   - spring.cloud.dataflow.applicationProperties.stream.management.endpoints.web.exposure.include=prometheus,info,health
+   ```
+
+1. Insert the following:
+
+   ```yaml
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.enabled=true
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.db=myinfluxdb
+   - spring.cloud.dataflow.applicationProperties.stream.management.metrics.export.influx.uri=http://influxdb:8086
+   ```
+
+1. Modify the `grafana` service definition `image` attribute to replace `spring-cloud-dataflow-grafana-prometheus` with `spring-cloud-dataflow-grafana-influxdb`.
 
 ## Accessing the Host File System
 

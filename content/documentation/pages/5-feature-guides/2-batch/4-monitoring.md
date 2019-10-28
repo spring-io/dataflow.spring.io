@@ -4,7 +4,7 @@ title: 'Task Monitoring'
 description: 'Monitoring task data pipelines with InfluxDB'
 ---
 
-# Task and Batch Monitoring with Prometheus and InfluxDB
+# Task and Batch Monitoring with InfluxDB
 
 This section describes how to monitor the applications that were deployed as part of a Task definition in SCDF. The setup for each platform is different, but the general architecture is the same across the platforms.
 
@@ -26,23 +26,9 @@ For example:
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
-```
-
-In addition to enable InfluxDB metrics collection the following dependency is required:
-
-```
 <dependency>
     <groupId>io.micrometer</groupId>
     <artifactId>micrometer-registry-influx</artifactId>
-</dependency>
-```
-
-Similarly to enable Prometheus(RSocket) metrics collection the following dependency is required:
-
-```
-<dependency>
-	<groupId>io.micrometer.prometheus</groupId>
-	<artifactId>prometheus-rsocket-spring</artifactId>
 </dependency>
 ```
 
@@ -50,7 +36,7 @@ To help you get started monitoring tasks, Data Flow provides [Grafana](https://g
 
 The following image shows the general architecture of how applications are monitored:
 
-![Task Monitoring Architecture](images/SCDF-task-metrics-architecture.png)
+![Task Monitoring Architecture](images/task-metrics-architecture.png)
 
 To allow aggregating metrics per application type and per instance id or per task name, the Spring Cloud Task applications are configured to use the following Micrometer tags:
 
@@ -63,52 +49,50 @@ As setting up InfluxDB is different depending on the platform on which you run, 
 
 ## Local
 
-This section describes how to set up Prometheus and InfluxDB for a local machine.
-
-### Prometheus
-
-Prometheus is a popular pull-based time-series database that pulls the metrics from the target applications with pre-configured endpoints. Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism. This method consistently provides support for long-running streaming and as well as [short-lived task/batch applications](https://github.com/micrometer-metrics/prometheus-rsocket-proxy#support-for-short-lived-or-serverless-applications).
-
-Instead of having to install them manually, you can use the docker-compose instructions for [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-prometheus-and-grafana), which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana.
-
-Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard). Also you can reach the Grafana dashboard at http://localhost:3000 using the user: admin, password: admin credentials.
-
-Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
-
-```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
-
-dataflow:>task create --name task1 --definition "myTask"
-dataflow:>task create --name task2 --definition "myTask"
-```
-
-Launch the tasks several times:
-
-```bash
-dataflow:>task launch --name task1
-dataflow:>task launch --name task2
-```
-
-In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions) you should see:
-
-![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
-
-And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?refresh=10s):
-
-![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
+This section describes how to set up InfluxDB for a local machine.
 
 ### InfluxDB
 
-InfluxDB is a popular open-source push-based time-series database. It supports downsampling, automatic expiration and deletion of unwanted data, and as well backup and restore. It provides a SQL-like query language for data analysis.
+InfluxDB is a popular open-source push-based time series database. It supports downsampling, automatically expiring and deleting unwanted data, and backup and restore. Analysis of data is done through an SQL-like query language.
 
-Instead of having to install them manually, you can use the docker-compose instructions for [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana), which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, InfluxDB, and prebuilt dashboards for Grafana.
+To enable Micrometer’s Influx meter registry for Spring Cloud Task application starters, start the Data Flow server with the following properties:
 
-Once the docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard). Also you can reach the Grafana dashboard at http://localhost:3000 using the user: admin, password: admin credentials.
+```bash
+--spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.enabled=true
+--spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.db=myinfluxdb
+--spring.cloud.dataflow.applicationProperties.task.management.metrics.export.influx.uri=http://localhost:8086
+--spring.cloud.dataflow.grafana-info.url=http://localhost:3000
+```
+
+Instead of having to install them manually, for a quick bootstrap, Spring Cloud Data Flow provides a [Docker Compose Influx](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml) file, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Influx, and prebuilt dashboards for Grafana. Instructions below leverage this approach..
+
+[[tip | Upgrade to latest version of Docker ]]
+| We recommended that you upgrade to the [latest version](https://docs.docker.com/compose/install/) of Docker before running the `docker-compose` command. We have tested with Docker Engine version `18.09.2`.
+
+- Downloading the Docker Compose Influx file
+
+To download the Spring Cloud Data Flow Server Docker Compose file, run the following command:
+
+```bash
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+```
+
+- Starting Docker Compose
+
+In the directory where you downloaded `docker-compose-influxdb.yml`, start the system, by running the following commands:
+
+```bash
+export DATAFLOW_VERSION=2.2.0.BUILD-SNAPSHOT
+export SKIPPER_VERSION=2.1.0.BUILD-SNAPSHOT
+docker-compose -f ./docker-compose-influxdb.yml up
+```
+
+Now that docker compose is up, you can access the [Spring Cloud Data Flow Dashboard](http://localhost:9393/dashboard). Also you can reach the Grafana dashboard at http://localhost:3000 using the user: admin, password: admin credentials.
 
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
 ```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/influx-task-demo-metrics-0.0.1-SNAPSHOT.jar
+dataflow:>app register --name myTask --type task --uri https://github.com/tzolov/task-demo-metrics/raw/master/apps/task-demo-metrics-0.0.1-SNAPSHOT.jar
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"
@@ -224,93 +208,3 @@ applications:
 services:
   - mysql
 ```
-
-## Kubernetes
-
-This section describes how to set up Prometheus or InfluxDB for Kubernetes.
-
-### Prometheus
-
-Prometheus is a popular pull-based time series database that pulls metrics from the target applications from a pre-configured endpoint.
-Data Flow leverages the [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) to establish a persistent, bidirectional connections between all Task applications and one or more `Prometheus RSocket Proxy` instances. Prometheus is configured to scrape each proxy instance. Proxies in turn use the connection to pull metrics from each Task application. The scraped task metrics are viewable through Grafana dashboards.
-
-Out of the box, each binder middleware configuration file defines attributes to enable metrics and their supporting properties. You can find settings in: `src/kubernetes/server/server-config.yaml`. The main point of interest is the following configuration section:
-
-```yaml
-applicationProperties:
-  task:
-    management:
-      metrics:
-        export:
-          prometheus:
-            enabled: true
-            rsocket:
-              enabled: true
-              host: prometheus-proxy
-              port: 7001
-grafana-info:
-  url: 'https://grafana:3000'
-```
-
-In this configuration, Prometheus metrics are enabled and configured to send to a prometheus rsocket proxy.
-
-With Prometheus, Grafana, Spring Cloud Data Flow, and any other services as defined in the [Getting Started - Kubernetes](%currentPath%/installation/kubernetes) section up and running, you are ready to collect metrics.
-
-<!--IMPORTANT-->
-
-The address used to access the Grafana Dashboard depends on the Kubernetes platform the system is deployed to. If you are using (for example) GKE, the load balancer address would be used. If using Minikube (which does not provide a load balancer implementation), the IP of the Minikube (along with an assigned port) is used. In the following examples, for simplicity, we use Minikube.
-
-<!--END_IMPORTANT-->
-
-To obtain the URL of the Grafana UI when it is deployed to Minikube, run the following command:
-
-```bash
-$ minikube service --url grafana
-http://192.168.99.100:31595
-```
-
-In the preceding example, you can reach the Grafana dashboard at http://192.168.99.100:31595. The default credentials are as follows:
-
-- User name: admin
-- Password: password
-
-The Grafana instance is pre-provisioned with two dashboards:
-
-- Tasks: http://192.168.99.100:31595/d/scdf-tasks/tasks?refresh=10s
-
-You can collect metrics on a per-task or per-batch basis, or apply metrics collection to all deployed applications globally.
-
-Let's use a custom Task application (i.e., `task-demo-metrics`) and define two different task definitions with this application (i.e., `task1` and `task2`):
-
-```bash
-dataflow:>app register --name myTask --type task --uri docker://springcloud/task-demo-metrics:latest
-
-dataflow:>task create --name task1 --definition "myTask"
-dataflow:>task create --name task2 --definition "myTask"
-```
-
-Launch the tasks several times:
-
-```bash
-dataflow:>task launch --name task1
-dataflow:>task launch --name task2
-dataflow:>task launch --name task1
-dataflow:>task launch --name task2
-dataflow:>task launch --name task1
-dataflow:>task launch --name task2
-```
-
-To obtain the SCDF URL. When it is deployed to Minikube, run the following command:
-
-```bash
-minikube service --url scdf-server
-http://192.168.99.100:32121
-```
-
-In the [DataFlow task execution UI](http://192.168.99.100:32121/dashboard/#/tasks/executions) you should see:
-
-![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
-
-Open the [Grafana dashboard for Tasks](http://192.168.99.100:31595/d/scdf-tasks/tasks?refresh=10s):
-
-![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
