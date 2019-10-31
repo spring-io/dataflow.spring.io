@@ -257,7 +257,7 @@ applicationProperties:
           security:
             enabled: false
 grafana-info:
-  url: 'http://grafana:3000'
+  url: 'https://grafana:3000'
 ```
 
 In this configuration, Prometheus metrics are enabled, along with the appropriate endpoints and security settings.

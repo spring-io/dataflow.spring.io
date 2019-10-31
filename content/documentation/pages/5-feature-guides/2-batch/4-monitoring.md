@@ -36,7 +36,7 @@ To help you get started monitoring tasks, Data Flow provides [Grafana](https://g
 
 The following image shows the general architecture of how applications are monitored:
 
-![Task Monitoring Architecture](images/task-metrics-architecture.png)
+![Task Monitoring Architecture](images/SCDF-task-metrics-architecture.png)
 
 To allow aggregating metrics per application type and per instance id or per task name, the Spring Cloud Task applications are configured to use the following Micrometer tags:
 
@@ -105,12 +105,7 @@ dataflow:>task launch --name task1
 dataflow:>task launch --name task2
 ```
 
-In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions) you should see list like this:
-![SCDF Task Execution](images/SCDF-metrics-task-execution-view.png)
-
-You should see dashboards similar to those shown in the following image:
-
-![SCDF Task Grafana InfluxDB](images/SCDF-metrics-grafana-task.png)
+In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions)
 
 ## Cloud Foundry
 

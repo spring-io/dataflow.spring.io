@@ -91,11 +91,12 @@ deployment, pod, and service resources are running. You can use
 
 ### Deploy Prometheus and Grafana
 
-The [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) allows to establish a persistent bidirectional `RSocket` connections between all Stream and Task applications and one or more `Prometheus RSocket Proxy` instances.
-Prometheus is configured to scrape each proxy instance.
-Proxies in turn use the connection to pull metrics from each application.
-The scraped metrics are viewable through Grafana dashboards.
-Out of the box, Grafana dashboard comes pre-configured with a Prometheus data-source connection along with Data Flow specific dashboards to monitor the streaming and/or task applications composed in a data pipeline.
+Metrics are "`scraped`" from deployed pods by Prometheus when configured
+with the appropriate annotations. The scraped metrics are viewable
+through Grafana dashboards. Out of the box, Grafana comes pre-configured
+with a Prometheus data source connection along with Data Flow specific
+Grafana dashboards to monitor the streaming applications composed in a
+data pipeline.
 
 <!--TIP-->
 
@@ -113,18 +114,6 @@ service account:
 kubectl create -f src/kubernetes/prometheus/prometheus-clusterroles.yaml
 kubectl create -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
 kubectl create -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
-```
-
-Run the following commands to deploy Prometheus RSocket Proxy:
-
-```
-kubectl create -f src/kubernetes/prometheus-proxy/
-```
-
-You can use `kubectl get all -l app=prometheus-proxy` to verify that the deployment, pod, and service resources are running. You can use `kubectl delete all,cm,svc -l app=prometheus-proxy` to clean up afterwards. To cleanup roles, bindings, and the service account for Prometheus proxy, run the following command:
-
-```
-kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus-proxy
 ```
 
 Run the following commands to deploy Prometheus:
@@ -178,20 +167,15 @@ applicationProperties:
         export:
           prometheus:
             enabled: true
-            rsocket:
-              enabled: true
-              host: prometheus-proxy
-              port: 7001
-  task:
-    management:
-      metrics:
-        export:
-          prometheus:
-            enabled: true
-            rsocket:
-              enabled: true
-              host: prometheus-proxy
-              port: 7001
+      endpoints:
+        web:
+          exposure:
+            include: 'prometheus,info,health'
+    spring:
+      cloud:
+        streamapp:
+          security:
+            enabled: false
 grafana-info:
   url: 'https://grafana:3000'
 ```
