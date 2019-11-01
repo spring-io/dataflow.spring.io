@@ -112,25 +112,29 @@ The self-documented [DockerComposeIT.java](https://github.com/spring-cloud/sprin
 ## Accessing the Host File System
 
 If you develop custom applications on your local machine, you need to register them with Spring Cloud Data Flow.
-Since Spring Cloud Data Flow runs inside of a Docker container, you need to configure the Docker container to access to your local file system to resolve the registration reference.
+Since Spring Cloud Data Flow runs inside of a Docker container, you need to configure the Docker container to access to your local file system to resolve the registration reference. Also in order to deploy those custom applications, the Skipper Server in turn needs to access them from within its own Docker container using exactly the same path definitions configured in the Data Flow server configuration.
 
-You can enable local disk access from Docker container by running the Spring Cloud Data Flow Server. To do so:
+You can enable local disk access by mounting the host folders to the `dataflow-server` and `skipper-server` containers. For example, if the `my-app.jar` is in the `/thing1/thing2/apps` folder on your host machine, add the following `volumes` block to the `dataflow-server` and `skipper-server` service definitions:
 
-1. Mount the source host folders to the `dataflow-server` container. For example, if the `my-app.jar` is in the `/thing1/thing2/apps` folder on your host machine, add the following `volumes` block to the `dataflow-server` service definition:
-   ```yaml
-   dataflow-server:
-     image: springcloud/spring-cloud-dataflow-server:${DATAFLOW_VERSION}
-     container_name: dataflow-server
-     ports:
-       - '9393:9393'
-     environment:
-       - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka:9092
-       - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=zookeeper:2181
-     volumes:
-       - /thing1/thing2/apps:/root/apps
-   ```
+```yaml
+dataflow-server:
+  image: springcloud/spring-cloud-dataflow-server:${DATAFLOW_VERSION}
+  # ...
+  volumes:
+    - /thing1/thing2/apps:/root/apps
+```
 
-This configuration provides access to the `/thing1/thing2/apps` directory that contains your `my-app.jar` from within container’s `/root/apps/` folder. See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
+and mount **exactly** the same volume to the `skipper-server` service definition:
+
+```yaml
+skipper-server:
+  image: springcloud/spring-cloud-skipper-server:${SKIPPER_VERSION:?SKIPPER_VERSION is not set!}
+  # ...
+  volumes:
+    - /thing1/thing2/apps:/root/apps
+```
+
+This configuration provides access to the `/thing1/thing2/apps` directory that contains your `my-app.jar` from within `dataflow-server` and `skipper-server` containers' `/root/apps/` folder. See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
 
 <!--TIP-->
 
