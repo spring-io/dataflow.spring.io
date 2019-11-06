@@ -704,8 +704,8 @@ You can install the RabbitMQ message broker by using the default configuration f
 To do so, run the following command:
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/rabbitmq/rabbitmq-deployment.yaml \
--f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/src/kubernetes/rabbitmq/rabbitmq-svc.yaml
+kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/rabbitmq/rabbitmq-deployment.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/rabbitmq/rabbitmq-svc.yaml
 ```
 
 #### Building the Docker Images

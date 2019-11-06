@@ -3,12 +3,13 @@
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.1.3.RELEASE",
-  "skipper-version": "2.1.2.RELEASE",
-  "skipper-snapshot-version": "2.1.3.BUILD-SNAPSHOT",
-  "dataflow-version": "2.2.1.RELEASE",
-  "dataflow-milestone-version": "2.3.0.M2",
-  "dataflow-snapshot-version": "2.3.0.BUILD-SNAPSHOT",
-  "github-tag": "v2.2.1.RELEASE",
+  "skipper-version": "2.1.3.BUILD-SNAPSHOT",
+  "dataflow-version": "2.3.0.BUILD-SNAPSHOT",
+
+  "github-tag": "master",
+
+  "spring-maven-repo-type": "snapshot",
+
   "task-app-maven-version": "https://dataflow.spring.io/task-maven-latest",
   "task-app-docker-version": "https://dataflow.spring.io/task-docker-latest",
 

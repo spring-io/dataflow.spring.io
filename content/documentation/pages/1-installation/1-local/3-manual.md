@@ -15,13 +15,13 @@ To begin, you need to download the server jars. To do so:
 1. Download the Spring Cloud Data Flow Server and shell by using the following commands:
 
    ```bash
-   wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
-   wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+   wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+   wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
    ```
 
 2. Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the following command:
    ```bash
-   wget https://repo.spring.io/release/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+   wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
    ```
 
 <!--NOTE-->
@@ -29,12 +29,12 @@ To begin, you need to download the server jars. To do so:
 If you're interested in trying out the latest `BUILD-SNAPSHOT` (aka: snapshot build from the `master` branch) of SCDF and Skipper's upstream versions, please use the following `wget` commands.
 
 ```bash
-wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-snapshot-version%/spring-cloud-dataflow-server-%dataflow-snapshot-version%.jar
-wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-snapshot-version%/spring-cloud-dataflow-shell-%dataflow-snapshot-version%.jar
+wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 ```bash
-wget https://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-skipper-server/%skipper-snapshot-version%/spring-cloud-skipper-server-%skipper-snapshot-version%.jar
+wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
 ```
 
 <!--END_NOTE-->

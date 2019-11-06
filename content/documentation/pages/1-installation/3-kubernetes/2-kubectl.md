@@ -18,8 +18,6 @@ cd spring-cloud-dataflow
 git checkout %github-tag%
 ```
 
-The latest tag is `v%dataflow-version%`.
-
 ## Choose a Message Broker
 
 For deployed applications to communicate with each other, you need to select a message broker.

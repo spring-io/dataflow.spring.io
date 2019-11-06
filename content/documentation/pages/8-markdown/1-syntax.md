@@ -714,12 +714,12 @@ The result of the preceding example is the following content:
 Sometimes, it is better to show code rather than link to it. To do so, you need to use the `CODE` verb. The following example shows how to do so:
 
 ```markdown
-<!--CODE:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java-->
+<!--CODE:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java-->
 ```
 
 The result of the preceding example is the following code listing:
 
-<!--CODE:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java-->
+<!--CODE:https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-autoconfigure/src/main/java/org/springframework/cloud/dataflow/autoconfigure/local/ProfileApplicationListener.java-->
 
 ### Embedding Videos
 
