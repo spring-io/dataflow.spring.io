@@ -252,4 +252,4 @@ And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?re
 ### InfluxDB
 
 You can follow the general [Manifest based installation on Cloud Foundry](%currentPath%/installation/cloudfoundry/cf-cli/#manifest-based-installation-on-cloud-foundry) instructions for installing `Skipper` and `DataFlow` on Cloud Foundry.
-To enabling the Task metrics integration follow the instructions for the [configuration of the Data Flow manifest to send task metrics to InfluxDB]](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-influxdb)
+To enabling the Task metrics integration follow the [Configuration for InfluxDB](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-influxdb) instructions.
