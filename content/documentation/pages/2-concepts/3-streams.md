@@ -6,11 +6,14 @@ description: 'Stream Processing Framework and Concepts'
 
 # Stream Processing
 
-Stream processing, is defined as the processing of infinite amount of data without interaction or interruption.
-Use cases for stream processing are real-time credit card fraud detection or predictive analytics.
+Stream processing is defined as the processing of an unbounded amount of data without interaction or interruption.
+Business cases for stream processing include:
+- Real-time credit card fraud detection or predictive analytics.
+- Continuous integration with machine learning platforms
+- Near Real-time busines data processing for actionable analytics
 
-Stream processing in Data Flow is implemented architecturally as a collection of independent event-driven streaming applications that connect using messaging middleware, for example RabbitMQ or Apache Kafka.
-The collection of application is referred to as a streaming data pipelines.
+Stream processing in Spring Cloud Data Flow is implemented architecturally as a collection of independent event-driven streaming applications that connect using a messaging middleware of choice, for example RabbitMQ or Apache Kafka.
+The collection of applications that comprise a workflow is referred to as a streaming data pipeline.
 The pipeline can be linear or non-linear depending on the data flows between the applications.
 
 ## Messaging Middleware
@@ -19,7 +22,7 @@ Deployed stream applications communicate over a messaging middleware product.
 We provide pre-built stream applications that communicate over [RabbitMQ](https://www.rabbitmq.com) or
 [Kafka](https://kafka.apache.org) and that you can use to integrate with various data products.
 
-The following [messaging middleware products](https://cloud.spring.io/spring-cloud-stream/#binder-implementations) are also suppoeted:
+The following messaging middleware products are currently supported by Spring Cloud Data Flow:
 
 - [Kafka Streams](https://kafka.apache.org/documentation/streams/)
 - [Amazon Kinesis](https://aws.amazon.com/kinesis/)
@@ -27,7 +30,7 @@ The following [messaging middleware products](https://cloud.spring.io/spring-clo
 - [Solace PubSub+](https://solace.com/software/)
 - [Azure Event Hubs](https://azure.microsoft.com/en-us/services/event-hubs/)
 
-The middleware to use is determined by adding a Spring Cloud Stream Binder library as a dependency to the application.
+The middleware a stream application uses is determined by adding a specific [Spring Cloud Stream Binder](https://cloud.spring.io/spring-cloud-stream/#binder-implementations) library as a dependency to the application.
 
 ## Spring Cloud Stream
 
@@ -35,22 +38,22 @@ For Spring developers, we suggest writing custom Stream applications by using th
 
 As a developer, you can focus on developing the application’s business logic while delegating the underlying API complexity and connectivity boilerplate with the message broker to Spring Cloud Stream.
 
-At a high level, streaming applications can produce or consume events through the messaging middleware.
+At a high level, streaming applications can produce, process, or consume events through the messaging middleware.
 
 ## Running Streaming Apps in the Cloud
 
 Both Cloud Foundry and Kubernetes support the concept of running long-lived applications on their platforms.
 Cloud Foundry refers to each one as a Long Running Process (LRP). On Kubernetes, you can use a deployment resource, which, in turn, manages replica sets that keep the specified number of pods to run your application.
 
-While Spring Cloud Stream can simplify your life when you write a streaming application, when a collection of independent Spring Cloud Streaming applications are deployed, you need to:
+While Spring Cloud Stream on it's own can greatly simplify your life when you write a streaming application, when a collection of independent Spring Cloud Streaming applications are manually deployed, you need to:
 
 - Configure all of the applications input and output destinations.
-- Configure the common name of a shared consumer group property to ensure there can be competing consumers on a destination.
+- Configure the common name of a shared consumer group property to ensure there is appropriate separation or cooperation of consumers on a destination.
 - Configure several properties that enable application identification and publishing of metrics information for monitoring purposes.
-- Configure the connection to your messaging middleware.
+- Configure the connection to your messaging middleware and create destinations, manage balance, scale, and partitioning.
 - Create the necessary platform resources to run the applications.
 
-When you deploy a stream with Spring Cloud Data Flow, it handles all of these configuration tasks for you and creates the necessary platform resources to run your application on the target platform.
+When you deploy a collection of streaming applications as part of a stream with Spring Cloud Data Flow, the system handles all of these configuration tasks for you and creates the necessary infrastructure resources to run your application on the target platform.
 Various deployment properties let you customize the deployment (for example, setting common properties such as memory resources, platform specific properties such as the buildpack on Cloud Foundry, or setting Labels on Kubernetes deployments).
 
 ## Orchestrating Streaming Apps
