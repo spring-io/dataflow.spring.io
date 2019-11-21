@@ -394,6 +394,9 @@ This deployment would produce a static IP Address. Let's say, for example, the I
 Now when you deploy the stream, you can attach a label selector to the desired application [e.g., deployer.<yourapp>.kubernetes.deploymentLabels=FOOZ: BAR-APP],
 so all the incoming traffic to "10.20.30.40" will automatically be received by the "yourapp".
 
+In this setup, even if the app is rolling-upgraded or when the stream is redeployed/updated in SCDF, the static IP Address
+will remain unchanged, and the upstream or downstream traffic can rely on that.
+
 <!--END_QUESTION-->
 
 ## Streaming
