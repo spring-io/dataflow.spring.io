@@ -364,6 +364,41 @@ NOTE: Log redirect is only supported with [local-deployer](https://github.com/sp
 
 <!--END_QUESTION-->
 
+<!--QUESTION#predictableIP-->
+
+How can I get predictable Route/URL/IPAddress for a given streaming application? 
+
+To get a static and predictable IP Address for a given application, you can define an explicit service of type `LoadBalancer`
+and leverage the label selector feature in Kubernetes to route the traffic through the assigned static IP Address. 
+
+Here's an example of the `LoadBalancer` deployment:
+
+```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: FOO-lb
+  namespace: kafkazone
+spec:
+  ports:
+  - port: 80
+    name: http
+    targetPort: 8080
+  selector:
+    FOOZ: BAR-APP
+  type: LoadBalancer
+```
+
+This deployment would produce a static IP Address. Let's say, for example, the IP address of `FOO-lb` is: "10.20.30.40".
+
+Now when you deploy the stream, you can attach a label selector to the desired application [e.g., deployer.<yourapp>.kubernetes.deploymentLabels=FOOZ: BAR-APP],
+so all the incoming traffic to "10.20.30.40" will automatically be received by the "yourapp".
+
+In this setup, even if the app is rolling-upgraded or when the stream is redeployed/updated in SCDF, the static IP Address
+will remain unchanged, and the upstream or downstream traffic can rely on that.
+
+<!--END_QUESTION-->
+
 ## Streaming
 
 <!--QUESTION#connectexistingrabbit-->
