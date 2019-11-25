@@ -33,7 +33,7 @@ For this section, we create a Spring Cloud Task and Boot application that create
 
 ### Initializr
 
-Either [download the initialzr generated project directly](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billsetuptask&groupId=io.spring&artifactId=billsetuptask&name=Bill+Setup+Task&description=Bill+Setup+Task+Sample+App&packageName=io.spring.billsetuptask&packaging=jar&inputSearch=&style=cloud-task&style=jdbc&style=h2&style=mysql) or visit the [Spring Initializr site](https://start.spring.io/) and follow these instructions:
+Either [download the initialzr generated project directly](https://start.spring.io/starter.zip?type=maven-project&language=java&baseDir=billsetuptask&groupId=io.spring&artifactId=billsetuptask&name=Bill%20Setup%20Task&description=Bill%20Setup%20Task%20Sample%20App&packageName=io.spring.billsetuptask&packaging=jar&dependencies=cloud-task&dependencies=h2&dependencies=mysql&dependencies=jdbc) or visit the [Spring Initializr site](https://start.spring.io/) and follow these instructions:
 
 1. Visit the [Spring Initialzr site](https://start.spring.io/).
 1. Select the latest release of Spring Boot.
