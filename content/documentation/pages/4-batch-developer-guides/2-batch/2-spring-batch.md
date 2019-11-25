@@ -91,7 +91,7 @@ We use [Spring Initializr](https://start.spring.io/) to create our application. 
 
 Alternatively, you can initialize your project by downloading a pre-built file. To do so:
 
-1. Click [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&baseDir=billrun&groupId=io.spring&artifactId=billrun&name=Bill+Run&description=Bill+Run+Sample+App&packageName=io.spring.billrun&packaging=jar&inputSearch=&style=batch&style=cloud-task&style=jdbc&style=h2&style=mysql) to download the preconfigured `billrun.zip` file.
+1. Click [here](https://start.spring.io/starter.zip?type=maven-project&language=java&baseDir=billrun&groupId=io.spring&artifactId=billrun&name=Bill+Run&description=Bill+Run+Sample+App&packageName=io.spring.billrun&packaging=jar&dependencies=batch&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql) to download the preconfigured `billrun.zip` file.
 
 2. Unzip the billrun.zip file and import the project into your favorite IDE.
 

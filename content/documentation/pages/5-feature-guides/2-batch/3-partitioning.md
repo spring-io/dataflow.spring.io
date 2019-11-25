@@ -46,7 +46,7 @@ You can view the completed project [here](https://github.com/spring-cloud/spring
 
 Another option instead of using the UI to initialize your project you can do the following:
 
-1. Click the [here](https://start.spring.io/starter.zip?fakeusernameremembered=&fakepasswordremembered=&type=maven-project&language=java&bootVersion=2.1.5.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&inputSearch=&style=cloud-task&style=jdbc&style=h2&style=mysql&style=batch) to download the preconfigured partition.zip.
+1. Click the [here](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.1.5.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql&dependencies=batch) to download the preconfigured partition.zip.
 
 2. Unzip the partition.zip file and import the project into your favorite IDE
 
@@ -201,7 +201,7 @@ Another option instead of using the UI to initialize your project you can do the
     - <2> The [Job](https://docs.spring.io/spring-batch/reference/html/configureJob.html) manages the batch process.
     - <3> This [Step](https://docs.spring.io/spring-batch/reference/html/configureStep.html) will be used by the manager to launch the worker steps
     - <4> The [Partitioner](https://docs.spring.io/spring-batch/reference/html/scalability.html#partitioning) generates execution contexts as input parameters for new step executions.
-    - <5> The [DeployerStepExecutionHandler](https://docs.spring.io/spring-cloud-task/docs/current-SNAPSHOT/reference/html/batch-partitioning.html#batch-partitioning) utilizes [Spring Cloud Deployer](https://github.com/spring-cloud/spring-cloud-deployer) to launch the work step executions on the cloud platform.
+    - <5> The [DeployerStepExecutionHandler](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#batch-partitioning) utilizes [Spring Cloud Deployer](https://github.com/spring-cloud/spring-cloud-deployer) to launch the work step executions on the cloud platform.
     - <6> This [Step](https://docs.spring.io/spring-batch/reference/html/configureStep.html) will be used by the workers to execute the [Tasklet](https://docs.spring.io/spring-batch/reference/html/configureStep.html#taskletStep).
     - <7> The [Tasklet](https://docs.spring.io/spring-batch/reference/html/configureStep.html#taskletStep) that will execute the business logic for the partitioned set of work. In our case, printing the paritition number.
 
