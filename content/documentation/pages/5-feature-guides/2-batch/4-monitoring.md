@@ -41,9 +41,9 @@ The following image shows the general architecture of how applications are monit
 To allow aggregating metrics per application type and per instance id or per task name, the Spring Cloud Task applications are configured to use the following Micrometer tags:
 
 - `task.name`: The name of the Task that contains the applications that send the metrics
-- `task.execution.id`: [The instance id of the executed task](https://docs.spring.io/spring-cloud-task/docs/2.2.0.BUILD-SNAPSHOT/reference/#features-generated_task_id).
-- `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.BUILD-SNAPSHOT/reference/#features-external_task_id) as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics
-- `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/2.2.0.BUILD-SNAPSHOT/reference/#features-parent_task_id) used to identify task that executes another task or tasks.
+- `task.execution.id`: [The instance id of the executed task](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-generated_task_id).
+- `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-external_task_id) as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics
+- `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-parent_task_id) used to identify task that executes another task or tasks.
 
 As setting up InfluxDB is different depending on the platform on which you run, we provide instructions for each platform. In Spring Cloud Data Flow 2.x, local server and Cloud Foundry instructions for InfluxDB have been provided.
 
