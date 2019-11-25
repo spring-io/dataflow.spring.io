@@ -8,6 +8,7 @@ description: 'Stream Processing Framework and Concepts'
 
 Stream processing is defined as the processing of an unbounded amount of data without interaction or interruption.
 Business cases for stream processing include:
+
 - Real-time credit card fraud detection or predictive analytics
 - Near Real-time business data processing for actionable analytics
 
@@ -21,8 +22,8 @@ Deployed stream applications communicate over a messaging middleware product.
 We provide pre-built stream applications that communicate over [RabbitMQ](https://www.rabbitmq.com) or
 [Kafka](https://kafka.apache.org) and that you can use to integrate with various data products.
 
-Through the use of one of many [Spring Cloud Stream Binders](https://cloud.spring.io/spring-cloud-stream/#binder-implementations), 
-many different messaging middleware products can be used.  The following popular platforms are among the list supported by Spring Cloud Data Flow:
+Through the use of one of many [Spring Cloud Stream Binders](https://cloud.spring.io/spring-cloud-stream/#binder-implementations),
+many different messaging middleware products can be used. The following popular platforms are among the list supported by Spring Cloud Data Flow:
 
 - [Kafka Streams](https://kafka.apache.org/documentation/streams/)
 - [Amazon Kinesis](https://aws.amazon.com/kinesis/)

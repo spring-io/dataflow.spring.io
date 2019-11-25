@@ -167,7 +167,7 @@ With the provided task status management the Docker/Python tasks can be used ins
 For example for a parallel task execution:
 
 ```bash
-task create compose2 --definition "<pp1: python-task-with-status || pp2: python-task-with-status>”
+task create compose2 --definition "<pp1: python-task-with-status || pp2: python-task-with-status>"
 task launch --name compose2
 ```
 

@@ -167,7 +167,7 @@ This is done by using the `composedTaskArguments` property of the Composed Task 
 In the example below the command line argument `--timestamp.format=YYYYMMDD` will be applied to all child tasks in the composed task graph.
 
 ```
-task launch myComposedTask --arguments “--composedTaskArguments=--timestamp.format=YYYYMMDD”
+task launch myComposedTask --arguments "--composedTaskArguments=--timestamp.format=YYYYMMDD"
 ```
 
 <!--END_QUESTION-->
@@ -348,14 +348,14 @@ However, by setting `local.inheritLogging=true` as a deployment property, you ca
 After that, the application logs appear alongside the server logs, as shown in the following example:
 
 ```bash
-stream deploy --name mystream --properties "deployer.*.local.inheritLogging=true”
+stream deploy --name mystream --properties "deployer.*.local.inheritLogging=true"
 ```
 
 The preceding stream definition enables log redirection for each application in the stream.
 The following stream definition enables log redirection for only the application named ‘my app’.
 
 ```bash
-stream deploy --name mystream --properties "deployer.myapp.local.inheritLogging=true”
+stream deploy --name mystream --properties "deployer.myapp.local.inheritLogging=true"
 ```
 
 Likewise, you can use the same option to redirect and aggregate all logs for the launched Task applications as well. The property is the same for Tasks, too.
@@ -366,10 +366,10 @@ NOTE: Log redirect is only supported with [local-deployer](https://github.com/sp
 
 <!--QUESTION#predictableIP-->
 
-How can I get predictable Route/URL/IPAddress for a given streaming application? 
+How can I get predictable Route/URL/IPAddress for a given streaming application?
 
 To get a static and predictable IP Address for a given application, you can define an explicit service of type `LoadBalancer`
-and leverage the label selector feature in Kubernetes to route the traffic through the assigned static IP Address. 
+and leverage the label selector feature in Kubernetes to route the traffic through the assigned static IP Address.
 
 Here's an example of the `LoadBalancer` deployment:
 
@@ -381,9 +381,9 @@ metadata:
   namespace: kafkazone
 spec:
   ports:
-  - port: 80
-    name: http
-    targetPort: 8080
+    - port: 80
+      name: http
+      targetPort: 8080
   selector:
     FOOZ: BAR-APP
   type: LoadBalancer
