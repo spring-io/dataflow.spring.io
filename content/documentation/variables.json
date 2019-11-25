@@ -2,7 +2,7 @@
   "streaming-apps-version": "Einstein.SR3",
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
-  "task-version": "2.2.0.BUILD-SNAPSHOT",
+  "task-version": "2.2.0.RELEASE",
   "skipper-version": "2.2.0.BUILD-SNAPSHOT",
   "dataflow-version": "2.3.0.BUILD-SNAPSHOT",
 
