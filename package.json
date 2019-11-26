@@ -161,7 +161,7 @@
     "import-sort-cli": "^6.0.0",
     "import-sort-parser-babylon": "^6.0.0",
     "import-sort-style-renke": "^6.0.0",
-    "linkinator": "^1.5.0",
+    "linkinator": "^1.8.0",
     "lint-staged": "^8.1.5",
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0"
