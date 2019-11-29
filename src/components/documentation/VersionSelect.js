@@ -28,6 +28,13 @@ class VersionSelect extends React.Component {
     this.wrapperRef = node
   }
 
+  getUrl = url => {
+    if (url[url.length - 1] !== '/') {
+      return `${url}/`
+    }
+    return url
+  }
+
   render() {
     const currentVersion = this.props.versions.find(
       version => version.key === this.props.version
@@ -57,7 +64,7 @@ class VersionSelect extends React.Component {
                 )}
                 onClick={() => {
                   if (this.props.version !== version.key) {
-                    navigate(version.path)
+                    navigate(this.getUrl(version.path))
                   }
                 }}
                 key={`a${version.key}`}
