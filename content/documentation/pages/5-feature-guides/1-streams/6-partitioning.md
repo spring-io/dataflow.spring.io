@@ -34,7 +34,7 @@ If neither a `partitionSelectorClass` nor a `partitionSelectorExpression` is pre
 
 ### Deploying a Stream with Partitioned Downstream Applications
 
-You can set up Spring Cloud Data Flow and Spring Cloud Skipper servers by using the [installation guide](../../../installation/).
+You can set up Spring Cloud Data Flow and Spring Cloud Skipper servers by using the [installation guide](%currentPath%/installation/).
 
 We use the out-of-the-box `http`, `splitter`, and `log` applications in this example.
 

@@ -106,7 +106,7 @@ const IndexPage = () => (
             </a>
           </div>
           <div className='col col-3'>
-            <a href='/getting-started'>
+            <a href='/getting-started/'>
               <h2>Spring Opinionated</h2>
               <p>
                 Are you already building microservices with Spring Boot?

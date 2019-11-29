@@ -159,6 +159,7 @@ const plugins = [
         `spring-remark-callout`,
         `spring-remark-admonition`,
         `spring-remark-tabs`,
+        `spring-remark-internal-links`,
       ],
     },
   },
