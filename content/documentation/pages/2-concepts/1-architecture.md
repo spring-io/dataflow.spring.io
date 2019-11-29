@@ -218,7 +218,7 @@ Spring Cloud Data Flow lets a user create a directed graph, where each node of t
 
 This is done by using the Composed Task Domain Specific Language for composed tasks.
 There are several symbols in the Composed Task DSL that determine the overall flow.
-The [reference guide](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/##_composed_tasks_dsl) goes into detail. The following example shows how the double ampersand symbol (`&&`) is used for conditional execution:
+The [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/##_composed_tasks_dsl) goes into detail. The following example shows how the double ampersand symbol (`&&`) is used for conditional execution:
 
 ```
 dataflow:> task create simpleComposedTask --definition "task1 && task2"

@@ -6,7 +6,7 @@ description: 'Create and Deploy a Python Task'
 
 # Create and Deploy a Python Task
 
-This recipe shows how to run a custom Python script as a [Data Flow Task](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-task) and how to orchestrate later as [Composed Tasks](http://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks).
+This recipe shows how to run a custom Python script as a [Data Flow Task](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-task) and how to orchestrate later as [Composed Tasks](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks).
 
 The approach requires the Python script to be bundled in a docker image, which can then be used in SCDF's `Local` and `Kubernetes` implementations.
 
