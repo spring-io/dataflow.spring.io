@@ -865,7 +865,7 @@ Add the following dependencies to `pom.xml`:
 </dependency>
 ```
 
-If you are running on Kubernetes use the maridb driver instead of H2:
+If you are running on Kubernetes use the mariadb driver instead of H2:
 
 ```xml
 <dependency>
