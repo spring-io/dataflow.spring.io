@@ -2,6 +2,7 @@ import React from 'react'
 import { Configure, InstantSearch } from 'react-instantsearch-dom'
 import { Link, StaticQuery, graphql } from 'gatsby'
 
+import versions from '../../../../content/versions.json'
 import { IconSearch } from './../icons'
 import { Search } from './../search'
 
@@ -25,6 +26,14 @@ class Navigation extends React.Component {
   }
 
   render() {
+    const currentVersion = Object.keys(versions).find(versionId => {
+      const version = versions[versionId]
+      return !!version['current']
+    })
+    let version = this.props.version ? this.props.version : currentVersion
+    if (version === 'next') {
+      version = 'master'
+    }
     return (
       <>
         <StaticQuery
@@ -82,10 +91,14 @@ class Navigation extends React.Component {
                     <InstantSearch
                       appId='ZFB6X2VA6A'
                       apiKey='b2e54fb04eb0279d4ad1010dd38bc131'
-                      indexName='doc-master'
+                      indexName={`doc-${version}`}
                     >
                       <Configure attributesToSnippet='html' />
-                      <Search onBlur={this.toggleSearch} pages={data.pages} />
+                      <Search
+                        onBlur={this.toggleSearch}
+                        pages={data.pages}
+                        version={version}
+                      />
                     </InstantSearch>
                   </div>
                 )}

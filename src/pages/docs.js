@@ -70,7 +70,7 @@ class DocsPage extends React.Component {
       ],
     ]
     return (
-      <Layout className='page-doc'>
+      <Layout className='page-doc' version={currentVersion}>
         <Seo title='Documentation' />
         <div className='container'>
           <div className='layout-col'>

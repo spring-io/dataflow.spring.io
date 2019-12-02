@@ -131,7 +131,7 @@ class Results extends React.Component {
           renderSectionTitle={this.renderSectionTitle}
           getSectionSuggestions={this.getSectionSuggestions}
         />
-        <Index indexName='doc-master' />
+        <Index indexName={`doc-${this.props.version}`} />
       </>
     )
   }
@@ -141,6 +141,7 @@ Results.propTypes = {
   hits: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   currentRefinement: PropTypes.string.isRequired,
   refine: PropTypes.func.isRequired,
+  version: PropTypes.string.isRequired,
 }
 
 const AutoComplete = connectAutoComplete(Results)
