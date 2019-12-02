@@ -6,10 +6,10 @@ import React from 'react'
 import Footer from './Footer'
 import Header from './Header'
 
-const Layout = ({ children, className }) => (
+const Layout = ({ children, version, className }) => (
   <>
     <div className={className}>
-      <Header />
+      <Header version={version} />
       <main>{children}</main>
       <Footer />
     </div>
@@ -18,6 +18,8 @@ const Layout = ({ children, className }) => (
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  version: PropTypes.string,
 }
 
 export default Layout

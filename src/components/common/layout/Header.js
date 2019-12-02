@@ -70,7 +70,7 @@ class Header extends React.Component {
               </button>
             </div>
 
-            <Navigation />
+            <Navigation version={this.props.version} />
           </div>
         </div>
       </>

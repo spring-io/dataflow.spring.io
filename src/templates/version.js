@@ -29,7 +29,7 @@ class DocumentationVersion extends React.Component {
       version => version.key === this.props.data.page.context.version
     )
     return (
-      <Layout>
+      <Layout version={this.props.data.page.context.version}>
         <Seo title={`Documentation ${this.props.data.page.context.version}`} />
         <StickyContainer>
           <div className='container'>

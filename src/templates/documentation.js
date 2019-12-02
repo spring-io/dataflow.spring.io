@@ -64,7 +64,7 @@ class DocumentationTemplate extends React.Component {
     const optionVersions = getVersions(versions)
 
     return (
-      <Layout>
+      <Layout version={this.props.data.page.fields.version}>
         <Seo
           title={meta.title}
           description={meta.description}
