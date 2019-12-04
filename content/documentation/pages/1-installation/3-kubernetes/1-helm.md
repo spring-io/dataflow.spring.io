@@ -13,16 +13,22 @@ The following sections cover how to initialize `Helm` and install Spring Cloud D
 
 ### Installing Helm
 
-`Helm` is comprised of two components: the client (Helm) and the server
-(Tiller). The `Helm` client runs on your local machine and can be
-installed by following the instructions found
-[here](https://github.com/kubernetes/helm/blob/master/README.md#install).
-If Tiller has not been installed on your cluster, run the following
-`Helm` client command:
+The Spring Cloud Data Flow Helm chart is currently tested against Helm 2.
+`Helm` is comprised of two components: the client (Helm) and the server (Tiller).
+The `Helm` client runs on your local machine and can be installed by following the instructions found [here](https://v2.helm.sh/docs/install/#installing-helm).
+If Tiller has not been installed on your cluster, run the following to create a service account and the `Helm` init client command:
 
 ```bash
-helm init
+kubectl create serviceaccount tiller -n kube-system
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount kube-system:tiller
+helm init --wait --service-account tiller
 ```
+
+<!--NOTE-->
+
+Please see the [Helm documentation](https://v2.helm.sh/docs/securing_installation/#securing-your-helm-installation) for additional Helm security configuration.
+
+<!--END_NOTE-->
 
 ```bash
 helm repo update
@@ -40,23 +46,9 @@ You should see the `Tiller` pod running.
 
 <!--TEMPLATE:https://raw.githubusercontent.com/helm/charts/master/stable/spring-cloud-data-flow/README.md-->
 
-#### Version Compatibility
-
-The following listing shows Spring Cloud Data Flow’s Kubernetes version compatibility with the respective Helm Chart releases:
-
-|                       | Chart 0.1.x | Chart 0.2.x | Chart 1.0.x | Chart 2.0.x |
-| --------------------- | :---------: | :---------: | :---------: | :---------: |
-| SCDF-K8S-Server 1.2.x |     ✅      |     ❌      |     ❌      |     ❌      |
-| SCDF-K8S-Server 1.3.x |     ❌      |     ✅      |     ❌      |     ❌      |
-| SCDF-K8S-Server 1.4.x |     ❌      |     ✅      |     ❌      |     ❌      |
-| SCDF-K8S-Server 1.5.x |     ❌      |     ✅      |     ❌      |     ❌      |
-| SCDF-K8S-Server 1.6.x |     ❌      |     ✅      |     ❌      |     ❌      |
-| SCDF-K8S-Server 1.7.x |     ❌      |     ❌      |     ✅      |     ❌      |
-| SCDF-K8S-Server 2.0.x |     ❌      |     ❌      |     ❌      |     ✅      |
-
 #### Expected output
 
-You should see the following output:
+After issuing the `helm install` command, you should see output similar to the following:
 
 ```bash
 NAME:   my-release
@@ -114,33 +106,27 @@ You can watch the status of the server by running `kubectl get svc -w my-release
 
 <!--END_NOTE-->
 
-You have just created a new release in the default namespace of your
-Kubernetes cluster. The `NOTES` section gives instructions for
-connecting to the newly installed server. It takes a couple of minutes
-for the application and its required services to start. You can check on
-the status by issuing a `kubectl get pod -w` command. You need to wait
-for the `READY` column to show `1/1` for all pods. Once that is done,
-you can connect to the Data Flow server with the external IP listed by
-the `kubectl get svc my-release-data-flow-server` command. The default
-username is `user`, and its password is `password`.
+<!--NOTE-->
 
-<!--TIP-->
-
-If you run on Minikube, you can use the following command to get the URL for the server:
-
-<!--END_TIP-->
+If your using Minikube, you can use the following command to get the URL for the server:
 
 ```bash
 minikube service --url my-release-data-flow-server
 ```
 
-To see what `Helm` releases you have running, you can use the
-`helm list` command. When it is time to delete the release, run
-`helm delete my-release`. This command removes any resources created for
-the release but keeps release information so that you can roll back any
-changes by using a `helm rollback my-release 1` command. To completely
-delete the release and purge any release metadata, you can use
-`helm delete my-release --purge`.
+<!--END_NOTE-->
+
+You have just created a new release in the default namespace of your Kubernetes cluster.
+It takes a couple of minutes for the application and its required services to start.
+You can check on the status by issuing a `kubectl get pod -w` command.
+You need to wait for the `READY` column to show `1/1` for all pods.
+
+When all pods are ready, you can access the Spring Cloud Data Flow dashboard by accessing `http://<SERVICE_ADDRESS>/dashboard` where `<SERVICE_ADDRESS>` is the address returned by either the `kubectl` or `minikube` commands above.
+
+To see what `Helm` releases you have running, you can use the `helm list` command.
+When it is time to delete the release, run `helm delete my-release`.
+This command removes any resources created for the release but keeps release information so that you can roll back any changes by using a `helm rollback my-release 1` command.
+To completely delete the release and purge any release metadata, you can use `helm delete my-release --purge`.
 
 <!--TIP-->
 
@@ -159,6 +145,18 @@ helm install --name my-release \
     --set rabbitmq.rabbitmqPassword=rabbitpwd \
     --set mysql.mysqlRootPassword=mysqlpwd incubator/spring-cloud-data-flow
 ```
+
+#### Version Compatibility
+
+The following listing shows Spring Cloud Data Flow’s Kubernetes version compatibility with the respective Helm Chart releases:
+
+| SCDF Version          | Chart Version |
+| --------------------- | :-----------: |
+| SCDF-K8S-Server 1.7.x |     1.0.x     |
+| SCDF-K8S-Server 2.0.x |     2.2.x     |
+| SCDF-K8S-Server 2.1.x |     2.3.x     |
+| SCDF-K8S-Server 2.2.x |     2.4.x     |
+| SCDF-K8S-Server 2.3.x |     2.5.x     |
 
 ## Register prebuilt applications
 
@@ -182,7 +180,7 @@ The command to import the Kafka version of the applications is
 dataflow:>app import --uri https://dataflow.spring.io/kafka-docker-latest
 ```
 
-Change `kafka` to `rabbitmq` in the above URL if you set `kafka.endabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
+Change `kafka` to `rabbitmq` in the above URL if you set `kafka.enabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
 
 <!--TIP-->
 

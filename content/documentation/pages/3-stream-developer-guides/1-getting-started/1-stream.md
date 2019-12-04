@@ -68,9 +68,21 @@ Now that you have defined a stream, you can deploy it. To do so:
 
     ![Deployment Page](images/dataflow-deploy-http-ingest.png)
 
-    If you use the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
+<!--NOTE-->
 
-    ![Unique Port](images/dataflow-unique-port.png)
+If you use the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
+
+![Unique Port](images/dataflow-unique-port.png)
+
+<!--END_NOTE-->
+
+<!--NOTE-->
+
+If you use the Kubernetes Data Flow Server, add the deployment property `kubernetes.createLoadBalancer` with a value of `true` on the `http` source application to expose the service externally.
+
+![Create Load Balancer](images/dataflow-create-load-balancer.png)
+
+<!--END_NOTE-->
 
 2.  Click the **Deploy Stream** button.
 
@@ -162,12 +174,41 @@ cf logs http-ingest-314-log-v1
 
 This section details how to verify output when your application runs on Kubernetes.
 
+Get the HTTP service URL by running one of the following commands:
+
+<!--NOTE-->
+
+If deploying to a cluster that supports a load balancer, the HTTP service address can be determined by:
+
+```bash
+export SERVICE_URL="$(kubectl get svc --namespace default http-ingest-http-v1 -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080"
+```
+
+It may take a few minutes for the LoadBalancer IP to be available.
+You can watch the status of the server by running `kubectl get svc -w http-ingest-http-v1`
+
+<!--END_NOTE-->
+
+<!--NOTE-->
+
+If your using Minikube, you can use the following command to get the URL for the server:
+
+```bash
+export SERVICE_URL=$(minikube service --url test-http-v1)
+```
+
+<!--END_NOTE-->
+
+You can view the address for your platform by typing the following:
+
+`echo $SERVICE_URL`
+
 #### Test Data
 
 Once the stream is deployed and running in Kubernetes, you can now post some data. You can use the following curl command to do so:
 
 ```bash
-curl http://<EXTERNAL_IP_OF_http-ingest-log-v1-0-2k4r8_SERVICE> -H "Content-type: text/plain" -d "Happy streaming"
+curl $SERVICE_URL -H "Content-type: text/plain" -d "Happy streaming"
 ```
 
 #### Results
