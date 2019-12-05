@@ -94,7 +94,7 @@ my-release-data-flow-server   1        1        1           0          1s
 
 <!--NOTE-->
 
-Get the application URL by running these commands:
+Get the Spring Cloud Data Flow's application URL by running these commands:
 
 ```bash
 export SERVICE_IP=$(kubectl get svc --namespace default my-release-data-flow-server -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -123,9 +123,9 @@ You need to wait for the `READY` column to show `1/1` for all pods.
 
 When all pods are ready, you can access the Spring Cloud Data Flow dashboard by accessing `http://<SERVICE_ADDRESS>/dashboard` where `<SERVICE_ADDRESS>` is the address returned by either the `kubectl` or `minikube` commands above.
 
-To see what `Helm` releases you have running, you can use the `helm list` command.
-When it is time to delete the release, run `helm delete my-release`.
-This command removes any resources created for the release but keeps release information so that you can roll back any changes by using a `helm rollback my-release 1` command.
+To see what `Helm` releases of Spring Cloud Data Flow you have running, you can use the `helm list` command.
+When it is time to delete the previously installed SCDF release, run `helm delete my-release`.
+This command removes any resources created for the release but keeps release information so that you can rollback any changes by using a `helm rollback my-release 1` command.
 To completely delete the release and purge any release metadata, you can use `helm delete my-release --purge`.
 
 <!--TIP-->
@@ -148,7 +148,7 @@ helm install --name my-release \
 
 #### Version Compatibility
 
-The following listing shows Spring Cloud Data Flow’s Kubernetes version compatibility with the respective Helm Chart releases:
+The following listing shows Spring Cloud Data Flow’s version compatibility with the respective Helm Chart releases:
 
 | SCDF Version          | Chart Version |
 | --------------------- | :-----------: |

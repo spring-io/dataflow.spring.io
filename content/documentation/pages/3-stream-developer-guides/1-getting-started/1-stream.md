@@ -78,7 +78,7 @@ If you use the local Data Flow Server, add the following deployment property to 
 
 <!--NOTE-->
 
-If you use the Kubernetes Data Flow Server, add the deployment property `kubernetes.createLoadBalancer` with a value of `true` on the `http` source application to expose the service externally.
+If deploying Spring Cloud Data Flow to Kubernetes, add the deployment property `kubernetes.createLoadBalancer` with a value of `true` on the `http` source application to expose the service externally.
 
 ![Create Load Balancer](images/dataflow-create-load-balancer.png)
 
@@ -199,7 +199,7 @@ export SERVICE_URL=$(minikube service --url test-http-v1)
 
 <!--END_NOTE-->
 
-You can view the address for your platform by typing the following:
+You can view the HTTP URL of the application by typing the following:
 
 `echo $SERVICE_URL`
 
