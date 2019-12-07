@@ -1,12 +1,12 @@
 {
   "2.2.x": {
     "name": "2.2.1",
-    "branch": "2.2.x",
-    "current": true
+    "branch": "2.2.x"
   },
-  "2.3.0.SNAPSHOT": {
-    "name": "2.3.0 SNAPSHOT",
-    "branch": "master"
+  "2.3.0": {
+    "name": "2.3.0",
+    "branch": "master",
+    "current": true
   },
   "next": {
     "name": "next",
