@@ -417,6 +417,40 @@ See the [compatibility matrix](https://github.com/spring-cloud/spring-cloud-stre
 
 <!--END_QUESTION-->
 
+<!--QUESTION#lifecycle-->
+
+Can I manage binding lifecycles?
+
+By default, bindings are started automatically when the application is initialized.
+Bindings implement the Spring `SmartLifecycle` interface.
+`SmartLifecycle` allows beans to be started in phases.
+Producer bindings are started in an early phase (`Integer.MIN_VALUE + 1000`).
+Consumer bindings are started in a late phase (`Integer.MAX_VALUE - 1000`).
+This leaves room in the spectrum such that user beans implementing `SmartLifecycle` can be started before producer bindings, after consumer bindings, or anywhere in between.
+
+You can disable auto-startup by setting the consumer or producer `autoStartup` property to `false`.
+
+Binding lifecycles can be visualized and controlled using Boot actuators; see [Binding visualization and control](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/current/reference/html/spring-cloud-stream.html#binding_visualization_control).
+
+You can also invoke the actuator endpoint programmatically, using the binding name, as follows:
+
+```java
+@Autowired
+private BindingsEndpoint endpoint;
+
+...
+
+    bindings.changeState("myFunction-in-0", State.STARTED);
+```
+
+This will start a previously stopped (or `autoStartup=false`) binding called `myFunction-in-0`.
+To stop a running binding, use `State.STOPPED`.
+Some binders, e.g. Kafka, also support `State.PAUSED` and `State.RESUMED` for consumer bindings.
+
+Since the `BindingsEndpoint` is part of the actuator infrastructure, you must enable actuator support as described in [Binding visualization and control](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/current/reference/html/spring-cloud-stream.html#binding_visualization_control).
+
+<!--END_QUESTION-->
+
 ## Batch
 
 <!--QUESTION#ctr-->
