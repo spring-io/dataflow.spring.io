@@ -3,10 +3,10 @@
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.2.0.RELEASE",
-  "skipper-version": "2.2.0.BUILD-SNAPSHOT",
-  "dataflow-version": "2.3.0.BUILD-SNAPSHOT",
+  "skipper-version": "2.2.1.RELEASE",
+  "dataflow-version": "2.3.0.RELEASE",
 
-  "github-tag": "master",
+  "github-tag": "v2.3.0.RELEASE",
 
   "spring-maven-repo-type": "snapshot",
 
