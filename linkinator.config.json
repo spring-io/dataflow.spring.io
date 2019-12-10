@@ -8,10 +8,6 @@
     "^http://localhost:15672",
     "^http://192.168.99.100",
     "^http://stateless.co",
-    "^http://cloud.spring.io/spring-cloud-stream/",
-    "^http://cloud.spring.io/spring-cloud-task/",
-    "^http://cloud.spring.io/spring-cloud-dataflow/",
-    "^http://projects.spring.io/spring-boot/",
     "^http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/"
   ]
 }
