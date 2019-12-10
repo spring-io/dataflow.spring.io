@@ -117,7 +117,7 @@ To install Cloud Foundry:
                                "username": <email>,
                                "password" : <password>,
                                "skipSsValidation" : false 
-                           }
+                           },
                            "deployment" : {
                                "deleteRoutes" : false,
                                "services" : "rabbitmq",
@@ -231,7 +231,7 @@ applications:
                             "username" : <email>,
                             "password" : <password>,
                             "skipSsValidation" : true 
-                        }
+                        },
                         "deployment" : {
                           "services" : "postgresSQL"
                         }
