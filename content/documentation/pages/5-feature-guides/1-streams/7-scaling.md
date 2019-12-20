@@ -26,7 +26,7 @@ Platforms such as Kubernetes and Cloud Foundry offer scaling features for the Op
 
 While the scaling happens outside of the Spring Cloud Data Flow, the applications that are scaled can react to and handle the upstream load automatically. Developers only need to configure the message partitioning using properties such as [partitionKeyExpression](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/3.0.0.RELEASE/reference/html/spring-cloud-stream.html#spring-cloud-stream-overview-configuring-output-bindings-partitioning) and [partitionCount](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/3.0.0.RELEASE/reference/html/spring-cloud-stream.html#spring-cloud-stream-overview-configuring-output-bindings-partitioning).
 
-In addition to the platform specific, low-level APIs, Spring Cloud Data Flow provides a dedicated, Scale API, designed for scaling data pipelines. The Scale API unifies the various platforms native scaling capabilities into a uniform and simple interface.
+In addition to the platform specific, low-level APIs, Spring Cloud Data Flow provides a dedicated, [Scale API](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources-stream-deployment-scale), designed for scaling data pipelines. The `Scale API` unifies the various platforms native scaling capabilities into a uniform and simple interface.
 It can be used to implement scaling control based on specific application domain or business logic.
 The Scale API is reusable across all the Spring Cloud Data Flow supported platforms. Developers can implement an auto-scale controller and reuse it with Kubernetes, Cloud Foundry or even with the Local platform for local testing purposes.
 

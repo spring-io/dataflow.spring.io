@@ -10,7 +10,7 @@ To learn about the basic scaling concepts in Spring Cloud Data Flow, please cons
 
 ## Overview
 
-The solution leverages the [Prometheus Alert Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/) for defining scale-out and scale-in alerts based on application throughput metrics. The alerts are managed by the [Prometheus AlertManager](https://prometheus.io/docs/alerting/alertmanager) and a custom [webhook](https://github.com/prometheus/alertmanager), which in turn triggers the [Scale API](TODO) calls in SCDF.
+The solution leverages the [Prometheus Alert Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/) for defining scale-out and scale-in alerts based on application throughput metrics. The alerts are managed by the [Prometheus AlertManager](https://prometheus.io/docs/alerting/alertmanager) and a custom [webhook](https://github.com/prometheus/alertmanager), which in turn triggers the [Scale API](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources-stream-deployment-scale) calls in SCDF.
 
 For a streaming data pipeline:`time | transform | log`, we will show how to measure the throughput rates between the `time` and the `transform` applications, so we can use that as the deciding factor for alerts. When the defined threshold exceeds the set rules, we will discuss how the alerts are triggered and likewise the autoscale calls are triggered.
 Following pseudocode illustrates the logic of such alert rules:
@@ -62,7 +62,7 @@ The `spring_integration_send_seconds_count` metrics comes from the `spring integ
 The [Alertmanager](https://prometheus.io/docs/alerting/alertmanager) is a standalone service that manages the alerts, including silencing, inhibition, aggregation and sending out notifications to pre-configured webhooks.
 
 The [AlertWebHookApplication](TODO) is a custom Spring Boot application, registered as a [Alertmanager Webhook Receiver](https://prometheus.io/docs/alerting/configuration/#webhook_config) via the [config.yml](TODO).
-The `AlertWebHookApplication` receives the alert notifications (in JSON format) from Prometheus. With the help of SCDF's Scale API, it can then trigger the scale-out request to autoscale the referred by the alert streaming data pipelines in SCDF.
+The `AlertWebHookApplication` receives the alert notifications (in JSON format) from Prometheus. With the help of [SCDF's Scale API](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources-stream-deployment-scale), it can then trigger the scale-out request to autoscale the referred by the alert streaming data pipelines in SCDF.
 
 <!--TIP-->
 
@@ -71,7 +71,7 @@ For our example that means that the `stream_name` label is passed along with the
 
 <!--END_TIP-->
 
-The [Data Flow Scale REST API](https://github.com/spring-cloud/spring-cloud-dataflow/issues/3705) provides a platform agnostic mechanism for scaling data pipeline applications.
+The [Data Flow Scale REST API](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources-stream-deployment-scale) provides a platform agnostic mechanism for scaling data pipeline applications.
 
 The `AlertWebHookApplication` uses the `spring.cloud.dataflow.client.server-uri` property to configure the Scale API endpoint. Check [alertwebhook-deployment.yaml](TODO) for the entire deployment configuration.
 
