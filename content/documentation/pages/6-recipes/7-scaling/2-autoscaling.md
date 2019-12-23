@@ -49,7 +49,7 @@ for: 30s
 
 <!--TIP-->
 
-Check [alert.rule.yml](TODO) (and [here](TODO) for the kubectl installation) to see the used alert rules definitions.
+Check [alert.rule.yml](https://github.com/tzolov/spring-cloud-dataflow-samples/blob/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/prometheus/prometheus-configmap.yaml#L8-L23) (and [here](https://github.com/tzolov/spring-cloud-dataflow-samples/blob/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/helm/prometheus/prometheus-configmap.yaml#L8-L23) for the kubectl installation) to see the used alert rules definitions.
 
 <!--END_TIP-->
 
@@ -61,7 +61,7 @@ The `spring_integration_send_seconds_count` metrics comes from the `spring integ
 
 The [Alertmanager](https://prometheus.io/docs/alerting/alertmanager) is a standalone service that manages the alerts, including silencing, inhibition, aggregation and sending out notifications to pre-configured webhooks.
 
-The [AlertWebHookApplication](TODO) is a custom Spring Boot application, registered as a [Alertmanager Webhook Receiver](https://prometheus.io/docs/alerting/configuration/#webhook_config) via the [config.yml](TODO).
+The [AlertWebHookApplication](https://github.com/tzolov/spring-cloud-dataflow-samples/blob/stream-autoscale-demo/dataflow-website/recipes/scaling/scdf-alert-webhook/src/main/java/io/spring/cloud/dataflow/alert/webhook/AlertWebHookApplication.java) (part of the [scdf-alert-webhook](https://github.com/tzolov/spring-cloud-dataflow-samples/tree/stream-autoscale-demo/dataflow-website/recipes/scaling/scdf-alert-webhook) Spring Boot app) is a custom Spring Boot application, registered as a [Alertmanager Webhook Receiver](https://prometheus.io/docs/alerting/configuration/#webhook_config) via the [config.yml](https://github.com/tzolov/spring-cloud-dataflow-samples/blob/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertmanager/prometheus-alertmanager-configmap.yaml#L8-L15).
 The `AlertWebHookApplication` receives the alert notifications (in JSON format) from Prometheus. With the help of [SCDF's Scale API](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources-stream-deployment-scale), it can then trigger the scale-out request to autoscale the referred by the alert streaming data pipelines in SCDF.
 
 <!--TIP-->
@@ -73,7 +73,11 @@ For our example that means that the `stream_name` label is passed along with the
 
 The [Data Flow Scale REST API](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#api-guide-resources-stream-deployment-scale) provides a platform agnostic mechanism for scaling data pipeline applications.
 
-The `AlertWebHookApplication` uses the `spring.cloud.dataflow.client.server-uri` property to configure the Scale API endpoint. Check [alertwebhook-deployment.yaml](TODO) for the entire deployment configuration.
+The `AlertWebHookApplication` uses the `spring.cloud.dataflow.client.server-uri` property to configure the Scale API endpoint. Check [alertwebhook-deployment.yaml](https://github.com/tzolov/spring-cloud-dataflow-samples/blob/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertwebhook/alertwebhook-deployment.yaml) for the entire deployment configuration.
+
+Following video animation illustrates the Data Flow auto-scaling flow:
+
+<!--VIDEO:https://www.youtube.com/embed/IDH6X1pmgxc-->
 
 ## Prerequisite
 
@@ -88,9 +92,13 @@ This recipe uses the Kubernetes platform.
 - Then install the `Alertmanager` and the `AlertWebHook` and reconfigure the `Prometheus` services:
 
   ```shell
-  kubectl create -f ./kubernetes/alertwebhook/
-  kubectl create -f ./kubernetes/alertmanager/
-  kubectl patch cm prometheus --patch "$(cat ./kubernetes/prometheus/prometheus-configmap.yaml)"
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertwebhook/alertwebhook-svc.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertwebhook/alertwebhook-deployment.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertmanager/prometheus-alertmanager-service.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertmanager/prometheus-alertmanager-deployment.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertmanager/prometheus-alertmanager-configmap.yaml
+  wget https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/prometheus/prometheus-configmap.yaml
+  kubectl patch cm my-release-prometheus-server --patch "$(cat ./prometheus-configmap.yaml)"
   kubectl delete pods -l app=prometheus
   ```
 
@@ -105,9 +113,13 @@ This recipe uses the Kubernetes platform.
 - Then install the `Alertmanager` and the `AlertWebHook` and reconfigure the `Prometheus` services:
 
   ```shell
-  kubectl create -f ./kubernetes/helm/alertwebhook/
-  kubectl create -f ./kubernetes/alertmanager/
-  kubectl patch cm my-release-prometheus-server --patch "$(cat ./kubernetes/helm/prometheus/prometheus-configmap.yaml)"
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/helm/alertwebhook/alertwebhook-svc.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/helm/alertwebhook/alertwebhook-deployment.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertmanager/prometheus-alertmanager-service.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertmanager/prometheus-alertmanager-deployment.yaml
+  kubectl apply -f https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/alertmanager/prometheus-alertmanager-configmap.yaml
+  wget https://raw.githubusercontent.com/tzolov/spring-cloud-dataflow-samples/stream-autoscale-demo/dataflow-website/recipes/scaling/kubernetes/helm/prometheus/prometheus-configmap.yaml
+  kubectl patch cm my-release-prometheus-server --patch "$(cat ./prometheus-configmap.yaml)"
   ```
 
 <!--END_TABS-->
