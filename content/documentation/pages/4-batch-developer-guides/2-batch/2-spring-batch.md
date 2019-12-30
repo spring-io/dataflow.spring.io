@@ -692,6 +692,7 @@ When the task is complete, you should see output similar to the following:
 kubectl get pods
 NAME                     READY   STATUS      RESTARTS   AGE
 mysql-5cbb6c49f7-ntg2l   1/1     Running     0          4h
+billrun                  0/1     Completed   0          10s
 ```
 
 Now you can delete the pod. To do so, run the following command:
