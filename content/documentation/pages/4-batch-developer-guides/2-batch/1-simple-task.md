@@ -432,7 +432,7 @@ spec:
   restartPolicy: Never
   containers:
     - name: task
-      image: springcloudtask/billsetuptask:1.0.0.BUILD-SNAPSHOT
+      image: springcloudtask/billsetuptask:0.0.1-SNAPSHOT
       env:
         - name: SPRING_DATASOURCE_PASSWORD
           valueFrom:
