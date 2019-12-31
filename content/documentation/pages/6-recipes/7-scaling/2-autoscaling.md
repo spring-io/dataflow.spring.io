@@ -83,6 +83,10 @@ Following video animation illustrates the Data Flow auto-scaling flow:
 
 This recipe uses the Kubernetes platform.
 
+The recipes is successfully tested on GKE cluster with 5 nodes.
+
+The high CPU requirements due to the multiple app instances would make it difficult or imposable to run the recipe on minikube.
+
 <!--TABS-->
 
 <!--For Kubectl installation-->
