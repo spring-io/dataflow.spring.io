@@ -304,10 +304,7 @@ export const getMeta = function getMeta(arr, page) {
   const breadcrumb = getBreadcrumb(arr, page).reverse()
   return {
     title:
-      get(
-        breadcrumb.find(item => get(item, 'meta.title')),
-        'meta.title'
-      ) || '',
+      get(breadcrumb.find(item => get(item, 'meta.title')), 'meta.title') || '',
     description:
       get(
         breadcrumb.find(item => get(item, 'meta.description')),

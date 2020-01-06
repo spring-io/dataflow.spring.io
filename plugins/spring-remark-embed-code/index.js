@@ -57,7 +57,9 @@ module.exports = async (
         node.type = `html`
       } catch (e) {
         throw Error(
-          `Error embed ${url} / ${markdownNode.fields.version} / ${markdownNode.fields.slug}`
+          `Error embed ${url} / ${markdownNode.fields.version} / ${
+            markdownNode.fields.slug
+          }`
         )
       }
     }
