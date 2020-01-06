@@ -60,9 +60,8 @@ class DocumentationTemplate extends React.Component {
     if (summary) {
       summaryType = getSummaryType(pages, page)
     }
-
     const optionVersions = getVersions(versions)
-
+    const { branch } = versions[this.props.data.page.fields.version]
     return (
       <Layout version={this.props.data.page.fields.version}>
         <Seo
@@ -130,7 +129,9 @@ class DocumentationTemplate extends React.Component {
                   <div className='edit-on-github'>
                     <a
                       className='button icon'
-                      href={`https://github.com/spring-io/dataflow.spring.io/blob/master/content/documentation/${this.props.data.page.fields.sourcePath}`}
+                      href={`https://github.com/spring-io/dataflow.spring.io/blob/${branch}/content/documentation/${
+                        this.props.data.page.fields.sourcePath
+                      }`}
                     >
                       <IconEdit />
                       {` `}
