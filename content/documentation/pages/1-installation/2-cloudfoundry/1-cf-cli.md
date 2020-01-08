@@ -188,7 +188,7 @@ You can use the `--random-route` option to avoid this when you push the server a
 
 #### Maven repositories
 
-If you need to configure multiple Maven repositories, a proxy, or authorization for a private repository, see [Maven Configuration](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#getting-started-maven-configuration).
+If you need to configure multiple Maven repositories, a proxy, or authorization for a private repository, see [Maven Configuration](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-maven).
 
 ### Installing using a Manifest
 
