@@ -1,12 +1,12 @@
 ---
 path: 'feature-guides/batch/scheduling/'
 title: 'Scheduling Batch Jobs'
-description: 'Learn how to schedule the Batch Jobs'
+description: 'Learn how to schedule Batch Jobs'
 ---
 
 # Batch Job Scheduling
 
-In [Batch Developers Guide](%currentPath%/batch-developer-guides/) we showed you how to build batch applications and launch them in an adh-hoc fashion.  
+In [Batch Developers Guide](%currentPath%/batch-developer-guides/) we showed you how to build batch applications and launch them in an ad-hoc fashion.  
 But typically batch jobs are launched at as scheduled time or based on some event.
 In this section, we will show you how you can schedule the launch of the batch jobs using Spring Cloud Data Flow.
 
