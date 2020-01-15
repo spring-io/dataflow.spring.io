@@ -114,9 +114,9 @@ If you do not have an instance of MySql available to you, you can follow these i
 
 ### Building The Application
 
-1.  Run `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy the resulting file to the `/src/main/resources` directory.
+1.  Download `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy the resulting file to the `/src/main/resources` directory.
 
-1.  Run `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy the resulting file to the `/src/main/resources` directory.
+1.  Download `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy the resulting file to the `/src/main/resources` directory.
 
 1.  In your favorite IDE create the `io.spring.billrun.model` package.
 
@@ -219,48 +219,38 @@ If you do not have an instance of MySql available to you, you can follow these i
 ### Testing
 
 Now that we have written our code, it is time to write our test. In this case, we want to make sure that the bill information has been properly inserted into the `BILLING_STATEMENTS` table.
-To create your test, update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that it looks like the following listing:
+To create your test, update the [BillRunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillRunApplicationTests.java) such that it looks like the following listing:
 
 ```java
 package io.spring.billrun;
 
-import java.util.List;
-
 import io.spring.billrun.model.Bill;
-import javax.sql.DataSource;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.springframework.batch.test.context.SpringBatchTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
+import javax.sql.DataSource;
+import java.util.List;
 
-@RunWith(SpringRunner.class)
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
-@SpringBatchTest
-public class BillrunApplicationTests {
+public class BillRunApplicationTests {
 
 	@Autowired
 	private DataSource dataSource;
 
 	private JdbcTemplate jdbcTemplate;
 
-	@Before
-	public void setup()  {
+	@BeforeEach
+	public void setup() {
 		this.jdbcTemplate = new JdbcTemplate(this.dataSource);
 	}
 
 	@Test
 	public void testJobResults() {
-		testResult();
-	}
-
-	private void testResult() {
 		List<Bill> billStatements = this.jdbcTemplate.query("select id, " +
 						"first_name, last_name, minutes, data_usage, bill_amount " +
 						"FROM bill_statements ORDER BY id",
@@ -268,20 +258,21 @@ public class BillrunApplicationTests {
 						rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"),
 						rs.getLong("DATA_USAGE"), rs.getLong("MINUTES"),
 						rs.getDouble("bill_amount")));
-		Assert.assertEquals(5, billStatements.size());
 
+		assertThat(billStatements.size()).isEqualTo(5);
 		Bill billStatement = billStatements.get(0);
-		Assert.assertEquals(6, billStatement.getBillAmount(), 1e-15);
-		Assert.assertEquals("jane", billStatement.getFirstName());
-		Assert.assertEquals("doe", billStatement.getLastName());
-		Assert.assertEquals(new Long(1), billStatement.getId());
-		Assert.assertEquals(new Long(500), billStatement.getMinutes());
-		Assert.assertEquals(new Long(1000), billStatement.getDataUsage());
+		assertThat(billStatement.getBillAmount()).isEqualTo(6.0);
+		assertThat(billStatement.getFirstName()).isEqualTo("jane");
+		assertThat(billStatement.getLastName()).isEqualTo("doe");
+		assertThat(billStatement.getId()).isEqualTo(1);
+		assertThat(billStatement.getMinutes()).isEqualTo(500);
+		assertThat(billStatement.getDataUsage()).isEqualTo(1000);
+
 	}
 }
 ```
 
-For this test, we use `JdbcTemplate` to execute a query and retrieve the results of the `billrun`. Once the query has run, we verify that the data in the table is what we expect.
+For this test, we use `JdbcTemplate` to execute a query and retrieve the results of the `billrun`. Once the query has run, we verify that the data in the first row of the table is what we expect.
 
 ## Deployment
 

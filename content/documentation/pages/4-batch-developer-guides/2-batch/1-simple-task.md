@@ -46,7 +46,7 @@ Either [download the initialzr generated project directly](https://start.spring.
    We use MySql for the runtime database.
 1. Click the **Generate Project** button.
 
-Now you should `unzip` the `usbillsetuptask.zip` file and import the project into your favorite IDE.
+Now you should `unzip` the `billsetuptask.zip` file and import the project into your favorite IDE.
 
 ### Setting up MySql
 
@@ -102,21 +102,17 @@ Now we can create our test. To do so, update the contents of [BillsetuptaskAppli
 ```Java
 package io.spring.billsetuptask;
 
-import javax.sql.DataSource;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
+import javax.sql.DataSource;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class BillsetuptaskApplicationTests {
+class BillSetupTaskApplicationTests {
 
 	@Autowired
 	private DataSource dataSource;
@@ -126,11 +122,14 @@ public class BillsetuptaskApplicationTests {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
 		int result = jdbcTemplate.queryForObject(
 				"SELECT COUNT(*) FROM BILL_STATEMENTS", Integer.class);
-
-		Assert.assertEquals(0, result);
+		assertThat(result).isEqualTo(0);
 	}
+
 }
+
 ```
+
+Run this test in your IDE. Since Spring Boot's `spring.datasource` properties are not set, the test will execute against the embedded H2 database. In the next step you will deploy the application targeting a mysql database.
 
 ## Deployment
 
@@ -160,7 +159,9 @@ Now we can take the next step of building the project. To do so:
    --spring.datasource.driverClassName=com.mysql.jdbc.Driver
    ```
 
-#### Setting the Application Name for Task Execution
+   Alternatively, place these properties in `application.properties` and execute the `BillSetupTaskApplication` from your IDE.
+
+#### Viewing the results of task execution in the database
 
 Spring Cloud Task records all task executions to a table called `TASK_EXECUTION`.
 Here is some of the information that is recorded by Spring Cloud Task:
@@ -192,6 +193,9 @@ The results should resemble the following output:
 |                 1 | 2019-04-23 18:10:57 | 2019-04-23 18:10:57 | application     |         0 | NULL         | NULL          | 2019-04-23 18:10:57 | NULL                  |                NULL |
 ```
 
+#### Setting the Application Name for Task Execution
+
+In the previous table, the `TASK_NAME` column has the value default value of `application`.
 Spring Cloud Task lets us change this setting by using the `spring.cloud.task.name`. To do so, we add that property to our next run, as follows:
 
 ```bash
