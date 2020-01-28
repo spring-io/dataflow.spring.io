@@ -11,6 +11,12 @@ for deploying the Spring Cloud Data Flow server and its required services to a K
 
 The following sections cover how to initialize `Helm` and install Spring Cloud Data Flow on a Kubernetes cluster.
 
+<!--TIP-->
+
+If using Minikube, see [Setting Minikube Resources](%currentPath%/installation/kubernetes/creating-a-cluster/#setting-minikube-resources) for details on CPU and RAM resource requirements.
+
+<!--END_TIP-->
+
 ### Installing Helm
 
 The Spring Cloud Data Flow Helm chart is currently tested against Helm 2.
