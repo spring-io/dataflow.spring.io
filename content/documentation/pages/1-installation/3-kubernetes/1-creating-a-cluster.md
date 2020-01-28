@@ -15,14 +15,12 @@ All our testing is done against [Google Kubernetes
 Engine](https://cloud.google.com/kubernetes-engine/) as well as [Pivotal
 Container
 Service](https://pivotal.io/platform/pivotal-container-service/). GKE is
-used as the target platform for this section. We have also successfully
-deployed with
-[Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
+used as the target platform for this section.
+
+# Setting Minikube Resources
+
+We have successfully deployed with [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
 We note where you need to adjust for deploying on Minikube.
-
-<!--TIP-->
-
-**Setting Minikube Resources**
 
 When starting Minikube, you should allocate some extra resources,
 since we deploy several services. You can start with
@@ -30,8 +28,6 @@ since we deploy several services. You can start with
 for the Minikube VM gets directly assigned to the number of
 applications deployed in a stream or task. The more you add, the more
 VM resources are required.
-
-<!--END_TIP-->
 
 The rest of this getting started guide assumes that you have a working
 Kubernetes cluster and a `kubectl` command line utility. See [Installing
