@@ -107,7 +107,7 @@ Often while debugging you will need to build new, local `spring-cloud-dataflow-s
 
 ### Integration Testing
 
-The self-documented [DockerComposeIT.java](https://github.com/spring-cloud/spring-cloud-dataflow/blob/%github-tag%/spring-cloud-dataflow-server/src/test/java/org/springframework/cloud/dataflow/integration/test/DockerComposeIT.java) class demonstrates how to reuse the same docker-compose files to build DataFlow integration and smoke tests.
+The self-documented [DataFlowIT.java](https://github.com/spring-cloud/spring-cloud-dataflow/blob/%github-tag%/spring-cloud-dataflow-server/src/test/java/org/springframework/cloud/dataflow/integration/test/DataFlowIT.java) class demonstrates how to reuse the same docker-compose files to build DataFlow integration and smoke tests.
 
 ## Accessing the Host File System
 
