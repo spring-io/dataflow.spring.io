@@ -12,20 +12,23 @@ In this section, we will show you how you can create and manage composed tasks.
 
 ## Composed Task 101
 
-Before going into how create and manage composed tasks. Let's discuss a scenario where we want to launch task definition `task-a`
-and if `task-a` has an exit status of `COMPLETED` we want to launch task definition `task-b`. However, if `task-a` has an exit status of `FAILED` we want to launch task definition `task-c`. In this case the graph would look like:
+Before going into how create and manage composed tasks. Let's discuss a scenario where we want to launch a sequence of task definitions.  
+For this discussion lets say we want to launch task definitions `task-a`, `task-b`, and `task-c`.
+For example we launch task definition `task-a` and if `task-a` has completed successfully then we want to launch task definition `task-b`. Once `task-b` has completed successfully we want to launch task definition `task-c`. In this case the graph would look like:
 
 ![Composed Task Graph](images/SCDF-composed-task-101.png)
 
-The diagram above can be expressed using Spring Cloud Data Flow's task definition DDL as shown below:
+The diagram above can be expressed using Spring Cloud Data Flow's task definition DSL as shown below:
 
 ```
-Task-A 'COMPLETED'->Task-B 'FAILED'->Task-C
+task-a && task-b && task-c
 ```
 
-Once the composed task definition above is created, it can be launched in the same way a regular task definition is launched. Behind the scenes Spring Cloud Data Flow will launch the `Composed Task Runner` application to manage the execution of the composed task graph.
-It does this by parsing the Spring Cloud Data Flow task definition DSL provided, and then makes RESTFul API calls back to the Spring Cloud Data Flow server, to launch the tasks definitions. As each task completes, it will launch the next appropriate task definition.
-In the following segments you will create your own composed task graphs to explore the various ways you can create a composed task flow.
+The `&&` in the DSL above states that the task definition to the left of the `&&` must complete successfully before the next task definition in the flow can be launched.
+
+Once the composed task definition above is created, it can be launched in the same way a regular task definition is launched. Behind the scenes, Spring Cloud Data Flow will launch the `Composed Task Runner` application to manage the execution of the composed task graph.
+It does this by parsing the Spring Cloud Data Flow task definition DSL provided, and then makes RESTful API calls back to the Spring Cloud Data Flow server to launch the tasks definition. As each task completes, it will launch the next appropriate task definition.
+In the following segments, you will create your own composed task graphs to explore the various ways you can create a composed task flow.
 
 # Configuring Spring Cloud Data Flow Launch Composed Tasks
 
@@ -33,12 +36,16 @@ As discussed earlier the `Composed-Task-Runner` is an application that manages t
 
 ## Configuring Data Flow to launch the Composed Task Runner
 
-When launching a composed task Spring Cloud Data Flow passes properties to the `Composed-Task-Runner` so that it can execute the directed graph properly. To do this you must configure Spring Cloud Data Flow's `dataflow.server.uri` property in order for the `Composed Task Runner` make the RESTFul API calls to the correct SCDF Server:
+When launching a composed task Spring Cloud Data Flow passes properties to the `Composed-Task-Runner` so that it can execute the directed graph properly. To do this you must configure Spring Cloud Data Flow's `dataflow.server.uri` property in order for the `Composed Task Runner` can make the RESTful API calls to the correct SCDF Server:
 
-- dataflow.server.uri - Is the URI of the Spring Cloud Data Flow Server that will be used by the `Composed Task Runner` to execute its RESTFul API calls. It defaults to https://localhost:9393.
+- dataflow.server.uri - Is the URI of the Spring Cloud Data Flow Server that will be used by the `Composed Task Runner` to execute its RESTful API calls. It defaults to https://localhost:9393.
 - maximumConcurrentTasks - Spring Cloud Data Flow allows a user to limit the maximum number of concurrently running tasks for each configured platform to prevent the saturation of IaaS/hardware resources.
   The limit is set to `20` for all supported platforms by default. If the number of concurrently running tasks on a platform instance is greater or equal to the limit, the next task launch request will fail and an error message will be returned via the RESTful API, Shell or UI.
-  This limit can be configured for a platform instance by setting the corresponding deployer property, `spring.cloud.dataflow.task.platform.<platform-type>.accounts[<account-name>].deployment.maximumConcurrentTasks` property, where `<account-name>` is the name of a configured platform account (`default` if no accounts are explicitly configured).
+  This limit can be configured for a platform instance by setting the corresponding deployer property to the number maximum number of concurrent tasks:
+  ```
+  spring.cloud.dataflow.task.platform.<platform-type>.accounts[<account-name>].deployment.maximumConcurrentTasks`
+  ```
+  The `<account-name>` is the name of a configured platform account (`default` if no accounts are explicitly configured).
   The `<platform-type>` refers to one of the currently supported deployers: `local`, `cloudfoundry`, or `kubernetes`.
 
 [[note]]
@@ -51,13 +58,22 @@ By default, the `Composed Task Runner` application is not registered with Spring
 1. Press the `Apps` tab on the left side of the dashboard.
 1. Press the `Add Application(s)` button on the top of the page.
 1. Fill out the registration page as follows:
-   ![Composed Task Graph](images/SCDF-composed-task-register.png)
+   1. Enter the following into the `Name` field:
+      1. ```
+          composed-task-runner
+         ```
+   1. For the `Type` field select: `Task`
+   1. Enter the following into the `URI` field: 1. If using Maven:
+      `maven://org.springframework.cloud.task.app:composedtaskrunner-task:2.1.3.RELEASE` 1. if using Docker:
+      `docker:springcloudtask/composedtaskrunner-task:2.1.3.RELEASE`
+      The result should look something like:
+      ![Composed Task Graph](images/SCDF-composed-task-register.png)
 1. Press the `Register the Applications(s)` button.
 
 # The Transition Sample Project
 
 In order for us to explore some of the flows that are available via a composed task diagram, we need an application
-that allows us to establish its exit status at startup time. This `transition-sample` gives us the ability to explore various flows through a composed tasks diagram.
+that allows us to configure its exit status at startup time. This `transition-sample` gives us the ability to explore various flows through a composed task diagram.
 
 ## Getting the Transition Sample Project from Github
 
@@ -183,7 +199,7 @@ This can be done by clicking the `Executions` tab on top of the `Tasks` page. Fr
 
 ## Transitional Execution
 
-Transitions allow users to specify the branch of a tree they want the flow to follow. A task transition is represented by the following symbol →. So lets create a basic transition graph.
+Transitions allow users to specify the branch of a tree they want the flow to follow. A task transition is represented by the following symbol `->`. So lets create a basic transition graph.
 
 ### Create Basic Transition Task Definition
 
@@ -196,6 +212,21 @@ transition-sample 'FAILED'->timestamp-1: timestamp 'COMPLETED'->timestamp-2: tim
 
 It should look like the following:
 ![Transition Execution Flow](images/SCDF-composed-task-transition.png)
+[[note]]
+| You can use Spring Cloud Data Flow UI's drag and drop capabilities to draw the graph vs. using the DSL.
+
+Now that the graph is rendered as shown above, its time to dig into the details.
+The first application to be launched will be the `transition-sample`. Since transition-sample is a Spring Cloud Task application, Spring Cloud Task will record the exit message to the database at the end of the execution. This message will have one of the following values:
+
+- COMPLETED - Meaning the task completed successfully.
+- FAILED - Meaning the task failed during its execution.
+- Custom Exit Message - A Spring Cloud Task application can return a custom exit message as discussed [here](https://docs.spring.io/spring-cloud-task/docs/current/reference/index.html#features-task-execution-listener-exit-messages).
+
+Once the `transition-sample`'s execution is complete, the composed task runner will check the exit message for `transition-sample` and then evaluate which of the paths it should take. In our case its has two paths (as denoted by the `->` operator).
+
+- FAILED - If `transition-sample` returns `FAILED` then the `timestamp` app labeled `timestamp-1` will be executed.
+- COMPLETED - If `transition-sample` returns `COMPLETED` then the `timestamp` app labeled `timestamp-2` will be executed.
+
 Now press the `Create Task` button at the bottom of the page. Now a dialog will appear requesting you to `Confirm Task Creation`. To do this enter `basictransition` as the composed task name in the `Name` field and press the `Create the task` button as shown below:
 ![Transition Execution Flow](images/SCDF-composed-task-transition-create.png)
 
@@ -204,7 +235,7 @@ Now press the `Create Task` button at the bottom of the page. Now a dialog will 
 Now let’s launch our composed task a couple of times so that we can exercise its paths through the tree.
 
 First let’s see what happens if we set the exit message to "FAILED"
-To do this let's select the `basictransition` `Composed Task Runner` to be executed as shown below:
+To do this, select the `basictransition` `Composed Task Runner` to be executed as shown below:
 ![Transition Execution Flow Launch](images/SCDF-composed-task-transition-launch.png)
 Now from the task launch page lets populate page with the following:
 Arguments:
@@ -228,7 +259,7 @@ Now that it has been executed let’s verify that path FAILED was actually follo
 
 This shows us that the `Composed Task Runner` controlling the composed task execution basic-transition was launched and the transition-sample was launched. From there the proper FAILED branch was executed as denoted by basictransition-timestamp-1 was launched.
 
-Now relaunch the `Composed Task Runner` and set the `taskapp.exitMessage` to `COMPLETED` to exercise the other branch. To do this let's select the `basictransition` to be executed as shown below:
+Now relaunch the `Composed Task Runner` and set the `taskapp.exitMessage` to `COMPLETED` to exercise the other branch. To do this select the `basictransition` to be executed as shown below:
 ![Transition Execution Flow Launch](images/SCDF-composed-task-transition-launch.png)
 Now from the task launch page lets populate page with the following:
 
@@ -252,19 +283,12 @@ It should look like the following:
 Now that it has been executed let’s verify that path `COMPLETED` was actually followed and this can be done by pressing the `Executions` tab at the top of the task page:
 ![Transition Execution Flow Launch-CompleteList](images/SCDF-composed-task-transition-launch-completed-list.png)
 
-#### What did I just do?
+####Task Arguments and Parameters
 
 Wait a minute…​ What is all that stuff I put in the command line? So for this example we wanted to show how to use both command line args and properties. We used the arguments to establish the properties for the `Composed Task Runner`:
 
-1. `--increment-instance-enabled=true` states that we want to be able to execute this Composed Task multiple times. (Composed Tasks are build using Spring Batch and thus are batch jobs)
+1. `--increment-instance-enabled=true` By default a composed task definition can only be executed once if it completes successfully. You are allowed to restart a failed composed task however. Spring Cloud Data Flow does allow a user to re-execute a composed task. This can be done by setting this property to `true`.
 1. `--interval-time-between-checks=1000` states that the `Composed Task Runner` will wait 1 second between checks to make sure that a task is complete (the default is 10 seconds).
-
-We used the properties to set the transition-sample properties. Notice we had 4 sections for the taskapp.exitMessage property lets breakdown the `app.basictransition.transition-sample.taskapp.exitMessage=FAILED` into its components:
-
-1. `app` - tells spring cloud dataflow that this property is to be used for task application.
-1. `basictransition` - tells dataflow that this property will be used by the `Composed Task Runner` or one of the apps in the graph
-1. `transition-sample` - tells dataflow that this property is to be used by the transition-sample
-1. `taskapp.exitMessage` - the property itself.
 
 More can be read about the sections of a property and the different property types [here](#passing-properties)
 
@@ -272,7 +296,7 @@ More can be read about the sections of a property and the different property typ
 
 Now what happens if I were to enter "FOO" for the exit message what would happen? Well lets try it!
 
-To do this let's select the `basictransition` `Composed Task Runner` to be executed as shown below:
+To do this, select the `basictransition` `Composed Task Runner` to be executed as shown below:
 ![Transition Execution Flow Launch](images/SCDF-composed-task-transition-launch.png)
 Now from the task launch page lets populate page with the following:
 Arguments:
@@ -282,6 +306,7 @@ Arguments:
 --interval-time-between-checks=1000
 ```
 
+SCDF-composed-task-transition-launch-foo-fail
 Parameters:
 
 ```
@@ -303,7 +328,7 @@ To create your basic transition using the Spring Cloud Data Flow UI, press the `
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
-transition-sample 'FAILED'->timestamp-1: timestamp 'COMPLETED'->timestamp-2: timestamp '*' -> timestamp-3:timestamp
+transition-sample 'FAILED'->timestamp-1: timestamp 'COMPLETED'->timestamp-2: timestamp '*' -> timestamp-3: timestamp
 ```
 
 It should look like the following:
@@ -311,9 +336,9 @@ It should look like the following:
 Now press the `Create Task` button at the bottom of the page. Now a dialog will appear requesting you to `Confirm Task Creation`. To do this enter `anothertransition` as the composed task name in the `Name` field and press the `Create the task` button as shown below:
 ![Transition Execution Foo_Flow_Create](images/SCDF-composed-task-foo-transition-create.png)
 
-To do this let's select the `anothertransition` `Composed Task Runner` to be executed as shown below:
+To do this, select the `anothertransition` `Composed Task Runner` to be executed as shown below:
 ![Transition Execution Flow Launch-Another](images/SCDF-composed-task-transition-launch-another.png)
-Now from the task launch page lets populate page with the following:
+Now from the task launch page populate page with the following:
 Arguments:
 
 ```
@@ -331,22 +356,22 @@ It should look like the following:
 
 ![Transition Execution Flow Launch-Config-FOO-success](images/SCDF-composed-task-transition-launch-foo-success.png)
 
-Now that it has been executed let’s verify that path `FOO` was actually followed and this can be done by pressing the `Executions` tab at the top of the task page:
+Launch the task and then verify that path `FOO` was actually followed and this can be done by pressing the `Executions` tab at the top of the task page:
 ![Transition Execution Flow Launch-FOO-success-LIST](images/SCDF-composed-task-transition-launch-foo-success-list.png)
 
 In this case we see that the wildcard catches all other exit messages and this can be seen in that anothertransition-timestamp-3 was launched.
 
 ## Split Execution
 
-What if we want to execute multiple tasks at the same time? The task definition DSL supports a concept of a split that will allow you to launch multiple child tasks at the same time. Each split contains a list of tasks that contained within the less than `<` and greater than `>` symbol and delimited by 2 pipe symbols `||`.  
-For example if I wanted to launch 3 tasks at the same time the DSL would look like:
+What if we want to execute multiple tasks at the same time? The Composed Task DSL supports the concept of a split that will allow you to just that. The task definition DSL supports a concept of a split that will allow you to launch multiple task apps at the same time. Each split contains a list of tasks that are contained within the less than `<` and greater than `>` symbol and delimited by 2 pipe symbols `||`.  
+For example, if I wanted to launch 3 tasks at the same time the DSL would look like:
 
 ```
 <task-a || task-b || task-c>
 ```
 
-So let's now create a composed task that contains both a split and a transition.  
-To create your split graph sample using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left hand side of the dashboard and then press the `Create Task(s)` button at the top of the page.
+Now create a composed task that contains both a split and a transition.  
+To create your split graph sample using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left-hand side of the dashboard and then press the `Create Task(s)` button at the top of the page.
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
@@ -358,16 +383,17 @@ It should look like the following:
 Now press the `Create Task` button at the bottom of the page. Now a dialog will appear requesting you to `Confirm Task Creation`. To do this enter `splitgraph` as the composed task name in the `Name` field and press the `Create the task` button as shown below:
 ![Transition Execution Split_Flow_Create](images/SCDF-composed-task-split-create.png)
 
-To do this let's select the `splitgraph` `Composed Task Runner` to be executed as shown below:
+Select the `splitgraph` `Composed Task Runner` to be executed as shown below:
 ![Transition Execution Flow SplitLaunch](images/SCDF-composed-task-split-launch.png)
-Now from the task launch page lets populate page with the following:
+Now from the task launch page, populate the following fields:
+
 Arguments:
 
 ```
 --increment-instance-enabled=true
 --interval-time-between-checks=1000
 --split-thread-core-pool-size=4
---spring.cloud.task.closecontextEnabled=true
+--spring.cloud.task.closecontext-enabled=true
 ```
 
 Parameters:
@@ -380,82 +406,56 @@ It should look like the following:
 
 ![Transition Execution Flow Launch-Config-Completed](images/SCDF-composed-task-split-launch-create.png)
 
-Now that it has been executed let’s verify that all tasks launched and that the path `FOO` was actually followed and this can be done by pressing the `Executions` tab at the top of the task page:
+Launch the task and then verify that all tasks were launched and that the path `FOO` was actually followed. This can be done by pressing the `Executions` tab at the top of the task page:
 ![Transition Execution Flow Launch-split-LIST](images/SCDF-composed-task-split-launch-created-list.png)
 
 In this example we see that the split1-3 were fired simultaneously before CTR launched our transition app. And we added a new argument `--split-thread-core-pool-size=4` this basically states that the composed task runner can run 4 apps simultaneously.
 
-#### What did I just do?
+### Arguments and Properties
 
 Again, what is all that stuff I put in the command line? So for this example we wanted to show how to use both command line args and properties. We used the arguments to establish the properties for the `Composed Task Runner`:
 
 1. `--increment-instance-enabled=true` states that we want to be able to execute this Composed Task multiple times. (Composed Tasks are build using Spring Batch and thus are batch jobs)
 1. `--interval-time-between-checks=1000` states that the `Composed Task Runner` will wait 1 second between checks to make sure that a task is complete (the default is 10 seconds).
 1. `--split-thread-core-pool-size=4` states that we want up to 4 simulatenous tasks to run at the same time.
-1. `--spring.cloud.task.closecontextEnabled=true` states that we want the Spring Context to close when the `Composed Task Runner`.
+1. `--spring.cloud.task.closecontext-enabled=true` states that we want the Spring Context to close when the `Composed Task Runner`.
 
 [[note]]
-| When using `split` you must set the `spring.cloud.task.closecontextEnabled` property as shown above.
+| When using `split` you must set the `spring.cloud.task.closecontext-enabled` property as shown above.
 
-We used the properties to set the transition-sample properties. Notice we had 4 sections for the taskapp.exitMessage property lets breakdown the `app.basictransition.transition-sample.taskapp.exitMessage=FAILED` into its components:
+### Configuring your split
 
-1. `app` - tells spring cloud dataflow that this property is to be used for task application.
-1. `basictransition` - tells dataflow that this property will be used by the `Composed Task Runner` or one of the apps in the graph
-1. `transition-sample` - tells dataflow that this property is to be used by the transition-sample
-1. `transition-sample.exitMessage` - the property itself.
+In the example above we configured the behavior of our split in the composed task by using the `spring.cloud.task.closecontext-enabled` and `split-thread-core-pool-size` properties. Let's look at all the properties you can take advantage of when using splits.
 
-More can be read about the sections of a property and the different property types [here](#passing-properties)
-
-#### Configuring your split
-
-In the example above we configured the behavior of our split in the composed task by using the `spring.cloud.task.closecontextEnabled` and `split-thread-core-pool-size` properties. Let's look at all the properties you can take advantage of when using splits.
-
-- spring.cloud.task.closecontextEnabled - When using splits, this property is required to be set to `true` because the context will not close, because threads were allocated to support the split.
-- split-thread-core-pool-size - Establishes the initial number of threads required for the splits in the composed task. Each child task contained in a split requires a thread in order to execute. (Defaults to 1)
+- spring.cloud.task.closecontext-enabled - When using splits, this property is required to be set to `true` because the context will not close, because threads were allocated to support the split.
+- split-thread-core-pool-size - Establishes the initial number of threads required for the splits in the composed task. Each task app contained in a split requires a thread in order to execute. (Defaults to 1)
 - split-thread-max-pool-size - The maximum number threads to be allocated.
 - split-thread-queue-capacity - The number of tasks that should be enqueued if all threads are in use before a new thread is allocated.
 
-##### Basic Split Sizing
+### Basic Split Sizing
 
-For a basic setup using just the `split-thread-core-pool-size` property. You want to look at your graph and count the split that has the largest number of child tasks,
+The simplest configuration for splits is to set the `split-thread-core-pool-size` property. You want to look at your graph and count the split that has the largest number of task apps,
 this will be the number of threads you will need to utilize. To set the thread count use the split-thread-core-pool-size property (defaults to 1).
 So for example a definition like: <AAA || BBB || CCC> && <DDD || EEE> would require a split-thread-core-pool-size of 3.
-This is because the largest split contains 3 child tasks. A count of 2 would mean that AAA and BBB would run in parallel but CCC would wait until either AAA or BBB to finish in order to run. Then DDD and EEE would run in parallel.
+This is because the largest split contains 3 task apps. A count of 2 would mean that AAA and BBB would run in parallel but CCC would wait until either AAA or BBB to finish. Then DDD and EEE would run in parallel.
 
-##### Sizing for large splits
+## Restarting Composed Task Runner when task app fails
 
-In cases where there are a large number of tasks in a split or you have tight restrictions on threads you can dynamically adjust the thread allocations.
-Let' say we have 2 splits in our composed task:
-
-1. split-a has 5 tasks
-1. split-b has 50 tasks
-
-So lets look at an example on how we could set the pool sizing:
-
-1. Set the `split-thread-core-pool-size` We could set this size to 5 threads to support split-a.
-1. Set the `split-thread-max-pool-size` Let's say we want to limit the number of executing tasks to 10. We could set this value to 10. This means that for split-b no more than 10 tasks would be executed.
-1. Set the `split-thread-queue-capacity` Allows you to configure the number of tasks should be enqueued in a split prior to a new thread to be allocated. Since this is defaulted to `MAX_VALUE`, no new threads would be allocated. We could set this value to 5.
-
-This will require testing to find the right sizing. One sizing strategy does not fit all.
-
-## Restarting Composed Task Runner when child task fails
-
-Composed tasks in Spring Cloud Data Flow allow users to re-launch the failed composed task in cases where a child task fails.
-A child task is considered failed when the application returns a non-zero `exitCode`. So let's look at the following example where we have a simple conditional execution composed task:
+Composed tasks in Spring Cloud Data Flow allow users to re-launch the failed composed task in cases where a task app fails.
+A task app is considered failed when the application returns a non-zero `exitCode`. In the following example we have a simple conditional execution composed task:
 
 ```
 task-a && task-b && task-c
 ```
 
-So let's take a look what this will look like in the UI.  
-Assume we have create a composed task named `my-composed-task` now we want to launch it:
+Assume we have created a composed task named `my-composed-task` now we want to launch it using the UI:
 
-1. launch it by pressing the `play` button shown below:
+1. Launch it by pressing the `play` button shown below:
    ![Restart Composed Task](images/SCDF-composed-task-restart.png)
 1. When the launch page appears press the `Launch the task` button.
-1. Once `my-composed-task` has completed executing we can see that `task-b` was marked `ERROR`, meaning the application returned a non-zero `exitCode`. We can verify this by clicking the `Executions` tab at the top of the page and viewing the task executions. Note that `my-composed-task-task-b` has been marked with exit code of `1`. This means that this is the child task returned a non zero exit code, that stopped the composed task execution.  
+1. Once `my-composed-task` has completed executing we can see that `task-b` was marked `ERROR`, meaning the application returned a non-zero `exitCode`. We can verify this by clicking the `Executions` tab at the top of the page and viewing the task executions. Note that `my-composed-task-task-b` has been marked with exit code of `1`. This means that this is the task app returned a non zero exit code, that stopped the composed task execution.  
     ![Restart_Composed_Task_Failed_Child](images/SCDF-composed-task-restart-execution-fail.png)
-   Once we have resolved the problem that caused the failure we can restart `my-composed-task` and it will identify the child task that failed and re-run it and then continue executing the DSL from that point. So let's restart this failed composed task.
+   Once we have resolved the problem that caused the failure we can restart `my-composed-task` and the composed task runner will identify the task app that failed and re-run it and then continue executing the DSL from that point.
 
 1. Press the `Jobs` tab located on the left side of the page.
 1. Now press the dropdown button by the failed `my-composed-task` and select `Restart the job` as shown below:
@@ -483,16 +483,6 @@ In the example below we will launch a composed task where the user provides the 
    ![Launch Task](images/SCDF-composed-task-user-security-basic-launch.png)
 1. Now press the `Launch the task` button to launch the composed task.
 
-### User Access Token
-
-In the example below we will launch a composed task where the `dataflow-server-use-user-access-token` is set to `true`.
-
-1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
-   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
-1. Set the `dataflow-server-use-user-access-token` as follows in the `Arguments` text box:
-   ![Launch Task](images/SCDF-composed-task-user-security.png)
-1. Now press the `Launch the task` button to launch the composed task.
-
 ### Using your own access token
 
 In the case the composed task needs to be launched with a specific access token then pass the token using the `dataflow-server-access-token` property.
@@ -503,22 +493,49 @@ In the case the composed task needs to be launched with a specific access token 
    ![Set User Access Token](images/SCDF-composed-task-user-security-launch-token.png)
 1. Now press the `Launch the task` button to launch the composed task.
 
+### User Access Token
+
+In the example below we will launch a composed task where the `dataflow-server-use-user-access-token` is set to `true`.
+
+1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
+   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
+1. Set the `dataflow-server-use-user-access-token` as follows in the `Arguments` text box:
+   ![Launch Task](images/SCDF-composed-task-user-security.png)
+1. Now press the `Launch the task` button to launch the composed task.
+
 # Passing Properties
 
-Spring Cloud Data Flow allows users to pass both application and deployment properties to `Composed Task Runner` as well as its child tasks.
+Spring Cloud Data Flow allows users to pass both application and deployment properties to `Composed Task Runner` and to the task apps in the graph.
 
-## Passing Properties to child tasks
+## Passing properties to tasks in the graph
+
+Setting properties for a task in the graph can be done in two ways:
+
+1. Setting the property in the task definition.
+2. Setting the property at composed task launch time.
+
+### Setting property in the task definition
+
+A property can be set when a composed task definition is being written. This is done by adding adding the `--` token followed by the property to the right of the task application name in the composed task definition. For example:
+
+```
+task-a --myproperty=value1 --anotherproperty=value2 && task-b --mybproperty=value3
+```
+
+In the example above `task-a` has 2 properties set as well as `task-b` has a property set to the values required.
+
+### Setting property at composed task launch time
 
 There are 4 components that make up the property:
 
 - Property Type - This tells Spring Cloud Data Flow if the property is either a `deployment` or a `app` type.
-  - Deployment properties - are instructions to the deployer responsible for deploying the child task.
-  - App properties - are properties passed directly the child task.
+  - Deployment properties - are instructions to the deployer responsible for deploying the task app.
+  - App properties - are properties passed directly the task app.
 - Composed Task Definition Name
-- Child Task App Name - The label or the name of the application to which the property should be applied.
+- Task App Name - The label or the name of the application to which the property should be applied.
 - Property Key - The key of the property that is to be set.
 
-To set a property `myproperty` for a child task named `task-a` in a composed task named `my-composed-task` for the following dsl:
+To set a property `myproperty` for task app named `task-a` in a composed task named `my-composed-task` for the following dsl:
 
 ```
 task-a && task-b
@@ -541,20 +558,23 @@ Launching a composed task and setting both `app` and `deployer` properties would
    ![Launch the Composed Task](images/SCDF-composed-task-child-property-launch-props.png)
 1. Now press the `Launch the task` button.
 
+[[note]]
+|Properties set at launch time have a higher precedence than those set at task definition. For example, if property `myproperty` has been set in the composed task definition and at launch time, the value set at launch time will be used.
+
 ## Passing Properties to Composed Task Runner
 
 There are 3 components that make up the property:
 
 - Property Type - This tells Spring Cloud Data Flow if the property is either a `deployment` or a `app` type.
-  - Deployment properties - are instructions to the deployer responsible for deploying the child task.
-  - App properties - are properties passed directly the child task.
-- Composed Task Application Name - Unlike when passing properties to a child task where we used the composed task definition name we will use the name of the composed task runner app.
+  - Deployment properties - are instructions to the deployer responsible for deploying the task app.
+  - App properties - are properties passed directly the task app.
+- Composed Task Application Name - Unlike when passing properties to a task app where we used the composed task definition name we will use the name of the composed task runner app.
 - Property Key - The key of the property that is to be set.
 
-Let's launch a composed task where we want to pass the following properties to the `Composed Task Runner`:
+To launch a composed task where we want to pass the following properties to the `Composed Task Runner`:
 
-- increment-instance-enabled - an `app` property that allows a single `Composed Task Runner` instance to be re-executed without changing the parameters.
-- kubernetes.limits.cpu - a `deployer` property that sets the Kubernetes cpu limit for the composed task runner
+- `increment-instance-enabled` - an `app` property that allows a single `Composed Task Runner` instance to be re-executed without changing the parameters.
+- `kubernetes.limits.cpu` - a `deployer` property that sets the Kubernetes cpu limit for the composed task runner
   Launching a composed task and setting both `app` and `deployer` properties for the `Composed Task Runner` would be done in the following way using the UI:
 
 1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
@@ -563,11 +583,11 @@ Let's launch a composed task where we want to pass the following properties to t
    ![Launch the Composed Task](images/SCDF-composed-task-child-property-launch-ctr-props.png)
 1. Now press the `Launch the task` button.
 
-# Launching Composed Task using RESTFul API
+## Launching Composed Task using RESTful API
 
 In this section we will provide an example on how to create and launch a composed-task.
 
-Let's say we want to create a composed task `my-composed-task` with the following composed task definition:
+For this example we want to create a composed task `my-composed-task` with the following composed task definition:
 
 ```
 task-a && task-b
