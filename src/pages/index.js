@@ -3,6 +3,7 @@ import { Link } from 'gatsby'
 
 import { IconGithub } from '../components/common/icons'
 import { Image } from '../components/home'
+import { Latest } from '../components/news'
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
 
@@ -120,6 +121,20 @@ const IndexPage = () => (
             </a>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div className='home-news'>
+      <div className='container'>
+        <h1>Latest news</h1>
+        <div className='news-list'>
+          <Latest />
+        </div>
+        <p className='readmore'>
+          <a href='/news/' className='button'>
+            Read more
+          </a>
+        </p>
       </div>
     </div>
   </Layout>

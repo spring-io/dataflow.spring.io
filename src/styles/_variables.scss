@@ -10,6 +10,7 @@ $spring-dark-color: #999;
 
 $spring-border-color: #ccc;
 $spring-border-color-hover: darken($spring-border-color, 5);
+$spring-border-color-light: lighten($spring-border-color, 15);
 
 $spring-font-size: 16px;
 $spring-font-size-sm: 14px;

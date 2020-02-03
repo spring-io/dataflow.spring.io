@@ -73,6 +73,13 @@ const plugins = [
     },
   },
   {
+    resolve: `gatsby-source-filesystem`,
+    options: {
+      name: `news`,
+      path: `${__dirname}/content/news`,
+    },
+  },
+  {
     resolve: `gatsby-transformer-remark`,
     options: {
       plugins: [
