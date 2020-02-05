@@ -51,7 +51,70 @@ When launching a composed task Spring Cloud Data Flow passes properties to the `
 [[note]]
 | Changing this property will require Spring Cloud Data Flow to be restarted.
 
-## Registering Composed Task Runner
+## Registering Applications
+
+### Registering sample apps
+
+Before working the composed task samples below, the sample applications that are used in the examples must be registered first.
+So for this guide we will re-register the timestamp application multiple times using the names: `task-a`, `task-b`, `task-c`, `task-d`, `task-e`, and `task-f`.
+
+<!--TABS-->
+
+<!--Local-->
+
+Spring Cloud Data Flow supports Maven, HTTP, file, and Docker resources for local deployments. For local, we use the Maven resource.
+The URI for a Maven artifact is generally of the form `maven://<groupId>:<artifactId>:<version>`. The maven URI for the sample application is as follows:
+
+```
+maven://org.springframework.cloud.task.app:timestamp-task:2.1.0.RELEASE
+```
+
+The `maven:` protocol specifies a Maven artifact, which is resolved by using the remote and local Maven repositories configured for the Data Flow server.
+To register an application, select `Add Applications` and `Register one or more applications`. For `task-a` fill in the form, as shown in the following image, and click `Register the application(s)`.
+
+![Register the  transition sample](images/SCDF-composed-task-register-timestamp-app-maven.png)
+
+Repeat this registration for `task-a`, `task-b`, `task-c`, `task-d`, `task-e`, and `task-f` while using the same URI: `maven://org.springframework.cloud.task.app:timestamp-task:2.1.0.RELEASE`.
+
+<!--CloudFoundry-->
+
+Spring Cloud Data Flow supports Maven, HTTP, and Docker resources for local deployments. For Cloud Foundry, we use an HTTP (actually, HTTPS) resource. The URI for an HTTPS resource is of the form `https://<web-path>/<artifactName>-<version>.jar`. Spring Cloud Data Flow then pulls the artifact from the HTTPS URI.
+
+The HTTPS URI for the sample app is as follows:
+
+```
+https://repo.spring.io/libs-snapshot/org/springframework/cloud/task/app/timestamp-task/2.1.0.RELEASE/timestamp-task-2.1.0.RELEASE.jar
+```
+
+To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+
+![Register the transition sample](images/SCDF-composed-task-register-timestamp-app-http.png)
+Repeat this registration for `task-a`, `task-b`, `task-c`, `task-d`, `task-e`, and `task-f` while using the same URI:
+
+```
+https://repo.spring.io/libs-snapshot/org/springframework/cloud/task/app/timestamp-task/2.1.0.RELEASE/timestamp-task-2.1.0.RELEASE.jar`
+```
+
+<!--Kubernetes-->
+
+Spring Cloud Data Flow supports Docker resources for Kubernetes deployments.
+The URI for a Docker image is of the form `docker:<docker-image-path>/<imageName>:<version>` and is resolved by using the Docker registry configured for the Data Flow task platform and image pull policy.
+
+The Docker URI for the sample app is as follows:
+
+```
+docker:springcloudtask/timestamp-task:2.1.0.RELEASE
+```
+
+To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+
+![Register the transition sample](images/SCDF-composed-task-register-timestamp-app-docker.png)
+
+Repeat this registration for `task-a`, `task-b`, `task-c`, `task-d`, `task-e`, and `task-f` while using the same URI: `docker:springcloudtask/timestamp-task:2.1.0.RELEASE`.
+
+<!--END_TABS-->
+
+### Registering Composed Task Runner
 
 By default, the `Composed Task Runner` application is not registered with Spring Cloud Data Flow. Consequently, to launch composed tasks, we must first register the Composed Task Runner as an application with Spring Cloud Data Flow, as follows:
 
@@ -70,12 +133,12 @@ By default, the `Composed Task Runner` application is not registered with Spring
       ![Composed Task Graph](images/SCDF-composed-task-register.png)
 1. Press the `Register the Applications(s)` button.
 
-# The Transition Sample Project
+## The Transition Sample Project
 
 In order for us to explore some of the flows that are available via a composed task diagram, we need an application
 that allows us to configure its exit status at startup time. This `transition-sample` gives us the ability to explore various flows through a composed task diagram.
 
-## Getting the Transition Sample Project from Github
+### Getting the Transition Sample Project from Github
 
 From a console lets pull the project from github.
 
@@ -89,7 +152,7 @@ From a console lets pull the project from github.
    cd spring-cloud-dataflow-samples/transition-sample
    ```
 
-## Building the Transition Sample Project
+### Building the Transition Sample Project
 
 To build the application execute the following command:
 
@@ -165,7 +228,7 @@ To create your conditional execution using the Spring Cloud Data Flow UI, press 
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
-timestamp-1: timestamp && timestamp-2: timestamp
+task-a && task-b
 ```
 
 You will see the graph appear in the dashboard as shown below:
@@ -207,7 +270,7 @@ To create your basic transition using the Spring Cloud Data Flow UI, press the `
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
-transition-sample 'FAILED'->timestamp-1: timestamp 'COMPLETED'->timestamp-2: timestamp
+transition-sample 'FAILED' -> task-a 'COMPLETED' -> task-b
 ```
 
 It should look like the following:
@@ -328,7 +391,7 @@ To create your basic transition using the Spring Cloud Data Flow UI, press the `
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
-transition-sample 'FAILED'->timestamp-1: timestamp 'COMPLETED'->timestamp-2: timestamp '*' -> timestamp-3: timestamp
+transition-sample 'FAILED' -> task-a 'COMPLETED' -> task-b '*' -> task-c
 ```
 
 It should look like the following:
@@ -375,7 +438,7 @@ To create your split graph sample using the Spring Cloud Data Flow UI, press the
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
-<split1: timestamp ||split2: timestamp  ||split3: timestamp>  && transition-sample 'FAILED'->timestamp-1: timestamp 'COMPLETED'->timestamp-2: timestamp '*' -> timestamp-3:timestamp
+<task-a || task-b || task-c>  && transition-sample 'FAILED' -> task-d 'COMPLETED' -> task-e '*' -> task-f
 ```
 
 It should look like the following:
@@ -596,7 +659,7 @@ task-a && task-b
 Using `curl` the command would look like:
 
 ```shell script
-curl 'http://localhost:9393/tasks/definitions' -i -X POST -d 'name=my-composed-task&definition=task-a%20%26%26%20task-b'
+curl 'http://localhost:9393/tasks/definitions' --data-urlencode "name=my-composed-task" --data-urlencode "definition=task-a && task-b"
 ```
 
 The response from the Spring Cloud Data Flow Server will look something like:
