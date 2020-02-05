@@ -381,6 +381,8 @@ spring.cloud.stream.bindings.input.destination=usage-cost
 
 The `spring.cloud.stream.bindings.input.destination` property binds the `UsageCostLogger` object's `input` to the `usage-cost` Kafka topic.
 
+You can also provide the Apache Kafka specific binder configuration properties as specified in [Apache Kafka binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-kafka/current/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options)
+
 #### Building
 
 Now we can build the Usage Cost Logger application.
