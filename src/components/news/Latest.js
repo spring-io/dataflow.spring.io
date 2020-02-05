@@ -10,7 +10,7 @@ const Latest = () => {
         {
           allMarkdownRemark(
             filter: { fields: { hash: { eq: "news" } } }
-            sort: { fields: frontmatter___date, order: DESC }
+            sort: { fields: fileAbsolutePath, order: DESC }
             limit: 4
           ) {
             edges {

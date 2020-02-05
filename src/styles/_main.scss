@@ -873,6 +873,22 @@ button.button {
     margin: 0;
     color: $spring-dark-color;
   }
+  .md {
+    img {
+      max-width: 100%;
+    }
+
+    h2 {
+      padding-top: 32px;
+      font-size: 26px;
+    }
+    h3 {
+      font-size: 22px;
+    }
+    h4 {
+      font-size: 20px;
+    }
+  }
 }
 
 .home-news {

@@ -28,7 +28,7 @@ export const articleQuery = graphql`
   query {
     pages: allMarkdownRemark(
       filter: { fields: { hash: { eq: "news" } } }
-      sort: { fields: frontmatter___date, order: DESC }
+      sort: { fields: fileAbsolutePath, order: DESC }
     ) {
       edges {
         node {
