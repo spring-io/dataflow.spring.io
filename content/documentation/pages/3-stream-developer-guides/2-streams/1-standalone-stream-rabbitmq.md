@@ -288,7 +288,7 @@ spring.cloud.stream.bindings.output.producer.requiredGroups=logger
 - The `spring.cloud.stream.bindings.output.destination` property binds the `UsageCostProcessor` object's output to the `usage-cost` RabbitMQ exchange.
 - The `spring.cloud.stream.bindings.output.producer.requiredGroups` property makes sure to create a durable queue named `usage-cost.logger`, which consumes from the `usage-cost` RabbitMQ exchange.
 
-You can also provide the RabbitMQ specific binder configuration properties as specified in [RabbitMQ binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-rabbit/current/reference/html/spring-cloud-stream-binder-rabbit.html#_configuration_options)
+There are many configuration options that you can choose to extend/override to achieve the desired runtime behavior when using RabbitMQ as the message broker. The RabbitMQ-specific binder configuration properties are listed in the [RabbitMQ-binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-rabbit/current/reference/html/spring-cloud-stream-binder-rabbit.html#_configuration_options)
 
 #### Building
 
