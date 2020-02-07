@@ -97,7 +97,7 @@ The `@EnableTask` annotation sets up a `TaskRepository`, which stores informatio
 
 ### Testing
 
-Now we can create our test. To do so, update the contents of [BillsetuptaskApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/test/java/io/spring/billsetuptask/BillsetuptaskApplicationTests.java) with the following code:
+Now we can create our test. To do so, update the contents of [BillSetuptaskApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/test/java/io/spring/billsetuptask/BillSetuptaskApplicationTests.java) with the following code:
 
 ```Java
 package io.spring.billsetuptask;
@@ -116,7 +116,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BillsetuptaskApplicationTests {
+public class BillSetuptaskApplicationTests {
 
 	@Autowired
 	private DataSource dataSource;

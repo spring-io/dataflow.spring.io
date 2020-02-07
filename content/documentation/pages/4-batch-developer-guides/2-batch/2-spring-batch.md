@@ -219,7 +219,7 @@ If you do not have an instance of MySql available to you, you can follow these i
 ### Testing
 
 Now that we have written our code, it is time to write our test. In this case, we want to make sure that the bill information has been properly inserted into the `BILLING_STATEMENTS` table.
-To create your test, update the [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillrunApplicationTests.java) such that it looks like the following listing:
+To create your test, update the [BillRunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillRunApplicationTests.java) such that it looks like the following listing:
 
 ```java
 package io.spring.billrun;
@@ -243,7 +243,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @SpringBatchTest
-public class BillrunApplicationTests {
+public class BillRunApplicationTests {
 
 	@Autowired
 	private DataSource dataSource;
