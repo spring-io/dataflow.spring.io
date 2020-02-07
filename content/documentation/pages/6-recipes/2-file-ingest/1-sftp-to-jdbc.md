@@ -834,7 +834,7 @@ Thus, if we re-deploy the stream, or restart the `sftp` source, this state is lo
 
 Thanks to the magic of Spring, we can auto-configure one of the available persistent Metadata Stores to prevent duplicate processing.
 
-In this example, we will [auto configure the JDBC Metadata Store](https://github.com/spring-cloud-stream-app-starters/core/tree/master/common/app-starters-metadata-store-common#jdbc) since we are already using a JDBC database.
+In this example, we will [auto configure the JDBC Metadata Store](https://github.com/spring-cloud-stream-app-starters/core/tree/master/common/stream-apps-metadata-store-common#jdbc) since we are already using a JDBC database.
 
 ### Configure and Build the SFTP source
 
