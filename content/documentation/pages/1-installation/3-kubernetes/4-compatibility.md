@@ -18,11 +18,9 @@ release versions.
 The following listing outlines the compatibility between Spring Cloud
 Data Flow for Kubernetes Server and Kubernetes versions:
 
-|                                              | Kubernetes 1.11.x | Kubernetes 1.12.x | Kubernetes 1.13.x | Kubernetes 1.14.x |
-| -------------------------------------------- | :---------------: | :---------------: | :---------------: | :---------------: |
-| SCDF K8S Server: 2.4.x - K8S Deployer: 2.2.0 |        ❌         |        ❌         |        ✅         |        ✅         |
-| SCDF K8S Server: 2.3.x - K8S Deployer: 2.1.1 |        ✅         |        ✅         |        ✅         |        ❌         |
-| SCDF K8S Server: 2.2.x - K8S Deployer: 2.0.4 |        ✅         |        ✅         |        ✅         |        ❌         |
-| SCDF K8S Server: 2.1.x - K8S Deployer: 2.0.2 |        ✅         |        ✅         |        ✅         |        ❌         |
-| SCDF K8S Server: 2.0.x - K8S Deployer: 2.0.1 |        ✅         |        ✅         |        ✅         |        ❌         |
-| SCDF K8S Server: 1.7.x - K8S Deployer: 1.3.9 |        ✅         |        ✅         |        ✅         |        ❌         |
+|                                              | Kubernetes 1.11.x | Kubernetes 1.12.x | Kubernetes 1.13.x | Kubernetes 1.14.x | Kubernetes 1.16.x | Kubernetes 1.17.x |
+| -------------------------------------------- | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: |
+| SCDF K8S Server: 2.5.x - K8S Deployer: 2.3.0 |        ❌         |        ❌         |        ✅         |        ✅         |        ✅         |        ✅         |
+| SCDF K8S Server: 2.4.x - K8S Deployer: 2.2.0 |        ❌         |        ❌         |        ✅         |        ✅         |        ❌         |        ❌         |
+| SCDF K8S Server: 2.3.x - K8S Deployer: 2.1.1 |        ✅         |        ✅         |        ✅         |        ❌         |        ❌         |        ❌         |
+| SCDF K8S Server: 2.2.x - K8S Deployer: 2.0.4 |        ✅         |        ✅         |        ✅         |        ❌         |        ❌         |        ❌         |
