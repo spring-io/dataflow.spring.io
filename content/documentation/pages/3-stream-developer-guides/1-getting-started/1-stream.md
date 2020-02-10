@@ -109,7 +109,7 @@ This section details how to verify output when your application runs on a local 
 Once the stream is deployed and running, you can now post some data. You can use the following curl command to do so:
 
 ```bash
-curl http://localhost:9000 -H "Content-type: text/plain" -d "Happy streaming"
+curl http://localhost:20100 -H "Content-type: text/plain" -d "Happy streaming"
 ```
 
 #### Results
