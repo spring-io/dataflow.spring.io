@@ -9,6 +9,8 @@ description: 'Installation using Docker Compose'
 Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, MySQL and Apache Kafka.
 The additional [customization](%currentPath%/installation/local/docker-customize) guides help to extend the basic configuration, showing how to switch the binder to RabbitMQ, use different database, enable monitoring more.
 
+Also, when doing development of custom applications, you need to enable the Docker container that runs the Data Flow Server to see your local file system. The [Accessing the Host File System](#accessing-the-host-file-system) chapter below shows how to do that as well.
+
 [[note | ]]
 | It is recommended to upgrade to the [latest](https://docs.docker.com/compose/install/) `docker` and `docker-compose` versions. This guide is tested with Docker Engine: `19.03.5` and docker-compose: `1.25.2`.
 
@@ -99,12 +101,14 @@ once the emitting of log messages on the command prompt stop, open the Spring Cl
 
 The following environment variables can be used to configure the `docker-compose.yml`:
 
-| Variable name      | Default value                                 | Description                                                                                                                                                                                                         |
-| ------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DATAFLOW_VERSION` | (required)                                    | Data Flow Server version to install. E.g. `2.4.0.RELEASE` or `%dataflow-version%` for the latest version.                                                                                                           |
-| `SKIPPER_VERSION`  | (required)                                    | Skipper Server version to install. E.g. `2.3.0.RELEASE` or `%skipper-version%` for the latest Skipper version.                                                                                                      |
-| `STREAM_APPS_URI`  | https://dataflow.spring.io/kafka-maven-latest | pre-registered Stream applications. Find [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_stream_app_starters) the available Stream Application Starters links. |
-| `TASK_APPS_URI`    | https://dataflow.spring.io/task-maven-latest  | pre-registered Task applications. Find [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_task_app_starters) the available Task Application Starters links.       |
+| Variable name       | Default value                                 | Description                                                                                                                                                                                                         |
+| ------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DATAFLOW_VERSION`  | (required)                                    | Data Flow Server version to install. E.g. `2.4.0.RELEASE` or `%dataflow-version%` for the latest version.                                                                                                           |
+| `SKIPPER_VERSION`   | (required)                                    | Skipper Server version to install. E.g. `2.3.0.RELEASE` or `%skipper-version%` for the latest Skipper version.                                                                                                      |
+| `STREAM_APPS_URI`   | https://dataflow.spring.io/kafka-maven-latest | Pre-registered Stream applications. Find [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_stream_app_starters) the available Stream Application Starters links. |
+| `TASK_APPS_URI`     | https://dataflow.spring.io/task-maven-latest  | Pre-registered Task applications. Find [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_task_app_starters) the available Task Application Starters links.       |
+| `HOST_MOUNT_PATH`   | .                                             | Defines the host machine folder path on be mount. See the [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                                    |
+| `DOCKER_MOUNT_PATH` | `/root/scdf`                                  | Defines the target (in-container) path to mount the host folder to. See the [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                  |
 
 The docker-compose.yml configurations expose the following container ports to the host machine:
 
@@ -126,6 +130,117 @@ The docker-compose.yml configurations expose the following container ports to th
 ```bash
 docker-compose down
 ```
+
+## Accessing the Host File System
+
+If you develop custom applications on your local machine, you need to register them with Spring Cloud Data Flow. Since Data Flow server run inside a Docker container, you need to configure this container to access to your local file system to resolve the registration reference. Also in order to deploy those custom applications, the Skipper Server also needs to access them from within its own Docker container.
+
+By default `docker-compose.yml` mounts a pre-configured host the local folder (e.g. folder where docker-compose process runs) to the `dataflow-server` and `skipper-server` containers at mount point: `/root/scdf`. This default setup works on Linux, Mac and Windows platforms.
+
+<!--IMPORTANT-->
+
+It is vital that the Data Flow and the Skipper containers use **exactly the same** mount paths internally. Later allows to share application reference between Data Flow and Skipper containers. E.g. application in the host file system, registered in Data Flow can be resolved and deployed by Skipper.
+
+<!--END_IMPORTANT-->
+
+The `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` environment variables (see the table above) help to customize the default host and container paths.
+
+For example, if the `my-app.jar` is in the `/tmp/myapps` host machine folder (`C:\Users\User\MyApps` on Windows), you can make it accessible to the `dataflow-server` and `skipper` containers by setting the `HOST_MOUNT_PATH` like this:
+
+<!--TABS-->
+
+<!--Linux / OSX-->
+
+```bash
+export HOST_MOUNT_PATH=/tmp/myapps
+docker-compose -f ./docker-compose.yml -f ./docker-compose-mount-host-folder up
+```
+
+<!--Windows (Command prompt)-->
+
+```bash
+set HOST_MOUNT_PATH=C:\Users\User\MyApps
+docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+```
+
+<!--Windows (PowerShell) -->
+
+```bash
+$Env:HOST_MOUNT_PATH="C:\Users\User\MyApps"
+docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+```
+
+<!--END_TABS-->
+
+See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
+
+Once you mount the host folder, you can register the app starters (from `/root/scdf`), with the Data Flow [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) or [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps) by using the `file://` URI schema. The following example shows how to do so:
+
+```bash
+app register --type source --name my-app --uri file://root/scdf/my-app-1.0.0.RELEASE.jar
+```
+
+Optionally you can use `--metadata-uri` if the metadata jar is available in the `/root/scdf` folder.
+
+You can also pre-register the apps directly in the docker-compose instance. For every pre-registered app starer, add an additional `wget` statement to the `app-import` block configuration, as the following example shows:
+
+```yml
+app-import:
+  image: alpine:3.7
+  command: >
+    /bin/sh -c "
+      ....
+      wget -qO- 'https://dataflow-server:9393/apps/source/my-app' --post-data='uri=file:/root/apps/my-app.jar&metadata-uri=file:/root/apps/my-app-metadata.jar';
+      echo 'My custom apps imported'"
+```
+
+See the [Data Flow REST API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#resources-registered-applications) for further details.
+
+### Maven Local Repository Mounting
+
+You can develop applications and install them in the local Maven repository (using `mvn install`) while the Data Flow server is running and have immediate access to the new built applications.
+
+To access the host’s local maven repository from Spring Cloud Data Flow you must mount the host maven local repository to a `dataflow-server` and `skipper-server` volume called `/root/.m2/`.
+
+The Maven Local repository location defaults to `~/.m2` for Linux and OSX and to `C:\Users\{your-username}\.m2` for Windows:
+
+<!--TABS-->
+
+<!--Linux / OSX-->
+
+```bash
+export HOST_MOUNT_PATH=~/.m2
+export DOCKER_MOUNT_PATH=/root/.m2/
+docker-compose -f ./docker-compose.yml -f ./docker-compose-mount-host-folder up
+```
+
+<!--Windows (Command prompt)-->
+
+```bash
+rem #Assuming an existing user name 'User'
+set HOST_MOUNT_PATH=C:\Users\User\.m2
+set DOCKER_MOUNT_PATH=/root/.m2/
+docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+```
+
+<!--Windows (PowerShell) -->
+
+```bash
+# Assuming an existing user name 'User'
+$Env:HOST_MOUNT_PATH="C:\Users\User\.m2"
+$Env:DOCKER_MOUNT_PATH="/root/.m2/"
+docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+```
+
+<!--END_TABS-->
+
+Now you can use the `maven://` URI schema and Maven coordinates to resolve jars installed in the host’s maven repository, as the following example shows:
+
+```bash
+app register --type processor --name pose-estimation --uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:2.0.2.BUILD-SNAPSHOT --metadata-uri maven://org.springframework.cloud.stream.app:pose-estimation-processor-rabbit:jar:metadata:2.0.2.BUILD-SNAPSHOT
+```
+
+This approach lets you use applications that are built and installed on the host machine (for example, by using `mvn clean install`) directly with the Spring Cloud Data Flow server.
 
 ## Shell
 
