@@ -131,21 +131,52 @@ The docker-compose.yml configurations expose the following container ports to th
 docker-compose down
 ```
 
+## Shell
+
+For convenience and as an alternative to the Spring Cloud Data Flow Dashboard, you can use the [Spring Cloud Data Flow Shell](%currentPath%/concepts/tooling/#shell).
+Later supports tab completion for commands and application configuration properties.
+
+If you have started Spring Cloud Data Flow by using Docker Compose, the shell is also included in the `springcloud/spring-cloud-dataflow-server` Docker image.
+To use it, open another console window and type the following:
+
+```bash
+docker exec -it dataflow-server java -jar shell.jar
+```
+
+If you have started the Data Flow server with `java -jar`, you can download and start the shell.
+To download the Spring Cloud Data Flow Shell application, run the following command:
+
+<!--TABS-->
+
+<!--wget-->
+
+```bash
+wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+```
+
+<!--curl-->
+
+```bash
+curl https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar -o spring-cloud-dataflow-shell-%dataflow-version%.jar
+```
+
+<!--END_TABS-->
+
 ## Accessing the Host File System
 
 If you develop custom applications on your local machine, you need to register them with Spring Cloud Data Flow. Since Data Flow server run inside a Docker container, you need to configure this container to access to your local file system to resolve the registration reference. Also in order to deploy those custom applications, the Skipper Server also needs to access them from within its own Docker container.
 
-By default `docker-compose.yml` mounts a pre-configured host the local folder (e.g. folder where docker-compose process runs) to the `dataflow-server` and `skipper-server` containers at mount point: `/root/scdf`. This default setup works on Linux, Mac and Windows platforms.
+By default `docker-compose.yml` mounts the host's local folder (e.g. folder where the docker-compose process is run) to a `/root/scdf` folder inside both the `dataflow-server` and `skipper` containers.
 
 <!--IMPORTANT-->
 
-It is vital that the Data Flow and the Skipper containers use **exactly the same** mount paths internally. Later allows to share application reference between Data Flow and Skipper containers. E.g. application in the host file system, registered in Data Flow can be resolved and deployed by Skipper.
+It is vital that the Data Flow and the Skipper containers use **exactly the same** mount paths internally. Later allows application paths registered in Data Flow to be resolved by Skipper using the same path references.
 
 <!--END_IMPORTANT-->
 
-The `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` environment variables (see the table above) help to customize the default host and container paths.
+The `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` environment variables (see the table above) allows to customize the default host and container paths.
 
-For example, if the `my-app.jar` is in the `/tmp/myapps` host machine folder (`C:\Users\User\MyApps` on Windows), you can make it accessible to the `dataflow-server` and `skipper` containers by setting the `HOST_MOUNT_PATH` like this:
+For example, if the `my-app-1.0.0.RELEASE.jar` is stored in the `/tmp/myapps/` folder on the host machine (`C:\Users\User\MyApps` on Windows), you can make it accessible to the `dataflow-server` and `skipper` containers by setting the `HOST_MOUNT_PATH` like this:
 
 <!--TABS-->
 
@@ -174,15 +205,15 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
 
 See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
 
-Once you mount the host folder, you can register the app starters (from `/root/scdf`), with the Data Flow [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) or [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps) by using the `file://` URI schema. The following example shows how to do so:
+Once the host folder is mount, you can register the app starters (from `/root/scdf`), with the Data Flow [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) or [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps) by using the `file://` URI schema. The following example shows how to do so:
 
 ```bash
 app register --type source --name my-app --uri file://root/scdf/my-app-1.0.0.RELEASE.jar
 ```
 
-Optionally you can use `--metadata-uri` if the metadata jar is available in the `/root/scdf` folder.
+Use the optional, `--metadata-uri` parameter if a metadata jar is available in the `/root/scdf` folder for the same application.
 
-You can also pre-register the apps directly in the docker-compose instance. For every pre-registered app starer, add an additional `wget` statement to the `app-import` block configuration, as the following example shows:
+You can also pre-register the apps directly, by modifying the `app-import` configuration in the docker-compose.yml. For every pre-registered app starer, add an additional `wget` statement to the `app-import` block configuration, as the following example shows:
 
 ```yml
 app-import:
@@ -190,8 +221,7 @@ app-import:
   command: >
     /bin/sh -c "
       ....
-      wget -qO- 'https://dataflow-server:9393/apps/source/my-app' --post-data='uri=file:/root/apps/my-app.jar&metadata-uri=file:/root/apps/my-app-metadata.jar';
-      echo 'My custom apps imported'"
+      wget -qO- 'https://dataflow-server:9393/apps/source/my-app' --post-data='uri=file:/root/apps/my-app.jar&metadata-uri=file:/root/apps/my-app-metadata.jar"
 ```
 
 See the [Data Flow REST API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#resources-registered-applications) for further details.
@@ -200,9 +230,10 @@ See the [Data Flow REST API](https://docs.spring.io/spring-cloud-dataflow/docs/c
 
 You can develop applications and install them in the local Maven repository (using `mvn install`) while the Data Flow server is running and have immediate access to the new built applications.
 
-To access the host’s local maven repository from Spring Cloud Data Flow you must mount the host maven local repository to a `dataflow-server` and `skipper-server` volume called `/root/.m2/`.
+To do this you must mount the host’s local maven repository to the `dataflow-server` and `skipper` containers using a volume called `/root/.m2/`.
+The Maven Local repository location defaults to `~/.m2` for Linux and OSX and to `C:\Users\{your-username}\.m2` for Windows.
 
-The Maven Local repository location defaults to `~/.m2` for Linux and OSX and to `C:\Users\{your-username}\.m2` for Windows:
+We can leverage the `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` variables to configure mount volumes like this:
 
 <!--TABS-->
 
@@ -241,39 +272,6 @@ app register --type processor --name pose-estimation --uri maven://org.springfra
 ```
 
 This approach lets you use applications that are built and installed on the host machine (for example, by using `mvn clean install`) directly with the Spring Cloud Data Flow server.
-
-## Shell
-
-For convenience and as an alternative to the Spring Cloud Data Flow Dashboard, you can use the [Spring Cloud Data Flow Shell](%currentPath%/concepts/tooling/#shell).
-Later supports tab completion for commands and application configuration properties.
-
-If you have started Spring Cloud Data Flow by using Docker Compose, the shell is also included in the `springcloud/spring-cloud-dataflow-server` Docker image.
-To use it, open another console window and type the following:
-
-```bash
-docker exec -it dataflow-server java -jar shell.jar
-```
-
-If you have started the Data Flow server with `java -jar`, you can download and start the shell.
-To download the Spring Cloud Data Flow Shell application, run the following command:
-
-<!--TABS-->
-
-<!--wget-->
-
-```bash
-wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
-```
-
-<!--curl-->
-
-```bash
-curl https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar -o spring-cloud-dataflow-shell-%dataflow-version%.jar
-```
-
-<!--END_TABS-->
-
-<!-- **TODO add link/create content for shell** -->
 
 ## Monitoring
 
