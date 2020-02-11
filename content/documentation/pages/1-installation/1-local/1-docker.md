@@ -9,7 +9,7 @@ description: 'Installation using Docker Compose'
 Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, MySQL and Apache Kafka.
 The additional [customization](%currentPath%/installation/local/docker-customize) guides help to extend the basic configuration, showing how to switch the binder to RabbitMQ, use different database, enable monitoring more.
 
-Also, when doing development of custom applications, you need to enable the Docker container that runs the Data Flow Server to see your local file system. The [Accessing the Host File System](#accessing-the-host-file-system) chapter below shows how to do that as well.
+Also, when doing development of custom applications, you need to enable the Docker containers that run the Data Flow and the Skipper servers to see your local file system. The [Accessing the Host File System](#accessing-the-host-file-system) chapter below shows how to do that.
 
 [[note | ]]
 | It is recommended to upgrade to the [latest](https://docs.docker.com/compose/install/) `docker` and `docker-compose` versions. This guide is tested with Docker Engine: `19.03.5` and docker-compose: `1.25.2`.
@@ -164,17 +164,17 @@ curl https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/s
 
 ## Accessing the Host File System
 
-If you develop custom applications on your local machine, you need to register them with Spring Cloud Data Flow. Since Data Flow server run inside a Docker container, you need to configure this container to access to your local file system to resolve the registration reference. Also in order to deploy those custom applications, the Skipper Server also needs to access them from within its own Docker container.
+If you develop custom applications on your local machine, you need to register them with Spring Cloud Data Flow. Since Data Flow server run inside a Docker container, you need to configure this container to access to your local file system to resolve the applications registration references. In order to deploy those custom applications, the Skipper Server also needs to access them from within its own Docker container.
 
-By default `docker-compose.yml` mounts the host's local folder (e.g. folder where the docker-compose process is run) to a `/root/scdf` folder inside both the `dataflow-server` and `skipper` containers.
+By default `docker-compose.yml` mounts the local host folder (e.g. folder where the docker-compose process is started) to a `/root/scdf` folder inside both the `dataflow-server` and the `skipper` containers.
 
 <!--IMPORTANT-->
 
-It is vital that the Data Flow and the Skipper containers use **exactly the same** mount paths internally. Later allows application paths registered in Data Flow to be resolved by Skipper using the same path references.
+It is vital that the Data Flow and the Skipper containers use **exactly the same** mount points. Later allows applications registration references in Data Flow to be resolved and deployed in Skipper using the same references.
 
 <!--END_IMPORTANT-->
 
-The `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` environment variables (see the table above) allows to customize the default host and container paths.
+The `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` environment variables (see the [configuration table](#starting-docker-compose)) allows to customize the default host and container paths.
 
 For example, if the `my-app-1.0.0.RELEASE.jar` is stored in the `/tmp/myapps/` folder on the host machine (`C:\Users\User\MyApps` on Windows), you can make it accessible to the `dataflow-server` and `skipper` containers by setting the `HOST_MOUNT_PATH` like this:
 
@@ -184,21 +184,21 @@ For example, if the `my-app-1.0.0.RELEASE.jar` is stored in the `/tmp/myapps/` f
 
 ```bash
 export HOST_MOUNT_PATH=/tmp/myapps
-docker-compose -f ./docker-compose.yml -f ./docker-compose-mount-host-folder up
+docker-compose up
 ```
 
 <!--Windows (Command prompt)-->
 
 ```bash
 set HOST_MOUNT_PATH=C:\Users\User\MyApps
-docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+docker-compose up
 ```
 
 <!--Windows (PowerShell) -->
 
 ```bash
 $Env:HOST_MOUNT_PATH="C:\Users\User\MyApps"
-docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+docker-compose up
 ```
 
 <!--END_TABS-->
@@ -211,7 +211,11 @@ Once the host folder is mount, you can register the app starters (from `/root/sc
 app register --type source --name my-app --uri file://root/scdf/my-app-1.0.0.RELEASE.jar
 ```
 
+<!--TIP-->
+
 Use the optional, `--metadata-uri` parameter if a metadata jar is available in the `/root/scdf` folder for the same application.
+
+<!--END_TIP-->
 
 You can also pre-register the apps directly, by modifying the `app-import` configuration in the docker-compose.yml. For every pre-registered app starer, add an additional `wget` statement to the `app-import` block configuration, as the following example shows:
 
@@ -242,25 +246,23 @@ We can leverage the `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` variables to confi
 ```bash
 export HOST_MOUNT_PATH=~/.m2
 export DOCKER_MOUNT_PATH=/root/.m2/
-docker-compose -f ./docker-compose.yml -f ./docker-compose-mount-host-folder up
+docker-compose up
 ```
 
 <!--Windows (Command prompt)-->
 
 ```bash
-rem #Assuming an existing user name 'User'
-set HOST_MOUNT_PATH=C:\Users\User\.m2
+set HOST_MOUNT_PATH=%userprofile%\.m2
 set DOCKER_MOUNT_PATH=/root/.m2/
-docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+docker-compose up
 ```
 
 <!--Windows (PowerShell) -->
 
 ```bash
-# Assuming an existing user name 'User'
-$Env:HOST_MOUNT_PATH="C:\Users\User\.m2"
+$Env:HOST_MOUNT_PATH="~\.m2"
 $Env:DOCKER_MOUNT_PATH="/root/.m2/"
-docker-compose -f .\docker-compose.yml -f .\docker-compose-mount-host-folder up
+docker-compose up
 ```
 
 <!--END_TABS-->
