@@ -29,7 +29,7 @@ DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% \
 docker-compose up
 ```
 
-<!--Windows (Command Prompt)-->
+<!--Windows-->
 
 ```bash
 curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose.yml -o docker-compose.yml & set DATAFLOW_VERSION=%dataflow-version%& set SKIPPER_VERSION=%skipper-version%& docker-compose up
@@ -130,6 +130,17 @@ The docker-compose.yml configurations expose the following container ports to th
 ```bash
 docker-compose down
 ```
+
+<!--TIP-->
+
+When you see errors due to containers left from previous runs, clean all docker containers (_Linux/OSX/Windows-PowerShell_):
+
+```bash
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+```
+
+<!--END_TIP-->
 
 ## Shell
 
