@@ -76,7 +76,7 @@ export SKIPPER_VERSION=%skipper-version%
 docker-compose up
 ```
 
-<!--Windows (Command prompt)-->
+<!--Windows (CommandPrompt)-->
 
 ```bash
 set DATAFLOW_VERSION=%dataflow-version%
@@ -131,16 +131,24 @@ The docker-compose.yml configurations expose the following container ports to th
 docker-compose down
 ```
 
-<!--TIP-->
+If errors occur due to old or hanging containers, clean all containers:
 
-When you see errors due to containers left from previous runs, clean all docker containers (_Linux/OSX/Windows-PowerShell_):
+<!--TABS-->
+
+<!--Linux / OSX / Windows (PowerShell)-->
 
 ```bash
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 ```
 
-<!--END_TIP-->
+<!--Windows (CommandPrompt)-->
+
+```basic
+FOR /f "tokens=*" %i IN ('docker ps -aq') DO docker rm %i -f
+```
+
+<!--END_TABS-->
 
 ## Shell
 
@@ -198,7 +206,7 @@ export HOST_MOUNT_PATH=/tmp/myapps
 docker-compose up
 ```
 
-<!--Windows (Command prompt)-->
+<!--Windows (CommandPrompt)-->
 
 ```bash
 set HOST_MOUNT_PATH=C:\Users\User\MyApps
@@ -260,7 +268,7 @@ export DOCKER_MOUNT_PATH=/root/.m2/
 docker-compose up
 ```
 
-<!--Windows (Command prompt)-->
+<!--Windows (CommandPrompt)-->
 
 ```bash
 set HOST_MOUNT_PATH=%userprofile%\.m2
