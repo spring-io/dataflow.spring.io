@@ -11,11 +11,17 @@ The additional [customization](%currentPath%/installation/local/docker-customize
 
 Also, when doing development of custom applications, you need to enable the Docker containers that run the Data Flow and the Skipper servers to see your local file system. The [Accessing the Host File System](#accessing-the-host-file-system) chapter below shows how to do that.
 
-[[note | ]]
-| It is recommended to upgrade to the [latest](https://docs.docker.com/compose/install/) `docker` and `docker-compose` versions. This guide is tested with Docker Engine: `19.03.5` and docker-compose: `1.25.2`.
+<!--IMPORTANT-->
 
-[[note | ]]
-| Give you Docker daemon at least `8 GB` of memory. On Windows or Mac you can use the Docker Desktop's `Preferences/Resource/Advanced` menu to set the Memory.
+It is recommended to upgrade to the [latest](https://docs.docker.com/compose/install/) `docker` and `docker-compose` versions. This guide is tested with Docker Engine: `19.03.5` and docker-compose: `1.25.2`.
+
+<!--END_IMPORTANT-->
+
+<!--IMPORTANT-->
+
+Configure your Docker daemon with at least `8 GB` of memory! On Windows or Mac you can use the Docker Desktop's `Preferences/Resource/Advanced` menu to set the Memory.
+
+<!--END_IMPORTANT-->
 
 For the impatient, here is a quick start, single-line command:
 
@@ -29,7 +35,7 @@ DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% \
 docker-compose up
 ```
 
-<!--Windows-->
+<!--Windows (Cmd)-->
 
 ```bash
 curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose.yml -o docker-compose.yml & set DATAFLOW_VERSION=%dataflow-version%& set SKIPPER_VERSION=%skipper-version%& docker-compose up
@@ -59,8 +65,11 @@ curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%githu
 
 <!--END_TABS-->
 
-[[tip |]]
-| [Docker Compose Customization](%currentPath%/installation/local/docker-customize) guides provide additional files that can be combined with the basic docker-compose.yml to extend or alter its configuration.
+<!--TIP-->
+
+[Docker Compose Customization](%currentPath%/installation/local/docker-customize) guides provide additional files that can be combined with the basic docker-compose.yml to extend or alter its configuration.
+
+<!--END_TIP-->
 
 ## Starting Docker Compose
 
@@ -76,7 +85,7 @@ export SKIPPER_VERSION=%skipper-version%
 docker-compose up
 ```
 
-<!--Windows (CommandPrompt)-->
+<!--Windows (Cmd)-->
 
 ```bash
 set DATAFLOW_VERSION=%dataflow-version%
@@ -94,8 +103,11 @@ docker-compose up
 
 <!--END_TABS-->
 
-[[tip]]
-| By default, Docker Compose uses the locally available images. Run `docker-compose pull` prior to `docker-compose up` to ensure the latest image versions are downloaded.
+<!--TIP-->
+
+By default, Docker Compose uses the locally available images. Run `docker-compose pull` prior to `docker-compose up` to ensure the latest image versions are downloaded.
+
+<!--END_TIP-->
 
 once the emitting of log messages on the command prompt stop, open the Spring Cloud Data Flow [Dashboard](%currentPath%/concepts/tooling/#dashboard) at [http://localhost:9393/dashboard](http://localhost:9393/dashboard) or use the Shell as explained [below](%currentPath%/installation/local/docker/#shell).
 
@@ -118,8 +130,11 @@ The docker-compose.yml configurations expose the following container ports to th
 | 7577        | 7577            | The port that the Skipper server listens on. You can use it to reach the Skipper REST api at http://localhost:7577/api                                                                                                                                                  |
 | 20000-20105 | 20000-20105     | Skipper and Local Deployer are configured to use this port range for all deployed stream applications. That means you can reach the application's actuator endpoints from your host machine. The `server.port` deployment property can be used to override those ports. |
 
-[[tip]]
-| You can leverage the exposed application ports (e.g. `20000-20105`) in you stream applications to expose certain ports to the host machine. For example, the `http --server.port=20015 | log` stream definition would permit you use `curl` and POST HTTP messages to the `http` source directly from your host machine on the `20015` port.
+<!--TIP-->
+
+You can leverage the exposed application ports (e.g. `20000-20105`) in you stream applications to expose certain ports to the host machine. For example, the `http --server.port=20015 | log` stream definition would permit you use `curl` and POST HTTP messages to the `http` source directly from your host machine on the `20015` port.
+
+<!--END_TIP-->
 
 ## Stopping Spring Cloud Data Flow
 
@@ -142,7 +157,7 @@ docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 ```
 
-<!--Windows (CommandPrompt)-->
+<!--Windows (Cmd)-->
 
 ```basic
 FOR /f "tokens=*" %i IN ('docker ps -aq') DO docker rm %i -f
@@ -206,7 +221,7 @@ export HOST_MOUNT_PATH=/tmp/myapps
 docker-compose up
 ```
 
-<!--Windows (CommandPrompt)-->
+<!--Windows (Cmd)-->
 
 ```bash
 set HOST_MOUNT_PATH=C:\Users\User\MyApps
@@ -268,7 +283,7 @@ export DOCKER_MOUNT_PATH=/root/.m2/
 docker-compose up
 ```
 
-<!--Windows (CommandPrompt)-->
+<!--Windows (Cmd)-->
 
 ```bash
 set HOST_MOUNT_PATH=%userprofile%\.m2
