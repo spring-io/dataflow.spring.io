@@ -168,7 +168,7 @@ FOR /f "tokens=*" %i IN ('docker ps -aq') DO docker rm %i -f
 ## Shell
 
 For convenience and as an alternative to the Spring Cloud Data Flow Dashboard, you can use the [Spring Cloud Data Flow Shell](%currentPath%/concepts/tooling/#shell).
-Later supports tab completion for commands and application configuration properties.
+The shell supports tab completion for commands and application configuration properties.
 
 If you have started Spring Cloud Data Flow by using Docker Compose, the shell is also included in the `springcloud/spring-cloud-dataflow-server` Docker image.
 To use it, open another console window and type the following:
@@ -204,11 +204,11 @@ By default `docker-compose.yml` mounts the local host folder (e.g. folder where 
 
 <!--IMPORTANT-->
 
-It is vital that the Data Flow and the Skipper containers use **exactly the same** mount points. Later allows applications registration references in Data Flow to be resolved and deployed in Skipper using the same references.
+It is vital that the Data Flow and the Skipper containers use **exactly the same** mount points. This allows applications registration references in Data Flow to be resolved and deployed in Skipper using the same references.
 
 <!--END_IMPORTANT-->
 
-The `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` environment variables (see the [configuration table](#starting-docker-compose)) allows to customize the default host and container paths.
+The `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` environment variables (see the [configuration table](#starting-docker-compose)) allow you to customize the default host and container paths.
 
 For example, if the `my-app-1.0.0.RELEASE.jar` is stored in the `/tmp/myapps/` folder on the host machine (`C:\Users\User\MyApps` on Windows), you can make it accessible to the `dataflow-server` and `skipper` containers by setting the `HOST_MOUNT_PATH` like this:
 
@@ -239,7 +239,7 @@ docker-compose up
 
 See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
 
-Once the host folder is mount, you can register the app starters (from `/root/scdf`), with the Data Flow [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) or [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps) by using the `file://` URI schema. The following example shows how to do so:
+Once the host folder is mounted, you can register the app starters (from `/root/scdf`), with the Data Flow [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) or [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps) by using the `file://` URI schema. The following example shows how to do so:
 
 ```bash
 app register --type source --name my-app --uri file://root/scdf/my-app-1.0.0.RELEASE.jar
