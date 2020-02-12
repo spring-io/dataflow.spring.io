@@ -1,0 +1,62 @@
+$mainBkg: #bdd5ea;
+$secondBkg: #6d6d65;
+$mainContrastColor: lightgrey;
+$darkTextColor: #323d47;
+$lineColor: $mainContrastColor;
+$border1: #81b1db;
+$border2: rgba(255, 255, 255, 0.25);
+$arrowheadColor: $mainContrastColor;
+
+/* Flowchart variables */
+
+$nodeBkg: $mainBkg;
+$nodeBorder: purple;
+$clusterBkg: $secondBkg;
+$clusterBorder: $border2;
+$defaultLinkColor: $lineColor;
+$titleColor: #f9fffe;
+$edgeLabelBackground: #e8e8e8;
+
+/* Sequence Diagram variables */
+
+$actorBorder: $border1;
+$actorBkg: $mainBkg;
+$actorTextColor: black;
+$actorLineColor: $mainContrastColor;
+$signalColor: $mainContrastColor;
+$signalTextColor: $mainContrastColor;
+$labelBoxBkgColor: $actorBkg;
+$labelBoxBorderColor: $actorBorder;
+$labelTextColor: $darkTextColor;
+$loopTextColor: $mainContrastColor;
+$noteBorderColor: $border2;
+$noteBkgColor: #fff5ad;
+$activationBorderColor: #666;
+$activationBkgColor: #f4f4f4;
+$sequenceNumberColor: white;
+
+/* Gantt chart variables */
+
+$sectionBkgColor: rgba(255, 255, 255, 0.3);
+$altSectionBkgColor: white;
+$sectionBkgColor2: #eae8b9;
+$taskBorderColor: rgba(255, 255, 255, 0.5);
+$taskBkgColor: $mainBkg;
+$taskTextColor: $darkTextColor;
+$taskTextLightColor: $mainContrastColor;
+$taskTextOutsideColor: $taskTextLightColor;
+$taskTextClickableColor: #003163;
+$activeTaskBorderColor: rgba(255, 255, 255, 0.5);
+$activeTaskBkgColor: #81b1db;
+$gridColor: $mainContrastColor;
+$doneTaskBkgColor: $mainContrastColor;
+$doneTaskBorderColor: grey;
+$critBorderColor: #e83737;
+$critBkgColor: #e83737;
+$taskTextDarkColor: $darkTextColor;
+$todayLineColor: #db5757;
+
+/* state colors */
+$labelColor: black;
+
+@import '../mermaid';
