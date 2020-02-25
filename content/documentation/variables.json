@@ -4,8 +4,8 @@
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.2.0.RELEASE",
 
-  "skipper-version": "2.4.0.RELEASE",
-  "dataflow-version": "2.5.0.RELEASE",
+  "skipper-version": "2.4.0.BUILD-SNAPSHOT",
+  "dataflow-version": "2.5.0.BUILD-SNAPSHOT",
 
   "github-tag": "master",
 
