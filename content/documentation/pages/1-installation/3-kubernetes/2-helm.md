@@ -813,6 +813,37 @@ shows:
 deployer.<app>.kubernetes.deploymentLabels=myLabelName:myLabelValue,myLabelName2:myLabelValue2
 ```
 
+### NodePort
+
+Applications are deployed using a `Service` type of [ClusterIP](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) which is the default Kubernetes `Service` type if not defined otherwise.
+`ClusterIP` services are only reachable from within the cluster itself.
+
+To expose the deployed application to be available externally, one option is to use `NodePort`.
+See the [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) documentation for more information.
+
+The following example shows how you can individually configure applications using Kubernetes assigned ports:
+
+```properties
+deployer.<app>.kubernetes.createNodePort=true
+```
+
+Replace `<app>` with the name of your application.
+
+Additionally, you can define the port to use for the `NodePort` `Service` as shown below:
+
+```properties
+deployer.<app>.kubernetes.createNodePort=31101
+```
+
+Replace `<app>` with the name of your application and the value of `31101` with your desired port.
+
+<!--NOTE-->
+
+When defining the port manually, the port must not already be in use and within the defined `NodePort` range.
+Per [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) the default port range is 30000-32767.
+
+<!--END_NOTE-->
+
 ## Monitoring
 
 To learn more about the monitoring experience in Data Flow using Prometheus running on Kubernetes, please refer to the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/#kubernetes) feature guide.
