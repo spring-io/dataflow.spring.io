@@ -31,7 +31,7 @@ many different messaging middleware products can be used. The following popular 
 - [Solace PubSub+](https://solace.com/software/)
 - [Azure Event Hubs](https://azure.microsoft.com/en-us/services/event-hubs/)
 
-You can find more information like the the current list of Spring Cloud Stream Binders [here](https://cloud.spring.io/spring-cloud-stream/#binder-implementations) library as a dependency to the application.
+You can find more information like the current list of Spring Cloud Stream Binders [here](https://cloud.spring.io/spring-cloud-stream/#binder-implementations) library as a dependency to the application.
 
 ## Spring Cloud Stream
 
