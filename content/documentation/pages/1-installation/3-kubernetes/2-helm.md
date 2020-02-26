@@ -586,10 +586,9 @@ the container to be deployed. Currently, three styles are supported:
   Application properties are transformed into the format of
   `--key=value`.
 
-- `shell`: Passes all application properties as environment variables.
-  Command line arguments from the deployment request are not converted
-  into environment variables nor set on the container. Application
-  properties are transformed into an uppercase string and `.`
+- `shell`: Passes all application properties and command line arguments
+  as environment variables. Each of the application and command line
+  argument properties is transformed into an uppercase string and `.`
   characters are replaced with `_`.
 
 - `boot`: Creates an environment variable called
