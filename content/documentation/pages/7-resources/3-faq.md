@@ -377,7 +377,7 @@ Here's an example of the `LoadBalancer` deployment:
 kind: Service
 apiVersion: v1
 metadata:
-  name: FOO-lb
+  name: foo-lb
   namespace: kafkazone
 spec:
   ports:
@@ -389,7 +389,7 @@ spec:
   type: LoadBalancer
 ```
 
-This deployment would produce a static IP Address. Let's say, for example, the IP address of `FOO-lb` is: "10.20.30.40".
+This deployment would produce a static IP Address. Let's say, for example, the IP address of `foo-lb` is: "10.20.30.40".
 
 Now when you deploy the stream, you can attach a label selector to the desired application [e.g., deployer.<yourapp>.kubernetes.deploymentLabels=FOOZ: BAR-APP],
 so all the incoming traffic to "10.20.30.40" will automatically be received by the "yourapp".
