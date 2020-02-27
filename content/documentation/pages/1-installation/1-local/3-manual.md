@@ -8,6 +8,8 @@ description: 'Manual installation'
 
 If Docker does not suit your needs, you can manually install the parts you need to run Spring Cloud Data Flow.
 
+NOTE: If you want to use Spring Cloud Data Flow only for batch and task processing (that is, not for processing streams), see the [Batch-only Mode recipe](%currentPath%/recipes/batch/batch-only-mode).
+
 ## Downloading Server Jars
 
 To begin, you need to download the server jars. To do so:
