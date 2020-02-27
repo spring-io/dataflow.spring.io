@@ -64,55 +64,52 @@ Now we can create the code required for this application. To do so:
 package io.spring.dataflow.sample.usagedetailsender;
 
 import java.util.Random;
+import java.util.function.Supplier;
 
 import io.spring.dataflow.sample.UsageDetail;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-
-@EnableScheduling
-@EnableBinding(Source.class)
+@Configuration
 public class UsageDetailSender {
-
-	@Autowired
-	private Source source;
 
 	private String[] users = {"user1", "user2", "user3", "user4", "user5"};
 
-	@Scheduled(fixedDelay = 1000)
-	public void sendEvents() {
-		UsageDetail usageDetail = new UsageDetail();
-		usageDetail.setUserId(this.users[new Random().nextInt(5)]);
-		usageDetail.setDuration(new Random().nextInt(300));
-		usageDetail.setData(new Random().nextInt(700));
-		this.source.output().send(MessageBuilder.withPayload(usageDetail).build());
+	@Bean
+	public Supplier<UsageDetail> sendEvents() {
+		return () -> {
+			UsageDetail usageDetail = new UsageDetail();
+			usageDetail.setUserId(this.users[new Random().nextInt(5)]);
+			usageDetail.setDuration(new Random().nextInt(300));
+			usageDetail.setData(new Random().nextInt(700));
+			return usageDetail;
+		};
 	}
 }
+
 ```
 
-The `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware.
-The annotation takes one or more interfaces as a parameter &#151; in this case, the [Source](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Source.java) interface that defines an output channel named `output`.
-In the case of Kafka, messages sent to the `output` channel are, in turn, sent the Kafka topic.
-
-The `@EnableScheduling` annotation indicates that you want to enable Spring's scheduling capabilities, which invoke methods annotated with `@Scheduled` with the specified `fixedDelay` of `1` second.
-
-The `sendEvents` method constructs a `UsageDetail` object and then sends it to the the output channel by accessing the `Source` object's `output().send()` method.
+This is a simple `Configuration` class with a single bean that returns a `java.util.function.Supplier`. 
+Spring Cloud Stream, behind the scenes will turn this `Supplier` into a producer. 
+By default, the supplier will be invoked every second. 
+On each invocation, the supplier method `sendEvents` constructs a `UsageDetail` object. 
 
 #### Configuring the UsageDetailSender application
 
-When configuring the `producer` application, we need to set the `output` binding destination (Kafka topic) where the producer publishes the data.
+When configuring the `producer` application, we need to set the producer binding destination (Kafka topic) where the producer publishes the data.
+The default producer output binding for the above method is going to be `sendEvents-out-0` (method name followed by the literal `-out-0` where `0` is the index).
+If the application does not set a destination, Spring Cloud Stream will use this same binding name as the output destination (Kafka topic).
+However, in our case, we neither want this default binding name used by Spring Cloud Stream nor the destination name.
+We want to use the binding name as `output` and provide a custom destination.
 
-In `src/main/resources/application.properties`, you can add the following property:
+In `src/main/resources/application.properties`, you can add the following properties to override:
 
 ```
+spring.cloud.stream.function.bindings.sendEvents-out-0=output
 spring.cloud.stream.bindings.output.destination=usage-detail
 ```
 
-The `spring.cloud.stream.bindings.output.destination` property binds the `UsageDetailSender` object's output to the `usage-detail` Kafka topic.
+The first property will override the default binding name to `output` and the second one will set destination on that binding. 
 
 #### Building
 
@@ -125,63 +122,72 @@ In the `usage-detail-sender` directory, use the following command to build the p
 
 #### Testing
 
-Spring Cloud Stream provides the `spring-cloud-stream-test-support` dependency to test the Spring Cloud Stream application.
+Spring Cloud Stream provides a test binder to test an application. 
+Following are the maven coordinates for this artifact.
+
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-stream</artifactId>
+    <type>test-jar</type>
+    <classifier>test-binder</classifier>
+    <scope>test</scope>
+</dependency>
+```
 Instead of the `Kafka` binder, the tests use the `Test` binder to trace and test your application's outbound and inbound messages.
-The `Test` binder uses a utility class called `MessageCollector`, which stores the messages in-memory.
+The `Test` binder provides abstractions for output and input destinations as `OutputDestination` and `InputDestination`.
+Using them, you can simulate the behavior of actual middleware based binders. 
 
 To unit test this `UsageDetailSender` application, add the following code in the `UsageDetailSenderApplicationTests` class:
 
 ```java
 package io.spring.dataflow.sample.usagedetailsender;
 
-import java.util.concurrent.TimeUnit;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.dataflow.sample.UsageDetail;
-import org.json.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.cloud.stream.test.binder.MessageCollector;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.stream.binder.test.OutputDestination;
+import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.messaging.Message;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
+import org.springframework.messaging.converter.CompositeMessageConverter;
+import org.springframework.messaging.converter.MessageConverter;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UsageDetailSenderApplicationTests {
-
-	@Autowired
-	private MessageCollector messageCollector;
-
-	@Autowired
-	private Source source;
-
-	@Test
+	
+    @Test
 	public void contextLoads() {
 	}
 
 	@Test
-	public void testUsageDetailSender() throws Exception {
-		Message message = this.messageCollector.forChannel(this.source.output()).poll(1, TimeUnit.SECONDS);
-		String usageDetailJSON = message.getPayload().toString();
-		assertTrue(usageDetailJSON.contains("userId"));
-		assertTrue(usageDetailJSON.contains("duration"));
-		assertTrue(usageDetailJSON.contains("data"));
-	}
+	public void testUsageDetailSender() {
+		try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
+				TestChannelBinderConfiguration
+						.getCompleteConfiguration(UsageDetailSenderApplication.class))
+				.web(WebApplicationType.NONE)
+				.run()) {
 
+			OutputDestination target = context.getBean(OutputDestination.class);
+			Message<byte[]> sourceMessage = target.receive(10000);
+
+			final MessageConverter converter = context.getBean(CompositeMessageConverter.class);
+			UsageDetail usageDetail = (UsageDetail) converter
+					.fromMessage(sourceMessage, UsageDetail.class);
+
+			assertThat(usageDetail.getUserId()).isBetween("user1", "user5");
+			assertThat(usageDetail.getData()).isBetween(0L, 700L);
+			assertThat(usageDetail.getDuration()).isBetween(0L, 300L);
+		}
+	}
 }
+
 ```
 
-When using the `spring-cloud-stream-test-support` dependency, your application's `output` and `input` are bound to the `Test` binder.
-
 - The `contextLoads` test case verifies the application starts successfully.
-- The `testUsageDetailSender` test case uses the `Test` binder's `MessageCollector` to collect the messages sent by the `UsageDetailSender`.
+- The `testUsageDetailSender` test case uses the test binder to receive messages from the output destination where the supplier publishes messages to.
 
 ### `UsageCostProcessor` Processor
 
@@ -209,54 +215,57 @@ Now we can create the code required for this application.
 ```java
 package io.spring.dataflow.sample.usagecostprocessor;
 
+import java.util.function.Function;
+
 import io.spring.dataflow.sample.UsageCostDetail;
 import io.spring.dataflow.sample.UsageDetail;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.messaging.handler.annotation.SendTo;
-
-@EnableBinding(Processor.class)
+@Configuration
 public class UsageCostProcessor {
 
 	private double ratePerSecond = 0.1;
 
 	private double ratePerMB = 0.05;
 
-	@StreamListener(Processor.INPUT)
-	@SendTo(Processor.OUTPUT)
-	public UsageCostDetail processUsageCost(UsageDetail usageDetail) {
-		UsageCostDetail usageCostDetail = new UsageCostDetail();
-		usageCostDetail.setUserId(usageDetail.getUserId());
-		usageCostDetail.setCallCost(usageDetail.getDuration() * this.ratePerSecond);
-		usageCostDetail.setDataCost(usageDetail.getData() * this.ratePerMB);
-		return usageCostDetail;
+	@Bean
+	public Function<UsageDetail, UsageCostDetail> processUsageCost() {
+		return usageDetail -> {
+			UsageCostDetail usageCostDetail = new UsageCostDetail();
+			usageCostDetail.setUserId(usageDetail.getUserId());
+			usageCostDetail.setCallCost(usageDetail.getDuration() * this.ratePerSecond);
+			usageCostDetail.setDataCost(usageDetail.getData() * this.ratePerMB);
+			return usageCostDetail;
+		};
 	}
 }
+
 ```
 
-In the preceding application, the `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware. The annotation takes one or more interfaces as a parameter &#151; in this case, the [Processor](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Processor.java) that defines and input and output channels.
-
-The `@StreamListener` annotation binds the application's `input` channel to the `processUsageCost` method by converting the incoming JSON into `UsageDetail` object. We configure the Kafka topic that is bound to the input channel later.
-
-The `@SendTo` annotation sends the `processUsageCost` method's output to the application's `output` channel, which is, in turn, sent to the a Kafka topic that we configure later.
+In the preceding application, we are providing a bean that returns a `java.util.function.Function` that consumes a `UsageDetail` as input and publishes a `UsageCostDetail` as ouptut. 
 
 #### Configuring the `UsageCostProcessor` Application
 
-When configuring the `consumer` application, we need to set the `input` binding destination (a Kafka topic).
+When configuring this `processor` application, we need to set both the input and output destinations (Kafka topics).
+By default, Sprig Cloud Stream uses binding names as `processUsageCost-in-0` and `processUsageCost-out-0` which becomes the topic names unless the application overrides them.
+However, in our case, as in the producer above, we don't want these defaults, but use our custom ones.
+We want to use the binding name as `input` and `output` and provide custom destinations on them.
 
-Since the `UsageCostProcessor` application is also a `producer` application, we need to set the `output` binding destination (a Kafka topic) where the producer publishes the data.
 
 In `src/main/resources/application.properties`, you can add the following properties:
 
 ```
+spring.cloud.stream.function.bindings.processUsageCost-in-0=input
+spring.cloud.stream.function.bindings.processUsageCost-out-0=output
 spring.cloud.stream.bindings.input.destination=usage-detail
 spring.cloud.stream.bindings.output.destination=usage-cost
 ```
 
-1. The `spring.cloud.stream.bindings.input.destination` property binds the `UsageCostProcessor` object's `input` to the `usage-detail` Kafka topic.
-1. The `spring.cloud.stream.bindings.output.destination` property binds the `UsageCostProcessor` object's output to the `usage-cost` Kafka topic.
+1. The `spring.cloud.stream.function.bindings.processUsageCost-in-0` property overrides the binding name to `input`.
+2. The `spring.cloud.stream.function.bindings.processUsageCost-out-0` property overrides the binding name to `output`.
+3. The `spring.cloud.stream.bindings.processUsageCost-in-0.destination` sets the destination to the `usage-detail` Kafka topic.
+4. The `spring.cloud.stream.bindings.processUsageCost-out-0.destination` property sets the destination to the `usage-cost` Kafka topic.
 
 #### Building
 
@@ -269,7 +278,7 @@ In the `usage-cost-processor` directory, use the following command to build the 
 
 #### Testing
 
-Spring Cloud Stream provides the `spring-cloud-stream-test-support` dependency to test the Spring Cloud Stream application. Instead of the Kafka binder, it uses the `Test` binder to trace and test your application's outbound and inbound messages. The `Test` binder uses a utility class called `MessageCollector`, which stores the messages in-memory.
+We can use the same test binder that we used above for testing the supplier.
 
 To unit test the `UsageCostProcessor`, add the following code in the `UsageCostProcessorApplicationTests` class:
 
@@ -277,47 +286,70 @@ To unit test the `UsageCostProcessor`, add the following code in the `UsageCostP
 
 package io.spring.dataflow.sample.usagecostprocessor;
 
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.cloud.stream.test.binder.MessageCollector;
+import io.spring.dataflow.sample.UsageCostDetail;
+import io.spring.dataflow.sample.UsageDetail;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.cloud.stream.binder.test.OutputDestination;
+import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.converter.CompositeMessageConverter;
+import org.springframework.messaging.converter.MessageConverter;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class UsageCostProcessorApplicationTests {
-
-	@Autowired
-	private Processor processor;
-
-	@Autowired
-	private MessageCollector messageCollector;
 
 	@Test
 	public void contextLoads() {
 	}
 
 	@Test
-	public void testUsageCostProcessor() throws Exception {
-		this.processor.input().send(MessageBuilder.withPayload("{\"userId\":\"user3\",\"duration\":101,\"data\":502}").build());
-		Message message = this.messageCollector.forChannel(this.processor.output()).poll(1, TimeUnit.SECONDS);
-		assertTrue(message.getPayload().toString().equals("{\"userId\":\"user3\",\"callCost\":10.100000000000001,\"dataCost\":25.1}"));
-	}
+	public void testUsageCostProcessor() {
+		try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
+				TestChannelBinderConfiguration.getCompleteConfiguration(
+						UsageCostProcessorApplication.class)).web(WebApplicationType.NONE)
+				.run()) {
 
+			InputDestination source = context.getBean(InputDestination.class);
+
+			UsageDetail usageDetail = new UsageDetail();
+			usageDetail.setUserId("user1");
+			usageDetail.setDuration(30L);
+			usageDetail.setData(100L);
+
+			final MessageConverter converter = context.getBean(CompositeMessageConverter.class);
+			Map<String, Object> headers = new HashMap<>();
+			headers.put("contentType", "application/json");
+			MessageHeaders messageHeaders = new MessageHeaders(headers);
+			final Message<?> message = converter.toMessage(usageDetail, messageHeaders);
+
+			source.send(message);
+
+			OutputDestination target = context.getBean(OutputDestination.class);
+			Message<byte[]> sourceMessage = target.receive(10000);
+
+			final UsageCostDetail usageCostDetail = (UsageCostDetail) converter
+					.fromMessage(sourceMessage, UsageCostDetail.class);
+
+			assertThat(usageCostDetail.getCallCost()).isEqualTo(3.0);
+			assertThat(usageCostDetail.getDataCost()).isEqualTo(5.0);
+		}
+	}
 }
+
 ```
 
 - The `contextLoads` test case verifies the application starts successfully.
-- The `testUsageCostProcessor` test case uses the `Test` binder's `MessageCollector` to collect the messages from the `UsageCostProcessor` object's `output`.
+- The `testUsageCostProcessor` test case uses the test binder's `InputDestination` to publish a message which is consumed by the function in the processor. 
+Then we use the `OutputDestination` to verify that the `UsageDetail` is property transformed into a `UsageCostDetail`. 
 
 ### `UsageCostLogger` Sink
 
@@ -343,45 +375,47 @@ Now we can create the business logic for the sink application. To do so:
 ```Java
 package io.spring.dataflow.sample.usagecostlogger;
 
+import java.util.function.Consumer;
+
 import io.spring.dataflow.sample.UsageCostDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
-
-@EnableBinding(Sink.class)
+@Configuration
 public class UsageCostLogger {
 
 	private static final Logger logger = LoggerFactory.getLogger(UsageCostLoggerApplication.class);
 
-	@StreamListener(Sink.INPUT)
-	public void process(UsageCostDetail usageCostDetail) {
-		logger.info(usageCostDetail.toString());
+	@Bean
+	public Consumer<UsageCostDetail> process() {
+		return usageCostDetail -> {
+			logger.info(usageCostDetail.toString());
+		};
 	}
 }
 ```
 
-In the preceding application, the `@EnableBinding` annotation indicates that you want to bind your application to the messaging middleware. The annotation takes one or more interfaces as a parameter &#151; in this case, the [Sink](https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/messaging/Sink.java) interface that defines the input channel.
-
-The `@StreamListener` annotation binds the application's `input` channel to the `process` method by converting the incoming JSON to a `UsageCostDetail` object.
-
-We configure the Kafka topic that is bound to the input channel later.
+Here we have a `java.util.function.Consumer` bean that consumes a `UsageCostDetail` and then logs that information.
 
 #### Configuring the `UsageCostLogger` Application
 
 When configuring the `consumer` application, we need to set the `input` binding destination (a Kafka topic).
+By default, the input binding used by Spring Cloud Stream will be `process-in-0` (so does the destination name if the application does not override it).
+We want to override these as in the above two applications.
 
-In `src/main/resources/application.properties`, you can add the following property:
+In `src/main/resources/application.properties`, you can add them:
 
 ```
+spring.cloud.stream.function.bindings.process-in-0=input
 spring.cloud.stream.bindings.input.destination=usage-cost
 ```
 
-The `spring.cloud.stream.bindings.input.destination` property binds the `UsageCostLogger` object's `input` to the `usage-cost` Kafka topic.
+The `spring.cloud.stream.function.bindings.process-in-0` property overrides the binding name to `input` and spring.cloud.stream.bindings.input.destination` property sets the destination to the `usage-cost` Kafka topic.
 
-There are many configuration options that you can choose to extend/override to achieve the desired runtime behavior when using Apache Kafka as the message broker. The Apache Kafka-specific binder configuration properties are listed in [Apache Kafka-binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-kafka/current/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options)
+There are many configuration options that you can choose to extend/override to achieve the desired runtime behavior when using Apache Kafka as the message broker. 
+The Apache Kafka-specific binder configuration properties are listed in [Apache Kafka-binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-kafka/current/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options)
 
 #### Building
 
@@ -400,63 +434,65 @@ To unit test the `UsageCostLogger`, add the following code in the `UsageCostLogg
 
 package io.spring.dataflow.sample.usagecostlogger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.spring.dataflow.sample.UsageCostDetail;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
+import org.awaitility.Awaitility;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.converter.CompositeMessageConverter;
+import org.springframework.messaging.converter.MessageConverter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(OutputCaptureExtension.class)
 public class UsageCostLoggerApplicationTests {
-
-	@Autowired
-	protected Sink sink;
-
-	@Autowired
-	protected UsageCostLogger usageCostLogger;
 
 	@Test
 	public void contextLoads() {
 	}
 
 	@Test
-	public void testUsageCostLogger() throws Exception {
-		ArgumentCaptor<UsageCostDetail> captor = ArgumentCaptor.forClass(UsageCostDetail.class);
-		this.sink.input().send(MessageBuilder.withPayload("{\"userId\":\"user3\",\"callCost\":10.100000000000001,\"dataCost\":25.1}").build());
-		verify(this.usageCostLogger).process(captor.capture());
-	}
+	public void testUsageCostLogger(CapturedOutput output) {
+		try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
+				TestChannelBinderConfiguration
+						.getCompleteConfiguration(UsageCostLoggerApplication.class))
+				.web(WebApplicationType.NONE)
+				.run()) {
 
-	@EnableAutoConfiguration
-	@EnableBinding(Sink.class)
-	static class TestConfig {
+			InputDestination source = context.getBean(InputDestination.class);
 
-		// Override `UsageCostLogger` bean for spying.
-		@Bean
-		@Primary
-		public UsageCostLogger usageCostLogger() {
-			return spy(new UsageCostLogger());
+			UsageCostDetail usageCostDetail = new UsageCostDetail();
+			usageCostDetail.setUserId("user1");
+			usageCostDetail.setCallCost(3.0);
+			usageCostDetail.setDataCost(5.0);
+
+			final MessageConverter converter = context.getBean(CompositeMessageConverter.class);
+			Map<String, Object> headers = new HashMap<>();
+			headers.put("contentType", "application/json");
+			MessageHeaders messageHeaders = new MessageHeaders(headers);
+			final Message<?> message = converter.toMessage(usageCostDetail, messageHeaders);
+
+			source.send(message);
+
+			Awaitility.await().until(output::getOut, value -> value.contains("{\"userId\": \"user1\", \"callCost\": \"3.0\", \"dataCost\": \"5.0\" }"));
 		}
 	}
 }
+
 ```
 
 - The `contextLoads` test case verifies the application starts successfully.
-- The `testUsageCostLogger` test case verifies that the `process` method of `UsageCostLogger` is invoked by using `Mockito`.
-  To do this, the `TestConfig` static class overrides the existing `UsageCostLogger` bean to create a Mock bean of `UsageCostLogger`.
-  Since we are mocking the `UsageCostLogger` bean, the `TestConfig` also explicitly annotates `@EnableBinding` and `@EnableAutoConfiguration`.
+- The `testUsageCostLogger` test case verifies that the `process` method of `UsageCostLogger` is invoked. 
+We use the `OutputCaptureExtension` facility provided by Spring Boot testing infrastructure to verify that the message is logged to the console. 
 
 ## Deployment
 
