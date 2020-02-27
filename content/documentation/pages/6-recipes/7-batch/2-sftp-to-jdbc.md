@@ -1,5 +1,5 @@
 ---
-path: 'recipes/file-ingest/sftp-to-jdbc/'
+path: 'recipes/batch/sftp-to-jdbc/'
 title: 'SFTP to JDBC'
 description: 'Ingest Files from SFTP to a JDBC data store using Data Flow and Spring Batch'
 ---
