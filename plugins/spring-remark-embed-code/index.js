@@ -1,6 +1,7 @@
 const visit = require(`async-unist-util-visit`)
 const request = require('request-promise')
 const transformer = require(`../spring-remark-variables/transformer`)
+const get = require('lodash.get')
 
 const highlightCode = require(`gatsby-remark-prismjs/highlight-code`)
 
@@ -23,18 +24,15 @@ const getLanguage = file => {
     : extension.toLowerCase()
 }
 
-module.exports = async (
-  { markdownAST, markdownNode },
-  options = ({
-    arrVars: [],
-  } = {})
-) => {
+module.exports = async ({ markdownAST, markdownNode }, options) => {
   const classPrefix = `language-`
   return await visit(markdownAST, `html`, async node => {
     const { value } = node
-    const { vars } = options.arrVars.find(item => {
+
+    const find = get(options, 'arrVars', []).find(item => {
       return item.version === markdownNode.fields.version
     })
+    let vars = get(find, 'vars', {})
     if (value && value.match(KEY)) {
       const url = transformer(
         value.replace('<!--CODE:', '').replace('-->', ''),
@@ -57,9 +55,7 @@ module.exports = async (
         node.type = `html`
       } catch (e) {
         throw Error(
-          `Error embed ${url} / ${markdownNode.fields.version} / ${
-            markdownNode.fields.slug
-          }`
+          `Error embed ${url} / ${markdownNode.fields.version} / ${markdownNode.fields.slug}`
         )
       }
     }

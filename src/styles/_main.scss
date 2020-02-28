@@ -836,10 +836,12 @@ button.button {
     article {
       padding: 4px;
       font-size: $spring-font-size-sm + 1;
+      text-align: center;
       h1 {
         margin: 0;
         padding: $spring-8points 0;
         font-size: 22px;
+        border-top: 2px solid $spring-border-color-light;
       }
       p {
         margin: 0;
@@ -863,10 +865,14 @@ button.button {
   max-width: 1000px;
   margin: 0 auto;
   padding: $spring-8points * 4;
+  text-align: center;
   .title {
     margin: 0;
     padding: $spring-8points 0;
     font-size: 32px;
+  }
+  .readmore {
+    padding: $spring-8points * 2 0;
   }
   p.date {
     padding: $spring-8points 0;
