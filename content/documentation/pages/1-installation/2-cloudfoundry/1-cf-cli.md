@@ -175,8 +175,8 @@ The recommended minimum memory setting for the server is 2G. Also, to
 push apps to PCF and obtain application property metadata, the server
 downloads applications to a Maven repository hosted on the local disk.
 While you can specify up to 2G as a typical maximum value for disk
-space on a PCF installation, you can increase this to 10G. Read the
-[maximum disk quota](#getting-started-maximum-disk-quota-configuration) > [???](#getting-started-maximum-disk-quota-configuration) section for
+space on a PCF installation, you can increase this to 10G. Read about the
+[maximum disk quota](https://bosh.io/jobs/cloud_controller_ng?source=github.com/cloudfoundry/capi-release#p%3dcc.maximum_app_disk_in_mb) for
 information on how to configure this PCF property. Also, the Data Flow
 server itself implements a Last-Recently-Used algorithm to free disk
 space when it falls below a low-water-mark value.
