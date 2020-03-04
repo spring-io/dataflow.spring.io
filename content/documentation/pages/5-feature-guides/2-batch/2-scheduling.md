@@ -49,13 +49,22 @@ Now press the `Schedule the task button`. Now a Cron Job has been created to han
 
 ![Schedule Batch App Kubernetes](images/SCDF-schedule-kubernetes.png)
 
+<!--Local-->
+
+Spring Cloud Data Flow does not offer an out of the box solution for scheduling task launches on the local platform.  
+However there are 2 solutions that provide an option for scheduling on the local platform:
+
+**Spring Boot Implementing a Quartz Scheduler**
+
+One option is to create a Spring Boot application that utilizes the [Quartz scheduler](http://www.quartz-scheduler.org/) to execute [RESTful API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide-resources-task-executions) calls to launch tasks on Spring Cloud Data Flow.
+More information can be read about it [here](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-quartz).
+
+**Spring Boot Implementing the `@Scheduled` annotation**
+
+Another option is to create a Spring Boot application that utilizes the `@Scheduled` annotation on a method that executes [RESTful API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide-resources-task-executions) calls to launch tasks on Spring Cloud Data Flow.
+More information can be read about it [here](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-task-execution-scheduling).
+
 <!--END_TABS-->
-
-<!--CAUTION-->
-
-Spring Cloud Data Flow does not support scheduling on the local platform.
-
-<!--END_CAUTION-->
 
 ## Monitoring Task Launches
 
