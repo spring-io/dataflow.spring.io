@@ -156,7 +156,27 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose-rabbitmq.yml up
 
 <!--END_TABS-->
 
-## Debug Data Flow Server
+## Debugging
+
+Following paragraphs explain how to debug DataFlow (or Skipper) server and/or Stream Applications deployed by them.
+
+<!--TIP-->
+
+In the debug configurations below allays use the local machine `IP` address rather than the `localhost` name!
+
+<!--END_TIP-->
+
+### Debug Stream Applications
+
+For debugging a Stream Applications, when deploying the stream set the application deployment property: [deployer.<appName>.local.debugPort](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer) to value in the `20000 - 20105` range. You can do it directly form the deployment UI panel. For example here we set the `debugPort` to `20075`.
+
+  <img src="../images/scdf-set-app-debug-port.png" alt="SCDF Remote Debug Apps. Set debugPort" width="100"/>
+
+Open the stream application project in your IntelliJ/IDE. Then configure a Remote Debug configuration by setting the `Host:` to the IP address of your local machine (don't use `localhost` but the IP address!) and set the `Port:` to the value used in the deployment property above.
+
+  <img src="../images/scdf-remote-debugging-stream-apps.png" alt="SCDF Remote Debug Apps" width="100"/>
+
+### Debug Data Flow Server
 
 The [docker-compose-debug-dataflow.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-dataflow.yml) enables remote debugging of the Data Flow Server. To enable the debugging run:
 
@@ -189,6 +209,8 @@ Often while debugging, you will need to build new local `spring-cloud-dataflow-s
 ./mvnw docker:build -pl spring-cloud-dataflow-server
 ```
 
+### Debug Skipper Server
+
 Similarly you can use the [docker-compose-debug-skipper.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-skipper.yml) to enable remote debugging of the Skipper Server:
 
 <!--TABS-->
@@ -210,12 +232,6 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose-debug-skipper.yml up
 <!--END_TABS-->
 
 The `skipper` service will wait for a debugger to connect on port `6006`.
-
-<!--TIP-->
-
-Allays use your local machine IP address! Do not use the `localhost` name as it would be wrongly resolved inside the DataFlow or SKipper docker containers.
-
-<!--END_TIP-->
 
 ## Integration Testing
 
