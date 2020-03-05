@@ -172,7 +172,7 @@ For debugging a Stream Applications, when deploying the stream set the applicati
 
   <img src="../images/scdf-set-app-debug-port.png" alt="SCDF Remote Debug Apps. Set debugPort" width="100"/>
 
-Open the stream application project in you IntelliJ. Then configure a Remote Debug configuration by setting the `Host:` to the IP address of you local machine (don't use `localhost` but the IP address!) and set the `Port:` to the value used in the deployment property above.
+Open the stream application project in your IntelliJ/IDE. Then configure a Remote Debug configuration by setting the `Host:` to the IP address of your local machine (don't use `localhost` but the IP address!) and set the `Port:` to the value used in the deployment property above.
 
   <img src="../images/scdf-remote-debugging-stream-apps.png" alt="SCDF Remote Debug Apps" width="100"/>
 
