@@ -249,9 +249,8 @@ In the preceding application, we are providing a bean that returns a `java.util.
 
 When configuring this `processor` application, we need to set both the input and output destinations (Kafka topics).
 By default, Sprig Cloud Stream uses binding names as `processUsageCost-in-0` and `processUsageCost-out-0` which becomes the topic names unless the application overrides them.
-However, in our case, as in the producer above, we don't want these defaults, but use our custom ones.
+However, in our case, as in the producer above, we don't want these defaults but rather we would want to make them more descriptive.
 We want to use the binding name as `input` and `output` and provide custom destinations on them.
-
 
 In `src/main/resources/application.properties`, you can add the following properties:
 
@@ -262,10 +261,10 @@ spring.cloud.stream.bindings.input.destination=usage-detail
 spring.cloud.stream.bindings.output.destination=usage-cost
 ```
 
-1. The `spring.cloud.stream.function.bindings.processUsageCost-in-0` property overrides the binding name to `input`.
-2. The `spring.cloud.stream.function.bindings.processUsageCost-out-0` property overrides the binding name to `output`.
+1. The `spring.cloud.stream.function.bindings.processUsageCost-in-0` overrides the binding name to `input`.
+2. The `spring.cloud.stream.function.bindings.processUsageCost-out-0` overrides the binding name to `output`.
 3. The `spring.cloud.stream.bindings.processUsageCost-in-0.destination` sets the destination to the `usage-detail` Kafka topic.
-4. The `spring.cloud.stream.bindings.processUsageCost-out-0.destination` property sets the destination to the `usage-cost` Kafka topic.
+4. The `spring.cloud.stream.bindings.processUsageCost-out-0.destination` sets the destination to the `usage-cost` Kafka topic.
 
 #### Building
 
@@ -403,7 +402,7 @@ Here we have a `java.util.function.Consumer` bean that consumes a `UsageCostDeta
 
 When configuring the `consumer` application, we need to set the `input` binding destination (a Kafka topic).
 By default, the input binding used by Spring Cloud Stream will be `process-in-0` (so does the destination name if the application does not override it).
-We want to override these as in the above two applications.
+We want to override these to make the sink application work with the above two applications (source and processor).
 
 In `src/main/resources/application.properties`, you can add them:
 
