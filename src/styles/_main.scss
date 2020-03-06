@@ -895,6 +895,9 @@ button.button {
       font-size: 20px;
     }
   }
+  &.single {
+    text-align: left;
+  }
 }
 
 .home-news {

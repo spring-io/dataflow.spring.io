@@ -15,7 +15,7 @@ class NewsTemplate extends React.Component {
         <Seo title='News' />
         <div className='container'>
           <div className='layout-basic'>
-            <article className='article-news'>
+            <article className='article-news single'>
               <h1 className='title'>{get(page, 'frontmatter.title')}</h1>
               <p className='date'>{parseDate(get(page, 'frontmatter.date'))}</p>
               <div className='post-content md'>

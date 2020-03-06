@@ -119,6 +119,7 @@ exports.createPages = ({ graphql, actions }) => {
                 frontmatter {
                   title
                   description
+                  external
                   date
                   path
                 }
@@ -133,14 +134,16 @@ exports.createPages = ({ graphql, actions }) => {
         }
         result.data.pages.edges.forEach(({ node }) => {
           // console.log(node)
-          const NewsTemplate = path.resolve(`./src/templates/news.js`)
-          createPage({
-            path: `/news${get(node, 'frontmatter.path')}`,
-            component: NewsTemplate,
-            context: {
-              slug: get(node, 'frontmatter.path'),
-            },
-          })
+          if (!get(node, 'frontmatter.external')) {
+            const NewsTemplate = path.resolve(`./src/templates/news.js`)
+            createPage({
+              path: `/news${get(node, 'frontmatter.path')}`,
+              component: NewsTemplate,
+              context: {
+                slug: get(node, 'frontmatter.path'),
+              },
+            })
+          }
         })
         return resolve()
       })

@@ -22,6 +22,7 @@ const Latest = () => {
                   path
                   category
                   date
+                  external
                   image {
                     childImageSharp {
                       fluid {
@@ -36,7 +37,6 @@ const Latest = () => {
         }
       `}
       render={data => {
-        console.log(data)
         return <List items={data.allMarkdownRemark.edges} />
       }}
     />

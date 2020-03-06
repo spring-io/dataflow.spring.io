@@ -39,6 +39,7 @@ export const articleQuery = graphql`
             path
             category
             date
+            external
             image {
               childImageSharp {
                 fluid {
