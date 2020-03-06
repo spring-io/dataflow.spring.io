@@ -52,7 +52,7 @@ Now press the `Schedule the task button`. Now a Cron Job has been created to han
 <!--Local-->
 
 Spring Cloud Data Flow does not offer an out of the box solution for scheduling task launches on the local platform.  
-However there are 2 solutions that provide an option for scheduling on the local platform:
+However, there are at least two Spring Boot native solutions that provide a scheduling option, which can be custom implemented to make it work in SCDF running locally.
 
 **Spring Boot Implementing a Quartz Scheduler**
 
