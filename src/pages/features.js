@@ -72,9 +72,9 @@ const FeaturesPage = () => (
             </article>
 
             <article>
-              <h2>Pivotal Data Products</h2>
+              <h2>VMware Data Products</h2>
               <p>
-                Ready to connect with Pivotal Data Products including
+                Ready to connect with VMware Data Products including
                 Gemfire/Geode, PCC, GPDB, Pivotal RabbitMQ, Pivotal Redis,
                 Pivotal PostgreSQL, and Pivotal MySQL
               </p>

@@ -15,9 +15,9 @@ const Footer = () => (
               <a
                 target='_blank'
                 rel='noreferrer noopener'
-                href='https://pivotal.io/'
+                href='https://www.vmware.com/'
               >
-                Pivotal
+                VMware
               </a>
             </span>
           </div>
@@ -47,8 +47,8 @@ const Footer = () => (
             </div>
             <div className='copyright'>
               <p>
-                © 2013-{new Date().getFullYear()} Pivotal Software, Inc. All
-                Rights Reserved.
+                © 2013-{new Date().getFullYear()} VMware, Inc. or its
+                affiliates.
               </p>
               <p>Spring Cloud Data Flow is under the Apache 2.0 license.</p>
             </div>
@@ -57,7 +57,7 @@ const Footer = () => (
                 <a
                   target='_blank'
                   rel='noreferrer noopener'
-                  href='https://pivotal.io/legal'
+                  href='https://www.vmware.com/help/legal.html'
                 >
                   Terms of service
                 </a>
@@ -66,7 +66,7 @@ const Footer = () => (
                 <a
                   target='_blank'
                   rel='noreferrer noopener'
-                  href='https://pivotal.io/privacy-policy'
+                  href='https://www.vmware.com/help/privacy.html'
                 >
                   Privacy
                 </a>
