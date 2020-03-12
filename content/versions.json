@@ -8,7 +8,7 @@
     "branch": "2.3.x"
   },
   "2.4.x": {
-    "name": "2.4.0",
+    "name": "2.4.2",
     "branch": "2.4.x",
     "current": true
   },
