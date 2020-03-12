@@ -3,8 +3,8 @@
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.2.0.RELEASE",
-  "skipper-version": "2.3.0.BUILD-SNAPSHOT",
-  "dataflow-version": "2.4.0.BUILD-SNAPSHOT",
+  "skipper-version": "2.3.2.RELEASE",
+  "dataflow-version": "2.4.2.RELEASE",
 
   "github-tag": "master",
 
