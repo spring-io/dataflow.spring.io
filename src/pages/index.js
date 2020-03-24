@@ -126,7 +126,7 @@ const IndexPage = () => (
 
     <div className='home-news'>
       <div className='container'>
-        <h1>Latest news</h1>
+        <h1>Announcements</h1>
         <div className='news-list'>
           <Latest />
         </div>
