@@ -16,9 +16,9 @@ Batch-only mode requires only Spring Cloud Data Flow Server. You do not need Spr
 
 To use Spring Cloud Data Flow for batch processing but not for stream processing, you can do so by defining a few settings that control the Spring Cloud Data Flow server. In particular, you need:
 
-- `features_streams_enabled=false` to turn off the orchestration of streams.
-- `rabbitmq_enabled=false` to disable RabbitMQ, which Batch does not need.
-- `features_tasks_enabled=true` to enable batch processing.
+- `SPRING_CLOUD_DATAFLOW_FEATURES_STREAMS_ENABLED=false` to turn off the orchestration of streams.
+- `SPRING_CLOUD_DATAFLOW_FEATURES_SCHEDULES_ENABLED=true` to enable schedules, which Batch can use.
+- `SPRING_CLOUD_DATAFLOW_FEATURES_TASKS_ENABLED=true` to enable batch processing.
 
 Batch processing requires an external data store. To set up an external data store, you need to specify the database's connection settings. We cover those settings in the next section. For additional detail, see [the main Spring Batch developer guide](%currentPath%/batch-developer-guides/batch/spring-batch/#local).
 
