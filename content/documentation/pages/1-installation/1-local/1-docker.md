@@ -218,24 +218,23 @@ For example, if the `my-app-1.0.0.RELEASE.jar` is stored in the `/tmp/myapps/` f
 
 ```bash
 export HOST_MOUNT_PATH=/tmp/myapps
-docker-compose up
 ```
 
 <!--Windows (Cmd)-->
 
 ```bash
 set HOST_MOUNT_PATH=C:\Users\User\MyApps
-docker-compose up
 ```
 
 <!--Windows (PowerShell) -->
 
 ```bash
 $Env:HOST_MOUNT_PATH="C:\Users\User\MyApps"
-docker-compose up
 ```
 
 <!--END_TABS-->
+
+and follow the [starting docker-compose](%currentPath%/installation/local/docker/#starting-docker-compose) instructions to start the cluster.
 
 See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
 
@@ -280,7 +279,6 @@ We can leverage the `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` variables to confi
 ```bash
 export HOST_MOUNT_PATH=~/.m2
 export DOCKER_MOUNT_PATH=/root/.m2/
-docker-compose up
 ```
 
 <!--Windows (Cmd)-->
@@ -288,7 +286,6 @@ docker-compose up
 ```bash
 set HOST_MOUNT_PATH=%userprofile%\.m2
 set DOCKER_MOUNT_PATH=/root/.m2/
-docker-compose up
 ```
 
 <!--Windows (PowerShell) -->
@@ -296,10 +293,11 @@ docker-compose up
 ```bash
 $Env:HOST_MOUNT_PATH="~\.m2"
 $Env:DOCKER_MOUNT_PATH="/root/.m2/"
-docker-compose up
 ```
 
 <!--END_TABS-->
+
+and follow the [starting docker-compose](%currentPath%/installation/local/docker/#starting-docker-compose) instructions to start the cluster.
 
 Now you can use the `maven://` URI schema and Maven coordinates to resolve jars installed in the host’s maven repository, as the following example shows:
 
@@ -317,4 +315,8 @@ To learn more about the monitoring experience in Spring Cloud Data Flow with Pro
 
 ## Debugging
 
+The [Debug Stream Applications](%currentPath%/installation/local/docker-customize/#debug-stream-applications) guide, shows how to enables remote debugging for Stream Applications deployed by Data Flow.
+
 The [Debug Data Flow Server](%currentPath%/installation/local/docker-customize/#debug-data-flow-server) guide, shows how extend the docker compose configuration to enables remote Data Flow Server debugging with your IDE such as IntelliJ or Eclipse.
+
+The [Debug Skipper Server](%currentPath%/installation/local/docker-customize/#debug-skipper-server) guide, shows how extend the docker compose configuration to enables remote Skipper Server debugging with your IDE such as IntelliJ or Eclipse.

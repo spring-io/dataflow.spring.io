@@ -89,10 +89,10 @@ public class UsageDetailSender {
 
 ```
 
-This is a simple `Configuration` class with a single bean that returns a `java.util.function.Supplier`. 
-Spring Cloud Stream, behind the scenes will turn this `Supplier` into a producer. 
-By default, the supplier will be invoked every second. 
-On each invocation, the supplier method `sendEvents` constructs a `UsageDetail` object. 
+This is a simple `Configuration` class with a single bean that returns a `java.util.function.Supplier`.
+Spring Cloud Stream, behind the scenes will turn this `Supplier` into a producer.
+By default, the supplier will be invoked every second.
+On each invocation, the supplier method `sendEvents` constructs a `UsageDetail` object.
 
 #### Configuring the UsageDetailSender application
 
@@ -109,7 +109,7 @@ spring.cloud.stream.function.bindings.sendEvents-out-0=output
 spring.cloud.stream.bindings.output.destination=usage-detail
 ```
 
-The first property will override the default binding name to `output` and the second one will set destination on that binding. 
+The first property will override the default binding name to `output` and the second one will set destination on that binding.
 
 #### Building
 
@@ -122,7 +122,7 @@ In the `usage-detail-sender` directory, use the following command to build the p
 
 #### Testing
 
-Spring Cloud Stream provides a test binder to test an application. 
+Spring Cloud Stream provides a test binder to test an application.
 Following are the maven coordinates for this artifact.
 
 ```
@@ -134,9 +134,10 @@ Following are the maven coordinates for this artifact.
     <scope>test</scope>
 </dependency>
 ```
+
 Instead of the `Kafka` binder, the tests use the `Test` binder to trace and test your application's outbound and inbound messages.
 The `Test` binder provides abstractions for output and input destinations as `OutputDestination` and `InputDestination`.
-Using them, you can simulate the behavior of actual middleware based binders. 
+Using them, you can simulate the behavior of actual middleware based binders.
 
 To unit test this `UsageDetailSender` application, add the following code in the `UsageDetailSenderApplicationTests` class:
 
@@ -157,7 +158,7 @@ import org.springframework.messaging.converter.MessageConverter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UsageDetailSenderApplicationTests {
-	
+
     @Test
 	public void contextLoads() {
 	}
@@ -243,7 +244,7 @@ public class UsageCostProcessor {
 
 ```
 
-In the preceding application, we are providing a bean that returns a `java.util.function.Function` that consumes a `UsageDetail` as input and publishes a `UsageCostDetail` as ouptut. 
+In the preceding application, we are providing a bean that returns a `java.util.function.Function` that consumes a `UsageDetail` as input and publishes a `UsageCostDetail` as ouptut.
 
 #### Configuring the `UsageCostProcessor` Application
 
@@ -347,8 +348,8 @@ public class UsageCostProcessorApplicationTests {
 ```
 
 - The `contextLoads` test case verifies the application starts successfully.
-- The `testUsageCostProcessor` test case uses the test binder's `InputDestination` to publish a message which is consumed by the function in the processor. 
-Then we use the `OutputDestination` to verify that the `UsageDetail` is property transformed into a `UsageCostDetail`. 
+- The `testUsageCostProcessor` test case uses the test binder's `InputDestination` to publish a message which is consumed by the function in the processor.
+  Then we use the `OutputDestination` to verify that the `UsageDetail` is property transformed into a `UsageCostDetail`.
 
 ### `UsageCostLogger` Sink
 
@@ -411,9 +412,9 @@ spring.cloud.stream.function.bindings.process-in-0=input
 spring.cloud.stream.bindings.input.destination=usage-cost
 ```
 
-The `spring.cloud.stream.function.bindings.process-in-0` property overrides the binding name to `input` and spring.cloud.stream.bindings.input.destination` property sets the destination to the `usage-cost` Kafka topic.
+The `spring.cloud.stream.function.bindings.process-in-0` property overrides the binding name to `input` and spring.cloud.stream.bindings.input.destination`property sets the destination to the`usage-cost` Kafka topic.
 
-There are many configuration options that you can choose to extend/override to achieve the desired runtime behavior when using Apache Kafka as the message broker. 
+There are many configuration options that you can choose to extend/override to achieve the desired runtime behavior when using Apache Kafka as the message broker.
 The Apache Kafka-specific binder configuration properties are listed in [Apache Kafka-binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-kafka/current/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options)
 
 #### Building
@@ -490,8 +491,8 @@ public class UsageCostLoggerApplicationTests {
 ```
 
 - The `contextLoads` test case verifies the application starts successfully.
-- The `testUsageCostLogger` test case verifies that the `process` method of `UsageCostLogger` is invoked. 
-We use the `OutputCaptureExtension` facility provided by Spring Boot testing infrastructure to verify that the message is logged to the console. 
+- The `testUsageCostLogger` test case verifies that the `process` method of `UsageCostLogger` is invoked.
+  We use the `OutputCaptureExtension` facility provided by Spring Boot testing infrastructure to verify that the message is logged to the console.
 
 ## Deployment
 
