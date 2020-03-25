@@ -15,9 +15,6 @@ In this section, we will show you how you can schedule the launch of the batch j
 Spring Cloud Data Flow lets a user schedule the launching of tasks via a cron expression. A schedule can be created through the RESTful API or the Spring Cloud Data Flow UI.
 Spring Cloud Data Flow will schedule the execution of its tasks via a scheduling agent that is available on the cloud platform.
 ![Scheduling Architecture](images/SCDF-scheduling-architecture.png)
-The way that Spring Cloud Data Flow does this is by deploying a SchedulerTaskLauncher application to the platform and then
-the scheduling agent (e.g., CronJob in Kubernetes) is notified to schedule the SchedulerTaskLauncher. When the scheduling agent launches the
-[SchedulerTaskLauncher](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-scheduler-task-launcher/src/main/java/org/springframework/cloud/dataflow/scheduler/launcher/SchedulerTaskLauncherApplication.java), the SchedulerTaskLauncher will utilize Spring Cloud Data Flow's RESTFul API to launch the task.
 When using the Cloud Foundry platform Spring Cloud Data Flow will use the PCF Scheduler.
 When using Kubernetes, CronJobs will be used.
 
