@@ -17,7 +17,7 @@ Batch-only mode requires only Spring Cloud Data Flow Server. You do not need Spr
 To use Spring Cloud Data Flow for batch processing but not for stream processing, you can do so by defining a few settings that control the Spring Cloud Data Flow server. In particular, you need:
 
 - `SPRING_CLOUD_DATAFLOW_FEATURES_STREAMS_ENABLED=false` to turn off the orchestration of streams.
-- `SPRING_CLOUD_DATAFLOW_FEATURES_SCHEDULES_ENABLED=true` to enable schedules, which Batch can use.
+- `SPRING_CLOUD_DATAFLOW_FEATURES_SCHEDULES_ENABLED=false` to turn off schedules, because Batch does not support scheduling for the local environment.
 - `SPRING_CLOUD_DATAFLOW_FEATURES_TASKS_ENABLED=true` to enable batch processing.
 
 Batch processing requires an external data store. To set up an external data store, you need to specify the database's connection settings. We cover those settings in the next section. For additional detail, see [the main Spring Batch developer guide](%currentPath%/batch-developer-guides/batch/spring-batch/#local).
@@ -37,9 +37,9 @@ wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/s
 You can use environment variables to enable and disable features and to configure an external data store. The following listing shows how to set the required environment variables:
 
 ```bash
-export features_streaming_enabled=false
-export rabbitmq_enabled=false
-export features_tasks_enabled=true
+export SPRING_CLOUD_DATAFLOW_FEATURES_STREAMS_ENABLED=false
+export SPRING_CLOUD_DATAFLOW_FEATURES_SCHEDULES_ENABLED=false
+export SPRING_CLOUD_DATAFLOW_FEATURES_TASKS_ENABLED=true
 export spring_datasource_url=jdbc:mariadb://localhost:3306/task
 export spring_datasource_username=root
 export spring_datasource_password=password
