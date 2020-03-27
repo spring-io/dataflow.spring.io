@@ -3,6 +3,7 @@
   "skip": [
     "^data:image",
     "^http://localhost:9393",
+    "^https://localhost:9393",
     "^http://localhost:9090",
     "^http://localhost:3000",
     "^http://localhost:15672",
