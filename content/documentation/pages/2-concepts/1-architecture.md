@@ -36,6 +36,8 @@ The following image shows a high-level view of the architecture and the paths of
 
 ![Spring Cloud Data Flow Architecture Overview](images/arch-overview.png)
 
+### Data Flow Server
+
 The Data Flow Server is responsible for
 
 - Parsing the Stream and Batch Job definitions based on a Domain Specific Language (DSL - Domain-Specific Language).
@@ -48,6 +50,8 @@ The Data Flow Server is responsible for
 - Delegating Stream Deployment to Skipper.
 - Auditing actions (such as Stream create, deploy, undeploy and Batch create, launch, delete).
 - Providing Stream and Batch Job DSL tab-completion features.
+
+### Skipper Server
 
 The Skipper Server is responsible for:
 
@@ -228,6 +232,20 @@ The DSL expression (`task1 && task2`) means that `task2` is launched only if `ta
 The graph of tasks are run through a task application called the _Composed Task Runner_.
 
 Additional guides will go into more detail on how to develop, test, and register short-lived applications and how to deploy them.
+
+### Application Metadata
+
+The long-lived and the short-lived applications can provide metadata about the supported configuration properties. The metadata is used by Shell and UI tools to offer contextual help and code completion when building data pipelines. It is packaged together with the application or provided as an additional artifact.
+
+The application [configuration properties](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config) details are captured as Spring Boot [Configuration Metadata](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html) and the `whitelist properties` are used to specify from all the metadata, only the primary properties, essential for application's operation.
+
+Depending on the runtime, the metadata is packaged in two ways:
+
+- For the uber-jar packaged applications an additional metadata-jar is provided, to accommodate the `configuration metadata` and the `whitelist properties` for that application.
+
+- For the Docker image packaged applications, the whitelisted properties are extracted from the configuration metadata and provided as a Docker image configuration label.
+
+Find more about how to generate and use [Application Metadata](%currentPath%/feature-guides/general/application-metadata/) in the related features guide.
 
 ## Prebuilt Applications
 
