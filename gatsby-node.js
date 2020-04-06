@@ -104,6 +104,52 @@ exports.createPages = ({ graphql, actions }) => {
     })
   )
 
+  queryPromises.push(
+    new Promise((resolve, reject) => {
+      graphql(`
+        {
+          pages: allMarkdownRemark(
+            filter: { fields: { hash: { eq: "news" } } }
+            limit: 1000
+          ) {
+            edges {
+              node {
+                id
+                fileAbsolutePath
+                frontmatter {
+                  title
+                  description
+                  external
+                  date
+                  path
+                }
+              }
+            }
+          }
+        }
+      `).then(result => {
+        if (result.errors) {
+          console.log('error', result)
+          return reject(result.errors)
+        }
+        result.data.pages.edges.forEach(({ node }) => {
+          // console.log(node)
+          if (!get(node, 'frontmatter.external')) {
+            const NewsTemplate = path.resolve(`./src/templates/news.js`)
+            createPage({
+              path: `/news${get(node, 'frontmatter.path')}`,
+              component: NewsTemplate,
+              context: {
+                slug: get(node, 'frontmatter.path'),
+              },
+            })
+          }
+        })
+        return resolve()
+      })
+    })
+  )
+
   return Promise.all(queryPromises)
 }
 
@@ -114,16 +160,31 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
   const { createNodeField } = actions
   if (get(node, 'internal.type') === `MarkdownRemark`) {
     const frontmatterPath = get(node, 'frontmatter.path')
-    const slug = createFilePath({ node, getNode, basePath: `pages` })
     const relativePath = path.relative(__dirname, node.fileAbsolutePath)
 
     const pathArr = relativePath.split('/')
     const version = pathArr[1]
     const filename = pathArr[pathArr.length - 1]
+    if (startsWith(relativePath, 'content/news/')) {
+      const slug = frontmatterPath // createFilePath({ node, getNode, basePath: `news` })
+
+      console.log(slug)
+      createNodeField({
+        node,
+        name: `slug`,
+        value: slug,
+      })
+      createNodeField({
+        node,
+        name: `hash`,
+        value: `news`,
+      })
+    }
 
     if (startsWith(relativePath, 'data/')) {
       if (!startsWith(filename, '_')) {
         // Page
+        const slug = createFilePath({ node, getNode, basePath: `pages` })
         const category = frontmatterPath
           .split('/')
           .slice(0, 1)
