@@ -6,6 +6,18 @@ description: 'Installation using Helm'
 
 ## Helm Installation
 
+<!--NOTE-->
+
+The current Spring Cloud Data Flow chart is based on Helm 2.
+The Helm project will be ending support for Helm 2 in November of 2020.
+At that time the Spring Cloud Data Flow chart will be based on Helm 3, dropping support for Helm 2.
+
+Migration steps from Helm 2 to Helm 3 are required.
+In preparation for the migration, it is advised to read the [Helm v2 to v3 Migration Guide](https://helm.sh/docs/topics/v2_v3_migration/) for more information.
+Additionally, some helpful tips on data migration and upgrades can be found in the [post migration issues](https://docs.bitnami.com/tutorials/resolve-helm2-helm3-post-migration-issues/) article.
+
+<!--END_NOTE-->
+
 Spring Cloud Data Flow offers a [Helm Chart](https://hub.kubeapps.com/charts/stable/spring-cloud-data-flow)
 for deploying the Spring Cloud Data Flow server and its required services to a Kubernetes Cluster.
 
