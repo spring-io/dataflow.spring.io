@@ -528,44 +528,6 @@ Assume we have created a composed task named `my-composed-task` now we want to l
 1. Now press the `Tasks` tab to the left of the page and then when the Task Definition page appears press the `Executions` tab at the top. Notice that you have 2 `Composed Task Runs` the first is the failed composed task execution where `task-b` failed. But then on the second execution we see that `my-composed-task` `Composed Task Runner` started the graph at the failed task app (`task-b`) and completed the composed task as shown below:
    ![Restart Composed Task Execution](images/SCDF-composed-task-restart-exec-complete.png)
 
-## Launching a Composed Task When Security is Enabled
-
-As a user you have three options to launch a composed task when Spring Cloud Data Flow authentication is enabled:
-
-1. Basic authentication - Authentication using username and password
-1. User configured access token - When launching a composed task provide the token you wish to use at launch time using the `dataflow-server-access-token` property.
-1. Data Flow provided user token - If the `dataflow-server-use-user-access-token` property is set to `true`, Spring Cloud Data Flow will auto-populate the property `dataflow-server-access-token` with access token of the current logged in user.
-
-### Basic Authentication
-
-In the example below we will launch a composed task where the user provides the username and password.
-
-1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
-   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
-1. Set the `dataflow-server-username` and `dataflow-server-password` as follows in the `Parameters` text box:
-   ![Launch Task](images/SCDF-composed-task-user-security-basic-launch.png)
-1. Now press the `Launch the task` button to launch the composed task.
-
-### Using your own access token
-
-In the case the composed task needs to be launched with a specific access token then pass the token using the `dataflow-server-access-token` property.
-
-1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
-   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
-1. Set the `dataflow-server-access-token` as follows in the `Parameters` text box:
-   ![Set User Access Token](images/SCDF-composed-task-user-security-launch-token.png)
-1. Now press the `Launch the task` button to launch the composed task.
-
-### User Access Token
-
-In the example below we will launch a composed task where the `dataflow-server-use-user-access-token` is set to `true`.
-
-1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
-   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
-1. Set the `dataflow-server-use-user-access-token` as follows in the `Arguments` text box:
-   ![Launch Task](images/SCDF-composed-task-user-security.png)
-1. Now press the `Launch the task` button to launch the composed task.
-
 # Passing Properties
 
 Spring Cloud Data Flow allows users to pass both application and deployment properties to `Composed Task Runner` and to the task apps in the graph.
@@ -724,3 +686,87 @@ Date: Fri, 17 Jan 2020 16:35:42 GMT
 
 {"_embedded":{"taskExecutionResourceList":[{"executionId":285,"exitCode":0,"taskName":"my-composed-task-task-b","startTime":"2020-01-17T11:33:24.000-0500","endTime":"2020-01-17T11:33:25.000-0500","exitMessage":null,"arguments":["--spring.cloud.task.parent-execution-id=283","--spring.cloud.data.flow.platformname=default","--spring.cloud.task.executionid=285"],"jobExecutionIds":[],"errorMessage":null,"externalExecutionId":"my-composed-task-task-b-217b8de4-8877-4350-8cc7-001a4347d3b5","parentExecutionId":283,"resourceUrl":"URL [file:////Users/glennrenfro/project/spring-cloud-dataflow-samples/pauseasec/target/pauseasec-1.0.0.BUILD-SNAPSHOT.jar]","appProperties":{"spring.datasource.username":"******","my-prop":"great","spring.datasource.url":"******","spring.datasource.driverClassName":"org.mariadb.jdbc.Driver","spring.cloud.task.name":"my-composed-task-task-b","spring.datasource.password":"******"},"deploymentProperties":{"app.task-b.my-prop":"great"},"taskExecutionStatus":"COMPLETE","_links":{"self":{"href":"http://localhost:9393/tasks/executions/285"}}},{"executionId":284,"exitCode":0,"taskName":"my-composed-task-task-a","startTime":"2020-01-17T11:33:15.000-0500","endTime":"2020-01-17T11:33:15.000-0500","exitMessage":null,"arguments":["--spring.cloud.task.parent-execution-id=283","--spring.cloud.data.flow.platformname=default","--spring.cloud.task.executionid=284"],"jobExecutionIds":[],"errorMessage":null,"externalExecutionId":"my-composed-task-task-a-0806d01f-b08a-4db5-a4d2-ab819e9df5df","parentExecutionId":283,"resourceUrl":"org.springframework.cloud.task.app:timestamp-task:jar:2.1.0.RELEASE","appProperties":{"spring.datasource.username":"******","my-prop":"good","spring.datasource.url":"******","spring.datasource.driverClassName":"org.mariadb.jdbc.Driver","spring.cloud.task.name":"my-composed-task-task-a","spring.datasource.password":"******"},"deploymentProperties":{"app.task-a.my-prop":"good"},"taskExecutionStatus":"COMPLETE","_links":{"self":{"href":"http://localhost:9393/tasks/executions/284"}}},{"executionId":283,"exitCode":0,"taskName":"my-composed-task","startTime":"2020-01-17T11:33:12.000-0500","endTime":"2020-01-17T11:33:33.000-0500","exitMessage":null,"arguments":["--spring.cloud.data.flow.platformname=default","--spring.cloud.task.executionid=283","--spring.cloud.data.flow.taskappname=composed-task-runner"],"jobExecutionIds":[75],"errorMessage":null,"externalExecutionId":"my-composed-task-7a2ad551-a81c-46bf-9661-f9d5f78b27c4","parentExecutionId":null,"resourceUrl":"URL [file:////Users/glennrenfro/project/spring-cloud-task-app-starters/composed-task-runner/apps/composedtaskrunner-task/target/composedtaskrunner-task-2.1.3.BUILD-SNAPSHOT.jar]","appProperties":{"spring.datasource.username":"******","spring.datasource.url":"******","spring.datasource.driverClassName":"org.mariadb.jdbc.Driver","spring.cloud.task.name":"my-composed-task","composed-task-properties":"app.my-composed-task-task-a.app.task-a.my-prop=good, app.my-composed-task-task-b.app.task-b.my-prop=great","graph":"my-composed-task-task-a && my-composed-task-task-b","spring.datasource.password":"******"},"deploymentProperties":{"app.composed-task-runner.composed-task-properties":"app.my-composed-task-task-a.app.task-a.my-prop=good, app.my-composed-task-task-b.app.task-b.my-prop=great"},"taskExecutionStatus":"COMPLETE","_links":{"self":{"href":"http://localhost:9393/tasks/executions/283"}}}]},"_links":{"self":{"href":"http://localhost:9393/tasks/executions?page=0&size=10"}},"page":{"size":10,"totalElements":3,"totalPages":1,"number":0}}```
 ````
+
+# Configuring Composed Task Runner
+
+## Launching a Composed Task When Security is Enabled
+
+As a user you have three options to launch a composed task when Spring Cloud Data Flow authentication is enabled:
+
+1. Basic authentication - Authentication using username and password
+1. User configured access token - When launching a composed task provide the token you wish to use at launch time using the `dataflow-server-access-token` property.
+1. Data Flow provided user token - If the `dataflow-server-use-user-access-token` property is set to `true`, Spring Cloud Data Flow will auto-populate the property `dataflow-server-access-token` with access token of the current logged in user.
+
+### Basic Authentication
+
+In the example below we will launch a composed task where the user provides the username and password.
+
+1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
+   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
+1. Set the `dataflow-server-username` and `dataflow-server-password` as follows in the `Parameters` text box:
+   ![Launch Task](images/SCDF-composed-task-user-security-basic-launch.png)
+1. Now press the `Launch the task` button to launch the composed task.
+
+### Using your own access token
+
+In the case the composed task needs to be launched with a specific access token then pass the token using the `dataflow-server-access-token` property.
+
+1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
+   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
+1. Set the `dataflow-server-access-token` as follows in the `Parameters` text box:
+   ![Set User Access Token](images/SCDF-composed-task-user-security-launch-token.png)
+1. Now press the `Launch the task` button to launch the composed task.
+
+### User Access Token
+
+In the example below we will launch a composed task where the `dataflow-server-use-user-access-token` is set to `true`.
+
+1. Launch composed task as shown below by pressing the `play` button next to the composed task definition that needs to be launched:
+   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
+1. Set the `dataflow-server-use-user-access-token` as follows in the `Arguments` text box:
+   ![Launch Task](images/SCDF-composed-task-user-security.png)
+1. Now press the `Launch the task` button to launch the composed task.
+
+## Configure URI for Composed Tasks
+
+When a user launches a composed task, Spring Cloud Data Flow launches the `Composed Task Runner`
+application to manage the execution of the composed task graph.
+It does this by parsing the Spring Cloud Data Flow task definition DSL provided,
+and then makes RESTful API calls back to the Spring Cloud Data Flow server to
+launch the task definitions. As each task completes, it will launch the next
+appropriate task definition. In order to set the URI that `Composed Task Runner`
+will use to make is RESTful API calls, you will need to set the `SPRING_CLOUD_DATAFLOW_SERVER_URI`
+property in Spring Cloud Data Flow server. Examples are shown below:
+
+- Kubernetes spec for Spring Cloud Data Flow Server
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  ...
+spec:
+  ...
+  template:
+    ...
+    spec:
+      containers:
+        env:
+        ...
+        - name: SPRING_CLOUD_DATAFLOW_SERVER_URI
+          value: '<URI to your SCDF Server>'
+        ...
+```
+
+- Cloud Foundry Manifest For the Spring Cloud Data Flow Server
+
+```yaml
+---
+applications:
+  ...
+  env:
+    ...
+    SPRING_CLOUD_DATAFLOW_SERVER_URI: <URI to your SCDF Server>
+  services:
+    ...
+```
