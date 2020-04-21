@@ -533,7 +533,11 @@ the name of the secret you created earlier.
 
 You can also configure the image pull secret at the global server level.
 
-The following example shows how to do so for streams:
+The following example shows how to do so for streams and tasks:
+
+<!--TABS-->
+
+<!--Streams (Skipper configuration) -->
 
 ```yaml
 data:
@@ -549,7 +553,7 @@ data:
                     imagePullSecret: mysecret
 ```
 
-The following example shows how to do so for tasks:
+<!--Tasks (DataFlow configuration) -->
 
 ```yaml
 data:
@@ -565,7 +569,28 @@ data:
                     imagePullSecret: mysecret
 ```
 
+<!--END_TABS-->
+
 Replace `mysecret` with the name of the secret you created earlier.
+
+DataFlow uses the [application metadata](%currentPath%/feature-guides/general/application-metadata/) stored in the Docker image configuration labels.
+For privet registry, to allow access to the image configuration you have to extend your DataFlow deployment configuration and mount the registry secret as a named volume like this:
+
+```yaml
+    spec:
+      containers:
+      - name: scdf-server
+        ...
+        volumeMounts:
+          - name: mysecret
+            mountPath: /etc/secrets/mysecret
+            readOnly: true
+      ...
+      volumes:
+        - name: mysecret
+          secret:
+            secretName: mysecret
+```
 
 ### Annotations
 
