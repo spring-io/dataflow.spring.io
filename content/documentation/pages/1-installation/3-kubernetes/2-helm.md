@@ -573,8 +573,10 @@ data:
 
 Replace `mysecret` with the name of the secret you created earlier.
 
+#### Volume Mounted Secretes
+
 Data Flow uses the [application metadata](%currentPath%/feature-guides/general/application-metadata/) stored in a container image label.
-For a private registry, to allow access to retrieve the metadata label, you have to extend your Data Flow deployment configuration and mount the registry secret as a named volume like this:
+To access the metadata labels in a private registry, you have to extend the Data Flow deployment configuration and mount the registry secrets as a [Secrets PropertySource](https://cloud.spring.io/spring-cloud-static/spring-cloud-kubernetes/2.0.0.M1/reference/html/#secrets-propertysource):
 
 ```yaml
     spec:
@@ -585,7 +587,7 @@ For a private registry, to allow access to retrieve the metadata label, you have
           - name: mysecret
             mountPath: /etc/secrets/mysecret
             readOnly: true
-      ...
+        ...
       volumes:
         - name: mysecret
           secret:

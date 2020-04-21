@@ -244,7 +244,8 @@ dataflow:>app register --name log --type sink --uri container:springcloudstream/
 
 Configurations specific for each target Container Registry provider/instance.
 
-For a [private container registry](%currentPath%/installation/kubernetes/helm/#private-docker-registry) with volume mounted secretes, the registry configurations are automatically inferred from the secrets. In addition the `spring.cloud.dataflow.container.registry-configurations` has properties that let you explicitly configure multiple container registries like this:
+For a [private container registry](%currentPath%/installation/kubernetes/helm/#private-docker-registry) with [volume mounted secretes](%currentPath%/installation/kubernetes/helm/#volume-mounted-secretes), the registry configurations are automatically inferred from the secrets.
+In addition the `spring.cloud.dataflow.container.registry-configurations` has properties that let you explicitly configure multiple container registries like this:
 
 - [Docker Hub](https://hub.docker.com/) - public Docker Hub registry
 
@@ -294,14 +295,26 @@ Optionally you can set the registry IDs via the `.extra[registryIds]` property a
 - [Harbor Registry](https://goharbor.io)
 
 ```yaml
-- spring.cloud.dataflow.container.registry-configurations[goharbor].registry-host=demo.goharbor.io
-- spring.cloud.dataflow.container.registry-configurations[goharbor].authorization-type=dockeroauth2
-- spring.cloud.dataflow.container.registry-configurations[goharbor].user=admin
-- spring.cloud.dataflow.container.registry-configurations[goharbor].secret=Harbor12345
+- spring.cloud.dataflow.container.registry-configurations[harbor].registry-host=demo.goharbor.io
+- spring.cloud.dataflow.container.registry-configurations[harbor].authorization-type=dockeroauth2
+- spring.cloud.dataflow.container.registry-configurations[harbor].user=admin
+- spring.cloud.dataflow.container.registry-configurations[harbor].secret=Harbor12345
 ```
 
 The Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on different `registryAuthUri`. Later is automatically resolved at bootstrap, but you can override it like this:
 
 ```yaml
-- spring.cloud.dataflow.container.registry-configurations[goharbor].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
+- spring.cloud.dataflow.container.registry-configurations[harbor].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
 ```
+
+- Overriding/Augmenting [Volume Mounted Secrets](%currentPath%/installation/kubernetes/helm/#volume-mounted-secretes)
+
+Properties can override or augment the configurations obtained via the registry secrets.
+For example if you have created a Secret to access a registry running at address: `my-private-registry:5000`, then you can disable SSL verification for this registry like this:
+
+```yaml
+- spring.cloud.dataflow.container.registry-configurations[myregistry].registry-host=my-private-registry:5000
+- spring.cloud.dataflow.container.registry-configurations[myregistry].disableSslVerification=true
+```
+
+This is handy testing registries with self-signed Certificates.
