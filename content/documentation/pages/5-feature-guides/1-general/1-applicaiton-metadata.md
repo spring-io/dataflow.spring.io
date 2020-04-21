@@ -139,6 +139,10 @@ To turn this property into a Docker label, first we need to load it as maven pro
 
 Then with the help of the `fabric8:docker-maven-plugin` or `jib` maven plugins insert the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property into a Docker label with the same name:
 
+<!--TABS-->
+
+<!-- Jib maven plugin -->
+
 ```xml
 <plugin>
     <groupId>com.google.cloud.tools</groupId>
@@ -168,7 +172,7 @@ Then with the help of the `fabric8:docker-maven-plugin` or `jib` maven plugins i
 
 ```
 
-Similar configuration using the `docker-maven-plugin`:
+<!-- Fabric8 maven plugin -->
 
 ```xml
 <plugin>
@@ -205,6 +209,8 @@ Similar configuration using the `docker-maven-plugin`:
 
 ```
 
+<!--END_TABS-->
+
 ## Using Application Metadata
 
 Once you have the application metadata generated either as a separate, companion artifact or embedded in the application container image as a configuration label, you can make the Data Flow system aware of it so that it can be used.
@@ -238,54 +244,64 @@ dataflow:>app register --name log --type sink --uri container:springcloudstream/
 
 Configurations specific for each target Container Registry provider/instance.
 
-The Docker Hub configuration is set by default for the local docker-compose installation. Additional container registries can be configured through the properties like this:
+For a [private container registry](%currentPath%/installation/kubernetes/helm/#private-docker-registry) with volume mounted secretes, the registry configurations are automatically inferred from the secrets. In addition the `spring.cloud.dataflow.container.registry-configurations` has properties that let you explicitly configure multiple container registries like this:
 
-- [Docker Hub](https://hub.docker.com/)
+- [Docker Hub](https://hub.docker.com/) - public Docker Hub registry
 
 ```yaml
-- spring.cloud.dataflow.container.metadata.registry-configurations[0].registry-host=registry-1.docker.io
-- spring.cloud.dataflow.container.metadata.registry-configurations[0].authorization-type=dockerhub
+- spring.cloud.dataflow.container.registry-configurations[default].registry-host=registry-1.docker.io
+- spring.cloud.dataflow.container.registry-configurations[default].authorization-type=dockeroauth2
 ```
 
-Note that the docker hub public repository doesn't require username and password authorization. They will be required though for private Docker Hub repositories.
+This registry is used by default, if the image name doesn't provide the registry host prefix.
+The public Docker hub repositories don't require username/password authorization.
+The credentials though will be required for the private Docker Hub repositories.
 
 - [Arifactory/JFrog Container Registry](https://jfrog.com/integration/docker-registry):
 
 ```yaml
-- spring.cloud.dataflow.container.metadata.registry-configurations[0].registry-host=springsource-docker-private-local.jfrog.io
-- spring.cloud.dataflow.container.metadata.registry-configurations[0].authorization-type=basicauth
-- spring.cloud.dataflow.container.metadata.registry-configurations[0].user=[artifactory user]
-- spring.cloud.dataflow.container.metadata.registry-configurations[0].secret=[artifactory encryptedkey]
+- spring.cloud.dataflow.container.registry-configurations[myjfrog].registry-host=springsource-docker-private-local.jfrog.io
+- spring.cloud.dataflow.container.registry-configurations[myjfrog].authorization-type=basicauth
+- spring.cloud.dataflow.container.registry-configurations[myjfrog].user=[artifactory user]
+- spring.cloud.dataflow.container.registry-configurations[myjfrog].secret=[artifactory encrypted password]
 ```
+
+Note: you need to create an [Encrypted Password](https://www.jfrog.com/confluence/display/JFROG/Centrally+Secure+Passwords) in JFrog.
 
 - [Amazon Elastic Container Registry (ECR)](https://aws.amazon.com/ecr/):
 
 ```yaml
-- spring.cloud.dataflow.container.metadata.registry-configurations[1].registry-host=283191309520.dkr.ecr.us-west-1.amazonaws.com
-- spring.cloud.dataflow.container.metadata.registry-configurations[1].authorization-type=awsecr
-- spring.cloud.dataflow.container.metadata.registry-configurations[1].user=[your AWS accessKey]
-- spring.cloud.dataflow.container.metadata.registry-configurations[1].secret=[your AWS secretKey]
-- spring.cloud.dataflow.container.metadata.registry-configurations[1].extra[region]=us-west-1
-- spring.cloud.dataflow.container.metadata.registry-configurations[1].extra[registryIds]=283191309520
+- spring.cloud.dataflow.container.registry-configurations[myecr].registry-host=283191309520.dkr.ecr.us-west-1.amazonaws.com
+- spring.cloud.dataflow.container.registry-configurations[myecr].authorization-type=awsecr
+- spring.cloud.dataflow.container.registry-configurations[myecr].user=[your AWS accessKey]
+- spring.cloud.dataflow.container.registry-configurations[myecr].secret=[your AWS secretKey]
+- spring.cloud.dataflow.container.registry-configurations[myecr].extra[region]=us-west-1
+- spring.cloud.dataflow.container.registry-configurations[myecr].extra[registryIds]=283191309520
 ```
+
+In addition to the credentials you have to provide the registry's `region` through the extra properties configuration (e.g. `.extra[region]=us-west-1`).
+Optionally you can set the registry IDs via the `.extra[registryIds]` property as a comma separated value.
 
 - [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry):
 
 ```yaml
-- spring.cloud.dataflow.container.metadata.registry-configurations[2].registry-host=tzolovazureregistry.azurecr.io
-- spring.cloud.dataflow.container.metadata.registry-configurations[2].authorization-type=basicauth
-- spring.cloud.dataflow.container.metadata.registry-configurations[2].user=[your Azure registry username]
-- spring.cloud.dataflow.container.metadata.registry-configurations[2].secret=[your Azure registry access password]
+- spring.cloud.dataflow.container.registry-configurations[myazurecr].registry-host=tzolovazureregistry.azurecr.io
+- spring.cloud.dataflow.container.registry-configurations[myazurecr].authorization-type=basicauth
+- spring.cloud.dataflow.container.registry-configurations[myazurecr].user=[your Azure registry username]
+- spring.cloud.dataflow.container.registry-configurations[myazurecr].secret=[your Azure registry access password]
 ```
 
 - [Harbor Registry](https://goharbor.io)
 
 ```yaml
-- spring.cloud.dataflow.container.metadata.registry-configurations[3].registry-host=demo.goharbor.io
-- spring.cloud.dataflow.container.metadata.registry-configurations[3].authorization-type=dockerhub
-- spring.cloud.dataflow.container.metadata.registry-configurations[3].user=admin
-- spring.cloud.dataflow.container.metadata.registry-configurations[3].secret=Harbor12345
-- spring.cloud.dataflow.container.metadata.registry-configurations[3].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
+- spring.cloud.dataflow.container.registry-configurations[goharbor].registry-host=demo.goharbor.io
+- spring.cloud.dataflow.container.registry-configurations[goharbor].authorization-type=dockeroauth2
+- spring.cloud.dataflow.container.registry-configurations[goharbor].user=admin
+- spring.cloud.dataflow.container.registry-configurations[goharbor].secret=Harbor12345
 ```
 
-Note that the Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on different `registryAuthUri`.
+The Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on different `registryAuthUri`. Later is automatically resolved at bootstrap, but you can override it like this:
+
+```yaml
+- spring.cloud.dataflow.container.registry-configurations[goharbor].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
+```
