@@ -249,16 +249,39 @@ In addition the `spring.cloud.dataflow.container.registry-configurations` has pr
 
 - [Docker Hub](https://hub.docker.com/) - public Docker Hub registry
 
+<!--TABS-->
+
+<!--Java properties-->
+
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[default].registry-host=registry-1.docker.io
 - spring.cloud.dataflow.container.registry-configurations[default].authorization-type=dockeroauth2
 ```
+
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          default:
+            - registry-host: registry-1.docker.io
+            - authorization-type: dockeroauth2
+```
+
+<!--END_TABS-->
 
 This registry is used by default, if the image name doesn't provide the registry host prefix.
 The public Docker hub repositories don't require username/password authorization.
 The credentials though will be required for the private Docker Hub repositories.
 
 - [Arifactory/JFrog Container Registry](https://jfrog.com/integration/docker-registry):
+
+<!--TABS-->
+
+<!--Java properties-->
 
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[myjfrog].registry-host=springsource-docker-private-local.jfrog.io
@@ -267,9 +290,30 @@ The credentials though will be required for the private Docker Hub repositories.
 - spring.cloud.dataflow.container.registry-configurations[myjfrog].secret=[artifactory encrypted password]
 ```
 
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          myjfrog:
+            - registry-host: springsource-docker-private-local.jfrog.io
+            - authorization-type: basicauth
+            - user: [artifactory user]
+            - secret: [artifactory encrypted password]
+```
+
+<!--END_TABS-->
+
 Note: you need to create an [Encrypted Password](https://www.jfrog.com/confluence/display/JFROG/Centrally+Secure+Passwords) in JFrog.
 
 - [Amazon Elastic Container Registry (ECR)](https://aws.amazon.com/ecr/):
+
+<!--TABS-->
+
+<!--Java properties-->
 
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[myecr].registry-host=283191309520.dkr.ecr.us-west-1.amazonaws.com
@@ -280,10 +324,34 @@ Note: you need to create an [Encrypted Password](https://www.jfrog.com/confluenc
 - spring.cloud.dataflow.container.registry-configurations[myecr].extra[registryIds]=283191309520
 ```
 
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          myecr:
+            - registry-host: 283191309520.dkr.ecr.us-west-1.amazonaws.com
+            - authorization-type: awsecr
+            - user: [your AWS accessKey]
+            - secret: [your AWS secretKey]
+            - extra:
+                - region: us-west-1
+                - registryIds: 283191309520
+```
+
+<!--END_TABS-->
+
 In addition to the credentials you have to provide the registry's `region` through the extra properties configuration (e.g. `.extra[region]=us-west-1`).
 Optionally you can set the registry IDs via the `.extra[registryIds]` property as a comma separated value.
 
 - [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry):
+
+<!--TABS-->
+
+<!--Java properties-->
 
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[myazurecr].registry-host=tzolovazureregistry.azurecr.io
@@ -292,7 +360,28 @@ Optionally you can set the registry IDs via the `.extra[registryIds]` property a
 - spring.cloud.dataflow.container.registry-configurations[myazurecr].secret=[your Azure registry access password]
 ```
 
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          myazurecr:
+            - registry-host: tzolovazureregistry.azurecr.io
+            - authorization-type: basicauth
+            - user: [your Azure registry username]
+            - secret: [your Azure registry access password]
+```
+
+<!--END_TABS-->
+
 - [Harbor Registry](https://goharbor.io)
+
+<!--TABS-->
+
+<!--Java properties-->
 
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[harbor].registry-host=demo.goharbor.io
@@ -301,20 +390,75 @@ Optionally you can set the registry IDs via the `.extra[registryIds]` property a
 - spring.cloud.dataflow.container.registry-configurations[harbor].secret=Harbor12345
 ```
 
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          harbor:
+            - registry-host: demo.goharbor.io
+            - authorization-type: dockeroauth2
+            - user: admin
+            - secret: Harbor12345
+```
+
+<!--END_TABS-->
+
 The Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on different `registryAuthUri`. Later is automatically resolved at bootstrap, but you can override it like this:
+
+<!--TABS-->
+
+<!--Java properties-->
 
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[harbor].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
 ```
+
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          harbor:
+            - extra:
+                - registryAuthUri: https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
+```
+
+<!--END_TABS-->
 
 - Overriding/Augmenting [Volume Mounted Secrets](%currentPath%/installation/kubernetes/helm/#volume-mounted-secretes)
 
 Properties can override or augment the configurations obtained via the registry secrets.
 For example if you have created a Secret to access a registry running at address: `my-private-registry:5000`, then you can disable SSL verification for this registry like this:
 
+<!--TABS-->
+
+<!--Java properties-->
+
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[myregistry].registry-host=my-private-registry:5000
 - spring.cloud.dataflow.container.registry-configurations[myregistry].disableSslVerification=true
 ```
+
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          myregistry:
+            - registry-host: my-private-registry:5000
+            - disableSslVerification: true
+```
+
+<!--END_TABS-->
 
 This is handy testing registries with self-signed Certificates.

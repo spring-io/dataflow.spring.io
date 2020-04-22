@@ -268,7 +268,11 @@ memory: 640Mi
 You can also control the default values to which to set the `cpu` and
 `memory` globally.
 
-The following example shows how to set the CPU and memory for streams:
+The following example shows how to set the CPU and memory for streams and tasks:
+
+<!--TABS-->
+
+<!--Streams-->
 
 ```yaml
 data:
@@ -286,7 +290,7 @@ data:
                       cpu: 500m
 ```
 
-The following example shows how to set the CPU and memory for tasks:
+<!--Tasks-->
 
 ```yaml
 data:
@@ -303,6 +307,8 @@ data:
                       memory: 640mi
                       cpu: 500m
 ```
+
+<!--END_TABS-->
 
 The settings we have used so far only affect the settings for the
 container. They do not affect the memory setting for the JVM process in
