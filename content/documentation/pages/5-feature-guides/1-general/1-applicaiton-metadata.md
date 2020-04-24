@@ -256,6 +256,7 @@ In addition the `spring.cloud.dataflow.container.registry-configurations` has pr
 ```yaml
 - spring.cloud.dataflow.container.registry-configurations[default].registry-host=registry-1.docker.io
 - spring.cloud.dataflow.container.registry-configurations[default].authorization-type=dockeroauth2
+- spring.cloud.dataflow.container.registry-configurations[default].extra[registryAuthUri]=https://auth.docker.io/token?service=registry.docker.io&scope=repository:{repository}:pull&offline_token=1&client_id=shell
 ```
 
 <!--Yaml-->
@@ -267,8 +268,10 @@ spring:
       container:
         registry-configurations:
           default:
-            - registry-host: registry-1.docker.io
-            - authorization-type: dockeroauth2
+            registry-host: registry-1.docker.io
+            authorization-type: dockeroauth2
+            extra:
+              'registryAuthUri': 'https://auth.docker.io/token?service=registry.docker.io&scope=repository:{repository}:pull&offline_token=1&client_id=shell'
 ```
 
 <!--END_TABS-->
@@ -299,10 +302,10 @@ spring:
       container:
         registry-configurations:
           myjfrog:
-            - registry-host: springsource-docker-private-local.jfrog.io
-            - authorization-type: basicauth
-            - user: [artifactory user]
-            - secret: [artifactory encrypted password]
+            registry-host: springsource-docker-private-local.jfrog.io
+            authorization-type: basicauth
+            user: [artifactory user]
+            secret: [artifactory encrypted password]
 ```
 
 <!--END_TABS-->
@@ -333,13 +336,13 @@ spring:
       container:
         registry-configurations:
           myecr:
-            - registry-host: 283191309520.dkr.ecr.us-west-1.amazonaws.com
-            - authorization-type: awsecr
-            - user: [your AWS accessKey]
-            - secret: [your AWS secretKey]
-            - extra:
-                - region: us-west-1
-                - registryIds: 283191309520
+            registry-host: 283191309520.dkr.ecr.us-west-1.amazonaws.com
+            authorization-type: awsecr
+            user: [your AWS accessKey]
+            secret: [your AWS secretKey]
+            extra:
+              region: us-west-1
+              'registryIds': 283191309520
 ```
 
 <!--END_TABS-->
@@ -369,10 +372,10 @@ spring:
       container:
         registry-configurations:
           myazurecr:
-            - registry-host: tzolovazureregistry.azurecr.io
-            - authorization-type: basicauth
-            - user: [your Azure registry username]
-            - secret: [your Azure registry access password]
+            registry-host: tzolovazureregistry.azurecr.io
+            authorization-type: basicauth
+            user: [your Azure registry username]
+            secret: [your Azure registry access password]
 ```
 
 <!--END_TABS-->
@@ -399,10 +402,10 @@ spring:
       container:
         registry-configurations:
           harbor:
-            - registry-host: demo.goharbor.io
-            - authorization-type: dockeroauth2
-            - user: admin
-            - secret: Harbor12345
+            registry-host: demo.goharbor.io
+            authorization-type: dockeroauth2
+            user: admin
+            secret: Harbor12345
 ```
 
 <!--END_TABS-->
@@ -426,8 +429,8 @@ spring:
       container:
         registry-configurations:
           harbor:
-            - extra:
-                - registryAuthUri: https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
+            extra:
+              'registryAuthUri': https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
 ```
 
 <!--END_TABS-->
@@ -455,8 +458,8 @@ spring:
       container:
         registry-configurations:
           myregistry:
-            - registry-host: my-private-registry:5000
-            - disableSslVerification: true
+            registry-host: my-private-registry:5000
+            disableSslVerification: true
 ```
 
 <!--END_TABS-->
