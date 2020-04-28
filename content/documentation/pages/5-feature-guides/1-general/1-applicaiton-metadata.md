@@ -60,6 +60,25 @@ Including the application metadata inside the uber-jar has the downside of needi
 
 You can go a step further in the process of describing the main properties that your stream or task app supports by creating a additional application metadata. Depending on the runtime, the metadata is packaged either as an additional companion jar artifact or a configuration label inside the application's container image.
 
+To enable metadata generation apply the following steps to your application POM:
+
+1. Configure the `spring-cloud-app-starter-metadata-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#configure-app-starter-metadata-maven-plugin), to generate metadata jar as well as the `META-INF/spring-configuration-metadata-encoded.properties` file used to create Container Image labels.
+
+2. Configure the `properties-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#properties-maven-plugin), to load the `META-INF/spring-configuration-metadata-encoded.properties` as maven properties. Among others it will load the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property.
+
+3. Extend the `jib-maven-plugin` (or `docker-maven-plugin`) configuration, as shown [here](%currentPath%/feature-guides/general/application-metadata/#container-maven-plugin), to add the content of the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property as a Container Image Label with the same name:
+
+   ```xml
+    ...
+    <labels>
+      <org.springframework.cloud.dataflow.spring-configuration-metadata.json>
+         ${org.springframework.cloud.dataflow.spring.configuration.metadata.json}
+      </org.springframework.cloud.dataflow.spring-configuration-metadata.json>
+    </labels>
+   ```
+
+### Configure App Starter Metadata Maven Plugin
+
 The `spring-cloud-app-starter-metadata-maven-plugin` plugin helps to prepare all necessary metadata files for your application:
 
 ```xml
@@ -113,6 +132,8 @@ At compile time the `spring-cloud-app-starter-metadata-maven-plugin` generates a
 org.springframework.cloud.dataflow.spring.configuration.metadata.json={\n  \"groups\": [{\n    \"name\": \"log\",\n    \"type\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\",\n    \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n  }],\n  \"properties\": [\n    {\n      \"name\": \"log.expression\",\n      \"type\": \"java.lang.String\",\n      \"description\": \"A SpEL expression (against the incoming message) to evaluate as the logged message.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\",\n      \"defaultValue\": \"payload\"\n    },\n    {\n      \"name\": \"log.level\",\n      \"type\": \"org.springframework.integration.handler.LoggingHandler$Level\",\n      \"description\": \"The level at which to log messages.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n    },\n    {\n      \"name\": \"log.name\",\n      \"type\": \"java.lang.String\",\n      \"description\": \"The name of the logger to use.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n    }\n  ],\n  \"hints\": []\n}
 ```
 
+#### Properties Maven Plugin
+
 To turn this property into a Docker label, first we need to load it as maven property using the `properties-maven-plugin` plugin:
 
 ```xml
@@ -136,6 +157,8 @@ To turn this property into a Docker label, first we need to load it as maven pro
     </executions>
 </plugin>
 ```
+
+#### Container Maven Plugin
 
 Then with the help of the `fabric8:docker-maven-plugin` or `jib` maven plugins insert the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property into a Docker label with the same name:
 
@@ -189,7 +212,9 @@ Then with the help of the `fabric8:docker-maven-plugin` or `jib` maven plugins i
                         <volume>/tmp</volume>
                     </volumes>
                     <labels>
-                        <org.springframework.cloud.dataflow.spring-configuration-metadata.json>${org.springframework.cloud.dataflow.spring.configuration.metadata.json}</org.springframework.cloud.dataflow.spring-configuration-metadata.json>
+                        <org.springframework.cloud.dataflow.spring-configuration-metadata.json>
+                          ${org.springframework.cloud.dataflow.spring.configuration.metadata.json}
+                        </org.springframework.cloud.dataflow.spring-configuration-metadata.json>
                     </labels>
                     <entryPoint>
                         <exec>
