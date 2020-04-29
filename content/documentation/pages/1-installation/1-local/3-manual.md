@@ -14,7 +14,7 @@ NOTE: If you want to use Spring Cloud Data Flow only for batch and task processi
 
 To begin, you need to download the server jars. To do so:
 
-1. Download the Spring Cloud Data Flow Server and shell by using the following commands:
+1. Download the [Spring Cloud Data Flow Server](https://spring.io/projects/spring-cloud-dataflow) and shell by using the following commands:
 
    ```bash
    wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
