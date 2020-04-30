@@ -7,10 +7,29 @@ description: 'Create and use application properties metadata'
 ## Application Metadata
 
 Spring Boot provides support for bundling an application's configuration properties within the executable jar.
-This allows Data Flow to present an application's configuration properties in the UI and Shell. In this section we will discuss how to create and package an application's configuration properties in an executable jar and also as metadata in a container image.
+In this section we also discuss bundling an application's configuraiton properties as a label in a container image.
+This packaging of metadata allows Data Flow to present an application's configuration properties in the UI and Shell.
+Whitelisting of application configuration properties in an important step in this process so that most important application properties to configure will be presented first by the UI and Shell.
+
+The outline of the steps to create, whitelist and package an application's configuration properties in an executable jar and also as metadata in a container image.
+
+The common steps between packaging configuration properties in an executable jar and container image are
+
+1.  Add Boot's Configuration processor to your pom.xml as explained [here](%currentPath%/feature-guides/general/application-metadata/#boot-configuration-processor)
 
 These configuration properties are packaged in a [configuration metadata file](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata).
 Boot's auto-configuration libraries already contain these metadata files and is what enabled you to configure Boot's [Common Application Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties), such as server.port as well as families of other properties specific to a given technology, for example JMX and logging that use the the prefix `spring.jmx` and `logging`.
+
+2.  Whitelist properties that you want to have preferred visibility in the UI and Shell as explained [here](%currentPath%/feature-guides/general/application-metadata/#whitelisting-properties) instead of viewing all of Boot's Common Application Properties.
+3.  Configure the `spring-cloud-app-starter-metadata-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#configure-app-starter-metadata-maven-plugin), to generate metadata jar as well as the `META-INF/spring-configuration-metadata-encoded.properties` file used to create Container Image labels.
+
+The additional steps to create a label in a container image with the application metadata and whitelist are
+
+1. Configure the `properties-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#properties-maven-plugin), to load the `META-INF/spring-configuration-metadata-encoded.properties` as maven properties. Among others it will load the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property.
+
+2. Extend the `jib-maven-plugin` (or `docker-maven-plugin`) configuration, as shown [here](%currentPath%/feature-guides/general/application-metadata/#container-maven-plugin), to add the content of the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property as a Container Image Label
+
+### Boot Configuration processor
 
 For your own applications, you can easily [generate your own configuration metadata file](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor) from items annotated with `@ConfigurationProperties` by using the `spring-boot-configuration-processor` library. This library includes a Java annotation processor which is invoked as your project is compiled.
 The generated configuration metadata files are then stored inside the uber-jar under `META-INF/spring-configuration-metadata.json`
@@ -59,23 +78,6 @@ Including the application metadata inside the uber-jar has the downside of needi
 ## Creating Metadata Artifacts
 
 You can go a step further in the process of describing the main properties that your stream or task app supports by creating a additional application metadata. Depending on the runtime, the metadata is packaged either as an additional companion jar artifact or a configuration label inside the application's container image.
-
-To enable metadata generation apply the following steps to your application POM:
-
-1. Configure the `spring-cloud-app-starter-metadata-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#configure-app-starter-metadata-maven-plugin), to generate metadata jar as well as the `META-INF/spring-configuration-metadata-encoded.properties` file used to create Container Image labels.
-
-2. Configure the `properties-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#properties-maven-plugin), to load the `META-INF/spring-configuration-metadata-encoded.properties` as maven properties. Among others it will load the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property.
-
-3. Extend the `jib-maven-plugin` (or `docker-maven-plugin`) configuration, as shown [here](%currentPath%/feature-guides/general/application-metadata/#container-maven-plugin), to add the content of the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property as a Container Image Label with the same name:
-
-   ```xml
-    ...
-    <labels>
-      <org.springframework.cloud.dataflow.spring-configuration-metadata.json>
-         ${org.springframework.cloud.dataflow.spring.configuration.metadata.json}
-      </org.springframework.cloud.dataflow.spring-configuration-metadata.json>
-    </labels>
-   ```
 
 ### Configure App Starter Metadata Maven Plugin
 
