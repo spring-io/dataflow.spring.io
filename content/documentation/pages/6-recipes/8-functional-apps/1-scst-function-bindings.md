@@ -10,7 +10,7 @@ To learn how to build simple Function-based applications using Spring Cloud Stre
 
 ## Overview
 
-Let's create a simple source `time-source` that emits Date Formats at a configured interval to the messaging middleware and the sink `log-sink` consumes the published messages from the middleware.
+Let's create a `time-source` application that produces the current date/timestamp at a configured interval to the messaging middleware, and the sink `log-sink` consumes the published messages from the middleware.
 
 For more information on how Spring Cloud Stream provides this support, you can refer the Spring Cloud Stream [documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/current/reference/html/spring-cloud-stream.html#spring-cloud-stream-overview-producing-consuming-messages).
 
