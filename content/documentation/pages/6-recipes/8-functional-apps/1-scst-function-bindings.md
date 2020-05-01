@@ -4,7 +4,7 @@ title: 'Functional Applications'
 description: 'Configuring the Spring Cloud Stream Functional applications'
 ---
 
-# Building Streaming Pipeline using Functional applications
+# Building Streaming Data Pipeline using Functional applications
 
 To learn how to build simple Function-based applications using Spring Cloud Stream and have them embedded into the Spring Cloud Data Flow Streaming data pipeline.
 
