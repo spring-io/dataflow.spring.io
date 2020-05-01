@@ -123,7 +123,7 @@ ticktock=time-source | log-sink
 
 You need to make sure that the functional bindings of these applications are mapped to the appropriate `output` and `input` names that Spring Cloud Data Flow understands.
 
-What this means is that, you need to configure the following properties when `deploying` the stream:
+What this means is that you need to configure the following properties when deploying the stream:
 
 ```
 app.time-source.spring.cloud.stream.function.bindings.timeSupplier-out-0=output
