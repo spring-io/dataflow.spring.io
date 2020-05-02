@@ -28,30 +28,23 @@ import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 public class TimeSourceApplication {
+
+	@Bean
+	public Supplier<String> timeSupplier() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		return () -> {
+			return sdf.format(new Date());
+		};
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TimeSourceApplication.class, args);
 	}
 
-	@Configuration
-	public class TimeSupplierConfiguration {
-		public TimeSupplierConfiguration() {
-		}
-
-		@Bean
-		public Supplier<String> timeSupplier() {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-			return () -> {
-				return sdf.format(new Date());
-			};
-		}
-	}
 }
-
 
 ```
 
@@ -65,17 +58,16 @@ package com.example.logsink;
 
 import java.util.function.Consumer;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.handler.LoggingHandler;
 import org.springframework.messaging.Message;
 
-@Configuration
-public class LogConsumerConfiguration {
-	public LogConsumerConfiguration() {
-	}
+@SpringBootApplication
+public class LogSinkApplication {
 
 	@Bean
 	IntegrationFlow logConsumerFlow() {
@@ -91,25 +83,12 @@ public class LogConsumerConfiguration {
 	}
 
 	private interface MessageConsumer extends Consumer<Message<?>> {}
-}
-
-```
-
-and,
-
-```
-package com.example.logsink;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class LogSinkApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LogSinkApplication.class, args);
 	}
 }
+
 
 ```
 
@@ -136,4 +115,10 @@ Along with this, you also need to provide a way trigger the `Supplier` function.
 
 ```
 app.time-source.spring.cloud.stream.poller.fixed-delay=5000
+```
+
+If you are running this using `local` deployer, you can also inherit the logs from the applications into Skipper server log so that you can see the `ticktock` stream messages at the `log-sink` consumer at Skipper server log.
+
+```
+deployer.*.local.inherit-logging=true
 ```
