@@ -9,11 +9,15 @@
   },
   "2.4.x": {
     "name": "2.4.2",
-    "branch": "2.4.x",
+    "branch": "2.4.x"
+  },
+  "2.5.x": {
+    "name": "2.5.0",
+    "branch": "2.5.x",
     "current": true
   },
-  "2.5.0.SNAPSHOT": {
-    "name": "2.5.0 SNAPSHOT",
+  "2.6.0.SNAPSHOT": {
+    "name": "2.6.0 SNAPSHOT",
     "branch": "master"
   },
   "next": {
