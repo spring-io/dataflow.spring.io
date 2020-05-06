@@ -114,24 +114,10 @@ Repeat this registration for `task-a`, `task-b`, `task-c`, `task-d`, `task-e`, a
 
 <!--END_TABS-->
 
-### Registering Composed Task Runner
-
-By default, the `Composed Task Runner` application is not registered with Spring Cloud Data Flow. Consequently, to launch composed tasks, we must first register the Composed Task Runner as an application with Spring Cloud Data Flow, as follows:
-
-1. Press the `Apps` tab on the left side of the dashboard.
-1. Press the `Add Application(s)` button on the top of the page.
-1. Fill out the registration page as follows:
-   1. Enter the following into the `Name` field:
-      1. ```
-          composed-task-runner
-         ```
-   1. For the `Type` field select: `Task`
-   1. Enter the following into the `URI` field: 1. If using Maven:
-      `maven://org.springframework.cloud.task.app:composedtaskrunner-task:2.1.3.RELEASE` 1. if using Docker:
-      `docker:springcloudtask/composedtaskrunner-task:2.1.3.RELEASE`
-      The result should look something like:
-      ![Composed Task Graph](images/SCDF-composed-task-register.png)
-1. Press the `Register the Applications(s)` button.
+[[note]]
+| If Maven Central or DockerHub cannot be reached for a given Spring Cloud Data Flow
+| deployment a different URI can be specified to retrieve the Composed Task Runner using the
+| `spring.cloud.dataflow.task.composed.task.runner.uri` property.
 
 ## The Transition Sample Project
 
