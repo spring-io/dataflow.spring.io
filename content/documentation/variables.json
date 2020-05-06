@@ -11,10 +11,29 @@
 
   "spring-maven-repo-type": "snapshot",
 
+  "stream-applications-doc": "https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle",
+  "task-applications-doc": "https://docs.spring.io/spring-cloud-task-app-starters/docs/current/reference/htmlsingle",
+
   "task-app-maven-version": "https://dataflow.spring.io/task-maven-latest",
   "task-app-docker-version": "https://dataflow.spring.io/task-docker-latest",
 
-  "comment": "These variables will be manged via a plugin",
+  "task-app-maven-snapshot": "https://dataflow.spring.io/Elston-BUILD-SNAPSHOT-task-applications-maven",
+  "task-app-docker-snapshot": "https://dataflow.spring.io/Elston-BUILD-SNAPSHOT-task-applications-docker",
+  "task-app-maven-previous": "https://dataflow.spring.io/Dearborn-SR1-task-applications-maven",
+  "task-app-docker-previous": "https://dataflow.spring.io/Dearborn-SR1-task-applications-docker",
+  "stream-app-rabbit-docker-latest": "https://dataflow.spring.io/rabbitmq-docker-latest",
+  "stream-app-kafka-docker-latest": "https://dataflow.spring.io/kafka-docker-latest",
+  "stream-app-rabbit-maven-latest": "https://dataflow.spring.io/rabbitmq-maven-latest",
+  "stream-app-kafka-maven-latest": "https://dataflow.spring.io/kafka-maven-latest",
+  "stream-app-rabbit-docker-snapshot": "https://dataflow.spring.io/Einstein-BUILD-SNAPSHOT-stream-applications-rabbit-docker",
+  "stream-app-kafka-docker-snapshot": "https://dataflow.spring.io/Einstein-BUILD-SNAPSHOT-stream-applications-kafka-docker",
+  "stream-app-rabbit-maven-snapshot": "https://dataflow.spring.io/Einstein-BUILD-SNAPSHOT-stream-applications-rabbit-maven",
+  "stream-app-kafka-maven-snapshot": "https://dataflow.spring.io/Einstein-BUILD-SNAPSHOT-stream-applications-kafka-maven",
+  "stream-app-rabbit-docker-previous": "https://dataflow.spring.io/Darwin-SR3-stream-applications-rabbit-docker",
+  "stream-app-kafka-docker-previous": "https://dataflow.spring.io/Darwin-SR3-stream-applications-kafka-docker",
+  "stream-app-rabbit-maven-previous": "https://dataflow.spring.io/Darwin-SR3-stream-applications-rabbit-maven",
+  "stream-app-kafka-maven-previous": "https://dataflow.spring.io/Darwin-SR3-stream-applications-kafka-maven",
+  "comment": "These variables will be managed via a plugin",
   "test-version": "v2.0.1.RELEASE",
   "thing1": "thing1",
   "thing2": {
