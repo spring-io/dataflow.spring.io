@@ -33,7 +33,7 @@ Following paragraphs offer a detailed description of the provided extension dock
 
 ## Prometheus & Grafana
 
-The [docker-compose-prometheus.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml) extends the default configuration in `docker-compose.yml` to enable the Stream and Task monitoring with Prometheus and Grafana:
+The [docker-compose-prometheus.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml) extends the default configuration in `docker-compose.yml` to enable the [Stream and Task monitoring with Prometheus and Grafana](%currentPath%//feature-guides/streams/monitoring/#prometheus):
 
 <!--TABS-->
 
