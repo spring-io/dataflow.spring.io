@@ -52,6 +52,17 @@ Similarly to enable Prometheus metrics collection using RSocket the following de
 </dependency>
 ```
 
+<!--TIP-->
+
+For building a Task Docker image it is recommended to extend from the `springcloud/openjdk:latest` image. E.g. your task `Dockerfile` should start like this:
+
+```
+FROM springcloud/openjdk:latest
+...
+```
+
+<!--END_TIP-->
+
 To help you get started monitoring tasks, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
 
 The following image shows the general architecture of how task applications are monitored:
@@ -74,6 +85,10 @@ Installing Prometheus and InfluxDB is different depending on the platform on whi
 ## Local
 
 This section describes how to view application metrics for tasks using either Prometheus or InfluxDB as the metrics store on your local machine.
+
+<!--TABS-->
+
+<!--Prometheus-->
 
 ### Prometheus
 
@@ -109,6 +124,8 @@ And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?re
 
 ![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
 
+<!--InfluxDB-->
+
 ### InfluxDB
 
 To install InfluxDB and Grafana, follow the [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#monitoring-with-influxdb-and-grafana) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, InfluxDB, and prebuilt dashboards for Grafana.
@@ -140,6 +157,8 @@ In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/exec
 You should see dashboards similar to those shown in the following image:
 
 ![SCDF Task Grafana InfluxDB](images/SCDF-metrics-grafana-task.png)
+
+<!--END_TABS-->
 
 ## Kubernetes
 
@@ -212,6 +231,10 @@ Open the [Grafana dashboard for Tasks](http://192.168.99.100:31595/d/scdf-tasks/
 
 This section describes how to view application metrics for streams using Prometheus and InfluxDB as the metrics store on Cloud Foundry.
 
+<!--TABS-->
+
+<!--Prometheus-->
+
 ### Prometheus
 
 To configure the Data Flow server's manifest to send metrics data from stream applications to the Prometheus RSocket gateway, follow the [Manifest based installation instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-prometheus).
@@ -249,7 +272,11 @@ And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?re
 
 ![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
 
+<!--InfluxDB-->
+
 ### InfluxDB
 
 You can follow the general [Manifest based installation on Cloud Foundry](%currentPath%/installation/cloudfoundry/cf-cli/#manifest-based-installation-on-cloud-foundry) instructions for installing `Skipper` and `DataFlow` on Cloud Foundry.
 To enabling the Task metrics integration follow the [Configuration for InfluxDB](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-influxdb) instructions.
+
+<!--END_TABS-->
