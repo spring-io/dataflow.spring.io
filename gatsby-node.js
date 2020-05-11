@@ -185,14 +185,8 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
       if (!startsWith(filename, '_')) {
         // Page
         const slug = createFilePath({ node, getNode, basePath: `pages` })
-        const category = frontmatterPath
-          .split('/')
-          .slice(0, 1)
-          .join('')
-        const sourcePath = relativePath
-          .split('/')
-          .slice(2)
-          .join('/')
+        const category = frontmatterPath.split('/').slice(0, 1).join('')
+        const sourcePath = relativePath.split('/').slice(2).join('/')
         const isRoot = frontmatterPath.split('/').length === 2
         let url = `/docs/${version}/${frontmatterPath}`
 

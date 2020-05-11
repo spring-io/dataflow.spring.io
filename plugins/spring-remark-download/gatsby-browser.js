@@ -4,7 +4,7 @@ exports.onClientEntry = () => {
     const req = new XMLHttpRequest()
     req.open('GET', url, true)
     req.responseType = 'blob'
-    req.onload = function(event) {
+    req.onload = function (event) {
       const blob = req.response
       const contentType = req.getResponseHeader('content-type')
       if (window.navigator.msSaveOrOpenBlob) {

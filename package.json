@@ -99,7 +99,7 @@
     "classnames": "^2.2.6",
     "gatsby": "^2.20.13",
     "gatsby-image": "^2.3.1",
-    "gatsby-plugin-algolia": "^0.6.0",
+    "gatsby-plugin-algolia": "^0.5.0",
     "gatsby-plugin-catch-links": "^2.2.1",
     "gatsby-plugin-google-analytics": "^2.2.2",
     "gatsby-plugin-google-tagmanager": "^2.2.1",
