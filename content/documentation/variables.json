@@ -6,7 +6,7 @@
   "skipper-version": "2.3.2.RELEASE",
   "dataflow-version": "2.4.2.RELEASE",
 
-  "github-tag": "master",
+  "github-tag": "v2.4.2.RELEASE",
 
   "spring-maven-repo-type": "release",
 
