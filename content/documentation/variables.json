@@ -9,7 +9,7 @@
 
   "github-tag": "v2.5.1.RELEASE",
 
-  "spring-maven-repo-type": "snapshot",
+  "spring-maven-repo-type": "release",
 
   "task-app-maven-version": "https://dataflow.spring.io/task-maven-latest",
   "task-app-docker-version": "https://dataflow.spring.io/task-docker-latest",
