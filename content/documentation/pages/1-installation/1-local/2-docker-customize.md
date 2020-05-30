@@ -106,6 +106,44 @@ The `docker-compose-influxdb.yml` expects an existing Docker image: `springcloud
 
 <!--END_NOTE-->
 
+## Wavefront
+
+The [docker-compose-wavefront.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml) enables Stream and Task monitoring with `Wavefront` with pre-built Stream and Task dashboards.
+
+The [Wavefront](https://www.wavefront.com/) is a SaaS offering and you need to [create user account first](https://www.wavefront.com/sign-up/) and use it to set the `WAVEFRONT_KEY` and `WAVEFRONT_URI` environment variables as explained below.
+
+<!--TABS-->
+
+<!--Linux / OSX-->
+
+```bash
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml
+docker-compose -f ./docker-compose.yml -f ./docker-compose-wavefront.yml up
+```
+
+<!--Windows-->
+
+```bash
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml -o docker-compose-wavefront.yml
+docker-compose -f .\docker-compose.yml -f .\docker-compose-wavefront.yml up
+```
+
+<!--END_TABS-->
+
+The following environment variables can be used to configure the `docker-compose-wavefront.yml`:
+
+| Variable name      | Default value                | Description                                                                                  |
+| ------------------ | ---------------------------- | -------------------------------------------------------------------------------------------- |
+| `WAVEFRONT_KEY`    | (required)                   | Wavefront user API Key                                                                       |
+| `WAVEFRONT_URI`    | https://vmware.wavefront.com | Wavefront entry point URI                                                                    |
+| `WAVEFRONT_SOURCE` | scdf-docker-compose          | Unique identifier whiting Wavefront for the metrics coming from this Data Flow installation. |
+
+<!--TIP-->
+
+You can use the Wavefront's Browse/Source menu to find the metrics coming from the `WAVEFRONT_SOURCE` source.
+
+<!--END_TIP-->
+
 ## Postgres Instead of MySQL
 
 The [docker-compose-postgres.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-postgres.yml) configures using `PostgreSQL` instead of `MySQL` for both Spring Cloud Data Flow and SKipper. It disables the default `mysql` service, adds a new `postgres` service and overrides the Data Flow and Skipper configurations to use the postgres:
