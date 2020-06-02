@@ -28,10 +28,20 @@ You can register applications individually by using the `app register` command o
 
 For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using the respective URLs:
 
-- Kafka - https://dataflow.spring.io/kafka-maven-latest
-- RabbitMQ - https://dataflow.spring.io/rabbitmq-maven-latest
+- Kafka
 
-For tasks, you can use the following URL: https://dataflow.spring.io/task-maven-latest
+* Docker: https://dataflow.spring.io/kafka-docker-latest
+* Maven: https://dataflow.spring.io/kafka-maven-latest
+
+- RabbitMQ
+
+* Docker: https://dataflow.spring.io/rabbitmq-docker-latest (Docker)
+* Maven: https://dataflow.spring.io/rabbitmq-maven-latest (Maven)
+
+For tasks, you can use the following URL:
+
+- Docker: https://dataflow.spring.io/task-docker-latest
+- Maven: https://dataflow.spring.io/task-maven-latest
 
 Using the Data Flow UI, these links are included for pre-fill:
 
@@ -103,8 +113,6 @@ Bulk registration is convenient for getting started with SCDF.
 To reduce clutter, it is recommended, to maintain a “focused” list of desired application-URIs in a custom property file.
 
 # Supported Spring Cloud Stream Applications
-
-The following table includes the dataflow.spring.io links to the Supported _Stream_ Applications
 
 | Artifact Type     | Latest Stable Release                                                  | SNAPSHOT Release                                                           |
 | ----------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |

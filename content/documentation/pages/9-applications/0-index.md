@@ -7,7 +7,7 @@ summary: true
 
 # Using Applications with Spring Cloud Data Flow
 
-Spring Cloud Data Flow provides native support for applications built with and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) or [Spring Cloud Task](https://spring.io/projects/spring-cloud-stream).
+Spring Cloud Data Flow provides native support for applications built with [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) or [Spring Cloud Task](https://spring.io/projects/spring-cloud-task).
 Given a stream definition such as `http | log`, Data Flow will expect `http` to be a stream source with an `output` destination configured.
 Likewise `log`, as a sink, must have an `input` destination configured.
 
@@ -77,9 +77,3 @@ Note, however, that, once downloaded, applications may be cached locally on the 
 Moreover, if a stream is already deployed and using some version of a registered app, then (forcibly) re-registering a different app has no effect until the stream is deployed again.
 
 <!--END_CAUTION-->
-
-<!--TIP-->
-
-In some cases, the Resource is resolved on the server side. In others, the URI is passed to a runtime container instance where it is resolved. Consult the specific documentation of each Data Flow Server for more detail.
-
-<!--END_TIP-->
