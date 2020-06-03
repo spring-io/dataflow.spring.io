@@ -30,7 +30,7 @@ Besides having multiple versions, Spring Cloud Data Flow needs to know which ver
 
 ## Task Launch Lifecycle
 
-In previous versions of Spring Cloud Data Flow, when the request to launch a task was received, Spring Cloud Data Flow would deploy the application (if needed) and run it. If the application was being run on a platform that did not need to have the application deployed every time (CloudFoundry for example), the previously deployed application was used. This flow has changed in 2.3. The following image shows what happens when a task launch request comes in now:
+Before the CD support for Tasks in SCDF, when the request to launch a task was received, Spring Cloud Data Flow would deploy the application (if needed) and run it. If the application was being run on a platform that did not need to have the application deployed every time (CloudFoundry for example), the previously deployed application was used. This flow has changed starting from 2.3. The following image shows what happens when a task launch request comes in now:
 
 <img src="images/scdf-task-launch-flow.png" alt="Flow For Launching A Task" width="740"/>
 
