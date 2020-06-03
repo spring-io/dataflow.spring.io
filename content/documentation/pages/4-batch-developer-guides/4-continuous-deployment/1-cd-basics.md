@@ -13,7 +13,7 @@ When a task application is registered in SCDF, a version is typically associated
 
 <img src="images/scdf-task-application-versions.png" alt="Registering Task Applications with multiple Versions" width="740"/>
 
-Versions of an application are managed by registering multiple applications with the same name and coordinates, _except_ the version. For example, if you were to register an application with the following values, you would get one application registered with two versions (2.0.0.RELEASE and 2.1.0.RELEASE):
+Versions of an application are managed in SCDF by registering multiple applications with the same name and coordinates, _except_ the version will be different. For example, if you were to register an application with the following values, you would get one application registered with two versions (2.0.0.RELEASE and 2.1.0.RELEASE):
 
 - Application 1
   ** Name: `timestamp`
