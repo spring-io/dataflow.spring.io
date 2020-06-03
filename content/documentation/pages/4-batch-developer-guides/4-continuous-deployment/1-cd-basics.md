@@ -9,7 +9,7 @@ description: 'Continuous Deployment of Task applications'
 As task applications evolve, you want to get your updates to production.
 The change can be a new version of the task application that fixes a bug or setting a deployment property different from the previous task launch.
 
-When a task application is registered, a version is associated with it. A task application can have multiple versions associated with it, with one selected as the default. The following image illustrates an application with multiple versions associated with it (see the timestamp entry).
+When a task application is registered in SCDF, a version is typically associated with it. A task application can have multiple versions associated with it, with one selected as the default. The following image illustrates an application with multiple versions associated with it (see the timestamp entry).
 
 <img src="images/scdf-task-application-versions.png" alt="Registering Task Applications with multiple Versions" width="740"/>
 
