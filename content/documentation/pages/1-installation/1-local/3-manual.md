@@ -108,32 +108,3 @@ on GitHub. Additional information is also available in the [Spring Boot Referenc
 
 You can now navigate to Spring Cloud Data Flow Dashboard. In your browser, navigate to the [Spring Cloud Data
 Flow Dashboard URL](http://localhost:9393/dashboard).
-
-## Registering Prebuilt Applications
-
-<!-- **TODO feels like this can go in some generic section** -->
-
-All the prebuilt streaming applications:
-
-- Are available as Apache Maven artifacts or Docker images.
-- Use RabbitMQ or Apache Kafka.
-- Support monitoring through Prometheus and InfluxDB.
-- Contain metadata for application properties used in the UI and code completion in the shell.
-
-You can register applications individually by using the `app register` command or in bulk by using the `app import` command.
-There are also bulk-registration links that represent the group of prebuilt applications for a specific release, which are useful for getting started.
-
-You can register stream and task applications by using the UI or the shell.
-
-For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using the respective URLs:
-
-- Kafka - https://dataflow.spring.io/kafka-maven-latest
-- RabbitMQ - https://dataflow.spring.io/rabbitmq-maven-latest
-
-For tasks, you can use the following URL: https://dataflow.spring.io/task-maven-latest
-
-From the Data Flow Shell, you can bulk import and register the applications, as the following example shows:
-
-```bash
-dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest
-```
