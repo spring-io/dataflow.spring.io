@@ -6,34 +6,34 @@ description: 'Deploying Spring Cloud Data Flow to a GKE Regional Cluster'
 
 # Deploying Spring Cloud Data Flow to a GKE Regional Cluster
 
-When deploying applications to an environment it is often ideal to have a strategy setup to handle infrastructure outages. Outages could range from hardware failures to complete data centers going offline resulting in applications becoming unavailable. Rather than having those workloads potentially halt operations until an outage is resolved, another option is to have those workloads migrated to another part of your infrastructure to continue operations. Additionally it may be useful to specify where particular applications must reside or be co-located with other applications.
+When deploying applications to an environment, it is often ideal to have a strategy set up to handle infrastructure outages. Outages could range from hardware failures to complete data centers going offline, resulting in applications becoming unavailable. Rather than having those workloads potentially halt operations until an outage is resolved, another option is to have those workloads migrated to another part of your infrastructure to continue operations. It may also be useful to specify where particular applications must reside or be co-located with other applications.
 
-With [Kubernetes](https://kubernetes.io/) failure of nodes and the workloads running on them are automaticaly handled by rescheduling those workloads onto other available nodes. In a very simplistic use case, a Kubernetes cluster consisting of a single control plane and multiple worker nodes residing in the same location is often implemented by default. This type of configuration, in the event of a failure does not provide any high availablity.
+With [Kubernetes](https://kubernetes.io/), failure of nodes and the workloads running on them are automatically handled by rescheduling those workloads onto other available nodes. In a simple use case, a Kubernetes cluster consisting of a single control plane and multiple worker nodes residing in the same location is often implemented by default. This type of configuration, in the event of a failure, does not provide any high availability.
 
-As this recipe is focused on GKE as the cloud provider, location will mean one or more "zones" inside a particular "region". A "region" refers to a specific geographical location, for example `us-east1`. Within a "region" there are multiple "zones" such as `us-east1-b`, `us-east1-c` and so on that are isolated from other zones. It's important to choose regions and zones based on your specific needs such as CPU/GPU types, disk types, compute power, etc. More in depth information that should be reviewed can be found in the [Regions and Zones](https://cloud.google.com/compute/docs/regions-zones/) documentation.
+As this recipe is focused on GKE as the cloud provider, location will mean one or more "zones" inside a particular "region". A "region" refers to a specific geographical location, for example, `us-east1`. Within a "region", there are multiple "zones" such as `us-east1-b`, `us-east1-c`, and so on that are isolated from other zones. It's important to choose regions and zones based on your specific needs, such as CPU/GPU types, disk types, compute power, etc. More in-depth information that should be reviewed can be found in the [Regions and Zones](https://cloud.google.com/compute/docs/regions-zones/) documentation.
 
-Beyond a single zone cluster, GKE supports two other types of clusters:
+Beyond a single-zone cluster, GKE supports two other types of clusters:
 
 - Multi-zonal clusters - Single replica of the control plane running in a single zone with worker nodes running in multiple zones of a given region
-- Regional clusters - Multiple replica's of the control plane running in multiple zones within a given region with nodes running in the same zone as each control plane
+- Regional clusters - Multiple replicas of the control plane running in multiple zones within a given region with nodes running in the same zone as each control plane
 
-This recipe will focus on `Regional clusters` as it provides a greater level of high availablity than `Single Zone` or `Multi-zonal` clusters.
+This recipe will focus on `Regional clusters` as it provides a greater level of high availability than `Single Zone` or `Multi-zonal` clusters.
 
 ## Prerequisites
 
-A [Google Cloud](https://cloud.google.com/gcp/) (GCP) account with permissions to create new [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) clusters is required. A web interface is provided to interact with GCP/GKE as well as a CLI which can be obtained via the [Google Cloud SDK](https://cloud.google.com/sdk) and installed. Additionally standard tooling such as [Kubectl](https://github.com/kubernetes/kubectl/releases) needs to be installed for interacting with Kubernetes clusters.
+A [Google Cloud](https://cloud.google.com/gcp/) (GCP) account with permissions to create new [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (GKE) clusters is required. A web interface is provided to interact with GCP/GKE as well as a CLI, which can be obtained via the [Google Cloud SDK](https://cloud.google.com/sdk) and installed. Standard tooling such as [Kubectl](https://github.com/kubernetes/kubectl/releases) needs to be installed for interaction with Kubernetes clusters.
 
 ## Creating the Cluster
 
-In this recipe we will use the GKE web console to create the cluster. We will utilize the defaults in most cases with the exception of the location type and instance sizes. When creating a new cluster, the first bits of information to select are the "Cluster Basics". The screenshot below shows the selected options for this demo:
+In this recipe, we will use the GKE web console to create the cluster. We will utilize the defaults in most cases, except for the location type and instance sizes. When creating a new cluster, the first bits of information to select is the "Cluster Basics". The screenshot below shows the options chosen for this demo:
 
 ![Regional Cluster Basics](images/cluster-basics.png)
 
 The important parts of this section are:
 
 - `Regional` is selected as the `Location Type`
-- `Region` is selected, in this case `us-east1`. This value should be determined by your specific requirements as described above.
-- `Specify default node locations` has 3 zones selected. 3 zones will be selected automatically, but in the event there are more than 3, this section allows explicit selection of zones.
+- `Region` is selected, in this case, `us-east1`. This value should be determined by your specific requirements as described above.
+- `Specify default node locations` has 3 zones selected. 3 zones will be selected automatically, but in the event, there are more than 3, this section allows explicit selection of zones.
 
 Other values on this section such as `Name`, and `Master version` settings can be customized as appropriate.
 
@@ -45,7 +45,7 @@ The main change in this section is selecting a machine type of `n1-standard-4 (4
 
 <!--TIP-->
 
-The number of nodes and machine type will vary based on your specific requirements for base needs in addition to failover tolerance. For example, the selected configuration may be sized based on the expected number of applications that may be spread across those nodes, but in the event of a node or even one or more region failures, clusters should be sized to support this extra load. Failing to do so will result in workloads unschedulable until capacity is available. Various strategies can be implemented, for example upfront sizing, using a [Cluster Autoscaler](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler) and so on.
+The number of nodes and machine type will vary based on your specific requirements for base needs in addition to failover tolerance. For example, the selected configuration may be sized based on the expected number of applications that may be spread across those nodes. Still, in the event of a node or even one or more region failures, clusters should be sized to support this extra load. Failing to do so will result in workloads un-schedulable until capacity is available. Various strategies can be implemented, for example, upfront sizing, using a [Cluster Autoscaler](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler) and so on.
 
 <!--END_TIP-->
 
@@ -59,7 +59,7 @@ It's worth pointing out that while using the GKE UI can be convenient to customi
 
 <!--END_TIP-->
 
-When the cluster finishes creating, there will be 3 worker nodes deployed to each of the 3 regions, for a total of 9 worker nodes. GKE does not provide the ability to access control plane nodes.
+When the cluster finishes creating, there will be 3 worker nodes deployed to each of the 3 regions, for a total of 9 worker nodes. Please note, GKE does not provide the ability to access control plane nodes.
 
 Lastly, the credentials need to be fetched via the `gcloud` CLI so `kubectl` can interact with the cluster:
 
@@ -140,13 +140,13 @@ In this recipe, we will implement the following use-case for our deployment:
 - 3 replicas of Skipper should be deployed, one replica per region
 - 3 replicas of Data Flow should be deployed, one replica per region, co-located on the same node as Skipper
 - MySQL will be used as the database and will be placed in a specific zone
-- RabbitMQ will be used as the messaging middleware and and be placed in a specific zone
+- RabbitMQ will be used as the messaging middleware and be placed in a specific zone
 
 ### Deploying MySQL
 
 <!--NOTE-->
 
-In this recipe, an instance of MySQL is being deployed to a single zone. Please see the relevant high availablity documentation of the [MySQL](https://dev.mysql.com/doc/) product for more details. In the event of a zone failure, MySQL may be unavailable.
+In this recipe, an instance of MySQL is being deployed to a single zone. Please see the relevant high availability documentation of the [MySQL](https://dev.mysql.com/doc/) product for more details. In the event of a zone failure, MySQL may be unavailable. Setting up MySQL for HA is outside the scope of SCDF and this recipe.
 
 <!--END_NOTE-->
 
@@ -187,7 +187,7 @@ NAME                    STATUS    NODE
 mysql-b94654bd4-9zpt2   Running   gke-regional-demo-default-pool-fb3e6608-0rcc
 ```
 
-And finally the zone the node resides in can be verified by:
+And finally, the zone the node resides in can be verified by:
 
 ```
 $ kubectl get node gke-regional-demo-default-pool-fb3e6608-0rcc -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
@@ -198,7 +198,7 @@ us-east1-d
 
 <!--NOTE-->
 
-In this recipe, an instance of RabbitMQ is being deployed to a single zone. Please see the relevant high availablity documentation of the [RabbitMQ](https://www.rabbitmq.com/documentation.html) product for more details. In the event of a zone failure, RabbitMQ may be unavailable.
+In this recipe, an instance of RabbitMQ is being deployed to a single zone. Please see the relevant high availability documentation of the [RabbitMQ](https://www.rabbitmq.com/documentation.html) product for more details. In the event of a zone failure, RabbitMQ may be unavailable. Setting up RabbitMQ for HA is outside the scope of SCDF and this recipe.
 
 <!--END_NOTE-->
 
@@ -238,7 +238,7 @@ us-east1-b
 
 ### Deploying Skipper
 
-The deployment of Skipper will consist of 3 replicas. No persistent storage is needed and its desired to have a replica running in each zone. Multiple replica's should not reside in the same zone as another. One way to do this would be using [Pod Anti Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+he deployment of Skipper will consist of 3 replicas. No persistent storage is needed and its desired to have a replica running in each zone. Multiple replicas should not reside in the same zone as another. One way to do this would be using [Pod Anti Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
 
 Make the following modifications to the `skipper/skipper-deployment.yaml` file bumping up the replica count and adding the pod anti-affinity:
 
@@ -370,9 +370,9 @@ $ curl -s http://$SCDF_IP/about | jq
 
 ## Deploying Streams and Tasks
 
-Streams and Tasks deployed through Data Flow can also benefit from various placement options just as with server components. There may be situations where certain streams or tasks should only be deployed to specific zones or even nodes themselves. Deployed streams and tasks are applications just like any others so they also benefit from Kubernetes rescheduling them onto other nodes in the event of failures.
+Streams and Tasks deployed through Data Flow can also benefit from various placement options, just as with server components. There may be situations where certain streams or tasks should only be deployed to specific zones or even nodes themselves. Deployed streams and tasks are applications just like any others, so they also benefit from Kubernetes re-scheduling them onto other nodes in the event of failures.
 
-Since streams and tasks are deployed to Kubernetes via Data Flow and Skipper, rather than applying these features to yaml manifests they are set through deployer properties. See the [Deployer Property](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-kubernetes-deployer) section of the Spring Cloud Data Flow reference manual for a full list of available deployer properties.
+Since streams and tasks are deployed to Kubernetes via Data Flow and Skipper, rather than applying these features to YAML manifests, they are set through deployer properties. See the [Deployer Property](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-kubernetes-deployer) section of the Spring Cloud Data Flow reference manual for a full list of available deployer properties.
 
 The deployer properties of interest are:
 
@@ -404,4 +404,4 @@ For a concrete example of how to set deployment properties at the application or
 
 ## Conclusion
 
-In this recipe we have setup a Regional cluster in GKE providing the infrastructure to provide high availablity control planes and workers across multiple zones in a region. We explored different options for application placement using constructs such as node selector, pod affinity, and pod anti-affinity. Each application and environment will have their own specalized needs, but this recipe should provide a starting point on how standard Kubernetes constructs can be used with Data Flow.
+In this recipe, we have set up a Regional cluster in GKE, providing the infrastructure to provide high availability control planes and workers across multiple zones in a region. We explored different options for application placement using constructs such as node selector, pod affinity, and pod anti-affinity. Each application and environment will have their own specialized needs, but this recipe should provide a starting point on how standard Kubernetes constructs can be used with Data Flow.
