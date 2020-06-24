@@ -6,11 +6,17 @@ description: 'Initiate a Batch deployment with deployment property overrides'
 
 # Deployment Properties
 
-When task definitions are launched to the target platforms `Local`, `CloudFoundry` and `Kubernetes`, you can provide the configuration properties that are applied to the task applications at launch time.
+When task definitions are launched to the target platforms `local`, `cloudFoundry` and `kubernetes`, you can provide the configuration properties that are applied to the task applications at launch time.
 For instance you can specify:
 
 - Deployer Properties - These properties customize how tasks are launched.
 - Application Properties - These are application specific properties.
+
+<!--TIP-->
+
+You can view the deployment properties for each of the platforms by selecting one of the following links: [local](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer), [cloudfoundry](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-deployer) or, [kubernetes](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-kubernetes-deployer).
+
+<!--END_TIP-->
 
 ## Deployer Properties
 
@@ -37,9 +43,3 @@ Press `Launch the task` and stand back!
 This will run the task on the Data Flow server's task platform and record a new task `execution`.
 When the execution is complete, the Status will turn to a satisfying green color and show `Complete.`
 Select the `Executions` tab to view a summary of executions for this task.
-
-<!--TIP-->
-
-You can view the deployment properties for each of the platforms by selecting one of the following links: [Local](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer), [Cloud Foundry](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-deployer) or, [Kubernetes](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-kubernetes-deployer).
-
-<!--END_TIP-->
