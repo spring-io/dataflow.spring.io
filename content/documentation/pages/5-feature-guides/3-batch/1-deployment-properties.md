@@ -6,7 +6,7 @@ description: 'Initiate a Batch deployment with deployment property overrides'
 
 # Deployment Properties
 
-When task definitions are launched to the target platforms `local`, `cloudFoundry` and `kubernetes`, you can provide the configuration properties that are applied to the task applications at launch time.
+When task definitions are launched to the target platforms (`local`, `cloudFoundry`, and `kubernetes`), you can provide the configuration properties that are applied to the task applications at launch time.
 For instance you can specify:
 
 - Deployer Properties - These properties customize how tasks are launched.
@@ -14,7 +14,7 @@ For instance you can specify:
 
 <!--TIP-->
 
-You can view the deployment properties for each of the platforms by selecting one of the following links: [local](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer), [cloudfoundry](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-deployer) or, [kubernetes](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-kubernetes-deployer).
+You can view the deployment properties for each of the platforms by selecting one of the following links: [local](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer), [cloudfoundry](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-deployer), or [kubernetes](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-kubernetes-deployer).
 
 <!--END_TIP-->
 
