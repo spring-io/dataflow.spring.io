@@ -8,10 +8,18 @@ description: 'Initiate a stream deployment with deployment property overrides'
 
 When deploying a stream, properties fall into two groups:
 
-- Properties that control how the apps are deployed to the target platform and that use a `deployer` prefix are referred to as _deployer properties_.
-- Properties that control or override how the application behave and that are set during stream creation are referred to as _application properties_.
+- Deployer Properties: These properties control how the apps are deployed to the target platform and that use a `deployer` prefix.
+- Application Properties: These propeties control or override how the application behaves and are set during stream creation.
 
-You need to pick a defined platform configuration where each platform type (`local`, `cloudfoundry` or `kubernetes`) has a different set of possible deployment properties. Every platform has a set of generic properties for `memory`, `cpu`, and `disk` reservations and `count` to define how many instances should be created on that platform. The following image shows the Deploy Stream Definition view, where you can set these properties:
+You need to pick a defined platform configuration where each platform type (`local`, `cloudfoundry`, or `kubernetes`) has a different set of possible deployment properties. Every platform has a set of generic properties for `memory`, `cpu`, and `disk` reservations and `count` to define how many instances should be created on that platform.
+
+<!--TIP-->
+
+You can view the deployment properties for each of the platforms by selecting one of the following links: [local](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-local-deployer), [cloudfoundry](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-deployer), or [kubernetes](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-kubernetes-deployer).
+
+<!--END_TIP-->
+
+The following image shows the Deploy Stream Definition view:
 
 ![Deployment Properties Overview](images/deployment-properties-1.png)
 
