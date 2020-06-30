@@ -888,5 +888,5 @@ kubectl delete all -l app=kafka
 
 ## What's Next
 
-The [RabiitMQ](%currentPath%/stream-developer-guides/streams/standalone-stream-rabbitmq/) shows you how to create the same three applications but with RabbitMQ instead.
+The [RabbitMQ](%currentPath%/stream-developer-guides/streams/standalone-stream-rabbitmq/) shows you how to create the same three applications but with RabbitMQ instead.
 Alternatively, you can use Spring Cloud Data Flow to deploy the three applications, as described in [Create and Deploy a Stream Processing Pipeline using Spring Cloud Data Flow](%currentPath%/stream-developer-guides/streams/data-flow-stream/).
