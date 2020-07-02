@@ -54,7 +54,7 @@ Similarly to enable Prometheus metrics collection using RSocket the following de
 
 <!--TIP-->
 
-For building a Task Docker image it is recommended to extend from the `springcloud/openjdk:latest` image. E.g. your task `Dockerfile` should start like this:
+To build a Docker image, you could extend from the `springcloud/openjdk:latest` base-image. For example, your task `Dockerfile` could start like this:
 
 ```
 FROM springcloud/openjdk:latest
