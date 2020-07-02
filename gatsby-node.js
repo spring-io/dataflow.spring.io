@@ -167,8 +167,6 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
     const filename = pathArr[pathArr.length - 1]
     if (startsWith(relativePath, 'content/news/')) {
       const slug = frontmatterPath // createFilePath({ node, getNode, basePath: `news` })
-
-      console.log(slug)
       createNodeField({
         node,
         name: `slug`,
@@ -189,7 +187,6 @@ exports.onCreateNode = async ({ node, getNode, actions }) => {
         const sourcePath = relativePath.split('/').slice(2).join('/')
         const isRoot = frontmatterPath.split('/').length === 2
         let url = `/docs/${version}/${frontmatterPath}`
-
         if (version === currentVersion) {
           url = `/docs/${frontmatterPath}`
         }
