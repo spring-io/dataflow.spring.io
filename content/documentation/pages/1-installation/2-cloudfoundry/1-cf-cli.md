@@ -314,6 +314,39 @@ services:
   - postgresSQL
 ```
 
+#### Configuration for Wavefront
+
+If you have a Wavefront SaaS account, you can enable the Task and Stream metrics. For which, you need to extend the Data Flow server manifest by adding following JSON to the `SPRING_APPLICATION_JSON` environment variable:
+
+```json
+        "management.metrics.export.wavefront": {
+                "enabled": true,
+                "api-token": "<YOUR API Token>",
+                "uri": "<YOUR WAVEFRONT URI>",
+                "source": "your-scdf-cf-source-id"
+        },
+        "spring.cloud.dataflow.applicationProperties": {
+            "task.management.metrics.export.wavefront": {
+                "enabled": true,
+                "api-token": "<YOUR API Token>",
+                "uri": "<YOUR WAVEFRONT URI>",
+                "source": "your-scdf-cf-source-id"
+            },
+            "stream.management.metrics.export.wavefront": {
+                "enabled": true,
+                "api-token": "<YOUR API Token>",
+                "uri": "<YOUR WAVEFRONT URI>",
+                "source": "your-scdf-cf-source-id"
+            }
+        }
+```
+
+Check the [Wavefront Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-wavefront) endpoint for more details about the Wavefront-specific options supported through the `management.metrics.export.wavefront.XXX` properties.
+
+Once you are ready with the relevant properties in your manifest file,
+you can issue a `cf push` command from the directory where this file is
+stored.
+
 #### Configuration for InfluxDB
 
 If you have installed the InfluxDB and Grafana on Cloud Foundry or have a separate installation of them on another cluster, to enable the Task and Stream metrics integration you need to extend the Data Flow server manifest by adding following JSON to the `SPRING_APPLICATION_JSON` environment variable:
