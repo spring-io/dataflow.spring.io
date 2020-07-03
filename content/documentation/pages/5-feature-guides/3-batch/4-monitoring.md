@@ -8,9 +8,11 @@ description: 'Monitoring task data pipelines with InfluxDB'
 
 This section describes how to monitor the applications that were deployed as part of a Task definition in Data Flow. The setup for each platform is different, but the general architecture is the same across the platforms.
 
-The Data Flow 2.x metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Starting with Spring Boot 2.0, Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Batch provides [additional integration](https://docs.spring.io/spring-batch/4.2.x/reference/html/monitoring-and-metrics.html) to expose metrics around task durations, rates and errors, which is critical to the monitoring of deployed batch-jobs.
+The Data Flow metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Batch provides [additional integration](https://docs.spring.io/spring-batch/4.2.x/reference/html/monitoring-and-metrics.html) to expose metrics around task durations, rates and errors, which is critical to the monitoring of deployed batch-jobs.
 
-We will focus on using two Time Series Databases, Prometheus and InfluxDB.
+We will focus on using three Time Series Databases, Wavefront, Prometheus and InfluxDB.
+
+[Wavefront](https://docs.wavefront.com/wavefront_introduction.html) is a high-performance streaming analytics platform that supports 3D observability (metrics, histograms, traces/spans). It scales to very high data ingestion rates and query loads, while collecting data many services and sources across your entire application stack.
 
 [Prometheus](https://prometheus.io/) is a popular pull-based Time Series Database that pulls the metrics from the target applications with pre-configured endpoints and provides a query language to select and aggregate time series data in real time.
 
@@ -69,7 +71,13 @@ The following image shows the general architecture of how task applications are 
 
 ![Task Monitoring Architecture](images/SCDF-task-metrics-architecture.png)
 
+<!--NOTE-->
+
 Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism. The RSocket Proxy approach is used so that we can monitor tasks, which are short lived, as well as long lived stream applications using the same architecture. See the micrometer documentation on [short-lived task/batch applications](https://github.com/micrometer-metrics/prometheus-rsocket-proxy#support-for-short-lived-or-serverless-applications) for more information. In addition, the RSocket approach allows for the same monitoring architecture to be used across all the platforms. Prometheus is configured to scrape each proxy instance. Proxies in turn use the RSocket connection to pull metrics from each application. The scraped metrics are then viewable through Grafana dashboards.
+
+<!--END_NOTE-->
+
+#### Spring Cloud Task Metric Tags
 
 To allow aggregating metrics per application type and per instance id or per task name, the Spring Cloud Task applications are configured to use the following Micrometer tags:
 
@@ -80,7 +88,7 @@ To allow aggregating metrics per application type and per instance id or per tas
 
 If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given task.
 
-Installing Prometheus and InfluxDB is different depending on the platform on which you run. Links to installation instructions are provides in each section below.
+Installing Wavefront, Prometheus and InfluxDB is different depending on the platform on which you run. Links to installation instructions are provides in each section below.
 
 ## Local
 
@@ -124,6 +132,18 @@ And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?re
 
 ![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
 
+<!--Wavefront-->
+
+### Wavefront
+
+To install Data Flow with Wavefront support, follow the [Monitoring with Wavefront](%currentPath%/installation/local/docker-customize/#wavefront) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, and point it to the Wavefront Data Flow Integration Tile.
+
+The Wavefront is a SaaS offering and you need to create user account first and use it to set the `WAVEFRONT_KEY` and `WAVEFRONT_URI` environment variables as explained below.
+
+You should see dashboards similar to those shown in the following image:
+
+![SCDF Wavefront](images/SCDF-monitoring-wavefront-task.png)
+
 <!--InfluxDB-->
 
 ### InfluxDB
@@ -163,6 +183,10 @@ You should see dashboards similar to those shown in the following image:
 ## Kubernetes
 
 This section describes how to view application metrics for task using Prometheus or InfluxDB as the metrics store on Kubernetes.
+
+<!--TABS-->
+
+<!--Prometheus -->
 
 ### Prometheus
 
@@ -227,6 +251,46 @@ Open the [Grafana dashboard for Tasks](http://192.168.99.100:31595/d/scdf-tasks/
 
 ![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
 
+<!--Wavefront -->
+
+### Wavefront
+
+The Wavefront is a SaaS offering and you need to create user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
+
+Follow the general [Data Flow Kubernetes installation instructions](<(%currentPath%/installation/kubernetes/)>).
+
+Then add the following properties to your Spring Cloud Data Flow server configuration (e.g. `src/kubernetes/server/server-config.yaml`) for enabling the Wavefront Integration:
+
+```yml
+management:
+  metrics:
+    export:
+      wavefront:
+        enabled: true
+        api-token: <YOUR API-KEY>
+        uri: <YOUR WAVEFRONT-URI>
+        source: demo-scdf-source
+spring:
+  cloud:
+    dataflow:
+      applicationProperties:
+        task:
+          management:
+            metrics:
+              export:
+                wavefront:
+                  enabled: true
+                  api-token: <YOUR API-KEY>
+                  uri: <YOUR WAVEFRONT-URI>
+                  source: demo-scdf-source
+```
+
+Then on the Wavefront portal you should see dashboards similar to those shown in the following image:
+
+![SCDF Wavefront](images/SCDF-monitoring-wavefront-task.png)
+
+<!--END_TABS-->
+
 ## Cloud Foundry
 
 This section describes how to view application metrics for streams using Prometheus and InfluxDB as the metrics store on Cloud Foundry.
@@ -271,6 +335,18 @@ In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/exec
 And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?refresh=10s):
 
 ![SCDF Task Grafana Prometheus Dashboard](images/SCDF-task-metrics-grafana-prometheus-dashboard.png)
+
+<!--Wavefront -->
+
+### Wavefront
+
+The Wavefront is a SaaS offering and you need to create user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
+
+To configure the Data Flow server's manifest to send metrics data from stream applications to the Wavefront monitoring system, follow the [Manifest based Wavefront configuration instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-wavefront).
+
+Then on the Wavefront portal you should see dashboards similar to those shown in the following image:
+
+![SCDF Wavefront](images/SCDF-monitoring-wavefront-task.png)
 
 <!--InfluxDB-->
 
