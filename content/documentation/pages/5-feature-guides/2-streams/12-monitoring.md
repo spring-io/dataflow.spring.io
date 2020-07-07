@@ -12,7 +12,7 @@ The Data Flow metrics architecture is designed around the [Micrometer](https://m
 
 All the Spring Cloud [Stream Applications](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) are configured to support two of the most popular monitoring systems, [Prometheus](https://prometheus.io/), [Wavefront](https://www.wavefront.com/) and [InfluxDB](https://www.influxdata.com/). You can declaratively select which monitoring system the deployed applications will use.
 
-[Wavefront](https://docs.wavefront.com/wavefront_introduction.html) is a high-performance streaming analytics platform that supports 3D observability (metrics, histograms, traces/spans). It scales to very high data ingestion rates and query loads, while collecting data many services and sources across your entire application stack.
+[Wavefront](https://docs.wavefront.com/wavefront_introduction.html) is a high-performance streaming analytics platform that supports 3D observability (metrics, histograms, traces/spans). It scales to very high data ingestion rates and query loads while also collecting data many services and sources across your entire application stack.
 
 [Prometheus](https://prometheus.io/) is a popular pull-based Time Series Database that pulls the metrics from the target applications with pre-configured endpoints and provides a query language to select and aggregate time series data in real time.
 
@@ -20,7 +20,7 @@ All the Spring Cloud [Stream Applications](https://docs.spring.io/spring-cloud-d
 
 To enable support for different monitoring systems, you can [customize the Stream Applications](https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle/#_patching_pre_built_applications) to use a different monitoring system.
 
-To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) dashboards (for Prometheus and InfluxDB) that you can install and customize for your needs. For Wavefront you can use the Data Flow Integration Tail.
+To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) dashboards (for Prometheus and InfluxDB) that you can install and customize for your needs. For Wavefront, you can use the Data Flow Integration tile for a rich and comprehensive metrics visualization.
 
 The following image shows the general architecture of how streaming applications are monitored:
 
@@ -48,11 +48,11 @@ If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.
 
 ![Runtime Applications Monitoring](images/grafana-scdf-ui-buttons-streams.png)
 
-Installing Wavefront, Prometheus and InfluxDB is different depending on the platform on which you run. Links to installation instructions are provides in each section below.
+Choosing between Wavefront, Prometheus, or InfluxDB and installing necessary components is different depending on the platform on which you run. Links to installation instructions are provided in each section below.
 
 ## Local
 
-This section describes how to view application metrics for streams using Prometheus or InfluxDB as the metrics store on your local machine. Wavefront is a cloud offering, but you still can deploy Data Flow locally can point it to your remote Wavefront monitoring system.
+This section describes how to view application metrics for streams using Prometheus or InfluxDB as the metrics store on your local machine. Wavefront is a cloud offering, but you still can deploy Data Flow locally can point it to a cloud-managed Wavefront monitoring system.
 
 <!--TABS-->
 
@@ -91,9 +91,9 @@ You should see dashboards similar to those shown in the following image:
 
 ### Wavefront
 
-To install Data Flow with Wavefront support, follow the [Monitoring with Wavefront](%currentPath%/installation/local/docker-customize/#wavefront) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, and point it to the Wavefront Data Flow Integration tile.
+To install Data Flow with Wavefront support, follow the [Monitoring with Wavefront](%currentPath%/installation/local/docker-customize/#wavefront) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, and it will also point to the Wavefront's Data Flow Integration Tile automatically.
 
-The Wavefront is a SaaS offering and you need to create user account first and use it to set the `WAVEFRONT_KEY` and `WAVEFRONT_URI` environment variables as explained below.
+The Wavefront is a SaaS offering and you need to create a user account first. With that account, you will be able to set the `WAVEFRONT_KEY` and `WAVEFRONT_URI` environment variables as explained below.
 
 You should see dashboards similar to those shown in the following image:
 
@@ -197,7 +197,7 @@ You should see dashboards similar to those shown in the following image:
 
 ### Wavefront
 
-The Wavefront is a SaaS offering and you need to create user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
+The Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
 Follow the general [Data Flow Kubernetes installation instructions](<(%currentPath%/installation/kubernetes/)>).
 
@@ -227,7 +227,7 @@ spring:
                   source: demo-scdf-source
 ```
 
-Then on the Wavefront portal you should see dashboards similar to those shown in the following image:
+Then on the Wavefront portal, you should see dashboards similar to those shown in the following image:
 
 ![SCDF Wavefront](images/SCDF-monitoring-wavefront-applications.png)
 
@@ -273,9 +273,9 @@ After deploying a stream, you can launch to view the Grafana dashboard as shown 
 
 ### Wavefront
 
-The Wavefront is a SaaS offering and you need to create user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
+The Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
-To configure the Data Flow server's manifest to send metrics data from stream applications to the Wavefront monitoring system, follow the [Manifest based Wavefront configuration instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-wavefront).
+To configure the Data Flow Server to send metrics data from stream applications to the Wavefront monitoring system, follow the [Manifest based Wavefront configuration instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-wavefront).
 
 Then on the Wavefront portal you should see dashboards similar to those shown in the following image:
 

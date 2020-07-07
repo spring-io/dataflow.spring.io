@@ -8,11 +8,11 @@ description: 'Monitoring task data pipelines with InfluxDB'
 
 This section describes how to monitor the applications that were deployed as part of a Task definition in Data Flow. The setup for each platform is different, but the general architecture is the same across the platforms.
 
-The Data Flow metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Batch provides [additional integration](https://docs.spring.io/spring-batch/4.2.x/reference/html/monitoring-and-metrics.html) to expose metrics around task durations, rates and errors, which is critical to the monitoring of deployed batch-jobs.
+The Data Flow metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. The micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Batch provides [additional integration](https://docs.spring.io/spring-batch/4.2.x/reference/html/monitoring-and-metrics.html) to expose metrics around task durations, rates, and errors, which is critical to the monitoring of deployed batch-jobs.
 
 We will focus on using three Time Series Databases, Wavefront, Prometheus and InfluxDB.
 
-[Wavefront](https://docs.wavefront.com/wavefront_introduction.html) is a high-performance streaming analytics platform that supports 3D observability (metrics, histograms, traces/spans). It scales to very high data ingestion rates and query loads, while collecting data many services and sources across your entire application stack.
+[Wavefront](https://docs.wavefront.com/wavefront_introduction.html) is a high-performance streaming analytics platform that supports 3D observability (metrics, histograms, traces/spans). It scales to very high data ingestion rates and query loads while also collecting data many services and sources across your entire application stack.
 
 [Prometheus](https://prometheus.io/) is a popular pull-based Time Series Database that pulls the metrics from the target applications with pre-configured endpoints and provides a query language to select and aggregate time series data in real time.
 
@@ -136,9 +136,9 @@ And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?re
 
 ### Wavefront
 
-To install Data Flow with Wavefront support, follow the [Monitoring with Wavefront](%currentPath%/installation/local/docker-customize/#wavefront) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, and point it to the Wavefront Data Flow Integration Tile.
+To install Data Flow with Wavefront support, follow the [Monitoring with Wavefront](%currentPath%/installation/local/docker-customize/#wavefront) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, and it will also point to the Wavefront's Data Flow Integration Tile automatically.
 
-The Wavefront is a SaaS offering and you need to create user account first and use it to set the `WAVEFRONT_KEY` and `WAVEFRONT_URI` environment variables as explained below.
+The Wavefront is a SaaS offering. You need to create a user account first and use it to set the `WAVEFRONT_KEY` and `WAVEFRONT_URI` environment variables as explained below.
 
 You should see dashboards similar to those shown in the following image:
 
@@ -255,7 +255,7 @@ Open the [Grafana dashboard for Tasks](http://192.168.99.100:31595/d/scdf-tasks/
 
 ### Wavefront
 
-The Wavefront is a SaaS offering and you need to create user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
+The Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
 Follow the general [Data Flow Kubernetes installation instructions](<(%currentPath%/installation/kubernetes/)>).
 
@@ -340,9 +340,9 @@ And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?re
 
 ### Wavefront
 
-The Wavefront is a SaaS offering and you need to create user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
+The Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
-To configure the Data Flow server's manifest to send metrics data from stream applications to the Wavefront monitoring system, follow the [Manifest based Wavefront configuration instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-wavefront).
+To configure the Data Flow Server to send metrics data from stream applications to the Wavefront monitoring system, follow the [Manifest based Wavefront configuration instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-wavefront).
 
 Then on the Wavefront portal you should see dashboards similar to those shown in the following image:
 

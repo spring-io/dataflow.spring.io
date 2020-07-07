@@ -15,7 +15,7 @@ The Micrometer instrumentation library powers the delivery of application metric
 The prebuilt applications are configured to support two of the most popular monitoring systems, Prometheus, Wavefront and InfluxDB. You can declaratively select which monitoring system to use.
 
 To help you get started, Data Flow provides Grafana and Wavefront dashboards that you can customize for your needs.
-You can also opt for the Cloud Service , [Wavefront Data Flow Integration Tile](https://www.wavefront.com/integrations/).
+You can also opt for the [Wavefront Data Flow Integration Tile](https://www.wavefront.com/integrations/).
 
 Follow the [Stream Monitoring Feature Guide](%currentPath%/feature-guides/streams/monitoring/) and [Task Monitoring Feature Guide](%currentPath%/feature-guides/batch/monitoring/) for detailed information on how to set up the monitoring infrastructure.
 

@@ -316,7 +316,7 @@ services:
 
 #### Configuration for Wavefront
 
-If you have a Wavefront SaaS account you can enable the Task and Stream metrics integration you need to extend the Data Flow server manifest by adding following JSON to the `SPRING_APPLICATION_JSON` environment variable:
+If you have a Wavefront SaaS account, you can enable the Task and Stream metrics. For which, you need to extend the Data Flow server manifest by adding following JSON to the `SPRING_APPLICATION_JSON` environment variable:
 
 ```json
         "management.metrics.export.wavefront": {
@@ -341,7 +341,7 @@ If you have a Wavefront SaaS account you can enable the Task and Stream metrics 
         }
 ```
 
-Check the [Wavefront Actuator properties](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/reference/html/production-ready-features.html#production-ready-metrics-export-wavefront) for further details about the `management.metrics.export.wavefront.XXX` properties.
+Check the [Wavefront Actuator](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/reference/html/production-ready-features.html#production-ready-metrics-export-wavefront) endpoint for more details about the Wavefront-specific options supported through the `management.metrics.export.wavefront.XXX` properties.
 
 Once you are ready with the relevant properties in your manifest file,
 you can issue a `cf push` command from the directory where this file is
