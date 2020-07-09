@@ -29,7 +29,7 @@ To enable Task metrics integration with Data Flow you must add the `spring-boot-
 
 For example:
 
-```
+```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
@@ -38,19 +38,28 @@ For example:
 
 In addition to enable InfluxDB metrics collection the following dependency is required:
 
-```
+```xml
 <dependency>
     <groupId>io.micrometer</groupId>
     <artifactId>micrometer-registry-influx</artifactId>
 </dependency>
 ```
 
-Similarly to enable Prometheus metrics collection using RSocket the following dependency is required:
+To enable Prometheus metrics collection using RSocket the following dependency is required:
 
-```
+```xml
 <dependency>
 	<groupId>io.micrometer.prometheus</groupId>
 	<artifactId>prometheus-rsocket-spring</artifactId>
+</dependency>
+```
+
+Similarly to enable Wavefront metrics collection the `micrometer-registry-wavefront` dependency is required:
+
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-wavefront</artifactId>
 </dependency>
 ```
 
