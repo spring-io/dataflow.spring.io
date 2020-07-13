@@ -1,5 +1,6 @@
 {
   "recurse": true,
+  "concurrency": 5,
   "skip": [
     "^data:image",
     "^http://localhost:9393",
