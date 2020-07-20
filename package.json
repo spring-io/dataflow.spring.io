@@ -24,6 +24,9 @@
     "prebuild": "yarn run clean && yarn run lint && yarn run load-repos && yarn run test",
     "build": "gatsby build",
     "serve": "gatsby serve",
+    "clean-cf-push": "rimraf cloud-foundry/public",
+    "copy-cf-push": "ncp public cloud-foundry/public",
+    "prepare-cf-push": "yarn run clean-cf-push && yarn run copy-cf-push",
     "fix": "NODE_ENV=test import-sort --write '(src|utils|plugins)/**/*.js' && eslint . --fix && prettier --write '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "lint": "NODE_ENV=test import-sort -l '(src|utils|plugins)/**/*.js' && eslint . && prettier --check '**/*.{{c,le,sc}ss,g?(raph)ql,htm?(l),js?(on|on5|onl|x|s),md?(x|wn),m?(ark)down,mkdn,ts?(x),vue,y?(a)ml}'",
     "test": "echo TODO",
@@ -166,6 +169,7 @@
     "is-relative-url": "^3.0.0",
     "linkinator": "^2.0.6",
     "lint-staged": "^10.1.2",
+    "ncp": "^2.0.0",
     "prettier": "^2.0.4",
     "pretty-quick": "^2.0.1"
   }
