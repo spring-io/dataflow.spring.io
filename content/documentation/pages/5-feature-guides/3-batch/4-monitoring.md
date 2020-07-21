@@ -290,7 +290,7 @@ Open the [Grafana dashboard for Tasks](http://192.168.99.100:31595/d/scdf-tasks/
 
 The Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
-Follow the general [Data Flow Kubernetes installation instructions](<(%currentPath%/installation/kubernetes/)>).
+Follow the general [Data Flow Kubernetes installation instructions](%currentPath%/installation/kubernetes/).
 
 Then add the following properties to your Spring Cloud Data Flow server configuration (e.g. `src/kubernetes/server/server-config.yaml`) for enabling the Wavefront Integration:
 
