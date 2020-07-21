@@ -21,31 +21,42 @@ We will focus on using three Time Series Databases, Wavefront, Prometheus and In
 <!--NOTE-->
 
 The core of the Micrometer task integration is part of the Spring Cloud Task’s 2.2.0 release-line, which is a prerequisite for the Task-metrics and the Data Flow integration.
-Task applications built on the Spring Cloud Task 2.2.0 version can be configured to emit Task and Batch metrics to the pre-configured monitoring systems supported by Micrometer.
+Task applications built on the Spring Cloud Task 2.2+ version can be configured to emit Task and Batch metrics to the pre-configured monitoring systems supported by Micrometer.
 
 <!--END_NOTE-->
 
-To enable Task metrics integration with Data Flow you must add the `spring-boot-starter-actuator` to your task application and include the desired Micrometer registry as the dependency in the Task POM.
+##### Enable Task Metrics
 
-For example:
-
-```xml
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-actuator</artifactId>
-</dependency>
-```
-
-In addition to enable InfluxDB metrics collection the following dependency is required:
+To enable Task metrics integration with Data Flow you must add the `spring-boot-starter-actuator` to your task application and import the `spring-cloud-dependencies` BOM.
 
 ```xml
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-registry-influx</artifactId>
-</dependency>
+<dependencies>
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+  </dependency>
+</dependencies>
+
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>Hoxton.SR6</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+	</dependencies>
+</dependencyManagement>
 ```
 
-To enable Prometheus metrics collection using RSocket the following dependency is required:
+Then include the desired Micrometer registry as the dependency in the Task POM:
+
+<!--TABS-->
+
+<!--Prometheus-->
+
+Enable Prometheus metrics collection using `RSocket` with the following dependency:
 
 ```xml
 <dependency>
@@ -54,7 +65,9 @@ To enable Prometheus metrics collection using RSocket the following dependency i
 </dependency>
 ```
 
-Similarly to enable Wavefront metrics collection the `micrometer-registry-wavefront` dependency is required:
+<!--Wavefront-->
+
+Enable Wavefront metrics collection the `micrometer-registry-wavefront` dependency:
 
 ```xml
 <dependency>
@@ -63,7 +76,20 @@ Similarly to enable Wavefront metrics collection the `micrometer-registry-wavefr
 </dependency>
 ```
 
-<!--TIP-->
+<!--InfluxDB-->
+
+Enable the `InfluxDB` metrics collection with the following dependency:
+
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-influx</artifactId>
+</dependency>
+```
+
+<!--END_TABS-->
+
+##### Build Docker Image
 
 To build a Docker image, you could extend from the `springcloud/openjdk:latest` base-image. For example, your task `Dockerfile` could start like this:
 
@@ -71,8 +97,6 @@ To build a Docker image, you could extend from the `springcloud/openjdk:latest` 
 FROM springcloud/openjdk:latest
 ...
 ```
-
-<!--END_TIP-->
 
 To help you get started monitoring tasks, Data Flow provides [Grafana](https://grafana.com/) Dashboards that you can install and customize for your needs.
 
