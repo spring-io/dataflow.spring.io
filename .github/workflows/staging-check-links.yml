@@ -1,0 +1,28 @@
+name: Staging Check Links
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  links:
+    name: Check links
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Yarn Install
+        run: |
+          yarn install
+
+      # can't run with parallel jobs as gh is rate limiting
+      # so need to run via sequential steps and allow to continue
+      # even if step fails to sweep through all
+      - name: Linkinator (current)
+        run: |
+          yarn run linkinator https://dataflow-staging.cfapps.io --concurrency 1
+      - name: Linkinator (2.2.x)
+        if: success() || failure()
+        run: |
+          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.2.x --concurrency 1
