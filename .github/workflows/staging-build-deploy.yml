@@ -38,28 +38,25 @@ jobs:
         run: cf blue-green-deploy dataflow-website-staging -f manifest-local.yml --smoke-test ./blue-green-smoke.sh --delete-old-apps
 
   # check links jobs, runs if build was ok
-  links-current:
-    name: Check links (current)
+  links:
+    name: Check links
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Yarn Install
+        run: |
+          yarn install
 
-      # check links
-      - name: Linkinator
+      # can't run with parallel jobs as gh is rate limiting
+      # so need to run via sequential steps and allow to continue
+      # even if step fails to sweep through all
+      - name: Linkinator (current)
         run: |
           yarn install
           yarn run linkinator https://dataflow-staging.cfapps.io
-
-  links-22x:
-    name: Check links (2.2.x)
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      # check links
-      - name: Linkinator
+      - name: Linkinator (2.2.x)
+        if: success() || failure()
         run: |
           yarn install
           yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.2.x
