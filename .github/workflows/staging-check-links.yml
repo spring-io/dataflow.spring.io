@@ -20,20 +20,20 @@ jobs:
       # even if step fails to sweep through all
       - name: Linkinator (current)
         run: |
-          yarn run linkinator https://dataflow-staging.cfapps.io --concurrency 1
+          yarn run linkinator https://dataflow-staging.cfapps.io --concurrency 1 --silent
       - name: Linkinator (2.6.0.SNAPSHOT)
         if: success() || failure()
         run: |
-          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.6.0.SNAPSHOT --concurrency 1
+          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.6.0.SNAPSHOT --concurrency 1 --silent
       - name: Linkinator (2.4.x)
         if: success() || failure()
         run: |
-          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.4.x --concurrency 1
+          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.4.x --concurrency 1 --silent
       - name: Linkinator (2.3.x)
         if: success() || failure()
         run: |
-          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.3.x --concurrency 1
+          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.3.x --concurrency 1 --silent
       - name: Linkinator (2.2.x)
         if: success() || failure()
         run: |
-          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.2.x --concurrency 1
+          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.2.x --concurrency 1 --silent
