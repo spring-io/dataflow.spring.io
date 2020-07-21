@@ -342,7 +342,7 @@ When the table data loads, click the "Data" tab to view the data.
 
 #### Prerequisites
 
-Running this example on Cloud Foundry requires configuring an NFS server and creating an `nfs` service to access it as discribed in the [Cloud Foundry NFS Configuration](%currentPath%/recipes/file-ingest/sftp-to-jdbc/#cloud-foundry-nfs-configuration) section.
+Running this example on Cloud Foundry requires configuring an NFS server and creating an `nfs` service to access it as discribed in the [Cloud Foundry NFS Configuration](%currentPath%/recipes/batch/sftp-to-jdbc/#cloud-foundry-nfs-configuration) section.
 We also require an external SFTP server with a `/remote-files` directory.
 
 This also requires:
