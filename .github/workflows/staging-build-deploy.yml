@@ -37,9 +37,9 @@ jobs:
       - name: CF Staging Deploy
         run: cf blue-green-deploy dataflow-website-staging -f manifest-local.yml --smoke-test ./blue-green-smoke.sh --delete-old-apps
 
-  # check links, runs if build was ok
-  links:
-    name: Check links
+  # check links jobs, runs if build was ok
+  links-current:
+    name: Check links (current)
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -49,4 +49,17 @@ jobs:
       - name: Linkinator
         run: |
           yarn install
-          yarn run linkinator https://dataflow-staging.cfapps.io/
+          yarn run linkinator https://dataflow-staging.cfapps.io
+
+  links-22x:
+    name: Check links (2.2.x)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # check links
+      - name: Linkinator
+        run: |
+          yarn install
+          yarn run linkinator https://dataflow-staging.cfapps.io/docs/2.2.x
