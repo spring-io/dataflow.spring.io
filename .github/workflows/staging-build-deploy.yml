@@ -1,6 +1,6 @@
 name: Staging Build and Deploy
 
-on: [push]
+on: [push, workflow_dispatch]
 
 env:
   CF_API: ${{ secrets.CF_API }}
