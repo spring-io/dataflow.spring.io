@@ -8,7 +8,7 @@ description: 'Set up Spring Cloud Data Flow to use only batch and not streams'
 
 This recipe addresses how to configure Spring Cloud Data Flow with Spring Batch (and Spring Cloud Task) and not with Spring Cloud Streams. By doing so, you can use Spring Cloud Data Flow to control your batch jobs and tasks without other features.
 
-For more about managing batch jobs with Spring Cloud Data Flow, see the [Batch Developer Guides](%currentPath/feature-guides/batch/%).
+For more about managing batch jobs with Spring Cloud Data Flow, see the [Batch Developer Guides](%currentPath%/feature-guides/batch/).
 
 ## Prerequisites
 

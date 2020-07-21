@@ -509,7 +509,7 @@ This example assumes Data Flow is installed on minikube with `kafka` and `mysql`
 helm install --name my-release --set kafka.enabled=true,rabbitmq.enabled=false,server.service.type=NodePort stable/spring-cloud-data-flow
 ```
 
-Running this example on Kubernetes requires configuring an NFS server and creating an corresponding `persistent volume` and `persistent volume claim` resources as described in the [Kubernetes NFS Configuration](%currentPath%/recipes/file-ingest/sftp-to-jdbc/#kubernetes-nfs-configuration) section.
+Running this example on Kubernetes requires configuring an NFS server and creating an corresponding `persistent volume` and `persistent volume claim` resources as described in the [Kubernetes NFS Configuration](%currentPath%/recipes/batch/sftp-to-jdbc/#kubernetes-nfs-configuration) section.
 We also require an external SFTP server with a `/remote-files` directory.
 
 #### Register the applications
