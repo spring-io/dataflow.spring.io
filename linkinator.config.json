@@ -8,6 +8,8 @@
     "^http://localhost:9090",
     "^http://localhost:3000",
     "^http://localhost:15672",
+    "^http://localhost:7577",
+    "^http://localhost:8086",
     "^http://192.168.99.100",
     "^http://stateless.co",
     "^http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/"
