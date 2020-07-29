@@ -122,3 +122,79 @@ If you are running this using `local` deployer, you can also inherit the logs fr
 ```
 deployer.*.local.inherit-logging=true
 ```
+
+## Using functional applications along with the other versions of Spring Cloud Stream applications
+
+You can use your functional application along with other versions of Spring Cloud Stream application (example: the applications that use `@EnableBinding` to explicitly declare their inbound/outbound endpoints).
+
+In this case, you need to explicitly configure the functional binding on your functional application **only**.
+
+For instance, let's say you are using the `time` source application from the [stream-app-starters](https://github.com/spring-cloud-stream-app-starters/time/blob/17ce146a0049d0259e12a39a80ae57c4ea148258/spring-cloud-starter-stream-source-time/src/main/java/org/springframework/cloud/stream/app/time/source/TimeSourceConfiguration.java#L36)
+
+```
+@EnableBinding(Source.class)
+@Import({TriggerConfiguration.class, TriggerPropertiesMaxMessagesDefaultOne.class})
+public class TimeSourceConfiguration {
+
+	@Autowired
+	private TriggerProperties triggerProperties;
+
+	@PollableSource
+	public String publishTime() {
+		return new SimpleDateFormat(this.triggerProperties.getDateFormat()).format(new Date());
+	}
+
+}
+```
+
+along with the `log-sink` consumer application that we used above.
+
+```
+package com.example.logsink;
+
+import java.util.function.Consumer;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.handler.LoggingHandler;
+import org.springframework.messaging.Message;
+
+@SpringBootApplication
+public class LogSinkApplication {
+
+	@Bean
+	IntegrationFlow logConsumerFlow() {
+		return IntegrationFlows.from(MessageConsumer.class, (gateway) -> gateway.beanName("logConsumer"))
+				.handle((payload, headers) -> {
+					if (payload instanceof byte[]) {
+						return new String((byte[]) payload);
+					}
+					return payload;
+				})
+				.log(LoggingHandler.Level.INFO, "log-consumer", "payload")
+				.get();
+	}
+
+	private interface MessageConsumer extends Consumer<Message<?>> {}
+
+	public static void main(String[] args) {
+		SpringApplication.run(LogSinkApplication.class, args);
+	}
+}
+
+```
+
+When you create a stream using `time` and `log-sink` in SCDF,
+
+```
+ticktock=time | log-sink
+```
+
+you need to configure the function bindings on the `log-sink` only as the `time` application would have its `output` bound using `@EnableBidning`:
+
+```
+app.log-sink.spring.cloud.stream.function.bindings.logConsumer-in-0=input
+```
