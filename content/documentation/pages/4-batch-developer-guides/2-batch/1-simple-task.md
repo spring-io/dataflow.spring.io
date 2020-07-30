@@ -147,7 +147,7 @@ Now we can take the next step of building the project. To do so:
    1. `spring.datasource.url`: Set the URL to your database instance. In the following sample, we connect to a mysql `task` database on our local machine at port 3306.
    1. `spring.datasource.username`: The user name to be used for the MySql database. In the following sample, it is `root`.
    1. `spring.datasource.password`: The password to be used for the MySql database. In the following sample. it is `password`.
-   1. `spring.datasource.driverClassName`: The driver to use to connect to the MySql database. In the following sample, it is `com.mysql.jdbc.Driver`.
+   1. `spring.datasource.driverClassName`: The driver to use to connect to the MySql database. In the following sample, it is `com.mysql.cj.jdbc.Driver`.
 
    The following command runs the `billsetuptask` application with our database connection values:
 
@@ -156,7 +156,7 @@ Now we can take the next step of building the project. To do so:
    --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
    --spring.datasource.username=root \
    --spring.datasource.password=password \
-   --spring.datasource.driverClassName=com.mysql.jdbc.Driver
+   --spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
    ```
 
    Alternatively, place these properties in `application.properties` and execute the `BillSetupTaskApplication` from your IDE.
@@ -203,7 +203,7 @@ java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
 --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
 --spring.datasource.username=root \
 --spring.datasource.password=password \
---spring.datasource.driverClassName=com.mysql.jdbc.Driver \
+--spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver \
 --spring.cloud.task.name=BillSetupTest1
 ```
 
@@ -448,7 +448,7 @@ spec:
         - name: SPRING_DATASOURCE_USERNAME
           value: root
         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-          value: com.mysql.jdbc.Driver
+          value: com.mysql.cj.jdbc.Driver
   initContainers:
     - name: init-mysql-database
       image: mysql:5.6
