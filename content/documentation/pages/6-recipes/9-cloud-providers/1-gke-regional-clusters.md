@@ -361,7 +361,7 @@ $ curl -s http://$SCDF_IP/about | jq
   "versionInfo": {
     "implementation": {
       "name": "spring-cloud-dataflow-server",
-      "version": "2.6.0.BUILD-SNAPSHOT"
+      "version": "2.7.0-SNAPSHOT"
     },
 ...
 ...

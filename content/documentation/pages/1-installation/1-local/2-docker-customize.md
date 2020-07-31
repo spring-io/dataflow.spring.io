@@ -40,7 +40,7 @@ The [docker-compose-prometheus.yml](https://raw.githubusercontent.com/spring-clo
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml
+wget -O docker-compose-prometheus.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-prometheus.yml up
 ```
 
@@ -80,7 +80,7 @@ The [docker-compose-influxdb.yml](https://raw.githubusercontent.com/spring-cloud
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+wget -O docker-compose-influxdb.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-influxdb.yml up
 ```
 
@@ -117,7 +117,7 @@ The [Wavefront](https://www.wavefront.com/) is a SaaS offering and you need to [
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml
+wget -O docker-compose-wavefront.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-wavefront.yml up
 ```
 
@@ -153,7 +153,7 @@ The [docker-compose-postgres.yml](https://raw.githubusercontent.com/spring-cloud
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-postgres.yml
+wget -O docker-compose-postgres.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-postgres.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-postgres.yml up
 ```
 
@@ -181,7 +181,7 @@ The [docker-compose-rabbitmq.yml](https://raw.githubusercontent.com/spring-cloud
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
+wget -O docker-compose-rabbitmq.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml up
 ```
 
@@ -223,7 +223,7 @@ The [docker-compose-debug-dataflow.yml](https://raw.githubusercontent.com/spring
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-dataflow.yml
+wget -O docker-compose-debug-dataflow.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-dataflow.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-debug-dataflow.yml up
 ```
 
@@ -256,7 +256,7 @@ Similarly you can use the [docker-compose-debug-skipper.yml](https://raw.githubu
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-skipper.yml
+wget -O docker-compose-debug-skipper.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-skipper.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-debug-skipper.yml up
 ```
 
@@ -289,8 +289,8 @@ Also because the `Scheduler` service is not supported by by the Local Deployer, 
 The [docker-compose-cf.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-cf.yml) adds a remote `Cloud Foundry` account as a Data Flow runtime platform under the name `cf`. You will need to edit the `docker-compose-cf.yml` to add your CF API URL and access credentials.
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-cf.yml
+wget -O docker-compose-rabbitmq.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
+wget -O docker-compose-cf.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-cf.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml -f ./docker-compose-cf.yml up
 ```
 
@@ -299,7 +299,7 @@ Because `Kafka` is not supported on CF you, also will need to switch to `Rabbit`
 The [docker-compose-k8s.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-cf.yml) adds a remote `Kubernetes` account as a Data Flow runtime platform under the name `k8s`. You will need to edit the `docker-compose-k8s.yml` to add your Kubernetes master URL and access credentials.
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-k8s.yml
+wget -O docker-compose-k8s.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-k8s.yml
 STREAM_APPS_URI=https://dataflow.spring.io/kafka-docker-latest docker-compose -f ./docker-compose.yml -f ./docker-compose-k8s.yml up
 ```
 
