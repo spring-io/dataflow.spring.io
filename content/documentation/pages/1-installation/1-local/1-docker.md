@@ -30,7 +30,7 @@ For the impatient, here is a quick start, single-line command:
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose.yml; \
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml; \
 DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% \
 docker-compose up
 ```
@@ -38,7 +38,7 @@ docker-compose up
 <!--Windows (Cmd)-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose.yml -o docker-compose.yml & set DATAFLOW_VERSION=%dataflow-version%& set SKIPPER_VERSION=%skipper-version%& docker-compose up
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml -o docker-compose.yml & set DATAFLOW_VERSION=%dataflow-version%& set SKIPPER_VERSION=%skipper-version%& docker-compose up
 ```
 
 <!--END_TABS-->
