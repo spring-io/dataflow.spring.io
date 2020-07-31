@@ -1,11 +1,11 @@
 {
-  "streaming-apps-version": "Einstein.SR3",
+  "streaming-apps-version": "Einstein.SR7",
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.2.0.RELEASE",
 
-  "skipper-version": "2.5.0.BUILD-SNAPSHOT",
-  "dataflow-version": "2.6.0.BUILD-SNAPSHOT",
+  "skipper-version": "2.6.0-SNAPSHOT",
+  "dataflow-version": "2.7.0-SNAPSHOT",
 
   "github-tag": "master",
 
