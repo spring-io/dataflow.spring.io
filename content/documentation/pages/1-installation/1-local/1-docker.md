@@ -30,7 +30,7 @@ For the impatient, here is a quick start, single-line command:
 <!--Linux / OSX-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml; \
+wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml; \
 DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% \
 docker-compose up
 ```
@@ -54,7 +54,7 @@ Detailed instructions of how to configure and start Spring Cloud Data FLow using
 <!--wget-->
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml
+wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml
 ```
 
 <!--curl-->
@@ -185,7 +185,7 @@ To download the Spring Cloud Data Flow Shell application, run the following comm
 <!--wget-->
 
 ```bash
-wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+wget -O spring-cloud-dataflow-shell-%dataflow-version%.jar https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 <!--curl-->
