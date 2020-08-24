@@ -1,24 +1,18 @@
 ---
-path: 'feature-guides/streams/monitoring/'
-title: 'Stream Monitoring'
-description: 'Monitoring streaming data pipelines with Prometheus and InfluxDB'
+path: 'feature-guides/general/monitoring/'
+title: 'Server Monitoring'
+description: 'Monitoring Data Flow and Skipper servers'
 ---
 
-# Stream Monitoring with Prometheus, Wavefront and InfluxDB
+# Server Monitoring with Prometheus, Wavefront and InfluxDB
 
-This section describes how to monitor the applications that were deployed as part of a Stream data pipeline. The setup for each platform is different, but the general architecture is the same across all the platforms.
+This section describes how to monitor the Spring Cloud Data Flow and Spring Cloud Skipper Servers. The setup for each platform is different, but the general architecture is the same across all the platforms.
 
-The Data Flow metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, to provide a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Micrometer powers the delivery of application metrics from Spring Boot. Spring Integration provides [additional micrometer integration](https://docs.spring.io/spring-integration/docs/current/reference/html/system-management.html#micrometer-integration) to expose metrics around message rates and errors, which is critical to the monitoring of deployed streams.
+The Data Flow metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, to provide a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems.
 
-All Spring Cloud [Stream App Starters](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) and [Stream Applications](https://github.com/spring-cloud/stream-applications) are pre-configured to support three of the most popular monitoring systems, [Prometheus](https://prometheus.io/), [Wavefront](https://www.wavefront.com/) and [InfluxDB](https://www.influxdata.com/). You can declaratively select which monitoring system the deployed applications will use.
-
-To enable support for different monitoring systems, you can [customize the Stream Applications](https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle/#_patching_pre_built_applications) to use a different monitoring system.
+The Data Flow and the Skipper servers are pre-configured to support three of the most popular monitoring systems, [Prometheus](https://prometheus.io/), [Wavefront](https://www.wavefront.com/) and [InfluxDB](https://www.influxdata.com/). You can declaratively select which monitoring system the deployed applications will use.
 
 To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) dashboards (for Prometheus and InfluxDB) that you can install and customize for your needs. For Wavefront, you can use the Data Flow Integration tile for a rich and comprehensive metrics visualization.
-
-The following image shows the general architecture of how streaming applications are monitored:
-
-![Stream Monitoring Architecture](images/SCDF-stream-metrics-architecture.png)
 
 <!--NOTE-->
 
@@ -26,27 +20,9 @@ Prometheus requires a Service Discovery component to automatically probe the con
 
 <!--END_NOTE-->
 
-#### Data Flow Metric Tags
-
-To allow aggregating metrics per application type and per instance or per stream, the Spring Cloud Stream Application Starters are configured to use the following Micrometer tags:
-
-- `stream.name`: The name of the Stream that contains the applications that send the metrics
-- `application.name`: The name or label of the application that reports the metrics
-- `application.type`: The type (Source, Processor, or Sink) of the application that reports the metrics
-- `application.guid`: Unique instance identifier of the application instance that reports the metrics
-- `application.index`: Application instance ID (when available)
-
-If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given stream, application, or application instance. The following screenshots illustrate these buttons, look for the spiral icon.
-
-![Stream List Monitoring](images/grafana-scdf-ui-buttons-apps.png)
-
-![Runtime Applications Monitoring](images/grafana-scdf-ui-buttons-streams.png)
-
-Choosing between Wavefront, Prometheus, or InfluxDB and installing necessary components is different depending on the platform on which you run. Links to installation instructions are provided in each section below.
-
 ## Local
 
-This section describes how to view application metrics for streams using Prometheus or InfluxDB as the metrics store on your local machine. Wavefront is a cloud offering, but you still can deploy Data Flow locally can point it to a cloud-managed Wavefront monitoring system.
+This section describes how to view server metrics using Prometheus or InfluxDB as the metrics store on your local machine. Wavefront is a cloud offering, but you still can deploy Data Flow locally can point it to a cloud-managed Wavefront monitoring system.
 
 <!--TABS-->
 
@@ -67,19 +43,11 @@ You can access the Grafana dashboard at http://localhost:3000 using the credenti
 
 There are two provisioned dashboards:
 
-- Streams: http://localhost:3000/d/scdf-streams/streams?refresh=10s
-- Applications: http://localhost:3000/d/scdf-applications/applications?refresh=10s
-
-To see the dashboard in action, deploy a simple stream that uses Kafka.
-
-```bash
-dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest --force
-dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
-```
+- Server: http://localhost:3000/d/scdf-servers/servers?refresh=10s
 
 You should see dashboards similar to those shown in the following image:
 
-![SCDF Grafana Prometheus](images/grafana-prometheus-scdf-applications-dashboard.png)
+![SCDF Grafana Server Prometheus](images/TODO)
 
 <!--Wavefront -->
 

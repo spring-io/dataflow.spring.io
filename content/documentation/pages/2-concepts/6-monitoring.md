@@ -1,23 +1,51 @@
 ---
 path: 'concepts/monitoring/'
 title: 'Monitoring'
-description: 'Runtime monitoring of Stream data pipelines'
+description: 'Runtime monitoring of Servers, Stream and Task data pipelines'
 ---
 
 # Monitoring
 
-The Data Flow metrics architecture is designed around the Micrometer library, which is a vendor-neutral application metrics facade, supporting the most popular monitoring systems.
+The Data Flow monitoring architecture helps to deliver application metrics critical to the health and performance of the server infrastructure and the deployed stream and task pipelines.
 
-![Data Flow Stream&Task Monitoring Architecture](images/SCDF-monitoring-architecture.png)
+Designed around the Micrometer library the Data Flow monitoring supports some of the most popular monitoring systems, such as [Prometheus](https://prometheus.io/), [Wavefront](https://www.wavefront.com/) and [InfluxDB](https://www.influxdata.com/).
 
-The Micrometer instrumentation library powers the delivery of application metrics from Spring Boot and includes metrics for message rates and errors, which is critical to the monitoring of deployed streams.
+![Data Flow Servers, Streams & Tasks Monitoring Architecture](images/SCDF-monitoring-architecture.png)
 
-The prebuilt applications are configured to support three of the most popular monitoring systems, Prometheus, Wavefront and InfluxDB. You can declaratively select which monitoring system to use.
+[Wavefront](https://docs.wavefront.com/wavefront_introduction.html) is a high-performance streaming analytics platform that supports 3D observability (metrics, histograms, traces/spans). It scales to very high data ingestion rates and query loads while also collecting data many services and sources across your entire application stack.
 
-To help you get started, Data Flow provides Grafana and Wavefront dashboards that you can customize for your needs.
-You can also opt for the [Wavefront Data Flow Integration Tile](https://www.wavefront.com/integrations/).
+[Prometheus](https://prometheus.io/) is a popular pull-based Time Series Database that pulls the metrics from the target applications with pre-configured endpoints and provides a query language to select and aggregate time series data in real time.
 
-Follow the [Stream Monitoring Feature Guide](%currentPath%/feature-guides/streams/monitoring/) and [Task Monitoring Feature Guide](%currentPath%/feature-guides/batch/monitoring/) for detailed information on how to set up the monitoring infrastructure.
+<!--NOTE-->
+
+The Data Flow architecture employs the [Prometheus-RSocket-Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) to provide an uniform support of both `long-lived` (streams) and `short-lived` (tasks) applications.
+
+<!--END_NOTE-->
+
+[InfluxDB](https://www.influxdata.com/) is a popular open-source push-based Time Series Database. It supports downsampling, automatically expiring and deleting unwanted data, and backup and restore. Analysis of data is done through an SQL-like query language.
+
+The Data Flow allows you to declaratively select and configure which monitoring system to use. Just apply the Spring Boot [metrics configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-getting-started) to enable and configure the Data Flow monitoring support. Usually you will add the following configurations to your Data Flow and Skipper server configurations:
+
+```
+management.metrics.export.<your-meter-registry>.enabled=true // <1>
+management.metrics.export.<your-meter-registry>.<meter-specific-properties>=... // <2>
+```
+
+- <1> Replace the `<your-meter-registry>` with either, `influx`, `wavefront` or `prometheus`. (Note: in case of prometheus enable the prometheus-rsocket-proxy as well: `management.metrics.export.prometheus.rsocket.enabled=true`).
+
+- <2> Use the Spring Boot/Micrometer meter specific configurations provided for [Wavefront](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-wavefront), [InfluxDB](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-influx) and [Prometheus](Spring Boot Actuator: Production-ready Features)/[RSocket-Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy).
+
+By default the Micrometer configuration is reused for both the server infrastructure and the data pipeline monitoring.
+
+To help you get started, Data Flow provides [Grafana](https://grafana.com/) and [Wavefront](https://docs.wavefront.com/ui_dashboards.html) dashboards that you can customize.
+
+You can also opt for the [Wavefront Data Flow SaaS](https://www.wavefront.com/integrations/scdf) tile.
+
+For detailed information on how to set up the monitoring infrastructure follow the following feature guides:
+
+- [Servers Monitoring Feature Guide](%currentPath%/feature-guides/general/server-monitoring/)
+- [Stream Monitoring Feature Guide](%currentPath%/feature-guides/streams/monitoring/)
+- [Task Monitoring Feature Guide](%currentPath%/feature-guides/batch/monitoring/)
 
 The following image shows Data Flow with enabled monitoring and Grafana buttons:
 
@@ -35,4 +63,4 @@ Here's Wavefront Stream applications dashboard:
 
 ![Wavefront Stream Application Dashboard](images/SCDF-monitoring-wavefront-applications.png)
 
-Next: visit the [Stream Monitoring Feature Guide](%currentPath%/feature-guides/streams/monitoring/) and [Task Monitoring Feature Guide](%currentPath%/feature-guides/batch/monitoring/) guides for further information on how to set up the Data Flow monitoring infrastructure.
+Next: visit the [Servers Monitoring Feature Guide](%currentPath%/feature-guides/general/server-monitoring/), [Stream Monitoring Feature Guide](%currentPath%/feature-guides/streams/monitoring/) and [Task Monitoring Feature Guide](%currentPath%/feature-guides/batch/monitoring/) guides for further information on how to set up the Data Flow monitoring infrastructure.
