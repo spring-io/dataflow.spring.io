@@ -4,10 +4,10 @@
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.2.0.RELEASE",
 
-  "skipper-version": "2.5.0",
-  "dataflow-version": "2.6.0",
+  "skipper-version": "2.5.1",
+  "dataflow-version": "2.6.1",
 
-  "github-tag": "v2.6.0",
+  "github-tag": "v2.6.1",
 
   "spring-maven-repo-type": "release",
 
