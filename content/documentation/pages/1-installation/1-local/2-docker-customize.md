@@ -33,21 +33,21 @@ Following paragraphs offer a detailed description of the provided extension dock
 
 ## Prometheus & Grafana
 
-The [docker-compose-prometheus.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml) extends the default configuration in `docker-compose.yml` to enable the [Stream and Task monitoring with Prometheus and Grafana](%currentPath%//feature-guides/streams/monitoring/#prometheus):
+The [docker-compose-prometheus.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-prometheus.yml) extends the default configuration in `docker-compose.yml` to enable the [Stream and Task monitoring with Prometheus and Grafana](%currentPath%//feature-guides/streams/monitoring/#prometheus):
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-prometheus.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml
+wget -O docker-compose-prometheus.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-prometheus.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-prometheus.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml -o docker-compose-prometheus.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-prometheus.yml -o docker-compose-prometheus.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-prometheus.yml up
 ```
 
@@ -73,21 +73,21 @@ The `docker-compose-prometheus.yml` expects existing Docker images: `springcloud
 
 ## InfluxDB & Grafana
 
-The [docker-compose-influxdb.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml) enables Stream and Task monitoring with `InfluxDB` and `Grafana` with pre-built Stream and Task dashboards:
+The [docker-compose-influxdb.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml) enables Stream and Task monitoring with `InfluxDB` and `Grafana` with pre-built Stream and Task dashboards:
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-influxdb.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+wget -O docker-compose-influxdb.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-influxdb.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml -o docker-compose-influxdb.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml -o docker-compose-influxdb.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-influxdb.yml up
 ```
 
