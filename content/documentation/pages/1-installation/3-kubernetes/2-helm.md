@@ -18,8 +18,14 @@ Additionally, some helpful tips on data migration and upgrades can be found in t
 
 <!--END_NOTE-->
 
-Spring Cloud Data Flow offers a [Helm Chart](https://hub.kubeapps.com/charts/stable/spring-cloud-data-flow)
+Spring Cloud Data Flow offers a [Helm Chart](https://bitnami.com/stack/spring-cloud-dataflow/helm)
 for deploying the Spring Cloud Data Flow server and its required services to a Kubernetes Cluster.
+
+<!--NOTE-->
+
+The referenced chart now resides in the Bitnami repository. The original chart residing in the official Helm chart repository has been [deprecated](https://github.com/helm/charts#deprecation-timeline).
+
+<!--END_NOTE-->
 
 The following sections cover how to initialize `Helm` and install Spring Cloud Data Flow on a Kubernetes cluster.
 
@@ -62,7 +68,7 @@ You should see the `Tiller` pod running.
 
 ### Installing the Spring Cloud Data Flow Server and Required Services
 
-<!--TEMPLATE:https://raw.githubusercontent.com/helm/charts/master/stable/spring-cloud-data-flow/README.md-->
+<!--TEMPLATE:https://raw.githubusercontent.com/bitnami/charts/master/bitnami/spring-cloud-dataflow/README.md-->
 
 #### Expected output
 
@@ -70,44 +76,64 @@ After issuing the `helm install` command, you should see output similar to the f
 
 ```bash
 NAME:   my-release
-LAST DEPLOYED: Sat Mar 10 11:33:29 2018
+LAST DEPLOYED: Mon Aug 31 10:36:20 2020
 NAMESPACE: default
 STATUS: DEPLOYED
-
 RESOURCES:
-==> v1/Secret
-NAME                  TYPE    DATA  AGE
-my-release-mysql      Opaque  2     1s
-my-release-data-flow  Opaque  2     1s
-my-release-rabbitmq   Opaque  2     1s
 
 ==> v1/ConfigMap
-NAME                          DATA  AGE
-my-release-data-flow-server   1     1s
-my-release-data-flow-skipper  1     1s
+NAME                                      AGE
+my-release-mariadb                        0s
+my-release-mariadb-init-scripts           0s
+my-release-rabbitmq-config                0s
+my-release-spring-cloud-dataflow-scripts  0s
+my-release-spring-cloud-dataflow-server   0s
+my-release-spring-cloud-dataflow-skipper  0s
 
-==> v1/PersistentVolumeClaim
-NAME                 STATUS   VOLUME                                    CAPACITY  ACCESSMODES  STORAGECLASS  AGE
-my-release-rabbitmq  Bound    pvc-e9ed7f55-2499-11e8-886f-08002799df04  8Gi       RWO          standard      1s
-my-release-mysql     Pending  standard                                  1s
+==> v1/Deployment
+NAME                                      AGE
+my-release-spring-cloud-dataflow-server   0s
+my-release-spring-cloud-dataflow-skipper  0s
 
-==> v1/ServiceAccount
-NAME                  SECRETS  AGE
-my-release-data-flow  1        1s
+==> v1/Pod(related)
+NAME                                                      AGE
+my-release-mariadb-0                                      0s
+my-release-rabbitmq-0                                     0s
+my-release-spring-cloud-dataflow-server-7c776548d7-522zd  0s
+my-release-spring-cloud-dataflow-skipper-b968b455f-qbbg4  0s
+
+==> v1/Role
+NAME                                 AGE
+my-release-rabbitmq-endpoint-reader  0s
+my-release-spring-cloud-dataflow     0s
+
+==> v1/RoleBinding
+NAME                                 AGE
+my-release-rabbitmq-endpoint-reader  0s
+my-release-spring-cloud-dataflow     0s
+
+==> v1/Secret
+NAME                 AGE
+my-release-mariadb   0s
+my-release-rabbitmq  0s
 
 ==> v1/Service
-NAME                          CLUSTER-IP      EXTERNAL-IP  PORT(S)                                AGE
-my-release-mysql              10.110.98.253   <none>       3306/TCP                               1s
-my-release-data-flow-server   10.105.216.155  <pending>    80:32626/TCP                           1s
-my-release-rabbitmq           10.106.76.215   <none>       4369/TCP,5672/TCP,25672/TCP,15672/TCP  1s
-my-release-data-flow-skipper  10.100.28.64    <none>       80/TCP                                 1s
+NAME                                      AGE
+my-release-mariadb                        0s
+my-release-rabbitmq                       0s
+my-release-rabbitmq-headless              0s
+my-release-spring-cloud-dataflow-server   0s
+my-release-spring-cloud-dataflow-skipper  0s
 
-==> v1beta1/Deployment
-NAME                          DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-my-release-mysql              1        1        1           0          1s
-my-release-rabbitmq           1        1        1           0          1s
-my-release-data-flow-skipper  1        1        1           0          1s
-my-release-data-flow-server   1        1        1           0          1s
+==> v1/ServiceAccount
+NAME                              AGE
+my-release-rabbitmq               0s
+my-release-spring-cloud-dataflow  0s
+
+==> v1/StatefulSet
+NAME                 AGE
+my-release-mariadb   0s
+my-release-rabbitmq  0s
 ```
 
 <!--NOTE-->
@@ -115,12 +141,21 @@ my-release-data-flow-server   1        1        1           0          1s
 Get the Spring Cloud Data Flow's application URL by running these commands:
 
 ```bash
-export SERVICE_IP=$(kubectl get svc --namespace default my-release-data-flow-server -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-echo http://$SERVICE_IP:80
+export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-release-spring-cloud-dataflow-server)
+kubectl port-forward --namespace default svc/my-release-spring-cloud-dataflow-server ${SERVICE_PORT}:${SERVICE_PORT} &
+echo "http://127.0.0.1:${SERVICE_PORT}/dashboard"
 ```
 
+If you prefer, the Spring Cloud Data Flow service type may be changed by passing the following `set` argument to `helm install`:
+
+```bash
+--set server.service.type=ServiceType
+```
+
+Where `ServiceType` would be a valid service name, for example `LoadBalancer`, `NodePort`, etc.
+
 It may take a few minutes for the LoadBalancer IP to be available.
-You can watch the status of the server by running `kubectl get svc -w my-release-data-flow-server`
+You can watch the status of the server by running `kubectl get svc -w my-release-spring-cloud-dataflow-server`
 
 <!--END_NOTE-->
 
@@ -129,7 +164,7 @@ You can watch the status of the server by running `kubectl get svc -w my-release
 If your using Minikube, you can use the following command to get the URL for the server:
 
 ```bash
-minikube service --url my-release-data-flow-server
+minikube service --url my-release-spring-cloud-dataflow-server
 ```
 
 <!--END_NOTE-->
@@ -146,27 +181,15 @@ When it is time to delete the previously installed SCDF release, run `helm delet
 This command removes any resources created for the release but keeps release information so that you can rollback any changes by using a `helm rollback my-release 1` command.
 To completely delete the release and purge any release metadata, you can use `helm delete my-release --purge`.
 
-<!--TIP-->
-
-**Secret management**
-
-There is an [issue](https://github.com/kubernetes/charts/issues/980)
-with generated secrets that are used for the required services getting
-rotated on chart upgrades. To avoid this issue, set the password for
-these services when installing the chart. You can use the following
-command to do so:
-
-<!--END_TIP-->
-
-```bash
-helm install --name my-release \
-    --set rabbitmq.rabbitmqPassword=rabbitpwd \
-    --set mysql.mysqlRootPassword=mysqlpwd incubator/spring-cloud-data-flow
-```
-
 #### Version Compatibility
 
 The following listing shows Spring Cloud Data Flow’s version compatibility with the respective Helm Chart releases:
+
+<!--NOTE-->
+
+Deprecated chart mappings from official Helm repository:
+
+<!--END_NOTE-->
 
 | SCDF Version          | Chart Version |
 | --------------------- | :-----------: |
@@ -175,6 +198,19 @@ The following listing shows Spring Cloud Data Flow’s version compatibility wit
 | SCDF-K8S-Server 2.1.x |     2.3.x     |
 | SCDF-K8S-Server 2.2.x |     2.4.x     |
 | SCDF-K8S-Server 2.3.x |     2.5.x     |
+| SCDF-K8S-Server 2.4.x |     2.6.x     |
+| SCDF-K8S-Server 2.5.x |     2.7.x     |
+| SCDF-K8S-Server 2.6.x |     2.8.x     |
+
+<!--NOTE-->
+
+Bitnami chart mappings:
+
+<!--END_NOTE-->
+
+| SCDF Version          | Chart Version |
+| --------------------- | :-----------: |
+| SCDF-K8S-Server 2.6.x |     0.7.x     |
 
 ## Register prebuilt applications
 
