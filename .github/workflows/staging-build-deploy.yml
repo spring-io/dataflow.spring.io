@@ -16,6 +16,8 @@ env:
 jobs:
   # build and deploy staging
   build:
+    # prevent staging on forks
+    if: github.repository == 'spring-io/dataflow.spring.io'
     name: Build site
     runs-on: ubuntu-latest
     steps:
