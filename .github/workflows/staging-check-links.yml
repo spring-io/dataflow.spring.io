@@ -7,6 +7,8 @@ on:
 
 jobs:
   links:
+    # prevent run on forks for cron
+    if: (github.event_name == 'schedule' && github.repository == 'spring-io/dataflow.spring.io') || (github.event_name != 'schedule')
     name: Check links
     runs-on: ubuntu-latest
     steps:
