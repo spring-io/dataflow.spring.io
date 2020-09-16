@@ -23,7 +23,11 @@ for deploying the Spring Cloud Data Flow server and its required services to a K
 
 <!--NOTE-->
 
-The referenced chart now resides in the Bitnami repository. The original chart residing in the official Helm chart repository has been [deprecated](https://github.com/helm/charts#deprecation-timeline).
+The referenced chart now resides in the Bitnami repository.
+The original chart residing in the official Helm chart repository has been [deprecated](https://github.com/helm/charts#deprecation-timeline).
+
+As of Spring Cloud Data Flow 2.6.1, we will not be maintaining the official Helm chart, and the Bitnami version is the preferred chart.
+To report bugs and/or feature requests please do so using the [Bitnami Issue Tracker](https://github.com/bitnami/charts/issues).
 
 <!--END_NOTE-->
 
