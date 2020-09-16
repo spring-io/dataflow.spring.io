@@ -12,7 +12,7 @@ For more about managing batch jobs with Spring Cloud Data Flow, see the [Batch D
 
 ## Prerequisites
 
-Batch-only mode requires only Spring Cloud Data Flow Server. You do not need Spring Cloud Data Flow Shell or Spring Cloud Skipper, though you can still use it. See
+Batch-only mode requires only Spring Cloud Data Flow Server. You do not need Spring Cloud Data Flow Shell or Spring Cloud Skipper, though you can still use it.
 
 To use Spring Cloud Data Flow for batch processing but not for stream processing, you can do so by defining a few settings that control the Spring Cloud Data Flow server. In particular, you need:
 
