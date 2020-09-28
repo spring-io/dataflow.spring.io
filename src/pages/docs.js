@@ -46,11 +46,19 @@ class DocsPage extends React.Component {
           description: get(edges, 'edges[3].node.frontmatter.description'),
           path: get(edges, 'edges[3].node.fields.path'),
         },
+      ],
+      [
         {
           id: 'featured-guides',
           title: get(edges, 'edges[4].node.frontmatter.title'),
           description: get(edges, 'edges[4].node.frontmatter.description'),
           path: get(edges, 'edges[4].node.fields.path'),
+        },
+        {
+          id: 'commercial-featured-guides',
+          title: 'Commercial Features guides',
+          description: 'Overview of Data Flow commercial features',
+          path: 'https://docs.pivotal.io/scdf-k8s/1-1/',
         },
       ],
       [
