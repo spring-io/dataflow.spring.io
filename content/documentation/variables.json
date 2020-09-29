@@ -5,9 +5,9 @@
   "task-version": "2.2.0.RELEASE",
 
   "skipper-version": "2.5.2",
-  "dataflow-version": "2.6.2",
+  "dataflow-version": "2.6.3",
 
-  "github-tag": "v2.6.2",
+  "github-tag": "v2.6.3",
 
   "spring-maven-repo-type": "release",
 
