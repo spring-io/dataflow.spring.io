@@ -46,7 +46,7 @@ At a high level, streaming applications can produce, process, or consume events 
 Both Cloud Foundry and Kubernetes support the concept of running long-lived applications on their platforms.
 Cloud Foundry refers to each one as a Long Running Process (LRP). On Kubernetes, you can use a deployment resource, which, in turn, manages replica sets that keep the specified number of pods to run your application.
 
-While Spring Cloud Stream on it's own can greatly simplify your life when you write a streaming application, when a collection of independent Spring Cloud Streaming applications are manually deployed, you need to:
+While Spring Cloud Stream on its own can greatly simplify your life when you write a streaming application, when a collection of independent Spring Cloud Streaming applications are manually deployed, you need to:
 
 - Configure all of the applications input and output destinations.
 - Configure the common name of a shared consumer group property to ensure there is appropriate separation or cooperation of consumers on a destination.
