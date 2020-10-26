@@ -930,4 +930,4 @@ Per [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#
 
 ## Monitoring
 
-To learn more about the monitoring experience in Data Flow using Prometheus running on Kubernetes, please refer to the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/#kubernetes) feature guide.
+To learn more about the monitoring experience in Data Flow using Prometheus running on Kubernetes, please refer to the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/#kubernetes) or [Task Monitoring](%currentPath%/feature-guides/batch/monitoring/#kubernetes) guides.

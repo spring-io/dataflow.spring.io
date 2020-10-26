@@ -251,7 +251,7 @@ You must deploy Skipper first and then configure the URI location where the Skip
 
 #### Configuration for Prometheus
 
-If you have installed the Prometheus and Grafana on Cloud Foundry or have a separate installation of them on another cluster, update the Data Flow Server's manifest file so that the `SPRING_APPLICATION_JSON` environment variable contains a section that configures all stream applications to send metrics data to the Prometheus RSocket gateway.
+If you have installed the Prometheus and Grafana on Cloud Foundry or have a separate installation of them on another cluster, update the Data Flow Server's manifest file so that the `SPRING_APPLICATION_JSON` environment variable contains a section that configures all Servers, Stream and Task applications to send metrics data to the Prometheus RSocket gateway.
 The snippets of YAML specific to this configuration is shown below.
 
 ```yml
@@ -264,50 +264,14 @@ applications:
       SPRING_APPLICATION_JSON: |-
         {
            ...
-
-           "spring.cloud.dataflow" : {
-                ...
-                "applicationProperties" : {
-                    "stream.management.metrics.export.prometheus" : {
-                        "enabled" : true,
-                        "rsocket.enabled" : true,
-                        "rsocket.host" : <prometheus-rsocket-proxy host>,
-                        "rsocket.port" : <prometheus-rsocket-proxy TCP or Websocket port>
-                    },
-                },
-                "grafana-info.url": <grafana root URL>
-           }
-        }
-services:
-  - postgresSQL
-```
-
-Similarly if you want to configure metrics collection for tasks, update the Data Flow Server's manifest file so that the `SPRING_APPLICATION_JSON` environment variable contains a section that configures all task applications to send metrics data to the Prometheus RSocket gateway.
-
-The snippits of YAML specific to this configuration is shown below.
-
-```yml
----
-applications:
-  - name: data-flow-server
-    ...
-    env:
-      ...
-      SPRING_APPLICATION_JSON: |-
-        {
-           ...
-
-           "spring.cloud.dataflow" : {
-                ...
-                "applicationProperties" : {
-                    "task.management.metrics.export.prometheus" : {
-                        "enabled" : true,
-                        "rsocket.enabled" : true,
-                        "rsocket.host" : <prometheus-rsocket-proxy host>,
-                        "rsocket.port" : <prometheus-rsocket-proxy TCP or Websocket port>
-                    },
-                },
-                "grafana-info.url": <grafana root URL>
+           "management.metrics.export.prometheus": {
+              "enabled" : true,
+              "rsocket.enabled" : true,
+              "rsocket.host" : <prometheus-rsocket-proxy host>,
+              "rsocket.port" : <prometheus-rsocket-proxy TCP or Websocket port>
+           },
+           "spring.cloud.dataflow.metrics.dashboard" : {
+              "url": <grafana root URL>
            }
         }
 services:
@@ -324,20 +288,6 @@ If you have a Wavefront SaaS account, you can enable the Task and Stream metrics
                 "api-token": "<YOUR API Token>",
                 "uri": "<YOUR WAVEFRONT URI>",
                 "source": "your-scdf-cf-source-id"
-        },
-        "spring.cloud.dataflow.applicationProperties": {
-            "task.management.metrics.export.wavefront": {
-                "enabled": true,
-                "api-token": "<YOUR API Token>",
-                "uri": "<YOUR WAVEFRONT URI>",
-                "source": "your-scdf-cf-source-id"
-            },
-            "stream.management.metrics.export.wavefront": {
-                "enabled": true,
-                "api-token": "<YOUR API Token>",
-                "uri": "<YOUR WAVEFRONT URI>",
-                "source": "your-scdf-cf-source-id"
-            }
         }
 ```
 
@@ -352,25 +302,16 @@ stored.
 If you have installed the InfluxDB and Grafana on Cloud Foundry or have a separate installation of them on another cluster, to enable the Task and Stream metrics integration you need to extend the Data Flow server manifest by adding following JSON to the `SPRING_APPLICATION_JSON` environment variable:
 
 ```json
-            "spring.cloud.dataflow.applicationProperties": {
-                "task.management.metrics.export.influx": {
-                    "enabled": true,
-                    "db": "defaultdb",
-                    "autoCreateDb": false,
-                    "uri": "https://influx-uri:port",
-                    "userName": "guest",
-                    "password": "******"
-                },
-                "stream.management.metrics.export.influx": {
-                    "enabled": true,
-                    "db": "defaultdb",
-                    "autoCreateDb": false,
-                    "uri": "https://influx-uri:port",
-                    "userName": "guest",
-                    "password": "******"
-                },
-                "spring.cloud.dataflow.grafana-info.url": "https://grafana-uri:port"
-            }
+    "management.metrics.export.influx": {
+        "enabled": true,
+        "db": "defaultdb",
+        "autoCreateDb": false,
+        "uri": "https://influx-uri:port",
+        "userName": "guest",
+        "password": "******"
+    },
+    "spring.cloud.dataflow.metrics.dashboard.url": "https://grafana-uri:port"
+
 ```
 
 Check the [Influx Actuator properties](https://docs.spring.io/spring-boot/docs/2.2.0.M4/reference/html/#actuator-properties) for further details about the `management.metrics.export.influx.XXX` properties.
