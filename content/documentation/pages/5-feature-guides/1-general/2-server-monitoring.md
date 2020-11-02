@@ -1,10 +1,10 @@
 ---
-path: 'feature-guides/general/monitoring/'
+path: 'feature-guides/general/server-monitoring/'
 title: 'Server Monitoring'
 description: 'Monitoring Data Flow and Skipper servers'
 ---
 
-# Server Monitoring with Prometheus and Wavefront
+## Server Monitoring with Prometheus and Wavefront
 
 This section describes how to monitor the Spring Cloud Data Flow and Spring Cloud Skipper Servers. The setup for each platform is different, but the general architecture is the same across all the platforms.
 
@@ -20,7 +20,7 @@ Prometheus requires a Service Discovery component to automatically probe the con
 
 <!--END_NOTE-->
 
-## Local
+### Local
 
 This section describes how to view server metrics using Prometheus or InfluxDB as the metrics store on your local machine. Wavefront is a cloud offering, but you still can deploy Data Flow locally can point it to a cloud-managed Wavefront monitoring system.
 
@@ -28,7 +28,7 @@ This section describes how to view server metrics using Prometheus or InfluxDB a
 
 <!--Prometheus -->
 
-### Prometheus
+#### Prometheus
 
 To install Prometheus and Grafana, follow the [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#prometheus--grafana) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Prometheus, and prebuilt dashboards for Grafana.
 
@@ -47,7 +47,7 @@ And reach the servers dashboard:
 
 <!--Wavefront -->
 
-### Wavefront
+#### Wavefront
 
 To install Data Flow with Wavefront support, follow the [Monitoring with Wavefront](%currentPath%/installation/local/docker-customize/#wavefront) Docker Compose instructions. This will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, and it will also point to the Wavefront's Data Flow Integration Tile automatically.
 
@@ -55,7 +55,7 @@ The Wavefront is a SaaS offering and you need to create a user account first. Wi
 
 <!--END_TABS-->
 
-## Kubernetes
+### Kubernetes
 
 This section describes how to view application metrics for streams using Prometheus as the metrics store on Kubernetes.
 
@@ -63,7 +63,7 @@ This section describes how to view application metrics for streams using Prometh
 
 <!--Prometheus -->
 
-### Prometheus
+#### Prometheus
 
 To install Prometheus and Grafana on Kubernetes, you will need to follow the instructions for a [kubectl based installation](%currentPath%/installation/kubernetes/kubectl/#deploy-prometheus-and-grafana).
 
@@ -89,7 +89,7 @@ And reach the servers dashboard at http://192.168.99.100:31595/d/scdf-servers/se
 
 <!--Wavefront -->
 
-### Wavefront
+#### Wavefront
 
 The Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
@@ -108,9 +108,22 @@ management:
         source: demo-scdf-source
 ```
 
+To enable Spring Cloud Skipper Wavefront monitoring replicate the same metrics configuration to the Skipper server configuration (e.g. `src/kubernetes/skipper/skipper-config-kafka.yaml` or `src/kubernetes/skipper/skipper-config-rabbit.yaml`):
+
+```yml
+management:
+  metrics:
+    export:
+      wavefront:
+        enabled: true
+        api-token: <YOUR API-KEY>
+        uri: <YOUR WAVEFRONT-URI>
+        source: demo-scdf-source
+```
+
 <!--END_TABS-->
 
-## Cloud Foundry
+### Cloud Foundry
 
 This section describes how to view application metrics for streams using Prometheus as the metrics store on Cloud Foundry.
 
@@ -118,7 +131,7 @@ This section describes how to view application metrics for streams using Prometh
 
 <!--Prometheus -->
 
-### Prometheus
+#### Prometheus
 
 To configure the Data Flow server's manifest to send metrics data from stream applications to the Prometheus RSocket gateway, follow the [Manifest based installation instructions](%currentPath%/installation/cloudfoundry/cf-cli/#configuration-for-prometheus).
 
@@ -135,7 +148,7 @@ And reach the servers dashboard:
 
 <!--Wavefront -->
 
-### Wavefront
+#### Wavefront
 
 The Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
