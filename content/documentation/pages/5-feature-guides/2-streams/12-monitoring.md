@@ -20,6 +20,10 @@ The following image shows the general architecture of how streaming applications
 
 ![Stream Monitoring Architecture](images/SCDF-stream-metrics-architecture.png)
 
+Additionally for streaming data pipelines based on Kafka binder a dedicated Kafka and Kafka Stream dashboard is provided based on the Apache Kafka metrics:
+
+![Stream Monitoring Architecture](images/SCDF-monitoring-kafka-stream-architecture.png)
+
 <!--NOTE-->
 
 Prometheus requires a Service Discovery component to automatically probe the configured endpoint for metrics. The Spring Cloud Data Flow server leverages the [Prometheus RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy), which uses `rsocket` protocol for the service-discovery mechanism. The RSocket Proxy approach is used so that we can monitor tasks, which are short lived, as well as long lived stream applications using the same architecture. See the micrometer documentation on [short-lived task/batch applications](https://github.com/micrometer-metrics/prometheus-rsocket-proxy#support-for-short-lived-or-serverless-applications) for more information. In addition, the RSocket approach allows for the same monitoring architecture to be used across all the platforms. Prometheus is configured to scrape each proxy instance. Proxies in turn use the RSocket connection to pull metrics from each application. The scraped metrics are then viewable through Grafana dashboards.
