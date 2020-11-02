@@ -63,7 +63,7 @@ The `docker-compose-prometheus.yml` configurations expose the following containe
 | 3000       | 3000            | Grafana server port. Use it to reach the Grafana dashboard http://localhost:3000                                                               |
 | 9096       | 9096            | Prometheus RSocket Proxy (Spring Boot) Server Port                                                                                             |
 | 7001       | 7001            | Prometheus RSocket Proxy TCP accept port. Stream and Task application can be configured to use this port to report their metrics to the proxy. |
-| 8081       | 8081            | Prometheus RSocket Proxy WebSocket port. Stream and Task application can be configured to use this port to report their metrics to the proxy.  |
+| 8086       | 8086            | Prometheus RSocket Proxy WebSocket port. Stream and Task application can be configured to use this port to report their metrics to the proxy.  |
 
 <!--NOTE-->
 

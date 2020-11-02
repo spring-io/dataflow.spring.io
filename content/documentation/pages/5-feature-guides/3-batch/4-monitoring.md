@@ -132,7 +132,7 @@ To allow aggregating metrics per application type and per instance id or per tas
 - `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-external_task_id) as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics
 - `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-parent_task_id) used to identify task that executes another task or tasks.
 
-If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given task.
+If the Data Flow server is started with the `spring.cloud.dataflow.metrics.dashboard.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given task.
 
 Installing Wavefront, Prometheus and InfluxDB is different depending on the platform on which you run. Links to installation instructions are provides in each section below.
 

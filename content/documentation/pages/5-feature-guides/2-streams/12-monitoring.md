@@ -6,17 +6,11 @@ description: 'Monitoring streaming data pipelines with Prometheus and InfluxDB'
 
 # Stream Monitoring with Prometheus, Wavefront and InfluxDB
 
-This section describes how to monitor the applications that were deployed as part of a Stream. The setup for each platform is different, but the general architecture is the same across all the platforms.
+This section describes how to monitor the applications that were deployed as part of a Stream data pipeline. The setup for each platform is different, but the general architecture is the same across all the platforms.
 
-The Data Flow metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, which is a vendor-neutral application metrics facade. It provides a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Micrometer is the instrumentation library that powers the delivery of application metrics from Spring Boot. Spring Integration provides [additional integration](https://docs.spring.io/spring-integration/docs/current/reference/html/system-management.html#micrometer-integration) to expose metrics around message rates and errors, which is critical to the monitoring of deployed streams.
+The Data Flow metrics architecture is designed around the [Micrometer](https://micrometer.io/) library, to provide a simple facade over the instrumentation clients for the most popular monitoring systems. See the [Micrometer documentation](https://micrometer.io/docs) for the list of supported monitoring systems. Micrometer powers the delivery of application metrics from Spring Boot. Spring Integration provides [additional micrometer integration](https://docs.spring.io/spring-integration/docs/current/reference/html/system-management.html#micrometer-integration) to expose metrics around message rates and errors, which is critical to the monitoring of deployed streams.
 
 All Spring Cloud [Stream App Starters](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) and [Stream Applications](https://github.com/spring-cloud/stream-applications) are pre-configured to support three of the most popular monitoring systems, [Prometheus](https://prometheus.io/), [Wavefront](https://www.wavefront.com/) and [InfluxDB](https://www.influxdata.com/). You can declaratively select which monitoring system the deployed applications will use.
-
-[Wavefront](https://docs.wavefront.com/wavefront_introduction.html) is a high-performance streaming analytics platform that supports 3D observability (metrics, histograms, traces/spans). It scales to very high data ingestion rates and query loads while also collecting data many services and sources across your entire application stack.
-
-[Prometheus](https://prometheus.io/) is a popular pull-based Time Series Database that pulls the metrics from the target applications with pre-configured endpoints and provides a query language to select and aggregate time series data in real time.
-
-[InfluxDB](https://www.influxdata.com/) is a popular open-source push-based Time Series Database. It supports downsampling, automatically expiring and deleting unwanted data, and backup and restore. Analysis of data is done through an SQL-like query language.
 
 To enable support for different monitoring systems, you can [customize the Stream Applications](https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle/#_patching_pre_built_applications) to use a different monitoring system.
 
@@ -25,6 +19,10 @@ To help you get started monitoring streams, Data Flow provides [Grafana](https:/
 The following image shows the general architecture of how streaming applications are monitored:
 
 ![Stream Monitoring Architecture](images/SCDF-stream-metrics-architecture.png)
+
+Additionally for streaming data pipelines based on Kafka binder a dedicated Kafka and Kafka Stream dashboard is provided based on the Apache Kafka metrics:
+
+![Stream Monitoring Architecture](images/SCDF-monitoring-kafka-stream-architecture.png)
 
 <!--NOTE-->
 
@@ -42,7 +40,7 @@ To allow aggregating metrics per application type and per instance or per stream
 - `application.guid`: Unique instance identifier of the application instance that reports the metrics
 - `application.index`: Application instance ID (when available)
 
-If the Data Flow server is started with the `spring.cloud.dataflow.grafana-info.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given stream, application, or application instance. The following screenshots illustrate these buttons, look for the spiral icon.
+If the Data Flow server is started with the `spring.cloud.dataflow.metrics.dashboard.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given stream, application, or application instance. The following screenshots illustrate these buttons, look for the spiral icon.
 
 ![Stream List Monitoring](images/grafana-scdf-ui-buttons-apps.png)
 

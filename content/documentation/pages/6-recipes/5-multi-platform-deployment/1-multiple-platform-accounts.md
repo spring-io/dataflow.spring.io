@@ -104,32 +104,21 @@ metadata:
     app: scdf-server
 data:
   application.yaml: |-
+    management:
+      metrics:
+        export:
+          prometheus:
+            enabled: true
+            rsocket:
+              enabled: true
+              host: prometheus-proxy
+              port: 7001
     spring:
       cloud:
         dataflow:
-          applicationProperties:
-            stream:
-              management:
-                metrics:
-                  export:
-                    prometheus:
-                      enabled: true
-                      rsocket:
-                        enabled: true
-                        host: prometheus-proxy
-                        port: 7001
-            task:
-              management:
-                metrics:
-                  export:
-                    prometheus:
-                      enabled: true
-                      rsocket:
-                        enabled: true
-                        host: prometheus-proxy
-                        port: 7001
-          grafana-info:
-            url: 'https://grafana:3000'
+          metrics:
+            dashboard:
+              url: 'https://grafana:3000'
           task:
             platform:
               kubernetes:
