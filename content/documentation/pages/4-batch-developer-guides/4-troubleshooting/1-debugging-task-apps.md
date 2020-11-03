@@ -140,3 +140,22 @@ If an application that runs locally, but fails when deployed to Kubernetes, firs
 This includes any environment variables that must be set, properties for services to connect to and those services available.
 Describe the application pod's event table to see issues creating the pod such as image pull causes, health check failures, etc.
 Inspect the application startup log for any exceptions to resolve.
+
+#### Containers
+
+```mermaid
+graph TD;
+    A(Create Container) --> B(Launch Container using 'docker run' with env variables and args);
+    B --> C{Launched Successfully}
+    C --> |No| D(Update container creation) --> C1(Launch Container using 'docker run') --> C
+    C --> |Yes| F(Create pod spec yaml to launch container in K8s) -->
+    G(Apply pod spec yaml in K8s instance) -->
+    H{Launch Successful}
+    H --> |Yes| I{Problem Resolved}
+    H --> |No| J(Review & Update Pod Spec Yaml) --> G
+    I --> |Yes| K(Success)
+    I --> |No| L(Open Git Issue for Data Flow)
+```
+
+As discussed before the application may run as expected from your local platform however, it still fails when launched from Spring Cloud Data Flow.
+This could be because of how the container is created. This could be caused by the tool that is being used to create the container for example: Your DockerFile, Spring Boot container Plugin, Jib, etc.
