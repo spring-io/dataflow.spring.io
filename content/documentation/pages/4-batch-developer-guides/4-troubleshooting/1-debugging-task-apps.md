@@ -146,16 +146,17 @@ Inspect the application startup log for any exceptions to resolve.
 ```mermaid
 graph TD;
     A(Create Container) --> B(Launch Container using 'docker run' with env variables and args);
-    B --> C{Launched Successfully}
+    B --> C{Successful?}
     C --> |No| D(Update container creation) --> C1(Launch Container using 'docker run') --> C
-    C --> |Yes| F(Create pod spec yaml to launch container in K8s) -->
+    C --> |Yes| F(Create K8s pod spec yaml for container) -->
     G(Apply pod spec yaml in K8s instance) -->
-    H{Launch Successful}
+    H{Successful?}
     H --> |Yes| I{Problem Resolved}
-    H --> |No| J(Review & Update Pod Spec Yaml) --> G
+    H --> |No| J(Update Pod Spec Yaml) --> G
     I --> |Yes| K(Success)
     I --> |No| L(Open Git Issue for Data Flow)
 ```
 
 As discussed before the application may run as expected from your local platform however, it still fails when launched from Spring Cloud Data Flow.
-This could be because of how the container is created. This could be caused by the tool that is being used to create the container for example: Your DockerFile, Spring Boot container Plugin, Jib, etc.
+This could be because of how the container is created by the tool that is being used to create the container, for example: DockerFile, Spring Boot container Plugin, Jib, etc.
+The chart above provides a guide on how to trouble shoot why apps may fail to launch because of container related issues.
