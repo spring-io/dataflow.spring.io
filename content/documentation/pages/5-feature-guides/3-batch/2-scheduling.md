@@ -63,6 +63,9 @@ More information can be read about it [here](https://docs.spring.io/spring-boot/
 
 <!--END_TABS-->
 
+When creating a task schedule a user can specify command line arguments and deployment properties for the scheduled application in the same way as they are specified when launching a task.
+More can be read about specifying deployment properties [here](%currentPath%/feature-guides/batch/deployment-properties/).
+
 ## Monitoring Task Launches
 
 The status of each scheduled launch can be viewed on Spring Cloud Data Flow's `Executions` tab.
