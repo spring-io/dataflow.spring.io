@@ -24,9 +24,11 @@ The task DSL also utilizes few DataFlowTemplate classes such as `TaskExecutionRe
 
 The entry point is the `builder` method on `Task` and `TaskSchedule` that takes an instance of a `DataFlowTemplate`.
 
-## Obtain DataFlowTemplate
+## Obtain DataFlowOperations
 
-Both the `Task` and the `TaskSchedule` DSL requires a valid `DataFlowTemplate` instance.
+Both the `Task` and the `TaskSchedule` DSL requires a valid `DataFlowOperations` instance.
+Spring Cloud Data Flow offers the `DataFlowTemplate` as an implementation of the `DataFlowOperations` interface.
+
 To create an instance of a `DataFlowTemplate`, you need to provide a `URI` location of the Data Flow Server.
 Spring Boot auto-configuration for `DataFlowTemplate` is also available.
 You can use the properties in [DataFlowClientProperties](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-rest-client/src/main/java/org/springframework/cloud/dataflow/rest/client/config/DataFlowClientProperties.java) to configure the connection to the Data Flow server.
@@ -39,6 +41,8 @@ DataFlowOperations dataFlowOperations = new DataFlowTemplate(dataFlowUri);
 
 ## Task DSL Usage
 
+You can create new `Task` instance with the help of the `TaskBuilder` class, returned from the `Task.builder(dataFlowOperations)` method.
+
 Consider the following example, which creates a new composed task:
 
 ```Java
@@ -49,19 +53,18 @@ Task task = Task.builder(dataflowOperations)
               .name("myComposedTask")
               .definition("a: timestamp && b:timestamp")
               .description("My Composed Task")
-              .create();
+              .build();
 ```
 
-The `TaskBuilder` class is returned from the `Task.builder(dataFlowOperations)` method.
-
-The `create` method returns an instance of a `Task` definition that represents a composite task that has been created but not launched.
-It takes a single string for the task definition (same as in the shell).
+The `build` method returns an instance of a `Task` definition that represents a composed task that has been created but not launched.
+The `timestamp` used in the task definition refers to the task app name as registered in DataFlow.
 
 <!--NOTE-->
 
-In order to create and launch your tasks, you need to make sure that the corresponding apps have been registered in the Data Flow server first.
+In order to create and launch your tasks, you need to make sure that the corresponding apps have been registered in the Data Flow server first as shown [here](%currentPath%/batch-developer-guides/batch/data-flow-spring-batch/#create-task-definition).
+
 Attempting to launch a task that contains an unknown application throws an exception.
-You can register your application by using the `DataFlowTemplate`, as follows:
+You can register your application by using the `DataFlowOperations`, as follows:
 
 ```java
 dataFlowOperations.appRegistryOperations().importFromResource(
@@ -93,7 +96,7 @@ long launchId = task.launch();
 The `launchId` is an unique Task execution identifier for the launched task.
 The `launch` method is overloaded to take a `java.util.Map<String, String>` of launch properties and `java.util.List<String>` of the command line arguments.
 
-The tasks are asynchronously executed. If your use case require to wait on task completion or other task state you can you the java concurrency utils or the `Awaitility` library like this:
+The tasks are asynchronously run. If your use case requires you to wait on task completion or other task state you can use the java concurrency utils or the `Awaitility` library like this:
 
 ```Java
 org.awaitility.Awaitility.await().until(
@@ -102,7 +105,7 @@ org.awaitility.Awaitility.await().until(
 
 The `Task` instance provides `executionStatus`, `destroy`, and `stop` methods to control and query the task.
 
-The `Collection<TaskExecutionResource> executions()` method list all `TaskExecutionResource`s launched by the task. Use the `launchId` to retrieve the `TaskExecutionResource` for a specific execution (`Optional<TaskExecutionResource> execution(long executionId)`).
+The `Collection<TaskExecutionResource> executions()` method list all `TaskExecutionResource`s launched by the task. Use the `executionId` to retrieve the `TaskExecutionResource` for a specific execution (`Optional<TaskExecutionResource> execution(long executionId)`).
 
 Similarly the `Collection<JobExecutionResource> jobExecutionResources()` and `Collection<JobInstanceResource> jobInstanceResources()` would let you introspect any Spring Batch Jobs when the task uses such.
 
@@ -115,26 +118,26 @@ Task task = Task.builder(dataflowOperations)
               .name("myTask")
               .definition("timestamp")
               .description("simple task")
-              .create();
+              .build();
 
 TaskSchedule schedule = TaskSchedule.builder(dataFlowOperations)
               .prefix("mySchedule")
               .task(task)
-              .create();
+              .build();
 ```
 
 The `TaskScheduleBuilder` class is returned from the `TaskSchedule.builder(dataFlowOperations)` method.
 
-The `create` method returns an instance of a `TaskSchedule` instance called `mySchedule` configured whit a task instance.
-At this point the schedule is not yet scheduled to run launch the task.
+The `build` method returns an instance of a `TaskSchedule` instance called `mySchedule` configured with a schedule instance.
+At this point the schedule has not been created.
 
-Use the schedule() method to trigger the schedule process:
+Use the schedule() method to create the schedule:
 
 ```Java
 schedule.schedule(Collections.singletonMap("scheduler.cron.expression", "56 20 ? * *"));
 ```
 
-and the `unschedule()` to stop it:
+and the `unschedule()` to delete it:
 
 ```Java
 schedule.unschedule();
@@ -143,7 +146,8 @@ schedule.unschedule();
 The `TaskScheduleBuilder` can be used to retrieve or all the existing schedulers:
 
 ```Java
-TaskSchedule retrievedSchedule = taskScheduleBuilder.findByScheduleName(schedule.getScheduleName());
+TaskSchedule retrievedSchedule =
+          taskScheduleBuilder.findByScheduleName(schedule.getScheduleName());
 
 List<TaskSchedule> allSchedulesPerTask = taskScheduleBuilder.list(task);
 ```
