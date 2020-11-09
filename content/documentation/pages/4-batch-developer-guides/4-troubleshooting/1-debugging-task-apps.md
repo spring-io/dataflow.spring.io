@@ -160,3 +160,8 @@ graph TD;
 As discussed before the application may run as expected from your local platform however, it still fails when launched from Spring Cloud Data Flow.
 This could be because of how the container is created by the tool that is being used to create the container, for example: DockerFile, Spring Boot container Plugin, Jib, etc.
 The chart above provides a guide on how to trouble shoot why apps may fail to launch because of container related issues.
+
+[[note]]
+| Data Flow establishes some metrics properties using the values in other properties. These are denoted using `${}` for example: `management.metrics.tags.application=${task.name:unknown}-${task.execution.id:unknown}`.
+| Some containers may not be able to parse this correctly and will replace the embedded properties with empty strings which may cause task apps to fail.
+| If you are not using metrics you may disable these fields by setting the `spring.cloud.dataflow.applicationProperties.taskResource` to a non-existent file. For example: `spring.cloud.dataflow.applicationProperties.taskResource=classpath:fake.yml`
