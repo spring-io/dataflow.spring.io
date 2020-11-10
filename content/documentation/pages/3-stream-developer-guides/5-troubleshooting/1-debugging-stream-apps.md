@@ -205,6 +205,7 @@ This could be because of how the container is created by the tool that is being 
 The chart above provides a guide on how to trouble shoot why apps may fail to launch because of container related issues.
 
 [[note]]
-| Data Flow establishes some metrics properties using the values in other properties. These are denoted using `${}` for example: `management.metrics.tags.application=${stream.name:unknown}-${stream.execution.id:unknown}`.
-| Some containers may not be able to parse this correctly and will replace the embedded properties with empty strings which may cause task apps to fail.
-| If you are not using metrics you may disable these fields by setting the `spring.cloud.dataflow.applicationProperties.taskResource` to a non-existent file. For example: `spring.cloud.dataflow.applicationProperties.streamResource=classpath:fake.yml`
+| Data Flow establishes some metrics properties using the values in other properties. These are denoted using `${}` for example:
+| `| management.metrics.tags.application: ${spring.cloud.dataflow.stream.name:unknown}-${spring.cloud.dataflow.stream.app.label:unknown}-${spring.cloud.dataflow.stream.app.type:unknown} |`
+| Some containers may not be able to parse this correctly and will replace the embedded properties with empty strings which may cause stream apps to fail.
+| If you are not using metrics you may disable these fields by setting the `spring.cloud.dataflow.applicationProperties.streamResource` to a non-existent file. For example: `spring.cloud.dataflow.applicationProperties.streamResource=classpath:fake.yml`
