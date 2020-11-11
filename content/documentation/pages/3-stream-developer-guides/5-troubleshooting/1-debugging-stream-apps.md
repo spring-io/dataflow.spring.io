@@ -205,7 +205,10 @@ This could be because of how the container is created by the tool that is being 
 The chart above provides a guide on how to trouble shoot why apps may fail to launch because of container related issues.
 
 [[note]]
-| Data Flow establishes some metrics properties using the values in other properties. These are denoted using `${}` for example:
+| Data Flow uses the [Common application properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_common_application_properties)
+| and the [Spring Boot Common Tags](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-common-tags)
+| to apply common metrics tags to all deployed `Stream` applications. Those properties often use [Spring placeholders](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config-placeholders-in-properties)
+| to resolve their values, for example:
 | `| management.metrics.tags.application: ${spring.cloud.dataflow.stream.name:unknown}-${spring.cloud.dataflow.stream.app.label:unknown}-${spring.cloud.dataflow.stream.app.type:unknown} |`
-| Some containers may not be able to parse this correctly and will replace the embedded properties with empty strings which may cause stream apps to fail.
+| Some image containers may not be able to parse this correctly and will replace the embedded properties with empty strings which may cause stream apps to fail.
 | If you are not using metrics you may disable these fields by setting the `spring.cloud.dataflow.applicationProperties.streamResource` to a non-existent file. For example: `spring.cloud.dataflow.applicationProperties.streamResource=classpath:fake.yml`
