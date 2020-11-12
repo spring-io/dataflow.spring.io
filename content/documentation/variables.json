@@ -11,6 +11,8 @@
 
   "spring-maven-repo-type": "snapshot",
 
+  "stream-applications-doc-3x": "https://docs.spring.io/stream-applications/docs/2020.0.0-SNAPSHOT/reference/html",
+
   "stream-applications-doc": "https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle",
   "task-applications-doc": "https://docs.spring.io/spring-cloud-task-app-starters/docs/current/reference/htmlsingle",
 
