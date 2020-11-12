@@ -65,7 +65,7 @@ To create a composed task:
 
 1. Select `Tasks` from the left navigation bar.
 
-1. Select `Create task(s)`. The task creation view, shown in the following image, appears:
+1. Select `CREATE TASK`. The task creation view, shown in the following image, appears:
    ![Create Compose Task](images/SCDF-create-ctr.png)
    This displays a graphical editor that you can use to compose tasks.
    The initial canvas contains `START` and `END` nodes. To the left of the canvas, you can see the available task applications, including the `billsetuptask` and `billrun` applications.
@@ -84,7 +84,7 @@ To create a composed task:
 
 ![Bill Run Composed Task](images/SCDF-create-ctr-definition.png)
 
-1. Click `Create Task`.
+1. Click `CREATE TASK`.
    This prompts you to name the task definition, which is the logical name for the runtime configuration we want to deploy.
    In this case, we use the same name as the task application, which is `ct-statement`.
    The task confirmation view, shown in the following image, appears:
@@ -111,10 +111,10 @@ We see that the following three task definitions were created when we created th
 - `ct-statement-billsetuptask`: This definition represents the `billsetuptask` app that is run.
 - `ct-statement-billrun`: This definition represents the `billrun` app that is to be run.
 
-Now we can launch "ct-statement" by pressing the "play" button (the middle icon that looks like an arrowhead pointing right).
-Doing so takes you to a form where you can add command line arguments and deployment parameters, but we do not need any for this composed task.
-Click **Launch the task**, as the following image shows:
+Now we can launch "ct-statement" by clicking the drop down on the left side of the "ct-statement" row and select the `Launch` option , as the following image shows:
 ![Launch the task](images/SCDF-launch-composed-task.png)
+Doing so takes you to a form where you can add command line arguments and deployment parameters, but we do not need any for this composed task.
+Click the **LAUNCH THE TASK** button.
 
 Doing so runs the composed task runner on the Data Flow server's task platform, which manages the execution of the composed task graph.
 
@@ -137,12 +137,8 @@ As shown earlier, a composed task creates a definition for each application in t
 To delete all the definitions that were created as a part of the composed task, we can delete the composed task runner definition.
 To do so:
 
-1. Select the checkbox next to the ct-statement definition
-
-1. Click the `Actions` button at the upper left hand corner
-
-1. Select the `Destroy Tasks` option (shown in the following image).
+1. Clicking the drop down on the left side of the "ct-statement" row and select the `Destroy` option as shown below:
 
    ![Destroy Composed Task](images/SCDF-destroy-ctr.png)
 
-   Doing so deletes the definitions that comprised the ct-statement composed task.
+2. A dialog will appear asking you to `Confirm Destroy Task`. Click the **_DESTROY THE TASK_** button. Doing so deletes the definitions that comprised the "ct-statement" composed task.

@@ -74,7 +74,7 @@ maven://org.springframework.cloud.task.app:timestamp-task:2.1.0.RELEASE
 ```
 
 The `maven:` protocol specifies a Maven artifact, which is resolved by using the remote and local Maven repositories configured for the Data Flow server.
-To register an application, select `Add Applications` and `Register one or more applications`. For `task-a` fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, click the `Applications` tab on the left side of the page. Select `Add Applications` and `Register one or more applications`. For `task-a` fill in the form, as shown in the following image, and click `Register the application(s)`.
 
 ![Register the  transition sample](images/SCDF-composed-task-register-timestamp-app-maven.png)
 
@@ -90,7 +90,7 @@ The HTTPS URI for the sample app is as follows:
 https://repo.spring.io/libs-snapshot/org/springframework/cloud/task/app/timestamp-task/2.1.0.RELEASE/timestamp-task-2.1.0.RELEASE.jar
 ```
 
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, click the `Applications` tab on the left side of the page. Select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
 
 ![Register the transition sample](images/SCDF-composed-task-register-timestamp-app-http.png)
 Repeat this registration for `task-a`, `task-b`, `task-c`, `task-d`, `task-e`, and `task-f` while using the same URI:
@@ -110,7 +110,7 @@ The Docker URI for the sample app is as follows:
 docker:springcloudtask/timestamp-task:2.1.0.RELEASE
 ```
 
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, click the `Applications` tab on the left side of the page. Select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
 
 ![Register the transition sample](images/SCDF-composed-task-register-timestamp-app-docker.png)
 
@@ -170,7 +170,7 @@ maven://io.spring:transition-sample:1.0.0.BUILD-SNAPSHOT
 ```
 
 The `maven:` protocol specifies a Maven artifact, which is resolved by using the remote and local Maven repositories configured for the Data Flow server.
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, click the `Applications` tab on the left side of the page. Select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
 
 ![Register the  transition sample](images/SCDF-composed-task-register-task-app-maven.png)
 
@@ -184,7 +184,7 @@ The HTTPS URI for the sample app is as follows:
 http://<path to your jar>:transition-sample:1.0.0.BUILD-SNAPSHOT
 ```
 
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, click the `Applications` tab on the left side of the page. Select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
 
 ![Register the transition sample](images/SCDF-composed-task-register-task-app-http.png)
 
@@ -199,7 +199,7 @@ The Docker URI for the sample app is as follows:
 docker:springcloud/transition-sample:latest
 ```
 
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, click the `Applications` tab on the left side of the page. Select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
 
 ![Register the transition sample](images/SCDF-composed-task-register-task-app-docker.png)
 
@@ -214,7 +214,7 @@ Conditional execution is expressed by using a double ampersand symbol `&&`. This
 
 ### Create Conditional Execution Composed Task Definition
 
-To create your conditional execution using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left hand side of the dashboard and then press the `Create Task(s)` button at the top of the page.
+To create your conditional execution using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left hand side of the dashboard and then press the `CREATE TASK` button at the top of the page.
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
@@ -238,16 +238,16 @@ Now the Task Definition page will be displayed and you will see that 3 task defi
 
 ### Launch Conditional Execution Composed Task Definition
 
-To launch the composed task, press the play button of the task definition named `conditional-execution` as shown below:
+To launch the composed task, click the dropdown icon to the left of the task definition named `conditional-execution` and select the `Launch` option as shown below:
 ![Conditional Execution Task Definition Launch](images/SCDF-composed-task-conditional-execution-launch.png)
 Now the task launch page will appear. Since we are using app defaults, we just need to press the `Launch the task` button as shown below:
 ![Conditional Execution Task Definition Launch](images/SCDF-composed-task-conditional-execution-launch-verify.png)
-When the composed task called `conditional-execution` task definition is launched, it launches the task called timestamp-1 and, if it completes successfully, then the task called timestamp-2 is launched. If timestamp-1 fails, then timestamp-2 does not launch.
+When the composed task called `conditional-execution` task definition is launched, it launches the task called `conditional-execution-task-a` and, if it completes successfully, then the task called `conditional-execution-task-b` is launched. If `conditional-execution-task-a` fails, then `conditional-execution-task-b` does not launch.
 
 ### Check the status of the Conditional Execution Composed Task Definition
 
 Now that we have executed the `conditional-execution` task definition, we can check the task execution status.
-This can be done by clicking the `Executions` tab on top of the `Tasks` page. From here we can see that the `conditional-execution` (`Composed-Task-Runner`) successfully launched each of the child apps(`timestamp-1` and `timestamp-2`) as shown below:
+This can be done by clicking the `Executions` tab on top of the `Tasks` page. From here we can see that the `conditional-execution` (`Composed-Task-Runner`) successfully launched each of the child apps(`conditional-execution-task-a` and `conditional-execution-task-b`) as shown below:
 ![Conditional Execution Flow](images/SCDF-composed-task-conditional-execution-list.png)
 
 ## Transitional Execution
@@ -256,7 +256,7 @@ Transitions allow users to specify the branch of a tree they want the flow to fo
 
 ### Create Basic Transition Task Definition
 
-To create your basic transition using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left hand side of the dashboard and then press the `Create Task(s)` button at the top of the page.
+To create your basic transition using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left hand side of the dashboard and then press the `CREATE TASK` button at the top of the page.
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
@@ -294,7 +294,6 @@ Now from the task launch page lets populate page with the following:
 Arguments:
 
 ```
---increment-instance-enabled=true
 --interval-time-between-checks=1000
 ```
 
@@ -307,7 +306,7 @@ app.basictransition.transition-sample.taskapp.exitMessage=FAILED
 It should look like the following:
 
 ![Transition Execution Flow Launch-Config](images/SCDF-composed-task-transition-launch-fail.png)
-Now that it has been executed let’s verify that path FAILED was actually followed and this can be done by pressing the `Executions` tab at the top of the task page:
+Now that it has been executed let’s verify that path FAILED was actually followed and this can be done by pressing the `Task executions` tab located on the left side of the task page:
 ![Transition Execution Flow Launch-List](images/SCDF-composed-task-transition-launch-fail-list.png)
 
 This shows us that the `Composed Task Runner` controlling the composed task execution basic-transition was launched and the transition-sample was launched. From there the proper FAILED branch was executed as denoted by basictransition-timestamp-1 was launched.
@@ -319,7 +318,6 @@ Now from the task launch page lets populate page with the following:
 Arguments:
 
 ```
---increment-instance-enabled=true
 --interval-time-between-checks=1000
 ```
 
@@ -333,14 +331,13 @@ It should look like the following:
 
 ![Transition Execution Flow Launch-Config-Complete](images/SCDF-composed-task-transition-launch-completed.png)
 
-Now that it has been executed let’s verify that path `COMPLETED` was actually followed and this can be done by pressing the `Executions` tab at the top of the task page:
+Now that it has been executed let’s verify that path `COMPLETED` was actually followed and this can be done by pressing the `Task executions` tab located on the left side of the page:
 ![Transition Execution Flow Launch-CompleteList](images/SCDF-composed-task-transition-launch-completed-list.png)
 
 ####Task Arguments and Parameters
 
 Wait a minute…​ What is all that stuff I put in the command line? So for this example we wanted to show how to use both command line args and properties. We used the arguments to establish the properties for the `Composed Task Runner`:
 
-1. `--increment-instance-enabled=true` By default a composed task definition can only be executed once if it completes successfully. You are allowed to restart a failed composed task however. Spring Cloud Data Flow does allow a user to re-execute a composed task. This can be done by setting this property to `true`.
 1. `--interval-time-between-checks=1000` states that the `Composed Task Runner` will wait 1 second between checks to make sure that a task is complete (the default is 10 seconds).
 
 More can be read about the sections of a property and the different property types [here](#passing-properties)
@@ -355,7 +352,6 @@ Now from the task launch page lets populate page with the following:
 Arguments:
 
 ```
---increment-instance-enabled=true
 --interval-time-between-checks=1000
 ```
 
@@ -370,14 +366,14 @@ It should look like the following:
 
 ![Transition Execution Flow Launch-Config-FOO](images/SCDF-composed-task-transition-launch-foo-fail.png)
 
-Now that it has been executed let’s verify that path `FOO` was actually followed and this can be done by pressing the `Executions` tab at the top of the task page:
+Now that it has been executed let’s verify that path `FOO` was actually followed and this can be done by pressing the `Task executions` tab located on the left side of the page:
 ![Transition Execution Flow Launch-FOO-LIST](images/SCDF-composed-task-transition-launch-foo-fail-list.png)
 
 In this case we see that the composed task ended with just running the `Composed Task Runner` and the transition sample. This was because FOO was not targeted. How would we handle that? i.e. have a path for COMPLETED, FAILED, and everything else?
 
 In this case would want to create another composed task using a wild card that would look like:
 
-To create your basic transition using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left hand side of the dashboard and then press the `Create Task(s)` button at the top of the page.
+To create your basic transition using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left hand side of the dashboard and then press the `CREATE TASK` button at the top of the page.
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
@@ -424,7 +420,7 @@ For example, if I wanted to launch 3 tasks at the same time the DSL would look l
 ```
 
 Now create a composed task that contains both a split and a transition.  
-To create your split graph sample using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left-hand side of the dashboard and then press the `Create Task(s)` button at the top of the page.
+To create your split graph sample using the Spring Cloud Data Flow UI, press the `Tasks` tab on the left-hand side of the dashboard and then press the `CREATE TASK` button at the top of the page.
 Now copy the expression below and paste it in the text box located at the top of the page:
 
 ```
@@ -443,7 +439,6 @@ Now from the task launch page, populate the following fields:
 Arguments:
 
 ```
---increment-instance-enabled=true
 --interval-time-between-checks=1000
 --split-thread-core-pool-size=4
 --spring.cloud.task.closecontext-enabled=true
@@ -459,7 +454,7 @@ It should look like the following:
 
 ![Transition Execution Flow Launch-Config-Completed](images/SCDF-composed-task-split-launch-create.png)
 
-Launch the task and then verify that all tasks were launched and that the path `FOO` was actually followed. This can be done by pressing the `Executions` tab at the top of the task page:
+Launch the task and then verify that all tasks were launched and that the path `FOO` was actually followed. This can be done by pressing the `Task executions` tab on the left side of the task page:
 ![Transition Execution Flow Launch-split-LIST](images/SCDF-composed-task-split-launch-created-list.png)
 
 In this example we see that the split1-3 were fired simultaneously before CTR launched our transition app. And we added a new argument `--split-thread-core-pool-size=4` this basically states that the composed task runner can run 4 apps simultaneously.
@@ -468,7 +463,6 @@ In this example we see that the split1-3 were fired simultaneously before CTR la
 
 Again, what is all that stuff I put in the command line? So for this example we wanted to show how to use both command line args and properties. We used the arguments to establish the properties for the `Composed Task Runner`:
 
-1. `--increment-instance-enabled=true` states that we want to be able to execute this Composed Task multiple times. (Composed Tasks are build using Spring Batch and thus are batch jobs)
 1. `--interval-time-between-checks=1000` states that the `Composed Task Runner` will wait 1 second between checks to make sure that a task is complete (the default is 10 seconds).
 1. `--split-thread-core-pool-size=4` states that we want up to 4 simulatenous tasks to run at the same time.
 1. `--spring.cloud.task.closecontext-enabled=true` states that we want the Spring Context to close when the `Composed Task Runner`.
