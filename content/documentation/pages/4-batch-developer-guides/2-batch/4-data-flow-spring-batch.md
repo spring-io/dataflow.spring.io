@@ -71,7 +71,7 @@ maven://io.spring:billrun:0.0.1-SNAPSHOT
 ```
 
 The `maven:` protocol specifies a Maven artifact, which is resolved by using the remote and local Maven repositories configured for the Data Flow Server.
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
 
 ![Register the billrun batch app](images/SCDF-register-batch-app-maven.png)
 
@@ -85,7 +85,7 @@ The HTTPS URI for the sample app is as follows:
 maven://io.spring:billrun:0.0.1-SNAPSHOT
 ```
 
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and hit `Register the application(s)`.
+To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
 
 ![Register the billrun batch app](images/SCDF-register-batch-app-http.png)
 
@@ -100,7 +100,7 @@ The Docker URI for the sample app is as follows:
 docker:springcloudtask/billrun:0.0.1-SNAPSHOT
 ```
 
-To register an application, select `Add Applications` and `Register one or more applications`. Fill in the form, as shown in the following image, and click `Register the application(s)`.
+To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
 
 ![Register the billrun batch app](images/SCDF-register-batch-app-docker.png)
 
@@ -112,7 +112,7 @@ To create the task definition:
 
 1. Select `Tasks` from the left navigation bar.
 
-1. Select `Create task(s)`.
+1. Select `CREATE TASK`.
    Doing so displays a graphical editor that we can use to compose tasks.
    The initial canvas contains `START` and `END` nodes. To the left of the canvas, we see the available task applications, including `billrun`, which we just registered.
 
@@ -122,13 +122,13 @@ To create the task definition:
    The following image shows the UI for creating a task:
    ![Create the billrun task definition](images/SCDF-create-batch.png)
 
-1. Click `Create Task`.
+1. Click `CREATE TASK`.
    Doing so prompts you to name the task definition, which is the logical name for the runtime configuration we want to deploy.
    In this case, we use the same name as the task application, which is `billrun`.
    Now we see the confirmation view, as the following image shows:
    ![Confirm create task](images/SCDF-confirm-create-batch.png)
 
-1. Click `Create the task`.
+1. Click `CREATE THE TASK`.
    Doing so displays the main `Tasks` view.
 
 ### Launching the Task
@@ -139,8 +139,8 @@ The following image shows the Tasks view, from which you can launch a task:
 
 To launch a task:
 
-1. Click the "play" button (the middle icon that looks like an arrowhead pointing right).
-   Doing so takes you to a form where you can add command line arguments and deployment parameters, but we do not need any for this task.
+1. Click the option control on the row of task you want to launch and select the **Launch** option.
+   Doing so takes you to a form where you can add command line arguments and deployment properties, but we do not need any for this task.
 
 1. Click **Launch the task**.
    Doing so runs the task on the Data Flow server's task platform and records a new task `execution`.
@@ -152,11 +152,11 @@ To launch a task:
 ### Reviewing the Job Execution
 
 Now that we have successfully launched the task, we can check the status of the job that was executed by the application.
-To view the job executions, click the Jobs tab on the left hand side of the UI. The following image shows the Batch Job Executions view:
+To view the job executions, click the **Job executions** tab on the left hand side of the UI. The following image shows the **Jobs** view:
 
 ![Job executions](images/SCDF-batch-jobs-execution.png)
 
-Now that we can view our job executions, we can dig in to the detail for each job execution. You can do so by clicking the `billrun` link on our job execution, which shows the details of that job execution, as the following image shows:
+Now that we can view our job executions, we can dig in to the detail for each job execution. You can do so by clicking the `Execution ID` link on our job execution, which shows the details of that job execution, as the following image shows:
 
 ![Job execution detail](images/SCDF-batch-execution-detail.png)
 
