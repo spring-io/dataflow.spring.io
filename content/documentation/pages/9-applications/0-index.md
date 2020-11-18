@@ -30,6 +30,12 @@ You can find more details in the [Application DSL](%currentPath%/feature-guides/
 
 The Spring team provides and supports a selection of [pre-packaged applications](%currentPath%/applications/pre-packaged/) used to assemble various data integration and processing pipelines and to support production Spring Cloud Data Flow development, learning and experimentation.
 
+<!--TIP-->
+
+For information on the 3.x release of `stream applications`, see [pre-packaged-applications(3.x)](%currentPath%/applications/pre-packaged-3x)
+
+<!--END_TIP-->
+
 ## Application Registration
 
 In order to use an application in Data Flow, you must first register it.
