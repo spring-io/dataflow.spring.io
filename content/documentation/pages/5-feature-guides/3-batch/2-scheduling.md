@@ -21,7 +21,7 @@ When using Kubernetes, CronJobs will be used.
 ## Scheduling a Batch Job
 
 Make sure you have registered your timestamp application and created a definition for it as discussed in the [Getting Started Guide](%currentPath%/batch-developer-guides/getting-started/).
-So using the UI we will schedule the `timestamp-task` by pressing the `drop down` button and selecting the "Schedule Task" option as highlighted below:
+So using the UI we will schedule the `timestamp-task` by pressing the `drop down` button and selecting the "Schedule" option as highlighted below:
 ![Create Schedule](images/SCDF-schedule-timestamp.png)
 
 So for this scenario we want to launch this application once a minute. To do this fill out the Schedule setup page as follows:
@@ -33,7 +33,7 @@ So for this scenario we want to launch this application once a minute. To do thi
 In the sample below we set the name of the schedule to `timestamp-task-once-a-minute` and the [cron expression](https://docs.pivotal.io/pcf-scheduler/1-2/using-jobs.html#schedule-job) to `*/1 * ? * *`.
 Notice that the cron expression is expressed in the format used by Quartz.
 Also notice we can add command line arguments and deployment parameters for this schedule, but we will not do so for this example.
-Once you have entered the cron expression, press the `Schedule the task button`. Now PCF Scheduler will handle the scheduled launches for your batch application.
+Once you have entered the cron expression, press the `CREATE SCHEDULE(S)` button. Now PCF Scheduler will handle the scheduled launches for your batch application.
 
 ![Schedule Batch App Cloud Foundry](images/SCDF-schedule-cloud-foundry.png)
 
@@ -42,7 +42,7 @@ Once you have entered the cron expression, press the `Schedule the task button`.
 In the sample below we set the name of the schedule to `timestamp-task-once-a-minute`
 and the [cron expression](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) to `*/1 * * * *`.
 Notice we can add command line arguments and deployment parameters for this schedule, but we will not do so for this example.
-Now press the `Schedule the task button`. Now a Cron Job has been created to handle the scheduled launches for your batch application.
+Now press the `CREATE SCHEDULE(S)` button. Now a Cron Job has been created to handle the scheduled launches for your batch application.
 
 ![Schedule Batch App Kubernetes](images/SCDF-schedule-kubernetes.png)
 
@@ -68,14 +68,14 @@ More can be read about specifying deployment properties [here](%currentPath%/fea
 
 ## Monitoring Task Launches
 
-The status of each scheduled launch can be viewed on Spring Cloud Data Flow's `Executions` tab.
+The status of each scheduled launch can be viewed on Spring Cloud Data Flow's `Tasks executions` tab.
 
 ![SCDF Scheduled Executions](images/SCDF-scheduled-executions.png)
 
 ## Deleting a Schedule
 
-From the `Schedules` tab, press the `drop down` button next to the schedule you want to remove and select the "Delete schedule" option as highlighted below:
+From the `Schedules` tab, press the `drop down` button next to the schedule you want to remove and select the "Destroy" option as shown below:
 ![Delete Schedule](images/SCDF-delete-schedule.png)
 
-When the confirmation dialog appears, press the `Delete Task Schedules(s)` button.
+When the confirmation dialog appears, press the `DELETE THE SCHEDULE` button.
 ![SCDF Confirm Schedule Delete](images/SCDF-confirm-schedule-delete.png)
