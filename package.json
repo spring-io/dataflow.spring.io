@@ -106,6 +106,7 @@
     "gatsby-plugin-algolia": "^0.5.0",
     "gatsby-plugin-catch-links": "^2.2.1",
     "gatsby-plugin-google-analytics": "^2.2.2",
+    "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-google-tagmanager": "^2.2.1",
     "gatsby-plugin-manifest": "^2.3.3",
     "gatsby-plugin-prefetch-google-fonts": "^1.4.3",
