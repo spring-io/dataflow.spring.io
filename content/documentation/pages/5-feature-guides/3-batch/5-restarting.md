@@ -14,10 +14,10 @@ To restart a Spring Batch Job, navigate to the Jobs page by pressing the `Jobs` 
 ![Create Schedule](images/SCDF-job-page.png)
 
 Now identify the job you wish to restart. In our example below, the `JobTwo` shows a status of `FAILED`, thus the UI provides an option to restart this batch-job.
-To do this press the dropdown button associated with the `JobTwo` job and select `Restart the job`.
+To do this press the dropdown button associated with the `JobTwo` job and select `Restart`.
 ![Create Schedule](images/SCDF-job-restart.png)
 
-Now a dialog box will appear asking if you wish to restart the job. Press the `Restart` button.
+Now a dialog box will appear asking if you wish to restart the job. Press the `RESTART` button.
 ![Create Schedule](images/SCDF-job-restart-verify.png)
 
 At this point Spring Cloud Data Flow will relaunch the task for this Spring Batch Job.
