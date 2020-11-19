@@ -48,16 +48,14 @@ kubectl create clusterrolebinding scdftestrole --clusterrole cluster-admin --use
 This exercise will use the pre-built timestamp application provided by Spring Cloud Data Flow. If you haven't already registered your pre-built task applications, then follow the following instructions:
 
 1. Bring up the Spring Cloud Data Flow UI in a browser.
-1. Click the `Apps` tab located on the left side of the page.
-   ![Select App Tab](images/k8-k8-task-select-app-tab.png)
-1. Click the `Add Application(s)` button at the top of the page.
+1. Click the `Applications` tab located on the left side of the page.
+1. Click the `ADD APPLICATION(S)` button at the top of the page.
    ![Register Task Applications Button](images/k8-k8-task-register-apps-button.png)
-1. When the `Add Applications(s)` page appears click the `Bulk import application` radio button
+1. When the `Add Applications(s)` page appears click the `Import application starters from dataflow.spring.io.` option.
    ![Bulk Import Applications](images/k8-k8-task-bulk-import.png)
-1. Click `Task Apps (Docker)` option link.
+1. Click `Task application starters for Docker` radio button.
    ![Select Docker for Import](images/k8-k8-task-docker-selection.png)
-1. Click the `Import the application(s)` button on the bottom of the page.
-   ![Import Pre-built Applications](images/k8-k8-task-import-apps.png)
+1. Click the `IMPORT APPLICATION(S)` button on the bottom of the page.
 
 ### Create Task Definitions
 
@@ -67,14 +65,13 @@ To create the `timestamp-task` definition follow the instructions below:
 
 1. Click the `Tasks` tab on the left side of the UI.  
    ![Select Task Tab](images/k8-k8-task-select-task.png)
-1. Click the `Create task(s)" button on the page.
-   ![Create Task](images/k8-k8-task-create-task.png)
-1. Type the word `timestamp` in the text box, then click the `Create Task` button.
+1. Click the `CREATE TASK" button on the page.
+1. Type the word `timestamp` in the text box, then click the `CREATE TASK` button.
    ![Create Timestamp Task](images/k8-k8-create-timestamp-task.png)
-1. When the`Confirm Task Creation` dialog appears enter the following into the `Name` field: `timestamp-task`. Then click the `Create the task` button.
+1. When the`Create Task` dialog appears enter the following into the `Name` field: `timestamp-task`. Then click the `CREATE THE TASK` button.
    ![Name the New Task Definition](images/k8-k8-create-timestamp-task-dialog.png)
 
-To create the `timestamp-task-2` definition follow the `timestamp-task` instructions above except for the step when the `Confirm Task Creation` dialog appears, the name will be `timestamp-task-2`.
+To create the `timestamp-task-2` definition follow the `timestamp-task` instructions above except for the step when the `Create Task` dialog appears, the name will be `timestamp-task-2`.
 
 Now both task definitions will be available as shown below:  
 ![Task Definition List](images/k8-k8-task-definition-list.png)
@@ -83,11 +80,11 @@ Now both task definitions will be available as shown below:
 
 In this section we will launch `timestamp-task` in the default platform and then launch timestamp-task-2 in the practice platform.
 
-1. Click the play button associated with the `timestamp-task` task definition
+1. Click the option control associated with the `timestamp-task` task definition and select the **Launch** option.
    ![Launch timestamp-task](images/k8-k8-task-def-launch-timestamp-task.png)
 1. Now select the platform you want the `timestamp-task` to be launched, in this case the `default` namespace.
    ![Launch timestamp-task-platform-select](images/k8-k8-task-timestamp-platform-select.png)
-1. Click the `Launch the task` button at the bottom of the page.
+1. Click the `LAUNCH THE TASK` button at the bottom of the page.
 
 To verify the pod executed you can view the result via the task execution page or by launching the following `kubectl` command to view the pods in the `default` namespace:
 
@@ -103,11 +100,11 @@ timestamp-task-v9jrm66p55    0/1     Completed   0          87s
 
 Now to launch a task in the practice name space follow the instructions below:
 
-1. Click the play button associated with the `timestamp-task-2` task definition
+1. Click the option control associated with the `timestamp-task-2` task definition and select the **Launch** option.
    ![Launch timestamp-task](images/k8-k8-task-def-launch-timestamp-task-2.png)
-1. Now select the platform you want the `timestamp-task` to be launched, in this case the `default` namespace.
+1. Now select the platform you want the `timestamp-task` to be launched, in this case the `practice` namespace.
    ![Launch timestamp-task-platform-select](images/k8-k8-task-timestamp-2-platform-select.png)
-1. Click the `Launch the task` button at the bottom of the page.
+1. Click the `LAUNCH THE TASK` button at the bottom of the page.
 
 To verify the pod executed you can view the result via the task execution page or by launching the following `kubectl` command to view the pods in the `default` namespace:
 
@@ -289,7 +286,7 @@ Add the following commandline arg when launching the task (replacing `<ext db co
 It should look something like:
 ![Timestamp-task launch](images/k8-k8-remote-timestamp-task-launch.png)
 
-To verify the task was launched select the task executions tab at the top of the page and you will see results that look like:
+To verify the task was launched select the **Task executions** tab on the left side of the page and you will see results that look like:
 ![timestamp-task execution](images/k8-k8-remote-timestamp-task-execution.png)
 
 Also you can verify the launch by viewing the pod list for the `default` namespace for example:
@@ -305,7 +302,7 @@ Add the following command line arg when launching the task:
 It should look something like:
 ![Timestamp-task launch](images/k8-k8-remote-timestamp-task-2-launch.png)
 
-To verify the task was launched select the task executions tab at the top of the page and you will see results that look like:
+To verify the task was launched select the **Task executions** tab on the left side of the page and you will see results that look like:
 ![timestamp-task execution](images/k8-k8-remote-timestamp-task-2-execution.png)
 
 Also you can verify the launch by viewing the pod list for the `practice` namespace for example:
@@ -436,15 +433,13 @@ In this exercise SCDF will be launching both docker and maven images of the time
 
 1. Register the sample docker task apps provided by SCDF as denoted in the instructions [here](#registering-pre-built-tasks).
 1. Register the maven instance of timestamp as follows:
-   ![Select App Tab](images/k8-k8-task-select-app-tab.png)
-1. Click the `Add Application(s)` button at the top of the page.
+1. Click the `ADD APPLICATON(S)` button at the top of the page.
    ![Register Task Applications Button](images/k8-k8-task-register-apps-button.png)
 1. When the `Add Applications(s)` page appears click the `Register one or more applications` radio button
    ![Register New Image](images/k8-cf-maven-registration.png)
 1. Enter in the information as it is shown below.
    ![Select Docker for Import](images/k8-cf-maven-register-maven-timestamp.png)
-1. Click the `Register the application(s)` button on the bottom of the page.
-   ![Import Pre-built Applications](images/k8-cf-register-maven-timestamp-click.png)
+1. Click the `IMPORT APPLICATION(S)` button on the bottom of the page.
 
 ### Create Task Definitions
 
@@ -454,22 +449,20 @@ To create the `k8-timestamp` definition follow the instructions below:
 
 1. Click the `Tasks` tab on the left side of the UI.  
    ![Select Task Tab](images/k8-k8-task-select-task.png)
-1. Click the `Create task(s)" button on the page.
-   ![Create Task](images/k8-k8-task-create-task.png)
-1. Type the word `timestamp` in the text box, then click the `Create Task` button.
+1. Click the `CREATE TASK" button on the page.
+1. Type the word `timestamp` in the text box, then click the `CREATE TASK` button.
    ![Create Timestamp Task](images/k8-k8-create-timestamp-task.png)
-1. When the`Confirm Task Creation` dialog appears enter the following into the `Name` field: `timestamp-task`. Then click the `Create the task` button.
+1. When the`Create Task` dialog appears enter the following into the `Name` field: `k8-timestamp`. Then click the `CREATE THE TASK` button.
    ![Name the New Task Definition](images/k8-cf-create-timestamp-task-dialog.png)
 
 To create the `cf-timestamp` definition follow the instructions below:
 
 1. Click the `Tasks` tab on the left side of the UI.  
    ![Select Task Tab](images/k8-k8-task-select-task.png)
-1. Click the `Create task(s)" button on the page.
-   ![Create Task](images/k8-k8-task-create-task.png)
-1. Type the word `maven-timestamp` in the text box, then click the `Create Task` button.
+1. Click the `CREATE TASK" button on the page.
+1. Type the word `maven-timestamp` in the text box, then click the `CREATE TASK` button.
    ![Create Timestamp Task](images/k8-cf-create-timestamp-task.png)
-1. When the`Confirm Task Creation` dialog appears enter the following into the `Name` field: `timestamp-task`. Then click the `Create the task` button.
+1. When the`Create Task` dialog appears enter the following into the `Name` field: `cf-timestamp`. Then click the `CREATE THE TASK` button.
    ![Name the New Task Definition](images/k8-cf-create-timestamp-maven-task-dialog.png)
 
 Now both task definitions will be available as shown below:  
@@ -479,11 +472,11 @@ Now both task definitions will be available as shown below:
 
 In this section we will launch `cf-timestamp` on the `cfzone` (Cloud Foundry) platform and then launch k8-timestamp on the `kzone` (Kuberntes) platform.
 
-1. Click the play button associated with the `cf-timestamp` task definition
+1. Click the option control on the left side of the row associated with the `cf-timestamp` task definition and select the **Launch** option.
    ![Launch timestamp-task](images/k8-cf-task-def-launch-timestamp-task.png)
 1. Now select the platform you want the `cf-timestamp` to be launched, in this case the `cfzone` namespace.
    ![Launch cf-timestamp-task-platform-select](images/k8-cf-task-timestamp-platform-select.png)
-1. Click the `Launch the task` button at the bottom of the page.
+1. Click the `LAUNCH THE TASK` button at the bottom of the page.
 
 To verify the application executed you can view the result via the task execution page or by launching the following `cf apps` command to view the application in the configured org/space:
 
@@ -498,11 +491,11 @@ id   name                                                                       
 
 Now to launch a task in the default name space on the `kzone` (kubernetes) platform follow the instructions below:
 
-1. Click the play button associated with the `timestamp-task-2` task definition
+1. Click the option control on the row associated with the `k8-timestamp` task definition and select the **Launch** option.
    ![Launch k8-timestamp-task](images/k8-cf-task-def-launch-k8-timestamp.png)
-1. Now select the platform you want the `timestamp-task` to be launched, in this case the `default` namespace.
+1. Now select the platform you want the `k8-timestamp` to be launched, in this case the `kzone` namespace.
    ![Launch k8- timestamp-task-platform-select](images/k8-cf-task-timestamp-k8-platform-select.png)
-1. Click the `Launch the task` button at the bottom of the page.
+1. Click the `LAUNCH THE TASK` button at the bottom of the page.
 
 To verify the pod executed you can view the result via the task execution page or by launching the following `kubectl` command to view the pods in the `default` namespace:
 
