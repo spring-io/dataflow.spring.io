@@ -1,29 +1,16 @@
 import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { graphql, useStaticQuery } from 'gatsby'
+import { graphql } from 'gatsby'
 
 import ImageSeo from './ImageSeo'
 
 const Seo = ({ title, description, keywords }) => {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-            siteUrl
-            twitter
-            image
-            keywords
-          }
-        }
-      }
-    `
-  )
-  const siteMetadata = site.siteMetadata
+  const siteMetadata = {
+    title: `Spring Cloud Data Flow`,
+    description: `Spring Cloud Data Flow puts powerful integration, batch and stream processing in the hands of the Java microservice developer`,
+    keywords: [`spring`, `cloud`, `dataflow`],
+  }
   const meta = {
     ...siteMetadata,
     title: `${title ? title + ' | ' : ''} ${siteMetadata.title} `,
