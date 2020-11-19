@@ -54,7 +54,7 @@ To create this stream:
 
    ![Create stream](images/SCDF-create-stream.png)
 
-1. Select `Create stream(s)` to display a graphical editor to create the stream definition, as the following image shows:
+1. Select `CREATE STREAM(S)` to display a graphical editor to create the stream definition, as the following image shows:
 
    ![Create partitioned stream definition](images/SCDF-create-partitioned-stream-definition.png)
 
@@ -71,11 +71,11 @@ To create this stream:
    words=http --server.port=9001 | splitter --expression=payload.split(' ') | log
    ```
 
-1. Click `Create Stream`.
+1. Click `CREATE STREAM(S)`.
 
 ### Deploy the Stream
 
-To deploy a stream, click on the arrowhead icon to deploy the stream.
+Click on the `ellipsis icon` on the left of the stream row to deploy the stream.
 Doing so takes you to the Deploy Stream page, where you can enter additional deployment properties.
 
 For this stream, we need to specify the following:
@@ -95,7 +95,7 @@ From the Dashboard's stream deployment page, you can enter:
 - `producer.partitionKeyExpression`: Set it to `payload` for the `splitter` application.
 - `count`: Set it to `3` for the `log` application.
 
-Then click `Deploy stream`, as the following image shows:
+Then click `DEPLOY STREAM`, as the following image shows:
 
 ![Deploy stream](images/SCDF-deploy-partitioned-stream.png)
 
