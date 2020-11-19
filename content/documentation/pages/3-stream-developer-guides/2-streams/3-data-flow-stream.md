@@ -84,50 +84,42 @@ For this example, assume you run Spring Cloud Data Flow and Skipper servers on y
 
 You can register the `UsageDetailSender` source application. To do so:
 
-1. From the Applications view, select `Add Application(s)`.
+1. From the Applications view, select `ADD APPLICATION(S)`.
    This shows a view that lets you register applications.
+
+1. Select `Register one or more applications` and enter the `name`, `type`, and `URI` for the source application.
 
 1. Register the `maven` artifact of the `UsageDetailSender` application named `usage-detail-sender`, as the following image shows:
 
    > (uri = `maven://io.spring.dataflow.sample:usage-detail-sender-rabbit:0.0.1-SNAPSHOT`)
 
-   ![Register source application maven](images/SCDF-register-source-rabbit.png)
-
-   If you use a `docker` artifact, then register it as the following image shows:
+   If you use a `docker` artifact, then register it using the URI:
 
    > (uri = `docker://springcloudstream/usage-detail-sender-rabbit:0.0.1-SNAPSHOT`)
 
-   ![Register source application docker](images/SCDF-register-source-rabbit-docker.png)
-
-1. Select `Register one or more applications` and enter the `name`, `type`, and `URI` for the source application.
-
-1. Click on `New application` to display another instance of the form to enter the values for the processor.
+1. Click on `NEW APPLICATION` to display another instance of the form to enter the values for the processor.
 
 1. Register the `maven` artifact of the `UsageCostProcessor` processor application named `usage-cost-processor`, as the following image shows:
 
    > (uri = `maven://io.spring.dataflow.sample:usage-cost-processor-rabbit:0.0.1-SNAPSHOT`)
 
-   ![Register source application maven](images/SCDF-register-processor-rabbit.png)
-
-   If you use a `docker` artifact, then register it, as the following image shows:
+   If you use a `docker` artifact, then register it using the URI:
 
    > (uri = `docker://springcloudstream/usage-cost-processor-rabbit:0.0.1-SNAPSHOT`)
 
-   ![Register source application docker](images/SCDF-register-processor-rabbit-docker.png)
+1. Click on `NEW APPLICATION` to display another instance of the form to enter the values for the sink.
 
 1. Register the `maven` artifact of the `UsageCostLogger` sink application named `usage-cost-logger`, as the following image shows
 
    > (uri = `maven://io.spring.dataflow.sample:usage-cost-logger-rabbit:0.0.1-SNAPSHOT`)
 
-   ![Register sink application maven](images/SCDF-register-sink-rabbit.png)
-
-   If you use a `docker` artifact, then register it, as the following image shows:
+   If you use a `docker` artifact, then register it using the URI:
 
    > (uri = `docker://springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT`)
 
-   ![Register source application docker](images/SCDF-register-sink-rabbit-docker.png)
+   ![Register source application maven](images/SCDF-register-apps.png)
 
-1. Click on `Register the application(s)` to complete the registration. Doing so takes you back to the Applications view, which lists your applications. The following image shows an example:
+1. Click on `IMPORT APPLICATION(S)` to complete the registration. Doing so takes you back to the Applications view, which lists your applications. The following image shows an example:
 
    ![Registered applications](images/SCDF-registered-apps.png)
 
@@ -157,7 +149,7 @@ To deploy your stream,
 
 1. Click on the arrow head icon to deploy the stream. Doing so takes you to the Deploy Stream page, where you may enter additional deployment properties.
 
-1. Select `Deploy Stream`, as the following image shows:
+1. Select `Deploy`, as the following image shows:
 
    ![Stream created](images/SCDF-stream-created.png)
 
@@ -207,9 +199,7 @@ Once you have followed the steps shown earlier in this chapter and have register
 
 ![Cloud Foundry Apps Manager with the deployed Stream Application](images/SCDF-CF-dashboard.png)
 
-You can access the runtime information of your stream applications in the Spring Cloud Data Flow dashboard as well. To do so, click the `Runtime` button in the left navigation:
-
-![Data Flow Runtime Information](images/SCDF-CF-runtime.png)
+You can access the runtime information of your stream applications in the Spring Cloud Data Flow dashboard as well.
 
 Besides verifying the runtime status of your stream, you should also verify the logging output produced by the `usage-cost-logger` sink. In Cloud Foundry Apps Manager, click the `Logs` tab of the `usage-cost-logger` sink application. The logging statements should look like the following:
 
