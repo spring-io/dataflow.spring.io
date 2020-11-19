@@ -126,8 +126,8 @@ Doing so runs the composed task runner on the Data Flow server's task platform, 
 
 ### Verifying the Results
 
-When the execution is complete, the status for each of the task definitions turns to a green color and shows `Complete.`
-You can select the **Executions** tab (shown in the following image) to view a summary of executions for this task.
+When the execution is complete, the status for each of the task definitions turns to a green color and shows `COMPLETE.`
+You can select the **Task executions** tab (shown in the following image) to view a summary of executions for this task.
 
 ![Task executions](images/SCDF-composed-executions.png)
 
