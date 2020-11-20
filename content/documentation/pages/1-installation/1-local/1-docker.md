@@ -320,3 +320,44 @@ The [Debug Stream Applications](%currentPath%/installation/local/docker-customiz
 The [Debug Data Flow Server](%currentPath%/installation/local/docker-customize/#debug-data-flow-server) guide, shows how extend the docker compose configuration to enables remote Data Flow Server debugging with your IDE such as IntelliJ or Eclipse.
 
 The [Debug Skipper Server](%currentPath%/installation/local/docker-customize/#debug-skipper-server) guide, shows how extend the docker compose configuration to enables remote Skipper Server debugging with your IDE such as IntelliJ or Eclipse.
+
+## Docker Stream & Task applications
+
+Basic docker-compose installation supports only uber-jar Stream and/or Task applications.
+As the Docker specification doesn't support container nesting, the Data Flow and Skipper servers are not able to run Docker applications from within their own Docker containers.
+
+The [docker-compose-dood.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-dood.yml) extension, leverages the `Docker-out-of-Docker (DooD)` approach to allow Skipper and Data Flow to deploy Stream and Task docker apps.
+
+In this approach, containers created from within the Data Flow and the Skipper containers are sibling containers (spawned by the Docker daemon in the Host). There is no Docker daemon inside the server's containers and thus no container nesting.
+
+The `docker-compose-dood.yml` extends `docker-compose.yml` by installing the Docker CLI to the Data Flow and Skipper servers containers and mounting the server's docker sockets to the Host's socket:
+
+<!--TABS-->
+
+<!--Linux / OSX-->
+
+```bash
+export COMPOSE_PROJECT_NAME=scdf
+docker-compose -f ./docker-compose.yml -f ./docker-compose-dood.yml
+```
+
+<!--Windows-->
+
+```bash
+set COMPOSE_PROJECT_NAME=scdf
+docker-compose -f .\docker-compose.yml -f .\docker-compose-dood.yml up
+```
+
+<!--END_TABS-->
+
+- The `COMPOSE_PROJECT_NAME` sets the docker-compose project name. Later is used for naming the network passed to the apps containers.
+
+- The `STREAM_APPS_URI` and `TASK_APPS_URI` can be used to register docker based Stream and Task apps.
+
+<!--TIP-->
+
+If docker-compose exit before the data pipelines are stopped then the containers should be cleaned manually: `docker stop $(docker ps -a -q); docker rm $(docker ps -a -q)`
+
+Set the `DOCKER_DELETE_CONTAINER_ON_EXIT` environment variable to `false` to retain the stopped docker containers so you can check their logs: `docker logs <container id>`
+
+<!--END_TIP-->

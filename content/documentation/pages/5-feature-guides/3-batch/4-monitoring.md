@@ -172,7 +172,8 @@ dataflow:>task launch --name task2
 
 In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions) you should see:
 
-![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
+![SCDF Tasks](images/SCDF-task-metrics-prometheus.png)
+![SCDF Task Execution](images/SCDF-task-metrics-executions.png)
 
 And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?refresh=10s):
 
@@ -218,7 +219,8 @@ dataflow:>task launch --name task2
 ```
 
 In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions) you should see list like this:
-![SCDF Task Execution](images/SCDF-metrics-task-execution-view.png)
+![SCDF Tasks](images/SCDF-task-metrics-prometheus.png)
+![SCDF Task Execution](images/SCDF-task-metrics-executions.png)
 
 You should see dashboards similar to those shown in the following image:
 
@@ -291,7 +293,8 @@ http://192.168.99.100:32121
 
 In the [DataFlow task execution UI](http://192.168.99.100:32121/dashboard/#/tasks/executions) you should see:
 
-![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
+![SCDF Tasks](images/SCDF-task-metrics-prometheus.png)
+![SCDF Task Execution](images/SCDF-task-metrics-executions.png)
 
 Open the [Grafana dashboard for Tasks](http://192.168.99.100:31595/d/scdf-tasks/tasks?refresh=10s):
 
@@ -376,7 +379,8 @@ dataflow:>task launch --name task2
 
 In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions) you should see:
 
-![SCDF Task Execution](images/SCDF-task-metrics-prometheus-k8s.png)
+![SCDF Tasks](images/SCDF-task-metrics-prometheus.png)
+![SCDF Task Execution](images/SCDF-task-metrics-executions.png)
 
 And in [Grafana dashboard for Tasks](http://localhost:3000/d/scdf-tasks/tasks?refresh=10s):
 
