@@ -40,11 +40,14 @@ To allow aggregating metrics per application type and per instance or per stream
 - `application.guid`: Unique instance identifier of the application instance that reports the metrics
 - `application.index`: Application instance ID (when available)
 
-If the Data Flow server is started with the `spring.cloud.dataflow.metrics.dashboard.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given stream, application, or application instance. The following screenshots illustrate these buttons, look for the spiral icon.
+#### Data Flow Metric Buttons
 
-![Stream List Monitoring](images/grafana-scdf-ui-buttons-apps.png)
+If the Data Flow server is started with the `spring.cloud.dataflow.metrics.dashboard.url` property pointing to your Grafana or Wavefront URL, the `Dashboard` feature is enabled and the Data Flow UI provides you with Grafana or Wavefront buttons that can open a particular dashboard for a given stream, application, or application instance. The following screenshots illustrate these buttons, look for the spiral icon.
 
-![Runtime Applications Monitoring](images/grafana-scdf-ui-buttons-streams.png)
+![Stream List Monitoring](images/SCDF-grafana-ui-buttons-streams.png)
+![Runtime Applications Monitoring - Grafana](images/SCDF-grafana-ui-buttons-runtime-apps.png)
+![Stream List Monitoring - Wavefront](images/SCDF-wavefront-ui-buttons-streams.png)
+![Runtime Applications Monitoring - Wavefront](images/SCDF-wavefront-ui-buttons-runtime-apps.png)
 
 Choosing between Wavefront, Prometheus, or InfluxDB and installing necessary components is different depending on the platform on which you run. Links to installation instructions are provided in each section below.
 

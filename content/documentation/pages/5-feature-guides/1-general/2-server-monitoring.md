@@ -20,6 +20,9 @@ Prometheus requires a Service Discovery component to automatically probe the con
 
 <!--END_NOTE-->
 
+![Grafana Servers Dashboard](images/SCDF-grafana-servers-dashboard.png)
+![Wavefront Servers Dashboard](images/SCDF-wavefront-servers-dashboard.png)
+
 ### Local
 
 This section describes how to view server metrics using Prometheus or InfluxDB as the metrics store on your local machine. Wavefront is a cloud offering, but you still can deploy Data Flow locally can point it to a cloud-managed Wavefront monitoring system.
