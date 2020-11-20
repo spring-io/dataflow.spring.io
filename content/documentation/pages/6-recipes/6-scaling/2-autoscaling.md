@@ -106,6 +106,8 @@ The high CPU requirements due to the multiple app instances would make it diffic
   kubectl delete pods -l app=prometheus
   ```
 
+  Replace `my-release-prometheus-server` with your current prometheus cm. Use `kubectl get cm` to list your configurations.
+
 <!--For Helm installation-->
 
 - Follow the [Helm](%currentPath%/installation/kubernetes/helm/) installation instructions to setup Spring Cloud Data Flow with Kafka broker. You can use `features.monitoring.enabled=true` with at least `10Gi` storage space:
@@ -160,7 +162,7 @@ The `producer.partitionKeyExpression=payload` property configures time’s outpu
 The `spring.cloud.stream.kafka.binder.autoAddPartitions` deployment property instructs the Kafka binder to create new partitions when required. This is required if the topic is not already over-partitioned.
 The `spring.cloud.stream.kafka.binder.minPartitionCount` property sets the minimum number of partitions that the Kafka binder configures on the topic, which is where the transform-processor is subscribing for new data.
 
-![SCDF autoscaling stream deploying](images/scdf-autoscaling-stream-deploying.png)
+![SCDF autoscaling stream deploying](images/SCDF-autoscaling-stream-deploying.png)
 
 Use the SCDF's built-in Grafana dashboard to review the [stream application's throughput and the other application metrics](%currentPath%/feature-guides/streams/monitoring/#prometheus-1):
 
@@ -178,7 +180,7 @@ stream update --name scaletest --properties "app.time.trigger.time-unit=MICROSEC
 ```
 
 The `time` app is re-deployed with the new time-unit property:
-![SCDF autoscaling increase load](images/scdf-autoscaling-increase-load.png)
+![SCDF autoscaling increase load](images/SCDF-autoscaling-increase-load.png)
 
 Now `time` source emits messages with a rate of `~5000 msg/s`. The `transform` processor, though, is capped at around `1000 msg/s` and that in turn, it halts the throughput of the entire stream to a certain level. This is an indicator that the `transform` has become the bottleneck.
 
@@ -186,15 +188,15 @@ Now `time` source emits messages with a rate of `~5000 msg/s`. The `transform` p
 
 The `HighThroughputDifference` Prometheus alert rule detects the rate discrepancy and fires a scale-out alert:
 
-![SCDF autoscaling scaleout alert](images/scdf-autoscaling-scaleout-alert.png)
+![SCDF autoscaling scaleout alert](images/SCDF-autoscaling-scaleout-alert.png)
 
 in result 3 additional transform instances are added:
 
-![SCDF autoscaling adding 3 instances](images/scdf-autoscaling-adding-3-instances.png)
+![SCDF autoscaling adding 3 instances](images/SCDF-autoscaling-adding-4-instances.png)
 
 with the help of the additional instances of the `log` sink the entire data pipeline catches up to match with the `time` source's production rate:
 
-![SCDF autoscaling stream catches up](images/scdf-autoscaling-stream-catchup.png)
+![SCDF autoscaling stream catches up](images/SCDF-autoscaling-stream-catchup.png)
 
 ### Reduce data pipeline load
 
@@ -209,6 +211,4 @@ Eventually the rate difference becomes zero and the `ZeroThroughputDifference` a
 
 ![SCDF autoscaling scale-in alert](images/scdf-autoscaling-scale-in-alert.png)
 
-With a single `transform` instance the throughput of the entire data pipeline is normalized back to `~1 msg/s` :
-
-![SCDF autoscaling afters scale-in](images/scdf-autoscale-after-scale-in.png)
+With a single `transform` instance the throughput of the entire data pipeline is normalized back to `~1 msg/s`.

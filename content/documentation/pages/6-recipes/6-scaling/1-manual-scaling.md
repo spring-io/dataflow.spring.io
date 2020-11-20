@@ -55,7 +55,9 @@ The `spring.cloud.stream.kafka.binder.autoAddPartitions` deployment property ins
 The `spring.cloud.stream.kafka.binder.minPartitionCount` property sets the minimum number of partitions that the Kafka binder configures on the topic, which is where the transform-processor is subscribing for new data.
 
 Once the `scaletest` stream is deployed you should see:
-![SCDF manual scaling scaletest deployed](images/scdf-scale-manual-scaletest-deployed.png)
+![SCDF manual scaling non-scaled scaletest deployed](images/SCDF-scale-manual-scaletest-non-scaled-stream-deployed.png)
+![SCDF manual scaling scaletest deployed](images/SCDF-scale-manual-scaletest-non-scaled-apps-deployed.png)
+
 Singe application instances for each application.
 
 Use the SCDF's built-in Grafana dashboard to review the [stream application's throughput and the other application metrics](%currentPath%/feature-guides/streams/monitoring/#prometheus-1):
@@ -87,7 +89,8 @@ stream scale app instances --name scaletest --applicationName transform --count 
 
 As a result of the previous command, 3 additional transform instances are deployed:
 
-![SCDF manual scaling scaletest deployed after scale out](images/scdf-scale-manual-scaletest-deployed-afer-scaleout.png)
+![SCDF manual scaling scaletest deployed after scale out](images/SCDF-scale-manual-scaletest-scaled-stream-deployed.png)
+![SCDF manual scaling scaletest deployed after scale out](images/SCDF-scale-manual-scaletest-scaled-apps-deployed.png)
 
 With the help of the additional instances of the `transform` processor, the entire data pipeline catches up to match with the `time` source's production rate.
 
