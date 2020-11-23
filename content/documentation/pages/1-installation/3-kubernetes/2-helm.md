@@ -8,28 +8,20 @@ description: 'Installation using Helm'
 
 <!--NOTE-->
 
-The current Spring Cloud Data Flow chart is based on Helm 2.
-The Helm project will be ending support for Helm 2 in November of 2020.
-At that time the Spring Cloud Data Flow chart will be based on Helm 3, dropping support for Helm 2.
+The Helm project has ended support for Helm 2 in November of 2020.
+As of Spring Cloud Data Flow 2.7.0 the chart will be based on Helm 3, dropping support for Helm 2.
 
 Migration steps from Helm 2 to Helm 3 are required.
 In preparation for the migration, it is advised to read the [Helm v2 to v3 Migration Guide](https://helm.sh/docs/topics/v2_v3_migration/) for more information.
 Additionally, some helpful tips on data migration and upgrades can be found in the [post migration issues](https://docs.bitnami.com/tutorials/resolve-helm2-helm3-post-migration-issues/) article.
 
+As of Spring Cloud Data Flow 2.6.1, the Bitnami team maintains the Helm chart.
+To report bugs and/or feature requests please do so using the [Bitnami Issue Tracker](https://github.com/bitnami/charts/issues).
+
 <!--END_NOTE-->
 
 Spring Cloud Data Flow offers a [Helm Chart](https://bitnami.com/stack/spring-cloud-dataflow/helm)
 for deploying the Spring Cloud Data Flow server and its required services to a Kubernetes Cluster.
-
-<!--NOTE-->
-
-The referenced chart now resides in the Bitnami repository.
-The original chart residing in the official Helm chart repository has been [deprecated](https://github.com/helm/charts#deprecation-timeline).
-
-As of Spring Cloud Data Flow 2.6.1, we will not be maintaining the official Helm chart, and the Bitnami version is the preferred chart.
-To report bugs and/or feature requests please do so using the [Bitnami Issue Tracker](https://github.com/bitnami/charts/issues).
-
-<!--END_NOTE-->
 
 The following sections cover how to initialize `Helm` and install Spring Cloud Data Flow on a Kubernetes cluster.
 
@@ -39,38 +31,13 @@ If using Minikube, see [Setting Minikube Resources](%currentPath%/installation/k
 
 <!--END_TIP-->
 
-### Installing Helm
-
-The Spring Cloud Data Flow Helm chart is currently tested against Helm 2.
-`Helm` is comprised of two components: the client (Helm) and the server (Tiller).
-The `Helm` client runs on your local machine and can be installed by following the instructions found [here](https://v2.helm.sh/docs/install/#installing-helm).
-If Tiller has not been installed on your cluster, run the following to create a service account and the `Helm` init client command:
-
-```bash
-kubectl create serviceaccount tiller -n kube-system
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount kube-system:tiller
-helm init --wait --service-account tiller
-```
-
-<!--NOTE-->
-
-Please see the [Helm documentation](https://v2.helm.sh/docs/securing_installation/#securing-your-helm-installation) for additional Helm security configuration.
-
-<!--END_NOTE-->
-
-```bash
-helm repo update
-```
-
-To verify that the `Tiller` pod is running, run the following command:
-
-```bash
-kubectl get pod --namespace kube-system
-```
-
-You should see the `Tiller` pod running.
-
 ### Installing the Spring Cloud Data Flow Server and Required Services
+
+<!--TIP-->
+
+It is important to review the following documentation and adjust any parameter customizations that have been made for your environment or how they may differ from the legacy official Helm chart. Value names, defaults, and so on may have changed during the Bitnami chart migration. More information can be found in the [Parameter](%currentPath%/installation/kubernetes/helm/#parameters) tables, [Upgrading](%currentPath%/installation/kubernetes/helm/#upgrading), and [Notable Changes](%currentPath%/installation/kubernetes/helm/#notable-changes) sections.
+
+<!--END_TIP-->
 
 <!--TEMPLATE:https://raw.githubusercontent.com/bitnami/charts/master/bitnami/spring-cloud-dataflow/README.md-->
 
@@ -79,76 +46,36 @@ You should see the `Tiller` pod running.
 After issuing the `helm install` command, you should see output similar to the following:
 
 ```bash
-NAME:   my-release
-LAST DEPLOYED: Mon Aug 31 10:36:20 2020
+NAME: my-release
+LAST DEPLOYED: Sun Nov 22 21:12:29 2020
 NAMESPACE: default
-STATUS: DEPLOYED
-RESOURCES:
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+** Please be patient while the chart is being deployed **
 
-==> v1/ConfigMap
-NAME                                      AGE
-my-release-mariadb                        0s
-my-release-mariadb-init-scripts           0s
-my-release-rabbitmq-config                0s
-my-release-spring-cloud-dataflow-scripts  0s
-my-release-spring-cloud-dataflow-server   0s
-my-release-spring-cloud-dataflow-skipper  0s
+Spring Cloud Data Flow chart was deployed enabling the following components:
 
-==> v1/Deployment
-NAME                                      AGE
-my-release-spring-cloud-dataflow-server   0s
-my-release-spring-cloud-dataflow-skipper  0s
+- Spring Cloud Data Flow server
+- Spring Cloud Skipper server
 
-==> v1/Pod(related)
-NAME                                                      AGE
-my-release-mariadb-0                                      0s
-my-release-rabbitmq-0                                     0s
-my-release-spring-cloud-dataflow-server-7c776548d7-522zd  0s
-my-release-spring-cloud-dataflow-skipper-b968b455f-qbbg4  0s
+Spring Cloud Data Flow can be accessed through the following DNS name from within your cluster:
 
-==> v1/Role
-NAME                                 AGE
-my-release-rabbitmq-endpoint-reader  0s
-my-release-spring-cloud-dataflow     0s
+    my-release-spring-cloud-dataflow-server.default.svc.cluster.local (port 8080)
 
-==> v1/RoleBinding
-NAME                                 AGE
-my-release-rabbitmq-endpoint-reader  0s
-my-release-spring-cloud-dataflow     0s
+To access Spring Cloud Data Flow dashboard from outside the cluster execute the following commands:
 
-==> v1/Secret
-NAME                 AGE
-my-release-mariadb   0s
-my-release-rabbitmq  0s
+1. Get the Data Flow dashboard URL by running these commands:
 
-==> v1/Service
-NAME                                      AGE
-my-release-mariadb                        0s
-my-release-rabbitmq                       0s
-my-release-rabbitmq-headless              0s
-my-release-spring-cloud-dataflow-server   0s
-my-release-spring-cloud-dataflow-skipper  0s
+    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-release-spring-cloud-dataflow-server)
+    kubectl port-forward --namespace default svc/my-release-spring-cloud-dataflow-server ${SERVICE_PORT}:${SERVICE_PORT} &
+    echo "http://127.0.0.1:${SERVICE_PORT}/dashboard"
 
-==> v1/ServiceAccount
-NAME                              AGE
-my-release-rabbitmq               0s
-my-release-spring-cloud-dataflow  0s
-
-==> v1/StatefulSet
-NAME                 AGE
-my-release-mariadb   0s
-my-release-rabbitmq  0s
+2. Open a browser and access the Data Flow dashboard using the obtained URL.
 ```
 
 <!--NOTE-->
-
-Get the Spring Cloud Data Flow's application URL by running these commands:
-
-```bash
-export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-release-spring-cloud-dataflow-server)
-kubectl port-forward --namespace default svc/my-release-spring-cloud-dataflow-server ${SERVICE_PORT}:${SERVICE_PORT} &
-echo "http://127.0.0.1:${SERVICE_PORT}/dashboard"
-```
 
 If you prefer, the Spring Cloud Data Flow service type may be changed by passing the following `set` argument to `helm install`:
 
@@ -165,7 +92,7 @@ You can watch the status of the server by running `kubectl get svc -w my-release
 
 <!--NOTE-->
 
-If your using Minikube, you can use the following command to get the URL for the server:
+If your using Minikube without load balancer support, you can use the following command to get the URL for the server:
 
 ```bash
 minikube service --url my-release-spring-cloud-dataflow-server
@@ -179,11 +106,6 @@ You can check on the status by issuing a `kubectl get pod -w` command.
 You need to wait for the `READY` column to show `1/1` for all pods.
 
 When all pods are ready, you can access the Spring Cloud Data Flow dashboard by accessing `http://<SERVICE_ADDRESS>/dashboard` where `<SERVICE_ADDRESS>` is the address returned by either the `kubectl` or `minikube` commands above.
-
-To see what `Helm` releases of Spring Cloud Data Flow you have running, you can use the `helm list` command.
-When it is time to delete the previously installed SCDF release, run `helm delete my-release`.
-This command removes any resources created for the release but keeps release information so that you can rollback any changes by using a `helm rollback my-release 1` command.
-To completely delete the release and purge any release metadata, you can use `helm delete my-release --purge`.
 
 #### Version Compatibility
 
@@ -214,7 +136,8 @@ Bitnami chart mappings:
 
 | SCDF Version          | Chart Version |
 | --------------------- | :-----------: |
-| SCDF-K8S-Server 2.6.x |     0.7.x     |
+| SCDF-K8S-Server 2.6.x |     1.1.x     |
+| SCDF-K8S-Server 2.7.x |     2.0.x     |
 
 ## Register prebuilt applications
 
