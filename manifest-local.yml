@@ -2,7 +2,7 @@
 applications:
   - name: dataflow-website-staging
     routes:
-      - route: dataflow-staging.cfapps.io
+      - route: dataflow-staging.apps.pcfone.io
     memory: 1G
     disk_quota: 1G
     instances: 1

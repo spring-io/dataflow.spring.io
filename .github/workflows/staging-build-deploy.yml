@@ -7,11 +7,11 @@ on:
   workflow_dispatch:
 
 env:
-  CF_API: ${{ secrets.CF_API }}
-  CF_ORG: ${{ secrets.CF_ORG }}
-  CF_SPACE: ${{ secrets.CF_SPACE }}
-  CF_USERNAME: ${{ secrets.CF_USERNAME }}
-  CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+  CF_API: ${{ secrets.PCFONE_API }}
+  CF_ORG: ${{ secrets.PCFONE_ORG }}
+  CF_SPACE: ${{ secrets.PCFONE_SPACE }}
+  CF_USERNAME: ${{ secrets.PCFONE_BUILDS_USERNAME }}
+  CF_PASSWORD: ${{ secrets.PCFONE_BUILDS_PASSWORD }}
 
 jobs:
   # build and deploy staging
