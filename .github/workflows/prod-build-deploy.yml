@@ -35,5 +35,5 @@ jobs:
           yarn run prepare-cf-push
 
       # do cf blue/green deploy
-      - name: CF Staging Deploy
+      - name: CF Prod Deploy
         run: cf blue-green-deploy dataflow-website -f manifest.yml --smoke-test ./blue-green-smoke.sh --delete-old-apps
