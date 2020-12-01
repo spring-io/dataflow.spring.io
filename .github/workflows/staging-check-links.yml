@@ -23,10 +23,18 @@ jobs:
       - name: Linkinator (current)
         run: |
           yarn run linkinator https://dataflow-staging.apps.pcfone.io --concurrency 1 --silent
-      - name: Linkinator (2.7.0.SNAPSHOT)
+      - name: Linkinator (2.8.0.SNAPSHOT)
         if: success() || failure()
         run: |
-          yarn run linkinator https://dataflow-staging.apps.pcfone.io/docs/2.7.0.SNAPSHOT --concurrency 1 --silent
+          yarn run linkinator https://dataflow-staging.apps.pcfone.io/docs/2.8.0.SNAPSHOT --concurrency 1 --silent
+      - name: Linkinator (2.7.x)
+        if: success() || failure()
+        run: |
+          yarn run linkinator https://dataflow-staging.apps.pcfone.io/docs/2.7.x --concurrency 1 --silent
+      - name: Linkinator (2.6.x)
+        if: success() || failure()
+        run: |
+          yarn run linkinator https://dataflow-staging.apps.pcfone.io/docs/2.6.x --concurrency 1 --silent
       - name: Linkinator (2.5.x)
         if: success() || failure()
         run: |
