@@ -9,6 +9,8 @@ env:
   CF_SPACE: ${{ secrets.PCFONE_SPACE }}
   CF_USERNAME: ${{ secrets.PCFONE_BUILDS_USERNAME }}
   CF_PASSWORD: ${{ secrets.PCFONE_BUILDS_PASSWORD }}
+  ALGOLIA_ADMIN_KEY_PASSWORD: ${{ secrets.ALGOLIA_ADMIN_KEY_PASSWORD }}
+  GOOGLE_TAGMANAGER_ID: ${{ secrets.GOOGLE_TAGMANAGER_ID_SCDF }}
 
 jobs:
   # build and deploy staging
