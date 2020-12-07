@@ -9,7 +9,7 @@
 
   "github-tag": "v2.7.0",
 
-  "spring-maven-repo-type": "snapshot",
+  "spring-maven-repo-type": "release",
 
   "stream-applications-doc-3x": "https://docs.spring.io/stream-applications/docs/2020.0.0-SNAPSHOT/reference/html",
 
