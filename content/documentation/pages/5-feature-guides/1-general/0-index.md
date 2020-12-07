@@ -7,4 +7,4 @@ summary: true
 
 # General Feature Guides
 
-This section describes how to use some general features common for Streams and Tasks.
+This section describes how to use some general features common to both Streams and Tasks.

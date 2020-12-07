@@ -10,7 +10,7 @@ In this section, we demonstrate how to register a Spring Cloud Task application 
 
 ## Prerequisites
 
-Before you start on this sample, you need to do two things:
+Before you start on this sample, you need to:
 
 1. Install Spring Cloud Data Flow.
 1. Install the Spring Cloud Task project that we use in this project.
@@ -34,11 +34,11 @@ We register a Task application, create a simple Task definition, and launch the 
 The Data Flow server provides a comprehensive [API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
 The Data Flow server includes a Data Flow Dashboard web UI client. In addition, there is a [Data Flow Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) command line interface (CLI), available as a separate download.
 The CLI and the UI both expose the complete API functionality.
-Which one to use is a matter of preference, but the UI is quite nice, so we feature it here.
+Which one to use is a matter of preference, but the UI is nice, so we feature it here.
 
 ### The Data Flow Dashboard
 
-Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
+Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. See the [installation guide](%currentPath%/installation) to determine the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
 
 ### Application Registration
 
@@ -68,7 +68,7 @@ maven://io.spring:billsetuptask:0.0.1-SNAPSHOT
 ```
 
 The `maven:` protocol specifies a Maven artifact, which is resolved by using the remote and local Maven repositories configured for the Data Flow server.
-To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
+To register an application, select **ADD APPLICATION(S)**. Once the **Add Application(s)** page appears, select `Register one or more applications`. Fill in the form and click **IMPORT APPLICATION(S)**, as follows:
 
 ![Register the billrun batch app](images/SCDF-register-task-app-maven.png)
 
@@ -82,7 +82,7 @@ The HTTPS URI for the sample app is as follows:
 maven://io.spring:billsetuptask:0.0.1-SNAPSHOT
 ```
 
-To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
+To register an application, select **ADD APPLICATION(S)**. Once the **Add Application(s)** page appears, select **Register one or more applications**. Fill in the form and click **IMPORT APPLICATION(S)**, as follows.
 
 ![Register the billrun batch app](images/SCDF-register-task-app-http.png)
 
@@ -97,7 +97,7 @@ The Docker URI for the sample app is as follows:
 docker:springcloudtask/billsetuptask:0.0.1-SNAPSHOT
 ```
 
-To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
+To register an application, select **ADD APPLICATION(S)**. Once the **Add Application(s)** page appears, select **Register one or more applications**. Fill in the form and click **IMPORT APPLICATION(S)**, as follows:
 
 ![Register the billrun batch app](images/SCDF-register-task-app-docker.png)
 
@@ -107,25 +107,25 @@ To register an application, select `ADD APPLICATION(S)`. Once the **Add Applicat
 
 To create a task in the Dashboard UI:
 
-1. Select `Tasks` from the left navigation bar and select `Create task(s)`.
+1. Select **Tasks** from the left navigation bar and select **Create task(s)**.
    Doing so displays a graphical editor that we can use to compose tasks.
    The initial canvas contains `START` and `END` nodes. To the left of the canvas, we see the available task applications, including `bill-setup-task`, which we just registered.
 
 1. Drag that task to the canvas.
 
-1. Connect the task to the START and END nodes to complete the task definition.
+1. Connect the task to the `START` and `END` nodes to complete the task definition.
    In this case, the task definition consists of a single task application.
    If the application defined configuration properties, we would set them here.
    The following image shows the task creation UI:
    ![Create the billsetup task definition](images/SCDF-create-task.png)
 
-1. Click `CREATE TASK`.
+1. Click **CREATE TASK**.
    Doing so prompts you to name the task definition, which is the logical name for the runtime configuration we want to deploy.
    In this case, we use the same name as the task application.
    ![Confirm create task](images/SCDF-confirm-create-task.png)
 
-1. Click `CREATE THE TASK`.
-   Doing so displays the main `Tasks` view.
+1. Click **CREATE THE TASK**.
+   Doing so displays the main **Tasks** view.
 
 ### Launching the Task
 
@@ -135,13 +135,13 @@ The following image shows the Task UI, which we can use to launch a task:
 
 To launch the task:
 
-1. Click the option control on the row of task you want to launch and select the **Launch** option.
-   Doing so take you to a form where you can add command line arguments and deployment properties, but we do not need any for this task.
+1. Click the option control on the row of the task you want to launch and select the **Launch** option.
+   Doing so takes you to a form where you can add command line arguments and deployment properties, but we do not need any for this task.
 
-1. Press **Launch the task**.
+1. Click **Launch the task**.
    Doing so runs the task on the Data Flow server's task platform and records a new task `execution`.
    When the execution is complete, the Status turns to a green color and shows `COMPLETE.`
 
-1. Select the **Task executions** tab to view a summary of executions for this task, as shown in the following image:
+1. Select the **Task executions** tab to view a summary of executions for this task, as follows:
 
 ![Task executions](images/SCDF-task-executions.png)

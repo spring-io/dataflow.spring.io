@@ -7,4 +7,4 @@ summary: true
 
 # Cloud Foundry
 
-This section shows you how to install **Data Flow** on **Cloud Foundry**.
+This section shows how to install **Data Flow** on **Cloud Foundry**.

@@ -8,8 +8,10 @@ description: 'Debugging Batch applications deployed by Data Flow'
 
 ## Did the Task Launch?
 
-To determine if your task executed properly, go to the Task Execution page of the UI or from the shell type `task execution list`.
+To determine if your task executed properly, go to the Task Execution page of the UI or, from the shell, type `task execution list`.
 Find the task execution entry for the task launch.
+
+The following diagram shows how to handle task launch errors:
 
 ```mermaid
 graph TD;
@@ -23,20 +25,30 @@ graph TD;
 
 ```
 
-## What To Check If Task Failed To Launch
+## What To Check If a Task Failed To Launch
 
 If a task fails to launch:
 
-- Ensure the latest GA of a particular release version is being used
-- Ensure platform of choice meets at least the minimum supported version
-- Before launching task / batch applications in SCDF ensure the application has been successfully executed standalone. Refer to [Debugging Batch Applications](%currentPath%/batch-developer-guides/troubleshooting/debugging-task-apps/) before continuing.
+- Ensure the latest GA of a particular release version is being used.
+- Ensure the platform you chose meets at least the minimum supported version.
+- Before launching task or batch applications in SCDF, ensure that the application has been successfully executed as a standalone application. See [Debugging Batch Applications](%currentPath%/batch-developer-guides/troubleshooting/debugging-task-apps/) before continuing.
 
 SCDF is responsible for launching tasks.
 Task launch failure messages can typically be found in the SCDF application logs.
 
 ## Platforms
 
+This section covers how to troubleshoot problems on specific platforms:
+
+- Local
+- Cloud Foundry
+- Kubernetes
+
 ### Local
+
+This section covers how to troubleshoot problems with applications that run locally:
+
+The following diagram shows how to handle local task launch errors:
 
 ```mermaid
 graph TD;
@@ -49,16 +61,18 @@ graph TD;
     F --> G(Enable debug)
 ```
 
-Application log files can be inspected on a per application basis.
-To aggregate logs from all applications into one, the deployer property `inheritLogging=true` can be set.
+You can inspect application log files on a per-application basis.
+To aggregate logs from all applications into one, you can set the `inheritLogging=true` deployer property.
 See
 ["Is it possible to aggregate Local deployments into a single log?"](%currentPath%/resources/faq/#aggregatelogs)
-for more information and ["How do I enable DEBUG logs for platform deployments?"](%currentPath%/resources/faq/#debuglogs) for enabling more log output.
+for more information and ["How do I enable DEBUG logs for platform deployments?"](%currentPath%/resources/faq/#debuglogs) for how to enable more log output.
 
-Debugging applications via JDWP can be accomplished by setting the deployer property `debugPort`.
+You can enable debugging applications with JDWP by setting the `debugPort` deployer property.
 See ["How do I remote debug deployed applications?"](%currentPath%/resources/faq/#remotedebug) for more information.
 
 #### Docker Compose - Startup
+
+The following diagram shows how to handle local task launch errors that involve Docker compose startup issues:
 
 ```mermaid
 graph TD;
@@ -67,10 +81,12 @@ graph TD;
 	B --> |No| B
 ```
 
-The environment variables `DATAFLOW_VERSION` and `SKIPPER_VERSION` must be available in the current terminal environment via `export` or prefixing the `docker-compose` command.
+The `DATAFLOW_VERSION` and `SKIPPER_VERSION` environment variables must be available in the current terminal environment through `export` or by prefixing them to the `docker-compose` command.
 See [Starting Docker Compose](%currentPath%/installation/local/docker/) for more information.
 
 #### Docker Compose - Runtime
+
+The following diagram shows how to handle local task launch errors that involve Docker compose runtime issues:
 
 ```mermaid
 graph TD;
@@ -81,17 +97,21 @@ graph TD;
 
 By default, the amount of memory allocated to Docker may be too low.
 The recommended amount of memory to allocate is 8GB.
-The command `docker stats` can provide useful information into resource usage.
-If applications are failing to launch due to resource constraints, increase resource allocations.
-Consult the [Docker documentation](https://docs.docker.com/) for your platform.
+The `docker stats` command can provide useful information about resource usage.
+If applications fail to launch due to resource constraints, increase resource allocations.
+See the [Docker documentation](https://docs.docker.com/) for your platform.
 
-As tasks are launched via SCDF, applications that are part of that task definition will be launched as Java processes on the SCDF container.
+As tasks are launched through SCDF, applications that are part of that task definition are launched as Java processes on the SCDF container.
 For every part of a task definition, an application is launched.
-The overall resource allocation (memory, CPU, etc) provided to Docker should account for the number of launched applications.
+The overall resource allocation (memory, CPU, and others) provided to Docker should account for the number of launched applications.
 
 ### Cloud Foundry
 
-#### Startup failures
+This section covers how to troubleshoot problems with applications on Cloud Foundry:
+
+#### Startup Failures
+
+The following diagram shows how to handle startup failures for applications that run on Cloud Foundry:
 
 ```mermaid
 graph TD;
@@ -102,7 +122,9 @@ graph TD;
     D --> |No| E(View logs and resolve errors)
 ```
 
-#### Application failures
+#### Application Failures
+
+The following diagram shows how to handle application failures for applications that run on Cloud Foundry:
 
 ```mermaid
 graph TD;
@@ -112,12 +134,16 @@ graph TD;
 	F --> C
 ```
 
-When debugging deployment issues, raising deployer and Cloud Foundry related log levels may be useful.
+When debugging deployment issues, raising deployer-related and Cloud Foundry-related log levels may be useful.
 See ["How do I enable DEBUG logs for platform deployments?"](%currentPath%/resources/faq/#debuglogs) for more information.
 
 ### Kubernetes
 
+This section covers how to troubleshoot problems with applications on Cloud Foundry:
+
 #### Distributed Deployment Files
+
+The following diagram shows how to handle failures caused by distributed deployment files for applications that run on Kubernetes:
 
 ```mermaid
 graph TD;
@@ -129,6 +155,8 @@ graph TD;
 	C --> |Yes| F(Resolve)
 	E --> |Yes| F(Resolve)
 ```
+
+The following diagram shows how to handle Helm chart failures for applications that run on Kubernetes:
 
 #### Helm Chart
 
@@ -142,6 +170,8 @@ graph TD;
 ```
 
 #### General
+
+The following diagram shows how to handle general failures for applications that run on Kubernetes:
 
 ```mermaid
 graph TD;
@@ -165,10 +195,10 @@ Events:
   Normal  Started    14s   kubelet, minikube  Started container
 ```
 
-Application logs can be tailed to watch logs as they come in, for example:
+Application logs can be tailed to watch logs as they come in, as follows:
 
 `kubectl logs -f po/pod_name`
 
 ## Troubleshooting Help
 
-If none of those above troubleshooting techniques helped and if you're still looking for help, you can reach out to us in [StackOverflow](https://stackoverflow.com/tags/spring-cloud-dataflow/) with the relevant details (see: [Wiki](https://github.com/spring-cloud/spring-cloud-dataflow/wiki/Reporting-Issues)) - we actively monitor the forum threads.
+If none of these troubleshooting techniques helped and if you still need help, you can reach out to us on [StackOverflow](https://stackoverflow.com/tags/spring-cloud-dataflow/) with the relevant details (see: [Wiki](https://github.com/spring-cloud/spring-cloud-dataflow/wiki/Reporting-Issues)). We actively monitor the forum threads.

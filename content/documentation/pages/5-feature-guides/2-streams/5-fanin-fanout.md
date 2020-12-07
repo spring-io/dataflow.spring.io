@@ -22,7 +22,7 @@ Then an additional stream created with the following DSL expression would have a
 
 The following image shows a graphical representation of fan-in:
 
-![Fan-in Fan-out](images/fan-in-fan-out.png)
+![Fan-in](images/fan-in-fan-out.png)
 
 The fan-out use case is when you determine the destination of a stream based on some information that is known only at runtime.
 In this case, you can use the [Router Application](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/html/spring-cloud-stream-modules-sinks.html#spring-cloud-stream-modules-router-sink) to specify how to direct the incoming message to one of N named destinations.

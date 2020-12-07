@@ -6,33 +6,33 @@ description: 'Create and Deploy a Python Application in a Stream'
 
 # Create and Deploy a Python Application
 
-This recipe illustrates how to deploy a Python script as an Data Flow [application](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl).
-Unlike the other applications types (e.g. `source`, `processor` or `sink`), Data Flow does not set deployment properties that wire up producers and consumers when deploying the `app` application type.
-It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate by using deployment properties.
+This recipe shows how to deploy a Python script as a Data Flow [application](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl).
+Unlike the other applications types (`source`, `processor`, or `sink`), Data Flow does not set deployment properties that wire up producers and consumers when deploying the `app` application type.
+It is the developer’s responsibility to "wire up" the multiple applications when deploying, in order for them to communicate by using deployment properties.
 
-The recipe creates a data processing pipelines that dispatches `input` stream of timestamps to either `even` or `odd` downstream channels.
-Technically the recipe implements the [Dynamic Router](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DynamicRouter.html) integration pattern.
-The Pipeline takes time's source `timestamps` messages from an `timeDest` input channel, depending on the timestamp value it routes the message to dedicated `evenDest` or `oddDest` downstream channels.
+The recipe creates a data-processing pipeline that dispatches `input` stream of timestamps to either `even` or `odd` downstream channels.
+Technically, the recipe implements the [Dynamic Router](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DynamicRouter.html) integration pattern.
+The pipeline takes `timestamps` messages from an `timeDest` input channel. Depending on the timestamp value, it routes the message to one of the dedicated `evenDest` or `oddDest` downstream channels.
 
-The following diagram shows the architecture of the cafe processing pipelines.
+The following diagram shows the architecture of the data-processing pipelines:
 
 ![SCDF Python Tasks](images/polyglot-python-app-architecture.png)
 
-As timestamp source will use the prebuilt [Time Source](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-time-source) application but registered as Data Flow `App` type.
+As a timestamp source, the application uses the prebuilt [Time Source](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-time-source) application but registers it as the Data Flow `App` type.
 It continuously emits timestamps to a downstream Kafka topic called `timeDest`.
 
-The `Router` app, implemented by the Python script and packaged as a Docker image, consumes the incoming timestamps from the `timeDest` Kafka topic and according to the timestamp value routes the messages downstream to either the `evenDest` or `oddDest` Kafka topics.
+The `Router` app, implemented by the Python script and packaged as a Docker image, consumes the incoming timestamps from the `timeDest` Kafka topic and, according to the timestamp value, routes the messages downstream to either the `evenDest` Kafka topic or the `oddDest` Kafka topic.
 
-The `Even Logger` and `Odd Logger` components are the prebuilt [Log Sink](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-log-sink) applications but registered as Data Flow `App` type.
-Loggers consume the `evenDest` or `oddDest` topics and prints the incoming message in on the console.
+The `Even Logger` and `Odd Logger` components are prebuilt [Log Sink](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-log-sink) applications but are registered as Data Flow `App` type.
+Loggers consume the `evenDest` or `oddDest` topics and print the incoming message in on the console.
 
-Apache Kafka will be used as the messaging middleware.
+Apache Kafka is used as the messaging middleware.
 
 ## Development
 
-The source code can be found in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-app) and downloaded as a zipped archive: [polyglot-python-app.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-app.zip).
+You can find the source code in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-app) and download it as a zipped archive: [polyglot-python-app.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-app.zip).
 
-The [python_router_app.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/python_router_app.py) implements the timestamp Router application logic.
+The [python_router_app.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/python_router_app.py) implements the timestamp router application logic:
 
 ```python
 from kafka import KafkaConsumer, KafkaProducer
@@ -93,19 +93,22 @@ Router(
 
 ```
 
-[[note]]
-| If the `print` command is used inside the Python script, later must be flushed with `sys.stdout.flush()` to prevent the output buffer being filled up, causing disruption to the Kafka’s consumer/producer flow!
+<!-- NOTE -->
 
-- The [kafka-python](https://github.com/dpkp/kafka-python) library is used to consume and produce Kafka messages. The process_timestamps method continuously consumes timestamps from the input channel and routs the even or odd values to the output channels.
+If the `print` command is used inside the Python script, the output buffer must be flushed with `sys.stdout.flush()` to prevent it being filled up and causing disruption to the Kafka’s consumer-producer flow.
 
-- The [Actuator](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py#L7) class inside [actuator.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py) utility is used to expose operational information about the running application, such as health, liveliness, info, etc.
-  It runs an embedded HTTP server in a separate thread and exposes the `/actuator/health` and `/actuator/info` entry-points handles the Kubernetes liveness and readiness probes requests.
+<!-- END_NOTE -->
+
+- The [`kafka-python`](https://github.com/dpkp/kafka-python) library is used to consume and produce Kafka messages. The `process_timestamps` method continuously consumes timestamps from the input channel and routes the even or odd values to the output channels.
+
+- The [`Actuator`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py#L7) class inside the [actuator.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py) utility is used to expose operational information about the running application, such as health, liveness, info, and so on.
+  It runs an embedded HTTP server in a separate thread and exposes the `/actuator/health` and `/actuator/info` entry points to handle the Kubernetes liveness and readiness probes requests.
 
 - The [arguments.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/arguments.py) utility helps to retrieve the required input parameters from the command line arguments and environment variables.
-  The utility assumes default (e.g. exec) [entry point style](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#_entry_point_style_2).
+  The utility assumes the default (that is, exec) [entry point style](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#_entry_point_style_2).
   Note that Data Flow passes the Kafka broker connection properties as environment variables.
 
-For the `python_router_app.py` to act as a Data Flow `app` it needs to be bundled in a docker image and uploaded to `DockerHub`. Following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/Dockerfile) illustrates how to bundle a Python script into docker image:
+For the `python_router_app.py` to act as a Data Flow `app`, it needs to be bundled in a Docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/Dockerfile) shows how to bundle a Python script into a Docker image:
 
 ```docker
 FROM python:3.7.3-slim
@@ -117,11 +120,11 @@ ENTRYPOINT ["python","/python_router_app.py"]
 CMD []
 ```
 
-The Dockerfile installs the required dependencies, adds the python script (e.g. `ADD python_router_app.py`) and utilities (under the `util` folder above) and sets the command entry.
+The Dockerfile installs the required dependencies, adds the python script (`ADD python_router_app.py`) and utilities (under the `util` folder), and sets the command entry.
 
 ### Build
 
-We will now build the docker image and push it to the DockerHub registry.
+We now build the Docker image and push it to the DockerHub registry.
 
 Checkout the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples) and navigate to the `polyglot-python-app` folder:
 
@@ -137,11 +140,11 @@ docker build -t springcloud/polyglot-python-app:0.2 .
 docker push springcloud/polyglot-python-app:0.2
 ```
 
-<!--TIP-->
+<!--NOTE-->
 
 Replace `springcloud` with your docker hub prefix.
 
-<!--END_TIP-->
+<!--END_NOTE-->
 
 Once published in Docker Hub, the image can be registered in Data Flow and deployed.
 
@@ -149,13 +152,13 @@ Once published in Docker Hub, the image can be registered in Data Flow and deplo
 
 Follow the [installation instructions](%currentPath%/installation/kubernetes/) to set up Data Flow on Kubernetes.
 
-Retrieve the Data Flow url from minikube (`minikube service --url scdf-server`) and configure your Data Flow shell:
+Retrieve the Data Flow URL from minikube (`minikube service --url scdf-server`) and configure your Data Flow shell:
 
 ```bash
 dataflow config server --uri http://192.168.99.100:30868
 ```
 
-Import the SCDF `time` and `log` app starters and register the polyglot-python-app as `python-router` of type `app`
+Import the SCDF `time` and `log` app starters and register the `polyglot-python-app` as `python-router` of type `app`:
 
 ```bash
 app register --name time --type app --uri docker:springcloudstream/time-source-kafka:2.1.0.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:time-source-kafka:jar:metadata:2.1.0.RELEASE
@@ -175,27 +178,27 @@ stream create --name timeStampStream --definition "time || python-router || even
 
 <!--NOTE-->
 
-The stream definitions above make use of the [label feature](%currentPath%/feature-guides/streams/labels/) in the DSL.
+The stream definitions shown earlier make use of the [label feature](%currentPath%/feature-guides/streams/labels/) in the DSL.
 
 <!--END_NOTE-->
 
-As result the following stream pipeline is created:
+As a result, the following stream pipeline is created:
 
 ![timeStampStream un-deployed](images/polyglot-python-app-timeStampStream-undeployed.png)
 
 <!--IMPORTANT-->
 
-The `time`, `log` and `python-router` are registered as [App](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl) type applications and therefore can have multiple input and output bindings (e.g. channels). Data Flow does not make any assumptions about the flow of data from one application to another. It is the developer’s responsibility to 'wire up' the multiple applications when deploying in order for them to communicate.
+The `time`, `log`, and `python-router` apps are registered as [App](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-stream-app-dsl) type applications and, therefore, can have multiple input and output bindings (that is, channels). Data Flow does not make any assumptions about the flow of data from one application to another. It is the developer’s responsibility to "wire up" the multiple applications when deploying in order for them to communicate.
 
 <!--END_IMPORTANT-->
 
-Keeping this in mind we deploy the timestamp Stream pipeline with the [polyglot-python-app-deployment.properties](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/polyglot-python-app-deployment.properties) deployment properties:
+Keeping this in mind, we deploy the timestamp stream pipeline with the deployment properties in the [polyglot-python-app-deployment.properties](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/polyglot-python-app-deployment.properties) file:
 
 ```bash
 stream deploy --name timeStampStream --propertiesFile <polyglot-python-app folder>/polyglot-python-app-deployment.properties
 ```
 
-The deployment properties defines the Kafka topics used to wire the time, python-router and logger applications:
+The deployment properties defines the Kafka topics used to wire the time, python-router, and logger applications:
 
 ```
 app.time.spring.cloud.stream.bindings.output.destination=timeDest
@@ -208,17 +211,20 @@ app.evenLogger.spring.cloud.stream.bindings.input.destination=evenDest
 app.oddLogger.spring.cloud.stream.bindings.input.destination=oddDest
 ```
 
-[[tip]]
-| the app.python-router.xxx prefix is a Data Flow convention to map the properties specified after the prefix to the python-router app in the timeStampStream stream.
+<!-- NOTE -->
 
-The timestamp channel is bound to the `timeDest` Kafka topic, the router's even output channel is bound to the `evenDest` topic and the odd channel is bound to the `oddDest` topic.
-After the deployment the data flow looks like this:
+The app.python-router.xxx prefix is a Data Flow convention to map the properties specified after the prefix to the python-router app in the timeStampStream stream.
+
+<!-- END_NOTE -->
+
+The timestamp channel is bound to the `timeDest` Kafka topic. The router's even output channel is bound to the `evenDest` topic, and the odd channel is bound to the `oddDest` topic.
+After the deployment, the data flow looks like this:
 
 ![timeStampStream deployed](images/polyglot-python-app-timeStampStream-deployed.png)
 
-- Use `kubectl get all` command to list the statuses of the deployed k8s containers. Use `kubectl logs -f xxx` to observe the even and odd pipeline output.
+- Use the `kubectl get all` command to list the statuses of the deployed k8s containers. Use `kubectl logs -f xxx` to observe the even and odd pipeline output.
 
-  For example the `kubectl logs -f po/timestampstream-evenlogger-xxx` should output:
+  For example, the `kubectl logs -f po/timestampstream-evenlogger-xxx` should output:
 
   ```bash
   2019-05-17 17:56:36.241  INFO 1 --- log-sink   : Even timestamp:05/17/19 17:56:36
@@ -227,7 +233,7 @@ After the deployment the data flow looks like this:
   ...
   ```
 
-  and the `kubectl logs -f po/timestampstream-oddlogger-xxx` should output:
+  The `kubectl logs -f po/timestampstream-oddlogger-xxx` should output:
 
   ```bash
   2019-05-17 17:56:37.447  INFO 1 --- log-sink   : Odd timestamp:05/17/19 17:56:37

@@ -8,34 +8,34 @@ description: 'Installation using Helm'
 
 <!--NOTE-->
 
-The Helm project has ended support for Helm 2 in November of 2020.
-As of Spring Cloud Data Flow 2.7.0 the chart will be based on Helm 3, dropping support for Helm 2.
+The Helm project has ended support for Helm 2 as of November, 2020.
+As of Spring Cloud Data Flow 2.7.0, the chart is based on Helm 3, dropping support for Helm 2.
 
-Migration steps from Helm 2 to Helm 3 are required.
-In preparation for the migration, it is advised to read the [Helm v2 to v3 Migration Guide](https://helm.sh/docs/topics/v2_v3_migration/) for more information.
-Additionally, some helpful tips on data migration and upgrades can be found in the [post migration issues](https://docs.bitnami.com/tutorials/resolve-helm2-helm3-post-migration-issues/) article.
+You must migrate from Helm 2 to Helm 3.
+To prepare for the migration, you should read the [Helm v2 to v3 Migration Guide](https://helm.sh/docs/topics/v2_v3_migration/).
+Additionally, you can find some helpful tips on data migration and upgrades in the [post-migration issues](https://docs.bitnami.com/tutorials/resolve-helm2-helm3-post-migration-issues/) article.
 
 As of Spring Cloud Data Flow 2.6.1, the Bitnami team maintains the Helm chart.
-To report bugs and/or feature requests please do so using the [Bitnami Issue Tracker](https://github.com/bitnami/charts/issues).
+To report bugs or request features, use the [Bitnami Issue Tracker](https://github.com/bitnami/charts/issues).
 
 <!--END_NOTE-->
 
 Spring Cloud Data Flow offers a [Helm Chart](https://bitnami.com/stack/spring-cloud-dataflow/helm)
 for deploying the Spring Cloud Data Flow server and its required services to a Kubernetes Cluster.
 
-The following sections cover how to initialize `Helm` and install Spring Cloud Data Flow on a Kubernetes cluster.
+The following sections cover how to initialize Helm and install Spring Cloud Data Flow on a Kubernetes cluster.
 
 <!--TIP-->
 
-If using Minikube, see [Setting Minikube Resources](%currentPath%/installation/kubernetes/creating-a-cluster/#setting-minikube-resources) for details on CPU and RAM resource requirements.
+If you use Minikube, see [Setting Minikube Resources](%currentPath%/installation/kubernetes/creating-a-cluster/#setting-minikube-resources) for details on CPU and RAM resource requirements.
 
 <!--END_TIP-->
 
-### Installing the Spring Cloud Data Flow Server and Required Services
+### Installing Spring Cloud Data Flow Server and Required Services
 
 <!--TIP-->
 
-It is important to review the following documentation and adjust any parameter customizations that have been made for your environment or how they may differ from the legacy official Helm chart. Value names, defaults, and so on may have changed during the Bitnami chart migration. More information can be found in the [Parameter](%currentPath%/installation/kubernetes/helm/#parameters) tables, [Upgrading](%currentPath%/installation/kubernetes/helm/#upgrading), and [Notable Changes](%currentPath%/installation/kubernetes/helm/#notable-changes) sections.
+You should review the following documentation and adjust any parameter customizations that have been made for your environment or how they may differ from the legacy official Helm chart. Value names, defaults, and so on may have changed during the Bitnami chart migration. You can find more information in the [Parameter](%currentPath%/installation/kubernetes/helm/#parameters) tables and the [Upgrading](%currentPath%/installation/kubernetes/helm/#upgrading) and [Notable Changes](%currentPath%/installation/kubernetes/helm/#notable-changes) sections.
 
 <!--END_TIP-->
 
@@ -45,7 +45,7 @@ It is important to review the following documentation and adjust any parameter c
 
 After issuing the `helm install` command, you should see output similar to the following:
 
-```bash
+```
 NAME: my-release
 LAST DEPLOYED: Sun Nov 22 21:12:29 2020
 NAMESPACE: default
@@ -54,36 +54,35 @@ REVISION: 1
 TEST SUITE: None
 NOTES:
 ** Please be patient while the chart is being deployed **
-
-Spring Cloud Data Flow chart was deployed enabling the following components:
+```
+Spring Cloud Data Flow chart was deployed by using the following components:
 
 - Spring Cloud Data Flow server
 - Spring Cloud Skipper server
 
-Spring Cloud Data Flow can be accessed through the following DNS name from within your cluster:
+You can access Spring Cloud Data Flow through the following DNS name from within your cluster:
 
     my-release-spring-cloud-dataflow-server.default.svc.cluster.local (port 8080)
 
-To access Spring Cloud Data Flow dashboard from outside the cluster execute the following commands:
+To access Spring Cloud Data Flow dashboard from outside the cluster, run the following commands:
 
-1. Get the Data Flow dashboard URL by running these commands:
+1. Get the Data Flow dashboard URL by running the following commands:
 
     export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-release-spring-cloud-dataflow-server)
     kubectl port-forward --namespace default svc/my-release-spring-cloud-dataflow-server ${SERVICE_PORT}:${SERVICE_PORT} &
     echo "http://127.0.0.1:${SERVICE_PORT}/dashboard"
 
-2. Open a browser and access the Data Flow dashboard using the obtained URL.
-```
+2. Open a browser and access the Data Flow dashboard by using the obtained URL.
 
 <!--NOTE-->
 
-If you prefer, the Spring Cloud Data Flow service type may be changed by passing the following `set` argument to `helm install`:
+If you prefer, you can change the Spring Cloud Data Flow service type by passing the following `set` argument to `helm install`:
 
 ```bash
 --set server.service.type=ServiceType
 ```
 
-Where `ServiceType` would be a valid service name, for example `LoadBalancer`, `NodePort`, etc.
+Where `ServiceType` would be a valid service name (for example `LoadBalancer`, `NodePort`, and so on).
 
 It may take a few minutes for the LoadBalancer IP to be available.
 You can watch the status of the server by running `kubectl get svc -w my-release-spring-cloud-dataflow-server`
@@ -92,7 +91,7 @@ You can watch the status of the server by running `kubectl get svc -w my-release
 
 <!--NOTE-->
 
-If your using Minikube without load balancer support, you can use the following command to get the URL for the server:
+If you use Minikube without load balancer support, you can use the following command to get the URL for the server:
 
 ```bash
 minikube service --url my-release-spring-cloud-dataflow-server
@@ -100,12 +99,12 @@ minikube service --url my-release-spring-cloud-dataflow-server
 
 <!--END_NOTE-->
 
-You have just created a new release in the default namespace of your Kubernetes cluster.
+You have now created a new release in the default namespace of your Kubernetes cluster.
 It takes a couple of minutes for the application and its required services to start.
 You can check on the status by issuing a `kubectl get pod -w` command.
 You need to wait for the `READY` column to show `1/1` for all pods.
 
-When all pods are ready, you can access the Spring Cloud Data Flow dashboard by accessing `http://<SERVICE_ADDRESS>/dashboard` where `<SERVICE_ADDRESS>` is the address returned by either the `kubectl` or `minikube` commands above.
+When all pods are ready, you can access the Spring Cloud Data Flow dashboard by accessing `http://<SERVICE_ADDRESS>/dashboard`, where `<SERVICE_ADDRESS>` is the address returned by either the `kubectl` or `minikube` commands shown earlier.
 
 #### Version Compatibility
 
@@ -139,23 +138,23 @@ Bitnami chart mappings:
 | SCDF-K8S-Server 2.6.x |     1.1.x     |
 | SCDF-K8S-Server 2.7.x |     2.0.x     |
 
-## Register prebuilt applications
+## Registering Prebuilt Applications
 
-All the prebuilt streaming applications:
+All of the prebuilt streaming applications:
 
 - Are available as Apache Maven artifacts or Docker images.
 - Use RabbitMQ or Apache Kafka.
 - Support monitoring via Prometheus and InfluxDB.
 - Contain metadata for application properties used in the UI and code completion in the shell.
 
-Applications can be registered individually using the `app register` functionality or as a group using the `app import` functionality.
-There are also `dataflow.spring.io` links that represent the group of prebuilt applications for a specific release which is useful for getting started.
+You can register applications individually by using the `app register` functionality or as a group by using the `app import` functionality.
+There are also `dataflow.spring.io` links that represent the group of prebuilt applications for a specific release, which is useful for getting started.
 
-You can register applications using the UI or the shell.
-Even though we are only using two prebuilt applications, we will register the full set of prebuilt applications.
+You can register applications by using either the UI or the shell.
+Even though we use only two prebuilt applications, we register the full set of prebuilt applications.
 
-The easiest way to install Data Flow on Kubernetes is using the Helm chart that uses RabbitMQ as the default messaging middleware.
-The command to import the Kafka version of the applications is
+The easiest way to install Data Flow on Kubernetes is to use the Helm chart that uses RabbitMQ as the default messaging middleware.
+The command to import the Kafka version of the applications is as follows:
 
 ```bash
 dataflow:>app import --uri https://dataflow.spring.io/kafka-docker-latest
@@ -193,14 +192,14 @@ deployed applications.
 
 Properties set on a per-application basis always take precedence over
 properties set as the server configuration. This arrangement lets you
-override global server level properties on a per-application basis.
+override global server-level properties on a per-application basis.
 
 <!--END_TIP-->
 
 Properties to be applied for all deployed Tasks are defined in the
 `src/kubernetes/server/server-config.yaml` file and for Streams
 in `src/kubernetes/skipper/skipper-config-(binder).yaml`. Replace
-`(binder)` with the messaging middleware you are using — for example,
+`(binder)` with the messaging middleware you are using —- for example,
 `rabbit` or `kafka`.
 
 ### Memory and CPU Settings
@@ -273,7 +272,7 @@ data:
 
 <!--END_TABS-->
 
-The settings we have used so far only affect the settings for the
+The settings we have used so far affect only the settings for the
 container. They do not affect the memory setting for the JVM process in
 the container. If you would like to set JVM memory settings, you can
 provide an environment variable to do so. See the next section for
@@ -285,8 +284,7 @@ To influence the environment settings for a given application, you can
 use the `spring.cloud.deployer.kubernetes.environmentVariables` deployer
 property. For example, a common requirement in production settings is to
 influence the JVM memory arguments. You can do so by using the
-`JAVA_TOOL_OPTIONS` environment variable, as the following example
-shows:
+`JAVA_TOOL_OPTIONS` environment variable, as follows:
 
 ```properties
 deployer.<app>.kubernetes.environmentVariables=JAVA_TOOL_OPTIONS=-Xmx1024m
@@ -295,8 +293,8 @@ deployer.<app>.kubernetes.environmentVariables=JAVA_TOOL_OPTIONS=-Xmx1024m
 <!--TIP-->
 
 The `environmentVariables` property accepts a comma-delimited string.
-If an environment variable contains a value which is also a
-comma-delimited string, it must be enclosed in single quotation marks — for example,
+If an environment variable contains a value that is also a
+comma-delimited string, it must be enclosed in single quotation marks —- for example,
 
 ```properties
 spring.cloud.deployer.kubernetes.environmentVariables=spring.cloud.stream.kafka.binder.brokers='somehost:9092, anotherhost:9093'
@@ -304,16 +302,16 @@ spring.cloud.deployer.kubernetes.environmentVariables=spring.cloud.stream.kafka.
 
 <!--END_TIP-->
 
-This overrides the JVM memory setting for the desired `<app>` (replace
+Doin so overrides the JVM memory setting for the desired `<app>` (replace
 `<app>` with the name of your application).
 
 ### Liveness and Readiness Probes
 
 The `liveness` and `readiness` probes use paths called `/health` and
 `/info`, respectively. They use a `delay` of `10` for both and a
-`period` of `60` and `10` respectively. You can change these defaults
-when you deploy the stream by using deployer properties. Liveness and
-readiness probes are only applied to streams.
+`period` of `60` and `10`, respectively. You can change these defaults
+when you deploy the stream by using deployer properties. The liveness and
+readiness probes are applied only to streams.
 
 The following example changes the `liveness` probe (replace `<app>` with
 the name of your application) by setting deployer properties:
@@ -325,7 +323,7 @@ deployer.<app>.kubernetes.livenessProbePeriod=20
 ```
 
 You can declare the same as part of the server global configuration for
-streams, as the following example shows:
+streams, as follows:
 
 ```yaml
 data:
@@ -347,8 +345,8 @@ Similarly, you can swap `liveness` for `readiness` to override the
 default `readiness` settings.
 
 By default, port 8080 is used as the probe port. You can change the
-defaults for both `liveness` and `readiness` probe ports by using
-deployer properties, as the following example shows:
+defaults for both `liveness` and `readiness` probe ports by setting
+deployer properties, as follows:
 
 ```properties
 deployer.<app>.kubernetes.readinessProbePort=7000
@@ -356,7 +354,7 @@ deployer.<app>.kubernetes.livenessProbePort=7000
 ```
 
 You can declare the same as part of the global configuration for
-streams, as the following example shows:
+streams, as follows:
 
 ```yaml
 data:
@@ -377,16 +375,16 @@ data:
 
 By default, the `liveness` and `readiness` probe paths use Spring Boot
 2.x+ actuator endpoints. To use Spring Boot 1.x actuator endpoint
-paths, you must adjust the `liveness` and `readiness` values, as the
-following example shows (replace `<app>` with the name of your
+paths, you must adjust the `liveness` and `readiness` values, as
+follows (replace `<app>` with the name of your
 application):
-
-<!--END_TIP-->
 
 ```properties
 deployer.<app>.kubernetes.livenessProbePath=/health
 deployer.<app>.kubernetes.readinessProbePath=/info
 ```
+
+<!--END_TIP-->
 
 To automatically set both `liveness` and `readiness` endpoints on a
 per-application basis to the default Spring Boot 1.x paths, you can set
@@ -439,8 +437,7 @@ To create a new secret:
 3.  Replace `GENERATED_BASE64_STRING` with the base64-encoded value
     generated earlier.
 
-4.  Create the secret by using `kubectl`, as the following example
-    shows:
+4.  Create the secret by using `kubectl`, as follows:
 
     ```bash
     kubectl create -f ./myprobesecret.yml
@@ -448,7 +445,7 @@ To create a new secret:
     ```
 
 5.  Set the following deployer properties to use authentication when
-    accessing probe endpoints, as the following example shows:
+    accessing probe endpoints, as follows:
 
     ```properties
     deployer.<app>.kubernetes.probeCredentialsSecret=myprobesecret
@@ -460,7 +457,7 @@ To create a new secret:
 ### Using `SPRING_APPLICATION_JSON`
 
 You can use a `SPRING_APPLICATION_JSON` environment variable to set Data
-Flow server properties (including the configuration of maven repository
+Flow server properties (including the configuration of Maven repository
 settings) that are common across all of the Data Flow server
 implementations. These settings go at the server level in the container
 `env` section of a deployment YAML. The following example shows how to
@@ -491,7 +488,7 @@ Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-pr
 guide to create the secret.
 
 Once you have created the secret, you can use the `imagePullSecret`
-property to set the secret to use, as the following example shows:
+property to set the secret to use, as follows:
 
 ```properties
 deployer.<app>.kubernetes.imagePullSecret=mysecret
@@ -596,7 +593,7 @@ the container to be deployed. Currently, three styles are supported:
 
 - `shell`: Passes all application properties and command line arguments
   as environment variables. Each of the application and command line
-  argument properties is transformed into an uppercase string and `.`
+  argument properties is transformed into an uppercase string, and `.`
   characters are replaced with `_`.
 
 - `boot`: Creates an environment variable called
@@ -655,7 +652,7 @@ data:
                     entryPointStyle: entryPointStyle
 ```
 
-Replace `entryPointStye` with the desired entry point style.
+Replace `entryPointStyle` with the desired entry point style.
 
 You should choose an Entry Point Style of either `exec` or `shell`, to
 correspond to how the `ENTRYPOINT` syntax is defined in the container’s
@@ -681,15 +678,14 @@ contain `SPRING_APPLICATION_JSON`.
 
 You can configure a custom service account for application deployments
 through properties. You can use an existing service account or create a
-new one. One way to create a service account is by using `kubectl`, as
-the following example shows:
+new one. One way to create a service account is by using `kubectl`, as follows:
 
 ```bash
 kubectl create serviceaccount myserviceaccountname
 serviceaccount "myserviceaccountname" created
 ```
 
-Then you can configure individual applications as follows:
+Then you can configure individual applications, as follows:
 
 ```properties
 deployer.<app>.kubernetes.deploymentServiceAccountName=myserviceaccountname
@@ -813,8 +809,7 @@ deployer.<app>.kubernetes.deploymentLabels=myLabelName:myLabelValue
 Replace `<app>` with the name of your application, `myLabelName` with
 your label name, and `myLabelValue` with the value of your label.
 
-Additionally, you can apply multiple labels, as the following example
-shows:
+Additionally, you can apply multiple labels, as follows:
 
 ```properties
 deployer.<app>.kubernetes.deploymentLabels=myLabelName:myLabelValue,myLabelName2:myLabelValue2
@@ -822,13 +817,13 @@ deployer.<app>.kubernetes.deploymentLabels=myLabelName:myLabelValue,myLabelName2
 
 ### NodePort
 
-Applications are deployed using a `Service` type of [ClusterIP](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) which is the default Kubernetes `Service` type if not defined otherwise.
+Applications are deployed with a `Service` type of [ClusterIP](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types), which is the default Kubernetes `Service` type if not defined otherwise.
 `ClusterIP` services are only reachable from within the cluster itself.
 
 To expose the deployed application to be available externally, one option is to use `NodePort`.
 See the [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) documentation for more information.
 
-The following example shows how you can individually configure applications using Kubernetes assigned ports:
+The following example shows how you can individually configure applications by using Kubernetes assigned ports:
 
 ```properties
 deployer.<app>.kubernetes.createNodePort=true
@@ -836,7 +831,7 @@ deployer.<app>.kubernetes.createNodePort=true
 
 Replace `<app>` with the name of your application.
 
-Additionally, you can define the port to use for the `NodePort` `Service` as shown below:
+Additionally, you can define the port to use for the `NodePort` `Service`, as follows:
 
 ```properties
 deployer.<app>.kubernetes.createNodePort=31101
@@ -846,11 +841,11 @@ Replace `<app>` with the name of your application and the value of `31101` with 
 
 <!--NOTE-->
 
-When defining the port manually, the port must not already be in use and within the defined `NodePort` range.
+When defining the port manually, the port must not already be in use and be within the defined `NodePort` range.
 Per [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) the default port range is 30000-32767.
 
 <!--END_NOTE-->
 
 ## Monitoring
 
-To learn more about the monitoring experience in Data Flow using Prometheus running on Kubernetes, please refer to the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/#kubernetes) or [Task Monitoring](%currentPath%/feature-guides/batch/monitoring/#kubernetes) guides.
+To learn more about the monitoring experience in Data Flow with Prometheus running on Kubernetes, see the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring/#kubernetes) or [Task Monitoring](%currentPath%/feature-guides/batch/monitoring/#kubernetes) guides.

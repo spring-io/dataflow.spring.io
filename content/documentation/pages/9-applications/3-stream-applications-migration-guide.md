@@ -12,28 +12,28 @@ summary: false
 
 # Migrating from 2.x to 3.x Stream Applications
 
-Recently the Spring team [redesigned the pre-packaged stream applications](https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0).
+Recently, the Spring team [redesigned the pre-packaged stream applications](https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0).
 These will be released in bulk using calendar-based release names, such as `2020.0.0-M2`.
-We also refer to the `3.x` (+) version, since stream applications included in these releases start with version `3.0.0`.
-Along with many important enhancements, we introduced some changes that are incompatible with the `2.x` line. This means that existing Spring Cloud Data Flow stream definitions based on `2.x` applications will not translate directly to `3.x` applications. The following is a summary of changes that you need to be aware of when migrating `2.x` Spring Cloud Stream applications to `3.x`:
+We also refer to the `3.x`(+) version, since stream applications included in these releases start with version `3.0.0`.
+Along with many important enhancements, we introduced some changes that are incompatible with the `2.x` line. This means that existing Spring Cloud Data Flow stream definitions based on `2.x` applications do not translate directly to `3.x` applications. The following is a summary of changes that you need to be aware of when migrating `2.x` Spring Cloud Stream applications to `3.x`:
 
-- Some applications have been renamed
-- In some cases, applications have been retired, replaced with equivalent functionality, or combined into a single application
-- Property prefixes have changed
-- In some cases, properties have been removed or added
-- All pre-built sources now support function composition
+- Some applications have been renamed.
+- In some cases, applications have been retired, replaced with equivalent functionality, or combined with other applications.
+- Property prefixes have changed.
+- In some cases, properties have been removed or added.
+- All pre-built sources now support function composition.
 
 <!--CAUTTION-->
 
 We do not support pipelines that mix `2.x` and `3.x` applications.
-They use different versions of the Spring Cloud Stream binder, which has been known to cause problems in some cases. If you have an existing data pipeline that requires an app that is not available in `3.x`, we recommend that you do not upgrade.
+They use different versions of the Spring Cloud Stream binder. Trying to combine them has been known to cause problems in some cases. If you have an existing data pipeline that requires an app that is not available in `3.x`, we recommend that you do not upgrade.
 
 <!--END_CAUTION-->
 
 ## Application changes
 
 The following applications have been retired, replaced, or renamed in the `3.x` line.
-`None` in the replacement column indicates that the application will be discontinued unless there is sufficient interest in the community.
+`None` in the replacement column indicates that the application will be discontinued, unless there is sufficient interest in the community.
 
 | Retired                               | Replacement                                                                                                                                               |
 | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -67,7 +67,7 @@ The following applications have been retired, replaced, or renamed in the `3.x` 
 
 ## Property names
 
-This following table provides a detailed comparison of property keys used for the `2.x` applications which have been ported to the `3.x` line, using the same name. For some of these apps, all the properties are identical, but have been included here for reference.
+The following table provides a detailed comparison of property keys used for the `2.x` applications that have been ported to the `3.x` line with the same name. For some of these apps, all the properties are identical but have been included here for reference.
 
 | Sources                                                                             | Processors                                                                                      | Sinks                                                                   |
 | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -91,4 +91,4 @@ This following table provides a detailed comparison of property keys used for th
 ## Function Composition
 
 The `3.x` stream applications are function-based, meaning that most of the logic is provided in a dependent artifact that exposes a functional interface.
-This design lends itself to [function-composition](https://github.com/spring-cloud/stream-applications/blob/master/docs/FunctionComposition.adoc). In fact, all of the pre-packaged sources include the necessary dependencies to support composition with useful functions to perform filtering, transformation, header enrichment, and the creation of task launch requests within the source app itself. Some examples are shown in the [time-source tests](https://github.com/spring-cloud/stream-applications/blob/master/applications/source/time-source/src/test/java/org/springframework/cloud/stream/app/source/time/TimeSourceTests.java), and the [sftp-source tests](https://github.com/spring-cloud/stream-applications/blob/master/applications/source/sftp-source/src/test/java/org/springframework/cloud/stream/app/source/sftp/SftpSourceTests.java).
+This design lends itself to [function composition](https://github.com/spring-cloud/stream-applications/blob/master/docs/FunctionComposition.adoc). In fact, all of the pre-packaged sources include the necessary dependencies to support composition of functions to perform filtering, transformation, header enrichment, and the creation of task launch requests within the source app itself. Some examples are shown in the [time source tests](https://github.com/spring-cloud/stream-applications/blob/master/applications/source/time-source/src/test/java/org/springframework/cloud/stream/app/source/time/TimeSourceTests.java), and the [sftp source tests](https://github.com/spring-cloud/stream-applications/blob/master/applications/source/sftp-source/src/test/java/org/springframework/cloud/stream/app/source/sftp/SftpSourceTests.java).

@@ -11,6 +11,4 @@ The applications composed in the event streaming pipeline can undergo changes au
 
 Spring Cloud Data Flow provides native support for continuous deployment of event streaming applications. The application registry in Spring Cloud Data Flow lets you register multiple versions for the same event streaming application. With that, when updating an event streaming pipeline running in production, you have the option to switch to a specific version of the application(s) or change any of the configuration properties of the application(s) composed in the event streaming pipeline.
 
-In this section, you will see how you can:
-
-- Continuous deliver streaming applications with some examples
+In this section, we cover how you can continuously deliver streaming applications by showing some examples.

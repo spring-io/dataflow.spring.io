@@ -11,7 +11,7 @@ A named destination corresponds to a specific destination name in the middleware
 In keeping with the Unix analogy, you can redirect standard input and output using the less-than (`<`) and greater-than (`>`) characters.
 To specify the name of the destination, prefix it with a colon (`:`). For example, the following stream has the destination name in the `source` position:
 
-```bash
+```
 stream create --definition ":myDestination > log" --name ingest_from_broker --deploy
 ```
 
@@ -19,14 +19,14 @@ The following stream receives messages from the destination called `myDestinatio
 
 The following stream has the destination name in the `sink` position:
 
-```bash
+```
 stream create --definition "http > :myDestination" --name ingest_to_broker --deploy
 ```
 
 You can also connect two different destinations (in the source and sink positions) at the broker in a stream, as shown in the following example:
 
-```bash
+```
 stream create --definition ":destination1 > :destination2" --name bridge_destinations --deploy
 ```
 
-In the preceding stream, both the destinations (`destination1` and `destination2`) are located in the broker. The messages flow from the source destination to the sink destination over a `bridge` application that connects them.
+In the preceding stream, both destinations (`destination1` and `destination2`) are located in the broker. The messages flow from the source destination to the sink destination over a `bridge` application that connects them.

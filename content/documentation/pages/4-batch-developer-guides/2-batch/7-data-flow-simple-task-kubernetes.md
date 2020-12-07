@@ -12,7 +12,7 @@ We deploy the sample [billsetuptask](%currentPath%/batch-developer-guides/batch/
 
 ## Setting up SCDF the Kubernetes Cluster
 
-For this, we need a running [Kubernetes cluster with Spring Cloud Data Flow deployed](%currentPath%/installation/kubernetes/). For this example, we use `minikube`.
+For this guide, we need a running [Kubernetes cluster with Spring Cloud Data Flow deployed](%currentPath%/installation/kubernetes/). For this example, we use `minikube`.
 
 ### Verifying that Spring Cloud Data Flow is Running
 

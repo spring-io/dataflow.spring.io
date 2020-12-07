@@ -11,10 +11,10 @@ For example, in a time-windowed average calculation example, it is important tha
 Alternatively, you may want to cache some data related to the incoming events so that it can be enriched without making a remote procedure call to retrieve the related data.
 
 Partitioning support allows for content-based routing of payloads to the downstream application instances in a streaming data pipeline.
-This is especially useful when you want to have your downstream application instances processing data from specific partitions from the upstream application.
+This is especially useful when you want to have your downstream application instances process data from specific partitions from the upstream application.
 For instance, if a processor application in the data pipeline is performing operations based on a unique identifier from the payload (such as `customerId`), the stream can be partitioned based on that unique identity.
 
-### Stream partition properties
+### Stream Partition Properties
 
 You can pass the following partition properties during stream deployment to declaratively configure a partitioning strategy to route each message to a specific consumer instance.
 
@@ -22,7 +22,7 @@ The following list shows variations of deploying partitioned streams:
 
 - `app.[app/label name].producer.partitionKeyExtractorClass`: The class name of a `PartitionKeyExtractorStrategy` (default: null).
 
-- `app.[app/label name].producer.partitionKeyExpression`: A SpEL expression that is evaluated against the message to determine the partition key. It applies only if `partitionKeyExtractorClass` is null. If both are null, the application is not partitioned (default: null).
+- `app.[app/label name].producer.partitionKeyExpression`: A SpEL (Spring Expression Language) expression that is evaluated against the message to determine the partition key. It applies only if `partitionKeyExtractorClass` is null. If both are null, the application is not partitioned (default: null).
 
 - `app.[app/label name].producer.partitionSelectorClass`: The class name of a `PartitionSelectorStrategy` (default: null).
 
@@ -34,7 +34,7 @@ If neither a `partitionSelectorClass` nor a `partitionSelectorExpression` is pre
 
 ### Deploying a Stream with Partitioned Downstream Applications
 
-You can set up Spring Cloud Data Flow and Spring Cloud Skipper servers by using the [installation guide](%currentPath%/installation/).
+You can set up the Spring Cloud Data Flow and Spring Cloud Skipper servers by using the [installation guide](%currentPath%/installation/).
 
 We use the out-of-the-box `http`, `splitter`, and `log` applications in this example.
 
@@ -65,7 +65,7 @@ To create this stream:
 1. Use the handles to connect them together.
 
    Notice the equivalent Data Flow DSL definition in the top text panel.
-   You can also enter the Stream DSL text as follows:
+   You can also enter the Stream DSL text, as follows:
 
    ```
    words=http --server.port=9001 | splitter --expression=payload.split(' ') | log
@@ -75,7 +75,7 @@ To create this stream:
 
 ### Deploy the Stream
 
-Click on the `ellipsis icon` on the left of the stream row to deploy the stream.
+Click on the ellipsis icon on the left of the stream row to deploy the stream.
 Doing so takes you to the Deploy Stream page, where you can enter additional deployment properties.
 
 For this stream, we need to specify the following:
@@ -95,7 +95,7 @@ From the Dashboard's stream deployment page, you can enter:
 - `producer.partitionKeyExpression`: Set it to `payload` for the `splitter` application.
 - `count`: Set it to `3` for the `log` application.
 
-Then click `DEPLOY STREAM`, as the following image shows:
+Then click **DEPLOY STREAM**, as the following image shows:
 
 ![Deploy stream](images/SCDF-deploy-partitioned-stream.png)
 
@@ -113,7 +113,7 @@ You can use the following `curl` command to post some data:
 curl -X POST http://localhost:9001 -H "Content-Type: text/plain" -d "How much wood would a woodchuck chuck if a woodchuck could chuck wood"
 ```
 
-To access the `log` application instances' log file, click `Runtime` and click the `log` application name (`words.log-v1`) to see the stdout log files location of each `log` application instance.
+To access the log file for the `log` application instances, click `Runtime` and click the `log` application name (`words.log-v1`) to see the stdout log files location of each `log` application instance.
 
 You can tail the stdout file of each `log` application instance.
 

@@ -13,8 +13,8 @@ In the previous sections, we used two applications:
 
 Previously, we ran the `billsetuptask` application and then the `billrun` application in sequence manually.
 This certainly works for the small case where we want to run two applications back to back and where the first app runs in a few seconds.
-But what about the cases where there are five, ten, twenty or even more applications that need to be run in a sequence and the run time of some the applications may be hours?  
-Also, what do we do in cases where one of the apps returns a non zero exit code?
+But what about the cases where there are five, ten, twenty or even more applications that need to be run in a sequence and the run time of some applications may be hours?  
+Also, what do we do in cases where one of the apps returns a non-zero exit code (that is, it ends with an error of some kind)?
 Spring Cloud Data Flow provides a solution for this issue through the use of composed tasks.  
 A composed task is a directed graph where each node of the graph is a task application.
 For the two applications (`billsetuptask` and `billrun`) that we have used in the previous examples, the graph would look something like this:
@@ -24,7 +24,7 @@ In this section, we show how to create a composed task by using Spring Cloud Dat
 
 ## Prerequisites
 
-Before you start on this sample, you need to do two things:
+Before you start on this sample, you need to:
 
 1. Install Spring Cloud Data Flow.
 1. Install the Spring Cloud Task project that we use in this project.
@@ -39,20 +39,20 @@ You must you have installed Spring Cloud Data Flow to one of the following platf
 
 ### Registering the Billing Applications
 
-For this guide, we need for you to have registered the [billsetuptask](%currentPath%/batch-developer-guides/batch/data-flow-simple-task) and the [billrun](%currentPath%/batch-developer-guides/batch/data-flow-spring-batch) applications in Spring Cloud Data Flow.
+For this guide, you need to have registered the [billsetuptask](%currentPath%/batch-developer-guides/batch/data-flow-simple-task) and the [billrun](%currentPath%/batch-developer-guides/batch/data-flow-spring-batch) applications in Spring Cloud Data Flow.
 
 ### Registering the Composed Task Runner
 
 To register the composed task runner:
 
-1. If you have not already done so, import the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), which will give you the `composed-task-runner` application.
+1. If you have not already done so, import the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), which give you the `composed-task-runner` application.
    To do so, click **Apps** in the left navigation bar
 
 1. Select **Add Applications(s)**.
 
 1. When the Add Application(s) page appears, select **Bulk import application coordinates from an HTTP URI location**.
 
-1. In the **URI** field, enter either (based on the resource from which you will be pulling your apps):
+1. In the **URI** field, enter (based on the resource from which you will be pulling your apps) either one of:
 
 - Maven: `%task-app-maven-version%`
 - Docker: `%task-app-docker-version%`
@@ -63,9 +63,9 @@ To register the composed task runner:
 
 To create a composed task:
 
-1. Select `Tasks` from the left navigation bar.
+1. Select **Tasks** from the left navigation bar.
 
-1. Select `CREATE TASK`. The task creation view, shown in the following image, appears:
+1. Select **CREATE TASK**. The task creation view appears:
    ![Create Compose Task](images/SCDF-create-ctr.png)
    This displays a graphical editor that you can use to compose tasks.
    The initial canvas contains `START` and `END` nodes. To the left of the canvas, you can see the available task applications, including the `billsetuptask` and `billrun` applications.
@@ -84,14 +84,14 @@ To create a composed task:
 
 ![Bill Run Composed Task](images/SCDF-create-ctr-definition.png)
 
-1. Click `CREATE TASK`.
+1. Click **CREATE TASK**.
    This prompts you to name the task definition, which is the logical name for the runtime configuration we want to deploy.
    In this case, we use the same name as the task application, which is `ct-statement`.
-   The task confirmation view, shown in the following image, appears:
+   The task confirmation view appears:
    ![Confirm create task](images/SCDF-composed-task-confirmation.png)
 
-1.Press `Create the task`.
-Doing so displays the main `Tasks` view.
+1. Click **Create the task**.
+Doing so displays the main **Tasks** view.
 
 <!--TIP-->
 
@@ -111,7 +111,7 @@ We see that the following three task definitions were created when we created th
 - `ct-statement-billsetuptask`: This definition represents the `billsetuptask` app that is run.
 - `ct-statement-billrun`: This definition represents the `billrun` app that is to be run.
 
-Now we can launch "ct-statement" by clicking the drop down on the left side of the "ct-statement" row and select the `Launch` option , as the following image shows:
+Now we can launch `ct-statement` by clicking the drop down on the left side of the `ct-statement` row and select the **Launch** option, as follows:
 ![Launch the task](images/SCDF-launch-composed-task.png)
 Doing so takes you to a form where you can add command line arguments and deployment parameters, but we do not need any for this composed task.
 Click the **LAUNCH THE TASK** button.
@@ -137,8 +137,8 @@ As shown earlier, a composed task creates a definition for each application in t
 To delete all the definitions that were created as a part of the composed task, we can delete the composed task runner definition.
 To do so:
 
-1. Clicking the drop down on the left side of the "ct-statement" row and select the `Destroy` option as shown below:
+1. Click the drop down on the left side of the `ct-statement` row and select the **Destroy** option:
 
    ![Destroy Composed Task](images/SCDF-destroy-ctr.png)
 
-2. A dialog will appear asking you to `Confirm Destroy Task`. Click the **_DESTROY THE TASK_** button. Doing so deletes the definitions that comprised the "ct-statement" composed task.
+2. A dialog asks you to `Confirm Destroy Task`. Click the **_DESTROY THE TASK_** button. Doing so deletes the definitions that comprised the `ct-statement` composed task.

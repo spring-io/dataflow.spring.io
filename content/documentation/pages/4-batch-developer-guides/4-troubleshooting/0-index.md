@@ -7,4 +7,4 @@ summary: true
 
 # Troubleshooting
 
-Various tips and tricks to help you troubleshoot issues when things so south.
+This section covers various tips and tricks to help you troubleshoot issues when things go wrong.

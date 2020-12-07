@@ -7,4 +7,4 @@ summary: true
 
 # RabbitMQ
 
-RabbitMQ use-cases are listed here.
+This section describes RabbitMQ use cases.

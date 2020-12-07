@@ -5,4 +5,4 @@ description: 'Using Spring Cloud Data Flow with Spring Batch'
 summary: true
 ---
 
-This section provides recipes specific to using Spring Batch with Spring Cloud Data Flow:
+This section provides recipes specific to using Spring Batch with Spring Cloud Data Flow.

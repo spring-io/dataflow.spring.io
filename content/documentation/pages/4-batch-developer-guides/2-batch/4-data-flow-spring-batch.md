@@ -10,7 +10,7 @@ In this section, we demonstrate how to register a Spring Batch application with 
 
 ## Prerequisites
 
-Before you start on this sample, you need to do two things:
+Before you start on this sample, you need to:
 
 1. Install Spring Cloud Data Flow.
 1. Install the Spring Cloud Task project that we use in this project.
@@ -34,11 +34,11 @@ We register the batch application, create a simple task definition for the batch
 The Data Flow server provides a comprehensive [API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide) to perform the necessary steps.
 The Data Flow server includes a Data Flow Dashboard web UI client. In addition, you can use a [Data Flow Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) command line interface (CLI), which is available as a separate download.
 The CLI and the UI both expose the complete API functionality.
-Which one to use is a matter of preference, but the UI is quite nice, so we feature it here.
+Which one to use is a matter of preference, but the UI is nice, so we feature it here.
 
 ### The Data Flow Dashboard
 
-Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
+Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. See the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
 
 ### Application Registration
 
@@ -54,8 +54,11 @@ The URI conforms to a [schema](https://docs.spring.io/spring-cloud-dataflow/docs
 Data Flow defines some logical application types, which indicate its role as a streaming component, a task, or a standalone application.
 In this case, our Spring Batch application is registered as a `task` type.
 
-[[tip]]
-|For a Spring Batch Application to be launched by Data Flow, it must also be a Spring Cloud Task application. This is done by adding the `@EnableTask` to a configuration class or to the application as shown in our [sample](%currentPath%/batch-developer-guides/batch/spring-batch).
+<!-- TIP -->
+
+For a Spring Batch Application to be launched by Data Flow, it must also be a Spring Cloud Task application. This is done by adding the `@EnableTask` to a configuration class or to the application as shown in our [sample](%currentPath%/batch-developer-guides/batch/spring-batch).
+
+<!-- END_TIP -->
 
 #### Registering an Application
 
@@ -71,13 +74,13 @@ maven://io.spring:billrun:0.0.1-SNAPSHOT
 ```
 
 The `maven:` protocol specifies a Maven artifact, which is resolved by using the remote and local Maven repositories configured for the Data Flow Server.
-To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
+To register an application, select **ADD APPLICATION(S)**. Once the **Add Application(s)** page appears select **Register one or more applications**. Fill in the form and click **IMPORT APPLICATION(S)**, as follows:
 
 ![Register the billrun batch app](images/SCDF-register-batch-app-maven.png)
 
 <!--CloudFoundry-->
 
-Spring Cloud Data Flow supports Maven, HTTP, and Docker resources for local deployments. For this example, we will use an HTTP (HTTPS, actually) resource. The URI for an HTTPS resource is of the form `https://<web-path>/<artifactName>-<version>.jar`. Spring Cloud Data Flow then pulls the artifact from the HTTPS URI.
+Spring Cloud Data Flow supports Maven, HTTP, and Docker resources for local deployments. For this example, we use an HTTP (HTTPS, actually) resource. The URI for an HTTPS resource is of the form `https://<web-path>/<artifactName>-<version>.jar`. Spring Cloud Data Flow then pulls the artifact from the HTTPS URI.
 
 The HTTPS URI for the sample app is as follows:
 
@@ -85,7 +88,7 @@ The HTTPS URI for the sample app is as follows:
 maven://io.spring:billrun:0.0.1-SNAPSHOT
 ```
 
-To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
+To register an application, select **ADD APPLICATION(S)**. Once the **Add Application(s)** page appears select **Register one or more applications**. Fill in the form and click **IMPORT APPLICATION(S)**, as follows:
 
 ![Register the billrun batch app](images/SCDF-register-batch-app-http.png)
 
@@ -100,7 +103,7 @@ The Docker URI for the sample app is as follows:
 docker:springcloudtask/billrun:0.0.1-SNAPSHOT
 ```
 
-To register an application, select `ADD APPLICATION(S)`. Once the **Add Application(s)** page appears select `Register one or more applications`. Fill in the form, as shown in the following image, and click `IMPORT APPLICATION(S)`.
+To register an application, select **ADD APPLICATION(S)**. Once the **Add Application(s)** page appears select **Register one or more applications**. Fill in the form and click **IMPORT APPLICATION(S)**, as follows:
 
 ![Register the billrun batch app](images/SCDF-register-batch-app-docker.png)
 
@@ -110,9 +113,9 @@ To register an application, select `ADD APPLICATION(S)`. Once the **Add Applicat
 
 To create the task definition:
 
-1. Select `Tasks` from the left navigation bar.
+1. Select **Tasks** from the left navigation bar.
 
-1. Select `CREATE TASK`.
+1. Select **CREATE TASK**.
    Doing so displays a graphical editor that we can use to compose tasks.
    The initial canvas contains `START` and `END` nodes. To the left of the canvas, we see the available task applications, including `billrun`, which we just registered.
 
@@ -122,14 +125,14 @@ To create the task definition:
    The following image shows the UI for creating a task:
    ![Create the billrun task definition](images/SCDF-create-batch.png)
 
-1. Click `CREATE TASK`.
+1. Click **CREATE TASK**.
    Doing so prompts you to name the task definition, which is the logical name for the runtime configuration we want to deploy.
    In this case, we use the same name as the task application, which is `billrun`.
-   Now we see the confirmation view, as the following image shows:
+   Now we see the confirmation view, as follows:
    ![Confirm create task](images/SCDF-confirm-create-batch.png)
 
-1. Click `CREATE THE TASK`.
-   Doing so displays the main `Tasks` view.
+1. Click **CREATE THE TASK**.
+   Doing so displays the main **Tasks** view.
 
 ### Launching the Task
 
@@ -156,7 +159,7 @@ To view the job executions, click the **Job executions** tab on the left hand si
 
 ![Job executions](images/SCDF-batch-jobs-execution.png)
 
-Now that we can view our job executions, we can dig in to the detail for each job execution. You can do so by clicking the `Execution ID` link on our job execution, which shows the details of that job execution, as the following image shows:
+Now that we can view our job executions, we can dig in to the detail for each job execution. You can do so by clicking the **Execution ID** link on our job execution, which shows the details of that job execution, as the following image shows:
 
 ![Job execution detail](images/SCDF-batch-execution-detail.png)
 

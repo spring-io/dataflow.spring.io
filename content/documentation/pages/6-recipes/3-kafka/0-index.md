@@ -7,4 +7,4 @@ summary: true
 
 # Apache Kafka
 
-Apache Kafka use-cases are listed here.
+This section describes Apache Kafka use cases.

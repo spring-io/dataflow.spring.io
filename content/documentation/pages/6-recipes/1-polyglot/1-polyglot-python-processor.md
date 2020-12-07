@@ -9,7 +9,7 @@ description: 'Python Application as a Data Flow Stream Processor'
 The example code in this section shows how to run a Python script as a processor within a Data Flow Stream.
 
 In this guide, we package the Python script as a Docker image and deploy it to Kubernetes. We use Apache Kafka as the messaging middleware.
-We register the docker image in Data Flow as an application of the type `Processor`.
+We register the Docker image in Data Flow as an application of type `Processor`.
 
 The guide demonstrates a text-processing streaming data pipeline. It receives text-messages over HTTP, delegates the text processing to a Python script registered as a Data Flow processor, and prints the result to the logs. The Python script reverses the input text if the `reversestring` property is set to `true`. Otherwise, the resulting message remains unchanged.
 
@@ -86,7 +86,7 @@ We can now build the Docker image and push it to the DockerHub registry. To do s
    cd ./spring-cloud-dataflow-samples/dataflow-website/recipes/polyglot/polyglot-python-processor/
    ```
 
-1. From within the `polyglot-python-processor/`, build and push the polyglot-python-processor Docker image to DockerHub:
+1. From within the `polyglot-python-processor/`, build and push the `polyglot-python-processor` Docker image to DockerHub:
 
    ```bash
    docker build -t springcloud/polyglot-python-processor:0.1 .
@@ -107,7 +107,7 @@ To deploy the processor:
 
 1. Follow the [installation instructions](%currentPath%/installation/kubernetes/) to set up Data Flow on Kubernetes.
 
-1. Retrieve the Data Flow url from Minikube by running the following command:
+1. Retrieve the Data Flow URL from Minikube by running the following command:
 
    ```bash
    minikube service --url scdf-server
@@ -131,15 +131,15 @@ To deploy the processor:
    app register --type processor --name python-processor --uri docker://springcloud/polyglot-python-processor:0.1
    ```
 
-   The `docker://springcloud/polyglot-python-processor:0.1` is resolved from the [DockerHub repository](https://hub.docker.com/r/springcloud/polyglot-python-processor).
+   `docker://springcloud/polyglot-python-processor:0.1` is resolved from the [DockerHub repository](https://hub.docker.com/r/springcloud/polyglot-python-processor).
 
-1. Create Data Flow `text-reversal` Stream by running the following command:
+1. Create the Data Flow `text-reversal` Stream by running the following command:
 
    ```
    stream create --name text-reversal --definition "http --server.port=32123 | python-processor --reversestring=true  | log"
    ```
 
-   The `http` source listens for incoming http messages on port `32123` and forwards them to the `python-processor`. The processor is configured to reverse the input messages (if `reversestring=true`) and sends them downstream to the `log` sink.
+   The `http` source listens for incoming HTTP messages on port `32123` and forwards them to the `python-processor`. The processor is configured to reverse the input messages (if `reversestring=true`) and sends them downstream to the `log` sink.
 
 1. Deploy the stream by using the `kubernetes.createNodePort` property to expose the HTTP port to the local host by running the following command:
 
@@ -147,20 +147,20 @@ To deploy the processor:
    stream deploy text-reversal --properties "deployer.http.kubernetes.createNodePort=32123"
    ```
 
-1. Retrieve the http-source url from minikube to publish the test data by running the following command:
+1. Retrieve the `http-source` URL from minikube to publish the test data by running the following command:
 
    ```bash
    minikube service --url text-reversal-http-v1
    http://192.168.99.104:32123
    ```
 
-1. Post a sample message against the http-source application by running the following command:
+1. Post a sample message against the `http-source` application by running the following command:
 
    ```
    http post --target http://192.168.99.104:32123 --data "hello world"
    ```
 
-   If the post is successful you should see a confirmation message like this:
+   If the post is successful, you should see a confirmation message like this:
 
    ```
    > POST (text/plain) http://192.168.99.104:32123 hello world

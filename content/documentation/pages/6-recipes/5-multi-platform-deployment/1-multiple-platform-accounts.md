@@ -6,47 +6,45 @@ description: 'A walk-through of multiple platform requirements and the configura
 
 # Role of Multiple Platform Deployments
 
-The goal of this recipe is to unpack the scenarios when multiple platform deployments become a necessity. Let's start
-with the use-cases and then dive into the details of how that can be set up in Spring Cloud Data Flow.
+The goal of this recipe is to unpack the scenarios when multiple platform deployments become a necessity. We start
+with the use cases and then dive into the details of how that can be set up in Spring Cloud Data Flow.
 
 ## Use Cases
 
-- For certain use-cases, there is a desire to isolate the deployment of streaming and batch data pipelines to
-  a unique environment. For instance, you may want to run a predictive model training routine that requires high memory. Where
-  compute is usually defined with specific boundaries, and only the particular workloads are allowed to run on them.
-  In other words, you don't want the regular applications to use the high-compute resource pool and saturate its availability.
-  This is particularly important when you're running machines on a pay-by-use basis, to avoid premium costs.
+- For certain use-cases, you might want to isolate the deployment of streaming and batch data pipelines to
+  a unique environment. For instance, you may want to run a predictive model training routine that requires high memory where
+  compute is usually defined with specific boundaries and only particular workloads are allowed to run on them.
+  In other words, you do not want the regular applications to use the high-compute resource pool and saturate its availability.
+  This is particularly important when you run machines on a pay-per-use basis to avoid premium costs.
 
-- Similar to the previous use-case, there might be a need to run the applications closer to where the message broker is
-  (i.e., run the business logic close to where the data is). Doing so can avoid the I/O latency to meet the high throughput
+- Similar to the previous use-case, you might need to run the applications closer to where the message broker is
+  (that is, run the business logic close to where the data is). Doing so can avoid the I/O latency to meet high throughput
   and low latency service-level agreements (SLAs). Once again, having to orchestrate a deployment pattern where the streaming
   applications can be targeted to deploy on the same VMs where message broker is running could help with the SLAs.
 
-- There's evidence of users using the "single" Spring Cloud Data Flow instance to orchestrate a deployment
+- Users sometimes use the "single" Spring Cloud Data Flow instance to orchestrate a deployment
   model in which the streaming and batch data pipelines are deployed and launched to multiple environments. This
   deployment pattern is primarily curated in order to organize the deployment topologies with well-defined boundaries, where
   a single SCDF instance can centrally orchestrate, monitor, and manage the data pipelines.
 
-Above scenarios require Spring Cloud Data Flow to deploy streaming and batch applications with flexible platform
-configurations. Thankfully, though, starting with v2.0, Spring Cloud Data Flow supports the multi-platform deployment
-support. With that, users can declaratively configure the desired number of platforms accounts upfront, and use the
+The preceding scenarios require Spring Cloud Data Flow to deploy streaming and batch applications with flexible platform
+configurations. Thankfully, though, starting with v2.0, Spring Cloud Data Flow supports multi-platform deployment. With that, users can declaratively configure the desired number of platforms accounts upfront and use the
 defined accounts at the deployment time to distinguish the boundaries.
 
-Now that we have the understanding of the use-case requirements, let's review the steps to configure multiple platform
+Now that understand the use-case requirements, we can review the steps to configure multiple platform
 accounts in Kubernetes and Cloud Foundry.
 
-## Configurations
+## Configuration
+
+This section discusses configuration for Kubernetes and Cloud Foundry.
 
 ### Kubernetes
 
-Let's suppose you'd want to deploy a stream with 3 applications to the `kafka-namespace`. Likewise, if you'd want to launch
-a batch-job to the `highmemory-namespace`, the following configurations can be defined in the SCDF's deployment files.
+Suppose you want to deploy a stream with three applications to the `kafka-namespace`. Likewise, if you want to launch
+a batch-job to the `highmemory-namespace`, you can define the configuration in the SCDF deployment files.
 
-Since the streaming data pipelines are managed through Skipper, you'd change the `skipper-config-kafka.yaml` with the
-following.
-
-[[note]]
-| If RabbitMQ is the broker, you'd have to change `skipper-config-rabbit.yaml` instead.
+Since the streaming data pipelines are managed through Skipper, you can change the `skipper-config-kafka.yaml` with the
+following:
 
 ```yaml
 apiVersion: v1
@@ -89,11 +87,21 @@ data:
         validationQuery: "SELECT 1"
 ```
 
-[[note]]
-| Notice that the inclusion of a platform account with the name `kafkazone`. Also, the default memory for the deployed
-| pod is set to 2GB along with readiness and liveness probe customizations.
+<!-- NOTE -->
 
-For batch data pipelines, however, you'd have to change the configurations in `server-config.yaml` as follows.
+If RabbitMQ is the broker, you'd have to change `skipper-config-rabbit.yaml` instead.
+
+<!-- END_NOTE -->
+
+
+<!-- NOTE -->
+
+Notice that the inclusion of a platform account with the name `kafkazone`. Also, the default memory for the deployed
+pod is set to 2GB along with readiness and liveness probe customizations.
+
+<!-- END_NOTE -->
+
+For batch data pipelines, however, you must change the configurations in `server-config.yaml`, as follows:
 
 ```yaml
 apiVersion: v1
@@ -140,13 +148,14 @@ data:
         validationQuery: "SELECT 1"
 ```
 
-[[note]]
-| Notice that the inclusion of a platform account with the name `highmemory`. Also, the default memory for the deployed
-| pod is set to 4GB.
+<!-- NOTE -->
 
-With these configurations, when deploying a stream from SCDF, you will have the option to select the platform.
+Notice that the inclusion of a platform account with the name `highmemory`. Also, the default memory for the deployed
+pod is set to 4GB.
 
-List the available platforms.
+<!-- END_NOTE -->
+
+With these configurations, when you deploy a stream from SCDF, you have the option to select the platform. To do so, you can list the available platforms and then choose one:
 
 ```bash
 dataflow:>stream platform-list
@@ -173,7 +182,7 @@ dataflow:>stream create foo --definition "cardata | predict | cassandra"
 Created new stream 'foo'
 ```
 
-Deploy a stream.
+Deploy the stream.
 
 ```bash
 dataflow:>stream deploy --name foo --platformName kafkazone
@@ -194,18 +203,19 @@ foo-cardata-v1-6cdc98fbd-cmrr2      1/1     Running   0          63s
 foo-predict-v1-758dc44575-tcdkd     1/1     Running   0          63s
 ```
 
-Alternatively, the platform dropdown in the SCDF Dashboard can be used to make the selection to create and launch Tasks.
+Alternatively, you can use the platform dropdown in the SCDF Dashboard to create and launch tasks.
+The following image shows how to launch a task:
 
 ![Launch against a platform](images/Launch_Task_Against_MemoryPool.png)
 
 ### Cloud Foundry
 
-For the same use-case requirement, if you'd want to deploy a stream with 3 applications to a ORG/Space where Kafka service
-is running, and likewise a batch-job to a ORG/Space with more compute power, the configurations in SCDF for Cloud Foundry
-could be as follows.
+For the same use case requirement, if you want to deploy a stream with three applications to an org and space where a Kafka service
+is running and, likewise, a batch-job to a org and space with more compute power, the configurations in SCDF for Cloud Foundry
+could be as shown in the next listing.
 
-Since the streaming data pipelines are managed through Skipper, you'd change Skipper's `manifest.yml` to include Kafka
-ORG/space connection credentials.
+Since the streaming data pipelines are managed through Skipper, you can change Skipper's `manifest.yml` to include Kafka
+org and space connection credentials.
 
 ```yaml
 applications:
@@ -233,7 +243,7 @@ applications:
                            "space" : <space>,
                            "username": <email>,
                            "password" : <password>,
-                           "skipSsValidation" : false 
+                           "skipSsValidation" : false
                        }
                        "deployment" : {
                            "deleteRoutes" : false,
@@ -250,7 +260,7 @@ applications:
                          "space" : kafka-space,
                          "username": <email>,
                          "password" : <password>,
-                         "skipSsValidation" : false 
+                         "skipSsValidation" : false
                      }
                      "deployment" : {
                          "deleteRoutes" : false,
@@ -266,11 +276,14 @@ services:
   - <services>
 ```
 
-[[note]]
-| Notice that the inclusion of a platform account with the name `kafkazone`. Also, the default memory for the deployed
-| application is set to 3GB.
+<!-- NOTE -->
 
-For batch data pipelines, however, you'd have to change the configurations in SCDF's `manifest.yml` file.
+Notice that the inclusion of a platform account with a name of `kafkazone`. Also, the default memory for the deployed
+application is set to 3GB.
+
+<!-- END_NOTE -->
+
+For batch data pipelines, however, you must change the configurations in SCDF's `manifest.yml` file, as follows:
 
 ```yaml
 applications:
@@ -293,7 +306,7 @@ applications:
                     "url" : "https://repo.spring.io/libs-snapshot"
                   }
                }
-           }, 
+           },
            "spring.cloud.dataflow" : {
                 "task.platform.cloudfoundry.accounts" : {
                     "default" : {
@@ -304,7 +317,7 @@ applications:
                             "space" : <space>,
                             "username" : <email>,
                             "password" : <password>,
-                            "skipSsValidation" : true 
+                            "skipSsValidation" : true
                         }
                         "deployment" : {
                           "services" : "postgresSQL"
@@ -318,7 +331,7 @@ applications:
                             "space" : highmemory-space,
                             "username" : <email>,
                             "password" : <password>,
-                            "skipSsValidation" : true 
+                            "skipSsValidation" : true
                         }
                         "deployment" : {
                           "services" : "postgresSQL",
@@ -332,11 +345,14 @@ services:
   - postgresSQL
 ```
 
-[[note]]
-| Notice that the inclusion of a platform account with the name `highmemory`. Also, the default memory for the deployed
-| application is set to 5GB.
+<!-- NOTE -->
 
-List the available platforms.
+Notice that the inclusion of a platform account with the name `highmemory`. Also, the default memory for the deployed
+application is set to 5GB.
+
+<!-- END_NOTE -->
+
+With these configurations, when you deploy a stream from SCDF, you have the option to select the platform. To do so, you can list the available platforms and then choose one:
 
 ```bash
 dataflow:>stream platform-list
@@ -382,7 +398,7 @@ j6wQUU3-foo-cardata-v1          started           1/1         3G       1G     j6
 j6wQUU3-foo-cassandra-v1        started           1/1         3G       1G     j6wQUU3-foo-cassandra-v1.cfapps.io
 ```
 
-Alternatively, the platform dropdown in the SCDF Dashboard can be used to make the selection to create and launch Tasks.
+Alternatively, you can use the platform dropdown in the SCDF Dashboard to create and launch Tasks.
 
 ## Mixing Cloud Foundry and Kubernetes Deployments
 
@@ -507,7 +523,7 @@ foo-cardata-v1-fdalsssdf2-cmrr2     1/1     Running   0          73s
 foo-predict-v1-p1j35435-tcdkd       1/1     Running   0          73s
 ```
 
-No new applications should be deployed in Cloud Foundry, however. Let's verify.
+No new applications should be deployed in Cloud Foundry, however. We should verify that.
 
 ```bash
 cf apps

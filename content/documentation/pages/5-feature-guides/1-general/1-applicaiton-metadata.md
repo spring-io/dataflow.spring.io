@@ -31,10 +31,10 @@ The additional steps to create a label in a container image with the application
 
 ### Boot Configuration processor
 
-For your own applications, you can easily [generate your own configuration metadata file](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor) from items annotated with `@ConfigurationProperties` by using the `spring-boot-configuration-processor` library. This library includes a Java annotation processor which is invoked as your project is compiled.
+For your own applications, you can easily [generate your own configuration metadata file](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor) from items annotated with `@ConfigurationProperties` by using the `spring-boot-configuration-processor` library. This library includes a Java annotation processor, which is invoked as your project is compiled.
 The generated configuration metadata files are then stored inside the uber-jar under `META-INF/spring-configuration-metadata.json`
 
-To use the processor, include a dependency on spring-boot-configuration-processor.
+To use the processor, include the following dependency on spring-boot-configuration-processor:
 
 ```xml
 <dependency>
@@ -46,19 +46,19 @@ To use the processor, include a dependency on spring-boot-configuration-processo
 
 ### Whitelisting properties
 
-In addition to this file, Data Flow can make use of an additional file that whitelists application properties that are the most important, usually your own application's `@ConfigurationProperties`.
-Without using a whitelist, the UI and Shell will present the hundreds of [Common Application Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties) resulting in a poor user experience.
+In addition to this file, Data Flow can make use of an additional file that whiteliststhe most important application properties, usually your own application's `@ConfigurationProperties`.
+Without using a whitelist, the UI and Shell present the hundreds of [Common Application Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties), resulting in a poor user experience.
 The `whitelist` file lists the primary application properties so that the shell and the UI can display them first when presenting options through TAB completion or in drop-down boxes.
 
 To whitelist application properties, create a file named `spring-configuration-metadata-whitelist.properties` under the `META-INF` resource directory. There are two property keys that can be used inside this file. The first key is named `configuration-properties.classes`. The value is a comma separated list of fully qualified `@ConfigurationProperty` class names. The second key is `configuration-properties.names`, whose value is a comma-separated list of property names. This can contain the full name of the property, such as `server.port`, or a partial name to whitelist a category of property names, such as `spring.jmx`.
 
-The [Spring Cloud Stream application starters](https://github.com/spring-cloud-stream-app-starters) are a good place to look for examples using whitelists. The following example comes from the file sink’s `spring-configuration-metadata-whitelist.properties` file:
+The [Spring Cloud Stream application starters](https://github.com/spring-cloud-stream-app-starters) are a good place to look for examples that use whitelists. The following example comes from the file sink’s `spring-configuration-metadata-whitelist.properties` file:
 
 ```properties
 configuration-properties.classes=org.springframework.cloud.stream.app.file.sink.FileSinkProperties
 ```
 
-If we also want to add `server.port` to be white listed, it would become the following line:
+If we also want to add `server.port` to the whitelist, it would be as follows:
 
 ```properties
 configuration-properties.classes=org.springframework.cloud.stream.app.file.sink.FileSinkProperties
@@ -67,17 +67,17 @@ configuration-properties.names=server.port
 
 ### Metadata Artifacts
 
-Including the application metadata inside the uber-jar has the downside of needing to download a potentially very large uber-jar just to inspect the metadata. Creating a separate uber-jar, also called a 'companion artifact', that contains only the application metadata has several advantages which include:
+Including the application metadata inside the uber jar has the downside of needing to download a potentially very large uber jar just to inspect the metadata. Creating a separate uber jar, also called a "companion artifact", that contains only the application metadata has several advantages:
 
 - Being much smaller in size. The companion artifact is usually a few kilobytes, as opposed to megabytes for the actual application. Consequently, they are quicker to download, allowing quicker feedback when using Data Flow's UI and shell.
 
-- A smaller size is also a benefit when being used in resource constrained environments, such as Cloud Foundry, where the local disk size is often very small.
+- A smaller size also helps in resource-constrained environments, such as Cloud Foundry, where the local disk size is often very small.
 
-- For environments that do not deal with Spring Boot uber jars directly, for example container based runtimes such as Kubernetes, this is the only way to provide metadata about the properties supported by the application.
+- For environments that do not deal with Spring Boot uber jars directly (for example, container-based runtimes, such as Kubernetes), this is the only way to provide metadata about the properties supported by the application.
 
 ## Creating Metadata Artifacts
 
-You can go a step further in the process of describing the main properties that your stream or task app supports by creating a additional application metadata. Depending on the runtime, the metadata is packaged either as an additional companion jar artifact or a configuration label inside the application's container image.
+You can go a step further in the process of describing the main properties that your stream or task app supports by creating application metadata. Depending on the runtime, the metadata is packaged either as an additional companion artifact jar or as a configuration label inside the application's container image.
 
 ### Configure App Starter Metadata Maven Plugin
 
@@ -100,15 +100,15 @@ The `spring-cloud-app-starter-metadata-maven-plugin` plugin helps to prepare all
  </plugin>
 ```
 
-<!--TIP-->
+<!--CAUTION-->
 
-This plugin needs to be used in addition to the `spring-boot-configuration-processor` that creates the `spring-configuration-metadata.json` files. Be sure to configure both of them.
+You must use this plugin in addition to the `spring-boot-configuration-processor` that creates the `spring-configuration-metadata.json` files. Be sure to configure both of them.
 
-<!--END_TIP-->
+<!--END_CAUTION-->
 
 ### Metadata Jar File
 
-For the uber-jar packaged applications an additional metadata-jar is provided, that contains the Spring boot JSON file about configuration properties metadata and the whitelisting file described in the previous section. The following example shows the contents of such an artifact, for the canonical log sink:
+For the uber-jar packaged applications, an additional metadata jar is provided. It contains the Spring boot JSON file about configuration properties metadata and the whitelisting file described in the previous section. The following example shows the contents of such an artifact, for the canonical log sink:
 
 ```shell
 $ jar tvf log-sink-rabbit-1.2.1.BUILD-SNAPSHOT-metadata.jar
@@ -116,19 +116,19 @@ $ jar tvf log-sink-rabbit-1.2.1.BUILD-SNAPSHOT-metadata.jar
    174 META-INF/spring-configuration-metadata-whitelist.properties
 ```
 
-Note that the `spring-configuration-metadata.json` file is quite large. This is because it contains the concatenation of all the properties that are available at runtime to the log sink (some of them come from spring-boot-actuator.jar, some of them come from spring-boot-autoconfigure.jar, some more from spring-cloud-starter-stream-sink-log.jar, and so on). Data Flow always relies on all those properties, even when a companion artifact is not available, but here all have been merged into a single file.
+Note that the `spring-configuration-metadata.json` file is quite large. This is because it contains the concatenation of all the properties that are available to the log sink at runtime (some of them come from `spring-boot-actuator.jar`, some of them come from `spring-boot-autoconfigure.jar`, some more come from `spring-cloud-starter-stream-sink-log.jar`, and so on). Data Flow always relies on all those properties, even when a companion artifact is not available, but here all have been merged into a single file.
 
 <!--TIP-->
 
-The `spring-cloud-app-starter-metadata-maven-plugin` plugin generates ready to use application metadata.jar artifact. Just make sure the plugin is configured in your application's pom.
+The `spring-cloud-app-starter-metadata-maven-plugin` plugin generates a ready-to-use application `metadata.jar` artifact. Make sure the plugin is configured in your application's pom.
 
 <!--END_TIP-->
 
 ### Metadata Container Image Label
 
-For the container image packaged applications, the whitelisted properties are used at compile time to extract only the whitelisted configuration metadata form the `spring-configuration-metadata.json` file and insert it as a configuration label in the generated application container image. Therefore the produced container image contains the application itself as well as the whitelisted configuration metadata for it. Not need for a companion artifact.
+For applications packaged as container images, the whitelisted properties are used at compile time to extract only the whitelisted configuration metadata from the `spring-configuration-metadata.json` file and insert it as a configuration label in the generated application container image. Therefore, the produced container image contains the application itself as well as the whitelisted configuration metadata for it. There is no need for a companion artifact.
 
-At compile time the `spring-cloud-app-starter-metadata-maven-plugin` generates a `META-INF/spring-configuration-metadata-encoded.properties` file with a single property inside: `org.springframework.cloud.dataflow.spring.configuration.metadata.json`. The property value is the strigified, whitelisted subset of the configuration metadata.
+At compile time, the `spring-cloud-app-starter-metadata-maven-plugin` generates a `META-INF/spring-configuration-metadata-encoded.properties` file with a single property inside: `org.springframework.cloud.dataflow.spring.configuration.metadata.json`. The property value is the stringified, whitelisted subset of the configuration metadata. The following listing shows a typical metadata JSON file:
 
 ```properties
 org.springframework.cloud.dataflow.spring.configuration.metadata.json={\n  \"groups\": [{\n    \"name\": \"log\",\n    \"type\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\",\n    \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n  }],\n  \"properties\": [\n    {\n      \"name\": \"log.expression\",\n      \"type\": \"java.lang.String\",\n      \"description\": \"A SpEL expression (against the incoming message) to evaluate as the logged message.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\",\n      \"defaultValue\": \"payload\"\n    },\n    {\n      \"name\": \"log.level\",\n      \"type\": \"org.springframework.integration.handler.LoggingHandler$Level\",\n      \"description\": \"The level at which to log messages.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n    },\n    {\n      \"name\": \"log.name\",\n      \"type\": \"java.lang.String\",\n      \"description\": \"The name of the logger to use.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n    }\n  ],\n  \"hints\": []\n}
@@ -136,7 +136,7 @@ org.springframework.cloud.dataflow.spring.configuration.metadata.json={\n  \"gro
 
 #### Properties Maven Plugin
 
-To turn this property into a Docker label, first we need to load it as maven property using the `properties-maven-plugin` plugin:
+To turn this property into a Docker label, we first need to load it as a Maven property by using the `properties-maven-plugin` plugin:
 
 ```xml
 <plugin>
@@ -162,11 +162,11 @@ To turn this property into a Docker label, first we need to load it as maven pro
 
 #### Container Maven Plugin
 
-Then with the help of the `fabric8:docker-maven-plugin` or `jib` maven plugins insert the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property into a Docker label with the same name:
+With the help of the `fabric8:docker-maven-plugin` or `jib` Maven plugins, insert the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property into a Docker label with the same name:
 
 <!--TABS-->
 
-<!-- Jib maven plugin -->
+<!-- Jib Maven plugin -->
 
 ```xml
 <plugin>
@@ -197,7 +197,7 @@ Then with the help of the `fabric8:docker-maven-plugin` or `jib` maven plugins i
 
 ```
 
-<!-- Fabric8 maven plugin -->
+<!-- Fabric8 Maven plugin -->
 
 ```xml
 <plugin>
@@ -240,11 +240,11 @@ Then with the help of the `fabric8:docker-maven-plugin` or `jib` maven plugins i
 
 ## Using Application Metadata
 
-Once you have the application metadata generated either as a separate, companion artifact or embedded in the application container image as a configuration label, you can make the Data Flow system aware of it so that it can be used.
+Once you have the application metadata generated (either as a separate, companion artifact or embedded in the application container image as a configuration label), you can make the Data Flow system aware of it so that it can be used.
 
 ### Using Metadata Jar files
 
-When registering a single app with app register, you can use the optional `--metadata-uri` option in the shell, as follows:
+When registering a single app with the `app register` command, you can use the optional `--metadata-uri` option in the shell, as follows:
 
 ```shell
 dataflow:>app register --name log --type sink
@@ -252,9 +252,9 @@ dataflow:>app register --name log --type sink
     --metadata-uri maven://org.springframework.cloud.stream.app:log-sink:jar:metadata:2.1.0.RELEASE
 ```
 
-When registering several files by using the app import command, the file should contain a `<type>.<name>.metadata` line in addition to each `<type>.<name>` line. Strictly speaking, doing so is optional (if some apps have it but some others do not, it works), but it is best practice.
+When registering several files by using the `app import` command, the file should contain a `<type>.<name>.metadata` line in addition to each `<type>.<name>` line. Strictly speaking, doing so is optional (if some apps have it but some others do not, it works), but it is best practice.
 
-The following example shows a uber-jar app, where the metadata artifact is being hosted in a Maven repository (retrieving it through `http://` or `file://` would be equally possible).
+The following example shows an uber jar app, where the metadata artifact is being hosted in a Maven repository (retrieving it through `http://` or `file://` would be equally possible).
 
 ```properties
 source.http=maven://org.springframework.cloud.stream.app:log-sink:2.1.0.RELEASE
@@ -263,16 +263,16 @@ source.http.metadata=maven://org.springframework.cloud.stream.app:log-sink:jar:m
 
 ### Using Metadata Container Image Labels
 
-When registering a single docker app with app register, the Data Flow server will automatically check for metadata in the `org.springframework.cloud.dataflow.spring-configuration-metadata.json` configuration label:
+When registering a single Docker app with the `app register` command, the Data Flow server automatically checks for metadata in the `org.springframework.cloud.dataflow.spring-configuration-metadata.json` configuration label:
 
 ```shell
 dataflow:>app register --name log --type sink --uri container:springcloudstream/log-sink-rabbit:2.1.13.RELEASE
 ```
 
-Configurations specific for each target Container Registry provider/instance.
+Configurations are specific for each target Container Registry provider or instance.
 
-For a [private container registry](%currentPath%/installation/kubernetes/helm/#private-docker-registry) with [volume mounted secretes](%currentPath%/installation/kubernetes/helm/#volume-mounted-secretes), the registry configurations are automatically inferred from the secrets.
-In addition the `spring.cloud.dataflow.container.registry-configurations` has properties that let you explicitly configure multiple container registries like this:
+For a [private container registry](%currentPath%/installation/kubernetes/helm/#private-docker-registry) with volume-mounted secrets, the registry configurations are automatically inferred from the secrets.
+In addition, `spring.cloud.dataflow.container.registry-configurations` has properties that let you explicitly configure multiple container registries, as follows:
 
 - [Docker Hub](https://hub.docker.com/) - public Docker Hub registry
 
@@ -303,9 +303,9 @@ spring:
 
 <!--END_TABS-->
 
-This registry is used by default, if the image name doesn't provide the registry host prefix.
-The public Docker hub repositories don't require username/password authorization.
-The credentials though will be required for the private Docker Hub repositories.
+This registry is used by default. If the image name does not provide the registry host prefix.
+The public Docker hub repositories do not require username and password authorization.
+The credentials, though, are required for the private Docker Hub repositories.
 
 - [Arifactory/JFrog Container Registry](https://jfrog.com/integration/docker-registry):
 
@@ -313,7 +313,7 @@ The credentials though will be required for the private Docker Hub repositories.
 
 <!--Java properties-->
 
-```yaml
+```
 - spring.cloud.dataflow.container.registry-configurations[myjfrog].registry-host=springsource-docker-private-local.jfrog.io
 - spring.cloud.dataflow.container.registry-configurations[myjfrog].authorization-type=basicauth
 - spring.cloud.dataflow.container.registry-configurations[myjfrog].user=[artifactory user]
@@ -337,7 +337,7 @@ spring:
 
 <!--END_TABS-->
 
-Note: you need to create an [Encrypted Password](https://www.jfrog.com/confluence/display/JFROG/Centrally+Secure+Passwords) in JFrog.
+NOTE: You need to create an [Encrypted Password](https://www.jfrog.com/confluence/display/JFROG/Centrally+Secure+Passwords) in JFrog.
 
 - [Amazon Elastic Container Registry (ECR)](https://aws.amazon.com/ecr/):
 
@@ -345,7 +345,7 @@ Note: you need to create an [Encrypted Password](https://www.jfrog.com/confluenc
 
 <!--Java properties-->
 
-```yaml
+```
 - spring.cloud.dataflow.container.registry-configurations[myecr].registry-host=283191309520.dkr.ecr.us-west-1.amazonaws.com
 - spring.cloud.dataflow.container.registry-configurations[myecr].authorization-type=awsecr
 - spring.cloud.dataflow.container.registry-configurations[myecr].user=[your AWS accessKey]
@@ -374,8 +374,8 @@ spring:
 
 <!--END_TABS-->
 
-In addition to the credentials you have to provide the registry's `region` through the extra properties configuration (e.g. `.extra[region]=us-west-1`).
-Optionally you can set the registry IDs via the `.extra[registryIds]` property as a comma separated value.
+In addition to the credentials, you have to provide the registry's `region` through the extra properties configuration (for example, `.extra[region]=us-west-1`).
+Optionally, you can set the registry IDs by setting the `.extra[registryIds]` property as a comma separated value.
 
 - [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry):
 
@@ -383,7 +383,7 @@ Optionally you can set the registry IDs via the `.extra[registryIds]` property a
 
 <!--Java properties-->
 
-```yaml
+```
 - spring.cloud.dataflow.container.registry-configurations[myazurecr].registry-host=tzolovazureregistry.azurecr.io
 - spring.cloud.dataflow.container.registry-configurations[myazurecr].authorization-type=basicauth
 - spring.cloud.dataflow.container.registry-configurations[myazurecr].user=[your Azure registry username]
@@ -413,7 +413,7 @@ spring:
 
 <!--Java properties-->
 
-```yaml
+```
 - spring.cloud.dataflow.container.registry-configurations[harbor].registry-host=demo.goharbor.io
 - spring.cloud.dataflow.container.registry-configurations[harbor].authorization-type=dockeroauth2
 - spring.cloud.dataflow.container.registry-configurations[harbor].user=admin
@@ -437,13 +437,13 @@ spring:
 
 <!--END_TABS-->
 
-The Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on different `registryAuthUri`. Later is automatically resolved at bootstrap, but you can override it like this:
+The Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on a different `registryAuthUri`. Later is automatically resolved at bootstrap, but you can override it like this:
 
 <!--TABS-->
 
 <!--Java properties-->
 
-```yaml
+```
 - spring.cloud.dataflow.container.registry-configurations[harbor].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
 ```
 
@@ -464,14 +464,14 @@ spring:
 
 - Overriding/Augmenting [Volume Mounted Secrets](%currentPath%/installation/kubernetes/helm/#volume-mounted-secretes)
 
-Properties can override or augment the configurations obtained via the registry secrets.
-For example if you have created a Secret to access a registry running at address: `my-private-registry:5000`, then you can disable SSL verification for this registry like this:
+Properties can override or augment the configurations obtained through the registry secrets.
+For example, if you have created a secret to access a registry running at address: `my-private-registry:5000`, you can disable SSL verification for this registry as follows:
 
 <!--TABS-->
 
 <!--Java properties-->
 
-```yaml
+```
 - spring.cloud.dataflow.container.registry-configurations[myregistry].registry-host=my-private-registry:5000
 - spring.cloud.dataflow.container.registry-configurations[myregistry].disableSslVerification=true
 ```
@@ -491,4 +491,4 @@ spring:
 
 <!--END_TABS-->
 
-This is handy testing registries with self-signed Certificates.
+This is handy for testing registries with self-signed certificates.

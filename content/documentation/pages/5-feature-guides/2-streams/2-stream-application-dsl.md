@@ -7,7 +7,7 @@ description: 'Learn how to use the Stream Application DSL'
 # Stream Application DSL
 
 The Stream Pipeline DSL described in the previous section automatically sets the input and output binding properties of each Spring Cloud Stream application.
-This can be done because only one input or output destination in a Spring Cloud Stream application uses the provided binding interface of a `Source`, `Processor`, or `Sink`.
+You can do this because only one input or output destination in a Spring Cloud Stream application uses the provided binding interface of a `Source`, `Processor`, or `Sink`.
 However, a Spring Cloud Stream application can define a custom binding interface, such as the following:
 
 ```Java
@@ -50,7 +50,7 @@ A graphical representation of the stream would look similar to the following ima
 ![Stream Application DSL](images/stream-application-dsl.png)
 
 There are four applications in this stream.
-The baristaApp has two output destinations (`hotDrinks` and `coldDrinks`) that are intended to be consumed by the `hotDrinkDeliveryApp` and `coldDrinkDeliveryApp`, respectively.
+`baristaApp` has two output destinations (`hotDrinks` and `coldDrinks`) that are intended to be consumed by `hotDrinkDeliveryApp` and `coldDrinkDeliveryApp`, respectively.
 When deploying this stream, you need to set the binding properties so that the `baristaApp` sends hot drink messages to the `hotDrinkDeliveryApp` destination and cold drink messages to the `coldDrinkDeliveryApp` destination.
 
 The following example shows how to do so:
@@ -62,12 +62,12 @@ app.hotDrinkDeliveryApp.spring.cloud.stream.bindings.input.destination=hotDrinks
 app.coldDrinkDeliveryApp.spring.cloud.stream.bindings.input.destination=coldDrinksDest
 ```
 
-Following diagram illustrates how the binding properties are used to wire the applications and the channel destinations:
+The following diagram illustrates how the binding properties are used to wire the applications and the channel destinations:
 
 <img src="images/SCDF-application-dsl.gif" alt="Multiple Input/Output channels" width="800"/>
 
 As with binding properties, you can configure the rest of the Spring Cloud Stream properties for the producers and consumers.
-For example, if you want to use consumer groups, you need to set the Spring Cloud Stream application properties, `spring.cloud.stream.bindings.<channelName>.producer.requiredGroups` and `spring.cloud.stream.bindings.<channelName>.group`, on the producer and consumer applications respectively.
+For example, if you want to use consumer groups, you need to set the `spring.cloud.stream.bindings.<channelName>.producer.requiredGroups` and `spring.cloud.stream.bindings.<channelName>.group` Spring Cloud Stream application properties on the producer and consumer applications, respectively.
 
 <img src="images/SCDF-application-dsl-bindings.gif" alt="Multiple Input/Output channels Bindings" width="800"/>
 

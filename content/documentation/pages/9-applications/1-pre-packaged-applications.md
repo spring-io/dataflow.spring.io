@@ -11,22 +11,22 @@ summary: false
 
 # Pre-packaged Applications
 
-The Spring team provides and supports a selection of pre-packaged applications used to assemble various data integration and processing pipelines and to support Spring Cloud Data Flow development, learning and experimentation.
+The Spring team provides and supports a selection of pre-packaged applications that you can use to assemble various data integration and processing pipelines and to support Spring Cloud Data Flow development, learning, and experimentation.
 
 ## Getting Started
 
 All pre-packaged streaming applications:
 
-- Are available as Apache Maven artifacts or Docker images
-- Use RabbitMQ or Apache Kafka
-- Support monitoring through [Prometheus](https://prometheus.io/) and [InfluxDB](https://www.influxdata.com/)
-- Contain metadata for application properties used in the UI and code completion in the shell
+- Are available as Apache Maven artifacts or Docker images.
+- Use RabbitMQ or Apache Kafka.
+- Support monitoring through [Prometheus](https://prometheus.io/) and [InfluxDB](https://www.influxdata.com/).
+- Contain metadata for application properties that are used in the UI and code completion in the shell.
 
 You can register stream and task applications by using the Data Flow UI or the shell.
 
 You can register applications individually by using the `app register` command or in bulk by using the `app import` command.
 
-For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using the respective URLs:
+For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using their respective URLs:
 
 - Kafka
 
@@ -38,12 +38,12 @@ For streams, depending on whether you use Kafka or RabbitMQ, you can register th
 * Docker: https://dataflow.spring.io/rabbitmq-docker-latest (Docker)
 * Maven: https://dataflow.spring.io/rabbitmq-maven-latest (Maven)
 
-For tasks, you can use the following URL:
+For tasks, you can use the following URLs:
 
 - Docker: https://dataflow.spring.io/task-docker-latest
 - Maven: https://dataflow.spring.io/task-maven-latest
 
-Using the Data Flow UI, these links are included for pre-fill:
+When you use the Data Flow UI, the links shown in the following image are included for pre-fill:
 
 ![Bulk register applications](images/bulk-registration.png)
 
@@ -63,9 +63,9 @@ The `latest` bulk-registration links are updated as part of the release process.
 
 The Spring team develops and maintains [stream applications](https://cloud.spring.io/spring-cloud-stream-app-starters/) and publishes these applications to the [Spring public Maven repository](https://repo.spring.io/release/org/springframework/cloud/stream/app/) and to [Dockerhub](https://hub.docker.com/u/springcloudstream) in accordance with a release schedule, normally following significant Spring Boot or Spring Cloud Stream releases.
 The pre-packaged stream applications are Spring Boot executable jars that are built with a specific binder implementation.
-For each stream app, we provide separate exacutable applications for RabbitMQ and Kafka.
+For each stream app, we provide separate executable applications for RabbitMQ and Kafka.
 
-Currently available stream applications include:
+The following table shows the currently available stream applications:
 
 | Source                                                                                         | Processor                                                                                                                   | Sink                                                                                                         |
 | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -96,21 +96,21 @@ Currently available stream applications include:
 
 ## Task Applications
 
-The Spring team develops and maintains [task/batch applications](https://cloud.spring.io/spring-cloud-task-app-starters/) and publishes these applications to the [Spring public Maven repository](https://repo.spring.io/release/org/springframework/cloud/task/app/) and to [Dockerhub](https://hub.docker.com/u/springcloudtask) in accordance with a planned release schedule, normally following significant Spring Boot, Spring Cloud Task, or Spring Batch releases.
+The Spring team develops and maintains [task and batch applications](https://cloud.spring.io/spring-cloud-task-app-starters/) and publishes these applications to the [Spring public Maven repository](https://repo.spring.io/release/org/springframework/cloud/task/app/) and to [Dockerhub](https://hub.docker.com/u/springcloudtask) in accordance with a planned release schedule, normally following significant Spring Boot, Spring Cloud Task, or Spring Batch releases.
 
-Currently available task/batch applications include the following:
+The currently available task and batch applications are as follows:
 
 [timestamp](%task-applications-doc%/#spring-cloud-task-modules-tasks)<br/>
 [timestamp-batch](%task-applications-doc%/#_timestamp_batch_task)
 
 # Bulk Registration of Stream Applications
 
-Spring Cloud Data Flow supports bulk registration of applications, via a standard properties file format.
-For convenience, we publish static properties files with application-URIs (for either maven or docker) for all the out-of-the-box stream and task/batch apps.
-You can use these files in Spring Cloud Data Flow to register all the application-URIs in bulk.
-Alternately, you can register them individually or provide your own custom property file with only the required application-URIs in it.
+Spring Cloud Data Flow supports bulk registration of applications, through a standard properties file format.
+For convenience, we publish static properties files with application URIs (for either Maven or Docker) for all the out-of-the-box stream and task and batch apps.
+You can use these files in Spring Cloud Data Flow to register all the application URIs in bulk.
+Alternately, you can register them individually or provide your own custom property file with only the required application URIs in it.
 Bulk registration is convenient for getting started with SCDF.
-To reduce clutter, it is recommended, to maintain a “focused” list of desired application-URIs in a custom property file.
+To reduce clutter, we recommended maintaining a "focused" list of desired application URIs in a custom property file.
 
 # Supported Spring Cloud Stream Applications
 
@@ -122,7 +122,7 @@ To reduce clutter, it is recommended, to maintain a “focused” list of desire
 | Kafka + Maven     | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)     | [%stream-app-kafka-maven-snapshot%](%stream-app-kafka-maven-snapshot%)     |
 | Kafka + Docker    | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)   | [%stream-app-kafka-docker-snapshot%](%stream-app-kafka-docker-snapshot%)   |
 
-# Supported Spring Cloud Task/Batch Applications
+# Supported Spring Cloud Task and Batch Applications
 
 | Artifact Type | Latest Stable Release                                  | SNAPSHOT Release                                         |
 | ------------- | ------------------------------------------------------ | -------------------------------------------------------- |
@@ -143,7 +143,7 @@ NOTE: These may no longer be supported (i.e. they depend on an EOL spring-boot r
 | Kafka + Maven     | [%stream-app-kafka-maven-previous%](%stream-app-kafka-maven-previous%)     |
 | Kafka + Docker    | [%stream-app-kafka-docker-previous%](%stream-app-kafka-docker-previous%)   |
 
-# Previous Releases of Spring Cloud Task/Batch Applications
+# Previous Releases of Spring Cloud Task and Batch Applications
 
 | Artifact Type | Previous Release                                         |
 | ------------- | -------------------------------------------------------- |

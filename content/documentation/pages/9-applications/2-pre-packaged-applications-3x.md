@@ -13,11 +13,11 @@ summary: false
 
 <!--TIP-->
 
-This page contains information about the 3.x release `stream-applications` which introduces many new features and some changes which are incompatible with the 2.x release. If you are looking for information about the 2.x release, see [pre-packaged applicattions](%currentPath%/applications/pre-packaged/).
+This page contains information about the 3.x release version of `stream-applications`, which introduces many new features and some changes that are incompatible with the 2.x release. If you are looking for information about the 2.x release, see [pre-packaged applicattions](%currentPath%/applications/pre-packaged/).
 
 <!--END_TIP-->
 
-The Spring team provides and supports a selection of pre-packaged applications used to assemble various data integration and processing pipelines and to support Spring Cloud Data Flow development, learning and experimentation.
+The Spring team provides and supports a selection of pre-packaged applications that you can use to assemble various data integration and processing pipelines and to support Spring Cloud Data Flow development, learning, and experimentation.
 
 ## Getting Started
 
@@ -29,16 +29,16 @@ If you are interested in upgrading existing data pipelines to use `3.x` applicat
 
 All pre-packaged streaming applications:
 
-- Are available as Apache Maven artifacts or Docker images
-- Use RabbitMQ or Apache Kafka
-- Support monitoring through [Prometheus](https://prometheus.io/) and [InfluxDB](https://www.influxdata.com/)
-- Contain metadata for application properties used in the UI and code completion in the shell
+- Are available as Apache Maven artifacts or Docker images.
+- Use RabbitMQ or Apache Kafka.
+- Support monitoring through [Prometheus](https://prometheus.io/) and [InfluxDB](https://www.influxdata.com/).
+- Contain metadata for application properties used in the UI and code completion in the shell.
 
 You can register stream and task applications by using the Data Flow UI or the shell.
 
 You can register applications individually by using the `app register` command or in bulk by using the `app import` command.
 
-For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using the respective URLs:
+For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using their respective URLs:
 
 - Kafka
 
@@ -50,7 +50,7 @@ For streams, depending on whether you use Kafka or RabbitMQ, you can register th
 * Docker: https://dataflow.spring.io/rabbitmq-docker-milestone
 * Maven: https://dataflow.spring.io/rabbitmq-maven-milestone
 
-Using the Data Flow UI, these links are included for pre-fill:
+When you use the Data Flow UI, the links shown in the following image are included for pre-fill:
 
 ![Bulk register applications](images/bulk-registration.png)
 
@@ -64,9 +64,9 @@ dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-milestone
 
 The Spring team develops and maintains [stream applications](https://spring.io/projects/spring-cloud-stream-applications#learn) and publishes these applications to the [Spring public Maven repository](https://repo.spring.io/release/org/springframework/cloud/stream/app/) and to [Dockerhub](https://hub.docker.com/u/springcloudstream) in accordance with a release schedule, normally following significant Spring Boot or Spring Cloud Stream releases.
 The pre-packaged stream applications are Spring Boot executable jars that are built with a specific binder implementation.
-For each stream app, we provide separate exacutable applications for RabbitMQ and Kafka.
+For each stream app, we provide separate executable applications for RabbitMQ and Kafka.
 
-Currently available stream applications include:
+The following table shows the currently available stream applications:
 
 | Source                                                                                              | Processor                                                                                                          | Sink                                                                                              |
 | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
@@ -96,9 +96,9 @@ Currently available stream applications include:
 
 # Bulk Registration of Stream Applications
 
-Spring Cloud Data Flow supports bulk registration of applications, via a standard properties file format.
-For convenience, we publish static properties files with application-URIs (for either maven or docker) for all the out-of-the-box stream and task/batch apps.
-You can use these files in Spring Cloud Data Flow to register all the application-URIs in bulk.
-Alternately, you can register them individually or provide your own custom property file with only the required application-URIs in it.
+Spring Cloud Data Flow supports bulk registration of applications, through a standard properties file format.
+For convenience, we publish static properties files with application URIs (for either maven or docker) for all the out-of-the-box stream and task and batch apps.
+You can use these files in Spring Cloud Data Flow to register all the application URIs in bulk.
+Alternately, you can register them individually or provide your own custom property file with only the required application URIs in it.
 Bulk registration is convenient for getting started with SCDF.
-To reduce clutter, it is recommended, to maintain a “focused” list of desired application-URIs in a custom property file.
+To reduce clutter, we recommend maintaining a "focused" list of desired application URIs in a custom property file.

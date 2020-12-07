@@ -47,7 +47,11 @@ export spring_datasource_driverClassName=org.mariadb.jdbc.Driver
 export spring_datasource_initialization_mode=always
 ```
 
-NOTE: Do not disable both streaming and batch. Spring Cloud Data Flow requires at least one of them to be enabled.
+<!-- IMPORTANT -->
+
+IMPORTANT: Do not disable both streaming and batch. Spring Cloud Data Flow requires at least one of them to be enabled.
+
+<!-- END_IMPORTANT -->
 
 If you do not already have a database named `task`, you need to create one. Alternatively, you could change the name of the database in the datasource URL to the name of the database in which you store your tasks.
 
@@ -63,11 +67,11 @@ java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
 
 ## Viewing the Dashboard
 
-Once the server has started, you can view the Spring Cloud Data Flow dashboard by visiting `http://localhost:9393/dashboard` in a web browser. From there, you can create and manage batch jobs. See the topics [here](%currentPath%/feature-guides/batch/) for more detail.
-The following image shows the Jobs page of the Spring Cloud Data Flow dashboard, where you could add a batch job.
+Once the server has started, you can view the Spring Cloud Data Flow dashboard by visiting `http://localhost:9393/dashboard` in a web browser. From there, you can create and manage batch jobs. See the topics [Batch Feature Guide](%currentPath%/feature-guides/batch/) for more detail.
+The following image shows the Jobs page of the Spring Cloud Data Flow dashboard, where you could add a batch job:
 
 ![Spring Cloud Data Flow Batch Page](images/Spring_Cloud_Data_Flow_Batch.png)
 
 ## Using Spring Cloud Data Flow Shell
 
-You can use the Spring Cloud Data Flow Shell. For more about that, see the [Shell topic in the Tooling page](%currentPath%/concepts/tooling/#shell).
+You can use Spring Cloud Data Flow Shell. For more about that, see the [Shell topic in the Tooling page](%currentPath%/concepts/tooling/#shell).

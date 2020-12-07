@@ -11,7 +11,7 @@ Solution](https://kubernetes.io/docs/setup/#production-environment) guide
 lets you choose among many options, so you can pick the one that you are
 most comfortable using.
 
-All our testing is done against [Google Kubernetes
+All of our testing is done against [Google Kubernetes
 Engine](https://cloud.google.com/kubernetes-engine/) as well as [Pivotal
 Container
 Service](https://pivotal.io/platform/pivotal-container-service/). GKE is

@@ -16,14 +16,14 @@ Spring Cloud Data Flow lets you build an event-streaming pipeline from and to th
 
 The stream DSL syntax requires the named destination to be prefixed with a colon (`:`).
 
-Suppose you want to collect the user click events from an HTTP web endpoint and send them over to a Kafka topic with the name `user-click-events`.
+Suppose you want to collect the user click events from an HTTP web endpoint and send them over to a Kafka topic with a name of `user-click-events`.
 In this case, your stream DSL in Spring Cloud Data Flow could be as follows:
 
 ```
 http > :user-click-events
 ```
 
-Now the `user-click-events` Kafka topic is set up to consume the user click events from an HTTP web endpoint and thereby acts as a `sink`.
+Now the `user-click-events` Kafka topic is set up to consume the user click events from an HTTP web endpoint and thereby act as a `sink`.
 
 Assume that you want to create another event-streaming pipeline that consumes these user click events and stores them in an RDBMS.
 The stream DSL in this case could be as follows:

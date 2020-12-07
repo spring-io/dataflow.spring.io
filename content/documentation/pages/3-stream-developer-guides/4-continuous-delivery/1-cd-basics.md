@@ -4,36 +4,44 @@ title: 'Continuous Delivery of streaming applications'
 description: 'Continuous Delivery of Streaming applications'
 ---
 
-# Continuous Delivery of streaming applications
+# Continuous Delivery of Streaming Applications
 
-The applications composed in the streaming data pipeline will often need to be changed.
-The change can be a new version of the application that fixes a bug or setting a different value of an application property.
-To avoid downtime from stream processing, we would like to do a rolling upgrade of just the applications in the stream that have changed.
+The applications composed in the streaming data pipeline may often need to be changed.
+The change can be a new version of the application that fixes a bug or that sets a different value of an application property.
+To avoid downtime from stream processing, we would like to do a rolling upgrade of only the applications in the stream that have changed.
 Furthermore, should the upgrade not be what is desired, a quick rollback to a previous version of the application should be easy to perform.
 
-Spring Cloud Data Flow provides support for continuous delivery of event streaming applications via the Skipper server.
+Spring Cloud Data Flow provides support for continuous delivery of event streaming applications through the Skipper server.
 
 <img src="images/scdf-stream-upgrade-rollback.gif" alt="Stream Rolling Upgrade and Rollbacks" width="740"/>
 
-To demonstrate this, lets use some of the out of the box streaming applications that were already registered when installing Data Flow.
+To demonstrate this, we can use some of the out-of-the-box streaming applications that were already registered when installing Data Flow.
 
 ## Local
 
+This section describes how to use continuous delivery in a local environment.
+
 ### Stream Creation and Deployment
 
-Create and deploy a stream that has source which ingests `http` events and the `transform` processor that applies a transformation logic and the `log` sink that shows the result of the transformed events.
+In this section, we create and deploy:
 
-In the following stream definition, you can make sure to provide unique server ports for each of the applications as they get to deploy on `local`.
+- A stream that has a source that ingests `http` events
+- The `transform` processor that applies a transformation logic
+- The `log` sink that shows the result of the transformed events
+
+In the following stream definition, you can provide unique server ports for each of the applications as they get to deploy on `local`:
 
 ```
 stream create http-ingest --definition "http --server.port=9000 | transform --expression=payload.toUpperCase() --server.port=9001 | log --server.port=9002" --deploy
 ```
 
-You can verify stream status from the `stream list` command.
+You can verify that a stream is in the process of being deployed from the `stream list` command:
 
 ```
 stream list
 ```
+
+The output should be similar to the following listing:
 
 ```
 ╔═══════════╤══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╤═════════════════════════════╗
@@ -43,9 +51,13 @@ stream list
 ╚═══════════╧══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╧═════════════════════════════╝
 ```
 
+Once the stream has been deployed, you can run the command again:
+
 ```
 stream list
 ```
+
+The output changes to indicate that the stream has been deployed:
 
 ```
 ╔═══════════╤══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╤═════════════════════════════════════════╗
@@ -62,19 +74,19 @@ Post some data from the Spring Cloud Data Flow shell:
 http post --target "http://localhost:9000" --data "spring"
 ```
 
-From the log file of the `log` application, you will see the following:
+From the log file of the `log` application, you should see the following:
 
 ```
 log-sink                                 :  SPRING
 ```
 
-The command `stream manifest http-ingest` shows all the applications and their properties for this version fo the the stream.
+The `stream manifest http-ingest` command shows all the applications and their properties for this version of the stream:
 
 ```
 stream manifest http-ingest
 ```
 
-You can see the following result:
+You should see a result similar to the following:
 
 ```json
 {/* highlight-range{8,29,50} */}
@@ -146,12 +158,14 @@ You can see the following result:
 
 ```
 
-For instance, you can see the `transform` application has the property "transformer.expression": "payload.toUpperCase()".
-The command `stream history http-ingest` shows the history for this event stream, listing all the available versions.
+For instance, you can see the `transform` application has the `"transformer.expression": "payload.toUpperCase()"` property.
+The `stream history http-ingest` command shows the history for this event stream, listing all the available versions:
 
 ```
 stream history --name http-ingest
 ```
+
+The output of that command should resemble the following listing:
 
 ```
 ╔═══════╤════════════════════════════╤════════╤════════════╤═══════════════╤════════════════╗
@@ -163,7 +177,7 @@ stream history --name http-ingest
 
 ### Stream Update
 
-If you want to update the existing deployed stream to use a different version of the `log` application, you can perform stream `update` action.
+If you want to update the existing deployed stream to use a different version of the `log` application, you can perform a stream `update` action.
 
 First, you can register the required version of the `log` application:
 
@@ -171,25 +185,27 @@ First, you can register the required version of the `log` application:
 app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:2.1.0.RELEASE
 ```
 
-and perform the stream update as follows:
+Then you can perform the stream update, as follows:
 
 ```
 stream update --name http-ingest --properties "version.log=2.1.0.RELEASE"
 ```
 
-When the `stream update` is run, you can do:
+When the `stream update` is run, you can run:
 
 ```
 jps
 ```
 
-and see the `log` application `log-sink-rabbit-2.1.0.RELEASE.jar` gets deployed and the existing `log-sink-rabbit-2.1.1.RELEASE.jar` is destroyed.
+Then you can see that the `log` application `log-sink-rabbit-2.1.0.RELEASE.jar` gets deployed and that the existing `log-sink-rabbit-2.1.1.RELEASE.jar` is destroyed.
 
-Once the stream update is completed, you can verify the `stream manifest` to see if the version of the `log` application is changed.
+Once the stream update is completed, you can verify the `stream manifest` to see if the version of the `log` application is changed:
 
 ```
 stream manifest http-ingest
 ```
+
+You should see output similar to the following listing:
 
 ```json
 {/* highlight-range{8} */}
@@ -220,9 +236,13 @@ stream manifest http-ingest
 
 ```
 
+Similarly, you can use the `stream history` command to see the history of your actions:
+
 ```
 stream history --name http-ingest
 ```
+
+The output should resemble the following listing:
 
 ```
 ╔═══════╤════════════════════════════╤════════╤════════════╤═══════════════╤════════════════╗
@@ -234,33 +254,34 @@ stream history --name http-ingest
 ```
 
 You can also change the configuration properties of the application without using the new version of the app.
-Let’s say you want to change the transformation logic used in the `transform` application without redeploying the entire stream and update the `transform` application in isolation.
+Suppose you want to change the transformation logic used in the `transform` application without redeploying the entire stream and update the `transform` application in isolation.
+You could do so with the following command:
 
 ```
 stream update http-ingest --properties "app.transform.expression=payload.toUpperCase().concat('!!!')"
 ```
 
-When you run the `stream manifest http-ingest` command again, you will see the `transform` application is now changed to include the expression property, which transforms each of the payloads by appending !!! at the end.
+When you run the `stream manifest http-ingest` command again, you can see the `transform` application is now changed to include the expression property, which transforms each of the payloads by appending `!!!` at the end.
 
-Let’s test the update:
+Now test the update:
 
 ```
 http post --target "http://localhost:9000" --data "spring"
 ```
 
-From `log` application's log file, you will now see the following:
+From the `log` application's log file, you can see the following:
 
 ```
 log-sink                                 : SPRING!!!
 ```
 
-The command `stream history http-ingest` will include the new event in the history of this stream.
+The output of the `stream history http-ingest` command includes the new event in the history of this stream.
 
 ### Stream Rollback
 
-If you want to roll back the event stream to a specific version, you can use the command `stream rollback http-ingest --releaseVersion <release-version>`.
+If you want to roll back the event stream to a specific version, you can use the `stream rollback http-ingest --releaseVersion <release-version>` command.
 
-After rolling back to the initial version of the event stream (where the `transform` application just did uppercase conversion):
+You can roll back to the initial version of the event stream (where the `transform` application did only uppercase conversion):
 
 ```
 stream rollback http-ingest --releaseVersion 1
@@ -270,7 +291,7 @@ stream rollback http-ingest --releaseVersion 1
 http post --target "http://localhost:9000" --data "spring"
 ```
 
-In the `log` application's log file, you will now see:
+In the `log` application's log file, you can now see:
 
 ```
 log-sink : SPRING

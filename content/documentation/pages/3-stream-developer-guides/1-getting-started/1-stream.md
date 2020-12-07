@@ -9,21 +9,22 @@ description: 'Create and deploy a streaming data pipeline using prebuilt applica
 Spring Cloud Data Flow provides over 70 prebuilt streaming applications that you can use right away to implement common streaming use cases.
 In this guide, we use two of these applications to construct a simple data pipeline that produces data sent from an external HTTP request and consumes that data by logging the payload to the terminal.
 
-Instructions for registering these prebuilt applications with Data Flow are provided in the [Installation guide](%currentPath%/installation/).
+The [Installation guide](%currentPath%/installation/) includes instructions for registering these prebuilt applications with Data Flow.
 
 ## Stream DSL overview
 
 You can create streams by using a Domain Specific Language (DSL) through the shell or the dashboard as well as programmatically in Java.
-The dashboard also lets you drag and drop applications onto a palate and connect them visually.
-The dashboard is bi-directional, so visual actions update the DSL and edits to the DSL update the view of the stream.
+The dashboard also lets you drag and drop applications onto a palette and connect them visually.
+The dashboard is bi-directional, so visual actions update the DSL.
+Similarly, edits to the DSL update the view of the stream.
 
 The DSL is modeled after the Unix pipes and filter syntax.
-As an example, a stream DSL defined as `http | log` represents an `http` application sending the data it received from a HTTP post to the messaging middleware.  
+As an example, a stream DSL defined as `http | log` represents an `http` application sending the data it received from an HTTP post to the messaging middleware.  
 The `log` application receives the message with that data from the messaging middleware and logs it to the terminal.
 Each name in the DSL is associated with an application through the application registration process.
-The applications are connected through a `|` symbol that represents the messaging middleware that acts as the 'pipe' between the applications.
+The applications are connected through a `|` symbol that represents the messaging middleware, which acts as the "pipe" between the applications.
 
-Following diagram illustrates the Stream processing life cycle:
+The following diagram shows the Stream processing life cycle:
 
 <img src="images/SCDF-event-driven-applications.gif" alt="Event-Driven Applications" width="760"/>
 
@@ -43,8 +44,7 @@ To create a stream:
 
 4.  Click **Create Stream**.
 
-5.  Enter `http-ingest` for the stream name, as shown in the following
-    image:
+5.  Enter `http-ingest` for the stream name, as follows:
 
     ![Creating a Stream](images/dataflow-stream-create.png)
 
@@ -58,19 +58,19 @@ To create a stream:
 
 Now that you have defined a stream, you can deploy it. To do so:
 
-1.  Click the play (deploy) button next to the "`http-ingest`" definition
+1.  Click the play (deploy) button next to the `http-ingest` definition
     that you created in the previous section.
     ![Initiate Deployment of a Stream](images/dataflow-stream-definition-deploy.png)
 
-    The UI shows the available properties that can be applied to the
-    apps in the "`http-ingest`" stream. This example shown in the following
+    The UI shows the available properties that you can apply to the
+    apps in the `http-ingest` stream. This example shown in the following
     image uses the defaults:
 
     ![Deployment Page](images/dataflow-deploy-http-ingest.png)
 
 <!--NOTE-->
 
-If you use the local Data Flow Server, add the following deployment property to set the port to avoid a port collision.
+If you use the local Data Flow Server, add the following deployment property to set the port to avoid a port collision:
 
 ![Unique Port](images/dataflow-unique-port.png)
 
@@ -78,7 +78,7 @@ If you use the local Data Flow Server, add the following deployment property to 
 
 <!--NOTE-->
 
-If deploying Spring Cloud Data Flow to Kubernetes, add the deployment property `kubernetes.createLoadBalancer` with a value of `true` on the `http` source application to expose the service externally.
+If deploying Spring Cloud Data Flow to Kubernetes, set the `kubernetes.createLoadBalancer` deployment property to `true` on the `http` source application to expose the service externally, as follows:
 
 ![Create Load Balancer](images/dataflow-create-load-balancer.png)
 
@@ -88,8 +88,8 @@ If deploying Spring Cloud Data Flow to Kubernetes, add the deployment property `
 
     The UI returns to the Definitions page.
 
-    The stream is now in "`deploying`" status, and its status becomes
-    "`deployed`" when it has finished deploying. You may need to refresh
+    The stream is now in `deploying` status, and its status becomes
+    `deployed` when it has finished deploying. You may need to refresh
     your browser to see the updated status.
 
 ## Verifying Output
@@ -106,7 +106,7 @@ This section details how to verify output when your application runs on a local 
 
 #### Test Data
 
-Once the stream is deployed and running, you can now post some data. You can use the following curl command to do so:
+Once the stream is deployed and running, you can post some data. You can use the following curl command to do so:
 
 ```bash
 curl http://localhost:20100 -H "Content-type: text/plain" -d "Happy streaming"
@@ -118,9 +118,9 @@ Once a stream is deployed, you can view its logs. To do so:
 
 1.  Click **Runtime** in the menu.
 
-2.  Click "`http-ingest.log`".
+2.  Click `http-ingest.log`.
 
-3.  Copy the path in the "`stdout`" text box on the dashboard
+3.  Copy the path in the `stdout` text box on the dashboard
 
 4.  In another console window, type the following, replacing
     `/path/from/stdout/textbox/in/dashboard` with the value you copied
@@ -128,12 +128,13 @@ Once a stream is deployed, you can view its logs. To do so:
 
         $ docker exec -it skipper tail -f /path/from/stdout/textbox/in/dashboard
 
-    The output of the log sink appears in the new window. You will see output as shown below.
-    When you have seen enough output from sending http requests, press Ctrl+C to end the `tail` command.
+    The output of the log sink appears in the new window. You should see the output shown below.
 
 ```bash
 log-sink                                 : Happy streaming
 ```
+
+When you have seen enough output from sending http requests, press Ctrl+C to end the `tail` command.
 
 ### Cloud Foundry
 
@@ -141,7 +142,7 @@ This section details how to verify output when your application runs on Cloud Fo
 
 #### Test Data
 
-Once the stream is deployed and running in Cloud Foundry, you can now post some data. You can use the following curl command to do so:
+Once the stream is deployed and running in Cloud Foundry, you can post some data. You can use the following curl command to do so:
 
 ```bash
 curl http://http-ingest-314-log-v1.cfapps.io -H "Content-type: text/plain" -d "Happy streaming"
@@ -150,7 +151,7 @@ curl http://http-ingest-314-log-v1.cfapps.io -H "Content-type: text/plain" -d "H
 #### Results
 
 Now you can list the running applications again and see your
-applications in the list, as the following example shows:
+applications in the list, as follows:
 
     $ cf apps                                                                                                                                                                                                                                         [1h] ✭
     Getting apps in org ORG / space SPACE as email@pivotal.io...
@@ -161,7 +162,7 @@ applications in the list, as the following example shows:
     skipper-server               started           1/1         1G       1G     skipper-server.cfapps.io
     dataflow-server              started           1/1         1G       1G     dataflow-server.cfapps.io
 
-Now you can verify the logs, as the following example shows:
+Now you can verify the logs, as follows:
 
 ```bash
 cf logs http-ingest-314-log-v1
@@ -174,11 +175,9 @@ cf logs http-ingest-314-log-v1
 
 This section details how to verify output when your application runs on Kubernetes.
 
-Get the HTTP service URL by running one of the following commands:
+Get the HTTP service URL by running a command.
 
-<!--NOTE-->
-
-If deploying to a cluster that supports a load balancer, the HTTP service address can be determined by:
+If deploying to a cluster that supports a load balancer, you can determine the HTTP service address by running the following command:
 
 ```bash
 export SERVICE_URL="$(kubectl get svc --namespace default http-ingest-http-v1 -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080"
@@ -187,17 +186,11 @@ export SERVICE_URL="$(kubectl get svc --namespace default http-ingest-http-v1 -o
 It may take a few minutes for the LoadBalancer IP to be available.
 You can watch the status of the server by running `kubectl get svc -w http-ingest-http-v1`
 
-<!--END_NOTE-->
-
-<!--NOTE-->
-
-If your using Minikube, you can use the following command to get the URL for the server:
+If you use Minikube, you can use the following command to get the URL of the server:
 
 ```bash
 export SERVICE_URL=$(minikube service --url test-http-v1)
 ```
-
-<!--END_NOTE-->
 
 You can view the HTTP URL of the application by typing the following:
 
@@ -213,6 +206,8 @@ curl $SERVICE_URL -H "Content-type: text/plain" -d "Happy streaming"
 
 #### Results
 
+The results should be similar to the following example:
+
 ```bash
 kubectl get pods
 NAME                              READY     STATUS    RESTARTS   AGE
@@ -224,7 +219,7 @@ scdf-server-2734071167-bjd3g        1/1       Running   0          12m
 skipper-2408247821-50z31            1/1       Running   0          15m
 ```
 
-Now you can verify the logs.
+Now you can verify the logs, as follows:
 
 ```bash
 kubectl logs -f http-ingest-log-v1-0-2k4r8
@@ -239,12 +234,11 @@ Now you can delete the stream you created. To do so:
 
 1.  Click **Streams** in the menu.
 
-2.  Click the down chevron on the "`http-ingest`" row.
+2.  Click the down chevron on the `http-ingest` row.
 
 3.  Click **Destroy Stream**.
 
-4.  When prompted for confirmation, click **Destroy
-    Stream Definition(s)**.
+4.  When prompted for confirmation, click **Destroy Stream Definition(s)**.
 
 ## Updating and Rolling back a Stream
 

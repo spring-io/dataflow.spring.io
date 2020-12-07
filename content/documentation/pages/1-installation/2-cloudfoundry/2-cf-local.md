@@ -4,11 +4,11 @@ title: 'Running locally'
 description: 'Configure the local servers to deploy to Cloud Foundry'
 ---
 
-# Running locally Cloud Foundry
+# Running Cloud Foundry Locally
 
-Sometimes for debugging purposes it is convenient to run the Data Flow and Skipper server on your local machine and configure it to deploy applications to Cloud Foundry.
+Sometimes, usually for debugging purposes, it is convenient to run the Data Flow and Skipper server on your local machine and configure it to deploy applications to Cloud Foundry.
 
-## Configure Data Flow Server on Local Machine
+## Configure Data Flow Server on a Local Machine
 
 To run the server application locally (on your laptop or desktop) and target your Cloud Foundry installation, you can configure the Data Flow server by setting the following environment variables in a property file (for example, `myproject.properties`):
 
@@ -30,25 +30,25 @@ spring.cloud.dataflow.task.platform.cloudfoundry.accounts[default].deployment.se
 skipper.client.serverUri=https://<skipper-host-name>/api
 ```
 
-You need to fill in `\{org}`, `\{space}`, `\{email}`, and `\{password}` before using the file in the following command.
+You need to fill in `\{org}`, `\{space}`, `\{email}`, and `\{password}` before using the file.
 
 <!--WARNING-->
 
 **SSL Validation**
 
-Set _Skip SSL Validation_ to true only if you run on a Cloud Foundry
+Set _Skip SSL Validation_ to `true` only if you run on a Cloud Foundry
 instance by using self-signed certificates (for example, in
 development). Do not use self-signed certificates for production.
 
 <!--END_WARNING-->
 
-<!--TIP-->
+<!--NOTE-->
 
 You must deploy Skipper first and then configure the URI location of where the Skipper server is running.
 
-<!--END_TIP-->
+<!--END_NOTE-->
 
-Now you are ready to start the server application, as follows:
+Now you are ready to start the server application:
 
 ```bash
 java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.config.additional-location=<PATH-TO-FILE>/foo.properties
@@ -70,13 +70,13 @@ spring.cloud.skipper.server.platform.cloudfoundry.accounts[default].connection.p
 spring.cloud.skipper.server.platform.cloudfoundry.accounts[default].connection.skipSslValidation=false
 ```
 
-You need to fill in `\{org}`, `\{space}`, `\{email}`, and `\{password}` before using the file in the following command.
+You need to fill in `\{org}`, `\{space}`, `\{email}`, and `\{password}` before using the file.
 
 <!--WARNING-->
 
 **SSL Validation**
 
-Set _Skip SSL Validation_ to true only if you run on a Cloud Foundry
+Set _Skip SSL Validation_ to `true` only if you run on a Cloud Foundry
 instance by using self-signed certificates (for example, in
 development). Do not use self-signed certificates for production.
 

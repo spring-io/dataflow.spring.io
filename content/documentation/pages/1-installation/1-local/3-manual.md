@@ -8,11 +8,15 @@ description: 'Manual installation'
 
 If Docker does not suit your needs, you can manually install the parts you need to run Spring Cloud Data Flow.
 
-NOTE: If you want to use Spring Cloud Data Flow only for batch and task processing (that is, not for processing streams), see the [Batch-only Mode recipe](%currentPath%/recipes/batch/batch-only-mode).
+<!--NOTE-->
+
+If you want to use Spring Cloud Data Flow only for batch and task processing (that is, not for processing streams), see the [Batch-only Mode recipe](%currentPath%/recipes/batch/batch-only-mode).
+
+<!--END_NOTE-->
 
 ## Downloading Server Jars
 
-To begin, you need to download the server jars. To do so:
+To begin, you need to download the server jars:
 
 1. Download the [Spring Cloud Data Flow Server](https://spring.io/projects/spring-cloud-dataflow) and shell by using the following commands:
 
@@ -28,7 +32,7 @@ To begin, you need to download the server jars. To do so:
 
 <!--NOTE-->
 
-If you're interested in trying out the latest `BUILD-SNAPSHOT` (aka: snapshot build from the `master` branch) of SCDF and Skipper's upstream versions, please use the following `wget` commands.
+If you are interested in trying out the latest `BUILD-SNAPSHOT` (that is, the snapshot build from the `master` branch) of SCDF and Skipper's upstream versions, you can use the following `wget` commands:
 
 ```bash
 wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
@@ -53,7 +57,7 @@ docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 -p 5672:5672 ra
 
 ## Starting Server Jars
 
-Now you need to start the applications that comprise the server. To do so:
+Now you need to start the applications that comprise the server:
 
 1. Start Skipper. To do so, in the directory where you downloaded Skipper, run the server by using `java -jar`, as follows:
 
@@ -82,7 +86,7 @@ Now you need to start the applications that comprise the server. To do so:
    java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
    ```
 
-   If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell, as the following example shows:
+   If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell, as follows:
 
    ```bash
     server-unknown:>dataflow config server https://198.51.100.0

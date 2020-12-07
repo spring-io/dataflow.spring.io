@@ -47,7 +47,7 @@ docker://springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT
 
 ### The Data Flow Dashboard
 
-Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. Consult the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
+Assuming Data Flow is [installed](%currentPath%/installation/) and running on one of the supported platforms, open your browser at `<data-flow-url>/dashboard`. Here, `<data-flow-url>` depends on the platform. See the [installation guide](%currentPath%/installation) to determining the base URL for your installation. If Data Flow is running on your local machine, go to http://localhost:9393/dashboard.
 
 ### Application Registration
 
@@ -55,7 +55,7 @@ Applications in Spring Cloud Data Flow are registered as named resources so that
 
 The URI conforms to a [schema](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL. Data Flow defines some logical application types to indicate its role as a streaming component, a task, or a standalone application. For streaming applications, as you might expect, we use `Source`,`Processor`, and `Sink` types.
 
-The Data Flow Dashboard lands on the Application Registration view, where we can register the source, processor, and sink applications, as the following image shows:
+The Data Flow Dashboard lands on the Application Registration view, where we can register the source, processor, and sink applications, as follows:
 
 ![Add an application](images/SCDF-add-applications.png)
 
@@ -75,21 +75,23 @@ The following table shows the applications we created in the previous guides:
 | `usage-cost-processor` | Processor | maven://io.spring.dataflow.sample:usage-cost-processor-rabbit:0.0.1-SNAPSHOT |
 | `usage-cost-logger`    | Sink      | maven://io.spring.dataflow.sample:usage-cost-logger-rabbit:0.0.1-SNAPSHOT    |
 
-[[note]]
-| If you run the Spring Cloud Data Flow server on the Docker environment, make sure that your application artifact URIs are accessible.
-|For instance, you may not be able to access `file:/` from SCDF or Skipper Docker containers unless you have made the application locations be
-|accessible. We recommend using `http://`, `maven://` or `docker://` for application URIs.
+<!-- NOTE -->
+If you run the Spring Cloud Data Flow server on the Docker environment, make sure that your application artifact URIs are accessible.
+For instance, you may not be able to access `file:/` from SCDF or Skipper Docker containers unless you have made the application locations be
+accessible. We recommend using `http://`, `maven://` or `docker://` for application URIs.
+
+<!-- END_NOTE -->
 
 For this example, assume you run Spring Cloud Data Flow and Skipper servers on your local development environment.
 
 You can register the `UsageDetailSender` source application. To do so:
 
-1. From the Applications view, select `ADD APPLICATION(S)`.
+1. From the Applications view, select **ADD APPLICATION(S)**.
    This shows a view that lets you register applications.
 
-1. Select `Register one or more applications` and enter the `name`, `type`, and `URI` for the source application.
+1. Select **Register one or more applications** and enter the `name`, `type`, and `URI` for the source application.
 
-1. Register the `maven` artifact of the `UsageDetailSender` application named `usage-detail-sender`, as the following image shows:
+1. Register the `maven` artifact of the `UsageDetailSender` application named `usage-detail-sender`, as follows:
 
    > (uri = `maven://io.spring.dataflow.sample:usage-detail-sender-rabbit:0.0.1-SNAPSHOT`)
 
@@ -97,9 +99,9 @@ You can register the `UsageDetailSender` source application. To do so:
 
    > (uri = `docker://springcloudstream/usage-detail-sender-rabbit:0.0.1-SNAPSHOT`)
 
-1. Click on `NEW APPLICATION` to display another instance of the form to enter the values for the processor.
+1. Click on **NEW APPLICATION** to display another instance of the form to enter the values for the processor.
 
-1. Register the `maven` artifact of the `UsageCostProcessor` processor application named `usage-cost-processor`, as the following image shows:
+1. Register the `maven` artifact of the `UsageCostProcessor` processor application named `usage-cost-processor`, as follows:
 
    > (uri = `maven://io.spring.dataflow.sample:usage-cost-processor-rabbit:0.0.1-SNAPSHOT`)
 
@@ -107,9 +109,9 @@ You can register the `UsageDetailSender` source application. To do so:
 
    > (uri = `docker://springcloudstream/usage-cost-processor-rabbit:0.0.1-SNAPSHOT`)
 
-1. Click on `NEW APPLICATION` to display another instance of the form to enter the values for the sink.
+1. Click on **NEW APPLICATION** to display another instance of the form to enter the values for the sink.
 
-1. Register the `maven` artifact of the `UsageCostLogger` sink application named `usage-cost-logger`, as the following image shows
+1. Register the `maven` artifact of the `UsageCostLogger` sink application named `usage-cost-logger`, as follows:
 
    > (uri = `maven://io.spring.dataflow.sample:usage-cost-logger-rabbit:0.0.1-SNAPSHOT`)
 
@@ -119,7 +121,7 @@ You can register the `UsageDetailSender` source application. To do so:
 
    ![Register source application maven](images/SCDF-register-apps.png)
 
-1. Click on `IMPORT APPLICATION(S)` to complete the registration. Doing so takes you back to the Applications view, which lists your applications. The following image shows an example:
+1. Click on **IMPORT APPLICATION(S)** to complete the registration. Doing so takes you back to the Applications view, which lists your applications. The following image shows an example:
 
    ![Registered applications](images/SCDF-registered-apps.png)
 
@@ -127,11 +129,11 @@ You can register the `UsageDetailSender` source application. To do so:
 
 To create the stream definition:
 
-1. Select `Streams` from the left navigation bar. This shows the main Streams view, as the following image shows:
+1. Select **Streams** from the left navigation bar. This shows the main Streams view, as follows:
 
    ![Create streams](images/SCDF-create-streams.png)
 
-1. Select `Create stream(s)` to display a graphical editor to create the stream definition, as the following image shows:
+1. Select **Create stream(s)** to display a graphical editor to create the stream definition, as the following image shows:
 
    ![Create usage cost logger stream](images/SCDF-create-usage-cost-logger-stream.png)
 
@@ -149,7 +151,7 @@ To deploy your stream,
 
 1. Click on the arrow head icon to deploy the stream. Doing so takes you to the Deploy Stream page, where you may enter additional deployment properties.
 
-1. Select `Deploy`, as the following image shows:
+1. Select `Deploy`, as follows:
 
    ![Stream created](images/SCDF-stream-created.png)
 
@@ -165,8 +167,11 @@ The preceding process is basically the same for all platforms. The following sec
 
 ### Local
 
-[[note]]
-|If you deploy the stream on the `local` environment, you need to set a unique value for the `server.port` application property for each application so that they can use different ports on `local`.
+<!-- NOTE -->
+
+If you deploy the stream on the `local` environment, you need to set a unique value for the `server.port` application property for each application so that they can use different ports on `local`.
+
+<!-- END_NOTE -->
 
 Once the stream is deployed on the `local` development environment, you can look at the runtime applications by using the dashboard's runtime page or by using the SCDF shell command, `runtime apps`.
 The runtime applications show information about where each application runs in the local environment and their log files locations.
@@ -195,19 +200,19 @@ If you run SCDF on Docker, to access the log files of the streaming applications
 
 Before registering and deploying stream applications to Cloud Foundry by using the instructions shown earlier, you should ensure that you have an instance of Spring Cloud Data Flow running on Cloud Foundry. Follow the Cloud Foundry [installation guide](%currentPath%/installation/cloudfoundry/cf-cli) for reference.
 
-Once you have followed the steps shown earlier in this chapter and have registered the applications as well as deployed the stream, you can see the successfully deployed applications in your in your Organd Space in Cloud Foundry, as the following image shows:
+Once you have followed the steps shown earlier in this chapter and have registered the applications as well as deployed the stream, you can see the successfully deployed applications in your in your Org and Space in Cloud Foundry, as follows:
 
 ![Cloud Foundry Apps Manager with the deployed Stream Application](images/SCDF-CF-dashboard.png)
 
 You can access the runtime information of your stream applications in the Spring Cloud Data Flow dashboard as well.
 
-Besides verifying the runtime status of your stream, you should also verify the logging output produced by the `usage-cost-logger` sink. In Cloud Foundry Apps Manager, click the `Logs` tab of the `usage-cost-logger` sink application. The logging statements should look like the following:
+Besides verifying the runtime status of your stream, you should also verify the logging output produced by the `usage-cost-logger` sink. In Cloud Foundry Apps Manager, click the **Logs** tab of the `usage-cost-logger` sink application. The logging statements should look like the following:
 
 ![Data Flow Runtime Information](images/SCDF-CF-dashboard-logging.png)
 
 ### Kubernetes
 
-Once you have the Spring Cloud Data Flow server running in Kubernetes (by using the instructions from the [installation guide](%currentPath%/installation/kubernetes/)), you can:
+Once you have the Spring Cloud Data Flow server running in Kubernetes (by following the instructions from the [installation guide](%currentPath%/installation/kubernetes/)), you can:
 
 - Register the stream applications
 - Create, deploy, and manage streams
@@ -234,7 +239,7 @@ For the `UsageCostLogger` sink, use the following:
 docker://springcloudstream/usage-cost-logger-rabbit:0.0.1-SNAPSHOT
 ```
 
-You can register these applications as described in the application registration step [described earlier](#application-registration).
+You can register these applications, as described in the application registration step [described earlier](#application-registration).
 
 #### Stream Deployment
 
@@ -277,7 +282,7 @@ kubectl logs -f usage-cost-logger-usage-cost-logger-v1-568599d459-hk9b6
 
 ## Comparison with Standalone Deployment
 
-In this section, we deployed the stream byusing Spring Cloud Data Flow with the stream DSL:
+In this section, we deployed the stream by using Spring Cloud Data Flow with the stream DSL:
 
 ```
 usage-detail-sender | usage-cost-processor | usage-cost-logger

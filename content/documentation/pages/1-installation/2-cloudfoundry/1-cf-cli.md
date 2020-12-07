@@ -37,7 +37,7 @@ For example, you can use [Pivotal Web Services](https://run.pivotal.io/), as the
 cf create-service cloudamqp lemur rabbit
 ```
 
-### Provision a PostgreSQL Service Instance
+### Provisioning a PostgreSQL Service Instance
 
 An RDBMS is used to persist Data Flow state, such as stream and task definitions, deployments, and executions.
 
@@ -55,7 +55,7 @@ If you intend to create and run batch-jobs as Task pipelines in SCDF,
 you must ensure that the underlying database instance includes enough
 connections capacity so that the batch-jobs, Task, and SCDF can
 concurrently connect to the same database instance without running
-into connection limits. This usually means you can't use any free plans.
+into connection limits. This usually means you cannot use any of the free plans.
 
 <!--END_TIP-->
 
@@ -63,8 +63,7 @@ into connection limits. This usually means you can't use any free plans.
 
 To install Cloud Foundry:
 
-1.  Download the Data Flow server and shell applications, by running the
-    following example commands:
+1.  Download the Data Flow server and shell applications:
 
     ```bash
     wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
@@ -73,8 +72,7 @@ To install Cloud Foundry:
 
 2.  Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/),
     to which Data Flow delegates stream lifecycle operations, such as
-    deployment, upgrading and rolling back. To do so, use the following
-    command:
+    deployment, upgrading and rolling back:
 
     ```bash
     wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
@@ -85,7 +83,7 @@ To install Cloud Foundry:
     Once you have installed Cloud Foundry, you can push Skipper to
     Cloud Foundry. To do so, you need to create a manifest for Skipper.
 
-    You will use the "default" deployment platform `deployment.services` setting in the `Skipper Server` configuration, as shown below, to configure Skipper to bind the RabbitMQ service to all deployed streaming applications. Note "rabbitmq" is the name of the service instance in this case.
+    You can use the "default" deployment platform `deployment.services` setting in the `Skipper Server` configuration, as shown below, to configure Skipper to bind the RabbitMQ service to all deployed streaming applications. Note that `rabbitmq` is the name of the service instance in this case.
 
     The following example shows a typical manifest for Skipper:
 
@@ -116,7 +114,7 @@ To install Cloud Foundry:
                                "space" : <space>,
                                "username": <email>,
                                "password" : <password>,
-                               "skipSsValidation" : false 
+                               "skipSsValidation" : false
                            },
                            "deployment" : {
                                "deleteRoutes" : false,
@@ -133,7 +131,7 @@ To install Cloud Foundry:
     ```
 
     You need to fill in `<org>`, `<space>`, `<email>`, `<password>`,
-    `<serviceName>` (RabbitMQ or Apache Kafka) and
+    `<serviceName>` (RabbitMQ or Apache Kafka), and
     `<services>` (such as PostgresSQL) before running these commands.
     Once you have the desired config values in `manifest.yml`, you can
     run the `cf push` command to provision the skipper-server.
@@ -153,12 +151,12 @@ To install Cloud Foundry:
 
 4.  Configure and run the Data Flow Server.
 
-One of the most important configuration details is providing credentials to the Cloud Foundry instance so that the server can itself spawn
+One of the most important configuration details is providing credentials to the Cloud Foundry instance so that the server can spawn
 applications.
 You can use any Spring Boot-compatible configuration mechanism (passing program arguments, editing configuration files before
 building the application, using [Spring Cloud Config](https://github.com/spring-cloud/spring-cloud-config), using environment variables, and others), although some may prove more practicable than others, depending on how you typically deploy applications to Cloud Foundry.
 
-Before installing there some general configuration details you should be aware of to update your manifest file as needed.
+Before installing, you should be aware of some general configuration details so that you can update your manifest file as needed.
 
 ### General Configuration
 
@@ -195,7 +193,7 @@ If you need to configure multiple Maven repositories, a proxy, or authorization 
 As an alternative to setting environment variables with the `cf set-env` command, you can curate all the relevant environment variables in a
 `manifest.yml` file and use the `cf push` command to provision the server.
 
-The following example shows such a manifest file. Note that "postgresSQL" is the name of the database service instance:
+The following example shows such a manifest file. Note that `postgresSQL` is the name of the database service instance:
 
 ```yml
 ---
@@ -219,7 +217,7 @@ applications:
                     "url" : "https://repo.spring.io/libs-snapshot"
                   }
                }
-           }, 
+           },
            "spring.cloud.dataflow" : {
                 "task.platform.cloudfoundry.accounts" : {
                     "default" : {
@@ -230,7 +228,7 @@ applications:
                             "space" : <space>,
                             "username" : <email>,
                             "password" : <password>,
-                            "skipSsValidation" : true 
+                            "skipSsValidation" : true
                         },
                         "deployment" : {
                           "services" : "postgresSQL"
@@ -251,8 +249,8 @@ You must deploy Skipper first and then configure the URI location where the Skip
 
 #### Configuration for Prometheus
 
-If you have installed the Prometheus and Grafana on Cloud Foundry or have a separate installation of them on another cluster, update the Data Flow Server's manifest file so that the `SPRING_APPLICATION_JSON` environment variable contains a section that configures all Servers, Stream and Task applications to send metrics data to the Prometheus RSocket gateway.
-The snippets of YAML specific to this configuration is shown below.
+If you have installed Prometheus and Grafana on Cloud Foundry or have a separate installation of them on another cluster, update the Data Flow Server's manifest file so that the `SPRING_APPLICATION_JSON` environment variable contains a section that configures all Servers and Stream and Task applications to send metrics data to the Prometheus RSocket gateway.
+The following listing shows the snippet of YAML specific to this configuration:
 
 ```yml
 ---
@@ -280,7 +278,7 @@ services:
 
 #### Configuration for Wavefront
 
-If you have a Wavefront SaaS account, you can enable the Task and Stream metrics. For which, you need to extend the Data Flow server manifest by adding following JSON to the `SPRING_APPLICATION_JSON` environment variable:
+If you have a Wavefront SaaS account, you can enable the Task and Stream metrics. To do so, you need to extend the Data Flow server manifest by adding the following JSON to the `SPRING_APPLICATION_JSON` environment variable:
 
 ```json
         "management.metrics.export.wavefront": {
@@ -291,7 +289,7 @@ If you have a Wavefront SaaS account, you can enable the Task and Stream metrics
         }
 ```
 
-Check the [Wavefront Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-wavefront) endpoint for more details about the Wavefront-specific options supported through the `management.metrics.export.wavefront.XXX` properties.
+Check the [Wavefront Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-wavefront) endpoint for more details about the Wavefront-specific options that are supported through the `management.metrics.export.wavefront.XXX` properties.
 
 Once you are ready with the relevant properties in your manifest file,
 you can issue a `cf push` command from the directory where this file is
@@ -299,7 +297,7 @@ stored.
 
 #### Configuration for InfluxDB
 
-If you have installed the InfluxDB and Grafana on Cloud Foundry or have a separate installation of them on another cluster, to enable the Task and Stream metrics integration you need to extend the Data Flow server manifest by adding following JSON to the `SPRING_APPLICATION_JSON` environment variable:
+If you have installed InfluxDB and Grafana on Cloud Foundry or have a separate installation of them on another cluster, to enable the Task and Stream metrics integration, you need to extend the Data Flow server manifest by adding the following JSON to the `SPRING_APPLICATION_JSON` environment variable:
 
 ```json
     "management.metrics.export.influx": {
@@ -328,7 +326,7 @@ The following example shows how to start the Data Flow Shell:
 java -jar spring-cloud-dataflow-shell-{scdf-core-version}.jar
 ```
 
-Since the Data Flow Server and shell are not running on the same host, you can point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell.
+Since the Data Flow Server and shell are not running on the same host, you can point the shell to the Data Flow server URL by using the `dataflow config server` command in the Shell:
 
 ```bash
 server-unknown:>dataflow config server https://<data-flow-server-route-in-cf>
@@ -341,15 +339,15 @@ All the prebuilt streaming applications:
 
 - Are available as Apache Maven artifacts or Docker images.
 - Use RabbitMQ or Apache Kafka.
-- Support monitoring via Prometheus and InfluxDB.
+- Support monitoring with Prometheus and InfluxDB.
 - Contain metadata for application properties used in the UI and code completion in the shell.
 
-Applications can be registered individually using the `app register` functionality or as a group using the `app import` functionality.
-There are also `dataflow.spring.io` links that represent the group of prebuilt applications for a specific release which is useful for getting started.
+Applications can be registered individually by using the `app register` functionality or as a group by using the `app import` functionality.
+There are also `dataflow.spring.io` links that represent the group of prebuilt applications for a specific release, which is useful for getting started.
 
-You can register applications using the UI or the shell.
+You can register applications by using the UI or the shell.
 
-Since the Cloud Foundry installation guide uses RabbitMQ as the messaging middleware, register the RabbitMQ version of the applications.
+Since the Cloud Foundry installation guide uses RabbitMQ as the messaging middleware, you need to register the RabbitMQ version of the applications:
 
 ```bash
 dataflow:>app import --uri https://dataflow.spring.io/rabbitmq-maven-latest

@@ -6,7 +6,7 @@ description: 'Guide to deploying spring-cloud-stream-task applications on Cloud 
 
 # Setting up Cloud Foundry to Launch Tasks
 
-In order to run the two task applications by using Spring Cloud Data Flow, we also setup the following two server instances on Cloud Foundry:
+To run the two task applications by using Spring Cloud Data Flow, we also set up the following two server instances on Cloud Foundry:
 
 - [Spring Cloud Data Flow](https://cloud.spring.io/spring-cloud-dataflow/)
 - [Spring Cloud Skipper](https://cloud.spring.io/spring-cloud-skipper/)
@@ -23,7 +23,7 @@ To download Spring Cloud Skipper, run the following command:
 wget https://repo.spring.io/milestone/org/springframework/cloud/spring-cloud-skipper-server/2.0.2.RC1/spring-cloud-skipper-server-2.0.2.RC1.jar
 ```
 
-Later in this document, we deploy those two jars to Cloud Foundry.
+Later in this document, we describe how to deploy those two jars to Cloud Foundry.
 
 ## Setting up Services
 
@@ -35,18 +35,24 @@ Once you have an account, to log into Cloud Foundry by using the [Cloud Foundry 
 cf login
 ```
 
-[[tip]]
-| You can also target specific Cloud Foundry instances with the `-a` flag &#151; for example, `cf login -a https://api.run.pivotal.io`.
+<!-- TIP -->
 
-We use the following two Cloud Foundry services:
+You can also target specific Cloud Foundry instances with the `-a` flag &#151; for example, `cf login -a https://api.run.pivotal.io`.
+
+<!-- END_TIP -->
+
+We use the following Cloud Foundry services:
 
 - PostgreSQL
 - RabbitMQ
 
-[[note]]
-| RabbitMQ is not strictly needed, but, if we continue on to work with Streams, we want to be good citizens.
+<!-- NOTE -->
 
-You can get a listing of available services on Cloud by using the `marketplace` command, as the following listing shows:
+RabbitMQ is not strictly needed, but, if we continue on to work with Streams, we want to be good citizens.
+
+<!-- END_NOTE -->
+
+You can get a listing of available services on Cloud by using the `marketplace` command, as follows:
 
 ```bash
 cf marketplace
@@ -59,8 +65,11 @@ cf create-service elephantsql panda postgres-service
 cf create-service cloudamqp lemur rabbitmq-service
 ```
 
-[[important]]
-| **IMPORTANT**: When choosing a Postgres service, keep an eye on the provided number of connections. On PWS, for example, the free service tier of `elephantsql` provides only four parallel database connections, which is too limiting to successfully run this example.
+<!-- IMPORTANT -->
+
+**IMPORTANT**: When choosing a Postgres service, keep an eye on the provided number of connections. On PWS, for example, the free service tier of `elephantsql` provides only four parallel database connections, which is too limiting to successfully run this example.
+
+<!-- END_IMPORTANT -->
 
 Make sure you name your PostgresSQL service `postgres-service`. We use that name in the rest of the examples in this document.
 
@@ -100,7 +109,7 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
                               "space" : <space>,
                               "username": <email>,
                               "password" : <password>,
-                              "skipSsValidation" : false 
+                              "skipSsValidation" : false
                           },
                           "deployment" : {
                               "deleteRoutes" : false,
@@ -148,7 +157,7 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
                        "url" : "https://repo.spring.io/libs-snapshot"
                      }
                  }
-             }, 
+             },
              "spring.cloud.dataflow" : {
                    "task.platform.cloudfoundry.accounts": {
                        "default" : {
@@ -159,7 +168,7 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
                                "space" : <space>,
                                "username": <email>,
                                "password" : <password>,
-                               "skipSsValidation" : true 
+                               "skipSsValidation" : true
                            },
                            "deployment" : {
                              "services" : "postgres-service"
@@ -184,10 +193,6 @@ This example uses Skipper, which you can set up on Cloud Foundry. To do so:
 
 1. Run `cf push -f ./manifest-dataflow.yml`.
 
-Once you have deployed Spring Cloud Data Flow and Spring Cloud Skipper, go to your Cloud Foundry dashboard. Both Spring Cloud Skipper and Spring Cloud Data Flow should have a status of `Running`, as the following image shows:
+Once you have deployed Spring Cloud Data Flow and Spring Cloud Skipper, go to your Cloud Foundry dashboard. Both Spring Cloud Skipper and Spring Cloud Data Flow should have a status of `Running`, as follows:
 
 ![billsetuptask executed on Cloud Foundry](images/scdf-cf-dashboard-cf.png)
-
-```
-
-```

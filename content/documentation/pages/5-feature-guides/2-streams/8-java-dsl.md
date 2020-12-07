@@ -49,7 +49,7 @@ StreamDefinition streamDefinition = Stream.builder(dataFlowOperations)
 ```
 
 The `create` method returns an instance of a `StreamDefinition` that represents a Stream that has been created but not deployed.
-This is called the `definition` style, since it takes a single string for the stream definition (same as in the shell).
+This is called the "definition" style, since it takes a single string for the stream definition (same as in the shell).
 If applications have not yet been registered in the Data Flow server, you can use the `DataFlowOperations` class to register them.
 With the `StreamDefinition` instance, you have methods available to `deploy` or `destroy` the stream.
 The following example deploys the stream:
@@ -125,7 +125,7 @@ private void fluentStyle(DataFlowOperations dataFlowOperations) throws Interrupt
 }
 ```
 
-The `waitAndDestroy` method uses the `getStatus` method to poll for the stream's status, as shown in the following example:
+The `waitAndDestroy` method uses the `getStatus` method to poll for the stream's status:
 
 ```Java
 private void waitAndDestroy(Stream stream) throws InterruptedException {
@@ -157,12 +157,12 @@ private Map<String, String> createDeploymentProperties() {
 }
 ```
 
-Is this case, application properties are also overridden at deployment time in addition to setting the deployer property `count` for the log application.
+Is this case, application properties are also overridden at deployment time, in addition to setting the deployer property `count` for the log application.
 When using the fluent style, the deployment properties are added by using the `addDeploymentProperty` method (for example, `new StreamApplication("log").addDeploymentProperty("count", 2)`), and you need not prefix the property with `deployer.<app_name>`.
 
 <!--NOTE-->
 
-In order to create and deploy your streams, you need to make sure that the corresponding apps have been registered in the Data Flow server first.
+To create and deploy your streams, you need to make sure that the corresponding apps have been registered in the Data Flow server first.
 Attempting to create or deploy a stream that contains an unknown application throws an exception.
 You can register your application by using the `DataFlowTemplate`, as follows:
 
@@ -174,7 +174,7 @@ dataFlowOperations.appRegistryOperations().importFromResource(
 <!--END_NOTE-->
 
 Stream applications can also be beans within your application that are injected into other classes to create Streams.
-There are many ways to structure Spring applications, but one way is to have a `@Configuration` class define the `StreamBuilder` and `StreamApplications`, as shown in the following example:
+There are many ways to structure Spring applications, but one way is to have a `@Configuration` class define the `StreamBuilder` and `StreamApplications`:
 
 ```java
 @Configuration
@@ -197,7 +197,7 @@ public class StreamConfiguration {
 }
 ```
 
-Then, in another class, you can `@Autowire` these classes and deploy a stream.
+Then, in another class, you can `@Autowire` these classes and deploy a stream:
 
 ```java
 @Component
@@ -226,7 +226,7 @@ This style lets you share `StreamApplications` across multiple Streams.
 
 ## Using the `DeploymentPropertiesBuilder`
 
-Regardless of style you choose, the `deploy(Map<String, String> deploymentProperties)` method allows customization of how your streams are deployed.
+Regardless of the style you choose, the `deploy(Map<String, String> deploymentProperties)` method allows customization of how your streams are deployed.
 We made it easier to create a map with properties by using a builder style, as well as creating static methods for some properties so you need not remember the name of such properties.
 You could rewrite the previous example of `createDeploymentProperties` as follows:
 

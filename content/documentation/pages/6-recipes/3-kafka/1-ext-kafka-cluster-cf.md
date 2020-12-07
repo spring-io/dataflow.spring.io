@@ -7,10 +7,10 @@ description: 'Connect to an external Kafka Cluster from Cloud Foundry'
 # Connect to External Kafka Cluster
 
 Pivotal Cloud Foundry does not have Apache Kafka as a managed service in the Marketplace.
-However, it is common for developers to develop and deploy applications to Cloud Foundry that interact with an external Kafka cluster.
-This recipe specifically walks through the developer expectations from Spring Cloud Stream, Spring Cloud Data Flow, and as well as the [Spring Cloud Data Flow for PCF](https://network.pivotal.io/products/p-dataflow) Tile.
+However, it is common for developers to develop and deploy applications that interact with an external Kafka cluster to Cloud Foundry.
+This recipe specifically walks through the developer expectations from Spring Cloud Stream, Spring Cloud Data Flow, and the [Spring Cloud Data Flow for PCF](https://network.pivotal.io/products/p-dataflow) Tile.
 
-We will review the required Spring Cloud Stream properties and how they are translated over to the applications for the following deployment options in Cloud Foundry.
+We review the required Spring Cloud Stream properties and how they are translated over to the applications for the following deployment options in Cloud Foundry.
 
 - Applications run as standalone app instances.
 - Applications deployed as part of a streaming data pipeline through open-source SCDF.
@@ -18,30 +18,30 @@ We will review the required Spring Cloud Stream properties and how they are tran
 
 ## Prerequisite
 
-Let's start with preparing the external Kafka cluster credentials.
+We start with preparing the external Kafka cluster credentials.
 
-Typically, a series of Kafka brokers, collectively are referred to as a Kafka cluster.
-The brokers individually can be reached through its external IP addresses or a well-defined DNS route could be available to use as well.
+Typically, a series of Kafka brokers is collectively referred to as a Kafka cluster.
+Each brokers can be reached individually through its external IP address or through a well-defined DNS route (if one has been made available).
 
-For this walk-through, though, we will stick to a simpler setup of 3-broker cluster with their DNS addresses being `foo0.broker.foo`, `foo1.broker.foo`, and `foo2.broker.foo`. The default port of the brokers is `9092`.
+For this walk-through, we stick to a simpler setup of a three-broker cluster with their DNS addresses being `foo0.broker.foo`, `foo1.broker.foo`, and `foo2.broker.foo`. The default port of each broker is `9092`.
 
-If the cluster is secured, depending on the security option in use at the broker, different properties are expected to be supplied for when applications attempt to connect to the external cluster.
-Again, for simplicity, we will use Kafka's [JAAS](https://en.wikipedia.org/wiki/Java_Authentication_and_Authorization_Service) set up of `PlainLoginModule` with username as `test` and password as `bestest`.
+If the cluster is secured, depending on the security option in use at the broker, different properties are expected to be supplied when applications attempt to connect to the external cluster.
+Again, for simplicity, we use Kafka's [JAAS](https://en.wikipedia.org/wiki/Java_Authentication_and_Authorization_Service) set up of `PlainLoginModule` with a username of `test` and a password of `bestest`.
 
-## User-provided Services vs. Spring Boot Properties
+## User-provided Services versus Spring Boot Properties
 
 The next question Cloud Foundry developers stumble upon is whether or not to set up Kafka connection as a Cloud Foundry custom user-provided service (CUPS) or simply pass connection credentials as Spring Boot properties.
 
-In Cloud Foundry, there isn't a [Spring Cloud Connector](https://github.com/spring-cloud/spring-cloud-connectors) or [CF-JavaEnv](https://github.com/pivotal-cf/java-cfenv) support for Kafka, so by service-binding the Kafka CUPS with the application, you _will not_ automatically be able to parse `VCAP_SERVICES` and pass the connection credentials to the applications at runtime.
-Even with CUPS in place, it is your responsibility to parse the `VCAP_SERVICES` JSON and pass them as Boot properties, so there's no automation in place for Kafka.
-For the curious, you can see an example of CUPS in action in the Spring Cloud Data Flow's [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-ups).
+Cloud Foundry has no [Spring Cloud Connector](https://github.com/spring-cloud/spring-cloud-connectors) or [CF-JavaEnv](https://github.com/pivotal-cf/java-cfenv) support for Kafka, so, by service-binding the Kafka CUPS with the application, you _can not_ automatically parse `VCAP_SERVICES` and pass the connection credentials to the applications at runtime.
+Even with CUPS in place, it is your responsibility to parse the `VCAP_SERVICES` JSON and pass them as Boot properties, so no automation is in place for Kafka.
+For the curious, you can see an example of CUPS in action in the Spring Cloud Data Flow's [Reference Guide](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#configuration-cloudfoundry-ups).
 
-For this walk-through, we will stick to the Spring Boot properties.
+For this walk-through, we stick to the Spring Boot properties.
 
 ## Standalone Streaming Apps
 
 The typical Cloud Foundry deployment of an application includes a `manifest.yml` file.
-We will use the `source-sample` source application to highlight the configurations to connect to an external Kafka cluster.
+We use the `source-sample` source application to highlight the configuration needed to connect to an external Kafka cluster:
 
 ```yaml
 ---
@@ -69,26 +69,29 @@ env:
         }
 ```
 
-With the above setting, when the `source-sample` source is deployed to Cloud Foundry, it should be able to connect to the external cluster.
+With these settings, when the `source-sample` source is deployed to Cloud Foundry, it should be able to connect to the external cluster.
 
-You can verify the connection credentials by accessing `source-sample`'s `/configprops` actuator endpoint.
-Likewise, you will also see the connection credentials printed in the app logs.
+You can verify the connection credentials by accessing the `/configprops` of the `source-sample` actuator endpoint.
+Likewise, you can also see the connection credentials printed in the app logs.
 
-[[note]]
-| The Kafka connection credentials are supplied through the Spring Cloud Stream Kafka binder properties, which in
-| this case are all the properties with the `spring.spring.cloud.stream.kafka.binder.*` prefix.
-|
-| Alternatively, instead of supplying the properties through `SPRING_APPLICATION_JSON`, these properties can be supplied as plain
-| env-vars as well.
+<!-- NOTE -->
+
+The Kafka connection credentials are supplied through the Spring Cloud Stream Kafka binder properties, which, in
+this case are all the properties with the `spring.spring.cloud.stream.kafka.binder.*` prefix.
+
+Alternatively, instead of supplying the properties through `SPRING_APPLICATION_JSON`, these properties can be supplied as plain environment variables as well.
+
+<!-- END_NOTE -->
 
 ## Streaming Data Pipeline in SCDF (Open Source)
 
-Deploying a streaming data pipeline in SCDF requires at least two applications. We will use the out-of-the-box `time` as the source and the `log` sink applications here.
+Deploying a streaming data pipeline in SCDF requires at least two applications. We use the out-of-the-box `time` application as the source and the `log` application as the sink here.
 
 ### Global Kafka Connection Configurations
 
-Before we jump to the demo walk-through, let's review how [global properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties) can be configured centrally in SCDF.
-With that flexibility, every stream application deployed through SCDF will automatically also inherit all the globally defined properties, and it can be convenient for cases like Kafka connection credentials.
+Before we jump to the demo walk-through, we review how you can configure [global properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties) centrally in SCDF.
+With that flexibility, every stream application deployed through SCDF also automatically inherits all the globally defined properties, and it can be convenient for cases like Kafka connection credentials.
+The following listing shows the global properties:
 
 ```yaml
 ---
@@ -114,8 +117,8 @@ env:
                             "url": <api-url>,
                             "org": <org>,
                             "space": <space>,
-                            "domain": <app-domain>, 
-                            "username": <email>, 
+                            "domain": <app-domain>,
+                            "username": <email>,
                             "password": <password>,
                             "skipSslValidation": true
                         },
@@ -124,8 +127,8 @@ env:
                         }
                     }
                 }
-            }, 
-            "stream": { 
+            },
+            "stream": {
                 "kafka.binder": {
                     "brokers": "foo0.broker.foo,foo1.broker.foo,foo2.broker.foo",
                     "jaas": {
@@ -144,7 +147,8 @@ services:
   - mysql
 ```
 
-With the above `manifest.yml`, SCDF should now be in the position to automatically propagate the Kafka connection credentials to all the stream application deployments.
+With the preceding `manifest.yml` file, SCDF should now automatically propagate the Kafka connection credentials to all the stream application deployments.
+Now you can create the streams:
 
 ```bash
 dataflow:>stream create fooz --definition "time | log"
@@ -156,12 +160,12 @@ Deployment request has been sent for stream 'fooz'
 
 When the `time` and `log` applications are successfully deployed and started in Cloud Foundry, they should automatically connect to the configured external Kafka cluster.
 
-You can verify the connection credentials by accessing `time` or `log`'s `/configprops` actuator endpoints.
-Likewise, you will also see the connection credentials printed in the app logs.
+You can verify the connection credentials by accessing the `/configprops` of the `time` or `log` actuator endpoints.
+Likewise, you can also see the connection credentials printed in the app logs.
 
 ### Explicit Stream-level Kafka Connection Configuration
 
-Alternatively, if you intend to deploy only a particular stream with external Kafka connection credentials, you can do so when deploying a stream with explicit overrides.
+Alternatively, if you intend to deploy only a particular stream with external Kafka connection credentials, you can do so when deploying a stream with explicit overrides:
 
 ```bash
 dataflow:>stream create fooz --definition "time | log"
@@ -173,22 +177,22 @@ Deployment request has been sent for stream 'fooz'
 
 When the `time` and `log` applications are successfully deployed and started in Cloud Foundry, they should automatically connect to the external Kafka cluster.
 
-You can verify the connection credentials by accessing `time` or `log`'s `/configprops` actuator endpoints.
-Likewise, you will also see the connection credentials printed in the app logs.
+You can verify the connection credentials by accessing the `/configprops` of the `time` or `log` actuator endpoints.
+Likewise, you can also see the connection credentials printed in the app logs.
 
 ## Streaming Data Pipeline in SCDF for PCF Tile
 
-We don't yet have support to supply global configuration properties through the SCDF for PCF Tile.
+We do not yet have support to supply global configuration properties through the SCDF for PCF Tile.
 
-However, the option discussed at [Explicit Stream Configuration](%currentPath%/recipes/kafka/ext-kafka-cluster-cf/#explicit-stream-level-kafka-connection-configuration) should still work when deploying a stream from Spring Cloud Data Flow running as a managed service in Pivotal Cloud Foundry.
+However, the option discussed in the [Explicit Stream Configuration](%currentPath%/recipes/kafka/ext-kafka-cluster-cf/#explicit-stream-level-kafka-connection-configuration) section should still work when you deploy a stream from Spring Cloud Data Flow running as a managed service in Pivotal Cloud Foundry.
 
-Alternatively, you could supply Kafka connection credentials as CUPS when creating the service instance of SCDF for PCF Tile.
+Alternatively, you could supply Kafka connection credentials as CUPS properties when creating the service instance of SCDF for PCF Tile:
 
 ```bash
 cf create-service p-dataflow standard data-flow -c '{"messaging-data-service": { "user-provided": {"brokers":"foo0.broker.foo,foo1.broker.foo,foo2.broker.foo","username":"test","password":"bestest"}}}'
 ```
 
-With that, when deploying the stream, you'd supply the CUPS properties as values from `VCAP_SERVICES`.
+With that, when deploying the stream, you would supply the CUPS properties as values from `VCAP_SERVICES`.
 
 ```bash
 dataflow:>stream create fooz --definition "time | log"
@@ -198,6 +202,8 @@ dataflow:>stream deploy --name fooz --properties "app.*.spring.cloud.stream.kafk
 Deployment request has been sent for stream 'fooz'
 ```
 
-[[note]]
-| Replace `<GENERATED_GUID>` with the GUID of the generated messaging service-instance name, which you can find from `cf services` command.
-| Example: `messaging-b3e76c87-c5ae-47e4-a83c-5fabf2fc4f11`.
+<!-- NOTE -->
+
+Replace `<GENERATED_GUID>` with the GUID of the generated messaging service-instance name, which you can find from `cf services` command (for example: `messaging-b3e76c87-c5ae-47e4-a83c-5fabf2fc4f11`).
+
+<!-- NOTE -->

@@ -14,7 +14,7 @@ Building on this foundation, we can extend existing `Source` and `Sink` applicat
 
 Consider the following stream:
 
-```bash
+```
 http | transformer --expression=(\"Hello \"+payload.toString().toUpperCase()) | log
 ```
 
@@ -28,7 +28,7 @@ Also, you can not only compose the original source or sink with a single functio
 In this guide, we create the stream defined earlier and then create a new `http-transformer` source application that encapsulates the original transformer expression as two `java.util.Function` instances.
 A new stream is deployed to do the same processing but now using only two applications instead of three.
 
-For this guide we assume that the respective `http`, `transformer`, and `log` applications have already been imported and registered with Spring Cloud Data Flow, as described in the [Installation guide](%currentPath%/installation/).
+For this guide, we assume that the respective `http`, `transformer`, and `log` applications have already been imported and registered with Spring Cloud Data Flow, as described in the [Installation guide](%currentPath%/installation/).
 
 ## Using Three Applications
 
@@ -61,8 +61,8 @@ You can see the following log message in the `log` application:
 
 ## Using Two Applications
 
-In this step, we create and register a a new source application that combines the functionality of the two applications in the Stream (`http | transformer`) into one application.
-We then deploy the new stream and verify that the output of is the same as in the previous example.
+In this step, we create and register a new source application that combines the functionality of the two applications in the Stream (`http | transformer`) into one application.
+We then deploy the new stream and verify that the output is the same as in the previous example.
 
 The new source application is called `http-transformer` and imports the `http` source application's configuration and defines two `java.util.Function` instances as Spring Beans. The following listing shows the source for this application:
 
@@ -114,7 +114,7 @@ Now you can build the new source, register it, and deploy the stream on your loc
 
 ### Building
 
-You can skip this section if you want to register the `maven` or `docker` resource URI of the `http-transformer` that we have made available on our Maven repository and Dockerhub.
+You can skip this section if you want to register the `maven` or `docker` resource URI of the `http-transformer` that we have made available in our Maven repository and Dockerhub.
 
 You can download the source code for this application from Github.
 
@@ -126,7 +126,7 @@ cd composed-http-transformer-kafka
 ./mvnw clean install
 ```
 
-If you use the Kafka binder, you can download [http-transformer-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kafka.zip)
+If you use the Kafka binder, you can download [http-transformer-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kafka.zip).
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
@@ -144,7 +144,7 @@ app register --name http-transformer --type source --uri file:///<YOUR-SOURCE-CO
 
 <!--NOTE-->
 
-For the `--uri` option, replace the directory name and path of the artifact with the values appropriate to your system.
+For the `--uri` option. Replace the directory name and path of the artifact with the values appropriate to your system.
 
 <!--END_NOTE-->
 
@@ -184,7 +184,7 @@ We can now deploy a new stream by using the `http-transform` application that in
 stream create helloComposed --definition "http-transformer --server.port=9001 | log"
 ```
 
-To chain the order in which the functions are run, we have to use the `spring.cloud.stream.function.definition` property to define the function definition.
+To define the order in which the functions are run, we have to use the `spring.cloud.stream.function.definition` property to define the function definition.
 The function definition represents the functional DSL defined by Spring Cloud Function.
 
 In this case, it is as follows:
@@ -243,7 +243,7 @@ You can skip this section if you want to register the `maven` or `docker` resour
 
 You can download the source code for this application from Github.
 
-If you use the RabbitMQ binder, you can download [http-transformer-kotlin-with-RabbitMQ-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-rabbitmq.zip)
+If you use the RabbitMQ binder, you can download [http-transformer-kotlin-with-RabbitMQ-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-rabbitmq.zip).
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
@@ -251,7 +251,7 @@ cd composed-http-transformer-kotlin-kafka
 ./mvnw clean install
 ```
 
-If you use the Kafka binder, you can download [http-transformer-kotlin-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-kafka.zip)
+If you use the Kafka binder, you can download [http-transformer-kotlin-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-kafka.zip).
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
@@ -271,7 +271,7 @@ For the `--uri` option, replace the directory name and path of the artifact with
 
 #### Registering the Readily Available Application
 
-The Maven/Docker artifacts of the `http-transformer` application are readily available in both the `Kafka` and `RabbitMQ` binders.
+The Maven and Docker artifacts of the `http-transformer` application are readily available in both the `Kafka` and `RabbitMQ` binders.
 
 The following listing describes a Maven artifact with a Kafka binder:
 
@@ -306,7 +306,7 @@ stream create helloComposedKotlin --definition "http-transformer-kotlin --server
 
 ```
 
-As we did in the `http-transformer` example, we can use the`spring.cloud.stream.function.definition` property to specify any valid composed function DSL to construct the functional composition.
+As we did in the `http-transformer` example, we can use the `spring.cloud.stream.function.definition` property to specify any valid composed function DSL to construct the functional composition.
 In this case, we can combine the function beans registered with Java configuration along with the function bean from Kotlin processor configuration, as the following example shows:
 
 ```
@@ -314,15 +314,18 @@ stream deploy helloComposedKotlin --properties "app.http-transformer-kotlin.spri
 
 ```
 
-In the following example, the function name (`transform`) corresponds to Kotlin function name:
+In the following example, the function name (`transform`) corresponds to the Kotlin function name:
 
 ```
 http post --data "friend" --target "http://localhost:9002"
 
 ```
 
-[[note]]
-| **Note** We can perform the composition between Kotlin functions and Java functions because Kotlin functions are internally converted into `java.util.Function`.
+<!-- NOTE -->
+
+**NOTE:** We can use Kotlin functions with Java functions because Kotlin functions are internally converted into `java.util.Function`.
+
+<!-- END_NOTE -->
 
 You can see the output in the `log` application, as follows:
 

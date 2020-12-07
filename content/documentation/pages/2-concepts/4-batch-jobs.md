@@ -12,11 +12,11 @@ An example of a batch process would be a billing application. The following imag
 
 ![Batch App Flow](images/batch-app-flow.png)
 
-This application runs nightly, to read the customer usage data from flat file, generate pricing information for those records, and insert the billing information into a billing table.
+This application runs nightly, to read the customer usage data from a flat file, generate pricing information for those records, and insert the billing information into a billing table.
 Once all of the usage data has been read and priced and the results have been inserted into the billing table, the app stops.
 
 That sounds pretty simple, but we have to think about what happens if the batch processing app fails four hours into a six-hour run because the database ran out of table space.
-Once more table space has been added, we do not want restart the processing from the very beginning. So the billing application needs to have the ability to restart from where it stopped.
+Once more table space has been added, we do not want to restart the processing from the very beginning. So the billing application needs to have the ability to restart from where it stopped.
 
 ## Spring Batch
 
@@ -28,7 +28,7 @@ This way, we can focus on the business logic of pricing the usage data.
 
 ## Running Batch Apps in the Cloud
 
-We can now see how Spring Batch can simplify our life when writing batch application, but how can we run a batch application in the cloud?
+We can now see how Spring Batch can simplify our life when writing batch applications, but how can we run a batch application in the cloud?
 Both Cloud Foundry and Kubernetes support the concept of running ephemeral (short-lived) apps on their platforms.
 Cloud Foundry refers to ephemeral apps as tasks, and Kubernetes refers to them as jobs.
 But to run an ephemeral app in the cloud, we need to have some basic features:

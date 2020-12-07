@@ -31,32 +31,32 @@ To create a task:
 
 1.  Click `Create Task`.
 
-1.  Enter `timestamp-task` as the name, as the following image shows:
+1.  Enter `timestamp-task` as the name, as follows:
 
     ![Timestamp Task Definition - Enter Name](images/dataflow-task-create-timestamp-task-definition-confirmation.png)
 
 1.  Click the `CREATE THE TASK` button.
 
-    The Task Definitions page appears and lists the created definition (`timestamp-task`), as the following image shows:
+    The Task Definitions page appears and lists the created definition (`timestamp-task`), as follows:
 
     ![Timestamp Task Definition List](images/dataflow-task-definitions-list.png)
 
 ## Running the Task
 
-Now that you have defined a task definition, you can run it. To do so:
+Now that you have created a task definition, you can run it. To do so:
 
-1. Click the drop down control on the `timestamp-task` definition row and click the "Launch" option, as the following image shows:
+1. Click the drop down control on the `timestamp-task` definition row and click the **Launch** option, as follows:
 
    ![Launch Timestamp Task Definition](images/dataflow-task-definitions-click-launch-task.png)
 
    The UI lets you provide additional:
 
-   - **Arguments**: Any properties that need to be passed as command line arguments.
+   - **Arguments**: Any properties that need to be passed as command-line arguments.
    - **Parameters**: Additional properties meant for a `TaskLauncher`.
 
    ![Launch Task - Provide Arguments or Parameters](images/dataflow-task-definitions-click-launch-task-2.png)
 
-1. As we do not need to provide additional argument or parameters, click the `LAUNCH THE TASK` button. The UI returns to the task definitions page, as the following image shows:
+1. As we do not need to provide additional argument or parameters, click the **LAUNCH THE TASK** button. The UI returns to the task definitions page, as follows:
 
    ![Task Definitions List with Successful Task Execution](images/dataflow-task-definitions-list-with-task-success.png)
 
@@ -66,16 +66,16 @@ After a few moments, the task definition should show a status of "COMPLETE". You
 
 To verify that the output is what you expect:
 
-1. Click on the `Task executions` tab, as the following image shows:
+1. Click on the **Task executions** tab, as follows:
 
    ![Task Execution List with Successful Task Execution](images/dataflow-task-execution-result-execution-tab.png)
 
    You can see your task application with an exit code of `0`, indicating a successful execution.
 
-1. Click on the `Execution ID` on the row to see even more details, as the following image shows:
+1. Click on the `Execution ID` on the row to see even more details, as follows:
 
    ![Task Execution Details with Successful Task Execution](images/dataflow-task-execution-result-execution-details.png)
 
-If you would also like to see the timestamp log click the **VIEW LOG** button on the bottom of the page:
+If you would also like to see the timestamp log, click the **VIEW LOG** button on the bottom of the page:
 
 ![Task Definitions List with Successful Task Execution](images/dataflow-task-execution-result.png)
