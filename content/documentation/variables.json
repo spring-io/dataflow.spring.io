@@ -4,12 +4,12 @@
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.2.0.RELEASE",
 
-  "skipper-version": "2.6.0",
-  "dataflow-version": "2.7.0",
+  "skipper-version": "2.6.0-M2",
+  "dataflow-version": "2.7.0-M2",
 
   "github-tag": "v2.7.0",
 
-  "spring-maven-repo-type": "snapshot",
+  "spring-maven-repo-type": "milestone",
 
   "stream-applications-doc-3x": "https://docs.spring.io/stream-applications/docs/2020.0.0-SNAPSHOT/reference/html",
 
