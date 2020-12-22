@@ -168,7 +168,7 @@ dataflow:>task launch demo1
 Launched task 'demo1' with execution id 2
 ```
 
-You can verif this by using the task execution status, as follows:
+You can verify this by using the task execution status, as follows:
 
 ```bash
 dataflow:>task execution status 2

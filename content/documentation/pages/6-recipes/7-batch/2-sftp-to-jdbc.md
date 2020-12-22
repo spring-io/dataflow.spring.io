@@ -921,7 +921,7 @@ If you run on Kubernetes, set the datasource to use the internal IP of the `mysq
 spring.datasource.url=jdbc:mysql://10.98.214.235:3306/dataflow
 ```
 
-If you rune in Cloud Foundry or Kubernetes, add the following property to `src/main/resources/application.properties`:
+If you run in Cloud Foundry or Kubernetes, add the following property to `src/main/resources/application.properties`:
 
 ```
 spring.integration.jdbc.initialize-schema=always

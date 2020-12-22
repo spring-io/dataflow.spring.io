@@ -29,7 +29,7 @@ The additional steps to create a label in a container image with the application
 
 2. Extend the `jib-maven-plugin` (or `docker-maven-plugin`) configuration, as shown [here](%currentPath%/feature-guides/general/application-metadata/#container-maven-plugin), to add the content of the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property as a Container Image Label
 
-### Boot Configuration processor
+### Boot Configuration Processor
 
 For your own applications, you can easily [generate your own configuration metadata file](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor) from items annotated with `@ConfigurationProperties` by using the `spring-boot-configuration-processor` library. This library includes a Java annotation processor, which is invoked as your project is compiled.
 The generated configuration metadata files are then stored inside the uber-jar under `META-INF/spring-configuration-metadata.json`
@@ -44,9 +44,9 @@ To use the processor, include the following dependency on spring-boot-configurat
 </dependency>
 ```
 
-### Whitelisting properties
+### Whitelisting Properties
 
-In addition to this file, Data Flow can make use of an additional file that whiteliststhe most important application properties, usually your own application's `@ConfigurationProperties`.
+In addition to this file, Data Flow can make use of an additional file that whitelists the most important application properties, usually your own application's `@ConfigurationProperties`.
 Without using a whitelist, the UI and Shell present the hundreds of [Common Application Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties), resulting in a poor user experience.
 The `whitelist` file lists the primary application properties so that the shell and the UI can display them first when presenting options through TAB completion or in drop-down boxes.
 

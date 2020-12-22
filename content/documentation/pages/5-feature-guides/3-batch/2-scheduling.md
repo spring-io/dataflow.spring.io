@@ -59,7 +59,7 @@ For more information, see [here](https://docs.spring.io/spring-boot/docs/current
 **Spring Boot Implementing the `@Scheduled` annotation**
 
 Another option is to create a Spring Boot application that uses the `@Scheduled` annotation on a method that creates [RESTful API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#api-guide-resources-task-executions) calls to launch tasks on Spring Cloud Data Flow.
-You can read more informationabout it in the [Spring Boot documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-task-execution-scheduling).
+You can read more information about it in the [Spring Boot documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-task-execution-scheduling).
 
 <!--END_TABS-->
 

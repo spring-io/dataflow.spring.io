@@ -302,7 +302,7 @@ spring.cloud.deployer.kubernetes.environmentVariables=spring.cloud.stream.kafka.
 
 <!--END_TIP-->
 
-Doin so overrides the JVM memory setting for the desired `<app>` (replace
+Doing so overrides the JVM memory setting for the desired `<app>` (replace
 `<app>` with the name of your application).
 
 ### Liveness and Readiness Probes

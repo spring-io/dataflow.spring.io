@@ -4,7 +4,7 @@ title: 'Running locally'
 description: 'Configure the local servers to deploy to Cloud Foundry'
 ---
 
-# Running Cloud Foundry Locally
+# Running SCDF Locally Against Remote Cloud Foundry
 
 Sometimes, usually for debugging purposes, it is convenient to run the Data Flow and Skipper server on your local machine and configure it to deploy applications to Cloud Foundry.
 

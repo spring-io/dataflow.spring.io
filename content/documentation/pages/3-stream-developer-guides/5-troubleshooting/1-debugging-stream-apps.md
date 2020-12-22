@@ -159,7 +159,7 @@ graph TD;
     E --> |No| E
 ```
 
-Sinks obtain data from an input channel and do something with it (such as storing the that data in an external repository).
+Sinks obtain data from an input channel and do something with it (such as storing that data in an external repository).
 Ensure that the proper class level annotation (`@EnableBinding(Sink.class)`) is present and that the handler method is implemented.
 The handler method should use an output channel of `Source.INPUT`.
 

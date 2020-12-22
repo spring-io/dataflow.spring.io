@@ -4,7 +4,7 @@ title: 'Autoscaling'
 description: 'Autoscale streaming data pipeline with SCDF and Prometheus'
 ---
 
-# Autoscaling with Prometheus, Alertmanager and SCDF Scale API
+# Autoscaling with Prometheus, Alertmanager, and the SCDF Scale API
 
 To learn about the basic scaling concepts in Spring Cloud Data Flow, see the [Scaling](%currentPath%/feature-guides/streams/scaling/) guide.
 
@@ -110,7 +110,7 @@ Then install the `Alertmanager` and the `AlertWebHook` and reconfigure the `Prom
   kubectl delete pods -l app=prometheus
   ```
 
-Replace `my-release-prometheus-server` with your current Prometheus CM. Use `kubectl get cm` to list your configurations.
+Replace `my-release-prometheus-server` with your current Prometheus ConfigMap. Use `kubectl get cm` to list your configurations.
 
 <!--For Helm installation-->
 

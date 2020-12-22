@@ -436,7 +436,7 @@ In this case, we see that the wildcard catches all other exit messages. We can v
 
 ## Split Execution
 
-What if we want to execute multiple tasks at the same time? The Composed Task DSL supports the concept of a split, to let you do just that. The task definition DSL supports a concept of a split that lets you launch multiple task apps at the same time. Each split contains a list of tasks that are contained within the less than `<` and greater than `>` symbol and delimited by twp pipe symbols (`||`).  
+What if we want to execute multiple tasks at the same time? The Composed Task DSL supports the concept of a split, to let you do just that. The task definition DSL supports a concept of a split that lets you launch multiple task apps at the same time. Each split contains a list of tasks that are contained within the less than `<` and greater than `>` symbol and delimited by two pipe symbols (`||`).  
 For example, if we wanted to launch three tasks at the same time, the DSL would look like:
 
 ```
