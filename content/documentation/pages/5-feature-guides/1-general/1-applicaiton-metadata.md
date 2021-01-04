@@ -9,9 +9,9 @@ description: 'Create and use application properties metadata'
 Spring Boot provides support for bundling an application's configuration properties within the executable jar.
 In this section we also discuss bundling an application's configuraiton properties as a label in a container image.
 This packaging of metadata allows Data Flow to present an application's configuration properties in the UI and Shell.
-Whitelisting of application configuration properties in an important step in this process so that most important application properties to configure will be presented first by the UI and Shell.
+Allowlisting of application configuration properties in an important step in this process so that most important application properties to configure will be presented first by the UI and Shell.
 
-The outline of the steps to create, whitelist and package an application's configuration properties in an executable jar and also as metadata in a container image.
+The outline of the steps to create, allowlist and package an application's configuration properties in an executable jar and also as metadata in a container image.
 
 The common steps between packaging configuration properties in an executable jar and container image are
 
@@ -20,10 +20,10 @@ The common steps between packaging configuration properties in an executable jar
 These configuration properties are packaged in a [configuration metadata file](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata).
 Boot's auto-configuration libraries already contain these metadata files and is what enabled you to configure Boot's [Common Application Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties), such as server.port as well as families of other properties specific to a given technology, for example JMX and logging that use the the prefix `spring.jmx` and `logging`.
 
-2.  Whitelist properties that you want to have preferred visibility in the UI and Shell as explained [here](%currentPath%/feature-guides/general/application-metadata/#whitelisting-properties) instead of viewing all of Boot's Common Application Properties.
+2.  Allowlist properties that you want to have preferred visibility in the UI and Shell as explained [here](%currentPath%/feature-guides/general/application-metadata/#allowlisting-properties) instead of viewing all of Boot's Common Application Properties.
 3.  Configure the `spring-cloud-app-starter-metadata-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#configure-app-starter-metadata-maven-plugin), to generate metadata jar as well as the `META-INF/spring-configuration-metadata-encoded.properties` file used to create Container Image labels.
 
-The additional steps to create a label in a container image with the application metadata and whitelist are
+The additional steps to create a label in a container image with the application metadata and allowlist are
 
 1. Configure the `properties-maven-plugin`, as explained [here](%currentPath%/feature-guides/general/application-metadata/#properties-maven-plugin), to load the `META-INF/spring-configuration-metadata-encoded.properties` as maven properties. Among others it will load the `org.springframework.cloud.dataflow.spring.configuration.metadata.json` property.
 
@@ -44,21 +44,21 @@ To use the processor, include the following dependency on spring-boot-configurat
 </dependency>
 ```
 
-### Whitelisting Properties
+### Allowlisting Properties
 
-In addition to this file, Data Flow can make use of an additional file that whitelists the most important application properties, usually your own application's `@ConfigurationProperties`.
-Without using a whitelist, the UI and Shell present the hundreds of [Common Application Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties), resulting in a poor user experience.
-The `whitelist` file lists the primary application properties so that the shell and the UI can display them first when presenting options through TAB completion or in drop-down boxes.
+In addition to this file, Data Flow can make use of an additional file that allowlists the most important application properties, usually your own application's `@ConfigurationProperties`.
+Without using an allowlist, the UI and Shell present the hundreds of [Common Application Properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-global-properties), resulting in a poor user experience.
+The `allowlist` file lists the primary application properties so that the shell and the UI can display them first when presenting options through TAB completion or in drop-down boxes.
 
-To whitelist application properties, create a file named `spring-configuration-metadata-whitelist.properties` under the `META-INF` resource directory. There are two property keys that can be used inside this file. The first key is named `configuration-properties.classes`. The value is a comma separated list of fully qualified `@ConfigurationProperty` class names. The second key is `configuration-properties.names`, whose value is a comma-separated list of property names. This can contain the full name of the property, such as `server.port`, or a partial name to whitelist a category of property names, such as `spring.jmx`.
+To allowlist application properties, create a file named `spring-configuration-metadata-allowlist.properties` under the `META-INF` resource directory. There are two property keys that can be used inside this file. The first key is named `configuration-properties.classes`. The value is a comma separated list of fully qualified `@ConfigurationProperty` class names. The second key is `configuration-properties.names`, whose value is a comma-separated list of property names. This can contain the full name of the property, such as `server.port`, or a partial name to allowlist a category of property names, such as `spring.jmx`.
 
-The [Spring Cloud Stream application starters](https://github.com/spring-cloud-stream-app-starters) are a good place to look for examples that use whitelists. The following example comes from the file sink’s `spring-configuration-metadata-whitelist.properties` file:
+The [Spring Cloud Stream application starters](https://github.com/spring-cloud-stream-app-starters) are a good place to look for examples that use allowlists. The following example comes from the file sink’s `spring-configuration-metadata-allowlist.properties` file:
 
 ```properties
 configuration-properties.classes=org.springframework.cloud.stream.app.file.sink.FileSinkProperties
 ```
 
-If we also want to add `server.port` to the whitelist, it would be as follows:
+If we also want to add `server.port` to the allowlist, it would be as follows:
 
 ```properties
 configuration-properties.classes=org.springframework.cloud.stream.app.file.sink.FileSinkProperties
@@ -108,12 +108,12 @@ You must use this plugin in addition to the `spring-boot-configuration-processor
 
 ### Metadata Jar File
 
-For the uber-jar packaged applications, an additional metadata jar is provided. It contains the Spring boot JSON file about configuration properties metadata and the whitelisting file described in the previous section. The following example shows the contents of such an artifact, for the canonical log sink:
+For the uber-jar packaged applications, an additional metadata jar is provided. It contains the Spring boot JSON file about configuration properties metadata and the allowlisting file described in the previous section. The following example shows the contents of such an artifact, for the canonical log sink:
 
 ```shell
 $ jar tvf log-sink-rabbit-1.2.1.BUILD-SNAPSHOT-metadata.jar
 373848 META-INF/spring-configuration-metadata.json
-   174 META-INF/spring-configuration-metadata-whitelist.properties
+   174 META-INF/spring-configuration-metadata-allowlist.properties
 ```
 
 Note that the `spring-configuration-metadata.json` file is quite large. This is because it contains the concatenation of all the properties that are available to the log sink at runtime (some of them come from `spring-boot-actuator.jar`, some of them come from `spring-boot-autoconfigure.jar`, some more come from `spring-cloud-starter-stream-sink-log.jar`, and so on). Data Flow always relies on all those properties, even when a companion artifact is not available, but here all have been merged into a single file.
@@ -126,9 +126,9 @@ The `spring-cloud-app-starter-metadata-maven-plugin` plugin generates a ready-to
 
 ### Metadata Container Image Label
 
-For applications packaged as container images, the whitelisted properties are used at compile time to extract only the whitelisted configuration metadata from the `spring-configuration-metadata.json` file and insert it as a configuration label in the generated application container image. Therefore, the produced container image contains the application itself as well as the whitelisted configuration metadata for it. There is no need for a companion artifact.
+For applications packaged as container images, the allowlisted properties are used at compile time to extract only the allowlisted configuration metadata from the `spring-configuration-metadata.json` file and insert it as a configuration label in the generated application container image. Therefore, the produced container image contains the application itself as well as the allowlisted configuration metadata for it. There is no need for a companion artifact.
 
-At compile time, the `spring-cloud-app-starter-metadata-maven-plugin` generates a `META-INF/spring-configuration-metadata-encoded.properties` file with a single property inside: `org.springframework.cloud.dataflow.spring.configuration.metadata.json`. The property value is the stringified, whitelisted subset of the configuration metadata. The following listing shows a typical metadata JSON file:
+At compile time, the `spring-cloud-app-starter-metadata-maven-plugin` generates a `META-INF/spring-configuration-metadata-encoded.properties` file with a single property inside: `org.springframework.cloud.dataflow.spring.configuration.metadata.json`. The property value is the stringified, allowlisted subset of the configuration metadata. The following listing shows a typical metadata JSON file:
 
 ```properties
 org.springframework.cloud.dataflow.spring.configuration.metadata.json={\n  \"groups\": [{\n    \"name\": \"log\",\n    \"type\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\",\n    \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n  }],\n  \"properties\": [\n    {\n      \"name\": \"log.expression\",\n      \"type\": \"java.lang.String\",\n      \"description\": \"A SpEL expression (against the incoming message) to evaluate as the logged message.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\",\n      \"defaultValue\": \"payload\"\n    },\n    {\n      \"name\": \"log.level\",\n      \"type\": \"org.springframework.integration.handler.LoggingHandler$Level\",\n      \"description\": \"The level at which to log messages.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n    },\n    {\n      \"name\": \"log.name\",\n      \"type\": \"java.lang.String\",\n      \"description\": \"The name of the logger to use.\",\n      \"sourceType\": \"org.springframework.cloud.stream.app.log.sink.LogSinkProperties\"\n    }\n  ],\n  \"hints\": []\n}

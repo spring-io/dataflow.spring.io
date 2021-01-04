@@ -14,7 +14,7 @@ We deploy a streaming data pipeline, simulate a resource strangling scenario (fo
 
 ![SCDF Manual Scaling](images/scdf-scale-manual.png)
 
-This manual approach lets operators and developers intervene and scale out when they observe high load in a given application. For example, a retail store may want to design a system that can scale out upfront to meet the high load and demanding days, such as Black Friday.
+This manual approach lets operators and developers intervene and scale out when they observe high load in a given application. For example, a retail store may want to design a system that can scale out upfront to meet the high load and demanding days, such as the busy shopping days before the year-end holidays.
 
 When a more sophisticated approach is required to control the scale-out and scale-in operations in an automated manner, with the help of SCDF's monitoring support using Prometheus, you can configure and set up autoscaling rules. See the [Autoscale streaming data pipelines with SCDF and Prometheus](%currentPath%/recipes/scaling/autoscaling/) recipe to learn how to do this.
 

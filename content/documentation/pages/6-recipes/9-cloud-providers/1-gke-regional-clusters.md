@@ -35,7 +35,7 @@ The important parts of this section are:
 - `Region` is selected -- in this case, `us-east1`. This value should be determined by your specific requirements, as described earlier.
 - `Specify default node locations` has three zones selected. Three zones are selected automatically. However, when there are more than three, this section allows explicit selection of zones.
 
-You can customzize other values in this section (such as the `Name`, and `Master version` settings) as appropriate.
+You can customize other values in this section (such as the `Name`, and `Master version` settings) as appropriate.
 
 Next, the machine type is selected in the `Nodes` subsection of `Node Pools -> default-pool`, as the following image shows:
 
