@@ -31,23 +31,20 @@ class DocsPage extends React.Component {
           description: get(edges, 'edges[1].node.frontmatter.description'),
           path: get(edges, 'edges[1].node.fields.path'),
         },
-        {},
-      ],
-      [
         {
           id: 'developer-guides',
           title: get(edges, 'edges[2].node.frontmatter.title'),
           description: get(edges, 'edges[2].node.frontmatter.description'),
           path: get(edges, 'edges[2].node.fields.path'),
         },
+      ],
+      [
         {
           id: 'batch-guides',
           title: get(edges, 'edges[3].node.frontmatter.title'),
           description: get(edges, 'edges[3].node.frontmatter.description'),
           path: get(edges, 'edges[3].node.fields.path'),
         },
-      ],
-      [
         {
           id: 'featured-guides',
           title: get(edges, 'edges[4].node.frontmatter.title'),
@@ -74,7 +71,6 @@ class DocsPage extends React.Component {
           description: get(edges, 'edges[6].node.frontmatter.description'),
           path: get(edges, 'edges[6].node.fields.path'),
         },
-        {},
       ],
     ]
     return (
