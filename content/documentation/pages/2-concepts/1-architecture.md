@@ -247,17 +247,8 @@ Additional guides will go into more detail on how to develop, test, and register
 
 ### Application Metadata
 
-The long-lived and the short-lived applications can provide metadata about the supported configuration properties. The metadata is used by Shell and UI tools to offer contextual help and code completion when building data pipelines. It is packaged together with the application or provided as an additional artifact.
-
-The application [configuration properties](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config) details are captured as Spring Boot [configuration metadata](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html) and the `whitelist properties` are used to specify which properties, out of all the metadata, are the primary properties -- that is, the properties that are essential for the application's operation.
-
-Depending on the runtime, the metadata is packaged in two ways:
-
-- For the applications packaged as uber-jars, an additional metadata jar is provided, to accommodate the `configuration metadata` and the `whitelist properties` for that application.
-
-- For the applications packaged as Docker images, the whitelisted properties are extracted from the configuration metadata and provided as Docker image configuration labels.
-
-Find more about how to generate and use [Application Metadata](%currentPath%/feature-guides/general/application-metadata/) in the related features guide.
+The long-lived and the short-lived applications can provide metadata about the supported configuration properties. The metadata is used by Shell and UI tools to offer contextual help and code completion when building data pipelines.
+You can find more about how to generate and use Application Metadata in this [detailed guide](%currentPath%/applications/application-metadata/).
 
 ## Prebuilt Applications
 
@@ -266,7 +257,7 @@ For example, you can use a `cassandra` sink that writes data to Cassandra and a 
 
 The installation instructions show how to register these applications with Spring Cloud Data Flow.
 
-You can find more information on pre-built applications in the [concepts guide](%currentPath%/concepts/).
+You can find more information on pre-built applications in the [Applications](%currentPath%/applications/pre-packaged/) guide.
 
 ## Microservice Architectural Style
 

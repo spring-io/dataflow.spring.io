@@ -55,6 +55,7 @@ TEST SUITE: None
 NOTES:
 ** Please be patient while the chart is being deployed **
 ```
+
 Spring Cloud Data Flow chart was deployed by using the following components:
 
 - Spring Cloud Data Flow server
@@ -68,7 +69,7 @@ To access Spring Cloud Data Flow dashboard from outside the cluster, run the fol
 
 1. Get the Data Flow dashboard URL by running the following commands:
 
-    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-release-spring-cloud-dataflow-server)
+   export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-release-spring-cloud-dataflow-server)
     kubectl port-forward --namespace default svc/my-release-spring-cloud-dataflow-server ${SERVICE_PORT}:${SERVICE_PORT} &
     echo "http://127.0.0.1:${SERVICE_PORT}/dashboard"
 
@@ -541,7 +542,7 @@ Replace `mysecret` with the name of the secret you created earlier.
 
 #### Volume Mounted Secretes
 
-Data Flow uses the [application metadata](%currentPath%/feature-guides/general/application-metadata/) stored in a container image label.
+Data Flow uses the [application metadata](%currentPath%/applications/application-metadata/) stored in a container image label.
 To access the metadata labels in a private registry, you have to extend the Data Flow deployment configuration and mount the registry secrets as a [Secrets PropertySource](https://cloud.spring.io/spring-cloud-static/spring-cloud-kubernetes/2.0.0.M1/reference/html/#secrets-propertysource):
 
 ```yaml

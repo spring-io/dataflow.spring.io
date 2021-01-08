@@ -55,7 +55,7 @@ The URL can be any standard URL or can use one of the Data Flow `maven://` or `d
 
 <!--END_TIP-->
 
-To optimize performance, you may package [application metadata](%currentPath%/feature-guides/general/application-metadata), which contains the names and descriptions of exposed application properties, in a separate, smaller artifact. This is not required, but, since the metadata is typically accessed before the application binary is needed, it allows more efficient use of network resources when using Data Flow. In this case, add a registration entry for the metadata artifact as `<type>.<name>.metadata=app-metadata-url`.
+To optimize performance, you may package [application metadata](%currentPath%/applications/application-metadata), which contains the names and descriptions of exposed application properties, in a separate, companion artifact. This is not required, but, since the metadata is typically accessed before the application binary is needed, it allows more efficient use of network resources when using Data Flow. In this case, add a registration entry for the metadata artifact as `<type>.<name>.metadata=app-metadata-url`.
 
 Here is a snippet of a bulk registration file used to register Maven artifacts:
 
