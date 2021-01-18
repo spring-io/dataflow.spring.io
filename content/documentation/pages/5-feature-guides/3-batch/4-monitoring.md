@@ -322,19 +322,6 @@ management:
         api-token: <YOUR API-KEY>
         uri: <YOUR WAVEFRONT-URI>
         source: demo-scdf-source
-spring:
-  cloud:
-    dataflow:
-      applicationProperties:
-        task:
-          management:
-            metrics:
-              export:
-                wavefront:
-                  enabled: true
-                  api-token: <YOUR API-KEY>
-                  uri: <YOUR WAVEFRONT-URI>
-                  source: demo-scdf-source
 ```
 
 Then, in the Wavefront portal, you should see dashboards similar to those shown in the following image:
