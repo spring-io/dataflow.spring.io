@@ -278,6 +278,12 @@ Configurations are specific for each target Container Registry provider or insta
 For a [private container registry](%currentPath%/installation/kubernetes/helm/#private-docker-registry) with volume-mounted secrets, the registry configurations are automatically inferred from the secrets.
 In addition, `spring.cloud.dataflow.container.registry-configurations` has properties that let you explicitly configure multiple container registries, as follows:
 
+#### Container Registry Support
+
+Out of the box you can connect to various on-cloud and on-premise container registries such as [Harbor](https://goharbor.io), [Arifactory/JFrog](https://jfrog.com/integration/docker-registry), [Amazon ECR](https://aws.amazon.com/ecr/), [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry) or [host your private registry](https://docs.docker.com/registry/deploying/).
+
+As the different registries my impose different authentication schemas the following sections provide registry specific configuration details:
+
 - [Docker Hub](https://hub.docker.com/) - public Docker Hub registry
 
 <!--TABS-->
@@ -310,6 +316,61 @@ spring:
 This registry is used by default. If the image name does not provide the registry host prefix.
 The public Docker hub repositories do not require username and password authorization.
 The credentials, though, are required for the private Docker Hub repositories.
+
+- [Harbor Registry](https://goharbor.io)
+
+<!--TABS-->
+
+<!--Java properties-->
+
+```
+- spring.cloud.dataflow.container.registry-configurations[harbor].registry-host=demo.goharbor.io
+- spring.cloud.dataflow.container.registry-configurations[harbor].authorization-type=dockeroauth2
+- spring.cloud.dataflow.container.registry-configurations[harbor].user=admin
+- spring.cloud.dataflow.container.registry-configurations[harbor].secret=Harbor12345
+```
+
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          harbor:
+            registry-host: demo.goharbor.io
+            authorization-type: dockeroauth2
+            user: admin
+            secret: Harbor12345
+```
+
+<!--END_TABS-->
+
+The Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on a different `registryAuthUri`. Later is automatically resolved at bootstrap, but you can override it like this:
+
+<!--TABS-->
+
+<!--Java properties-->
+
+```
+- spring.cloud.dataflow.container.registry-configurations[harbor].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
+```
+
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        registry-configurations:
+          harbor:
+            extra:
+              'registryAuthUri': https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
+```
+
+<!--END_TABS-->
 
 - [Arifactory/JFrog Container Registry](https://jfrog.com/integration/docker-registry):
 
@@ -411,60 +472,7 @@ spring:
 
 <!--END_TABS-->
 
-- [Harbor Registry](https://goharbor.io)
-
-<!--TABS-->
-
-<!--Java properties-->
-
-```
-- spring.cloud.dataflow.container.registry-configurations[harbor].registry-host=demo.goharbor.io
-- spring.cloud.dataflow.container.registry-configurations[harbor].authorization-type=dockeroauth2
-- spring.cloud.dataflow.container.registry-configurations[harbor].user=admin
-- spring.cloud.dataflow.container.registry-configurations[harbor].secret=Harbor12345
-```
-
-<!--Yaml-->
-
-```yaml
-spring:
-  cloud:
-    dataflow:
-      container:
-        registry-configurations:
-          harbor:
-            registry-host: demo.goharbor.io
-            authorization-type: dockeroauth2
-            user: admin
-            secret: Harbor12345
-```
-
-<!--END_TABS-->
-
-The Harbor Registry configuration uses the OAuth2 Token authorization similar to DockerHub but on a different `registryAuthUri`. Later is automatically resolved at bootstrap, but you can override it like this:
-
-<!--TABS-->
-
-<!--Java properties-->
-
-```
-- spring.cloud.dataflow.container.registry-configurations[harbor].extra[registryAuthUri]=https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
-```
-
-<!--Yaml-->
-
-```yaml
-spring:
-  cloud:
-    dataflow:
-      container:
-        registry-configurations:
-          harbor:
-            extra:
-              'registryAuthUri': https://demo.goharbor.io/service/token?service=harbor-registry&scope=repository:{repository}:pull
-```
-
-<!--END_TABS-->
+#### Customizations
 
 - Overriding/Augmenting [Volume Mounted Secrets](%currentPath%/installation/kubernetes/helm/#volume-mounted-secretes)
 
@@ -496,3 +504,39 @@ spring:
 <!--END_TABS-->
 
 This is handy for testing registries with self-signed certificates.
+
+- Connect via Http Proxy
+
+You can redirect some of the registry configurations through a pre-configured proxy. For example, if access a registry running at address: `my-private-registry:5000` via a proxy configured at `my-proxy.test:8080`:
+
+<!--TABS-->
+
+<!--Java properties-->
+
+```
+- spring.cloud.dataflow.container.http-proxy.host=my-proxy.test
+- spring.cloud.dataflow.container.http-proxy.port=8080
+- spring.cloud.dataflow.container.registry-configurations[myregistrywithproxy].registry-host=my-proxy-registry:5000
+- spring.cloud.dataflow.container.registry-configurations[myregistrywithproxy].use-http-proxy=true
+```
+
+<!--Yaml-->
+
+```yaml
+spring:
+  cloud:
+    dataflow:
+      container:
+        httpProxy:
+          host: my-proxy.test
+          port: 8080
+        registry-configurations:
+          myregistrywithproxy:
+            registry-host: my-proxy-registry:5000
+            use-http-proxy: true
+```
+
+<!--END_TABS-->
+
+The `spring.cloud.dataflow.container.http-proxy` properties allow you do configure a global Http Proxy and for every registry you can opt to use the proxy using
+the registry configuration `use-http-proxy` property. The proxy is not used by default.
