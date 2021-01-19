@@ -7,5 +7,4 @@ summary: true
 
 # Amazon Kinesis
 
-
 This section describes Amazon Kinesis use cases.

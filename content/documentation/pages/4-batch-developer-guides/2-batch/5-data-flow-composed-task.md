@@ -91,7 +91,7 @@ To create a composed task:
    ![Confirm create task](images/SCDF-composed-task-confirmation.png)
 
 1. Click **Create the task**.
-Doing so displays the main **Tasks** view.
+   Doing so displays the main **Tasks** view.
 
 <!--TIP-->
 

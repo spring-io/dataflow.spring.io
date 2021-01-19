@@ -98,6 +98,7 @@ java -jar rabbit-sink-rabbit-2.1.0.RELEASE.jar --server.port=9003 --rabbit.excha
 ```
 
 <!-- NOTE -->
+
 External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties.
 The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*` properties.
 The prefix `spring.cloud.stream.binders` refers to the binder configuration properties while the name `rabbitBinder` is the configuration name chosen for this binder configuration.
@@ -133,7 +134,7 @@ To verify the data you published:
 
 1. Go to the management console of the external RabbitMQ cluster.
 1. In this sample, the `sabbyexchange` with the `foo` routing key is bound to the `sabbybaaz` queue. You can then navigate to that queue from the queues list.
-![Exchange and Queue Binding](images/Bind_Exchange_To_Queue.png)
+   ![Exchange and Queue Binding](images/Bind_Exchange_To_Queue.png)
 1. Click `Get Message(s)` to receive the incoming messages.
 1. Confirm that the payload is transformed from lower to upper case (that is, `HELLO, RABBIT!`).
 

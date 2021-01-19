@@ -76,6 +76,7 @@ The following table shows the applications we created in the previous guides:
 | `usage-cost-logger`    | Sink      | maven://io.spring.dataflow.sample:usage-cost-logger-rabbit:0.0.1-SNAPSHOT    |
 
 <!-- NOTE -->
+
 If you run the Spring Cloud Data Flow server on the Docker environment, make sure that your application artifact URIs are accessible.
 For instance, you may not be able to access `file:/` from SCDF or Skipper Docker containers unless you have made the application locations be
 accessible. We recommend using `http://`, `maven://` or `docker://` for application URIs.

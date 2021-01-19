@@ -108,25 +108,25 @@ Leave the command empty (`[]`) and set the entry point explicitly.
 
 1. Checkout the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples) and navigate to the `polyglot-python-task` folder:
 
-  ```bash
-  git clone https://github.com/spring-cloud/spring-cloud-dataflow-samples
-  cd ./spring-cloud-dataflow-samples/dataflow-website/recipes/polyglot/polyglot-python-task/
-  ```
+```bash
+git clone https://github.com/spring-cloud/spring-cloud-dataflow-samples
+cd ./spring-cloud-dataflow-samples/dataflow-website/recipes/polyglot/polyglot-python-task/
+```
 
 1. Build the Docker image and push it to DockerHub:
 
-  ```bash
-  docker build -t springcloud/python-task-with-status:0.1 .
-  docker push springcloud/python-task-with-status:0.1
-  ```
+```bash
+docker build -t springcloud/python-task-with-status:0.1 .
+docker push springcloud/python-task-with-status:0.1
+```
 
-  Tip: replace `springcloud` with your docker hub prefix.
+Tip: replace `springcloud` with your docker hub prefix.
 
 1. Register the docker image as a Data Flow `task` application:
 
-  ```bash
-  app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
-  ```
+```bash
+app register --type task  --name python-task-with-status --uri docker://springcloud/python-task-with-status:0.1
+```
 
 ## Deployment
 

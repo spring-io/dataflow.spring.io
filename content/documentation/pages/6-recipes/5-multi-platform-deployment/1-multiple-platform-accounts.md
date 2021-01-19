@@ -93,7 +93,6 @@ If RabbitMQ is the broker, you'd have to change `skipper-config-rabbit.yaml` ins
 
 <!-- END_NOTE -->
 
-
 <!-- NOTE -->
 
 Notice that the inclusion of a platform account with the name `kafkazone`. Also, the default memory for the deployed

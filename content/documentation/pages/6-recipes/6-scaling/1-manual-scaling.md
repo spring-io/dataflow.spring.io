@@ -74,7 +74,7 @@ The `time`, `transform`, and `log` applications maintain the same message throug
 
 ### Increase the Data Pipeline Load
 
-Now we increase the load by increasing the time source's message production rate. By changing the time source's `time-unit` property from `MILLISECONDS` to `MICROSECONDS`, the input rate  increase from one to thousands of messages per second.
+Now we increase the load by increasing the time source's message production rate. By changing the time source's `time-unit` property from `MILLISECONDS` to `MICROSECONDS`, the input rate increase from one to thousands of messages per second.
 Note that the [stream rolling-update](%currentPath%/stream-developer-guides/continuous-delivery/) functionality lets you perform a rolling update of only the time application without stopping the entire stream:
 
 ```shell
