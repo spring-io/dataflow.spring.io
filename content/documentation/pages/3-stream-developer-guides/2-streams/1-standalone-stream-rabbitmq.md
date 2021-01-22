@@ -756,6 +756,12 @@ If you downloaded the project source, the project includes a parent `pom.xml` fi
 
 <!-- END_TIP -->
 
+<!--NOTE-->
+
+Spring Cloud Data Flow has tested containers created by [Spring Boot's gradle/maven plugin](https://spring.io/guides/gs/spring-boot-docker/), [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image), and the `docker build` command.
+
+<!--END_NOTE-->
+
 #### Deploying the Stream
 
 To deploy the stream, you must first copy and paste the following YAML content and save it to `usage-cost-stream.yaml`:

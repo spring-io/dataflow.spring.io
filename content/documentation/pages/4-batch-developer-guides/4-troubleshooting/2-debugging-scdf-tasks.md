@@ -169,6 +169,22 @@ graph TD;
 	D --> |Yes| F(Resolve)
 ```
 
+#### An empty task execution id record is created before the task execution id
+
+```mermaid
+graph TD;
+    A{Are their more than one data sources?} --> |Yes| D(Verify that the task app is using correct datasource)
+    A --> |No| B{Is Docker Container on Kubernetes?}
+    B --> |Yes| C{Are you using entry point of shell in container?}
+    C --> |Yes| E{Are you using default entry point style}--> |Yes| F(Launch task with 'entryPointStyle' deployer property with value of 'shell')
+    E --> |No| H(Execute 'kubectl describe pod <name>')
+    H --> I(Verify that your shell is passing SPRING_CLOUD_TASK_EXECUTIONID to the task app)
+    B --> |No| J(Verify that you are not passing spring.cloud.task.executionid)
+    J --> K(Data Flow does this for you)
+```
+
+You may follow this decision tree if your task is not launching with the correct properties.
+
 #### General
 
 The following diagram shows how to handle general failures for applications that run on Kubernetes:

@@ -628,6 +628,12 @@ Run the following command to verify its presence (by finding `springcloudtask/bi
 docker images
 ```
 
+<!--NOTE-->
+
+Spring Cloud Data Flow has tested containers created by [Spring Boot's gradle/maven plugin](https://spring.io/guides/gs/spring-boot-docker/), [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image), and the `docker build` command.
+
+<!--END_NOTE-->
+
 ##### Deploying the Application
 
 The simplest way to deploy a batch application is as a standalone [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/).
