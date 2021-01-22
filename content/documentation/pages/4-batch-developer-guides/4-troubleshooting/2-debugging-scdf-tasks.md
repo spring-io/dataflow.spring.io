@@ -177,7 +177,7 @@ graph TD;
     A --> |No| B{Is Docker Container on Kubernetes?}
     B --> |Yes| C{Are you using entry point of shell in container?}
     C --> |Yes| E{Are you using default entry point style}--> |Yes| F(Launch task with 'entryPointStyle' deployer property with value of 'shell')
-    E --> |No| H(Execute 'kubectl describe pod <name>')
+    E --> |No| H(Execute 'kubectl describe pod name')
     H --> I(Verify that your shell is passing SPRING_CLOUD_TASK_EXECUTIONID to the task app)
     B --> |No| J(Verify that you are not passing spring.cloud.task.executionid)
     J --> K(Data Flow does this for you)

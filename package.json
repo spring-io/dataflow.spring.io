@@ -103,6 +103,7 @@
     "gatsby": "2.26.1",
     "gatsby-cli": "2.13.1",
     "gatsby-image": "2.5.0",
+    "gatsby-legacy-polyfills": "0.6.0",
     "gatsby-plugin-algolia": "0.5.0",
     "gatsby-plugin-catch-links": "2.2.1",
     "gatsby-plugin-google-analytics": "2.2.2",
@@ -124,18 +125,17 @@
     "gatsby-remark-external-links": "0.0.4",
     "gatsby-remark-grid-tables": "0.0.3",
     "gatsby-remark-images": "3.2.2",
-    "gatsby-remark-mermaid": "1.2.0",
+    "gatsby-remark-mermaid": "2.1.0",
     "gatsby-remark-prismjs": "3.4.1",
     "gatsby-remark-responsive-iframe": "2.3.1",
     "gatsby-source-filesystem": "2.2.2",
-    "gatsby-transformer-remark": "2.7.1",
+    "gatsby-transformer-remark": "2.15.0",
     "gatsby-transformer-sharp": "2.4.4",
     "lodash.assign": "4.2.0",
     "lodash.endswith": "4.2.1",
     "lodash.get": "4.4.2",
     "lodash.set": "4.3.2",
     "lodash.startswith": "4.2.1",
-    "mermaid": "8.4.8",
     "node-sass": "4.13.1",
     "npm-check-updates": "4.1.1",
     "prismjs": "1.21.0",
@@ -172,6 +172,7 @@
     "lint-staged": "10.1.2",
     "ncp": "2.0.0",
     "prettier": "2.0.4",
-    "pretty-quick": "2.0.1"
+    "pretty-quick": "2.0.1",
+    "puppeteer": "5.5.0"
   }
 }
