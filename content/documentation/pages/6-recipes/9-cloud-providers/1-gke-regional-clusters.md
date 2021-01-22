@@ -238,7 +238,7 @@ us-east1-b
 
 ### Deploying Skipper
 
-he deployment of Skipper will consist of 3 replicas. No persistent storage is needed and its desired to have a replica running in each zone. Multiple replicas should not reside in the same zone as another. One way to do this would be using [Pod Anti Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+The deployment of Skipper will consist of 3 replicas. No persistent storage is needed and its desired to have a replica running in each zone. Multiple replicas should not reside in the same zone as another. One way to do this would be using [Pod Anti Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
 
 Make the following modifications to the `skipper/skipper-deployment.yaml` file bumping up the replica count and adding the pod anti-affinity:
 
