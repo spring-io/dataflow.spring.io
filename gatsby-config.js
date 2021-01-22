@@ -109,7 +109,7 @@ const plugins = [
         {
           resolve: 'gatsby-remark-mermaid',
           options: {
-            theme: null,
+            theme: 'forest',
           },
         },
         {
