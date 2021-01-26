@@ -1,17 +1,17 @@
 {
-  "streaming-apps-version": "Einstein.SR7",
+  "streaming-apps-version": "Einstein.SR9",
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
-  "task-version": "2.2.0.RELEASE",
+  "task-version": "2.2.5.RELEASE",
 
-  "skipper-version": "2.6.0",
-  "dataflow-version": "2.7.0",
+  "skipper-version": "2.6.1",
+  "dataflow-version": "2.7.1",
 
-  "github-tag": "v2.7.0",
+  "github-tag": "v2.7.1",
 
   "spring-maven-repo-type": "release",
 
-  "stream-applications-doc-3x": "https://docs.spring.io/stream-applications/docs/2020.0.0-SNAPSHOT/reference/html",
+  "stream-applications-doc-3x": "https://docs.spring.io/stream-applications/docs/2020.0.0/reference/html",
 
   "stream-applications-doc": "https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle",
   "task-applications-doc": "https://docs.spring.io/spring-cloud-task-app-starters/docs/current/reference/htmlsingle",
