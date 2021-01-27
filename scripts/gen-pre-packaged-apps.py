@@ -9,7 +9,7 @@ def app_anchor(app_type, app_name):
 
 def app_link(app_name, anchor):
     if anchor:
-        return '[' + app_name + ']' + '(%stream-applications-doc-3x%' + anchor  + ')'
+        return '[' + app_name + ']' + '(%stream-applications-doc-2x%' + anchor  + ')' #change the variable reference accordingly.
     return app_name
 
 def render_row(items, anchor = False):
@@ -36,7 +36,7 @@ def render(apps):
         sink = sinks[i] if i < len(sinks)  else ''
         print(render_row((source,processor,sink), True))
 
-source_for_stream_apps_metadata = "https://dataflow.spring.io/rabbitmq-maven-milestone"
+source_for_stream_apps_metadata = "https://dataflow.spring.io/rabbitmq-maven-einstein"  #change this link accordingly.
 metadata = request.urlretrieve(source_for_stream_apps_metadata)
 lines = open(metadata[0], 'r').readlines()
 

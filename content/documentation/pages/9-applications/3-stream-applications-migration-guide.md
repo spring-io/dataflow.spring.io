@@ -13,7 +13,7 @@ summary: false
 # Migrating from 2.x to 3.x Stream Applications
 
 Recently, the Spring team [redesigned the pre-packaged stream applications](https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0).
-These will be released in bulk using calendar-based release names, such as `2020.0.0-M2`.
+These will be released in bulk using calendar-based release names, such as `2020.0.0-RC2`.
 We also refer to the `3.x`(+) version, since stream applications included in these releases start with version `3.0.0`.
 Along with many important enhancements, we introduced some changes that are incompatible with the `2.x` line. This means that existing Spring Cloud Data Flow stream definitions based on `2.x` applications do not translate directly to `3.x` applications. The following is a summary of changes that you need to be aware of when migrating `2.x` Spring Cloud Stream applications to `3.x`:
 

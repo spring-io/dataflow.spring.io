@@ -7410,17 +7410,17 @@ gatsby-image@2.5.0:
     object-fit-images "^3.2.4"
     prop-types "^15.7.2"
 
+gatsby-legacy-polyfills@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/gatsby-legacy-polyfills/-/gatsby-legacy-polyfills-0.6.0.tgz#e751864f179f8e61de8bfdd1aab4532496b9be9a"
+  integrity sha512-w6ZnPi3JWhvfEwNgxGA42XFzytsKsGj5uQnEsQzDU8JgVD7WXT4vPlbLUF/RjqIjcVrbLWkYWkLLeZG4fdX28Q==
+  dependencies:
+    core-js-compat "^3.6.5"
+
 gatsby-legacy-polyfills@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/gatsby-legacy-polyfills/-/gatsby-legacy-polyfills-0.1.0.tgz#789aa6ca819e68ca9ca3e0a188f8c1ccf2a2d8bd"
   integrity sha512-DiN8xJxGORsHAYOCf3Sgx8KpytUONJuHfXo0u1Vnbj6g8l5w4g0qgAq+DQl7O2m+bLdQaIdOQKSdcevadLfyfQ==
-  dependencies:
-    core-js-compat "^3.6.5"
-
-gatsby-legacy-polyfills@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/gatsby-legacy-polyfills/-/gatsby-legacy-polyfills-0.6.0.tgz#e751864f179f8e61de8bfdd1aab4532496b9be9a"
-  integrity sha512-w6ZnPi3JWhvfEwNgxGA42XFzytsKsGj5uQnEsQzDU8JgVD7WXT4vPlbLUF/RjqIjcVrbLWkYWkLLeZG4fdX28Q==
   dependencies:
     core-js-compat "^3.6.5"
 
@@ -7826,7 +7826,7 @@ gatsby-remark-images@3.2.2:
     unist-util-select "^1.5.0"
     unist-util-visit-parents "^2.1.2"
 
-gatsby-remark-mermaid@^2.1.0:
+gatsby-remark-mermaid@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/gatsby-remark-mermaid/-/gatsby-remark-mermaid-2.1.0.tgz#8e429a3e038cdde588cdcfbe5f584d3564322359"
   integrity sha512-9SVQkD5aE0u8XFlnnuxWx1HTjTuVkynv9dZJAZQV0S/eZX9YR07f5LtDVqT89n9qwwKbCf3pWT82DcMatFbjeA==
@@ -7895,7 +7895,7 @@ gatsby-telemetry@^1.4.1, gatsby-telemetry@^1.9.0:
     node-fetch "^2.6.1"
     uuid "3.4.0"
 
-gatsby-transformer-remark@^2.15.0:
+gatsby-transformer-remark@2.15.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/gatsby-transformer-remark/-/gatsby-transformer-remark-2.15.0.tgz#0e489891e2d3fe19ba61c37652e21f311521b876"
   integrity sha512-Dtmzit/akVKnQlhERj0HMxJgkZo+DJ6duSIk7nJrk81R+2uJS3sQCdZEBkv5gYJhPd0fMfh0bbr63kuNB5lzlA==
@@ -13918,7 +13918,7 @@ pupa@^2.0.1, pupa@^2.1.1:
   dependencies:
     escape-goat "^2.0.0"
 
-puppeteer@^5.5.0:
+puppeteer@5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-5.5.0.tgz#331a7edd212ca06b4a556156435f58cbae08af00"
   integrity sha512-OM8ZvTXAhfgFA7wBIIGlPQzvyEETzDjeRa4mZRCRHxYL+GNH5WAuYUQdja3rpWZvkX/JKqmuVgbsxDNsDFjMEg==
