@@ -15,7 +15,7 @@ Following diagram walks through the architecture and the various components invo
 ![SCDF Python Tasks](images/python-task-with-status-2.png)
 
 When Data Flow launches the Python script as a task, the script runs and completes with either a success or failure status.
-Because this is not a standard Sprint Cloud Task application, it is the user's responsibility to manage the life cycle and update the state to the shared database that is also used by Data Flow.
+Because this is not a standard Spring Cloud Task application, it is the user's responsibility to manage the life cycle and update the state to the shared database that is also used by Data Flow.
 Utilities are provided to help handle the launch arguments and manage the task status within the Data Flow database.
 
 The source code can be found in the samples GitHub [repo](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-task) or downloaded as a zipped archive: [polyglot-python-task.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-task.zip). Follow the [Build](#build) instructions for building and using the project.
