@@ -51,8 +51,8 @@ Now that you have created a task definition, you can run it. To do so:
 
    The UI lets you provide additional:
 
+   - **Properties**: Additional properties meant for a `TaskLauncher`.
    - **Arguments**: Any properties that need to be passed as command-line arguments.
-   - **Parameters**: Additional properties meant for a `TaskLauncher`.
 
    ![Launch Task - Provide Arguments or Parameters](images/dataflow-task-definitions-click-launch-task-2.png)
 

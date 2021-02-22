@@ -240,7 +240,7 @@ You can see the graph appear in the dashboard, as the following image shows:
 
 <!-- NOTE -->
 
-In the preceding example, note that we used `timestamp-1` and `timestamp-2` labels. This is necessary because we use two timestamp applications in the same graph.
+In the preceding example, note that we used `task-a` and `task-b` labels. This is necessary because we use two timestamp applications in the same graph.
 
 <!-- END_NOTE -->
 
@@ -251,14 +251,14 @@ Now the Task Definition page is displayed, and you can see that three task defin
 ![Conditional Execution Task Definition Listing](images/SCDF-composed-task-conditional-execution-task-definition.png)
 
 1. The `conditional-execution` task definition is the `Composed-Task-Runner` application that manages the execution of the directed-graph.
-1. The `conditional-execution-timestamp-1` is the task definition that represents the `timestamp-1` app defined in the DSL you entered earlier.
-1. The `conditional-execution-timestamp-2` is the task definition that represents the `timestamp-2` app defined in the DSL you entered earlier.
+1. The `conditional-execution-task-a` is the task definition that represents the `task-a` app defined in the DSL you entered earlier.
+1. The `conditional-execution-task-b` is the task definition that represents the `task-b` app defined in the DSL you entered earlier.
 
 ### Launch Conditional Execution Composed Task Definition
 
 To launch the composed task, click the dropdown icon to the left of the task definition named `conditional-execution` and select the **Launch** option, as the following image shows:
 ![Conditional Execution Task Definition Launch](images/SCDF-composed-task-conditional-execution-launch.png)
-Now the task launch page appears. Since we are using app defaults, we merely need to press the **Launch the task** button, as the following image shows:
+Now the task launch page appears. Since we are using app defaults, we merely need to press the **LAUNCH TASK** button, as the following image shows:
 ![Conditional Execution Task Definition Launch](images/SCDF-composed-task-conditional-execution-launch-verify.png)
 When the composed task called `conditional-execution` is launched, it launches the task called `conditional-execution-task-a`, and, if it completes successfully, the task called `conditional-execution-task-b` is launched. If `conditional-execution-task-a` fails, `conditional-execution-task-b` does not launch.
 
@@ -299,8 +299,8 @@ The first application to be launched is `transition-sample`. Since `transition-s
 
 Once the `transition-sample` application's execution is complete, the composed task runner checks the exit message for `transition-sample` and then evaluates which of the paths it should take. In our case, its has two paths (as denoted by the `->` operator).
 
-- `FAILED`: If `transition-sample` returns `FAILED`, the `timestamp` app labeled `timestamp-1` is executed.
-- `COMPLETED`: If `transition-sample` returns `COMPLETED`, the `timestamp` app labeled `timestamp-2` is executed.
+- `FAILED`: If `transition-sample` returns `FAILED`, the `timestamp` app labeled `task-a` is executed.
+- `COMPLETED`: If `transition-sample` returns `COMPLETED`, the `timestamp` app labeled `task-b` is executed.
 
 Now press the **Create Task** button at the bottom of the page. Now a dialog asks you to **Confirm Task Creation**. To do so, enter `basictransition` as the composed task name in the `Name` field and click the **Create the task** button, as the following image shows:
 ![Transition Execution Flow](images/SCDF-composed-task-transition-create.png)
@@ -314,56 +314,37 @@ To do so, select the `basictransition` `Composed Task Runner` to be executed, as
 ![Transition Execution Flow Launch](images/SCDF-composed-task-transition-launch.png)
 Now, from the task launch page, populate the page with the following:
 
-Arguments:
+First set the interval between checks for the composed task runner to 1000 milliseconds. This is done by clicking the `EDIT` button on the `CTR properties` under the `Global` column as shown below:
+![Transition Execution Set Interval Time Prop ](images/SCDF-composed-task-transition-launch-ctr-prop-edit.png)
+Now enter 1000 in the `interval-time-between-checks` field
+![Transition Execution Set Interval Time Prop Set](images/SCDF-composed-task-transition-launch-ctr-prop-set.png)
+Click the `UPDATE` button.
 
-```
---interval-time-between-checks=1000
-```
+Now let's set the transition app to return an exit message of `FAILED`. This is done by clicking the `EDIT` button on the `Application properties` under the `transition-sample` column.
+Once the update dialog appears enter `FAILED` into the `exit-message` row as shown below:
+![Transition Execution app Prop Set](images/SCDF-composed-task-transition-launch-app-prop-set.png)
 
-Parameters:
+Click the `UPDATE` button.
 
-```
-app.basictransition.transition-sample.taskapp.exitMessage=FAILED
-```
-
-It should look like the following image:
-
-![Transition Execution Flow Launch-Config](images/SCDF-composed-task-transition-launch-fail.png)
+Now Click the `LAUNCH TASK` button.
 Now that it has been executed, we can verify that the `FAILED` path was actually followed. We can do so by clicking the **Task executions** tab on the left side of the task page:
 ![Transition Execution Flow Launch-List](images/SCDF-composed-task-transition-launch-fail-list.png)
 
-Doing so shows us that the `Composed Task Runner` controlling the composed task execution basic-transition was launched and that `transition-sample` was launched. From there, the `FAILED` branch was executed, as denoted by `basictransition-timestamp-1 was launched`.
+Doing so shows us that the `Composed Task Runner` controlling the composed task execution basic-transition was launched and that `transition-sample` was launched. From there, the `FAILED` branch was executed, as denoted by `basictransition-task-a was launched`.
 
-Now relaunch the `Composed Task Runner` and set the `taskapp.exitMessage` to `COMPLETED` to exercise the other branch. To do so, select the `basictransition` to be executed, as the following image shows:
+Now relaunch the `Composed Task Runner` and set the `exit-message` to `COMPLETED` to exercise the other branch. To do so, select the `basictransition` to be executed, as the following image shows:
 ![Transition Execution Flow Launch](images/SCDF-composed-task-transition-launch.png)
-Now, in the task launch page, we can populate the page with the following:
 
-Arguments:
+This is done by clicking the `EDIT` button on the `Application properties` under the `transition-sample` column.
+Once the update dialog appears enter `COMPLETED` into the `exit-message` row as shown below:
+![Transition Execution app Prop Set](images/SCDF-composed-task-transition-launch-app-prop-set-completed.png)
 
-```
---interval-time-between-checks=1000
-```
+Click the `UPDATE` button.
 
-Parameters:
-
-```
-app.basictransition.transition-sample.taskapp.exitMessage=COMPLETED
-```
-
-It should look like the following:
-
-![Transition Execution Flow Launch-Config-Complete](images/SCDF-composed-task-transition-launch-completed.png)
+Click the `LAUNCH TASK` button.
 
 Now that it has been executed, we can verify that the `COMPLETED` path was followed. You can do so by pressing the `Task executions` tab on the left side of the page:
 ![Transition Execution Flow Launch-CompleteList](images/SCDF-composed-task-transition-launch-completed-list.png)
-
-####Task Arguments and Parameters
-
-Wait a minute…​ What is all that stuff I put in the command line? So for in this example, we wanted to show how to use both command line args and properties. We used the arguments to establish the properties for the `Composed Task Runner`:
-
-1. `--interval-time-between-checks=1000` states that the `Composed Task Runner` waits one second between checks to make sure that a task is complete (the default is ten seconds).
-
-You can read about the sections of a property and the different property types in the [passing properties section](#passing-properties).
 
 #### Are There More States to a Transition?
 
@@ -371,23 +352,13 @@ Now what happens if I were to enter `FOO` for the exit message?
 
 To do so, select the `basictransition` `Composed Task Runner` to be executed, as the following image shows:
 ![Transition Execution Flow Launch](images/SCDF-composed-task-transition-launch.png)
-From the task launch page, populate the page with the following:
-
-Arguments:
-
-```
---interval-time-between-checks=1000
-```
-
-Parameters:
-
-```
-app.basictransition.transition-sample.taskapp.exitMessage=FOO
-```
-
-It should look like the following:
+Once the launch page appears click the `EDIT` button on the `Application properties` under the `transition-sample` column.
+Once the update dialog appears enter `FOO` into the exit-message row as shown below:
 
 ![Transition Execution Flow Launch-Config-FOO](images/SCDF-composed-task-transition-launch-foo-fail.png)
+Click the `UPDATE` button.
+
+Click the `LAUNCH TASK` button.
 
 Now that it has been executed, we can verify that path `FOO` was actually followed. To do so, click the **Task executions** tab on the left side of the page:
 ![Transition Execution Flow Launch-FOO-LIST](images/SCDF-composed-task-transition-launch-foo-fail-list.png)
@@ -425,14 +396,18 @@ Parameters:
 app.anothertransition.transition-sample.taskapp.exitMessage=FOO
 ```
 
-It should look like the following:
+Once the launch page appears click the `EDIT` button on the `Application properties` under the `transition-sample` column.
+Once the update dialog appears enter `FOO` into the exit-message row as shown below:
 
-![Transition Execution Flow Launch-Config-FOO-success](images/SCDF-composed-task-transition-launch-foo-success.png)
+![Transition Execution Flow Launch-Config-FOO](images/SCDF-composed-task-transition-launch-foo-fail.png)
+Click the `UPDATE` button.
 
-Launch the task and then verify that path `FOO` was actually followed. To do so, click the **Executions** tab at the top of the task page:
+Click the `LAUNCH TASK` button.
+
+Now verify that path `FOO` was actually followed. To do so, click the **Executions** tab at the top of the task page:
 ![Transition Execution Flow Launch-FOO-success-LIST](images/SCDF-composed-task-transition-launch-foo-success-list.png)
 
-In this case, we see that the wildcard catches all other exit messages. We can verify by seeing that `anothertransition-timestamp-3` was launched.
+In this case, we see that the wildcard catches all other exit messages. We can verify by seeing that `anothertransition-task-c` was launched.
 
 ## Split Execution
 
@@ -458,38 +433,39 @@ Now click the **Create Task** button at the bottom of the page. Now a dialog ask
 
 Select the `splitgraph` `Composed Task Runner` to be executed, as the following image shows:
 ![Transition Execution Flow SplitLaunch](images/SCDF-composed-task-split-launch.png)
-From the task launch page, populate the following fields:
+From the task launch page let's configure the composed task runner.
+This is done by clicking the `EDIT` button on the `CTR properties` under the `Global` column as shown below:
+![Transition Execution Set Interval Time Prop ](images/SCDF-composed-task-transition-launch-ctr-prop-edit.png)
+Now:
 
-Arguments:
+- Enter `1000` in the `interval-time-between-checks` field
+- Enter `4` into thread-core-pool-size field
+- Enter `true` into closecontext-enabled field
 
-```
---interval-time-between-checks=1000
---split-thread-core-pool-size=4
---spring.cloud.task.closecontext-enabled=true
-```
+It should look something like below:
+![Transition Execution Set Interval Time Prop Set](images/SCDF-composed-task-transition-launch-ctr-prop-set.png)
+Click the `UPDATE` button.
 
-Parameters:
+Click the `EDIT` button on the `Application properties` under the `transition-sample` column.
+Once the update dialog appears enter `FOO` into the exit-message row as shown below:
 
-```
-app.splitgraph.transition-sample.taskapp.exitMessage=FOO
-```
+![Transition Execution Flow Launch-Config-FOO](images/SCDF-composed-task-transition-launch-foo-fail.png)
+Click the `UPDATE` button.
 
-It should look like the following:
+Click the `LAUNCH TASK` button.
 
-![Transition Execution Flow Launch-Config-Completed](images/SCDF-composed-task-split-launch-create.png)
-
-Launch the task and then verify that all tasks were launched and that the path `FOO` was actually followed. To do so, click the **Task executions** tab on the left side of the task page:
+Verify that all tasks were launched and that the path `FOO` was actually followed. To do so, click the **Task executions** tab on the left side of the task page:
 ![Transition Execution Flow Launch-split-LIST](images/SCDF-composed-task-split-launch-created-list.png)
 
-In this example, we see that `splitgraph-task-a`, `splitgraph-task-b`, and `splitgraph-task-b` were fired simultaneously before CTR launched our transition app. We also added a new argument: `--split-thread-core-pool-size=4`. It basically states that the composed task runner can run four apps simultaneously.
+In this example, we see that `splitgraph-task-a`, `splitgraph-task-b`, and `splitgraph-task-c` were fired simultaneously before CTR launched our transition app. We also added a new argument: `--split-thread-core-pool-size=4`. It basically states that the composed task runner can run four apps simultaneously.
 
 ### Arguments and Properties
 
 Again, what is all that stuff I put in the command line? So, for this example we wanted to show how to use both command line arguments and properties. We used the arguments to establish the properties for the `Composed Task Runner`:
 
-1. `--interval-time-between-checks=1000` states that the `Composed Task Runner` will wait one second between checks to make sure that a task is complete (the default is 10 seconds).
-1. `--split-thread-core-pool-size=4` states that we want up to four simultaneous tasks to run at the same time.
-1. `--spring.cloud.task.closecontext-enabled=true` states that we want the Spring context to close when the `Composed Task Runner`.
+1. `interval-time-between-checks=1000` states that the `Composed Task Runner` will wait one second between checks to make sure that a task is complete (the default is 10 seconds).
+1. `split-thread-core-pool-size=4` states that we want up to four simultaneous tasks to run at the same time.
+1. `closecontext-enabled=true` states that we want the Spring context to close when the `Composed Task Runner`.
 
 <!-- NOTE -->
 
@@ -526,7 +502,7 @@ Assume we have created a composed task named `my-composed-task` and that we now 
 
 1. Launch it by pressing the `play` button, as the following image shows:
    ![Restart Composed Task](images/SCDF-composed-task-restart.png)
-1. When the launch page appears press the `Launch the task` button.
+1. When the launch page appears press the `LAUNCH TASK` button.
 1. Once `my-composed-task` has completed executing, we can see that `task-b` was marked `ERROR`, meaning the application returned a non-zero `exitCode`. We can verify this by clicking the **Executions** tab at the top of the page and viewing the task executions. Note that `my-composed-task-task-b` has been marked with an exit code of `1`. This means that this task app returned a non-zero exit code, which stopped the composed task execution.  
     ![Restart_Composed_Task_Failed_Child](images/SCDF-composed-task-restart-execution-fail.png)
    Once we have resolved the problem that caused the failure, we can restart `my-composed-task` and the composed task runner identifies the task app that failed and re-runs it and then continues executing the DSL from that point.
@@ -562,12 +538,14 @@ In the preceding example, `task-a` has two properties set, and `task-b` has a si
 
 ### Setting Property at Composed Task Launch Time
 
-Four components make up the property:
+As demonstrated in the previous sections both deployment and application properties can be set using the `builder` tab on the task launch page.
+However, if you wish to set these properties using text you can click the `Freetext` tab.
+
+Three components make up the property:
 
 - Property Type: Tells Spring Cloud Data Flow whether the property is either a `deployment` or an `app` type.
   - Deployment properties: Instructions to the deployer responsible for deploying the task app.
   - App properties: Properties passed directly the task app.
-- Composed Task Definition Name
 - Task App Name: The label or the name of the application to which the property should be applied.
 - Property Key: The key of the property that is to be set.
 
@@ -583,16 +561,16 @@ It would look something like the following:
 Similarly if we want to pass a deployer property, the format would remain the same except that the property type would `deployer`. For example, we need to set the `kubernetes.limits.cpu` for `task-a`:
 
 ```
-    deployer.my-composed-task.task-a.kubernetes.limits.cpu=1000m
+    deployer.task-a.kubernetes.limits.cpu=1000m
 ```
 
-Launching a composed task and setting both `app` and `deployer` properties would be done in the following way by using the UI:
+Launching a composed task and setting both `app` and `deployer` properties would be done in the following way by using `Freetext` tab on the UI:
 
-1. Launch the composed task, as the following image shows, by pressing the Play button next to the composed task definition that needs to be launched:
+1. Launch the composed task, as the following image shows, by pressing the `Launch` selection next to the composed task definition that needs to be launched:
    ![Specify Which Composed Task to Launch](images/SCDF-composed-task-child-property-example-launch.png)
-1. Set the properties as follows in the `Parameters` text box:
+1. Set the properties as follows in the `Properties` text box:
    ![Launch the Composed Task](images/SCDF-composed-task-child-property-launch-props.png)
-1. Now press the **Launch the task** button.
+1. Now press the **LAUNCH TASK** button.
 
 <!-- NOTE -->
 
@@ -607,7 +585,7 @@ Three components make up the property:
 - Property Type: Tells Spring Cloud Data Flow whether the property is either a `deployment` or a `app` type.
   - Deployment properties: Instructions to the deployer responsible for deploying the task app.
   - App properties: Properties passed directly to the task app.
-- Composed Task Application Name: Unlike when passing properties to a task app where we used the composed task definition name, we use the name of the composed task runner app.
+- Composed Task Application Name: The name of the composed task runner app.
 - Property Key: The key of the property that is to be set.
 
 We can launch a composed task in which we want to pass the following properties to the `Composed Task Runner`:
@@ -618,9 +596,9 @@ We can launch a composed task in which we want to pass the following properties 
 
 1. Launch a composed task, as the following image shows, by pressing the `play` button next to the composed task definition that needs to be launched:
    ![Specify Which Composed Task to Launch](images/SCDF-composed-task-child-property-example-launch.png)
-1. Set the properties in the `Parameters` text box, as the following image shows:
+1. Set the properties in the `properties` text box, as the following image shows:
    ![Launch the Composed Task](images/SCDF-composed-task-child-property-launch-ctr-props.png)
-1. Press the **Launch the task** button.
+1. Press the **LAUNCH TASK** button.
 
 ## Launching Composed Task using RESTful API
 
@@ -668,13 +646,13 @@ Date: Fri, 17 Jan 2020 16:24:39 GMT
 
 We can launch `my-composed-task` with the following properties for task-a:
 
-- `app.my-composed-task.task-a.my-prop=good`
-- `app.my-composed-task.task-b.my-prop=great`
+- `app.task-a.my-prop=good`
+- `app.task-b.my-prop=great`
 
 Run the following curl command to launch the task:
 
 ```shell script
-curl 'http://localhost:9393/tasks/executions' -i -X POST -d 'name=my-composed-task&properties=app.my-composed-task.task-a.my-prop=good,%20app.my-composed-task.task-b.my-prop=great'
+curl 'http://localhost:9393/tasks/executions' -i -X POST -d 'name=my-composed-task&properties=app.task-a.my-prop=good,%20app.task-b.my-prop=great'
 ```
 
 The response from the Spring Cloud Data Flow Server looks something like:
@@ -719,31 +697,40 @@ As a user, you have three options for how to launch a composed task when Spring 
 
 This example launches a composed task where the user provides the username and password. To do so:
 
-1. Launch a composed task, as the following image shows, by pressing the `play` button next to the composed task definition to launch:
+1. Launch a composed task, as the following image shows, by clicking the `Launch` selection next to the composed task definition to launch:
    ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
-1. Set the `dataflow-server-username` and `dataflow-server-password`, as the following image shows, in the `Parameters` text box:
+
+1. Now, from the task launch page, populate the `dataflow-server-username` and `dataflow-server-password` fields.
+   This is done by clicking the `EDIT` button on the `CTR properties` under the `Global` column as shown below:
+   ![Transition Execution Set Interval Time Prop ](images/SCDF-composed-task-transition-launch-ctr-prop-edit.png)
+   Now enter the `dataflow-server-username` and `dataflow-server-password` in the appropriate fields
    ![Launch Task](images/SCDF-composed-task-user-security-basic-launch.png)
-1. Click the **Launch the task** button to launch the composed task.
+1. Click the `UPDATE` button.
+1. Click the **LAUNCH TASK** button to launch the composed task.
 
 ### Using Your Own Access Token
 
 If the composed task needs to be launched with a specific access token, pass the token by using the `dataflow-server-access-token` property. To do so:
 
-1. Launch a composed task, as the following image shows, by pressing the `play` button next to the composed task definition to launch:
+1. Launch a composed task, as the following image shows, by clicking the `Launch` selection next to the composed task definition to launch:
    ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
-1. Set the `dataflow-server-access-token`, as the following image shows, in the `Parameters` text box:
+1. Now, from the task launch page, populate the `dataflow-server-use-user-access-token` field. This is done by clicking the `EDIT` button on the `CTR properties` under the `Global` column as shown below:
+   ![Transition Execution Set Interval Time Prop ](images/SCDF-composed-task-transition-launch-ctr-prop-edit.png)
+1. Now enter the `dataflow-server-access-token` in the appropriate field.
    ![Set User Access Token](images/SCDF-composed-task-user-security-launch-token.png)
-1. Click the **Launch the task** button to launch the composed task.
+1. Click the **LAUNCH TASK** button to launch the composed task.
 
 ### User Access Token
 
 In this example, we will launch a composed task where the `dataflow-server-use-user-access-token` is set to `true`. To do so:
 
-1. Launch a composed task, as the following image shows, by pressing the `play` button next to the composed task definition to launch:
+1. Launch a composed task, as the following image shows, by pressing the `Launch` selection next to the composed task definition to launch:
    ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
-1. Set the `dataflow-server-use-user-access-token`, as the following image shows, in the `Arguments` text box:
+1. Now, from the task launch page, select `Freetext`
+   Now enter the `dataflow-server-use-user-access-token` in the arguments field as follow:
    ![Launch Task](images/SCDF-composed-task-user-security.png)
-1. Click the **Launch the task** button to launch the composed task.
+1. Click the `UPDATE` button.
+1. Click the **LAUNCH TASK** button to launch the composed task.
 
 ## Configure the URI for Composed Tasks
 
