@@ -6,7 +6,7 @@ description: 'Customize the Docker Compose installation'
 
 # Customizing Docker Compose
 
-The Docker Compose [installation](%currentPath%/installation/local/docker) guide explains how to use [docker-compose.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml) for installing `Data Flow`, `Skipper`, `Kafka`, and `MySQL`.
+The Docker Compose [installation](%currentPath%/installation/local/docker) guide explains how to use [docker-compose.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml) for installing `Data Flow`, `Skipper`, `Kafka`, and `MySQL`.
 You can extend this basic configuration with the help of the provided extension docker-compose files.
 For example, if you want to use `RabbitMQ` or `PostgreSQL` or enable Data Flow for `Monitoring`, you can combine some of the provided docker-compose extension files:
 
@@ -33,21 +33,21 @@ The following sections offer a detailed description of the provided extension do
 
 ## Prometheus & Grafana
 
-The [docker-compose-prometheus.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml) file extends the default configuration in `docker-compose.yml` to enable the [Stream and Task monitoring with Prometheus and Grafana](%currentPath%//feature-guides/streams/monitoring/#prometheus):
+The [docker-compose-prometheus.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-prometheus.yml) file extends the default configuration in `docker-compose.yml` to enable the [Stream and Task monitoring with Prometheus and Grafana](%currentPath%//feature-guides/streams/monitoring/#prometheus):
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-prometheus.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml
+wget -O docker-compose-prometheus.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-prometheus.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-prometheus.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-prometheus.yml -o docker-compose-prometheus.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-prometheus.yml -o docker-compose-prometheus.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-prometheus.yml up
 ```
 
@@ -73,21 +73,21 @@ The `docker-compose-prometheus.yml` file expects existing Docker images (`spring
 
 ## InfluxDB & Grafana
 
-The [docker-compose-influxdb.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml) enables Stream and Task monitoring with `InfluxDB` and `Grafana` with pre-built Stream and Task dashboards:
+The [docker-compose-influxdb.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-influxdb.yml) enables Stream and Task monitoring with `InfluxDB` and `Grafana` with pre-built Stream and Task dashboards:
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-influxdb.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+wget -O docker-compose-influxdb.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-influxdb.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-influxdb.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml -o docker-compose-influxdb.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-influxdb.yml -o docker-compose-influxdb.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-influxdb.yml up
 ```
 
@@ -108,7 +108,7 @@ The `docker-compose-influxdb.yml` expects an existing Docker image (`springcloud
 
 ## Wavefront
 
-The [docker-compose-wavefront.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml) enables Stream and Task monitoring with `Wavefront` with pre-built Stream and Task dashboards.
+The [docker-compose-wavefront.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-wavefront.yml) enables Stream and Task monitoring with `Wavefront` with pre-built Stream and Task dashboards.
 
 [Wavefront](https://www.wavefront.com/) is a SaaS offering, and you need to first [create a user account](https://www.wavefront.com/sign-up/) and use that account to set the `WAVEFRONT_KEY` and `WAVEFRONT_URI` environment variables, as explained later in this section.
 
@@ -117,14 +117,14 @@ The [docker-compose-wavefront.yml](https://raw.githubusercontent.com/spring-clou
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-wavefront.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml
+wget -O docker-compose-wavefront.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-wavefront.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-wavefront.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-wavefront.yml -o docker-compose-wavefront.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-wavefront.yml -o docker-compose-wavefront.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-wavefront.yml up
 ```
 
@@ -146,21 +146,21 @@ You can use the Wavefront's Browse/Source menu to find the metrics coming from t
 
 ## Postgres Instead of MySQL
 
-The [docker-compose-postgres.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-postgres.yml) file configures using `PostgreSQL` instead of `MySQL` for both Spring Cloud Data Flow and SKipper. It disables the default `mysql` service, adds a new `postgres` service, and overrides the Data Flow and Skipper configurations to use `postgres` service:
+The [docker-compose-postgres.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-postgres.yml) file configures using `PostgreSQL` instead of `MySQL` for both Spring Cloud Data Flow and SKipper. It disables the default `mysql` service, adds a new `postgres` service, and overrides the Data Flow and Skipper configurations to use `postgres` service:
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-postgres.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-postgres.yml
+wget -O docker-compose-postgres.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-postgres.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-postgres.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-postgres.yml -o docker-compose-postgres.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-postgres.yml -o docker-compose-postgres.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-postgres.yml up
 ```
 
@@ -181,14 +181,14 @@ The [docker-compose-rabbitmq.yml](https://raw.githubusercontent.com/spring-cloud
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-rabbitmq.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
+wget -O docker-compose-rabbitmq.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-rabbitmq.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml -o docker-compose-rabbitmq.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-rabbitmq.yml -o docker-compose-rabbitmq.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-rabbitmq.yml up
 ```
 
@@ -222,21 +222,21 @@ You must use the IP address rather than `localhost`.
 
 ### Debug Data Flow Server
 
-The [docker-compose-debug-dataflow.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-dataflow.yml) file enables remote debugging of the Data Flow Server. To enable the debugging, run:
+The [docker-compose-debug-dataflow.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-debug-dataflow.yml) file enables remote debugging of the Data Flow Server. To enable the debugging, run:
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-debug-dataflow.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-dataflow.yml
+wget -O docker-compose-debug-dataflow.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-debug-dataflow.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-debug-dataflow.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-dataflow.yml -o docker-compose-debug-dataflow.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-debug-dataflow.yml -o docker-compose-debug-dataflow.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-debug-dataflow.yml up
 ```
 
@@ -255,21 +255,21 @@ Often, while debugging, you need to build a new local `spring-cloud-dataflow-ser
 
 ### Debug Skipper Server
 
-Similarly, you can use the [docker-compose-debug-skipper.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-skipper.yml) file to enable remote debugging of the Skipper Server:
+Similarly, you can use the [docker-compose-debug-skipper.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-debug-skipper.yml) file to enable remote debugging of the Skipper Server:
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-debug-skipper.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-skipper.yml
+wget -O docker-compose-debug-skipper.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-debug-skipper.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-debug-skipper.yml up
 ```
 
 <!--Windows-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-debug-skipper.yml -o docker-compose-debug-skipper.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-debug-skipper.yml -o docker-compose-debug-skipper.yml
 docker-compose -f .\docker-compose.yml -f .\docker-compose-debug-skipper.yml up
 ```
 
@@ -292,20 +292,20 @@ Also, because the `Scheduler` service is not supported by by the Local Deployer,
 
 <!--END_NOTE-->
 
-The [docker-compose-cf.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-cf.yml) file adds a remote `Cloud Foundry` account as a Data Flow runtime platform under the name of `cf`. You need to edit the `docker-compose-cf.yml` to add your CF API URL and access credentials.
+The [docker-compose-cf.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-cf.yml) file adds a remote `Cloud Foundry` account as a Data Flow runtime platform under the name of `cf`. You need to edit the `docker-compose-cf.yml` to add your CF API URL and access credentials.
 
 ```bash
-wget -O docker-compose-rabbitmq.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-rabbitmq.yml
-wget -O docker-compose-cf.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-cf.yml
+wget -O docker-compose-rabbitmq.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-rabbitmq.yml
+wget -O docker-compose-cf.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-cf.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml -f ./docker-compose-cf.yml up
 ```
 
 Because `Kafka` is not supported on CF, you also need to switch to `Rabbit` by using the `docker-compose-rabbitmq.yml` file. The `docker-compose-cf.yml` file expects a `rabbit` service to be configured in the target CF environment.
 
-The [docker-compose-k8s.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-cf.yml) file adds a remote `Kubernetes` account as a Data Flow runtime platform under the name of `k8s`. You need to edit the `docker-compose-k8s.yml` to add your Kubernetes master URL and access credentials.
+The [docker-compose-k8s.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-cf.yml) file adds a remote `Kubernetes` account as a Data Flow runtime platform under the name of `k8s`. You need to edit the `docker-compose-k8s.yml` to add your Kubernetes master URL and access credentials.
 
 ```bash
-wget -O docker-compose-k8s.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-k8s.yml
+wget -O docker-compose-k8s.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-k8s.yml
 STREAM_APPS_URI=https://dataflow.spring.io/kafka-docker-latest docker-compose -f ./docker-compose.yml -f ./docker-compose-k8s.yml up
 ```
 

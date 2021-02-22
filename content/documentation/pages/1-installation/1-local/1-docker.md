@@ -30,7 +30,7 @@ For the impatient, here is a quick start, single-line command:
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml; \
+wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml; \
 DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% \
 docker-compose up
 ```
@@ -38,7 +38,7 @@ docker-compose up
 <!--Windows (Cmd)-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml -o docker-compose.yml & set DATAFLOW_VERSION=%dataflow-version%& set SKIPPER_VERSION=%skipper-version%& docker-compose up
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml -o docker-compose.yml & set DATAFLOW_VERSION=%dataflow-version%& set SKIPPER_VERSION=%skipper-version%& docker-compose up
 ```
 
 <!--END_TABS-->
@@ -47,20 +47,20 @@ Detailed instructions of how to configure and start Spring Cloud Data FLow by us
 
 ## Downloading the Docker Compose File
 
-[Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml) to get the installation Docker Compose file or use the [wget](https://www.gnu.org/software/wget/manual/wget.html) or [curl](https://curl.haxx.se/) tools to download it:
+[Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml) to get the installation Docker Compose file or use the [wget](https://www.gnu.org/software/wget/manual/wget.html) or [curl](https://curl.haxx.se/) tools to download it:
 
 <!--TABS-->
 
 <!--wget-->
 
 ```bash
-wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml
+wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml
 ```
 
 <!--curl-->
 
 ```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml -o docker-compose.yml
 ```
 
 <!--END_TABS-->
@@ -113,14 +113,14 @@ Once the emitting of log messages on the command prompt stops, open the Spring C
 
 You can use the following environment variables to configure the `docker-compose.yml`:
 
-| Variable name       | Default value                                 | Description                                                                                                                                                                                                           |
-| ------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DATAFLOW_VERSION`  | (required)                                    | Data Flow Server version to install. Example: `2.4.0.RELEASE` or `%dataflow-version%` for the latest version.                                                                                                         |
-| `SKIPPER_VERSION`   | (required)                                    | Skipper Server version to install. Example: `2.3.0.RELEASE` or `%skipper-version%` for the latest Skipper version.                                                                                                    |
-| `STREAM_APPS_URI`   | https://dataflow.spring.io/kafka-maven-latest | Pre-registered Stream applications. Find [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_stream_app_starters) the available Stream Application Starters links.   |
-| `TASK_APPS_URI`     | https://dataflow.spring.io/task-maven-latest  | Pre-registered Task applications. You can find the available Task Application Starters links [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_task_app_starters). |
-| `HOST_MOUNT_PATH`   | .                                             | Defines the host machine folder path on the mount. See [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                                         |
-| `DOCKER_MOUNT_PATH` | `/root/scdf`                                  | Defines the target (in-container) path on which to mount the host folder. See [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                  |
+| Variable name       | Default value                                                                                              | Description                                                                                                                                                                                                           |
+| ------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DATAFLOW_VERSION`  | `%dataflow-version%`                                                                                       | Data Flow Server version to install. Example: `2.4.0.RELEASE` or `%dataflow-version%` for the latest version.                                                                                                         |
+| `SKIPPER_VERSION`   | `%skipper-version%`                                                                                        | Skipper Server version to install. Example: `2.3.0.RELEASE` or `%skipper-version%` for the latest Skipper version.                                                                                                    |
+| `STREAM_APPS_URI`   | https://dataflow.spring.io/kafka-maven-latest (or https://dataflow.spring.io/kafka-docker-latest for DooD) | Pre-registered Stream applications. Find [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_stream_app_starters) the available Stream Application Starters links.   |
+| `TASK_APPS_URI`     | https://dataflow.spring.io/task-maven-latest (or https://dataflow.spring.io/task-docker-latest for DooD)   | Pre-registered Task applications. You can find the available Task Application Starters links [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_task_app_starters). |
+| `HOST_MOUNT_PATH`   | .                                                                                                          | Defines the host machine folder path on the mount. See [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                                         |
+| `DOCKER_MOUNT_PATH` | `/root/scdf`                                                                                               | Defines the target (in-container) path on which to mount the host folder. See [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                  |
 
 The docker-compose.yml configurations expose the following container ports to the host machine:
 
@@ -250,11 +250,11 @@ You can use the optional `--metadata-uri` parameter if a metadata jar is availab
 
 <!--END_TIP-->
 
-You can also pre-register the apps directly, by modifying the `app-import` configuration in the `docker-compose.yml` file. For every pre-registered app starer, add an additional `wget` statement to the `app-import` block configuration, as the following example shows:
+You can also pre-register the apps directly, by modifying the `app-import-stream` and `app-import-task` configurations in the `docker-compose.yml` file. For every pre-registered app starer, add an additional `wget` statement to the `app-import-stream` block configuration, as the following example shows:
 
 ```yml
-app-import:
-  image: alpine:3.7
+app-import-stream:
+  image: springcloud/baseimage:1.0.0
   command: >
     /bin/sh -c "
       ....
@@ -326,7 +326,7 @@ The [Debug Skipper Server](%currentPath%/installation/local/docker-customize/#de
 Basic docker-compose installation supports only uber-jar Stream and Task applications.
 As the Docker specification does not support container nesting, the Data Flow and Skipper servers are not able to run Docker applications from within their own Docker containers.
 
-The [docker-compose-dood.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-dood.yml) extension uses the `Docker-out-of-Docker (DooD)` approach to let Skipper and Data Flow deploy Stream and Task Docker apps.
+The [docker-compose-dood.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-dood.yml) extension uses the `Docker-out-of-Docker (DooD)` approach to let Skipper and Data Flow deploy Stream and Task Docker apps.
 
 In this approach, containers created from within the Data Flow and the Skipper containers are sibling containers (spawned by the Docker daemon in the Host). There is no Docker daemon inside the server's containers and, thus, no container nesting.
 
@@ -338,7 +338,7 @@ The `docker-compose-dood.yml` extends `docker-compose.yml` by installing the Doc
 
 ```bash
 export COMPOSE_PROJECT_NAME=scdf
-docker-compose -f ./docker-compose.yml -f ./docker-compose-dood.yml
+docker-compose -f ./docker-compose.yml -f ./docker-compose-dood.yml up
 ```
 
 <!--Windows-->
