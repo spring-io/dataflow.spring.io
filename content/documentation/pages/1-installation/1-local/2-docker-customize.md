@@ -302,7 +302,7 @@ docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml -f ./doc
 
 Because `Kafka` is not supported on CF, you also need to switch to `Rabbit` by using the `docker-compose-rabbitmq.yml` file. The `docker-compose-cf.yml` file expects a `rabbit` service to be configured in the target CF environment.
 
-The [docker-compose-k8s.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-cf.yml) file adds a remote `Kubernetes` account as a Data Flow runtime platform under the name of `k8s`. You need to edit the `docker-compose-k8s.yml` to add your Kubernetes master URL and access credentials.
+The [docker-compose-k8s.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-k8s.yml) file adds a remote `Kubernetes` account as a Data Flow runtime platform under the name of `k8s`. You need to edit the `docker-compose-k8s.yml` to add your Kubernetes master URL and access credentials.
 
 ```bash
 wget -O docker-compose-k8s.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-k8s.yml
