@@ -338,7 +338,7 @@ The `docker-compose-dood.yml` extends `docker-compose.yml` by installing the Doc
 
 ```bash
 export COMPOSE_PROJECT_NAME=scdf
-docker-compose -f ./docker-compose.yml -f ./docker-compose-dood.yml
+docker-compose -f ./docker-compose.yml -f ./docker-compose-dood.yml up
 ```
 
 <!--Windows-->
