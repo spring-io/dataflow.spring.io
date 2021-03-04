@@ -85,19 +85,22 @@ Depending on the runtime, the metadata is packaged either as an separate compani
 
 ```xml
 <plugin>
- 	<groupId>org.springframework.cloud</groupId>
- 	<artifactId>spring-cloud-app-starter-metadata-maven-plugin</artifactId>
-    <version>2.0.0.RELEASE</version>
- 	<executions>
- 		<execution>
- 			<id>aggregate-metadata</id>
- 			<phase>compile</phase>
- 			<goals>
- 				<goal>aggregate-metadata</goal>
- 			</goals>
- 		</execution>
- 	</executions>
- </plugin>
+   <groupId>org.springframework.cloud</groupId>
+   <artifactId>spring-cloud-dataflow-apps-metadata-plugin</artifactId>
+   <version>1.0.2</version>
+   <configuration>
+      <storeFilteredMetadata>true</storeFilteredMetadata>
+   </configuration>
+   <executions>
+      <execution>
+         <id>aggregate-metadata</id>
+         <phase>compile</phase>
+         <goals>
+            <goal>aggregate-metadata</goal>
+         </goals>
+      </execution>
+   </executions>
+</plugin>
 ```
 
 <!--CAUTION-->
@@ -149,7 +152,6 @@ To turn this property into a Docker label, we first need to load it as a Maven p
     <version>1.0.0</version>
     <executions>
         <execution>
-            <id>apps-metadata</id>
             <phase>process-classes</phase>
             <goals>
                 <goal>read-project-properties</goal>
@@ -202,6 +204,8 @@ With the help of the `fabric8:docker-maven-plugin` or `jib` Maven plugins, inser
 ```
 
 <!-- Fabric8 Maven plugin -->
+
+NOTE: The `docker-maven-plugin` version must be at least `0.33.0` or newer!
 
 ```xml
 <plugin>
