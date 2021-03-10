@@ -39,9 +39,17 @@ So the timestamp format property would be `app.timestamp.format=YYYY`.
 
 Make sure you have registered your timestamp application and have created a definition for it, as discussed in the [Getting Started Guide](%currentPath%/batch-developer-guides/getting-started/).
 So, by using the UI, we can launch the `timestamp-task` by pressing the `play` button (that's the middle icon that looks like an arrow head pointing right).
-Doing so takes you to a form where you can add command line arguments and deployment parameters.
-Using the examples shown earlier, we can add both the deployer and the application properties to the parameters text box, as the following image shows:
-![set task parameters](images/SCDF-set-task-properties.png)
+Doing so takes you to a form where you can add command line arguments and deployment parameters. As shown below:
+![launcher page](images/SCDF-set-task-properties.png)
+Using the examples shown earlier, we will set an application property for the format of the timestamp to `YYYY` and use the javaOpts deployer property to set the max heap size.
+First lets set the format of the timestamp. This is done by selecting the `edit` button under the `Applications Properties`
+The following dialog will appear:
+![set task parameters](images/SCDF-set-task-app-properties.png)
+Now enter `YYYY` in the `format` field and click the `UPDATE` button.
+Now select the `edit` button under the `Deployment Properties`.
+The following dialog will appear:
+![set task parameters](images/SCDF-set-task-deployment-properties.png)
+Now enter `-Xmx2048m` in the `java-opts` field and click the `UPDATE` button.
 
 Press **Launch the task**.
 Doing so runs the task on the Data Flow server's task platform and records a new task `execution`.
