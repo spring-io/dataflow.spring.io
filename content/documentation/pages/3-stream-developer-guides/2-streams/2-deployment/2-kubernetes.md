@@ -255,17 +255,17 @@ kubectl logs -f usage-cost-logger
 You should see messages similar to the following streaming:
 
 ```bash
-2021-03-05 17:40:52.280  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user5", "callCost": "28.1", "dataCost": "7.3500000000000005" }
-2021-03-05 17:40:53.279  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "21.400000000000002", "dataCost": "22.900000000000002" }
-2021-03-05 17:40:54.279  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user3", "callCost": "0.7000000000000001", "dataCost": "26.35" }
-2021-03-05 17:40:55.281  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user5", "callCost": "17.5", "dataCost": "25.8" }
-2021-03-05 17:40:56.286  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user3", "callCost": "25.3", "dataCost": "3.0" }
-2021-03-05 17:40:57.289  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "6.300000000000001", "dataCost": "19.700000000000003" }
-2021-03-05 17:40:58.290  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "1.4000000000000001", "dataCost": "19.6" }
+2021-03-05 17:40:52.280  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user5", "callCost": "28.1", "dataCost": "7.3500000000000005" }
+2021-03-05 17:40:53.279  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user2", "callCost": "21.400000000000002", "dataCost": "22.900000000000002" }
+2021-03-05 17:40:54.279  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user3", "callCost": "0.7000000000000001", "dataCost": "26.35" }
+2021-03-05 17:40:55.281  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user5", "callCost": "17.5", "dataCost": "25.8" }
+2021-03-05 17:40:56.286  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user3", "callCost": "25.3", "dataCost": "3.0" }
+2021-03-05 17:40:57.289  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user4", "callCost": "6.300000000000001", "dataCost": "19.700000000000003" }
+2021-03-05 17:40:58.290  INFO 1 --- [fOjmHePqc5VWA-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user4", "callCost": "1.4000000000000001", "dataCost": "19.6" }
 
 ```
 
-### Cleaning Up
+### Clean Up
 
 To delete the stream, we can use the label we created earlier, as follows:
 

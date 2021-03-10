@@ -97,10 +97,10 @@ Now you can see that this application logs the usage cost detail.
 
 ```bash
 ...
-2021-03-05 10:44:05.193  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "0.7000000000000001", "dataCost": "21.8" }
-2021-03-05 10:44:05.193  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "0.7000000000000001", "dataCost": "21.8" }
-2021-03-05 10:44:06.195  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "0.5", "dataCost": "24.55" }
-2021-03-05 10:44:06.199  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "0.5", "dataCost": "24.55" }
+2021-03-05 10:44:05.193  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user2", "callCost": "0.7000000000000001", "dataCost": "21.8" }
+2021-03-05 10:44:05.193  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user2", "callCost": "0.7000000000000001", "dataCost": "21.8" }
+2021-03-05 10:44:06.195  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user4", "callCost": "0.5", "dataCost": "24.55" }
+2021-03-05 10:44:06.199  INFO 55690 --- [container-0-C-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user4", "callCost": "0.5", "dataCost": "24.55" }
 ...
 ```
 
@@ -183,11 +183,11 @@ java -jar target/usage-cost-logger-rabbit-0.0.1-SNAPSHOT.jar &
 
 Now you can see that this application logs the usage cost detail it receives from the `usage-cost` RabbitMQ exchange through the `usage-cost.logger` durable queue, as follows:
 
-```
-2019-05-08 08:16:46.442  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "28.3", "dataCost": "29.8" }
-2019-05-08 08:16:47.446  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user2", "callCost": "12.0", "dataCost": "23.75" }
-2019-05-08 08:16:48.451  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user4", "callCost": "16.0", "dataCost": "30.05" }
-2019-05-08 08:16:49.454  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLoggerApplication     : {"userId": "user1", "callCost": "17.7", "dataCost": "18.0" }
+```bash
+2019-05-08 08:16:46.442  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user2", "callCost": "28.3", "dataCost": "29.8" }
+2019-05-08 08:16:47.446  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user2", "callCost": "12.0", "dataCost": "23.75" }
+2019-05-08 08:16:48.451  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user4", "callCost": "16.0", "dataCost": "30.05" }
+2019-05-08 08:16:49.454  INFO 10769 --- [o6VmGALOP_onw-1] i.s.d.s.u.UsageCostLogger     : {"userId": "user1", "callCost": "17.7", "dataCost": "18.0" }
 ```
 
 <!--END_TABS-->

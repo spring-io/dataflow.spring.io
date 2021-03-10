@@ -20,7 +20,7 @@ wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/d
 
 # Building the downloaded sample
 
-The stream apps may may be configured to run with a Kafka broker or RabbitMQ, using a common code base. The only difference is in the executable jar files. In order for them to work with a Kafka broker, they require a Kafka binder dependency (enabled by default). For RabbitMQ, they require the Rabbit binder.
+The stream apps may be configured to run with a Kafka broker or RabbitMQ, using a common code base. The only difference is in the executable jar files. In order for them to work with a Kafka broker, they require a Kafka binder dependency (enabled by default). For RabbitMQ, they require the Rabbit binder.
 
 <!--TIP-->
 
@@ -87,7 +87,7 @@ or visit the [Spring Initialzr site](https://start.spring.io/) and follow these 
 
 Now you should `unzip` the `usage-detail-sender-kafka.zip` file and import the project into your favorite IDE.
 
-There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using Kafka as the message broker. The [Kafka-binder documentation](There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using RabbitMQ as the message broker. The [RabbitMQ-binder documentation](https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/3.1.1/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options) lists the Kafka binder configuration properties.
+There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using Kafka as the message broker. There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using Kafka as the message broker. The [Kafaka binder documentation](https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/current/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options) lists the Kafka binder configuration properties.
 
 <!--RabbitMQ-->
 
@@ -119,7 +119,7 @@ spring.cloud.stream.bindings.<channelName>.producer.requiredGroups
 The `requiredGroups` property accepts a comma-separated list of groups to which the producer must ensure message delivery.
 When this property is set, a durable queue is created by using the `<exchange>.<requiredGroup>` format.
 
-There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using RabbitMQ as the message broker. The [RabbitMQ-binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-rabbit/current/reference/html/spring-cloud-stream-binder-rabbit.html#_configuration_options) lists the RabbitMQ binder configuration properties.
+There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using RabbitMQ as the message broker. The [RabbitMQ Binder documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-rabbit/current/reference/html/spring-cloud-stream-binder-rabbit.html#_configuration_options) lists the RabbitMQ binder configuration properties.
 
 <!--END_TABS-->
 
@@ -201,61 +201,48 @@ Spring Cloud Stream provides a test jar to test the Spring Cloud Stream applicat
 
 Instead of a message broker binder implementation, `TestChannelBinderConfiguration` provides an in-memory binder implementation, used to trace and test your application's outbound and inbound messages.
 The test configuration includes `InputDestination` and `OutputDestination` beans to send and receive messages.
-To unit test the `UsageDetailSender` application, add following code in the `UsageDetailSenderApplicationTests` class:
+To unit test the `UsageDetailSender` application, add the following code in the `UsageDetailSenderApplicationTests` class:
 
 ```java
-package io.spring.dataflow.sample.usagecostlogger;
+package io.spring.dataflow.sample.usagedetailsender;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.test.system.CapturedOutput;
-import org.springframework.boot.test.system.OutputCaptureExtension;
-import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.cloud.stream.binder.test.OutputDestination;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.converter.CompositeMessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
 
-@ExtendWith(OutputCaptureExtension.class)
-public class UsageCostLoggerApplicationTests {
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class UsageDetailSenderApplicationTests {
 
 	@Test
 	public void contextLoads() {
 	}
 
 	@Test
-	public void testUsageCostLogger(CapturedOutput output) {
+	public void testUsageDetailSender() {
 		try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
 				TestChannelBinderConfiguration
-						.getCompleteConfiguration(UsageCostLoggerApplication.class))
+						.getCompleteConfiguration(UsageDetailSenderApplication.class))
 				.web(WebApplicationType.NONE)
 				.run()) {
 
-			InputDestination source = context.getBean(InputDestination.class);
-
-			UsageCostDetail usageCostDetail = new UsageCostDetail();
-			usageCostDetail.setUserId("user1");
-			usageCostDetail.setCallCost(3.0);
-			usageCostDetail.setDataCost(5.0);
+			OutputDestination target = context.getBean(OutputDestination.class);
+			Message<byte[]> sourceMessage = target.receive(10000);
 
 			final MessageConverter converter = context.getBean(CompositeMessageConverter.class);
-			Map<String, Object> headers = new HashMap<>();
-			headers.put("contentType", "application/json");
-			MessageHeaders messageHeaders = new MessageHeaders(headers);
-			final Message<?> message = converter.toMessage(usageCostDetail, messageHeaders);
+			UsageDetail usageDetail = (UsageDetail) converter
+					.fromMessage(sourceMessage, UsageDetail.class);
 
-			source.send(message);
-
-			Awaitility.await().until(output::getOut, value -> value.contains("{\"userId\": \"user1\", \"callCost\": \"3.0\", \"dataCost\": \"5.0\" }"));
+			assertThat(usageDetail.getUserId()).isBetween("user1", "user5");
+			assertThat(usageDetail.getData()).isBetween(0L, 700L);
+			assertThat(usageDetail.getDuration()).isBetween(0L, 300L);
 		}
 	}
 }
@@ -266,7 +253,7 @@ public class UsageCostLoggerApplicationTests {
 
 <!--NOTE-->
 
-The in-memory test binder behaves exactly as any of the message broker binder implementations. Notably, in a Spring Cloud Stream Application, the message payload is always a byte array, encoded as JSON by default. The consuming application receives the bytes on its input channel and automatically delagates to the appropriate `MessageConverter`, based on the content type, to convert the bytes to match the consuming Function's argument type, `UsageDetail` in this case. For the test, we need to perform this step explicitly. Alternately, instead of using a `MessageConverter`, we could have invoked a JSON parser directly.
+The in-memory test binder behaves exactly as any of the message broker binder implementations. Notably, in a Spring Cloud Stream Application, the message payload is always a byte array, encoded as JSON by default. The consuming application receives the bytes on its input channel and automatically delegates to the appropriate `MessageConverter`, based on the content type, to convert the bytes to match the consuming Function's argument type, `UsageDetail` in this case. For the test, we need to perform this step explicitly. Alternately, instead of using a `MessageConverter`, we could have invoked a JSON parser directly.
 
 <!--END_NOTE-->
 
@@ -481,29 +468,29 @@ In this step, we create the `UsageCostLogger` sink.
 
 <!--Kafka-->
 
-You can either [directly download the project generated by the Spring Initialzr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.3.RELEASE&packaging=jar&jvmVersion=1.8&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-kafka&name=usage-cost-logger-kafka&description=Demo%20project%20for%20Spring%20Boot&packageName=io.spring.dataflow.sample.usagecostlogger&dependencies=cloud-stream,actuator,kafka)
+You can either [directly download the project generated by the Spring Initialzr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.3.RELEASE&packaging=jar&jvmVersion=1.8&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-kafka&name=usage-cost-logger-kafka&description=Demo%20project%20for%20Spring%20Boot&packageName=io.spring.dataflow.sample.usagecostlogger&dependencies=cloud-stream,actuator,kafka) and click on **Generate Project**.
 
 or visit the [Spring Initialzr site](https://start.spring.io/) and follow these instructions:
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-logger-kafka`, and package `o.spring.dataflow.sample.usagecostlogger`.
-2. In the **Dependencies** text box, type `Kafka` to select the Kafka binder dependency,.
+2. In the **Dependencies** text box, type `Kafka` to select the Kafka binder dependency.
 3. In the **Dependencies** text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 4. In the **Dependencies** text box, type `Actuator` to select the Spring Boot actuator dependency.
-5. Click the **Generate Project** button.
+5. Click on **Generate Project**.
 
 Now you should `unzip` the `usage-cost-logger-kafka.zip` file and import the project into your favorite IDE.
 
 <!--RabbitMQ-->
 
-You can either [directly download the project generated by the Spring Initialzr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.3.RELEASE&packaging=jar&jvmVersion=1.8&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-rabbit&name=usage-cost-logger-rabbit&description=Demo%20project%20for%20Spring%20Boot&packageName=io.spring.dataflow.sample.usagecostlogger&dependencies=cloud-stream,actuator,amqp)
+You can either [directly download the project generated by the Spring Initialzr](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.3.RELEASE&packaging=jar&jvmVersion=1.8&groupId=io.spring.dataflow.sample&artifactId=usage-cost-logger-rabbit&name=usage-cost-logger-rabbit&description=Demo%20project%20for%20Spring%20Boot&packageName=io.spring.dataflow.sample.usagecostlogger&dependencies=cloud-stream,actuator,amqp) and click on **Generate Project**.
 
 or visit the [Spring Initialzr site](https://start.spring.io/) and follow these instructions:
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-logger-rabbit`, and package `o.spring.dataflow.sample.usagecostlogger`.
-2. In the **Dependencies** text box, type `RabbitMQ` to select the RabbitMQ binder dependency,.
+2. In the **Dependencies** text box, type `RabbitMQ` to select the RabbitMQ binder dependency.
 3. In the **Dependencies** text box, type `Cloud Stream` to select the Spring Cloud Stream dependency.
 4. In the **Dependencies** text box, type `Actuator` to select the Spring Boot actuator dependency.
-5. Click the **Generate Project** button.
+5. Click on **Generate Project**.
 
 Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the project into your favorite IDE.
 
@@ -576,7 +563,7 @@ From the `usage-cost-logger`'s root directory, use the following command to buil
 To unit test the `UsageCostLogger`, add the following code in the `UsageCostLoggerApplicationTests` class:
 
 ```java
- package io.spring.dataflow.sample.usagecostlogger;
+package io.spring.dataflow.sample.usagecostlogger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -631,6 +618,16 @@ public class UsageCostLoggerApplicationTests {
 		}
 	}
 }
+```
+
+Add the `awaitility` dependency in `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.awaitility</groupId>
+    <artifactId>awaitility</artifactId>
+    <scope>test</scope>
+</dependency>
 ```
 
 - The `contextLoads` test case verifies that the application starts successfully.
