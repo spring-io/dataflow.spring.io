@@ -100,39 +100,39 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 
 # Supported Spring Cloud Stream Applications
 
-| Artifact Type     | Latest Stable Release                                                  | SNAPSHOT Release                                                           |
-| ----------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-|                   | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x                         |
-| RabbitMQ + Maven  | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)   | [%stream-app-rabbit-maven-snapshot%](%stream-app-rabbit-maven-snapshot%)   |
-| RabbitMQ + Docker | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%) | [%stream-app-rabbit-docker-snapshot%](%stream-app-rabbit-docker-snapshot%) |
-| Kafka + Maven     | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)     | [%stream-app-kafka-maven-snapshot%](%stream-app-kafka-maven-snapshot%)     |
-| Kafka + Docker    | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)   | [%stream-app-kafka-docker-snapshot%](%stream-app-kafka-docker-snapshot%)   |
+| Artifact Type     | Latest Stable Release                          | SNAPSHOT Release                        |
+| ----------------- | ---------------------------------------------- | --------------------------------------- |
+|                   | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x |                                         |
+| RabbitMQ + Maven  | [%stream-app-rabbit-maven-latest%]()           | [%stream-app-rabbit-maven-snapshot%]()  |
+| RabbitMQ + Docker | [%stream-app-rabbit-docker-latest%]()          | [%stream-app-rabbit-docker-snapshot%]() |
+| Kafka + Maven     | [%stream-app-kafka-maven-latest%]()            | [%stream-app-kafka-maven-snapshot%]()   |
+| Kafka + Docker    | [%stream-app-kafka-docker-latest%]()           | [%stream-app-kafka-docker-snapshot%]()  |
 
 # Supported Spring Cloud Task and Batch Applications
 
-| Artifact Type | Latest Stable Release                                  | SNAPSHOT Release                                         |
-| ------------- | ------------------------------------------------------ | -------------------------------------------------------- |
-|               | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x         |
-| Maven         | [%task-app-maven-version%](%task-app-maven-version%)   | [%task-app-maven-snapshot%](%task-app-maven-snapshot%)   |
-| Docker        | [%task-app-docker-version%](%task-app-docker-version%) | [%task-app-docker-snapshot%](%task-app-docker-snapshot%) |
+| Artifact Type | Latest Stable Release                          | SNAPSHOT Release               |
+| ------------- | ---------------------------------------------- | ------------------------------ |
+|               | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x |                                |
+| Maven         | [%task-app-maven-version%]()                   | [%task-app-maven-snapshot%]()  |
+| Docker        | [%task-app-docker-version%]()                  | [%task-app-docker-snapshot%]() |
 
 The following table lists previous releases for reference only.
 NOTE: These may no longer be supported (i.e. they depend on an EOL spring-boot release):
 
 # Previous Releases of Stream Applications
 
-| Artifact Type     | Previous Release                                                           |
-| ----------------- | -------------------------------------------------------------------------- |
-|                   | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x                             |
-| RabbitMQ + Maven  | [%stream-app-rabbit-maven-previous%](%stream-app-rabbit-maven-previous%)   |
-| RabbitMQ + Docker | [%stream-app-rabbit-docker-previous%](%stream-app-rabbit-docker-previous%) |
-| Kafka + Maven     | [%stream-app-kafka-maven-previous%](%stream-app-kafka-maven-previous%)     |
-| Kafka + Docker    | [%stream-app-kafka-docker-previous%](%stream-app-kafka-docker-previous%)   |
+| Artifact Type     | Previous Release                               |
+| ----------------- | ---------------------------------------------- |
+|                   | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x |
+| RabbitMQ + Maven  | [%stream-app-rabbit-maven-previous%]()         |
+| RabbitMQ + Docker | [%stream-app-rabbit-docker-previous%]()        |
+| Kafka + Maven     | [%stream-app-kafka-maven-previous%]()          |
+| Kafka + Docker    | [%stream-app-kafka-docker-previous%]()         |
 
 # Previous Releases of Spring Cloud Task and Batch Applications
 
-| Artifact Type | Previous Release                                         |
-| ------------- | -------------------------------------------------------- |
-|               | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x           |
-| Maven         | [%task-app-maven-previous%](%task-app-maven-previous%)   |
-| Docker        | [%task-app-docker-previous%](%task-app-docker-previous%) |
+| Artifact Type | Previous Release                               |
+| ------------- | ---------------------------------------------- |
+|               | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x |
+| Maven         | [%task-app-maven-previous%]()                  |
+| Docker        | [%task-app-docker-previous%]()                 |
