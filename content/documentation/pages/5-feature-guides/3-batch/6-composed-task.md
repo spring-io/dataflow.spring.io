@@ -492,7 +492,26 @@ This is because the largest split contains three task apps. A count of 2 would m
 ## Restarting Composed Task Runner when task app fails
 
 Composed tasks in Spring Cloud Data Flow let you re-launch the failed composed task in cases where a task app fails.
-A task app is considered failed when the application returns a non-zero `exitCode`. In the following example, we have a simple conditional execution composed task:
+A task app in the workflow is considered failed when the application returns a non-zero `exitCode`.
+
+### Detecting a failed composed task
+
+Once a composed task is launched, an application named Composed Task Runner manages the execution of the composed task.
+Since the Composed Task Runner is built using Spring Batch, Spring Cloud Data Flow uses the Job Executions page to track
+the success or failure of a composed task's execution.
+
+<!-- TIP -->
+
+In the case that the composed task job that manages the workflow fails, the associated exit code of the Command Line Runner will be `0`.
+This is the default boot behavior for batch jobs.
+However, if you require an exit code of `1` if the composed job fails, then set the
+`spring.cloud.task.batch.fail-on-job-failure` property for the composed task runner to `true`.
+
+<!-- END_TIP -->
+
+### Example
+
+In the following example, we have a simple conditional execution composed task:
 
 ```
 task-a && task-b && task-c
