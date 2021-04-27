@@ -26,10 +26,10 @@
   },
   "2.8.0.SNAPSHOT": {
     "name": "2.8.0 SNAPSHOT",
-    "branch": "master"
+    "branch": "main"
   },
   "next": {
     "name": "next",
-    "branch": "master"
+    "branch": "main"
   }
 }

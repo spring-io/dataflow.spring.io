@@ -7,7 +7,7 @@
   "skipper-version": "2.7.0-SNAPSHOT",
   "dataflow-version": "2.8.0-SNAPSHOT",
 
-  "github-tag": "master",
+  "github-tag": "main",
 
   "spring-maven-repo-type": "snapshot",
 

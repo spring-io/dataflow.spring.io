@@ -17,7 +17,7 @@ const loadRepos = async () => {
   for (let versionId of Object.keys(versions)) {
     info(versionId)
     const version = versions[versionId]
-    if (version.branch === 'master') {
+    if (version.branch === 'main') {
       info(`Link version ${versionId} (name: ${version.name})`)
       linkFile(MASTER_DIR, path.join(DATA_DIR, versionId))
     } else {

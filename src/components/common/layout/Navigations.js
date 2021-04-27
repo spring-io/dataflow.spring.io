@@ -32,7 +32,7 @@ class Navigation extends React.Component {
     })
     let version = this.props.version ? this.props.version : currentVersion
     if (version === 'next') {
-      version = 'master'
+      version = 'main'
     }
     return (
       <>

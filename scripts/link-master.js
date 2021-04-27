@@ -7,9 +7,9 @@ const MASTER_DIR = path.join(__dirname, '../content/documentation')
 const DATA_DIR = path.join(__dirname, '../data')
 
 const linkMaster = async () => {
-  info('Linking master')
+  info('Linking main')
   linkFile(MASTER_DIR, path.join(DATA_DIR, 'next'))
-  linkFile(MASTER_DIR, path.join(DATA_DIR, 'master'))
+  linkFile(MASTER_DIR, path.join(DATA_DIR, 'main'))
 }
 
 const linkFile = (src, dest) => {
@@ -18,4 +18,4 @@ const linkFile = (src, dest) => {
   if (failed) throw new Error(`Couldn't link ${src} to ${dest}`)
 }
 
-main('link-master', linkMaster)
+main('link-main', linkMaster)
