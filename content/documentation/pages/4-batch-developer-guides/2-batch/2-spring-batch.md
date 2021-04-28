@@ -10,7 +10,7 @@ In this guide, we develop a Spring Batch application and deploy it to Cloud Foun
 
 This guide describes how to build this application from scratch. If you prefer, you can download a zip file that contains the sources for the `billsetup` application, unzip it, and proceed to the [deployment](#deployment) step.
 
-You can can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or run the following command to download it from the command-line:
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or run the following command to download it from the command-line:
 
 ```bash
 wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
@@ -50,7 +50,7 @@ For this guide, we focus on five Spring Batch components, which the following im
 
 ![BILL_STATMENTS](images/spring-batch-reference-model.png)
 
-- `Job`: A `job` is an entity that encapsulates an entire batch process. A job is comprised of one or more `steps`.
+- `Job`: A `Job` is an entity that encapsulates an entire batch process. A job is comprised of one or more `steps`.
 - `Step`: A `Step` is a domain object that encapsulates an independent, sequential phase of a batch job. Each `step` is comprised of an `ItemReader`, an `ItemProcessor`, and an `ItemWriter`.
 - `ItemReader`: `ItemReader` is an abstraction that represents the retrieval of input for a `Step`, one item at a time.
 - `ItemProcessor`: `ItemProcessor` is an abstraction that represents the business processing of an item.
