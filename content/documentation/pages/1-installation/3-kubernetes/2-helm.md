@@ -606,6 +606,14 @@ the container to be deployed. Currently, three styles are supported:
 
 <!--TIP-->
 
+When using the docker `shell` entrypoint on a container be aware of its impact on SIGTERM
+of an application, as the excerpt from the
+[Docker Documentation](https://docs.docker.com/engine/reference/builder/#entrypoint) discusses.
+
+<!--END_TIP-->
+
+<!--TIP-->
+
 In all cases, environment variables defined at the server-level
 configuration and on a per-application basis are set onto the
 container as is.
@@ -669,6 +677,18 @@ Using the `boot` entry point style corresponds to using the `exec` style
 passed to the container, with the addition of application properties
 being mapped into the `SPRING_APPLICATION_JSON` environment variable
 rather than command line arguments.
+
+<!--TIP-->
+
+It is recommended that you use `exec` entrypoint style when launching Spring
+Batch/Boot Applications or implement your own method of setting job parameters
+in your application.
+This is because the `shell` entry point style, converts command line args to environment variables,
+this prevents Spring Boot from creating job parameters from the command line args.
+This can be seen
+[here](https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/batch/JobLauncherApplicationRunner.java).
+
+<!--END_TIP-->
 
 <!--TIP-->
 
