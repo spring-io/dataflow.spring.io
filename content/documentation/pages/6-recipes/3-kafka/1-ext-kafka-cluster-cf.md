@@ -182,9 +182,7 @@ Likewise, you can also see the connection credentials printed in the app logs.
 
 ## Streaming Data Pipeline in SCDF for PCF Tile
 
-We do not yet have support to supply global configuration properties through the SCDF for PCF Tile.
-
-However, the option discussed in the [Explicit Stream Configuration](%currentPath%/recipes/kafka/ext-kafka-cluster-cf/#explicit-stream-level-kafka-connection-configuration) section should still work when you deploy a stream from Spring Cloud Data Flow running as a managed service in Pivotal Cloud Foundry.
+The option discussed in the [Explicit Stream Configuration](%currentPath%/recipes/kafka/ext-kafka-cluster-cf/#explicit-stream-level-kafka-connection-configuration) section should still work when you deploy a stream from Spring Cloud Data Flow running as a managed service in Pivotal Cloud Foundry.
 
 Alternatively, you could supply Kafka connection credentials as CUPS properties when creating the service instance of SCDF for PCF Tile:
 
@@ -207,3 +205,26 @@ Deployment request has been sent for stream 'fooz'
 Replace `<GENERATED_GUID>` with the GUID of the generated messaging service-instance name, which you can find from `cf services` command (for example: `messaging-b3e76c87-c5ae-47e4-a83c-5fabf2fc4f11`).
 
 <!-- NOTE -->
+
+As another alternative, you can also provide global configuration properties through the SCDF for PCF Tile.
+Once the SCDF service instance is ready, you can do the following.
+
+1. On the Cloudfoundry tile, go to the dataflow server app and then settings.
+2. Find “User Provided Environment Variables”, then find SPRING_CLOUD_DATAFLOW_TILE_CONFIGURATION.
+3. Provide the following as the value:
+{"spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers": <foo0.broker.foo>,
+ "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.jaas.loginModule": "org.apache.kafka.common.security.plain.PlainLoginModule",
+ "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.jaas.options.username": "test",
+ "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.jaas.options.password": "password",
+ "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.configuration.security.protocol": "SASL_PLAINTEXT",
+ "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.configuration.sasl.mechanism": "PLAIN" }
+4. Once these changes are applied, click the update button and make sure to restart the dataflow server application on CF.
+
+<!-- NOTE -->
+
+Values in the configuration above (in step #3) are provided for illustrative purposes only.
+Please update them accordingly.
+These configurations are for a Kafka cluster that is secured with SASL PLAINTEXT security.
+
+<!-- NOTE -->
+
