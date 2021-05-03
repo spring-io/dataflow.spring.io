@@ -206,10 +206,10 @@ Replace `<GENERATED_GUID>` with the GUID of the generated messaging service-inst
 
 <!-- NOTE -->
 
-As another alternative, you can also provide global configuration properties through the SCDF for PCF Tile.
+As another alternative, you can also provide global configuration properties through the SCDF service app instance.
 Once the SCDF service instance is ready, you can do the following.
 
-1. On the Cloudfoundry tile, go to the dataflow server app and then settings.
+1. On the SCDF server app instance UI on the apps manager, go to the settings.
 2. Find “User Provided Environment Variables”, then find SPRING_CLOUD_DATAFLOW_TILE_CONFIGURATION.
 3. Provide the following as the value:
 {"spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers": <foo0.broker.foo>,
