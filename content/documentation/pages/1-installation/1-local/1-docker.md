@@ -120,7 +120,7 @@ You can use the following environment variables to configure the `docker-compose
 | `STREAM_APPS_URI`   | https://dataflow.spring.io/kafka-maven-latest (or https://dataflow.spring.io/kafka-docker-latest for DooD) | Pre-registered Stream applications. Find [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_stream_app_starters) the available Stream Application Starters links.   |
 | `TASK_APPS_URI`     | https://dataflow.spring.io/task-maven-latest (or https://dataflow.spring.io/task-docker-latest for DooD)   | Pre-registered Task applications. You can find the available Task Application Starters links [here](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_spring_cloud_task_app_starters). |
 | `HOST_MOUNT_PATH`   | .                                                                                                          | Defines the host machine folder path on the mount. See [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                                         |
-| `DOCKER_MOUNT_PATH` | `/root/scdf`                                                                                               | Defines the target (in-container) path on which to mount the host folder. See [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                  |
+| `DOCKER_MOUNT_PATH` | `/home/cnb/scdf`                                                                                           | Defines the target (in-container) path on which to mount the host folder. See [Accessing the Host File System](#accessing-the-host-file-system) for further details.                                                  |
 
 The docker-compose.yml configurations expose the following container ports to the host machine:
 
@@ -200,7 +200,7 @@ curl https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/s
 
 If you develop custom applications on your local machine, you need to register them with Spring Cloud Data Flow. Since Data Flow server runs inside a Docker container, you need to configure this container to access to your local file system to resolve the applications registration references. To deploy those custom applications, the Skipper Server also needs to access them from within its own Docker container.
 
-By default, `docker-compose.yml` mounts the local host folder (the folder where the docker-compose process is started) to a `/root/scdf` folder inside both the `dataflow-server` and the `skipper` containers.
+By default, `docker-compose.yml` mounts the local host folder (the folder where the docker-compose process is started) to a `/home/cnb/scdf` folder inside both the `dataflow-server` and the `skipper` containers.
 
 <!--IMPORTANT-->
 
@@ -238,15 +238,15 @@ Then follow the [starting docker-compose](%currentPath%/installation/local/docke
 
 See the [compose-file reference](https://docs.docker.com/compose/compose-file/compose-file-v2/) for further configuration details.
 
-Once the host folder is mounted, you can register the app starters (from `/root/scdf`) by using either the Data Flow [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) or the [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps). To do so, use the `file://` URI schema. The following example shows how to do so:
+Once the host folder is mounted, you can register the app starters (from `/home/cnb/scdf`) by using either the Data Flow [Shell](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#shell) or the [Dashboard](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#dashboard-apps). To do so, use the `file://` URI schema. The following example shows how to do so:
 
 ```bash
-app register --type source --name my-app --uri file://root/scdf/my-app-1.0.0.RELEASE.jar
+app register --type source --name my-app --uri file://home/cnb/scdf/my-app-1.0.0.RELEASE.jar
 ```
 
 <!--TIP-->
 
-You can use the optional `--metadata-uri` parameter if a metadata jar is available in the `/root/scdf` folder for the same application.
+You can use the optional `--metadata-uri` parameter if a metadata jar is available in the `/home/cnb/scdf` folder for the same application.
 
 <!--END_TIP-->
 
@@ -258,7 +258,7 @@ app-import-stream:
   command: >
     /bin/sh -c "
       ....
-      wget -qO- 'https://dataflow-server:9393/apps/source/my-app' --post-data='uri=file:/root/apps/my-app.jar&metadata-uri=file:/root/apps/my-app-metadata.jar"
+      wget -qO- 'https://dataflow-server:9393/apps/source/my-app' --post-data='uri=file:/home/cnb/apps/my-app.jar&metadata-uri=file:/home/cnb/apps/my-app-metadata.jar"
 ```
 
 See the [Data Flow REST API](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#resources-registered-applications) for further details.
@@ -267,7 +267,7 @@ See the [Data Flow REST API](https://docs.spring.io/spring-cloud-dataflow/docs/c
 
 You can develop applications and install them in the local Maven repository (using `mvn install`) while the Data Flow server is running and have immediate access to the newly built applications.
 
-To do so, you must mount the host’s local maven repository to the `dataflow-server` and `skipper` containers using a volume called `/root/.m2/`.
+To do so, you must mount the host’s local maven repository to the `dataflow-server` and `skipper` containers using a volume called `/home/cnb/.m2/`.
 The Maven Local repository location defaults to `~/.m2` for Linux and OSX and to `C:\Users\{your-username}\.m2` for Windows.
 
 We can leverage the `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` variables to configure mount volumes, as follows:
@@ -278,24 +278,26 @@ We can leverage the `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` variables to confi
 
 ```bash
 export HOST_MOUNT_PATH=~/.m2
-export DOCKER_MOUNT_PATH=/root/.m2/
+export DOCKER_MOUNT_PATH=/home/cnb/.m2/
 ```
 
 <!--Windows (Cmd)-->
 
 ```bash
 set HOST_MOUNT_PATH=%userprofile%\.m2
-set DOCKER_MOUNT_PATH=/root/.m2/
+set DOCKER_MOUNT_PATH=/home/cnb/.m2/
 ```
 
 <!--Windows (PowerShell) -->
 
 ```bash
 $Env:HOST_MOUNT_PATH="~\.m2"
-$Env:DOCKER_MOUNT_PATH="/root/.m2/"
+$Env:DOCKER_MOUNT_PATH="/home/cnb/.m2/"
 ```
 
 <!--END_TABS-->
+
+Note: For SCDF docker images older than 2.8.0-SNAPSHOT you need to set the `DOCKER_MOUNT_PATH` to `/root/.m2/` instead!
 
 Then follow the [starting docker-compose](%currentPath%/installation/local/docker/#starting-docker-compose) instructions to start the cluster.
 
