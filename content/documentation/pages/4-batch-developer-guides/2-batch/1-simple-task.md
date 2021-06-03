@@ -153,7 +153,7 @@ Now we can take the next step of building the project. To do so:
 
    ```bash
    java -jar target/billsetuptask-0.0.1-SNAPSHOT.jar \
-   --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
+   '--spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false' \
    --spring.datasource.username=root \
    --spring.datasource.password=password \
    --spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
