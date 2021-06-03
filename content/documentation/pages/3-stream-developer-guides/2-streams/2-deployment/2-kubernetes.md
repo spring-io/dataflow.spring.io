@@ -276,7 +276,7 @@ kubectl delete pod -l app=usage-cost-stream
 or
 
 ```bash
-kubectl delete f usage-cost-stream.yaml
+kubectl delete -f usage-cost-stream.yaml
 ```
 
 To uninstall RabbitMQ, run the following command:
