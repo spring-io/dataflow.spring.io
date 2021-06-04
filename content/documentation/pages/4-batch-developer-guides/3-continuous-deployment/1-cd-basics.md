@@ -168,7 +168,7 @@ dataflow:>task launch demo1
 Launched task 'demo1' with execution id 2
 ```
 
-You can verif this by using the task execution status, as follows:
+You can verify this by using the task execution status, as follows:
 
 ```bash
 dataflow:>task execution status 2
@@ -199,3 +199,30 @@ Note that the `2.1.1.RELEASE` version of the `timestamp` application is now used
 You can override these deployment properties during the task launch as well.
 
 Note: While the deployment properties are propagated between the task launches, the task arguments are **not** propagated.The idea is to keep the arguments only for each task launch.
+
+## Scheduling Lifecycle
+
+Spring Cloud Data Flow supports scheduling on 2 platforms: Kubernetes and Cloud Foundry.
+In both cases Spring Cloud Data Flow interacts with the scheduling system provided by the platform to:
+
+- Create a schedule
+- Delete a schedule
+- List available schedules
+  Each platform handles scheduling of tasks differently. In the following sections we will discuss
+  how Spring Cloud Data Flow schedules a task.
+
+### Scheduling on Cloud Foundry
+
+1. A scheduling request comes into Spring Cloud Data Flow. Spring Cloud Data Flow determines if the application currently exists, if it isn't present it deploys the application to the Cloud Foundry instance. Then binds the application to the scheduler (along with the required bindings).
+
+1. Once the application has been deployed and bound to the scheduler, the scheduler then launches the application based on the schedule provided.
+
+Once the application has been scheduled, then the lifecycle of the application is managed by the Cloud Foundry Scheduler and is no longer managed by Spring Cloud Data Flow, except when removing the schedule or delete it when the task definition is deleted.
+
+### Scheduling on Kubernetes
+
+1. A scheduling request comes into Spring Cloud Data Flow. Spring Cloud Data Flow creates a CronJob in the namespace and cluster specified by the platform.
+
+1. Once the CronJob has been created, the CronJob then launches the application based on the schedule provided.
+
+Once the application has been scheduled, then the lifecycle of the application is managed by the associated CronJob. Spring Cloud Data Flow then will delete the CronJob when the task definition is deleted or is the schedule is deleted.
