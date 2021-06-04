@@ -144,6 +144,44 @@ You can use the Wavefront's Browse/Source menu to find the metrics coming from t
 
 <!--END_TIP-->
 
+## Zipkin Server
+
+The [docker-compose-zipkin.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-zipkin.yml) enables Stream distributed trace collection and visualization with `Zipkin Server`. Open the Zipkin's UI at [http://localhost:9411/zipkin](http://localhost:9411/zipkin) to find the distributed traces collected from deployed streaming applications.
+
+All Spring Cloud [Stream Applications](https://github.com/spring-cloud/stream-applications) are pre-configured with `Spring Cloud Sleuth` to support message distributed tracing. The traced information is sent to an external systems to visualize latency. Spring Cloud Sleuth supports OpenZipkin compatible systems such as [Zipkin Server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server) or the [Wavefront Distributed Tracing](https://docs.wavefront.com/tracing_basics.html).
+
+The Zipkin distributed tracing is disabled by default. Use the [spring sleuth properties](https://cloud.spring.io/spring-cloud-sleuth/reference/html/appendix.html) to alter the default behavior. For example the `docker-compose-zipkin.yaml` leverages the SCDF common streaming properties to set the `spring.zipkin.enabled=true` and `spring.zipkin.base-url=http://zipkin-server:9411` for deployed stream applications.
+
+<!--TABS-->
+
+<!--Linux / OSX-->
+
+```bash
+wget -O docker-compose-wavefront.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-zipkin.yml
+docker-compose -f ./docker-compose.yml -f ./docker-compose-zipkin.yml up
+```
+
+<!--Windows-->
+
+```bash
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-zipkin.yml -o docker-compose-zipkin.yml
+docker-compose -f .\docker-compose.yml -f .\docker-compose-zipkin.yml up
+```
+
+<!--END_TABS-->
+
+The `docker-compose-zipkin.yml` configurations expose the following container ports to the host machine:
+
+| Host ports | Container ports | Description                                           |
+| ---------- | --------------- | ----------------------------------------------------- |
+| 9411       | 9411            | Zipkin Server listen port for the HTTP API and web UI |
+
+<!--TIP-->
+
+You can use the `Zipkin UI` at [http://localhost:9411/zipkin](http://localhost:9411/zipkin) to browse the distributed traces collected from deployed streaming applications.
+
+<!--END_TIP-->
+
 ## Postgres Instead of MySQL
 
 The [docker-compose-postgres.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-postgres.yml) file configures using `PostgreSQL` instead of `MySQL` for both Spring Cloud Data Flow and SKipper. It disables the default `mysql` service, adds a new `postgres` service, and overrides the Data Flow and Skipper configurations to use `postgres` service:
