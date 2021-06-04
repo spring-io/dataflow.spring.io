@@ -18,7 +18,7 @@ To help you get started monitoring streams, Data Flow provides [Grafana](https:/
 
 The following image shows the general architecture of how streaming applications are monitored:
 
-![Stream Monitoring Architecture](images/SCDF-stream-metrics-architecture.png)
+![Stream Monitoring Architecture](images/SCDF-stream-metrics-architecture2.png)
 
 Additionally, for streaming data pipelines based on Kafka binder, a dedicated Kafka and Kafka Stream dashboard is provided based on the Apache Kafka metrics:
 
