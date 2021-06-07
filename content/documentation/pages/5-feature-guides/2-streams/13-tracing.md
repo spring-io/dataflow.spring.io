@@ -23,7 +23,7 @@ The following image shows the general architecture of how streaming applications
 
 For streaming applications based on `Spring Cloud Function` prior version `3.1.x`, the `Spring Cloud Sleuth` library leverages the [Spring Integration for tracing instrumentation](https://docs.spring.io/spring-cloud-sleuth/docs/current/reference/htmlsingle/#sleuth-messaging-spring-integration-integration). Later might produce unnecessary (noise) trace information for some Spring Integration internal components!
 
-Starting with `Spring Cloud Function 3.1+` the Spring Cloud Sleuth instruments the Spring Cloud Function directly, producing better comprehendible tracing information.
+Starting with `Spring Cloud Function 3.1+`, the Spring Cloud Sleuth [tracing instrumentation](https://docs.spring.io/spring-cloud-sleuth/docs/current/reference/htmlsingle/#sleuth-messaging-spring-cloud-function-integration) offers a better tailored tracing information for SCF based applications.
 
 <!--END_NOTE-->
 
