@@ -21,11 +21,13 @@ The following image shows the general architecture of how streaming applications
 
 <!--NOTE-->
 
-Tracing for stream application tracing is possible
+For streaming applications based on `Spring Cloud Function` prior version `3.1.x`, the `Spring Cloud Sleuth` library leverages the [Spring Integration for tracing instrumentation](https://docs.spring.io/spring-cloud-sleuth/docs/current/reference/htmlsingle/#sleuth-messaging-spring-integration-integration). Later might produce unnecessary (noise) trace information for some Spring Integration internal components!
+
+Starting with `Spring Cloud Function 3.1+` the Spring Cloud Sleuth instruments the Spring Cloud Function directly, producing better comprehendible tracing information.
 
 <!--END_NOTE-->
 
-## Instrument Distributed Tracing for a Custom Applications
+## Instrument Custom Applications
 
 To enable distributed tracing for your custom streaming application, you must add the following dependencies to your streaming application:
 
@@ -54,7 +56,7 @@ To enable distributed tracing for your custom streaming application, you must ad
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-dependencies</artifactId>
-			<version>TODO - Soby</version>
+			<version>${release.train.version}</version>
 			<type>pom</type>
 			<scope>import</scope>
 		</dependency>
@@ -69,7 +71,7 @@ management.metrics.export.wavefront.enabled=false
 spring.zipkin.enabled=true
 ```
 
-## Visualize Distributed Tracing Data
+## Visualize Distributed Tracing
 
 You can also export the tracing information to an external system to analyze and visualize. Spring Cloud Sleuth supports OpenZipkin compatible systems such as [Wavefront Distributed Tracing](https://docs.wavefront.com/tracing_basics.html) and [Zipkin Server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
 
@@ -117,7 +119,7 @@ The Zipkin UI also presents a Dependency diagram showing how many traced request
 
 <!--END_TABS-->
 
-## Platform Installation
+## Platform Installations
 
 Following sections explain how to configure distributed tracing for different platform deployments of Spring Cloud Data Flow.
 
@@ -141,7 +143,7 @@ Once all the containers are running, deploy a simple stream that uses Kafka:
 dataflow:>stream create scdf-stream-tracing --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
-Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
+Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing).
 
 <!--Zipkin Server -->
 
@@ -159,7 +161,7 @@ To see the dashboard in action, deploy a simple stream that uses Kafka:
 dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
-Open the Zipkin UI at http://localhost:9411/zipkin and then follow the [visualize with Zipkin Server instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
+Open the Zipkin UI at http://localhost:9411/zipkin and then follow the [visualize with Zipkin Server instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing).
 
 <!--END_TABS-->
 
@@ -190,7 +192,7 @@ management:
         source: demo-scdf-source
 ```
 
-Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
+Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing).
 
 <!--Zipkin Server -->
 
@@ -206,7 +208,7 @@ env:
     value: 'http://your-zipkin-server:9411'
 ```
 
-Then follow the [visualize with Zipkin Server instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
+Then follow the [visualize with Zipkin Server instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing).
 
 <!--END_TABS-->
 
