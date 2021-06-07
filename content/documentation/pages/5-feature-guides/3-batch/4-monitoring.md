@@ -78,14 +78,12 @@ Enable Wavefront metrics collection by adding the `micrometer-registry-wavefront
 <dependency>
     <groupId>com.wavefront</groupId>
     <artifactId>wavefront-sdk-java</artifactId>
-    <version>2.6.0</version>
 </dependency>
 ```
 
 <!--NOTE-->
 
-The `wavefront-sdk-java` dependency overrides the version bundled with `micrometer-registry-wavefront:1.5.2` or older.
-For `1.5.3` or newer, the `wavefront-sdk-java` dependency should be dropped.
+For Micrometer version `1.5.3` or newer, the `wavefront-sdk-java` dependency must be dropped.
 
 <!--END_NOTE-->
 

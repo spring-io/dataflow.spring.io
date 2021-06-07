@@ -10,14 +10,14 @@ This section describes how to trace the applications that were deployed as part 
 
 The Data Flow distributed tracing architecture is designed around the [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth#overview) library, to provide API for distributed tracing solutions that integrates with [OpenZipkin Brave](https://github.com/openzipkin/brave).
 
-Spring Cloud Sleuth is able to trace your requests and messages so that you can correlate that communication to corresponding log entries. You can also export the tracing information to an external system to visualize latency. Spring Cloud Sleuth supports OpenZipkin compatible systems directly.
-Such as [Zipkin Server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server) or the [Wavefront Distributed Tracing](https://docs.wavefront.com/tracing_basics.html).
+Spring Cloud Sleuth is able to trace your streaming pipeline messages and export the tracing information to an external system to analyze and visualize. Spring Cloud Sleuth supports `OpenZipkin` compatible systems such as [Zipkin Server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server) or [Wavefront Distributed Tracing](https://docs.wavefront.com/tracing_basics.html).
 
-All Spring Cloud [Stream Applications](https://github.com/spring-cloud/stream-applications) are pre-configured to support message distributed tracing. The distributed tracing is enabled by default. You can disable or change the tracing configurations declaratively using the [spring sleuth properties](https://cloud.spring.io/spring-cloud-sleuth/reference/html/appendix.html).
+All Spring Cloud [Stream Applications](https://github.com/spring-cloud/stream-applications) are pre-configured to support message distributed tracing and exporting to `Zipkin Server` and/or `Wavefront Tracing`.
+The tracing export is disabled by default! Use the `management.metrics.export.wavefront.enabled=true` and/or `spring.zipkin.enabled=true` to enable the tracing information export to Wavefront or Zipkin Server. Detailed instructions are provided below. Consult the [spring sleuth properties](https://cloud.spring.io/spring-cloud-sleuth/reference/html/appendix.html) for the Sleuth configuration properties.
 
 The following image shows the general architecture of how streaming applications are monitored:
 
-![Stream Monitoring Architecture](images/SCDF-stream-traces-architecture.png)
+![Stream Distributed Tracing Architecture](images/SCDF-stream-tracing-architecture.png)
 
 <!--NOTE-->
 
@@ -25,11 +25,59 @@ Tracing for stream application tracing is possible
 
 <!--END_NOTE-->
 
+## Instrument Distributed Tracing for a Custom Applications
+
+To enable distributed tracing for your custom streaming application, you must add the following dependencies to your streaming application:
+
+```xml
+<dependencies>
+	<dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-sleuth</artifactId>
+  </dependency>
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+  </dependency>
+	<dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+  </dependency>
+	<dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-wavefront</artifactId>
+  </dependency>
+</dependencies>
+
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>TODO - Soby</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+	</dependencies>
+</dependencyManagement>
+```
+
+Also you must turn off the default tracing information exporting. Add the following properties to your `application.properties`:
+
+```
+management.metrics.export.wavefront.enabled=false
+spring.zipkin.enabled=true
+```
+
 ## Visualize Distributed Tracing Data
 
-You can also export the tracing information to an external system to visualize latency. Spring Cloud Sleuth supports OpenZipkin compatible systems such as [Zipkin Server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server) and the [Wavefront Distributed Tracing](https://docs.wavefront.com/tracing_basics.html).
+You can also export the tracing information to an external system to analyze and visualize. Spring Cloud Sleuth supports OpenZipkin compatible systems such as [Wavefront Distributed Tracing](https://docs.wavefront.com/tracing_basics.html) and [Zipkin Server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
 
-### Visualize with Wavefront
+<!--TABS-->
+
+<!--Wavefront -->
+
+#### Visualize with Wavefront
 
 You can use the [Wavefront to visualize the distributed tracing data](https://docs.wavefront.com/tracing_basics.html#visualize-distributed-tracing-data-in-wavefront) collected from your deployed streaming pipelines. Wavefront offers different dashboards and browsers to view information on your `applications` and `services` and you can navigate from one to another to gather more information.
 
@@ -49,11 +97,31 @@ For example if you have deployed a stream pipeline named `scdf-stream-traces` yo
 
 Push the the `Search` button and the Wavefront dashboards will show similar to the following image:
 
-![SCDF Wavefront](images/SCDF-stream-tracing-wavefront.png)
+![SCDF  Tracing Wavefront](images/SCDF-stream-tracing-wavefront.png)
 
-### Visualize with Zipkin Server
+<!--Zipkin Server -->
 
-## Local Installation
+#### Visualize with Zipkin Server
+
+The [Zipkin Server](https://zipkin.io/) allows collection and visualization of distributed tracing data from your deployed streaming pipelines. Zipkin offers different dashboards and browsers to view information.
+
+Also you can reach the Zipkin UI at http://your-zipkin-hostname:9411/zipkin. It defaults to (http://localhost:9411/zipkin).
+
+If you have a trace ID in a log file, you can jump directly to it. Otherwise, you can query based on attributes such as service, operation name, tags and duration. Some interesting data will be summarized for you, such as the percentage of time spent in a service, and whether or not operations failed.
+
+![Stream Tracing Visualization - Zipkin Send](images/SCDF-stream-tracing-zipkinserver-send.png)
+
+The Zipkin UI also presents a Dependency diagram showing how many traced requests went through each application. This can be helpful for identifying aggregate behavior including error paths or calls to deprecated services.
+
+![Stream Tracing Visualization - Zipkin Dependencies](images/SCDF-stream-tracing-zipkinserver-dependencies.png)
+
+<!--END_TABS-->
+
+## Platform Installation
+
+Following sections explain how to configure distributed tracing for different platform deployments of Spring Cloud Data Flow.
+
+### Local
 
 This section describes how to view application distributed traces for streams that use Wavefront or Zipkin Server as the trace store. Wavefront is a cloud offering, but you still can deploy Data Flow locally and point it to a cloud-managed Wavefront system.
 
@@ -61,7 +129,7 @@ This section describes how to view application distributed traces for streams th
 
 <!--Wavefront -->
 
-### Wavefront
+#### Wavefront
 
 To install Data Flow with Wavefront support, follow the [Monitoring with Wavefront](%currentPath%/installation/local/docker-customize/#wavefront) Docker Compose instructions. Doing so brings up Spring Cloud Data Flow, Skipper, and Apache Kafka.
 
@@ -73,11 +141,11 @@ Once all the containers are running, deploy a simple stream that uses Kafka:
 dataflow:>stream create scdf-stream-tracing --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
-Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-with-wavefront).
+Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
 
 <!--Zipkin Server -->
 
-### Zipkin Server
+#### Zipkin Server
 
 You would need latest Stream Application staters (`2020.0.3-SNAPSHOT or newer`). Use the `STREAM_APPS_URI` variable to set the right apps version. (TODO).
 
@@ -85,20 +153,17 @@ To enable message trace collection for the `Zipkin Server` [Zipkin Server](%curr
 
 Once all the containers are running, you can access the Spring Cloud Data Flow Dashboard at http://localhost:9393/dashboard
 
-Also you can reach the Zipkin UI at http://localhost:9411/zipkin . To see the dashboard in action, deploy a simple stream that uses Kafka:
+To see the dashboard in action, deploy a simple stream that uses Kafka:
 
 ```
-dataflow:>app import --uri https://dataflow.spring.io/kafka-maven-latest --force
 dataflow:>stream create stream2 --definition "time --fixed-delay=10 --time-unit=MILLISECONDS | filter --expression=payload.contains('3') | log" --deploy
 ```
 
-You should see Zipkin dashboards similar to those shown in the following image:
-
-![SCDF Stream Distributed Tracing - Zipkin](images/scdf-stream-distributed-tracing-zipkin.gif)
+Open the Zipkin UI at http://localhost:9411/zipkin and then follow the [visualize with Zipkin Server instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
 
 <!--END_TABS-->
 
-## Kubernetes Installation
+### Kubernetes
 
 This section describes how to view streams distributed traces on a cloud-managed Wavefront system.
 
@@ -106,7 +171,7 @@ This section describes how to view streams distributed traces on a cloud-managed
 
 <!--Wavefront -->
 
-### Wavefront
+#### Wavefront
 
 Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
@@ -125,11 +190,27 @@ management:
         source: demo-scdf-source
 ```
 
-Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-with-wavefront).
+Then follow the [visualize with Wavefront instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
+
+<!--Zipkin Server -->
+
+#### Zipkin Server
+
+Assuming that the Zipkin Server is running at `http://your-zipkin-server:9411` (it can be part of the Kubernetes cluster or and external service) can add the following environment variables to your Spring Cloud Data Flow deployment configuration:
+
+```yml
+env:
+  - name: SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_STREAM_SPRING_ZIPKIN_ENABLED
+    value: true
+  - name: SPRING_CLOUD_DATAFLOW_APPLICATIONPROPERTIES_STREAM_SPRING_ZIPKIN_BASEURL
+    value: 'http://your-zipkin-server:9411'
+```
+
+Then follow the [visualize with Zipkin Server instructions](%currentPath%/feature-guides/streams/tracing/#visualize-distributed-tracing-data).
 
 <!--END_TABS-->
 
-## Cloud Foundry Installation
+### Cloud Foundry
 
 This section describes how to view application distributed traces for streams that Wavefront store on Cloud Foundry.
 
@@ -137,7 +218,7 @@ This section describes how to view application distributed traces for streams th
 
 <!--Wavefront -->
 
-### Wavefront
+#### Wavefront
 
 Wavefront is a SaaS offering. You need to create a user account first and obtain the `API-KEY` and `WAVEFRONT-URI` assigned to your account.
 
