@@ -727,3 +727,153 @@ To uninstall `mysql`, run the following command:
 ```bash
 kubectl delete all -l app=mysql
 ```
+
+## Database Specific Notes
+
+### Microsoft SQL Server
+
+Using Spring Batch versions 4.x and older along with the Microsoft SQL Server database you may receive a deadlock from the database when launching multiple Spring Batch applications simultaneously.
+This issue was reported in this [issue](https://github.com/spring-projects/spring-batch/issues/1448).
+One solution is to create sequences instead of tables and create a `BatchConfigurer` to use them.  
+Drop the following tables and replace them with sequences using the same names:
+
+- `BATCH_STEP_EXECUTION_SEQ`
+- `BATCH_JOB_EXECUTION_SEQ`
+- `BATCH_JOB_SEQ`
+
+<!--NOTE-->
+
+**NOTE:** Be sure to set each sequence value to be the table's current `id` + 1.
+
+<!--END_NOTE-->
+
+Once the tables have been replaced with sequences, then update the batch application to override the `BatchConfigurer`,
+such that it will utilize its own incrementer. One example of this implementation is shown in the sections below:
+
+#### Incrementer
+
+Create your own incrementer:
+
+```java
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
+
+public class SqlServerSequenceMaxValueIncrementer extends AbstractSequenceMaxValueIncrementer {
+
+	SqlServerSequenceMaxValueIncrementer(DataSource dataSource, String incrementerName) {
+		super(dataSource, incrementerName);
+	}
+	@Override
+	protected String getSequenceQuery() {
+		return "select next value for " + getIncrementerName();
+	}
+}
+```
+
+#### BatchConfigurer
+
+In your configuration create your own `BatchConfigurer` to utilize the incrementer shown above:
+
+```java
+@Bean
+public BatchConfigurer batchConfigurer(DataSource dataSource) {
+    return new DefaultBatchConfigurer(dataSource) {
+        protected JobRepository createJobRepository() {
+            return getJobRepository();
+        }
+
+        @Override
+        public JobRepository getJobRepository() {
+            JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
+            DefaultDataFieldMaxValueIncrementerFactory incrementerFactory =
+                    new DefaultDataFieldMaxValueIncrementerFactory(dataSource) {
+                        @Override
+                        public DataFieldMaxValueIncrementer getIncrementer(String incrementerType, String incrementerName) {
+                            return getIncrementerForApp(incrementerName);
+                        }
+                    };
+            factory.setIncrementerFactory(incrementerFactory);
+            factory.setDataSource(dataSource);
+            factory.setTransactionManager(this.getTransactionManager());
+            factory.setIsolationLevelForCreate("ISOLATION_REPEATABLE_READ");
+            try {
+                factory.afterPropertiesSet();
+                return factory.getObject();
+            }
+            catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+            return null;
+        }
+
+        private DataFieldMaxValueIncrementer getIncrementerForApp(String incrementerName) {
+
+            DefaultDataFieldMaxValueIncrementerFactory incrementerFactory = new DefaultDataFieldMaxValueIncrementerFactory(dataSource);
+            DataFieldMaxValueIncrementer incrementer = null;
+            if (dataSource != null) {
+                String databaseType;
+                try {
+                    databaseType = DatabaseType.fromMetaData(dataSource).name();
+                }
+                catch (MetaDataAccessException e) {
+                    throw new IllegalStateException(e);
+                }
+                if (StringUtils.hasText(databaseType) && databaseType.equals("SQLSERVER")) {
+                    if (!isSqlServerTableSequenceAvailable(incrementerName)) {
+                        incrementer = new SqlServerSequenceMaxValueIncrementer(dataSource, incrementerName);
+                    }
+                }
+            }
+            if (incrementer == null) {
+                try {
+                    incrementer = incrementerFactory.getIncrementer(DatabaseType.fromMetaData(dataSource).name(), incrementerName);
+                }
+                catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+            return incrementer;
+        }
+
+        private boolean isSqlServerTableSequenceAvailable(String incrementerName) {
+            boolean result = false;
+            DatabaseMetaData metaData = null;
+            try {
+                metaData = dataSource.getConnection().getMetaData();
+                String[] types = {"TABLE"};
+                ResultSet tables = metaData.getTables(null, null, "%", types);
+                while (tables.next()) {
+                    if (tables.getString("TABLE_NAME").equals(incrementerName)) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+            catch (SQLException sqe) {
+                sqe.printStackTrace();
+            }
+            return result;
+        }
+    };
+}
+```
+
+<!--NOTE-->
+
+**NOTE:** The Isolation Level for create has been set to `ISOLATION_REPEATABLE_READ` to prevent deadlock on creating entries in batch tables.
+
+<!--END_NOTE-->
+
+#### Dependencies
+
+It is required that you use Spring Cloud Task version 2.3.3 or above. This is because
+Spring Cloud Task 2.3.3 will use a `TASK_SEQ` sequence if one is available.
+
+<!--NOTE-->
+
+**NOTE:** If using composed tasks, be sure to be using Spring Cloud Data Flow 2.8.x and above.
+
+<!--END_NOTE-->
