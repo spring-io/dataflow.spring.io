@@ -13,7 +13,7 @@ The Data Flow distributed tracing architecture is designed around the [Spring Cl
 Spring Cloud Sleuth is able to trace your streaming pipeline messages and export the tracing information to an external system to analyze and visualize. Spring Cloud Sleuth supports `OpenZipkin` compatible systems such as [Zipkin Server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server) or [Wavefront Distributed Tracing](https://docs.wavefront.com/tracing_basics.html).
 
 All Spring Cloud [Stream Applications](https://github.com/spring-cloud/stream-applications) are pre-configured to support message distributed tracing and exporting to `Zipkin Server` and/or `Wavefront Tracing`.
-The tracing export is disabled by default! Use the `management.metrics.export.wavefront.enabled=true` and/or `spring.zipkin.enabled=true` to enable the tracing information export to Wavefront or Zipkin Server. Detailed instructions are provided below. Consult the [spring sleuth properties](https://cloud.spring.io/spring-cloud-sleuth/reference/html/appendix.html) for the Sleuth configuration properties.
+The tracing export is disabled by default! Use the `management.metrics.export.wavefront.enabled=true` and/or `spring.zipkin.enabled=true` to enable the tracing information export to Wavefront or Zipkin Server. Detailed instructions are provided below. Consult the [spring sleuth properties](https://docs.spring.io/spring-cloud-sleuth/docs/3.0.3/reference/html/appendix.html#appendix) for the Sleuth configuration properties.
 
 The following image shows the general architecture of how streaming applications are monitored:
 
