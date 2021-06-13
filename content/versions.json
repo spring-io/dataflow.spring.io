@@ -21,12 +21,12 @@
   },
   "2.7.x": {
     "name": "2.7.2",
-    "branch": "2.7.x",
-    "current": true
+    "branch": "2.7.x"
   },
-  "2.8.0.SNAPSHOT": {
-    "name": "2.8.0 SNAPSHOT",
-    "branch": "main"
+  "2.8.x": {
+    "name": "2.8.0",
+    "branch": "main",
+    "current": true
   },
   "next": {
     "name": "next",
