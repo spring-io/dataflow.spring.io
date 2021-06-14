@@ -14,6 +14,9 @@ import {
 class DocsPage extends React.Component {
   render() {
     const edges = this.props.data.pages
+    edges.edges = edges.edges.filter(edge => {
+      return get(edge, 'node.frontmatter.title') !== 'Markdown'
+    })
     const optionVersions = getVersions(versions)
     const currentVersion = getCurrentVersion(versions)
 
@@ -53,23 +56,23 @@ class DocsPage extends React.Component {
         },
         {
           id: 'commercial-featured-guides',
-          title: 'Commercial Features guides',
-          description: 'Overview of Data Flow commercial features',
-          path: 'https://docs.pivotal.io/scdf-k8s/1-1/',
+          title: get(edges, 'edges[5].node.frontmatter.title'),
+          description: get(edges, 'edges[5].node.frontmatter.description'),
+          path: get(edges, 'edges[5].node.fields.path'),
         },
       ],
       [
         {
           id: 'recipes',
-          title: get(edges, 'edges[5].node.frontmatter.title'),
-          description: get(edges, 'edges[5].node.frontmatter.description'),
-          path: get(edges, 'edges[5].node.fields.path'),
-        },
-        {
-          id: 'polyglot',
           title: get(edges, 'edges[6].node.frontmatter.title'),
           description: get(edges, 'edges[6].node.frontmatter.description'),
           path: get(edges, 'edges[6].node.fields.path'),
+        },
+        {
+          id: 'polyglot',
+          title: get(edges, 'edges[7].node.frontmatter.title'),
+          description: get(edges, 'edges[7].node.frontmatter.description'),
+          path: get(edges, 'edges[7].node.fields.path'),
         },
       ],
     ]
