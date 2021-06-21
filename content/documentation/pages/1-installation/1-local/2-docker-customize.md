@@ -157,7 +157,7 @@ The Zipkin distributed tracing is disabled by default. Use the [spring sleuth pr
 <!--Linux / OSX-->
 
 ```bash
-wget -O docker-compose-wavefront.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-zipkin.yml
+wget -O docker-compose-zipkin.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-zipkin.yml
 docker-compose -f ./docker-compose.yml -f ./docker-compose-zipkin.yml up
 ```
 

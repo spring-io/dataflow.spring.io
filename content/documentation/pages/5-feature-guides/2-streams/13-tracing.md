@@ -4,7 +4,7 @@ title: 'Stream Distributed Tracing'
 description: 'Tracing streaming data pipelines'
 ---
 
-# Stream Distributed Tracing with Wavefront
+# Stream Distributed Tracing
 
 This section describes how to trace the applications that were deployed as part of a Stream data pipeline.
 
