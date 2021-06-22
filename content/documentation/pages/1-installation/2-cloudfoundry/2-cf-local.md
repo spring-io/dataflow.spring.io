@@ -22,7 +22,7 @@ spring.cloud.dataflow.task.platform.cloudfoundry.accounts[default].connection.do
 spring.cloud.dataflow.task.platform.cloudfoundry.accounts[default].connection.username={email}
 spring.cloud.dataflow.task.platform.cloudfoundry.accounts[default].connection.password={password}
 spring.cloud.dataflow.task.platform.cloudfoundry.accounts[default].connection.skipSslValidation=false
-
+spring.cloud.dataflow.task.platform.cloudfoundry.accounts[default].scheduler.scheduler-url=https://<scheduler.url>
 # The following command lets task applications write to their DB.
 # Note, however, that when the *server* runs locally, it cannot access that DB.
 # In that case, task-related commands that show executions do not work.

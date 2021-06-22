@@ -232,6 +232,9 @@ applications:
                         },
                         "deployment" : {
                           "services" : "postgresSQL"
+                        },
+                        "scheduler" : {
+                          "scheduler-url" : "<scheduler_url>"
                         }
                     }
                 }
