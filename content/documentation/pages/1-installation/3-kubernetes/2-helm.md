@@ -155,13 +155,13 @@ You can register applications by using either the UI or the shell.
 Even though we use only two prebuilt applications, we register the full set of prebuilt applications.
 
 The easiest way to install Data Flow on Kubernetes is to use the Helm chart that uses RabbitMQ as the default messaging middleware.
-The command to import the Kafka version of the applications is as follows:
+The command to import the RabbitMQ version of the applications is as follows:
 
 ```bash
-dataflow:>app import --uri https://dataflow.spring.io/kafka-docker-latest
+dataflow:>app import --uri https://dataflow.spring.io/rabbitmq-docker-latest
 ```
 
-Change `kafka` to `rabbitmq` in the above URL if you set `kafka.enabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
+Change `rabbitmq` to `kafka` in the above URL if you set `kafka.enabled=true` in the helm chart or followed the manual `kubectl` based installation instructions for installing Data Flow on Kubernetes and chose to use Kafka as the messaging middleware.
 
 <!--TIP-->
 
