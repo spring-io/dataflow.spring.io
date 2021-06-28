@@ -20,7 +20,7 @@ jobs:
             {
               "paths": [
                 "https://dataflow-staging.apps.pcfone.io",
-                "https://dataflow-staging.apps.pcfone.io/docs/2.8.0.SNAPSHOT",
+                "https://dataflow-staging.apps.pcfone.io/docs/2.7.x",
                 "https://dataflow-staging.apps.pcfone.io/docs/2.6.x",
                 "https://dataflow-staging.apps.pcfone.io/docs/2.5.x",
                 "https://dataflow-staging.apps.pcfone.io/docs/2.4.x",
