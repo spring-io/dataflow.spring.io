@@ -15,7 +15,7 @@ jobs:
         uses: jvalkeal/link-check@v0.0.1
         id: sitelinkcheck
         with:
-          fail: false
+          fail: true
           config: >
             {
               "paths": [
