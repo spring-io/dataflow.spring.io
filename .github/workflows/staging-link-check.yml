@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Check Links
-        uses: jvalkeal/link-check@v0.0.1
+        uses: jvalkeal/link-check@v0.0.2
         id: sitelinkcheck
         with:
           fail: true
@@ -51,7 +51,7 @@ jobs:
             }
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
-        if: ${{ fromJson(steps.sitelinkcheck.outputs.results).status == true }}
+        if: ${{ failure() }}
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: ${{ toJson(fromJson(steps.sitelinkcheck.outputs.results).brokenLinks) }}
