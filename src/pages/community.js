@@ -113,13 +113,6 @@ const CommunityPage = () => {
                   <IconGithub />
                 </a>
                 <a
-                  href='https://gitter.im/spring-cloud/spring-cloud-task'
-                  target='_blank'
-                  rel='noreferrer noopener'
-                >
-                  <IconGitter />
-                </a>
-                <a
                   href='https://stackoverflow.com/questions/tagged/spring-cloud-task'
                   target='_blank'
                   rel='noreferrer noopener'
