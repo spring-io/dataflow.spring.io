@@ -205,7 +205,7 @@ To build the application:
     - <2> The [`Job`](https://docs.spring.io/spring-batch/reference/html/configureJob.html) manages the batch process.
     - <3> This [`Step`](https://docs.spring.io/spring-batch/reference/html/configureStep.html) is used by the manager to launch the worker steps
     - <4> The [`Partitioner`](https://docs.spring.io/spring-batch/reference/html/scalability.html#partitioning) generates execution contexts as input parameters for new step executions.
-    - <5> The [`DeployerStepExecutionHandler`](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#batch-partitioning) uses [Spring Cloud Deployer](https://github.com/spring-cloud/spring-cloud-deployer) to launch the work step executions on the cloud platform.
+    - <5> The [`DeployerStepExecutionHandler`](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/html/#batch-partitioning) uses [Spring Cloud Deployer](https://github.com/spring-cloud/spring-cloud-deployer) to launch the work step executions on the cloud platform.
     - <6> The workers use this [`Step`](https://docs.spring.io/spring-batch/reference/html/configureStep.html) to execute the [`Tasklet`](https://docs.spring.io/spring-batch/reference/html/configureStep.html#taskletStep).
     - <7> The [`Tasklet`](https://docs.spring.io/spring-batch/reference/html/configureStep.html#taskletStep) that executes the business logic for the partitioned set of work -- in our case, printing the partition number.
 

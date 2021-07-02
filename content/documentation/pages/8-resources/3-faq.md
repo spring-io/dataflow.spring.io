@@ -37,7 +37,7 @@ Yes. You can find more details in the reference guide section on [Patching Appli
 
 Can I build a new application based on the same infrastructure as the out-of-the-box applications?
 
-Yes. You can find more details in the Spring Cloud Stream App Starter's reference guide section titled [FAQ on Spring Cloud Stream App Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_general_faq_on_spring_cloud_stream_app_starters).
+Yes. You can find more details in the Spring Cloud Stream App Starter's reference guide section titled [FAQ on Spring Cloud Stream App Starters](https://docs.spring.io/stream-applications/docs/%streaming-apps-version%/reference/html/#_general_faq_on_spring_cloud_stream_app_starters).
 
 <!--END_QUESTION-->
 

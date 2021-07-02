@@ -126,9 +126,9 @@ Prometheus requires a Service Discovery component to automatically probe the con
 To allow aggregating metrics per application type and per instance ID or per task name, the Spring Cloud Task applications are configured to use the following Micrometer tags:
 
 - `task.name`: The name of the Task that contains the applications that send the metrics.
-- `task.execution.id`: [The instance ID of the executed task](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-generated_task_id).
-- `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-external_task_id), as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics.
-- `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/#features-parent_task_id) used to identify task that executes another task or tasks.
+- `task.execution.id`: [The instance ID of the executed task](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/html/#features-generated_task_id).
+- `task.external.execution.id`: The [external Task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/html/#features-external_task_id), as present on the target platform (such as Cloud Foundry or Kubernetes) The type (Source, Processor, or Sink) of the application that reports the metrics.
+- `task.parent.execution.id`: The [parent task ID](https://docs.spring.io/spring-cloud-task/docs/%task-version%/reference/html/#features-parent_task_id) used to identify task that executes another task or tasks.
 
 If the Data Flow server is started with the `spring.cloud.dataflow.metrics.dashboard.url` property pointing to your Grafana URL, the Grafana feature is enabled and the Data Flow UI provides you with Grafana buttons that can open a particular dashboard for a given task.
 

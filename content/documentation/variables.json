@@ -2,7 +2,7 @@
   "streaming-apps-version": "2020.0.2",
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
-  "task-version": "2.2.0.RELEASE",
+  "task-version": "2.3.3",
 
   "skipper-version": "2.7.1",
   "dataflow-version": "2.8.1",
