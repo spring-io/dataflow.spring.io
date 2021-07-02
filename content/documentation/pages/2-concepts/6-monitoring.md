@@ -33,7 +33,7 @@ management.metrics.export.<your-meter-registry>.<meter-specific-properties>=... 
 
 - <1> Replace the `<your-meter-registry>` with `influx`, `wavefront`, or `prometheus`. (Note: If you use Prometheus, enable the Prometheus Rsocket proxy as well: `management.metrics.export.prometheus.rsocket.enabled=true`).
 
-- <2> Use the Spring Boot- and Micrometer-specific configurations provided for [Wavefront](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-wavefront), [InfluxDB](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-influx) and [Prometheus](Spring Boot Actuator: Production-ready Features) and [RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy).
+- <2> Use the Spring Boot- and Micrometer-specific configurations provided for [Wavefront](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics.export.wavefront), [InfluxDB](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics.export.influx) and [Prometheus](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics.export.prometheus) and [RSocket Proxy](https://github.com/micrometer-metrics/prometheus-rsocket-proxy).
 
 By default, the Micrometer configuration is reused for both the server infrastructure and the data pipeline monitoring.
 

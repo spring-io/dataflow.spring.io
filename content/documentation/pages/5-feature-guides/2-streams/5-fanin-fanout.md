@@ -25,6 +25,6 @@ The following image shows a graphical representation of fan-in:
 ![Fan-in](images/fan-in-fan-out.png)
 
 The fan-out use case is when you determine the destination of a stream based on some information that is known only at runtime.
-In this case, you can use the [Router Application](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/html/spring-cloud-stream-modules-sinks.html#spring-cloud-stream-modules-router-sink) to specify how to direct the incoming message to one of N named destinations.
+In this case, you can use the [Router Application](https://github.com/spring-cloud/stream-applications/blob/v%streaming-apps-version%/applications/sink/router-sink/README.adoc) to specify how to direct the incoming message to one of N named destinations.
 
 A nice [Video](https://youtu.be/l8SgHtP5QCI) showing Fan-in and Fan-out behavior is also available.

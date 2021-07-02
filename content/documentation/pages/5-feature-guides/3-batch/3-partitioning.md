@@ -48,7 +48,7 @@ To create our batch application, we need to visit the Spring Initializr site and
 
 Because the Spring Initializr site handles the details of a project as URL parameters, you can:
 
-1. Click this link to [Spring Initializr](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.1.5.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql&dependencies=batch) to download the preconfigured partition.zip.
+1. Click this link to [Spring Initializr](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.5.1.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql&dependencies=batch) to download the preconfigured partition.zip.
 
 2. Download the partition.zip file, unzip it, and import the project into your favorite IDE
 

@@ -18,12 +18,12 @@ The following diagram shows the architecture of the data-processing pipelines:
 
 ![SCDF Python Tasks](images/polyglot-python-app-architecture.png)
 
-As a timestamp source, the application uses the prebuilt [Time Source](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-time-source) application but registers it as the Data Flow `App` type.
+As a timestamp source, the application uses the prebuilt [Time Source](https://github.com/spring-cloud/stream-applications/tree/v%streaming-apps-version%/applications/source/time-source) application but registers it as the Data Flow `App` type.
 It continuously emits timestamps to a downstream Kafka topic called `timeDest`.
 
 The `Router` app, implemented by the Python script and packaged as a Docker image, consumes the incoming timestamps from the `timeDest` Kafka topic and, according to the timestamp value, routes the messages downstream to either the `evenDest` Kafka topic or the `oddDest` Kafka topic.
 
-The `Even Logger` and `Odd Logger` components are prebuilt [Log Sink](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#spring-cloud-stream-modules-log-sink) applications but are registered as Data Flow `App` type.
+The `Even Logger` and `Odd Logger` components are prebuilt [Log Sink](https://github.com/spring-cloud/stream-applications/tree/v%streaming-apps-version%/applications/sink/log-sink) applications but are registered as Data Flow `App` type.
 Loggers consume the `evenDest` or `oddDest` topics and print the incoming message in on the console.
 
 Apache Kafka is used as the messaging middleware.

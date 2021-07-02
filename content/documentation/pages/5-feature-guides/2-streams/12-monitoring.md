@@ -12,7 +12,7 @@ The Data Flow metrics architecture is designed around the [Micrometer](https://m
 
 All Spring Cloud [Stream App Starters](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#applications) and [Stream Applications](https://github.com/spring-cloud/stream-applications) are pre-configured to support three of the most popular monitoring systems: [Prometheus](https://prometheus.io/), [Wavefront](https://www.wavefront.com/), and [InfluxDB](https://www.influxdata.com/). You can declaratively select which monitoring system the deployed applications use.
 
-To enable support for different monitoring systems, you can [customize the Stream Applications](https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle/#_patching_pre_built_applications) to use a different monitoring system.
+To enable support for different monitoring systems, you can [customize the Stream Applications](https://docs.spring.io/stream-applications/docs/%streaming-apps-version%/reference/html/#_patching_pre_built_applications) to use a different monitoring system.
 
 To help you get started monitoring streams, Data Flow provides [Grafana](https://grafana.com/) dashboards (for Prometheus and InfluxDB) that you can install and customize for your needs. For Wavefront, you can use the Data Flow Integration tile for a rich and comprehensive metrics visualization.
 

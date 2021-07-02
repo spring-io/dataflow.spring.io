@@ -29,7 +29,7 @@ See the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-cloud-
 
 Can I patch and extend the out-of-the-box applications?
 
-Yes. You can find more details in the reference guide section on [Patching Application Starters](https://docs.spring.io/spring-cloud-stream-app-starters/docs/%streaming-apps-version%/reference/htmlsingle/#_patching_pre_built_applications) as well as documentation on [Functional Composition](%currentPath%/feature-guides/streams/function-composition).
+Yes. You can find more details in the reference guide section on [Patching Application Starters](https://docs.spring.io/stream-applications/docs/%streaming-apps-version%/reference/html/#_patching_pre_built_applications) as well as documentation on [Functional Composition](%currentPath%/feature-guides/streams/function-composition).
 
 <!--END_QUESTION-->
 
