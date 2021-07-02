@@ -13,10 +13,10 @@ By deploying the applications manually, you get a better understanding of the st
 The following sections describe how to build these applications from scratch.
 If you prefer, you can download a zip file that contains the sources for these applications, unzip it, and proceed to the [deployment](#deployment) section.
 
-You can [download a zip file containing the completed application](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-kafka/dist/usage-cost-stream-kafka.zip?raw=true) that contains all three applications from your browser. You can also download the zip file from the command line by using the following command:
+You can [download a zip file containing the completed application](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true) that contains all three applications from your browser. You can also download the zip file from the command line by using the following command:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-kafka/dist/usage-cost-stream-kafka.zip?raw=true -O usage-cost-stream-kafka.zip
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true -O usage-cost-stream-kafka.zip
 ```
 
 ## Development
@@ -55,7 +55,7 @@ Now you should `unzip` the `usage-detail-sender-kafka.zip` file and import the p
 
 Now we can create the code required for this application. To do so:
 
-1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.usagedetailsender` package with content that resembles [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-kafka/usage-detail-sender/src/main/java/io/spring/dataflow/sample/UsageDetail.java).
+1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.usagedetailsender` package with content that resembles [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-detail-sender/src/main/java/io/spring/dataflow/sample/usagedetailsender/UsageDetail.java).
     This `UsageDetail` model contains `userId`, `data`, and `duration` properties.
 2.  Create the `UsageDetailSender` class in the `io.spring.dataflow.sample.usagedetailsender` package with content that resembles the following:
 
@@ -207,9 +207,9 @@ Now you should `unzip` the `usage-cost-processor-kafka.zip` file and import the 
 
 Now we can create the code required for this application.
 
-1.  Create the `UsageDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` with content that resembles [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-kafka/usage-cost-processor/src/main/java/io/spring/dataflow/sample/UsageDetail.java).
+1.  Create the `UsageDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` with content that resembles [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageDetail.java).
     The `UsageDetail` class contains `userId`, `data` and, `duration` properties.
-1.  Create the `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` package with content that resembles [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-kafka/usage-cost-processor/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+1.  Create the `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` package with content that resembles [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageCostDetail.java).
     This `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 1.  Create the `UsageCostProcessor` class in the `io.spring.dataflow.sample.usagecostprocessor` package that receives the `UsageDetail` message, computes the call and data cost and sends a `UsageCostDetail` message. The following listing shows the source code:
 
@@ -368,7 +368,7 @@ Now you should `unzip` the `usage-cost-logger-kafka.zip` file and import the pro
 
 Now we can create the business logic for the sink application. To do so:
 
-1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package with content that resembles [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-kafka/usage-cost-logger/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package with content that resembles [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-logger/src/main/java/io/spring/dataflow/sample/usagecostlogger/UsageCostDetail.java).
     The `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 1.  Create the `UsageCostLogger` class in the `io.spring.dataflow.sample.usagecostlogger` package to receive the `UsageCostDetail` message and log it. The following listing shows the source code:
 
