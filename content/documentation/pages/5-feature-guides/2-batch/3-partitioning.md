@@ -46,7 +46,7 @@ You can view the completed project [here](https://github.com/spring-cloud/spring
 
 Another option instead of using the UI to initialize your project you can do the following:
 
-1. Click the [here](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.1.5.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql&dependencies=batch) to download the preconfigured partition.zip.
+1. Click the [here](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.2.5.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql&dependencies=batch) to download the preconfigured partition.zip.
 
 2. Unzip the partition.zip file and import the project into your favorite IDE
 
