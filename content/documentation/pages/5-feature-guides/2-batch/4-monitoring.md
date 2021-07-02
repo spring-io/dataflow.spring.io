@@ -64,7 +64,7 @@ To enable Micrometer’s Influx meter registry for Spring Cloud Task application
 --spring.cloud.dataflow.grafana-info.url=http://localhost:3000
 ```
 
-Instead of having to install them manually, for a quick bootstrap, Spring Cloud Data Flow provides a [Docker Compose Influx](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml) file, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Influx, and prebuilt dashboards for Grafana. Instructions below leverage this approach..
+Instead of having to install them manually, for a quick bootstrap, Spring Cloud Data Flow provides a [Docker Compose Influx](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml) file, which will bring up Spring Cloud Data Flow, Skipper, Apache Kafka, Influx, and prebuilt dashboards for Grafana. Instructions below leverage this approach..
 
 [[tip | Upgrade to latest version of Docker ]]
 | We recommended that you upgrade to the [latest version](https://docs.docker.com/compose/install/) of Docker before running the `docker-compose` command. We have tested with Docker Engine version `18.09.2`.
@@ -74,7 +74,7 @@ Instead of having to install them manually, for a quick bootstrap, Spring Cloud 
 To download the Spring Cloud Data Flow Server Docker Compose file, run the following command:
 
 ```bash
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/master/spring-cloud-dataflow-server/docker-compose-influxdb.yml
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/spring-cloud-dataflow-server/docker-compose-influxdb.yml
 ```
 
 - Starting Docker Compose
