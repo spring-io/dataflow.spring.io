@@ -283,7 +283,7 @@ The first application to be launched will be the `transition-sample`. Since tran
 
 - COMPLETED - Meaning the task completed successfully.
 - FAILED - Meaning the task failed during its execution.
-- Custom Exit Message - A Spring Cloud Task application can return a custom exit message as discussed [here](https://docs.spring.io/spring-cloud-task/docs/current/reference/index.html#features-task-execution-listener-exit-messages).
+- Custom Exit Message - A Spring Cloud Task application can return a custom exit message as discussed [here](https://docs.spring.io/spring-cloud-task/docs/current/reference/html#features-task-execution-listener-exit-messages).
 
 Once the `transition-sample`'s execution is complete, the composed task runner will check the exit message for `transition-sample` and then evaluate which of the paths it should take. In our case its has two paths (as denoted by the `->` operator).
 
