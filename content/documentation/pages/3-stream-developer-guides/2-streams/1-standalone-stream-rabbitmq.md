@@ -144,7 +144,7 @@ Now we can build the Usage Detail Sender application.
 In the `usage-detail-sender` directory, use the following command to build the project using maven:
 
 ```bash
-./mvnw clean package
+./mvnw clean package -Prabbit
 ```
 
 #### Testing
