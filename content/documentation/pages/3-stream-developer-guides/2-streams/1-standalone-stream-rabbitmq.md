@@ -371,7 +371,7 @@ Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the pr
 
 To create the business logic:
 
-1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.sagecostlogger` package. Its contents should resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-logger/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package. Its contents should resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-logger/src/main/java/io/spring/dataflow/sample/usagecostlogger/UsageCostDetail.java).
     The `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 1.  Create the `UsageCostLogger` class in the `io.spring.dataflow.sample.usagecostlogger` package, which receives the `UsageCostDetail` message and logs it. The following listing shows the source code:
 
@@ -424,7 +424,7 @@ Now we can build the Usage Cost Logger application.
 In the `usage-cost-logger` directory, use the following command to build the project with Maven:
 
 ```
-./mvnw clean package
+./mvnw clean package -Prabbit
 ```
 
 #### Testing

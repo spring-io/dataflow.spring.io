@@ -16,7 +16,7 @@ If you prefer, you can download a zip file that contains the sources for these a
 You can [download a zip file containing the completed application](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true) that contains all three applications from your browser. You can also download the zip file from the command line by using the following command:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true -O usage-cost-stream-kafka.zip
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true -O usage-cost-stream-sample.zip
 ```
 
 ## Development
@@ -117,7 +117,7 @@ Now we can build the Usage Detail Sender application.
 In the `usage-detail-sender` directory, use the following command to build the project using maven:
 
 ```
-./mvnw clean package
+./mvnw clean package -Pkafka
 ```
 
 #### Testing
@@ -368,7 +368,7 @@ Now you should `unzip` the `usage-cost-logger-kafka.zip` file and import the pro
 
 Now we can create the business logic for the sink application. To do so:
 
-1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package with content that resembles [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-kafka/usage-cost-logger/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package with content that resembles [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-logger/src/main/java/io/spring/dataflow/sample/usagecostlogger/UsageCostDetail.java).
     The `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 1.  Create the `UsageCostLogger` class in the `io.spring.dataflow.sample.usagecostlogger` package to receive the `UsageCostDetail` message and log it. The following listing shows the source code:
 
