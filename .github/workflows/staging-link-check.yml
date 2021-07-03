@@ -23,9 +23,7 @@ jobs:
                 "https://dataflow-staging.apps.pcfone.io/docs/2.7.x",
                 "https://dataflow-staging.apps.pcfone.io/docs/2.6.x",
                 "https://dataflow-staging.apps.pcfone.io/docs/2.5.x",
-                "https://dataflow-staging.apps.pcfone.io/docs/2.4.x",
-                "https://dataflow-staging.apps.pcfone.io/docs/2.3.x",
-                "https://dataflow-staging.apps.pcfone.io/docs/2.2.x"
+                "https://dataflow-staging.apps.pcfone.io/docs/2.4.x"
               ],
               "recurse": true,
               "concurrency": 10,
@@ -40,7 +38,11 @@ jobs:
                 "^http://localhost:8086",
                 "^http://192.168.99.100",
                 "^http://stateless.co",
-                "^http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/"
+                "^http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/",
+                "^http://127.0.0.1:$%7BSERVICE",
+                "^http://localhost:9411/zipkin",
+                "^http://localhost:9021/",
+                "^http://your-zipkin-hostname:9411/zipkin"
               ],
               "throttlelimit": 1,
               "throttleinterval": 800,
