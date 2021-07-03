@@ -343,7 +343,7 @@ On your local machine, you need to have installed:
 
 - Java
 - [Git](https://git-scm.com/)
-- The [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) (see the [documentation](https://docs.run.pivotal.io/cf-cli/)).
+- The [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) (see the [documentation](https://docs.pivotal.io/application-service/%tanzu-app-service-version%/cf-cli/index.html)).
 
 #### Building the Application
 
