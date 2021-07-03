@@ -13,10 +13,10 @@ By deploying the applications manually, you get a better understanding of the st
 The following sections describe how to build these applications from scratch.
 If you prefer, you can download a zip file containing the sources for these applications, unzip it, and proceed to the [deployment](#deployment) section.
 
-You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/dist/usage-cost-stream-rabbit.zip?raw=true) that contains all three applications from your browser. You can also use the command line, as the following example shows:
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true) that contains all three applications from your browser. You can also use the command line, as the following example shows:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/dist/usage-cost-stream-rabbit.zip?raw=true -O usage-cost-stream-rabbit.zip
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true -O usage-cost-stream-sample.zip
 ```
 
 ## Development
@@ -51,13 +51,13 @@ You can either [download the initialzr generated project directly](https://start
 1. If your target platform is `Cloud Foundry`, type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the **Generate Project** button.
 
-Now you should `unzip` the `usage-detail-sender-rabbit.zip` file and import the project into your favorite IDE.
+Now you should `unzip` the `usage-detail-sender-sample.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
 Now we can create the code required for this application. To do so:
 
-1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.usagedetailsender` package that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-detail-sender/src/main/java/io/spring/dataflow/sample/UsageDetail.java).
+1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.usagedetailsender` package that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-detail-sender/src/main/java/io/spring/dataflow/sample/usagedetailsender/UsageDetail.java).
     The `UsageDetail` class contains `userId`, `data`, and `duration` properties.
 1.  Create the `UsageDetailSender` class in the `io.spring.dataflow.sample.usagedetailsender` package, which resembles the following listing:
 
@@ -144,7 +144,7 @@ Now we can build the Usage Detail Sender application.
 In the `usage-detail-sender` directory, use the following command to build the project using maven:
 
 ```bash
-./mvnw clean package
+./mvnw clean package -Prabbit
 ```
 
 #### Testing
@@ -208,7 +208,7 @@ public class UsageDetailSenderApplicationTests {
 
 In this step, we create the `UsageCostProcessor` processor.
 
-Either [download the initialzr generated project directly](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.5.4.RELEASE&baseDir=usage-cost-processor-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-rabbit&name=usage-cost-processor-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&dependencies=amqp&dependencies=cloud-stream&dependencies=actuator&dependencies=web&dependencies=cloud-connectors) or visit the [Spring Initialzr site](https://start.spring.io/) and follow these instructions:
+Either [download the initialzr generated project directly](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.2.5.RELEASE&baseDir=usage-cost-processor-rabbit&groupId=io.spring.dataflow.sample&artifactId=usage-cost-processor-rabbit&name=usage-cost-processor-rabbit&description=Demo+project+for+Spring+Boot&packageName=io.spring.dataflow.sample.usagecostprocessor&packaging=jar&javaVersion=1.8&inputSearch=&dependencies=amqp&dependencies=cloud-stream&dependencies=actuator&dependencies=web&dependencies=cloud-connectors) or visit the [Spring Initialzr site](https://start.spring.io/) and follow these instructions:
 
 1. Create a new Maven project with a Group name of `io.spring.dataflow.sample` and an Artifact name of `usage-cost-processor-rabbit`.
 1. In the **Dependencies** text box, type `Rabbitmq` to select the RabbitMQ binder dependency.
@@ -217,15 +217,15 @@ Either [download the initialzr generated project directly](https://start.spring.
 1. If your target platform is `Cloud Foundry`, type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the **Generate Project** button.
 
-Now you should `unzip` the `usage-cost-processor-rabbit.zip` file and import the project into your favorite IDE.
+Now you should `unzip` the `usage-cost-processor-sample.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
 Now we can create the code required for this application. To do so:
 
-1.  Create the `UsageDetail` class in the `io.spring.dataflow.sample.usagecostprocessor`. Its contents resemble the contents of [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-processor/src/main/java/io/spring/dataflow/sample/UsageDetail.java).
+1.  Create the `UsageDetail` class in the `io.spring.dataflow.sample.usagecostprocessor`. Its contents resemble the contents of [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageDetail.java).
     The `UsageDetail` class contains `userId`, `data`, and `duration` properties
-1.  Create the `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` package. Its contents resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-processor/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+1.  Create the `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` package. Its contents resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageCostDetail.java).
     The `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 1.  Create the `UsageCostProcessor` class in the `io.spring.dataflow.sample.usagecostprocessor` package, which receives the `UsageDetail` message, computes the call and data cost, and sends a `UsageCostDetail` message. The following listing shows the source code:
 
@@ -296,7 +296,7 @@ Now we can build the Usage Cost Processor application.
 In the `usage-cost-processor` directory, use the following command to build the project using maven.
 
 ```
-./mvnw clean package
+./mvnw clean package -Prabbit
 ```
 
 #### Testing
@@ -365,13 +365,13 @@ Either [download the initialzr generated project directly](https://start.spring.
 1. If your target platform is `Cloud Foundry`, type `Cloud Connectors` to select the Spring Cloud Connector dependency.
 1. Click the **Generate Project** button.
 
-Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the project into your favorite IDE.
+Now you should `unzip` the `usage-cost-logger-sample.zip` file and import the project into your favorite IDE.
 
 #### Business Logic
 
 To create the business logic:
 
-1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.sagecostlogger` package. Its contents should resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-rabbitmq/usage-cost-logger/src/main/java/io/spring/dataflow/sample/UsageCostDetail.java).
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package. Its contents should resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-logger/src/main/java/io/spring/dataflow/sample/usagecostlogger/UsageCostDetail.java).
     The `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 1.  Create the `UsageCostLogger` class in the `io.spring.dataflow.sample.usagecostlogger` package, which receives the `UsageCostDetail` message and logs it. The following listing shows the source code:
 
@@ -424,7 +424,7 @@ Now we can build the Usage Cost Logger application.
 In the `usage-cost-logger` directory, use the following command to build the project with Maven:
 
 ```
-./mvnw clean package
+./mvnw clean package -Prabbit
 ```
 
 #### Testing

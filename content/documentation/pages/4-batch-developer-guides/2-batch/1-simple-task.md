@@ -229,7 +229,7 @@ On your local machine, you need to have installed the following:
 - Java
 - [Git](https://git-scm.com/)
 
-You also need to have installed the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) (see the [documentation](https://docs.pivotal.io/application-service/2-8/cf-cli/)).
+You also need to have installed the [Cloud Foundry command line interface](https://console.run.pivotal.io/tools) (see the [documentation](https://docs.pivotal.io/application-service/2-11/cf-cli/)).
 
 #### Building the Application
 
