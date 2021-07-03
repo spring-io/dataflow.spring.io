@@ -40,6 +40,7 @@ jobs:
                 "^http://stateless.co",
                 "^http://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/",
                 "^http://127.0.0.1:$%7BSERVICE",
+                "^http://127.0.0.1:${SERVICE_PORT}/dashboard",
                 "^http://localhost:9411/zipkin",
                 "^http://localhost:9021/",
                 "^http://your-zipkin-hostname:9411/zipkin"

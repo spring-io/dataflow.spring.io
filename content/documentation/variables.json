@@ -1,4 +1,5 @@
 {
+  "tanzu-app-service-version": "2-11",
   "streaming-apps-version": "2020.0.2",
   "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",

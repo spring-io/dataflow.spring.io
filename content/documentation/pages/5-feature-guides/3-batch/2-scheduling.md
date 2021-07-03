@@ -30,7 +30,7 @@ For this scenario, we want to launch this application once a minute. To do so, f
 
 <!--CloudFoundry-->
 
-In the following sample, we set the name of the schedule to `timestamp-task-once-a-minute` and the [cron expression](https://docs.pivotal.io/pcf-scheduler/1-2/using-jobs.html#schedule-job) to `*/1 * ? * *`.
+In the following sample, we set the name of the schedule to `timestamp-task-once-a-minute` and the [cron expression](https://docs.pivotal.io/pcf-scheduler/1-5/using-jobs.html#schedule-job) to `*/1 * ? * *`.
 Notice that the cron expression is expressed in the format used by Quartz.
 Also notice that we can add command line arguments and deployment parameters for this schedule, but we do not do so for this example.
 Once you have entered the cron expression, press the **CREATE SCHEDULE(S)** button. Now PCF Scheduler handles the scheduled launches for your batch application.

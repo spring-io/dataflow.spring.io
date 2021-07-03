@@ -73,11 +73,11 @@ NFS is not required when running locally.
 
 #### Cloud Foundry NFS configuration
 
-This feature is provided in Pivotal Cloud Foundry by [NFS Volume Services](https://docs.pivotal.io/pivotalcf/2-5/devguide/services/using-vol-services.html)
+This feature is provided in Pivotal Cloud Foundry by [NFS Volume Services](https://docs.pivotal.io/pivotalcf/%tanzu-app-service-version%/devguide/services/using-vol-services.html)
 
 To run this example, we need:
 
-- A Cloud Foundry instance (v2.3+) with NFS Volume Services [enabled](https://docs.pivotal.io/pivotalcf/2-5/opsguide/enable-vol-services.html)
+- A Cloud Foundry instance (v2.3+) with NFS Volume Services [enabled](https://docs.pivotal.io/pivotalcf/%tanzu-app-service-version%/opsguide/enable-vol-services.html)
 - An NFS server accessible from the Cloud Foundry instance
 - A properly configured `nfs` service instance
 
