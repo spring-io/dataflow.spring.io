@@ -711,6 +711,7 @@ As a user, you have three options for how to launch a composed task when Spring 
 - Basic authentication: Authentication using username and password.
 - User-configured access token: When launching a composed task, provide the token you wish to use at launch time by setting the `dataflow-server-access-token` property.
 - Data Flow-provided user token: If the `dataflow-server-use-user-access-token` property is set to `true`, Spring Cloud Data Flow auto-populates the `dataflow-server-access-token` property with the access token of the current logged in user.
+- Client Credentials: When launching a composed task, obtain access token via client credentials.
 
 ### Basic Authentication
 
@@ -750,6 +751,31 @@ In this example, we will launch a composed task where the `dataflow-server-use-u
    ![Launch Task](images/SCDF-composed-task-user-security.png)
 1. Click the `UPDATE` button.
 1. Click the **LAUNCH TASK** button to launch the composed task.
+
+### Client Credentials
+
+If the composed task needs to obtain its access token from an OAuth authentication service, use the following properties:
+
+- oauth2ClientCredentialsClientId
+- oauth2ClientCredentialsClientSecret
+- oauth2ClientCredentialsTokenUri
+- oauth2ClientCredentialsScopes
+
+To do so:
+
+1. Launch a composed task, as the following image shows, by clicking the `Launch` selection next to the composed task definition to launch:
+   ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
+1. Now, from the task launch page, populate the OAuth client credential properties. This is done by clicking the `EDIT` button on the `CTR properties` under the `Global` column as shown below:
+   ![Transition Execution Set Interval Time Prop ](images/SCDF-composed-task-transition-launch-ctr-prop-edit.png)
+1. Now enter the `oauth2ClientCredentialsClientId`, `oauth2ClientCredentialsClientSecret`, `oauth2ClientCredentialsTokenUri`, and `oauth2ClientCredentialsScopes` in the appropriate fields.
+   ![Set User Access Token](images/SCDF-composed-task-client-credentials.png)
+1. Click the **LAUNCH TASK** button to launch the composed task.
+
+<!--NOTE-->
+
+**NOTE**: When using client credentials specifically the OAuth2 Client Id, the following properties are ignored: `dataflowServerUsername`, `dataflowServerPassword`, and `dataflowServerAccessToken`.
+
+<!--END_NOTE-->
 
 ## Configure the URI for Composed Tasks
 
