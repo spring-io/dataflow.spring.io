@@ -57,7 +57,7 @@ To start the source application, run the following command:
 java -jar rabbit-source-rabbit-2.1.0.RELEASE.jar --server.port=9001 --rabbit.queues=sabbyfooz --spring.rabbitmq.addresses=amqp://<USER>:<PASSWORD>@<HOST>:<PORT> --spring.rabbitmq.username=<USER> --spring.rabbitmq.password=<PASSWORD> --spring.cloud.stream.binders.rabbitBinder.type=rabbit --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.addresses=amqp://guest:guest@127.0.0.1:5672 --spring.cloud.stream.bindings.output.destination=rabzysrc
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties.
 The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*` properties.
@@ -65,14 +65,14 @@ The prefix `spring.cloud.stream.binders` refers to the binder configuration prop
 You'd have to replace `<USER>`, `<PASSWORD>`, `<HOST>`, and `<PORT>` with external cluster credentials.
 That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 - `sabbyfooz` is the queue from which we will be polling for new data.
 - `rabzysrc` is the destination to which the polled data will be published.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ### Processor
 
@@ -82,12 +82,12 @@ To start the processor application, run the following command:
 java -jar transform-processor-rabbit-2.1.0.RELEASE.jar --server.port=9002 --spring.cloud.stream.binders.rabbitBinder.type=rabbit --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.addresses=amqp://guest:guest@127.0.0.1:5672 --spring.cloud.stream.bindings.input.destination=rabzysrc --spring.cloud.stream.bindings.output.destination=rabzysink --transformer.expression='''payload.toUpperCase()'''
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 - `rabzysrc` is the destination from which we will be receiving new data from the source application.
 - `rabzysink` is the destination to which the transformed data will be published.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ### Sink
 
@@ -97,7 +97,7 @@ To start the sink application, run the following command:
 java -jar rabbit-sink-rabbit-2.1.0.RELEASE.jar --server.port=9003 --rabbit.exchange=sabbyexchange --rabbit.routing-key=foo --spring.rabbitmq.addresses=amqp://<USER>:<PASSWORD>@<HOST>:<PORT> --spring.rabbitmq.username=<USER> --spring.rabbitmq.password=<PASSWORD> --spring.cloud.stream.binders.rabbitBinder.type=rabbit --spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.addresses=amqp://guest:guest@127.0.0.1:5672 --spring.cloud.stream.bindings.input.destination=rabzysink
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 External RabbitMQ cluster credentials are supplied via `--spring.rabbitmq.*` properties.
 The binder configurations are supplied via `--spring.cloud.stream.binders.rabbitBinder.environment.spring.rabbitmq.*` properties.
@@ -105,14 +105,14 @@ The prefix `spring.cloud.stream.binders` refers to the binder configuration prop
 You'd have to replace `<USER>`, `<PASSWORD>`, `<HOST>`, and `<PORT>` with external cluster credentials.
 That's how two different RabbitMQ credentials are passed to the same application; one for the actual data and the other for binder configuration.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 - `rabzysink` is the destination from which the transformed data will be received.
 - `sabbyexchange` with the `foo` routing-key is where the data will finally reach.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ## Testing
 

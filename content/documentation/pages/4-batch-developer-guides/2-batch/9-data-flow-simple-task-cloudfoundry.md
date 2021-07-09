@@ -35,22 +35,22 @@ Once you have an account, to log into Cloud Foundry by using the [Cloud Foundry 
 cf login
 ```
 
-<!-- TIP -->
+<!--TIP-->
 
 You can also target specific Cloud Foundry instances with the `-a` flag &#151; for example, `cf login -a https://api.run.pivotal.io`.
 
-<!-- END_TIP -->
+<!--END_TIP-->
 
 We use the following Cloud Foundry services:
 
 - PostgreSQL
 - RabbitMQ
 
-<!-- NOTE -->
+<!--NOTE-->
 
 RabbitMQ is not strictly needed, but, if we continue on to work with Streams, we want to be good citizens.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 You can get a listing of available services on Cloud by using the `marketplace` command, as follows:
 

@@ -226,7 +226,7 @@ As discussed earlier, the application may run as expected from your local platfo
 This could be because of how the container is created by the tool that creates the container (for example: DockerFile, Spring Boot container Plugin, Jib, and others).
 The preceding chart shows how to trouble shoot why apps may fail to launch because of container-related issues.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Data Flow uses [common application properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_common_application_properties)
 and the [Spring Boot Common Tags](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-common-tags)
@@ -236,4 +236,4 @@ to resolve their values. Consider the following example:
 Some image containers may not be able to parse this correctly and incorrectly replace the embedded properties with empty strings, which may cause stream apps to fail.
 If you are not using metrics, you can disable these fields by setting the `spring.cloud.dataflow.applicationProperties.streamResource` to a non-existent file, as follows: `spring.cloud.dataflow.applicationProperties.streamResource=classpath:fake.yml`
 
-<!-- END_NOTE -->
+<!--END_NOTE-->

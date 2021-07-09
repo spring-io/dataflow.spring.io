@@ -54,11 +54,11 @@ The URI conforms to a [schema](https://docs.spring.io/spring-cloud-dataflow/docs
 Data Flow defines some logical application types, which indicate its role as a streaming component, a task, or a standalone application.
 In this case, our Spring Batch application is registered as a `task` type.
 
-<!-- TIP -->
+<!--TIP-->
 
 For a Spring Batch Application to be launched by Data Flow, it must also be a Spring Cloud Task application. This is done by adding the `@EnableTask` to a configuration class or to the application as shown in our [sample](%currentPath%/batch-developer-guides/batch/spring-batch).
 
-<!-- END_TIP -->
+<!--END_TIP-->
 
 #### Registering an Application
 

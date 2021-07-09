@@ -183,10 +183,10 @@ As discussed earlier, the application may run as expected from your local platfo
 This could be because of how the container is created by the tool that is being used to create the container: DockerFile, Spring Boot container Plugin, Jib, and others.
 The preceding chart shows how to trouble shoot why apps may fail to launch because of container-related issues.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Data Flow uses [Common application properties](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#_common_application_properties) and [Spring Boot Common Tags](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-common-tags) to apply common metrics tags to all deployed `Task` applications. Those properties often use [Spring placeholders](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config-placeholders-in-properties) to resolve their values -- for example: `management.metrics.tags.application=${task.name:unknown}-${task.execution.id:unknown}`.
 Some image containers may not be able to parse this correctly and replace the embedded properties with empty strings, which may cause task apps to fail.
 If you are not using metrics, you can disable these fields by setting the `spring.cloud.dataflow.applicationProperties.taskResource` to a non-existent file -- for example: `spring.cloud.dataflow.applicationProperties.taskResource=classpath:fake.yml`
 
-<!-- END_NOTE -->
+<!--END_NOTE-->

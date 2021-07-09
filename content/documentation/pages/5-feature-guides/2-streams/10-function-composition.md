@@ -321,11 +321,11 @@ http post --data "friend" --target "http://localhost:9002"
 
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 **NOTE:** We can use Kotlin functions with Java functions because Kotlin functions are internally converted into `java.util.Function`.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 You can see the output in the `log` application, as follows:
 

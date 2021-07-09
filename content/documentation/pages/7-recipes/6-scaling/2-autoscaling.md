@@ -81,11 +81,11 @@ The following video animation shows the Data Flow auto-scaling flow:
 
 ## Prerequisite
 
-<!-- NOTE -->
+<!--NOTE-->
 
 This recipe uses the Kubernetes platform.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 The recipes is successfully tested on GKE cluster with five nodes.
 

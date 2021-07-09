@@ -87,18 +87,18 @@ data:
         validationQuery: "SELECT 1"
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 If RabbitMQ is the broker, you'd have to change `skipper-config-rabbit.yaml` instead.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Notice that the inclusion of a platform account with the name `kafkazone`. Also, the default memory for the deployed
 pod is set to 2GB along with readiness and liveness probe customizations.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 For batch data pipelines, however, you must change the configurations in `server-config.yaml`, as follows:
 
@@ -147,12 +147,12 @@ data:
         validationQuery: "SELECT 1"
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Notice that the inclusion of a platform account with the name `highmemory`. Also, the default memory for the deployed
 pod is set to 4GB.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 With these configurations, when you deploy a stream from SCDF, you have the option to select the platform. To do so, you can list the available platforms and then choose one:
 
@@ -275,12 +275,12 @@ services:
   - <services>
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Notice that the inclusion of a platform account with a name of `kafkazone`. Also, the default memory for the deployed
 application is set to 3GB.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 For batch data pipelines, however, you must change the configurations in SCDF's `manifest.yml` file, as follows:
 
@@ -344,12 +344,12 @@ services:
   - postgresSQL
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Notice that the inclusion of a platform account with the name `highmemory`. Also, the default memory for the deployed
 application is set to 5GB.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 With these configurations, when you deploy a stream from SCDF, you have the option to select the platform. To do so, you can list the available platforms and then choose one:
 

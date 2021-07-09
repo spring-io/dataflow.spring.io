@@ -74,12 +74,12 @@ public class KinesisConsumerApplication {
 
 <!--END_TABS-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Both of the applications require `spring-cloud-stream-binder-kinesis` dependency in the classpath.
 See the [spring-cloud-dataflow-samples/kinesisdemo](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/kinesisdemo) demo for more details.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 The following listings show the producer's and the consumer's binder configurations:
 
@@ -132,11 +132,11 @@ cloud:
 
 <!--END_TABS-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 You would need to replace `<YOUR_ACCESS_KEY>`, `<YOUR_SECRET_KEY>`, and `<YOUR_REGION>` with your credentials.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ## Deployment
 

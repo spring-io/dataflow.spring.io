@@ -81,7 +81,7 @@ public class KafkaStreamsSampleProcessor {
 
 <!--END_TABS-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 The business logic in the processor transforms the received payload by adding the "Hello: " prefix and the "!" suffix.
 
@@ -89,7 +89,7 @@ The same "business logic" can be implemented with different programming models, 
 
 **Takeaway**: Developers have the choice to choose from the available programming model styles.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 **Configuration: _(application.properties)_**
 
@@ -119,11 +119,11 @@ spring.cloud.stream.kafka.streams.binder.applicationId=kstreams-sample
 
 <!--END_TABS-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 In the Kafka Streams configuration, you may have noticed the extra property, `spring.cloud.stream.kafka.streams.binder.applicationId`, which is required by the framework internally to identify the Kafka Streams application uniquely.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 <img src="images/SCDF-stream-programming-models.gif" alt="Stream Programming Models" width="765"/>
 

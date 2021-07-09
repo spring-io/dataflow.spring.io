@@ -41,11 +41,11 @@ When launching a composed task, Spring Cloud Data Flow passes properties to the 
 - `dataflow.server.uri`: The URI of the Spring Cloud Data Flow Server that is used by the `Composed Task Runner` to execute its RESTful API calls. It defaults to https://localhost:9393.
 - `spring.cloud.dataflow.task.composedtaskrunner.uri`: Establishes where Spring Cloud Data Flow obtains the `Composed Task Runner` artifact. By default, Spring Cloud Data Flow retrieves the artifact from Maven Central for the `local` and `Cloud Foundry` platforms. For `Kubernetes`, it obtains the artifact from DockerHub.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 `spring.cloud.dataflow.task.composed.task.runner.uri` has been deprecated as of Spring Cloud Data Flow 2.7.0 in favor of `spring.cloud.dataflow.task.composedtaskrunner.uri`.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 - `spring.cloud.dataflow.task.composedtaskrunner.imagePullSecret`: If running within Kubernetes and the Composed Task Runner image resides in a repository that requires authentication, you can configure a secret that contains the credentials to use when pulling the image. The property value is the name of the configured secret that must be created first. Follow the [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) guide to create the secret.
 - `maximumConcurrentTasks` - Spring Cloud Data Flow lets a user limit the maximum number of concurrently running tasks for each configured platform to prevent the saturation of IaaS/hardware resources.
@@ -57,11 +57,11 @@ When launching a composed task, Spring Cloud Data Flow passes properties to the 
   The `<account-name>` is the name of a configured platform account (`default` if no accounts are explicitly configured).
   The `<platform-type>` refers to one of the currently supported deployers: `local`, `cloudfoundry`, or `kubernetes`.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Changing this property will require Spring Cloud Data Flow to be restarted.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ## Registering Sample Applications
 
@@ -124,13 +124,13 @@ Repeat this registration for `task-a`, `task-b`, `task-c`, `task-d`, `task-e`, a
 
 <!--END_TABS-->
 
-<!-- NOTE -->
+<!--NOTE-->
 
 If Maven Central or DockerHub cannot be reached for a given Spring Cloud Data Flow
 deployment a different URI can be specified to retrieve the Composed Task Runner using the
 `spring.cloud.dataflow.task.composed.task.runner.uri` property.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ## The Transition Sample Project
 
@@ -238,11 +238,11 @@ task-a && task-b
 You can see the graph appear in the dashboard, as the following image shows:
 ![Conditional Execution Flow](images/SCDF-composed-task-conditional-execution.png)
 
-<!-- NOTE -->
+<!--NOTE-->
 
 In the preceding example, note that we used `task-a` and `task-b` labels. This is necessary because we use two timestamp applications in the same graph.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 Now press the `Create Task` button at the bottom of the page. A dialog asks you to **Confirm Task Creation**. To do so, enter `conditional-execution` as the composed task name in the `Name` field and click the **Create the task** button, as the following image shows:
 ![Conditional Execution Create](images/SCDF-composed-task-conditional-execution-create.png)
@@ -284,11 +284,11 @@ transition-sample 'FAILED' -> task-a 'COMPLETED' -> task-b
 It should look like the following:
 ![Transition Execution Flow](images/SCDF-composed-task-transition.png)
 
-<!-- NOTE -->
+<!--NOTE-->
 
 You can use Spring Cloud Data Flow UI's drag and drop capabilities to draw the graph vs. using the DSL.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 Now that the graph is rendered, we can dig into the details.
 The first application to be launched is `transition-sample`. Since `transition-sample` is a Spring Cloud Task application, Spring Cloud Task records the exit message to the database at the end of the execution. This message will have one of the following values:
@@ -467,11 +467,11 @@ Again, what is all that stuff I put in the command line? So, for this example we
 1. `split-thread-core-pool-size=4` states that we want up to four simultaneous tasks to run at the same time.
 1. `closecontext-enabled=true` states that we want the Spring context to close when the `Composed Task Runner`.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 When using `split` you must set the `spring.cloud.task.closecontext-enabled` property as shown above.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ### Configuring Your Split
 
@@ -500,14 +500,14 @@ Once a composed task is launched, an application named Composed Task Runner mana
 Since the Composed Task Runner is built using Spring Batch, Spring Cloud Data Flow uses the Job Executions page to track
 the success or failure of a composed task's execution.
 
-<!-- TIP -->
+<!--TIP-->
 
 In the case that the composed task job that manages the workflow fails, the associated exit code of the Command Line Runner will be `0`.
 This is the default boot behavior for batch jobs.
 However, if you require an exit code of `1` if the composed job fails, then set the
 `spring.cloud.task.batch.fail-on-job-failure` property for the composed task runner to `true`.
 
-<!-- END_TIP -->
+<!--END_TIP-->
 
 ### Example
 
@@ -591,11 +591,11 @@ Launching a composed task and setting both `app` and `deployer` properties would
    ![Launch the Composed Task](images/SCDF-composed-task-child-property-launch-props.png)
 1. Now press the **LAUNCH TASK** button.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Properties set at launch time have a higher precedence than those set at task definition. For example, if property `myproperty` has been set in the composed task definition and at launch time, the value set at launch time will be used.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ## Passing Properties to Composed Task Runner
 

@@ -93,11 +93,11 @@ Router(
 
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 If the `print` command is used inside the Python script, the output buffer must be flushed with `sys.stdout.flush()` to prevent it being filled up and causing disruption to the Kafka’s consumer-producer flow.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 - The [`kafka-python`](https://github.com/dpkp/kafka-python) library is used to consume and produce Kafka messages. The `process_timestamps` method continuously consumes timestamps from the input channel and routes the even or odd values to the output channels.
 
@@ -211,11 +211,11 @@ app.evenLogger.spring.cloud.stream.bindings.input.destination=evenDest
 app.oddLogger.spring.cloud.stream.bindings.input.destination=oddDest
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 The app.python-router.xxx prefix is a Data Flow convention to map the properties specified after the prefix to the python-router app in the timeStampStream stream.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 The timestamp channel is bound to the `timeDest` Kafka topic. The router's even output channel is bound to the `evenDest` topic, and the odd channel is bound to the `oddDest` topic.
 After the deployment, the data flow looks like this:

@@ -246,11 +246,11 @@ To log into Cloud Foundry from the [Cloud Foundry command line interface](https:
 cf login
 ```
 
-<!-- TIP -->
+<!--TIP-->
 
 You can also target specific Cloud Foundry instances with the `-a` flag &#151; for example, `cf login -a https://api.run.pivotal.io`.
 
-<!-- END_TIP -->
+<!--END_TIP-->
 
 Before you push an application, you should also ensure that you setup the **MySQL Service** on Cloud Foundry. You can check what services are available by running the following command:
 

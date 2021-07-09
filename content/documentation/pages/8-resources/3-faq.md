@@ -152,13 +152,13 @@ If the configuration for each task execution changes for each task launch, you c
 task launch myTaskDefinition "--server.port=8080"
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 When you use Spring Cloud Data Flow to orchestrate the launches of a task application that uses Spring Batch, you should use arguments to set the Job Parameters required for your batch job.
 
 Remember: If your argument is a non-identifying parameter, suffix the argument with `--`.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 <!--END_QUESTION-->
 
@@ -235,12 +235,12 @@ export SPRING_APPLICATION_JSON='{
 }'
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Depending on the Spring Cloud Data Flow server implementation, you may have to pass the environment properties by using the platform specific environment-setting capabilities. For instance, in Cloud Foundry,
 you would pass them as `cf set-env <your app> SPRING_APPLICATION_JSON '{...`.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 <!--END_QUESTION-->
 
@@ -278,12 +278,12 @@ cf restage dataflow-server
 
 (where `reactor.ipc.netty` is the global package for everything related to `reactor-netty`.)
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Similar to the `local-deployer` and `cloudfoundry-deployer` options as discussed above, there are equivalent settings available for Kubernetes.
 See the respective link:https://github.com/spring-cloud?utf8=%E2%9C%93&q=spring-cloud-deployer[SPI implementations] for more detail about the packages to configure for logging.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 <!--END_QUESTION-->
 
@@ -326,11 +326,11 @@ By default, the application starts in a "suspend" mode and waits for the remote 
 
 Also, when more then one instance of the application exists, the debug port for each instance is the value of `debugPort` + `instanceId`.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Unlike other properties, you must NOT use a wildcard for the application name, since each application must use a unique debug port.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 <!--END_QUESTION-->
 

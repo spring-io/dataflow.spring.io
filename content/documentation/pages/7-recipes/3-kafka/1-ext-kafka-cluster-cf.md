@@ -74,14 +74,14 @@ With these settings, when the `source-sample` source is deployed to Cloud Foundr
 You can verify the connection credentials by accessing the `/configprops` of the `source-sample` actuator endpoint.
 Likewise, you can also see the connection credentials printed in the app logs.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 The Kafka connection credentials are supplied through the Spring Cloud Stream Kafka binder properties, which, in
 this case are all the properties with the `spring.spring.cloud.stream.kafka.binder.*` prefix.
 
 Alternatively, instead of supplying the properties through `SPRING_APPLICATION_JSON`, these properties can be supplied as plain environment variables as well.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ## Streaming Data Pipeline in SCDF (Open Source)
 
@@ -204,8 +204,6 @@ Deployment request has been sent for stream 'fooz'
 
 Replace `<GENERATED_GUID>` with the GUID of the generated messaging service-instance name, which you can find from `cf services` command (for example: `messaging-b3e76c87-c5ae-47e4-a83c-5fabf2fc4f11`).
 
-<!-- NOTE -->
-
 As another alternative, you can also provide global configuration properties through the SCDF service app instance.
 Once the SCDF service instance is ready, you can do the following.
 
@@ -220,10 +218,10 @@ Once the SCDF service instance is ready, you can do the following.
    "spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.configuration.sasl.mechanism": "PLAIN" }
 4. Once these changes are applied, click the update button and make sure to restart the dataflow server application on CF.
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Values in the configuration above (in step #3) are provided for illustrative purposes only.
 Please update them accordingly.
 These configurations are for a Kafka cluster that is secured with SASL PLAINTEXT security.
 
-<!-- NOTE -->
+<!--END_NOTE-->

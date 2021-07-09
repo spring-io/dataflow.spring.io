@@ -43,11 +43,11 @@ kubectl create namespace practice
 kubectl create clusterrolebinding scdftestrole --clusterrole cluster-admin --user=system:serviceaccount:default:scdf-sa
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 Setting the cluster role to `cluster-admin` for the `scdf-sa` user is not something that is recommended for production, but in this case it is meant for demo purposes.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ### Registering Pre-built Tasks
 
@@ -436,11 +436,11 @@ export SPRING_APPLICATION_JSON="{\"spring.cloud.dataflow.task\":{\"platform.kube
 java -jar spring-cloud-dataflow-server/target/spring-cloud-dataflow-server-2.6.0.BUILD-SNAPSHOT.jar
 ```
 
-<!-- NOTE -->
+<!--NOTE-->
 
 This exercise assumes that the user has an external database that is accessible from both the Cloud Foundry and Kubernetes environments.
 
-<!-- END_NOTE -->
+<!--END_NOTE-->
 
 ### Registering Applications
 
