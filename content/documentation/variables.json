@@ -8,9 +8,9 @@
   "skipper-version": "2.7.1",
   "dataflow-version": "2.8.1",
 
-  "github-tag": "main",
+  "github-tag": "v2.8.1",
 
-  "spring-maven-repo-type": "snapshot",
+  "spring-maven-repo-type": "release",
 
   "stream-applications-doc": "https://docs.spring.io/stream-applications/docs/2020.0.2/reference/html",
 
