@@ -20,10 +20,9 @@ jobs:
             {
               "paths": [
                 "https://dataflow-staging.apps.pcfone.io",
+                "https://dataflow-staging.apps.pcfone.io/docs/2.9.0.SNAPSHOT",
                 "https://dataflow-staging.apps.pcfone.io/docs/2.7.x",
-                "https://dataflow-staging.apps.pcfone.io/docs/2.6.x",
-                "https://dataflow-staging.apps.pcfone.io/docs/2.5.x",
-                "https://dataflow-staging.apps.pcfone.io/docs/2.4.x"
+                "https://dataflow-staging.apps.pcfone.io/docs/2.6.x"
               ],
               "recurse": true,
               "concurrency": 10,
