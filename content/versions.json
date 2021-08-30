@@ -8,7 +8,7 @@
     "branch": "2.7.x"
   },
   "2.8.x": {
-    "name": "2.8.1",
+    "name": "2.8.2",
     "branch": "2.8.x",
     "current": true
   },
