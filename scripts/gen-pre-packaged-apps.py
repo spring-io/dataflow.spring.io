@@ -9,16 +9,20 @@ def app_anchor(app_type, app_name):
 
 def app_link(app_name, anchor):
     if anchor:
-        return '[' + app_name + ']' + '(%stream-applications-doc-2x%' + anchor  + ')' #change the variable reference accordingly.
+        return '[' + app_name + ']' + '(%stream-applications-doc%' + anchor  + ')' #change the variable reference accordingly.
     return app_name
 
 def render_row(items, anchor = False):
+    tasklauncher_doc_url = 'https://github.com/spring-cloud/spring-cloud-dataflow/blob/main/spring-cloud-dataflow-tasklauncher/spring-cloud-dataflow-tasklauncher-sink/README.adoc'
     row = '|'
     app_types=('source','processor','sink')
     for i in range(len(items)):
         if len(items[i]) > 0:
             app_type=app_types[i]
-            item = app_link(items[i], app_anchor(app_type,items[i])) if anchor else items[i]
+            if (items[i] == 'dataflow-tasklauncher'):
+                item = '[' + items[i] + ']' + '(' + tasklauncher_doc_url + ')'
+            else:
+                item = app_link(items[i], app_anchor(app_type,items[i])) if anchor else items[i]
         else:
             item=''
         row = row + ' ' + item + ' |'
@@ -36,16 +40,20 @@ def render(apps):
         sink = sinks[i] if i < len(sinks)  else ''
         print(render_row((source,processor,sink), True))
 
-source_for_stream_apps_metadata = "https://dataflow.spring.io/rabbitmq-maven-einstein"  #change this link accordingly.
+source_for_stream_apps_metadata = "https://dataflow.spring.io/rabbitmq-maven-latest"  #change this link accordingly.
 metadata = request.urlretrieve(source_for_stream_apps_metadata)
 lines = open(metadata[0], 'r').readlines()
 
-app_data = list(filter(lambda line: 'metadata' not in line, map(lambda line: line.split('=')[0].split('.'), lines)))
+app_data = list(filter(lambda line: 'metadata' not in line and 'tasklauncher' not in line, map(lambda line: line.split('=')[0].split('.'), lines)))
 apps = {}
 for app in app_data:
     if (len(app) == 2):
         if not apps.get(app[0]):
             apps[app[0]] = []
         apps[app[0]].append(app[1])
+
+#insert dataflow-tasklauncher
+apps['sink'].append('dataflow-tasklauncher')
+apps['sink'].sort()
 
 render(apps)

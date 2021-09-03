@@ -34,15 +34,15 @@ You can register applications individually by using the `app register` command o
 
 For streams, depending on whether you use Kafka or RabbitMQ, you can register the applications by using their respective URLs:
 
-- Kafka
+### Kafka
 
-* Docker: [%stream-app-kafka-docker-latest%]()
-* Maven: [%stream-app-kafka-maven-latest%]()
+- [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)
+- [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)
 
-- RabbitMQ
+### RabbitMQ
 
-* Docker: [%stream-app-rabbit-docker-latest%]()
-* Maven: [%stream-app-rabbit-maven-latest%]()
+- [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%)
+- [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)
 
 When you use the Data Flow UI, the links shown in the following image are included for pre-fill:
 
@@ -62,32 +62,32 @@ For each stream app, we provide separate executable applications for RabbitMQ an
 
 The following table shows the currently available stream applications:
 
-| Source                                                                                           | Processor                                                                                                       | Sink                                                                                           |
-| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [cdc-debezium](%stream-applications-doc%/#spring-cloud-stream-modules-cdc-debezium-source)       | [aggregator](%stream-applications-doc%/#spring-cloud-stream-modules-aggregator-processor)                       | [cassandra](%stream-applications-doc%/#spring-cloud-stream-modules-cassandra-sink)             |
-| [file](%stream-applications-doc%/#spring-cloud-stream-modules-file-source)                       | [bridge](%stream-applications-doc%/#spring-cloud-stream-modules-bridge-processor)                               | [analytics](%stream-applications-doc%/#spring-cloud-stream-modules-analytics-sink)             |
-| [ftp](%stream-applications-doc%/#spring-cloud-stream-modules-ftp-source)                         | [filter](%stream-applications-doc%/#spring-cloud-stream-modules-filter-processor)                               | [elasticsearch](%stream-applications-doc%/#spring-cloud-stream-modules-elasticsearch-sink)     |
-| [geode](%stream-applications-doc%/#spring-cloud-stream-modules-geode-source)                     | [groovy](%stream-applications-doc%/#spring-cloud-stream-modules-groovy-processor)                               | [wavefront](%stream-applications-doc%/#spring-cloud-stream-modules-wavefront-sink)             |
-| [http](%stream-applications-doc%/#spring-cloud-stream-modules-http-source)                       | [header-enricher](%stream-applications-doc%/#spring-cloud-stream-modules-header-enricher-processor)             | [file](%stream-applications-doc%/#spring-cloud-stream-modules-file-sink)                       |
-| [jdbc](%stream-applications-doc%/#spring-cloud-stream-modules-jdbc-source)                       | [http-request](%stream-applications-doc%/#spring-cloud-stream-modules-http-request-processor)                   | [ftp](%stream-applications-doc%/#spring-cloud-stream-modules-ftp-sink)                         |
-| [jms](%stream-applications-doc%/#spring-cloud-stream-modules-jms-source)                         | [image-recognition](%stream-applications-doc%/#spring-cloud-stream-modules-image-recognition-processor)         | [geode](%stream-applications-doc%/#spring-cloud-stream-modules-geode-sink)                     |
-| [load-generator](%stream-applications-doc%/#spring-cloud-stream-modules-load-generator-source)   | [object-detection](%stream-applications-doc%/#spring-cloud-stream-modules-object-detection-processor)           | [jdbc](%stream-applications-doc%/#spring-cloud-stream-modules-jdbc-sink)                       |
-| [mail](%stream-applications-doc%/#spring-cloud-stream-modules-mail-source)                       | [semantic-segmentation](%stream-applications-doc%/#spring-cloud-stream-modules-semantic-segmentation-processor) | [log](%stream-applications-doc%/#spring-cloud-stream-modules-log-sink)                         |
-| [mongodb](%stream-applications-doc%/#spring-cloud-stream-modules-mongodb-source)                 | [script](%stream-applications-doc%/#spring-cloud-stream-modules-script-processor)                               | [mongodb](%stream-applications-doc%/#spring-cloud-stream-modules-mongodb-sink)                 |
-| [mqtt](%stream-applications-doc%/#spring-cloud-stream-modules-mqtt-source)                       | [splitter](%stream-applications-doc%/#spring-cloud-stream-modules-splitter-processor)                           | [mqtt](%stream-applications-doc%/#spring-cloud-stream-modules-mqtt-sink)                       |
-| [rabbit](%stream-applications-doc%/#spring-cloud-stream-modules-rabbit-source)                   | [transform](%stream-applications-doc%/#spring-cloud-stream-modules-transform-processor)                         | [pgcopy](%stream-applications-doc%/#spring-cloud-stream-modules-pgcopy-sink)                   |
-| [s3](%stream-applications-doc%/#spring-cloud-stream-modules-s3-source)                           | [twitter-trend](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-trend-processor)                 | [rabbit](%stream-applications-doc%/#spring-cloud-stream-modules-rabbit-sink)                   |
-| [sftp](%stream-applications-doc%/#spring-cloud-stream-modules-sftp-source)                       |                                                                                                                 | [redis](%stream-applications-doc%/#spring-cloud-stream-modules-redis-sink)                     |
-| [syslog](%stream-applications-doc%/#spring-cloud-stream-modules-syslog-source)                   |                                                                                                                 | [router](%stream-applications-doc%/#spring-cloud-stream-modules-router-sink)                   |
-| [tcp](%stream-applications-doc%/#spring-cloud-stream-modules-tcp-source)                         |                                                                                                                 | [rsocket](%stream-applications-doc%/#spring-cloud-stream-modules-rsocket-sink)                 |
-| [time](%stream-applications-doc%/#spring-cloud-stream-modules-time-source)                       |                                                                                                                 | [s3](%stream-applications-doc%/#spring-cloud-stream-modules-s3-sink)                           |
-| [twitter-message](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-message-source) |                                                                                                                 | [sftp](%stream-applications-doc%/#spring-cloud-stream-modules-sftp-sink)                       |
-| [twitter-search](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-search-source)   |                                                                                                                 | [tasklauncher](%stream-applications-doc%/#spring-cloud-stream-modules-tasklauncher-sink)       |
-| [twitter-stream](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-stream-source)   |                                                                                                                 | [tcp](%stream-applications-doc%/#spring-cloud-stream-modules-tcp-sink)                         |
-| [websocket](%stream-applications-doc%/#spring-cloud-stream-modules-websocket-source)             |                                                                                                                 | [throughput](%stream-applications-doc%/#spring-cloud-stream-modules-throughput-sink)           |
-|                                                                                                  |                                                                                                                 | [twitter-message](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-message-sink) |
-|                                                                                                  |                                                                                                                 | [twitter-update](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-update-sink)   |
-|                                                                                                  |                                                                                                                 | [websocket](%stream-applications-doc%/#spring-cloud-stream-modules-websocket-sink)             |
+| Source                                                                                           | Processor                                                                                                       | Sink                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [cdc-debezium](%stream-applications-doc%/#spring-cloud-stream-modules-cdc-debezium-source)       | [aggregator](%stream-applications-doc%/#spring-cloud-stream-modules-aggregator-processor)                       | [analytics](%stream-applications-doc%/#spring-cloud-stream-modules-analytics-sink)                                                                                              |
+| [file](%stream-applications-doc%/#spring-cloud-stream-modules-file-source)                       | [bridge](%stream-applications-doc%/#spring-cloud-stream-modules-bridge-processor)                               | [cassandra](%stream-applications-doc%/#spring-cloud-stream-modules-cassandra-sink)                                                                                              |
+| [ftp](%stream-applications-doc%/#spring-cloud-stream-modules-ftp-source)                         | [filter](%stream-applications-doc%/#spring-cloud-stream-modules-filter-processor)                               | [dataflow-tasklauncher](https://github.com/spring-cloud/spring-cloud-dataflow/blob/main/spring-cloud-dataflow-tasklauncher/spring-cloud-dataflow-tasklauncher-sink/README.adoc) |
+| [geode](%stream-applications-doc%/#spring-cloud-stream-modules-geode-source)                     | [groovy](%stream-applications-doc%/#spring-cloud-stream-modules-groovy-processor)                               | [elasticsearch](%stream-applications-doc%/#spring-cloud-stream-modules-elasticsearch-sink)                                                                                      |
+| [http](%stream-applications-doc%/#spring-cloud-stream-modules-http-source)                       | [header-enricher](%stream-applications-doc%/#spring-cloud-stream-modules-header-enricher-processor)             | [file](%stream-applications-doc%/#spring-cloud-stream-modules-file-sink)                                                                                                        |
+| [jdbc](%stream-applications-doc%/#spring-cloud-stream-modules-jdbc-source)                       | [http-request](%stream-applications-doc%/#spring-cloud-stream-modules-http-request-processor)                   | [ftp](%stream-applications-doc%/#spring-cloud-stream-modules-ftp-sink)                                                                                                          |
+| [jms](%stream-applications-doc%/#spring-cloud-stream-modules-jms-source)                         | [image-recognition](%stream-applications-doc%/#spring-cloud-stream-modules-image-recognition-processor)         | [geode](%stream-applications-doc%/#spring-cloud-stream-modules-geode-sink)                                                                                                      |
+| [load-generator](%stream-applications-doc%/#spring-cloud-stream-modules-load-generator-source)   | [object-detection](%stream-applications-doc%/#spring-cloud-stream-modules-object-detection-processor)           | [jdbc](%stream-applications-doc%/#spring-cloud-stream-modules-jdbc-sink)                                                                                                        |
+| [mail](%stream-applications-doc%/#spring-cloud-stream-modules-mail-source)                       | [semantic-segmentation](%stream-applications-doc%/#spring-cloud-stream-modules-semantic-segmentation-processor) | [log](%stream-applications-doc%/#spring-cloud-stream-modules-log-sink)                                                                                                          |
+| [mongodb](%stream-applications-doc%/#spring-cloud-stream-modules-mongodb-source)                 | [script](%stream-applications-doc%/#spring-cloud-stream-modules-script-processor)                               | [mongodb](%stream-applications-doc%/#spring-cloud-stream-modules-mongodb-sink)                                                                                                  |
+| [mqtt](%stream-applications-doc%/#spring-cloud-stream-modules-mqtt-source)                       | [splitter](%stream-applications-doc%/#spring-cloud-stream-modules-splitter-processor)                           | [mqtt](%stream-applications-doc%/#spring-cloud-stream-modules-mqtt-sink)                                                                                                        |
+| [rabbit](%stream-applications-doc%/#spring-cloud-stream-modules-rabbit-source)                   | [transform](%stream-applications-doc%/#spring-cloud-stream-modules-transform-processor)                         | [pgcopy](%stream-applications-doc%/#spring-cloud-stream-modules-pgcopy-sink)                                                                                                    |
+| [s3](%stream-applications-doc%/#spring-cloud-stream-modules-s3-source)                           | [twitter-trend](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-trend-processor)                 | [rabbit](%stream-applications-doc%/#spring-cloud-stream-modules-rabbit-sink)                                                                                                    |
+| [sftp](%stream-applications-doc%/#spring-cloud-stream-modules-sftp-source)                       |                                                                                                                 | [redis](%stream-applications-doc%/#spring-cloud-stream-modules-redis-sink)                                                                                                      |
+| [syslog](%stream-applications-doc%/#spring-cloud-stream-modules-syslog-source)                   |                                                                                                                 | [router](%stream-applications-doc%/#spring-cloud-stream-modules-router-sink)                                                                                                    |
+| [tcp](%stream-applications-doc%/#spring-cloud-stream-modules-tcp-source)                         |                                                                                                                 | [rsocket](%stream-applications-doc%/#spring-cloud-stream-modules-rsocket-sink)                                                                                                  |
+| [time](%stream-applications-doc%/#spring-cloud-stream-modules-time-source)                       |                                                                                                                 | [s3](%stream-applications-doc%/#spring-cloud-stream-modules-s3-sink)                                                                                                            |
+| [twitter-message](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-message-source) |                                                                                                                 | [sftp](%stream-applications-doc%/#spring-cloud-stream-modules-sftp-sink)                                                                                                        |
+| [twitter-search](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-search-source)   |                                                                                                                 | [tcp](%stream-applications-doc%/#spring-cloud-stream-modules-tcp-sink)                                                                                                          |
+| [twitter-stream](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-stream-source)   |                                                                                                                 | [throughput](%stream-applications-doc%/#spring-cloud-stream-modules-throughput-sink)                                                                                            |
+| [websocket](%stream-applications-doc%/#spring-cloud-stream-modules-websocket-source)             |                                                                                                                 | [twitter-message](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-message-sink)                                                                                  |
+|                                                                                                  |                                                                                                                 | [twitter-update](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-update-sink)                                                                                    |
+|                                                                                                  |                                                                                                                 | [wavefront](%stream-applications-doc%/#spring-cloud-stream-modules-wavefront-sink)                                                                                              |
+|                                                                                                  |                                                                                                                 | [websocket](%stream-applications-doc%/#spring-cloud-stream-modules-websocket-sink)                                                                                              |
 
 # Bulk Registration of Stream Applications
 
@@ -100,39 +100,39 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 
 # Supported Spring Cloud Stream Applications
 
-| Artifact Type     | Latest Stable Release                          | SNAPSHOT Release                        |
-| ----------------- | ---------------------------------------------- | --------------------------------------- |
-|                   | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x |                                         |
-| RabbitMQ + Maven  | [%stream-app-rabbit-maven-latest%]()           | [%stream-app-rabbit-maven-snapshot%]()  |
-| RabbitMQ + Docker | [%stream-app-rabbit-docker-latest%]()          | [%stream-app-rabbit-docker-snapshot%]() |
-| Kafka + Maven     | [%stream-app-kafka-maven-latest%]()            | [%stream-app-kafka-maven-snapshot%]()   |
-| Kafka + Docker    | [%stream-app-kafka-docker-latest%]()           | [%stream-app-kafka-docker-snapshot%]()  |
+| Artifact Type     | Latest Stable Release                                                  | SNAPSHOT Release                                                         |
+| ----------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+|                   | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x                         |                                                                          |
+| RabbitMQ + Maven  | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)   | [%stream-app-rabbit-maven-snapshot%](%stream-app-rabbit-maven-snapshot%) |
+| RabbitMQ + Docker | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%) | [%stream-app-rabbit-docker-snapshot%]()                                  |
+| Kafka + Maven     | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)     | [%stream-app-kafka-maven-snapshot%](%stream-app-kafka-maven-snapshot%)   |
+| Kafka + Docker    | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)   | [%stream-app-kafka-docker-snapshot%](%stream-app-kafka-docker-snapshot%) |
 
 # Supported Spring Cloud Task and Batch Applications
 
-| Artifact Type | Latest Stable Release                          | SNAPSHOT Release               |
-| ------------- | ---------------------------------------------- | ------------------------------ |
-|               | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x |                                |
-| Maven         | [%task-app-maven-version%]()                   | [%task-app-maven-snapshot%]()  |
-| Docker        | [%task-app-docker-version%]()                  | [%task-app-docker-snapshot%]() |
+| Artifact Type | Latest Stable Release                                  | SNAPSHOT Release                                         |
+| ------------- | ------------------------------------------------------ | -------------------------------------------------------- |
+|               | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x         |                                                          |
+| Maven         | [%task-app-maven-version%](%task-app-maven-version%])  | [%task-app-maven-snapshot%](%task-app-maven-snapshot%)   |
+| Docker        | [%task-app-docker-version%](%task-app-docker-version%) | [%task-app-docker-snapshot%](%task-app-docker-snapshot%) |
 
 The following table lists previous releases for reference only.
 NOTE: These may no longer be supported (i.e. they depend on an EOL spring-boot release):
 
 # Previous Releases of Stream Applications
 
-| Artifact Type     | Previous Release                               |
-| ----------------- | ---------------------------------------------- |
-|                   | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x |
-| RabbitMQ + Maven  | [%stream-app-rabbit-maven-previous%]()         |
-| RabbitMQ + Docker | [%stream-app-rabbit-docker-previous%]()        |
-| Kafka + Maven     | [%stream-app-kafka-maven-previous%]()          |
-| Kafka + Docker    | [%stream-app-kafka-docker-previous%]()         |
+| Artifact Type     | Previous Release                                                           |
+| ----------------- | -------------------------------------------------------------------------- |
+|                   | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x                             |
+| RabbitMQ + Maven  | [%stream-app-rabbit-maven-previous%](%stream-app-rabbit-maven-previous%)   |
+| RabbitMQ + Docker | [%stream-app-rabbit-docker-previous%](%stream-app-rabbit-docker-previous%) |
+| Kafka + Maven     | [%stream-app-kafka-maven-previous%](%stream-app-kafka-maven-previous%)     |
+| Kafka + Docker    | [%stream-app-kafka-docker-previous%](%stream-app-kafka-docker-previous%)   |
 
 # Previous Releases of Spring Cloud Task and Batch Applications
 
-| Artifact Type | Previous Release                               |
-| ------------- | ---------------------------------------------- |
-|               | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x |
-| Maven         | [%task-app-maven-previous%]()                  |
-| Docker        | [%task-app-docker-previous%]()                 |
+| Artifact Type | Previous Release                                         |
+| ------------- | -------------------------------------------------------- |
+|               | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x           |
+| Maven         | [%task-app-maven-previous%](%task-app-maven-previous%)   |
+| Docker        | [%task-app-docker-previous%](%task-app-docker-previous%) |
