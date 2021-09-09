@@ -149,7 +149,7 @@ Then follow the [visualize with Wavefront instructions](%currentPath%/feature-gu
 
 #### Zipkin Server
 
-You would need latest Stream Application staters (`2020.0.3-SNAPSHOT or newer`). Use the `STREAM_APPS_URI` variable to set the right apps version. (TODO).
+You would need latest Stream Application starters (`2020.0.3-SNAPSHOT or newer`). Use the `STREAM_APPS_URI` variable to set the right apps version. (TODO).
 
 To enable message trace collection for the `Zipkin Server` [Zipkin Server](%currentPath%/installation/local/docker-customize/#zipkin-server) Docker Compose instructions. Doing so brings up Spring Cloud Data Flow, Skipper, Apache Kafka, Zipkin Server and enables the message tracing for it.
 
