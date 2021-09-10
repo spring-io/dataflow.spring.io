@@ -231,11 +231,9 @@ applications:
                             "skipSsValidation" : true
                         },
                         "deployment" : {
-                          "services" : "postgresSQL"
-                        },
-                        "scheduler" : {
+                          "services" : "postgresSQL",
                           "scheduler-url" : "<scheduler_url>"
-                        }
+                        },
                     }
                 }
            }
