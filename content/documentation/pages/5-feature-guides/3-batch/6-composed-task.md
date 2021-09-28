@@ -16,7 +16,7 @@ Before going into how to create and manage composed tasks, we need to discuss a 
 For this discussion, suppose we want to launch task definitions identified as `task-a`, `task-b`, and `task-c`.
 For example, we launch `task-a`, and, if `task-a` has completed successfully, we want to launch `task-b`. Once `task-b` has completed successfully, we want to launch `task-c`. In this case, the graph would look like the following image:
 
-![Composed Task Graph](images/SCDF-composed-task-101.png)
+![Composed Task Graph](images/SCDF-composed-task-101.png)![img.png](img.png)
 
 The preceding diagram can be expressed by using Spring Cloud Data Flow's task definition DSL, as follows:
 
@@ -596,6 +596,34 @@ Launching a composed task and setting both `app` and `deployer` properties would
 Properties set at launch time have a higher precedence than those set at task definition. For example, if property `myproperty` has been set in the composed task definition and at launch time, the value set at launch time will be used.
 
 <!--END_NOTE-->
+
+## Setting Arguments at Composed Task Launch Time
+
+As demonstrated in the previous sections arguments can be set using the `builder` tab on the task launch page.
+However, if you wish to set these arguments using text you can click the `Freetext` tab.
+
+Three components make up the property:
+
+- Argument Type: This will always be the `app` type.
+- Task App Name: The label or the name of the application to which the property should be applied.
+- Index: Zero based position to where the argument should appear.
+
+The following example sets the `myargumentA` and `myargumentB` arguments for a task app named `task-a` in a composed task named `my-composed-task` for the following dsl:
+
+```
+task-a && task-b
+```
+
+It would look something like the following:
+![Property Diagram](images/SCDF-composed-task-child-argument-diagram.png)
+
+Launching a composed task and setting arguments would be done in the following way by using `Freetext` tab on the UI:
+
+1. Launch the composed task, as the following image shows, by pressing the `Launch` selection next to the composed task definition that needs to be launched:
+   ![Specify Which Composed Task to Launch](images/SCDF-composed-task-child-property-example-launch.png)
+2. Set the arguments as follows in the `Arguments` text box:
+   ![Launch the Composed Task](images/SCDF-composed-task-child-argument-launch.png)
+3. Now press the **LAUNCH TASK** buttons.
 
 ## Passing Properties to Composed Task Runner
 
