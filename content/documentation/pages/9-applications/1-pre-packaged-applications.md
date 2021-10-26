@@ -85,9 +85,10 @@ The following table shows the currently available stream applications:
 | [twitter-search](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-search-source)   |                                                                                                                 | [tcp](%stream-applications-doc%/#spring-cloud-stream-modules-tcp-sink)                                                                                                          |
 | [twitter-stream](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-stream-source)   |                                                                                                                 | [throughput](%stream-applications-doc%/#spring-cloud-stream-modules-throughput-sink)                                                                                            |
 | [websocket](%stream-applications-doc%/#spring-cloud-stream-modules-websocket-source)             |                                                                                                                 | [twitter-message](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-message-sink)                                                                                  |
-|                                                                                                  |                                                                                                                 | [twitter-update](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-update-sink)                                                                                    |
+| [zeromq](%stream-applications-doc%/#spring-cloud-stream-modules-zeromq-source)                                                                                                 |                                   | [twitter-update](%stream-applications-doc%/#spring-cloud-stream-modules-twitter-update-sink)                                                                                    |
 |                                                                                                  |                                                                                                                 | [wavefront](%stream-applications-doc%/#spring-cloud-stream-modules-wavefront-sink)                                                                                              |
 |                                                                                                  |                                                                                                                 | [websocket](%stream-applications-doc%/#spring-cloud-stream-modules-websocket-sink)                                                                                              |
+|                                                                                                  |                                                                                                                 | [zeromq](%stream-applications-doc%/#spring-cloud-stream-modules-zeromq-sink)                                                                                              |
 
 # Bulk Registration of Stream Applications
 
@@ -100,13 +101,16 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 
 # Supported Spring Cloud Stream Applications
 
+
 | Artifact Type     | Latest Stable Release                                                  | SNAPSHOT Release                                                         |
 | ----------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-|                   | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x                         |                                                                          |
-| RabbitMQ + Maven  | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)   | [%stream-app-rabbit-maven-snapshot%](%stream-app-rabbit-maven-snapshot%) |
-| RabbitMQ + Docker | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%) | [%stream-app-rabbit-docker-snapshot%]()                                  |
-| Kafka + Maven     | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)     | [%stream-app-kafka-maven-snapshot%](%stream-app-kafka-maven-snapshot%)   |
-| Kafka + Docker    | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)   | [%stream-app-kafka-docker-snapshot%](%stream-app-kafka-docker-snapshot%) |
+|                   | spring-cloud-stream 3.1.x<br>spring-boot 2.5.x                         |                                                                          |
+| RabbitMQ + Maven  | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)   | [%stream-app-rabbit-maven-latest-snapshot%](%stream-app-rabbit-maven-latest-snapshot%) |
+| RabbitMQ + Docker (Docker Hub) | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%) | [%stream-app-rabbit-docker-latest-snapshot%](%stream-app-rabbit-docker-latest-snapshot%)                                  |
+| RabbitMQ + Docker (Harbor Registry) | [%stream-app-rabbit-harbor-latest%](%stream-app-rabbit-harbor-latest%) | N/A                               |
+| Kafka + Maven     | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)     | [%stream-app-kafka-maven-latest-snapshot%](%stream-app-kafka-maven-latest-snapshot%)   |
+| Kafka + Docker    | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)   | [%stream-app-kafka-docker-latest-snapshot%](%stream-app-kafka-docker-latest-snapshot%) |
+| Kafka + Docker (Harbor Registry)    | [%stream-app-kafka-harbor-latest%](%stream-app-kafka-harbor-latest%)   | N/A |
 
 # Supported Spring Cloud Task and Batch Applications
 
@@ -119,15 +123,28 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 The following table lists previous releases for reference only.
 NOTE: These may no longer be supported (i.e. they depend on an EOL spring-boot release):
 
-# Previous Releases of Stream Applications
+# Previous Releases of Stream Applications (2020)
+
+
+| Artifact Type     | Latest Stable Release                                                  | SNAPSHOT Release                                                         |
+| ----------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+|                   | spring-cloud-stream 3.0.x<br>spring-boot 2.3.x                         |                                                                          |
+| RabbitMQ + Maven  | [%stream-app-rabbit-maven-2020%](%stream-app-rabbit-maven-2020%)   | [%stream-app-rabbit-maven-2020-snapshot"%](%stream-app-rabbit-maven-2020-snapshot"%) |
+| RabbitMQ + Docker (Docker Hub) | [%stream-app-rabbit-docker-2020%](%stream-app-rabbit-docker-latest%) | [%stream-app-rabbit-docker-2020-snapshot%](stream-app-rabbit-docker-2020-snapshot)                                  |
+| RabbitMQ + Docker (Harbor Registry) | [%stream-app-rabbit-harbor-2020%](%stream-app-rabbit-harbor-latest%) | N/A                               |
+| Kafka + Maven     | [%stream-app-kafka-maven-2020%](%stream-app-kafka-maven-2020%)     | [%stream-app-kafka-maven-2020-snapshot%](%stream-app-kafka-maven-2020-snapshot%)   |
+| Kafka + Docker    | [%stream-app-kafka-docker-2020%](%stream-app-kafka-docker-2020%)   | [%stream-app-kafka-docker-2020-snapshot%](%stream-app-kafka-docker-2020-snapshot%) |
+| Kafka + Docker (Harbor Registry)    | [%stream-app-kafka-harbor-2020%](%stream-app-kafka-harbor-2020%)   | N/A |
+
+# Previous Releases of Stream Applications (Einstein)
 
 | Artifact Type     | Previous Release                                                           |
 | ----------------- | -------------------------------------------------------------------------- |
 |                   | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x                             |
-| RabbitMQ + Maven  | [%stream-app-rabbit-maven-previous%](%stream-app-rabbit-maven-previous%)   |
-| RabbitMQ + Docker | [%stream-app-rabbit-docker-previous%](%stream-app-rabbit-docker-previous%) |
-| Kafka + Maven     | [%stream-app-kafka-maven-previous%](%stream-app-kafka-maven-previous%)     |
-| Kafka + Docker    | [%stream-app-kafka-docker-previous%](%stream-app-kafka-docker-previous%)   |
+| RabbitMQ + Maven  | [%stream-app-rabbit-maven-einstein%](%stream-app-rabbit-maven-einstein%)   |
+| RabbitMQ + Docker | [%stream-app-rabbit-docker-einstein%](%stream-app-rabbit-docker-einstein%) |
+| Kafka + Maven     | [%stream-app-kafka-maven-einstein%](%stream-app-kafka-maven-einstein%)     |
+| Kafka + Docker    | [%stream-app-kafka-docker-einstein%](%stream-app-kafka-docker-einstein%)   |
 
 # Previous Releases of Spring Cloud Task and Batch Applications
 
