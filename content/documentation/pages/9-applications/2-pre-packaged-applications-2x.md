@@ -42,13 +42,13 @@ For streams, depending on whether you use Kafka or RabbitMQ, you can register th
 
 - Kafka
 
-* Docker: [%stream-app-kafka-docker-previous%]()
-* Maven: [%stream-app-kafka-maven-previous%]()
+* Docker: [%stream-app-kafka-docker-einstein%]()
+* Maven: [%stream-app-kafka-maven-einstein%]()
 
 - RabbitMQ
 
-* Docker: [%stream-app-rabbit-docker-previous%]()
-* Maven: [%stream-app-rabbit-maven-previous%]()
+* Docker: [%stream-app-rabbit-docker-einstein%]()
+* Maven: [%stream-app-rabbit-maven-einstein%]()
 
 For tasks, you can use the following URLs:
 
