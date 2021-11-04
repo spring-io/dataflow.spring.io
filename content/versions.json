@@ -8,12 +8,16 @@
     "branch": "2.7.x"
   },
   "2.8.x": {
-    "name": "2.8.2",
-    "branch": "2.8.x",
+    "name": "2.8.4",
+    "branch": "2.8.x"
+  },
+  "2.9.x": {
+    "name": "2.9.1",
+    "branch": "2.9.x",
     "current": true
   },
-  "2.9.0.SNAPSHOT": {
-    "name": "2.9.0 SNAPSHOT",
+  "2.10.0.SNAPSHOT": {
+    "name": "2.10.0 SNAPSHOT",
     "branch": "main"
   },
   "next": {
