@@ -57,7 +57,7 @@ You need to configure only one message broker.
 You must deploy a number of services and the Data Flow server. The
 following subsections describe how to do so:
 
-1.  [Deploy MySQL](#deploy-mysql)
+1.  [Deploy MariaDB](#deploy-mariadb)
 
 2.  [Enable Monitoring](#enable-monitoring)
 
@@ -67,31 +67,31 @@ following subsections describe how to do so:
 
 5.  [Deploy the Data Flow Server](#deploy-data-flow-server)
 
-### Deploy MySQL
+### Deploy MariaDB
 
-We use MySQL for this guide, but you could use a Postgres or H2 database
+We use MariaDB for this guide, but you could use a Postgres or H2 database
 instead. We include JDBC drivers for all three of these databases. To
-use a database other than MySQL, you must adjust the database URL and
+use a database other than MariaDB, you must adjust the database URL and
 driver class name settings.
 
 <!--TIP-->
 
 **Password Management**
 
-You can modify the password in the `src/kubernetes/mysql/mysql-deployment.yaml` files if you prefer to be more secure.
-If you do modify the password, you must also provide it as base64-encoded string in the `src/kubernetes/mysql/mysql-secrets.yaml` file.
+You can modify the password in the `src/kubernetes/mariadb/mariadb-deployment.yaml` files if you prefer to be more secure.
+If you do modify the password, you must also provide it as base64-encoded string in the `src/kubernetes/mariadb/mariadb-secrets.yaml` file.
 
 <!--END_TIP-->
 
-Run the following command to start the MySQL service:
+Run the following command to start the MariaDB service:
 
 ```
-kubectl create -f src/kubernetes/mysql/
+kubectl create -f src/kubernetes/mariadb/
 ```
 
-You can use `kubectl get all -l app=mysql` to verify that the
+You can use `kubectl get all -l app=mariadb` to verify that the
 deployment, pod, and service resources are running. You can use
-`kubectl delete all,pvc,secrets -l app=mysql` to clean up afterwards.
+`kubectl delete all,pvc,secrets -l app=mariadb` to clean up afterwards.
 
 ### Enable Monitoring
 
@@ -420,8 +420,8 @@ the [Spring Cloud Kubernetes library](https://github.com/spring-cloud/spring-clo
 The `ConfigMap` settings for RabbitMQ are specified in the `src/kubernetes/skipper/skipper-config-rabbit.yaml` file and for Kafka in
 the `src/kubernetes/skipper/skipper-config-kafka.yaml` file.
 
-MySQL secrets are located in the `src/kubernetes/mysql/mysql-secrets.yaml` file.
-If you modified the password for MySQL, you should change it in the `src/kubernetes/mysql/mysql-secrets.yaml` file.
+MariaDB secrets are located in the `src/kubernetes/mariadb/mariadb-secrets.yaml` file.
+If you modified the password for MariaDB, you should change it in the `src/kubernetes/maria/mariadb-secrets.yaml` file.
 Any secrets have to be provided in base64 encoding.
 
 To create the configuration map with the default settings, run the following
