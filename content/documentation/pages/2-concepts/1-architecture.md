@@ -64,7 +64,7 @@ The Skipper Server is responsible for:
 The Data Flow Server and Skipper Server need to have an RDBMS installed.
 By default, the servers use an embedded H2 database.
 You can configure the servers to use external databases.
-The supported databases are H2, HSQLDB, MySQL, Oracle, Postgresql, DB2, and SqlServer.
+The supported databases are H2, HSQLDB, MariaDB, Oracle, Postgresql, DB2, and SqlServer.
 The schemas are automatically created when each server starts.
 
 ### Security

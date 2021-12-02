@@ -50,7 +50,7 @@ Make sure you have installed Spring Cloud Data Flow to the platform of your choi
 <!-- TODO: Support for Postgres -->
 <!--NOTE-->
 
-**NOTE**: For Kubernetes, the sample task application is configured to use MySQL. The Data Flow server must also be configured for MySQL.
+**NOTE**: For Kubernetes, the sample task application is configured to use MariaDB. The Data Flow server must also be configured for MariaDB.
 
 <!--END_NOTE-->
 

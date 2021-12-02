@@ -22,7 +22,7 @@ To use Spring Cloud Data Flow for batch processing but not for stream processing
 
 Batch processing requires an external data store. To set up an external data store, you need to specify the database's connection settings. We cover those settings in the next section. For additional detail, see [the main Spring Batch developer guide](%currentPath%/batch-developer-guides/batch/spring-batch/#local).
 
-Spring Cloud Data Flow supports MySQL (with the MariaDB driver), HSQLDB, and PostgreSQL without additional configuration. You can use other databases with additional configuration. See the [Spring Cloud Data Flow Reference Guide](https://docs.spring.io/spring-cloud-dataflow/docs/2.5.0.BUILD-SNAPSHOT/reference/htmlsingle/#configuration-kubernetes-rdbms) for more detail.
+Spring Cloud Data Flow supports MariaDB, HSQLDB, and PostgreSQL without additional configuration. You can use other databases with additional configuration. See the [Spring Cloud Data Flow Reference Guide](https://docs.spring.io/spring-cloud-dataflow/docs/2.5.0.BUILD-SNAPSHOT/reference/htmlsingle/#configuration-kubernetes-rdbms) for more detail.
 
 ### Installing the Server
 

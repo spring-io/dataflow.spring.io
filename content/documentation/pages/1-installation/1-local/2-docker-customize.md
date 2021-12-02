@@ -6,7 +6,7 @@ description: 'Customize the Docker Compose installation'
 
 # Customizing Docker Compose
 
-The Docker Compose [installation](%currentPath%/installation/local/docker) guide explains how to use [docker-compose.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml) for installing `Data Flow`, `Skipper`, `Kafka`, and `MySQL`.
+The Docker Compose [installation](%currentPath%/installation/local/docker) guide explains how to use [docker-compose.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml) for installing `Data Flow`, `Skipper`, `Kafka`, and `MariaDB`.
 You can extend this basic configuration with the help of the provided extension docker-compose files.
 For example, if you want to use `RabbitMQ` or `PostgreSQL` or enable Data Flow for `Monitoring`, you can combine some of the provided docker-compose extension files:
 
@@ -182,9 +182,9 @@ You can use the `Zipkin UI` at [http://localhost:9411/zipkin](http://localhost:9
 
 <!--END_TIP-->
 
-## Postgres Instead of MySQL
+## Postgres Instead of MariaDB
 
-The [docker-compose-postgres.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-postgres.yml) file configures using `PostgreSQL` instead of `MySQL` for both Spring Cloud Data Flow and SKipper. It disables the default `mysql` service, adds a new `postgres` service, and overrides the Data Flow and Skipper configurations to use `postgres` service:
+The [docker-compose-postgres.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-postgres.yml) file configures using `PostgreSQL` instead of `MariaDB` for both Spring Cloud Data Flow and SKipper. It disables the default `mariadb` service, adds a new `postgres` service, and overrides the Data Flow and Skipper configurations to use `postgres` service:
 
 <!--TABS-->
 
@@ -318,35 +318,3 @@ The `skipper` service waits for a debugger to connect on port `6006`.
 ## Integration Testing
 
 The self-documented [DataFlowIT.java](https://github.com/spring-cloud/spring-cloud-dataflow/blob/%github-tag%/spring-cloud-dataflow-server/src/test/java/org/springframework/cloud/dataflow/integration/test/DataFlowIT.java) class demonstrates how to reuse the same docker-compose files to build DataFlow integration and smoke tests.
-
-## Multi-platform Support
-
-This configuration connects your local `Skipper` server to a remote platform (such as `Kubernetes` or `Cloud Foundry`) and lets you deploy streaming data pipelines on those platforms. As a prerequisite, it expects the `Apache Kafka` (or `RabbitMQ`) binder provisioned on the remote platform.
-
-<!--NOTE-->
-
-The Task and Batch applications require direct database access. However, because the `Data Flow` server and `Database` run locally, you can start Task application only on your local platform.
-Also, because the `Scheduler` service is not supported by by the Local Deployer, it is also not supported by the docker-compose configuration.
-
-<!--END_NOTE-->
-
-The [docker-compose-cf.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-cf.yml) file adds a remote `Cloud Foundry` account as a Data Flow runtime platform under the name of `cf`. You need to edit the `docker-compose-cf.yml` to add your CF API URL and access credentials.
-
-```bash
-wget -O docker-compose-rabbitmq.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-rabbitmq.yml
-wget -O docker-compose-cf.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-cf.yml
-docker-compose -f ./docker-compose.yml -f ./docker-compose-rabbitmq.yml -f ./docker-compose-cf.yml up
-```
-
-Because `Kafka` is not supported on CF, you also need to switch to `Rabbit` by using the `docker-compose-rabbitmq.yml` file. The `docker-compose-cf.yml` file expects a `rabbit` service to be configured in the target CF environment.
-
-The [docker-compose-k8s.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-k8s.yml) file adds a remote `Kubernetes` account as a Data Flow runtime platform under the name of `k8s`. You need to edit the `docker-compose-k8s.yml` to add your Kubernetes master URL and access credentials.
-
-```bash
-wget -O docker-compose-k8s.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-k8s.yml
-STREAM_APPS_URI=https://dataflow.spring.io/kafka-docker-latest docker-compose -f ./docker-compose.yml -f ./docker-compose-k8s.yml up
-```
-
-You cannot deploy the default Maven-based app starters in a Kubernetes environment. You can switch to the Docker-based app distribution by setting the `STREAM_APPS_URI` variable.
-
-The `docker-compose-k8s.yml` expects a `kafka-broker` service to be pre-deployed in the target Kubernetes environment. Follow the [choose a message broker](%currentPath%/installation/kubernetes/kubectl/#choose-a-message-broker) instructions to deploy a `kafka-broker` service.

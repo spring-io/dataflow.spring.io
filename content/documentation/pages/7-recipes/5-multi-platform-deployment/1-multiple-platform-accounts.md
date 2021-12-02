@@ -79,9 +79,9 @@ data:
                     readinessProbeDelay: 180
                     livenessProbeDelay: 120
       datasource:
-        url: jdbc:mysql://${MYSQL_SERVICE_HOST}:${MYSQL_SERVICE_PORT}/skipper
+        url: jdbc:mariadb://${MARIADB_SERVICE_HOST}:${MARIADB_SERVICE_PORT}/skipper
         username: root
-        password: ${mysql-root-password}
+        password: ${mariadb-root-password}
         driverClassName: org.mariadb.jdbc.Driver
         testOnBorrow: true
         validationQuery: "SELECT 1"
@@ -139,9 +139,9 @@ data:
                     limits:
                       memory: 4096Mi
       datasource:
-        url: jdbc:mysql://${MYSQL_SERVICE_HOST}:${MYSQL_SERVICE_PORT}/mysql
+        url: jdbc:mariadb://${MARIADB_SERVICE_HOST}:${MARIADB_SERVICE_PORT}/mariadb
         username: root
-        password: ${mysql-root-password}
+        password: ${mariadb-root-password}
         driverClassName: org.mariadb.jdbc.Driver
         testOnBorrow: true
         validationQuery: "SELECT 1"

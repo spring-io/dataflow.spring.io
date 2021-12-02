@@ -6,7 +6,7 @@ description: 'Installation using Docker Compose'
 
 # Installing by Using Docker Compose
 
-Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, MySQL, and Apache Kafka.
+Spring Cloud Data Flow provides a Docker Compose file to let you quickly bring up Spring Cloud Data Flow, Skipper, MariaDB, and Apache Kafka.
 The additional [customization](%currentPath%/installation/local/docker-customize) guides help to extend the basic configuration, showing how to switch the binder to RabbitMQ, use a different database, enable monitoring, and more.
 
 Also, when doing development of custom applications, you need to enable the Docker containers that run the Data Flow and the Skipper servers to see your local file system. The [Accessing the Host File System](#accessing-the-host-file-system) chapter shows how to do that.

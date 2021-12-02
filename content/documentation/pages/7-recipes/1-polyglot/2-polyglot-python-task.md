@@ -69,14 +69,14 @@ To parse the input arguments and to manage its state in Data Flow, the custom sc
   ```bash
   --spring.datasource.username=root
   --spring.datasource.password=yourpassword
-  --spring.datasource.url=jdbc:mysql://<mysql-host>:<port>/mysq
+  --spring.datasource.url=jdbc:mariadb://<mariadb-host>:<port>/mariadb
   --spring.cloud.task.executionid=26
   ```
 
   The `spring.cloud.task.executionid` property represents the Task ID, as known inside Data Flow and persisted in the `TASK_EXECUTION` table.
 
 - The [task_args.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py) utility helps extract the task arguments for the default (that is, exec) [entry point style](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#_entry_point_style_2).
-  The utility also constructs [sqlalchemy](https://www.sqlalchemy.org/) URLs for the different databases, which might be configured with SCDF (currently only MySQL is tested). Check the [get_db_url()](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py#L22) implementation.
+  The utility also constructs [sqlalchemy](https://www.sqlalchemy.org/) URLs for the different databases, which might be configured with SCDF (currently only MariaDB is tested). Check the [get_db_url()](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py#L22) implementation.
 
 For `python_task.py` to act as a Data Flow task, it needs to be bundled in a Docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/Dockerfile) illustrates how to bundle a Python script into docker image:
 
@@ -85,8 +85,8 @@ FROM python:3.7.3-slim
 
 RUN apt-get update
 RUN apt-get install build-essential -y
-RUN apt-get install default-libmysqlclient-dev -y
-RUN pip install mysqlclient
+RUN apt-get install libmariadbclient-dev -y
+RUN pip install mariadb
 RUN pip install sqlalchemy
 
 ADD python_task.py /

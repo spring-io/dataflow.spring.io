@@ -258,7 +258,7 @@ To lists the pods (including the server components and the streaming application
 NAME                                                         READY   STATUS    RESTARTS   AGE
 scdf-release-data-flow-server-795c77b85c-tqdtx               1/1     Running   0          36m
 scdf-release-data-flow-skipper-85b6568d6b-2jgcv              1/1     Running   0          36m
-scdf-release-mysql-744757b689-tsnnz                          1/1     Running   0          36m
+scdf-release-mariadb-744757b689-tsnnz                          1/1     Running   0          36m
 scdf-release-rabbitmq-5fb7f7f644-878pz                       1/1     Running   0          36m
 usage-cost-logger-usage-cost-logger-v1-568599d459-hk9b6      1/1     Running   0          2m41s
 usage-cost-logger-usage-cost-processor-v1-79745cf97d-dwjpw   1/1     Running   0          2m42s

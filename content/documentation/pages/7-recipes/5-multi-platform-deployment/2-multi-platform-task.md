@@ -99,7 +99,7 @@ To verify that the pod executed, you can view the result in the task execution p
 ```shell script
 kubectl get pods --namespace default
 NAME                         READY   STATUS      RESTARTS   AGE
-mysql-b94654bd4-k8vr7        1/1     Running     1          7h38m
+mariadb-b94654bd4-k8vr7        1/1     Running     1          7h38m
 rabbitmq-545bb5b7cb-dn5rd    1/1     Running     39         124d
 scdf-server-dff599ff-68949   1/1     Running     0          8m27s
 skipper-6b4d48ddc4-9p2x7     1/1     Running     0          12m
@@ -157,7 +157,7 @@ dataflow:>task schedule list --platform default
 ```shell script
 kubectl get pods --namespace default
 NAME                                    READY   STATUS      RESTARTS   AGE
-mysql-b94654bd4-k8vr7                   1/1     Running     1          29h
+mariadb-b94654bd4-k8vr7                   1/1     Running     1          29h
 rabbitmq-545bb5b7cb-dn5rd               1/1     Running     39         125d
 scdf-server-845879c9b7-xs8t6            1/1     Running     3          4h45m
 skipper-6b4d48ddc4-bkvph                1/1     Running     0          4h48m
@@ -240,7 +240,7 @@ java -jar spring-cloud-dataflow-server/target/spring-cloud-dataflow-server-<vers
 ### Configuring Database Service in Kubernetes to Connect to an External Database
 
 The tasks that are launched in this exercise need to have access to a database service that connects to the external database that is being used by SCDF.
-To do this, we create a database service along with an endpoint that refers to the external database. For this example, we connect to a MySql database.
+To do this, we create a database service along with an endpoint that refers to the external database. For this example, we connect to a MariaDB database.
 
 1. Set up the database service:
 
@@ -248,7 +248,7 @@ To do this, we create a database service along with an endpoint that refers to t
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-mac
+  name: mariadb-mac
 spec:
   ports:
     - protocol: TCP
@@ -256,13 +256,13 @@ spec:
       targetPort: 3306
 ```
 
-2. Set up an endpoint to your local MySql:
+2. Set up an endpoint to your local MariaDB:
 
 ```yaml
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: mysql-mac
+  name: mariadb-mac
 subsets:
   - addresses:
       - ip: 192.168.1.72
@@ -270,17 +270,17 @@ subsets:
       - port: 3306
 ```
 
-3. Now, obtain the `cluster ip` for the newly created `mysql-mac` service so that you can use it to launch and schedule tasks. To do so, run the following command (in this case a MySql instance running on your local machine):
+3. Now, obtain the `cluster ip` for the newly created `mariadb-mac` service so that you can use it to launch and schedule tasks. To do so, run the following command (in this case a MariaDB instance running on your local machine):
 
 ```shell script
-kubectl get svc mysql-mac
+kubectl get svc mariadb-mac
 ```
 
 The result of this command looks something like:
 
 ```shell script
 NAME        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-mysql-mac   ClusterIP   <ext db conn>   <none>        1443/TCP   44m
+mariadb-mac   ClusterIP   <ext db conn>   <none>        1443/TCP   44m
 ```
 
 ### Registering Applications
@@ -289,9 +289,9 @@ To register the applications needed for the exercise, follow the instructions in
 
 ### Launching Tasks
 
-Add the following command-line argument when launching the task (replace `<ext db conn>` with the CLUSTER-IP provided by the `kubectl get svc mysql-mac`):
+Add the following command-line argument when launching the task (replace `<ext db conn>` with the CLUSTER-IP provided by the `kubectl get svc mariadb-mac`):
 
-`--spring.datasource.url=jdbc:mysql://<ext db conn>:1443/<your db>`
+`--spring.datasource.url=jdbc:mariadb://<ext db conn>:1443/<your db>`
 
 It should look something like the following image:
 ![Timestamp-task launch](images/k8-k8-remote-timestamp-task-launch.png)
@@ -309,7 +309,7 @@ timestamp-task-kzkpqjp936     0/1     Completed   0          38s
 
 Add the following command-line argument when launching the task:
 
-`--spring.datasource.url=jdbc:mysql://<ext db conn>:1443/<your db>`
+`--spring.datasource.url=jdbc:mariadb://<ext db conn>:1443/<your db>`
 
 It should look something like the following image:
 ![Timestamp-task launch](images/k8-k8-remote-timestamp-task-2-launch.png)
@@ -333,13 +333,13 @@ By using Spring Cloud Data Flow's shell, we create a schedule that launches the 
 1. To schedule the task, run the following command from the Spring Cloud Data Flow shell:
 
 ```shell script
-task schedule create --name timestamp-task-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform default --properties "app.docker-timestamp.spring.datasource.url=jdbc:mysql://<ext db conn>:1443/<your db>"
+task schedule create --name timestamp-task-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform default --properties "app.docker-timestamp.spring.datasource.url=jdbc:mariadb://<ext db conn>:1443/<your db>"
 ```
 
 It looks something like this:
 
 ```shell script
-dataflow:>task schedule create --name timestamp-task-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform default --properties "app.docker-timestamp.spring.datasource.url=jdbc:mysql://10.100.231.80:1443/task"
+dataflow:>task schedule create --name timestamp-task-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform default --properties "app.docker-timestamp.spring.datasource.url=jdbc:mariadb://10.100.231.80:1443/task"
 Created schedule 'timestamp-task-sched'
 ```
 
@@ -374,13 +374,13 @@ By using Spring Cloud Data Flow's shell, we create a schedule that launches the 
 1. To schedule the task, run the following command from the Spring Cloud Data Flow shell:
 
 ```shell script
-task schedule create --name timestamp-task-2-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform practice --properties "app.docker-timestamp.spring.datasource.url=jdbc:mysql://<ext db conn>:1443/<your db>"
+task schedule create --name timestamp-task-2-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform practice --properties "app.docker-timestamp.spring.datasource.url=jdbc:mariadb://<ext db conn>:1443/<your db>"
 ```
 
 It looks something like this:
 
 ```shell script
-dataflow:>task schedule create --name timestamp-task-2-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform practice --properties "app.docker-timestamp.spring.datasource.url=jdbc:mysql://10.100.231.80:1443/task"
+dataflow:>task schedule create --name timestamp-task-2-sched --definitionName timestamp-task --expression "*/1 * * * *" --platform practice --properties "app.docker-timestamp.spring.datasource.url=jdbc:mariadb://10.100.231.80:1443/task"
 Created schedule 'timestamp-task-2-sched'
 ```
 
