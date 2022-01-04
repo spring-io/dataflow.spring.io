@@ -40,33 +40,32 @@ To create our batch application, we need to visit the Spring Initializr site and
 1. In the **Dependencies** text box, type `jdbc` and then select the JDBC dependency.
 1. In the **Dependencies** text box, type `h2` and then select the H2 dependency.
    1. We use H2 for unit testing.
-1. In the **Dependencies** text box, type `mysql` and then select mysql dependency (or your favorite database).
-   1. We use MySql for the runtime database.
+1. In the **Dependencies** text box, type `mariadb` and then select mariadb dependency (or your favorite database).
+   1. We use mariadb for the runtime database.
 1. In the **Dependencies** text box, type `batch` and then select Batch.
 1. Click the **Generate Project** button.
 1. Download the `partition.zip` file, unzip it, and import the project into your favorite IDE.
 
 Because the Spring Initializr site handles the details of a project as URL parameters, you can:
 
-1. Click this link to [Spring Initializr](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.5.1.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql&dependencies=batch) to download the preconfigured partition.zip.
+1. Click this link to [Spring Initializr](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.5.1.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mariadb&dependencies=batch) to download the preconfigured partition.zip.
 
 2. Download the partition.zip file, unzip it, and import the project into your favorite IDE
 
-### Setting up MySql
+### Setting up MariaDB
 
-1. If you do not have an instance of MySql available to you, you can follow these instructions to run a MySql Docker image for this example:
+1. If you do not have an instance of MariaDB available to you, you can follow these instructions to run a MariaDB Docker image for this example:
 
-   1. Pull a MySql docker image:
+   1. Pull a MariaDB docker image:
 
       ```bash
-      docker pull mysql:5.7.25
+      docker pull mariadb
       ```
 
-   2. Start MySql:
+   2. Start MariaDB:
 
    ```bash
-   docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
-   -e MYSQL_DATABASE=task -d mysql:5.7.25
+   docker run -p 3306:3306 --name mariadb  -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=task -d mariadb:latest
    ```
 
 ### Building The Application
@@ -243,25 +242,25 @@ This section covers how to deploy your Batch application to your local computer.
     To configure the execution of the Batch application, add the following properties to your environment:
 
 ```
-export spring_datasource_url=jdbc:mysql://localhost:3306/task?useSSL\=false // <1>
+export spring_datasource_url=jdbc:mariadb://localhost:3306/task // <1>
 export spring_datasource_username=root // <2>
 export spring_datasource_password=password // <3>
-export spring_datasource_driverClassName=com.mysql.jdbc.Driver // <4>
+export spring_datasource_driverClassName=org.mariadb.jdbc.Driver // <4>
 export spring_batch_initializeSchema=always // <5>
 java -jar target/partition-0.0.1-SNAPSHOT.jar
 ```
 
-- <1> `spring.datasource.url`: Set the URL to your database instance. In this example, we connect to a MySQL `task` database on our local machine at port 3306.
-- <2> `spring.datasource.username`: The user name to be used for the MySql database. In this example, it is `root`.
-- <3> `spring.datasource.password`: The password to be used for the MySql database. In this example, it is `password`.
-- <4> `spring.datasource.driverClassName`: The driver to use to connect to the MySql database. In this example, it is `com.mysql.jdbc.Driver`.
+- <1> `spring.datasource.url`: Set the URL to your database instance. In this example, we connect to a MariaDB `task` database on our local machine at port 3306.
+- <2> `spring.datasource.username`: The user name to be used for the MariaDB database. In this example, it is `root`.
+- <3> `spring.datasource.password`: The password to be used for the MariaDB database. In this example, it is `password`.
+- <4> `spring.datasource.driverClassName`: The driver to use to connect to the MariaDB database. In this example, it is `org.mariadb.jdbc.Driver`.
 - <5> `spring.batch.initializeSchema`: Initializes the database with the tables required for Spring Batch. In this example, we state that we `always` want to do this. This does not overwrite the tables if they already exist.
 
 #### Cleanup
 
-To stop and remove the MySQL container running in the Docker instance, run the following commands:
+To stop and remove the MariaDB container running in the Docker instance, run the following commands:
 
 ```bash
-docker stop mysql
-docker rm mysql
+docker stop mariadb
+docker rm mariadb
 ```
