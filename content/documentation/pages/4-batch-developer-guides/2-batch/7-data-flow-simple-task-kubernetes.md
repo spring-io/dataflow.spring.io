@@ -20,7 +20,7 @@ When SCDF is running on Kubernetes, you should see the `scdf-server` pod in a `R
 You can use the following command (shown with typical output) to see the `scdf-server`:
 
 ```bash
-$ kubectl get all -l app=scdf-server
+kubectl get all -l app=scdf-server
 NAME                              READY   STATUS    RESTARTS   AGE
 pod/scdf-server-65789665d-79hrz   1/1     Running   0          5m39s
 
@@ -45,15 +45,15 @@ We build the `billsetuptask` app, which is configured with the [jib maven plugin
 1. Run the following commands to build the docker image:
 
    ```bash
-   $ eval $(minikube docker-env)
-   $ ./mvnw clean package jib:dockerBuild
+   eval $(minikube docker-env)
+   ./mvnw clean package jib:dockerBuild
    ```
 
    Those commands add the image to the `minikube` Docker registry.
 
 1. Verify its presence by finding `springcloudtask/billsetuptask` in the list of images provided by running the following command:
    ```bash
-   $ docker images
+   docker images
    ```
 
 ### Registering, Creating, and Launching the Task by Using Data Flow
@@ -63,7 +63,7 @@ We use the `Data Flow Dashboard` to set up and launch the `billsetuptask` applic
 First, we need to get the SCDF Server URL, which we can do with the following command (the listing includes the output):
 
 ```bash
-$ minikube service --url scdf-server
+minikube service --url scdf-server
 http://192.168.99.100:30403
 ```
 

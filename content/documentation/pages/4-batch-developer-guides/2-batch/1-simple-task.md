@@ -179,7 +179,7 @@ You can use the use the following commands to query the `TASK_EXECUTION` table:
 
 <!-- Rolling my own to disable erroneous formatting -->
 <div class="gatsby-highlight" data-language="bash">
-<pre class="language-bash"><code>$ docker exec -it mariadb bash -l
+<pre class="language-bash"><code>docker exec -it mariadb bash -l
 # mariadb -u root -ppassword
 MariaDB&gt; select * from task.TASK_EXECUTION;
 </code></pre></div>
@@ -363,7 +363,7 @@ We need a running [Kubernetes cluster](%currentPath%/installation/kubernetes#cre
 To verify that Minikube is running, run the following command (shown with its output):
 
 ```bash
-$ minikube status
+minikube status
 
 host: Running
 kubelet: Running
@@ -454,7 +454,7 @@ kubectl apply -f task-app.yaml
 When the task is complete, you should see output that resembles the following:
 
 ```bash
-$ kubectl get pods
+kubectl get pods
 NAME                     READY   STATUS      RESTARTS   AGE
 mariadb-5cbb6c49f7-ntg2l 1/1     Running     0          4h
 billsetuptask            0/1     Completed   0          81s
@@ -473,7 +473,7 @@ Then you need to log in, as follows:
 
 <!-- Rolling my own to disable erroneous formatting -->
 <div class="gatsby-highlight" data-language="bash">
-<pre class="language-bash"><code>$ kubectl exec -it mariadb-5cbb6c49f7-ntg2l -- /bin/bash
+<pre class="language-bash"><code>kubectl exec -it mariadb-5cbb6c49f7-ntg2l -- /bin/bash
 # mariadb -u root -p$MARIADB_ROOT_PASSWORD
 mariadb&gt; select * from task.TASK_EXECUTION;
 </code></pre></div>

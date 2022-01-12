@@ -309,7 +309,7 @@ Now we can build the project.
 
 <!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
-<pre class="language-bash"><code>$ docker exec -it mysql bash -l
+<pre class="language-bash"><code>docker exec -it mysql bash -l
 # mysql -u root -ppassword
 mysql&gt; select * from task.BILL_STATEMENTS;
 </code></pre></div>

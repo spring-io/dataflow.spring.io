@@ -36,8 +36,8 @@ If you built the apps from scratch using the Boot Maven plugin, the default conf
 Now you can run the Maven build to create the Docker images in the `minikube` Docker registry. To do so, run the following commands:
 
 ```bash
-$ eval $(minikube docker-env)
-$./mvnw spring-boot:build-image
+eval $(minikube docker-env)
+./mvnw spring-boot:build-image
 ```
 
 If you downloaded the project source, the project includes a parent pom to let you build all the modules with a single command.

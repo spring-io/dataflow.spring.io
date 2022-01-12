@@ -126,7 +126,7 @@ Once a stream is deployed, you can view its logs. To do so:
     `/path/from/stdout/textbox/in/dashboard` with the value you copied
     in the previous step:
 
-        $ docker exec -it skipper tail -f /path/from/stdout/textbox/in/dashboard
+        docker exec -it skipper tail -f /path/from/stdout/textbox/in/dashboard
 
     The output of the log sink appears in the new window. You should see the output shown below.
 
@@ -153,7 +153,7 @@ curl http://http-ingest-314-log-v1.cfapps.io -H "Content-type: text/plain" -d "H
 Now you can list the running applications again and see your
 applications in the list, as follows:
 
-    $ cf apps                                                                                                                                                                                                                                         [1h] ✭
+    cf apps                                                                                                                                                                                                                                         [1h] ✭
     Getting apps in org ORG / space SPACE as email@pivotal.io...
 
     name                         requested state   instances   memory   disk   urls

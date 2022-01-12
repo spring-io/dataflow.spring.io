@@ -120,7 +120,7 @@ NOTE The Cloud Native [buildpack for spring-boot](https://github.com/paketo-buil
 For the uber-jar packaged applications, the plugin will create a companion artifact that contains the metadata. Specifically, it contains the Spring boot JSON file about configuration properties metadata and the dataflow configuration metadata file described in the previous section. The following example shows the contents of such an artifact, for the canonical log sink:
 
 ```shell
-$ jar tvf log-sink-rabbit-3.0.0.BUILD-SNAPSHOT-metadata.jar
+jar tvf log-sink-rabbit-3.0.0.BUILD-SNAPSHOT-metadata.jar
 373848 META-INF/spring-configuration-metadata.json
    174 META-INF/dataflow-configuration-metadata.properties
 ```

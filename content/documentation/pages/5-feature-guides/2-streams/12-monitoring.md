@@ -168,7 +168,7 @@ The address used to access the Grafana UI depends on the Kubernetes platform the
 To obtain the URL of the Grafana UI when it is deployed to Minikube, run the following command:
 
 ```bash
-$ minikube service --url grafana
+minikube service --url grafana
 http://192.168.99.100:31595
 ```
 

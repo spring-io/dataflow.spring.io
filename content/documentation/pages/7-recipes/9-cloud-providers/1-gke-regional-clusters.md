@@ -64,19 +64,19 @@ When the cluster is created, three worker nodes are deployed to each of the thre
 Lastly, the credentials need to be fetched through the `gcloud` CLI so that `kubectl` can interact with the cluster. To do so, run the following command:
 
 ```
-$ gcloud container clusters get-credentials regional-demo --zone us-east1 --project PROJECT_ID
+gcloud container clusters get-credentials regional-demo --zone us-east1 --project PROJECT_ID
 ```
 
 Replace `PROJECT_ID` with your GKE project ID. Additionally, to make it easier to identify the context name, run the following command:
 
 ```
-$ kubectl config rename-context gke_PROJECT_ID_us-east1_regional-demo regional-demo
+kubectl config rename-context gke_PROJECT_ID_us-east1_regional-demo regional-demo
 ```
 
 Verify that the correct current context is set with `kubectl` (indicated by `*`):
 
 ```
-$ kubectl config get-contexts
+kubectl config get-contexts
 CURRENT   NAME            CLUSTER                                                   AUTHINFO                                                  NAMESPACE
 *         regional-demo   gke_PROJECT_ID_us-east1_regional-demo   gke_PROJECT_ID_us-east1_regional-demo
 ```
@@ -86,7 +86,7 @@ CURRENT   NAME            CLUSTER                                               
 Verify that the worker nodes are available:
 
 ```
-$ kubectl get nodes
+kubectl get nodes
 NAME                                           STATUS   ROLES    AGE   VERSION
 gke-regional-demo-default-pool-e121c001-k667   Ready    <none>   13m   v1.16.9-gke.2
 gke-regional-demo-default-pool-e121c001-zhrt   Ready    <none>   13m   v1.16.9-gke.2
@@ -104,7 +104,7 @@ As shown, there are nine nodes, with three in each pool.
 Each node has a label applied by the key of `failure-domain.beta.kubernetes.io/zone` and a value of the zone in which it is located. To identify which nodes are placed in which zones, we can select the label -- for example:
 
 ```
-$ kubectl get nodes -l failure-domain.beta.kubernetes.io/zone=us-east1-b
+kubectl get nodes -l failure-domain.beta.kubernetes.io/zone=us-east1-b
 NAME                                           STATUS   ROLES    AGE   VERSION
 gke-regional-demo-default-pool-ea10f422-5f72   Ready    <none>   29m   v1.16.9-gke.2
 gke-regional-demo-default-pool-ea10f422-ntdk   Ready    <none>   29m   v1.16.9-gke.2
@@ -112,7 +112,7 @@ gke-regional-demo-default-pool-ea10f422-vw3c   Ready    <none>   29m   v1.16.9-g
 ```
 
 ```
-$ kubectl get nodes -l failure-domain.beta.kubernetes.io/zone=us-east1-c
+kubectl get nodes -l failure-domain.beta.kubernetes.io/zone=us-east1-c
 NAME                                           STATUS   ROLES    AGE   VERSION
 gke-regional-demo-default-pool-e121c001-k667   Ready    <none>   29m   v1.16.9-gke.2
 gke-regional-demo-default-pool-e121c001-zhrt   Ready    <none>   29m   v1.16.9-gke.2
@@ -120,7 +120,7 @@ gke-regional-demo-default-pool-e121c001-zpv4   Ready    <none>   29m   v1.16.9-g
 ```
 
 ```
-$ kubectl get nodes -l failure-domain.beta.kubernetes.io/zone=us-east1-d
+kubectl get nodes -l failure-domain.beta.kubernetes.io/zone=us-east1-d
 NAME                                           STATUS   ROLES    AGE   VERSION
 gke-regional-demo-default-pool-fb3e6608-0lx2   Ready    <none>   29m   v1.16.9-gke.2
 gke-regional-demo-default-pool-fb3e6608-0rcc   Ready    <none>   29m   v1.16.9-gke.2
@@ -157,7 +157,7 @@ A default `StorageClass`, which we use for simplicity, is automatically created 
 Deploy the manifests:
 
 ```
-$ kubectl create -f mysql/
+kubectl create -f mysql/
 deployment.apps/mysql created
 persistentvolumeclaim/mysql created
 secret/mysql created
@@ -167,7 +167,7 @@ service/mysql created
 Get the volume name:
 
 ```
-$ kubectl get pvc/mysql
+kubectl get pvc/mysql
 NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 mysql   Bound    pvc-24f2acb5-17cd-45e1-8064-34bf602e408f   8Gi        RWO            standard       3m1s
 ```
@@ -175,14 +175,14 @@ mysql   Bound    pvc-24f2acb5-17cd-45e1-8064-34bf602e408f   8Gi        RWO      
 Check the zone in which the volume is located:
 
 ```
-$ kubectl get pv/pvc-24f2acb5-17cd-45e1-8064-34bf602e408f -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
+kubectl get pv/pvc-24f2acb5-17cd-45e1-8064-34bf602e408f -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
 us-east1-d
 ```
 
 Check the MySQL pod to verify it is running and the node to which it is allocated:
 
 ```
-$ kubectl get pod/mysql-b94654bd4-9zpt2 -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
+kubectl get pod/mysql-b94654bd4-9zpt2 -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
 NAME                    STATUS    NODE
 mysql-b94654bd4-9zpt2   Running   gke-regional-demo-default-pool-fb3e6608-0rcc
 ```
@@ -190,7 +190,7 @@ mysql-b94654bd4-9zpt2   Running   gke-regional-demo-default-pool-fb3e6608-0rcc
 Finally, verify the zone in which the node resides:
 
 ```
-$ kubectl get node gke-regional-demo-default-pool-fb3e6608-0rcc -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
+kubectl get node gke-regional-demo-default-pool-fb3e6608-0rcc -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
 us-east1-d
 ```
 
@@ -217,7 +217,7 @@ To place RabbitMQ on a node in the `us-east1-b` zone, make the following modific
 Deploy the manifests:
 
 ```
-$ kubectl create -f rabbitmq/
+kubectl create -f rabbitmq/
 deployment.apps/rabbitmq created
 service/rabbitmq created
 ```
@@ -225,14 +225,14 @@ service/rabbitmq created
 Get the node to which the pod is deployed:
 
 ```
-$ kubectl get pod/rabbitmq-6d65f675d9-4vksj -o jsonpath='{.spec.nodeName}'
+kubectl get pod/rabbitmq-6d65f675d9-4vksj -o jsonpath='{.spec.nodeName}'
 gke-regional-demo-default-pool-ea10f422-5f72
 ```
 
 Get the zone in which the node resides:
 
 ```
-$ kubectl get node gke-regional-demo-default-pool-ea10f422-5f72 -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
+kubectl get node gke-regional-demo-default-pool-ea10f422-5f72 -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
 us-east1-b
 ```
 
@@ -264,18 +264,18 @@ spec:
 Deploy the manifests:
 
 ```
-$ kubectl create -f server/server-roles.yaml
-$ kubectl create -f server/server-rolebinding.yaml
-$ kubectl create -f server/service-account.yaml
-$ kubectl create -f skipper/skipper-config-rabbit.yaml
-$ kubectl create -f skipper/skipper-deployment.yaml
-$ kubectl create -f skipper/skipper-svc.yaml
+kubectl create -f server/server-roles.yaml
+kubectl create -f server/server-rolebinding.yaml
+kubectl create -f server/service-account.yaml
+kubectl create -f skipper/skipper-config-rabbit.yaml
+kubectl create -f skipper/skipper-deployment.yaml
+kubectl create -f skipper/skipper-svc.yaml
 ```
 
 Get the nodes to which the pods are deployed:
 
 ```
-$ kubectl get pods -l app=skipper -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
+kubectl get pods -l app=skipper -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
 NAME                       STATUS    NODE
 skipper-6fd7bb796c-flm44   Running   gke-regional-demo-default-pool-e121c001-zhrt
 skipper-6fd7bb796c-l99dj   Running   gke-regional-demo-default-pool-ea10f422-5f72
@@ -285,11 +285,11 @@ skipper-6fd7bb796c-vrf9m   Running   gke-regional-demo-default-pool-fb3e6608-0lx
 Get the zones in which the nodes reside:
 
 ```
-$ kubectl get node gke-regional-demo-default-pool-e121c001-zhrt -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
+kubectl get node gke-regional-demo-default-pool-e121c001-zhrt -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
 us-east1-c
-$ kubectl get node gke-regional-demo-default-pool-ea10f422-5f72 -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
+kubectl get node gke-regional-demo-default-pool-ea10f422-5f72 -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
 us-east1-b
-$ kubectl get node gke-regional-demo-default-pool-fb3e6608-0lx2 -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
+kubectl get node gke-regional-demo-default-pool-fb3e6608-0lx2 -o jsonpath='{.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone}'
 us-east1-d
 ```
 
@@ -320,15 +320,15 @@ spec:
 Deploy the manifests:
 
 ```
-$ kubectl create -f server/server-config.yaml
-$ kubectl create -f server/server-svc.yaml
-$ kubectl create -f server/server-deployment.yaml
+kubectl create -f server/server-config.yaml
+kubectl create -f server/server-svc.yaml
+kubectl create -f server/server-deployment.yaml
 ```
 
 Get the nodes to which the pods are deployed:
 
 ```
-$ kubectl get pods -l app=scdf-server -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
+kubectl get pods -l app=scdf-server -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
 NAME                           STATUS    NODE
 scdf-server-5ddf7bbd4f-dpnmm   Running   gke-regional-demo-default-pool-fb3e6608-0lx2
 scdf-server-5ddf7bbd4f-hlf9h   Running   gke-regional-demo-default-pool-e121c001-zhrt
@@ -338,7 +338,7 @@ scdf-server-5ddf7bbd4f-vnjh6   Running   gke-regional-demo-default-pool-ea10f422
 Verify that the pods are deployed to the same nodes as Skipper:
 
 ```
-$ kubectl get pods -l app=skipper -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
+kubectl get pods -l app=skipper -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName
 NAME                       STATUS    NODE
 skipper-6fd7bb796c-flm44   Running   gke-regional-demo-default-pool-e121c001-zhrt
 skipper-6fd7bb796c-l99dj   Running   gke-regional-demo-default-pool-ea10f422-5f72
@@ -348,8 +348,8 @@ skipper-6fd7bb796c-vrf9m   Running   gke-regional-demo-default-pool-fb3e6608-0lx
 Verify the connectivity to Data Flow:
 
 ```
-$ SCDF_IP=$(kubectl get svc/scdf-server -o jsonpath='{.status.loadBalancer.ingress[*].ip}')
-$ curl -s http://$SCDF_IP/about | jq
+SCDF_IP=$(kubectl get svc/scdf-server -o jsonpath='{.status.loadBalancer.ingress[*].ip}')
+curl -s http://$SCDF_IP/about | jq
 {
   "featureInfo": {
     "analyticsEnabled": true,
