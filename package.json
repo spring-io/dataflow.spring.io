@@ -100,6 +100,7 @@
     "algoliasearch": "3.32.1",
     "async-unist-util-visit": "1.0.0",
     "classnames": "2.2.6",
+    "core-js": "3.20.3",
     "gatsby": "2.26.1",
     "gatsby-cli": "2.13.1",
     "gatsby-image": "2.5.0",
@@ -155,11 +156,11 @@
     "tocbot": "4.10.1"
   },
   "devDependencies": {
-    "@babel/core": "7.9.0",
-    "@babel/node": "7.8.7",
-    "babel-preset-gatsby": "0.3.1",
+    "@babel/core": "7.16.12",
+    "@babel/node": "7.16.8",
+    "babel-preset-gatsby": "2.6.0",
     "chalk": "4.0.0",
-    "cross-env": "7.0.2",
+    "cross-env": "7.0.3",
     "eslint-config-prettier": "6.10.1",
     "eslint-plugin-prettier": "3.1.2",
     "execa": "4.0.0",
