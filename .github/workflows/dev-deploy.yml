@@ -1,0 +1,40 @@
+name: Microsite Dev Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install pack
+        uses: jvalkeal/build-zoo-handler@v0.0.4
+        with:
+          pack-version: 0.18.0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.18.0
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.AZURE_DEV_REGISTRY_URL }}
+          username: ${{ secrets.AZURE_DEV_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_DEV_REGISTRY_PASSWORD }}
+      - name: Yarn build
+        run: |
+          yarn install
+          yarn run fix
+          yarn build
+      - name: Prepare Paketo
+        run: |
+          cp -R public paketo/
+      - name: Setup Tag
+        run: |
+          echo TAG=$(date +%y%m%d%H%M%S)-${{ github.sha }} >> $GITHUB_ENV
+      - name: Build Image
+        working-directory: ./paketo
+        run: |
+          pack build ${{ secrets.AZURE_DEV_REGISTRY_URL }}/scdf-microsite-dev:$TAG \
+            --buildpack gcr.io/paketo-buildpacks/nginx \
+            --builder gcr.io/paketo-buildpacks/builder:base
+          docker push ${{ secrets.AZURE_DEV_REGISTRY_URL }}/scdf-microsite-dev:$TAG

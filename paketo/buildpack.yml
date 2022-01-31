@@ -1,0 +1,14 @@
+staticfile:
+  nginx:
+    root: # default value: "public"
+    host_dot_files:
+    location_include:
+    directory:
+    ssi:
+    pushstate:
+    http_strict_transport_security:
+    http_strict_transport_security_include_subdomains:
+    http_strict_transport_security_preload:
+    force_https:
+    basic_auth:
+    status_codes:
