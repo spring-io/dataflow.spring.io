@@ -15,6 +15,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14.18.0
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_DEV_CREDENTIALS }}
       - uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.AZURE_DEV_REGISTRY_URL }}
@@ -38,3 +41,14 @@ jobs:
             --buildpack gcr.io/paketo-buildpacks/nginx \
             --builder gcr.io/paketo-buildpacks/builder:base
           docker push ${{ secrets.AZURE_DEV_REGISTRY_URL }}/scdf-microsite-dev:$TAG
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: scdfmicrositedev
+          images: ${{ secrets.AZURE_DEV_REGISTRY_URL }}/scdf-microsite-dev:${{ env.TAG }}
+          slot-name: green
+      - name: Swap green/production
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az webapp deployment slot swap --resource-group scdfmicrosite-dev --name scdfmicrositedev --slot green
