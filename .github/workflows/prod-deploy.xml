@@ -1,0 +1,60 @@
+name: Microsite Prod Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install pack
+        uses: jvalkeal/build-zoo-handler@v0.0.4
+        with:
+          pack-version: 0.18.0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.18.0
+#      - uses: azure/login@v1
+#        with:
+#          creds: ${{ secrets.AZURE_PROD_CREDENTIALS }}
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.AZURE_PROD_REGISTRY_URL }}
+          username: ${{ secrets.AZURE_PROD_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_PROD_REGISTRY_PASSWORD }}
+      - name: Yarn build
+        env:
+          ALGOLIA_ADMIN_KEY_PASSWORD: ${{ secrets.ALGOLIA_ADMIN_KEY_PASSWORD }}
+          GOOGLE_TAGMANAGER_ID: ${{ secrets.GOOGLE_TAGMANAGER_ID_SCDF }}
+        run: |
+          yarn install
+          yarn run fix
+          yarn build
+      - name: Prepare Paketo
+        run: |
+          cp -R public paketo/
+      - name: Setup Tag
+        run: |
+          echo TAG=$(date +%y%m%d%H%M%S)-${{ github.sha }} >> $GITHUB_ENV
+      - name: Build Image
+        working-directory: ./paketo
+        run: |
+          pack build ${{ secrets.AZURE_PROD_REGISTRY_URL }}/scdf-microsite:$TAG \
+            --buildpack gcr.io/paketo-buildpacks/nginx \
+            --builder gcr.io/paketo-buildpacks/builder:base
+          docker push ${{ secrets.AZURE_PROD_REGISTRY_URL }}/scdf-microsite:$TAG
+#      - name: Deploy
+#        uses: azure/webapps-deploy@v2
+#        with:
+#          app-name: scdfmicrosite
+#          images: ${{ secrets.AZURE_PROD_REGISTRY_URL }}/scdf-microsite:${{ env.TAG }}
+#          slot-name: green
+#      - name: Swap green/production
+#        uses: azure/CLI@v1
+#        with:
+#          inlineScript: |
+#            az webapp deployment slot swap --resource-group scdfmicrosite --name scdfmicrosite --slot green
