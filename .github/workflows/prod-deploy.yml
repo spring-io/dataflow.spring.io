@@ -15,9 +15,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14.18.0
-#      - uses: azure/login@v1
-#        with:
-#          creds: ${{ secrets.AZURE_PROD_CREDENTIALS }}
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_PROD_CREDENTIALS }}
       - uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.AZURE_PROD_REGISTRY_URL }}
