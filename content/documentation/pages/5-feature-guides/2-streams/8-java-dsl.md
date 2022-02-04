@@ -19,12 +19,6 @@ To get started, you need to add the following dependency to your project:
 </dependency>
 ```
 
-<!--NOTE-->
-
-You can find a complete sample in the [Spring Cloud Data Flow Samples Repository](https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle/#_java_dsl).
-
-<!--END_NOTE-->
-
 ## Usage
 
 The classes at the heart of the Java DSL are `StreamBuilder`, `StreamDefinition`, `Stream`, `StreamApplication`, and `DataFlowTemplate`.
@@ -87,7 +81,6 @@ The Java DSL offers two styles to create Streams:
   You then chain together `processor()` and `sink()` methods to create a stream definition.
 
 To demonstrate both styles, we include a simple stream that uses both approaches.
-You can find a complete sample that you can use to get started in the [Spring Cloud Data Flow Samples Repository](https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle/#_java_dsl).
 
 The following example demonstrates the definition approach:
 

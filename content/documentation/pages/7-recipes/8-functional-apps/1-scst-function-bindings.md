@@ -14,8 +14,6 @@ We create a `time-source` application that produces the current date or timestam
 
 For more information on how Spring Cloud Stream provides this support, see the [Spring Cloud Stream documentation](https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/current/reference/html/spring-cloud-stream.html#spring-cloud-stream-overview-producing-consuming-messages).
 
-Sample applications are available in Spring Cloud Data Flow samples [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/spring-cloud-stream-function-bindings).
-
 With Spring Cloud Stream 3.x as the dependency, you can write the `Source` application by using `java.util.function.Supplier`, as follows:
 
 ```Java
