@@ -6,57 +6,6 @@ description: ''
 
 # Frequently Asked Questions
 
-## Application Starters
-
-<!--QUESTION#findtaskapps-->
-
-Where can I find the latest Spring Cloud Stream and Spring Cloud Task application starters?
-
-The latest releases of the Stream and Task application starters are published to Maven Central and Docker Hub.
-You can find the latest release versions from the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-cloud-stream-app-starters/) and [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/) project sites.
-
-<!--END_QUESTION-->
-
-<!--QUESTION#appreleases-->
-
-Where can I find the documentation for the latest application releases?
-
-See the [Spring Cloud Stream App Starters](https://cloud.spring.io/spring-cloud-stream-app-starters/) and [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/) project sites.
-
-<!--END_QUESTION-->
-
-<!--QUESTION#extendapps-->
-
-Can I patch and extend the out-of-the-box applications?
-
-Yes. You can find more details in the reference guide section on [Patching Application Starters](https://docs.spring.io/stream-applications/docs/%streaming-apps-version%/reference/html/#_patching_pre_built_applications) as well as documentation on [Functional Composition](%currentPath%/feature-guides/streams/function-composition).
-
-<!--END_QUESTION-->
-
-<!--QUESTION#buildappstarters-->
-
-Can I build a new application based on the same infrastructure as the out-of-the-box applications?
-
-Yes. You can find more details in the Spring Cloud Stream App Starter's reference guide section titled [FAQ on Spring Cloud Stream App Starters](https://docs.spring.io/stream-applications/docs/%streaming-apps-version%/reference/html/#_general_faq_on_spring_cloud_stream_app_starters).
-
-<!--END_QUESTION-->
-
-<!--QUESTION#downloadapps-->
-
-Where can I download the latest applications?
-
-See the [stream](https://cloud.spring.io/spring-cloud-stream-app-starters/#http-repository-location-for-apps) and [task](https://cloud.spring.io/spring-cloud-task-app-starters/#http-repository-location-for-apps) apps project sites.
-
-<!--END_QUESTION-->
-
-<!--QUESTION#appdockerimages-->
-
-Where are the Docker images hosted?
-
-See the [stream](https://hub.docker.com/u/springcloudstream) and [task](https://hub.docker.com/u/springcloudtask) apps in Docker Hub.
-
-<!--END_QUESTION-->
-
 ## Data Flow
 
 <!--QUESTION#appsandscdf-->
