@@ -99,12 +99,7 @@ Now you need to start the applications that comprise the server:
 
 **Proxy Servers**
 
-If you run Spring Cloud Data Flow Server behind a proxy server (such
-as [Zuul](https://github.com/Netflix/zuul)), you may also need to set
-the `server.use-forward-headers` property to `true`. An example that
-uses Zuul is available in the [Spring Cloud Data Flow Samples
-repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-zuul)
-on GitHub. Additional information is also available in the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server).
+If you run Spring Cloud Data Flow Server behind a proxy server you may also need to set the `server.use-forward-headers` property to `true`. Additional information is also available in the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.webserver.use-behind-a-proxy-server).
 
 <!--END_TIP-->
 
