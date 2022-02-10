@@ -27,7 +27,7 @@ To create an instance of a `DataFlowTemplate`, you need to provide a `URI` locat
 
 Spring Boot auto-configuration for `StreamBuilder` and `DataFlowTemplate` is also available.
 You can use the properties in [`DataFlowClientProperties`](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-rest-client/src/main/java/org/springframework/cloud/dataflow/rest/client/config/DataFlowClientProperties.java) to configure the connection to the Data Flow server.
-Generally, you should start with the `spring.cloud.dataflow.client.uri` property.
+Generally, you should start with the `spring.cloud.dataflow.client.server-uri` property.
 
 Consider the following example, which uses the `definition` style:
 
