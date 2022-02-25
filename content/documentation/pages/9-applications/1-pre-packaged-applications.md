@@ -101,15 +101,13 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 
 # Supported Spring Cloud Stream Applications
 
-| Artifact Type                       | Latest Stable Release                                                  | SNAPSHOT Release                                                                         |
-| ----------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-|                                     | spring-cloud-stream 3.1.x<br>spring-boot 2.5.x                         |                                                                                          |
-| RabbitMQ + Maven                    | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)   | [%stream-app-rabbit-maven-latest-snapshot%](%stream-app-rabbit-maven-latest-snapshot%)   |
-| RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%) | [%stream-app-rabbit-docker-latest-snapshot%](%stream-app-rabbit-docker-latest-snapshot%) |
-| RabbitMQ + Docker (Harbor Registry) | [%stream-app-rabbit-harbor-latest%](%stream-app-rabbit-harbor-latest%) | N/A                                                                                      |
-| Kafka + Maven                       | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)     | [%stream-app-kafka-maven-latest-snapshot%](%stream-app-kafka-maven-latest-snapshot%)     |
-| Kafka + Docker                      | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)   | [%stream-app-kafka-docker-latest-snapshot%](%stream-app-kafka-docker-latest-snapshot%)   |
-| Kafka + Docker (Harbor Registry)    | [%stream-app-kafka-harbor-latest%](%stream-app-kafka-harbor-latest%)   | N/A                                                                                      |
+| Artifact Type                       | Latest Stable Release                                                                   | SNAPSHOT Release                                                                         |
+| ----------------------------------- |-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+|                                     | 2021.1.0 based on<br>&#8226;&nbsp;spring-cloud-stream 3.2.x<br>&#8226;&nbsp;spring-boot 2.6.x | 2021.1.1-SNAPSHOT                                                                        |
+| RabbitMQ + Maven                    | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)                    | [%stream-app-rabbit-maven-latest-snapshot%](%stream-app-rabbit-maven-latest-snapshot%)   |
+| RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%)                  | [%stream-app-rabbit-docker-latest-snapshot%](%stream-app-rabbit-docker-latest-snapshot%) |
+| Kafka + Maven                       | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)                      | [%stream-app-kafka-maven-latest-snapshot%](%stream-app-kafka-maven-latest-snapshot%)     |
+| Kafka + Docker                      | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)                    | [%stream-app-kafka-docker-latest-snapshot%](%stream-app-kafka-docker-latest-snapshot%)   |
 
 # Supported Spring Cloud Task and Batch Applications
 
@@ -120,19 +118,27 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 | Docker        | [%task-app-docker-version%](%task-app-docker-version%) | [%task-app-docker-snapshot%](%task-app-docker-snapshot%) |
 
 The following table lists previous releases for reference only.
-NOTE: These may no longer be supported (i.e. they depend on an EOL spring-boot release):
+NOTE: Some of these may no longer be supported (i.e. they depend on an EOL spring-boot release):
+
+# Previous Releases of Stream Applications (2021)
+
+| Artifact Type                       | Previous Stable Release                                                                       |
+| ----------------------------------- |-----------------------------------------------------------------------------------------------|
+|                                     | 2021.0.1 based on<br>&#8226;&nbsp;spring-cloud-stream 3.1.x<br>&#8226;&nbsp;spring-boot 2.5.x |
+| RabbitMQ + Maven                    | [%stream-app-rabbit-maven-previous%](%stream-app-rabbit-maven-previous%)                      |
+| RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-previous%](%stream-app-rabbit-docker-previous%)                    | 
+| Kafka + Maven                       | [%stream-app-kafka-maven-previous%](%stream-app-kafka-maven-previous%)                        |
+| Kafka + Docker                      | [%stream-app-kafka-docker-previous%](%stream-app-kafka-docker-previous%)                      |
 
 # Previous Releases of Stream Applications (2020)
 
-| Artifact Type                       | Latest Stable Release                                                | SNAPSHOT Release                                                                     |
-| ----------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-|                                     | spring-cloud-stream 3.0.x<br>spring-boot 2.3.x                       |                                                                                      |
-| RabbitMQ + Maven                    | [%stream-app-rabbit-maven-2020%](%stream-app-rabbit-maven-2020%)     | [%stream-app-rabbit-maven-2020-snapshot"%](%stream-app-rabbit-maven-2020-snapshot"%) |
-| RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-2020%](%stream-app-rabbit-docker-latest%) | [%stream-app-rabbit-docker-2020-snapshot%](stream-app-rabbit-docker-2020-snapshot)   |
-| RabbitMQ + Docker (Harbor Registry) | [%stream-app-rabbit-harbor-2020%](%stream-app-rabbit-harbor-latest%) | N/A                                                                                  |
-| Kafka + Maven                       | [%stream-app-kafka-maven-2020%](%stream-app-kafka-maven-2020%)       | [%stream-app-kafka-maven-2020-snapshot%](%stream-app-kafka-maven-2020-snapshot%)     |
-| Kafka + Docker                      | [%stream-app-kafka-docker-2020%](%stream-app-kafka-docker-2020%)     | [%stream-app-kafka-docker-2020-snapshot%](%stream-app-kafka-docker-2020-snapshot%)   |
-| Kafka + Docker (Harbor Registry)    | [%stream-app-kafka-harbor-2020%](%stream-app-kafka-harbor-2020%)     | N/A                                                                                  |
+| Artifact Type                       | Latest Stable Release                                              | SNAPSHOT Release                                                                     |
+| ----------------------------------- |--------------------------------------------------------------------| ------------------------------------------------------------------------------------ |
+|                                     | spring-cloud-stream 3.0.x<br>spring-boot 2.3.x                     |                                                                                      |
+| RabbitMQ + Maven                    | [%stream-app-rabbit-maven-2020%](%stream-app-rabbit-maven-2020%)   | [%stream-app-rabbit-maven-2020-snapshot"%](%stream-app-rabbit-maven-2020-snapshot"%) |
+| RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-2020%](%stream-app-rabbit-docker-2020%) | [%stream-app-rabbit-docker-2020-snapshot%](stream-app-rabbit-docker-2020-snapshot)   |
+| Kafka + Maven                       | [%stream-app-kafka-maven-2020%](%stream-app-kafka-maven-2020%)     | [%stream-app-kafka-maven-2020-snapshot%](%stream-app-kafka-maven-2020-snapshot%)     |
+| Kafka + Docker                      | [%stream-app-kafka-docker-2020%](%stream-app-kafka-docker-2020%)   | [%stream-app-kafka-docker-2020-snapshot%](%stream-app-kafka-docker-2020-snapshot%)   |
 
 # Previous Releases of Stream Applications (Einstein)
 
