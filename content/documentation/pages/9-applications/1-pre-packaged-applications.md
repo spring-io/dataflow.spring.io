@@ -101,13 +101,13 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 
 # Supported Spring Cloud Stream Applications
 
-| Artifact Type                       | Latest Stable Release                                                                   | SNAPSHOT Release                                                                         |
-| ----------------------------------- |-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-|                                     | 2021.1.0 based on<br>&#8226;&nbsp;spring-cloud-stream 3.2.x<br>&#8226;&nbsp;spring-boot 2.6.x | 2021.1.1-SNAPSHOT                                                                        |
-| RabbitMQ + Maven                    | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)                    | [%stream-app-rabbit-maven-latest-snapshot%](%stream-app-rabbit-maven-latest-snapshot%)   |
-| RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%)                  | [%stream-app-rabbit-docker-latest-snapshot%](%stream-app-rabbit-docker-latest-snapshot%) |
-| Kafka + Maven                       | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)                      | [%stream-app-kafka-maven-latest-snapshot%](%stream-app-kafka-maven-latest-snapshot%)     |
-| Kafka + Docker                      | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)                    | [%stream-app-kafka-docker-latest-snapshot%](%stream-app-kafka-docker-latest-snapshot%)   |
+| Artifact Type                       | Latest Stable Release                                                                         | SNAPSHOT Release                                                                         |
+| ----------------------------------- |-----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+|                                     | 2021.1.1 based on<br>&#8226;&nbsp;spring-cloud-stream 3.2.x<br>&#8226;&nbsp;spring-boot 2.6.x | 2021.1.2-SNAPSHOT                                                                        |
+| RabbitMQ + Maven                    | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)                          | [%stream-app-rabbit-maven-latest-snapshot%](%stream-app-rabbit-maven-latest-snapshot%)   |
+| RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%)                        | [%stream-app-rabbit-docker-latest-snapshot%](%stream-app-rabbit-docker-latest-snapshot%) |
+| Kafka + Maven                       | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)                            | [%stream-app-kafka-maven-latest-snapshot%](%stream-app-kafka-maven-latest-snapshot%)     |
+| Kafka + Docker                      | [%stream-app-kafka-docker-latest%](%stream-app-kafka-docker-latest%)                          | [%stream-app-kafka-docker-latest-snapshot%](%stream-app-kafka-docker-latest-snapshot%)   |
 
 # Supported Spring Cloud Task and Batch Applications
 
