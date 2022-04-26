@@ -122,7 +122,7 @@ If you use the RabbitMQ binder, you can download [http-transformer-with-RabbitMQ
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
-cd composed-http-transformer-kafka
+cd composed-http-transformer-rabbitmq
 ./mvnw clean install
 ```
 
@@ -130,7 +130,7 @@ If you use the Kafka binder, you can download [http-transformer-with-Kafka-binde
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
-cd composed-http-transformer-rabbitmq
+cd composed-http-transformer-kafka
 ./mvnw clean install
 ```
 
