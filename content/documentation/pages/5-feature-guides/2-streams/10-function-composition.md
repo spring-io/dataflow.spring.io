@@ -186,7 +186,7 @@ stream create helloComposed --definition "http-transformer --server.port=9001 | 
 
 [//]: # 'TODO clarify that this is optional. Move optional to the end'
 
-_Optional:_ If the order in which the functions are run needs to be change, we can use the `spring.cloud.stream.function.definition` property to define the function definition.
+_Optional:_ If the property `spring.cloud.function.definition` is not defined, or we need to override the property to change the function definition.
 The function definition represents the functional DSL defined by Spring Cloud Function.
 
 In this case, it is as follows:
