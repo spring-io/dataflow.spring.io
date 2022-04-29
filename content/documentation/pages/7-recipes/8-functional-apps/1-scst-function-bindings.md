@@ -185,13 +185,13 @@ public class LogSinkApplication {
 
 ```
 
-Further suppose you create a stream byusing `time` and `log-sink` in SCDF, as follows:
+Further suppose you create a stream by using `time` and `log-sink` in SCDF, as follows:
 
 ```
 ticktock=time | log-sink
 ```
 
-Then you need to configure the function bindings only on the `log-sink`, as the `time` application would have its `output` bound by using `@EnableBidning`. The following example shows how to do so:
+Then you need to configure the function bindings only on the `log-sink`, as the `time` application would have its `output` bound by using `@EnableBinding`. The following example shows how to do so:
 
 ```
 app.log-sink.spring.cloud.stream.function.bindings.logConsumer-in-0=input
