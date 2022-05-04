@@ -184,8 +184,6 @@ We can now deploy a new stream by using the `http-transform` application that in
 stream create helloComposed --definition "http-transformer --server.port=9001 | log"
 ```
 
-[//]: # 'TODO clarify that this is optional. Move optional to the end'
-
 _Optional:_ If the property `spring.cloud.function.definition` is not defined, or we need to override the property to change the function definition.
 The function definition represents the functional DSL defined by Spring Cloud Function.
 
@@ -195,8 +193,6 @@ In this case, it is as follows:
 stream deploy helloComposed --properties "app.http-transformer.spring.cloud.stream.function.definition=concat|upper"
 
 ```
-
-[//]: # 'TODO why not specify function.definition in the stream definition?'
 
 The preceding deployment composes the `concat` and `upper` function beans into the `http` source application.
 
