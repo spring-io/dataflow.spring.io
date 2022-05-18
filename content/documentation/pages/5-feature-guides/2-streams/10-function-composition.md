@@ -122,7 +122,7 @@ If you use the RabbitMQ binder, you can download [http-transformer-with-RabbitMQ
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
-cd composed-http-transformer-kafka
+cd composed-http-transformer-rabbitmq
 ./mvnw clean install
 ```
 
@@ -130,7 +130,7 @@ If you use the Kafka binder, you can download [http-transformer-with-Kafka-binde
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
-cd composed-http-transformer-rabbitmq
+cd composed-http-transformer-kafka
 ./mvnw clean install
 ```
 
@@ -184,19 +184,17 @@ We can now deploy a new stream by using the `http-transform` application that in
 stream create helloComposed --definition "http-transformer --server.port=9001 | log"
 ```
 
-To define the order in which the functions are run, we have to use the `spring.cloud.stream.function.definition` property to define the function definition.
+_Optional:_ If the property `spring.cloud.function.definition` is not defined, or we need to override the property to change the function definition.
 The function definition represents the functional DSL defined by Spring Cloud Function.
 
 In this case, it is as follows:
 
 ```
-stream deploy helloComposed --properties "app.http-transformer.spring.cloud.stream.function.definition=upper|concat"
+stream deploy helloComposed --properties "app.http-transformer.spring.cloud.stream.function.definition=concat|upper"
 
 ```
 
-<!-- TODO why not specify function.definition in the stream definition? -->
-
-The preceding deployment composes the `upper` and `concat` function beans into the `http` source application.
+The preceding deployment composes the `concat` and `upper` function beans into the `http` source application.
 
 Then we can send the payload to `http` application, as follows:
 
