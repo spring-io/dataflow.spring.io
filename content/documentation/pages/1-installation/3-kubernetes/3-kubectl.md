@@ -30,27 +30,25 @@ For deployed applications to communicate with each other, you need to select a m
 The sample deployment and service YAML files provide configurations for RabbitMQ and Kafka.
 You need to configure only one message broker.
 
-- RabbitMQ
+### RabbitMQ
 
-  Run the following command to start the RabbitMQ service:
+Run the following command to start the RabbitMQ service:
 
-  ```
-  kubectl create -f src/kubernetes/rabbitmq/
-  ```
+```
+kubectl create -f src/kubernetes/rabbitmq/
+```
 
-  You can use `kubectl get all -l app=rabbitmq` to verify that the deployment, pod, and service resources are running.
-  Use `kubectl delete all -l app=rabbitmq` to clean up afterwards.
+You can use `kubectl get all -l app=rabbitmq` to verify that the deployment, pod, and service resources are running.
 
-- Kafka
+### Kafka
 
-  Run the following command to start the Kafka service:
+Run the following command to start the Kafka service:
 
-  ```
-  kubectl create -f src/kubernetes/kafka/
-  ```
+```
+kubectl create -f src/kubernetes/kafka/
+```
 
-  You can use `kubectl get all -l app=kafka` to verify that the deployment, pod, and service resources are running.
-  Use `kubectl delete all -l app=kafka` to clean up afterwards.
+You can use `kubectl get all -l app=kafka` to verify that the deployment, pod, and service resources are running.
 
 ## Deploy Services, Skipper, and Data Flow
 
@@ -91,7 +89,6 @@ kubectl create -f src/kubernetes/mariadb/
 
 You can use `kubectl get all -l app=mariadb` to verify that the
 deployment, pod, and service resources are running. You can use
-`kubectl delete all,pvc,secrets -l app=mariadb` to clean up afterwards.
 
 ### Enable Monitoring
 
@@ -118,6 +115,8 @@ To run Prometheus and Grafana, you need at least an additional 2GB to 3GB of Mem
 
 <!--END_TIP-->
 
+##### Setup Prometheus Roles, Role Bindings, and Service Account
+
 Run the following commands to create the cluster role, binding, and
 service account:
 
@@ -127,17 +126,17 @@ kubectl create -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
 kubectl create -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
 ```
 
+##### Deploy Prometheus Proxy
+
 Run the following commands to deploy Prometheus RSocket Proxy:
 
 ```
 kubectl create -f src/kubernetes/prometheus-proxy/
 ```
 
-You can use `kubectl get all -l app=prometheus-proxy` to verify that the deployment, pod, and service resources are running. You can use `kubectl delete all,cm,svc -l app=prometheus-proxy` to clean up afterwards. To cleanup roles, bindings, and the service account for the Prometheus proxy, run the following command:
+You can use `kubectl get all -l app=prometheus-proxy` to verify that the deployment, pod, and service resources are running.
 
-```
-kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus-proxy
-```
+##### Deploy Prometheus
 
 Run the following commands to deploy Prometheus:
 
@@ -148,14 +147,9 @@ kubectl create -f src/kubernetes/prometheus/prometheus-service.yaml
 ```
 
 You can use `kubectl get all -l app=prometheus` to verify that the
-deployment, pod, and service resources are running. You can use
-`kubectl delete all,cm,svc -l app=prometheus` to clean up afterwards. To
-cleanup roles, bindings, and the service account for Prometheus, run the
-following command:
+deployment, pod, and service resources are running.
 
-```
-kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
-```
+##### Deploy Grafana
 
 Run the following command to deploy Grafana:
 
@@ -163,13 +157,20 @@ Run the following command to deploy Grafana:
 kubectl create -f src/kubernetes/grafana/
 ```
 
-You can use `kubectl get all -l app=grafana` to verify that the deployment, pod, and service resources are running. You can use `kubectl delete all,cm,svc,secrets -l app=grafana` to clean up afterwards.
+You can use `kubectl get all -l app=grafana` to verify that the deployment, pod, and service resources are running.
 
 <!--TIP-->
 
 You should replace the `url` attribute value shown in the following example (from `src/kubernetes/server/server-config.yaml`) to reflect the address and port on which Grafana runs.
 On Minikube, you can obtain the value by running `minikube service --url grafana`.
-This configuration is needed for Grafana links to be accessible when accessing the dashboard from a web browser.
+
+If you see the following message:
+
+```
+❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
+```
+
+Then use the following command instead: `kubectl port-forward <grafana pod name> 3000:3000` and set the `url` in `server-config.yaml` to `http://localhost:3000`.
 
 ```yml
 spring:
@@ -317,15 +318,6 @@ kubectl create -f src/kubernetes/server/service-account.yaml
 You can use `kubectl get roles` and `kubectl get sa` to list the
 available roles and service accounts.
 
-To cleanup roles, bindings and the service account, use the following
-commands:
-
-```
-kubectl delete role scdf-role
-kubectl delete rolebinding scdf-rb
-kubectl delete serviceaccount scdf-sa
-```
-
 ### Deploy Skipper
 
 Data Flow delegates the streams lifecycle management to Skipper. You
@@ -389,8 +381,7 @@ kubectl create -f src/kubernetes/skipper/skipper-svc.yaml
 ```
 
 You can use `kubectl get all -l app=skipper` to verify that the
-deployment, pod, and service resources are running. You can use
-`kubectl delete all,cm -l app=skipper` to clean up afterwards.
+deployment, pod, and service resources are running.
 
 ### Deploy Data Flow Server
 
@@ -440,8 +431,7 @@ kubectl create -f src/kubernetes/server/server-deployment.yaml
 ```
 
 You can use `kubectl get all -l app=scdf-server` to verify that the
-deployment, pod, and service resources are running. You can use
-`kubectl delete all,cm -l app=scdf-server` to clean up afterwards.
+deployment, pod, and service resources are running.
 
 You can use the `kubectl get svc scdf-server` command to locate the
 `EXTERNAL_IP` address assigned to `scdf-server`. You can use that
@@ -465,3 +455,68 @@ command (shown with its output) to look up the URL to use:
 minikube service --url scdf-server
 https://192.168.99.100:31991
 ```
+
+If you see the following message, `❗ Because you are using a Docker driver on darwin, the terminal needs to be open to run it.`,
+Then use the following command instead:
+
+```
+kubectl port-forward <scdf-server pod name> 9393:80
+```
+
+## Shut Down and Cleanup Data Flow
+
+### Stop and Cleanup RabbitMQ
+
+When using RabbitMQ, use `kubectl delete all -l app=rabbitmq` to clean up RabbitMQ.
+
+### Stop and Cleanup Kafka
+
+When using Kafka, use `kubectl delete all -l app=kafka` to clean up Kafka.
+
+### Stop and Cleanup MariaDB
+
+Use `kubectl delete all,pvc,secrets -l app=mariadb` to clean up Mariadb.
+
+### Stop and Cleanup Prometheus Proxy
+
+You can use `kubectl delete all,cm,svc -l app=prometheus-proxy` to clean up the Prometheus proxy.
+To cleanup roles, bindings, and the service account for the Prometheus proxy, run the following command:
+
+```
+kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus-proxy
+```
+
+### Stop and Cleanup Prometheus
+
+Use `kubectl delete all,cm,svc -l app=prometheus` to clean up Prometheus.
+
+Use the following when it is time to clean up prometheus' cluster roles and role bindings:
+
+```
+kubectl delete clusterrole,clusterrolebinding,sa -l app=prometheus
+```
+
+### Stop and Cleanup Grafana
+
+You can use `kubectl delete all,cm,svc,secrets -l app=grafana` to clean up Grafana.
+
+### Stop and Cleanup Skipper
+
+You can use `kubectl delete all,cm -l app=skipper` to clean up Skipper.
+
+### Stop and Cleanup Data Flow Server
+
+#### Cleanup Roles and Bindings for Data Flow
+
+To clean up roles, bindings and the service account, use the following
+commands:
+
+```
+kubectl delete role scdf-role
+kubectl delete rolebinding scdf-rb
+kubectl delete serviceaccount scdf-sa
+```
+
+#### Stop and Cleanup Data Flow Server Application
+
+You can use `kubectl delete all,cm -l app=scdf-server` to clean up the Data Flow Server.
