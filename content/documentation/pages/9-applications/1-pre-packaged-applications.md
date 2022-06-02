@@ -103,7 +103,7 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 
 | Artifact Type                       | Latest Stable Release                                                                         | SNAPSHOT Release                                                                         |
 | ----------------------------------- |-----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-|                                     | 2021.1.1 based on<br>&#8226;&nbsp;spring-cloud-stream 3.2.x<br>&#8226;&nbsp;spring-boot 2.6.x | 2021.1.2-SNAPSHOT                                                                        |
+|                                     | 2021.1.2 based on<br>&#8226;&nbsp;spring-cloud-stream 3.2.4<br>&#8226;&nbsp;spring-boot 2.6.8 | 2021.1.3-SNAPSHOT                                                                        |
 | RabbitMQ + Maven                    | [%stream-app-rabbit-maven-latest%](%stream-app-rabbit-maven-latest%)                          | [%stream-app-rabbit-maven-latest-snapshot%](%stream-app-rabbit-maven-latest-snapshot%)   |
 | RabbitMQ + Docker (Docker Hub)      | [%stream-app-rabbit-docker-latest%](%stream-app-rabbit-docker-latest%)                        | [%stream-app-rabbit-docker-latest-snapshot%](%stream-app-rabbit-docker-latest-snapshot%) |
 | Kafka + Maven                       | [%stream-app-kafka-maven-latest%](%stream-app-kafka-maven-latest%)                            | [%stream-app-kafka-maven-latest-snapshot%](%stream-app-kafka-maven-latest-snapshot%)     |
