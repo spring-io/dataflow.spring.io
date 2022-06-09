@@ -80,7 +80,7 @@ To register an application, select **ADD APPLICATION(S)**. Once the **Add Applic
 
 <!--CloudFoundry-->
 
-Spring Cloud Data Flow supports Maven, HTTP, and Docker resources for local deployments. For this example, we use an HTTP (HTTPS, actually) resource. The URI for an HTTPS resource is of the form `https://<web-path>/<artifactName>-<version>.jar`. Spring Cloud Data Flow then pulls the artifact from the HTTPS URI.
+Spring Cloud Data Flow supports Maven, HTTP, and Docker resources for CloudFoundry deployments. For this example, we use an HTTP (HTTPS, actually) resource. The URI for an HTTPS resource is of the form `https://<web-path>/<artifactName>-<version>.jar`. Spring Cloud Data Flow then pulls the artifact from the HTTPS URI.
 
 The HTTPS URI for the sample app is as follows:
 
