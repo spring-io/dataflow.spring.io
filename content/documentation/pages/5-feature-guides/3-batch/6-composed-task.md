@@ -788,6 +788,7 @@ If the composed task needs to obtain its access token from an OAuth authenticati
 - oauth2ClientCredentialsClientSecret
 - oauth2ClientCredentialsTokenUri
 - oauth2ClientCredentialsScopes
+- oauth2ClientCredentialsClientAuthenticationMethod
 
 To do so:
 
@@ -795,7 +796,7 @@ To do so:
    ![Set User Access Token](images/SCDF-composed-task-user-security-launch.png)
 1. Now, from the task launch page, populate the OAuth client credential properties. This is done by clicking the `EDIT` button on the `CTR properties` under the `Global` column as shown below:
    ![Transition Execution Set Interval Time Prop ](images/SCDF-composed-task-transition-launch-ctr-prop-edit.png)
-1. Now enter the `oauth2ClientCredentialsClientId`, `oauth2ClientCredentialsClientSecret`, `oauth2ClientCredentialsTokenUri`, and `oauth2ClientCredentialsScopes` in the appropriate fields.
+1. Now enter the `oauth2ClientCredentialsClientId`, `oauth2ClientCredentialsClientSecret`, `oauth2ClientCredentialsTokenUri`, and `oauth2ClientCredentialsScopes` in the appropriate fields. `oauth2ClientCredentialsClientAuthenticationMethod` is optional and defaults to `CLIENT_SECRET_BASIC`. For other options refer to the documentation of Spring Security OAuth2
    ![Set User Access Token](images/SCDF-composed-task-client-credentials.png)
 1. Click the **LAUNCH TASK** button to launch the composed task.
 
