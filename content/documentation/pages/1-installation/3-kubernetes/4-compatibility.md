@@ -18,12 +18,9 @@ release versions.
 The following listing outlines the compatibility between Spring Cloud
 Data Flow for Kubernetes Server and Kubernetes versions:
 
-|                                              | Kubernetes 1.11.x | Kubernetes 1.12.x | Kubernetes 1.13.x | Kubernetes 1.14.x | Kubernetes 1.15.x | Kubernetes 1.16.x | Kubernetes 1.17.x | Kubernetes 1.18.x | Kubernetes 1.19.x |
-| -------------------------------------------- | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: |
-| SCDF K8S Server: 2.8.x - K8S Deployer: 2.6.x |        ❌         |        ❌         |        ❌         |        ❌         |        ❌         |        ✅         |        ✅         |        ✅         |        ✅         |
-| SCDF K8S Server: 2.7.x - K8S Deployer: 2.5.x |        ❌         |        ❌         |        ❌         |        ❌         |        ❌         |        ✅         |        ✅         |        ✅         |        ✅         |
-| SCDF K8S Server: 2.6.x - K8S Deployer: 2.4.x |        ❌         |        ❌         |        ❌         |        ❌         |        ❌         |        ✅         |        ✅         |        ✅         |        ✅         |
-| SCDF K8S Server: 2.5.x - K8S Deployer: 2.3.x |        ❌         |        ❌         |        ✅         |        ✅         |        ✅         |        ✅         |        ✅         |        ✅         |        ✅         |
-| SCDF K8S Server: 2.4.x - K8S Deployer: 2.2.x |        ❌         |        ❌         |        ✅         |        ✅         |        ✅         |        ❌         |        ❌         |        ❌         |        ❌         |
-| SCDF K8S Server: 2.3.x - K8S Deployer: 2.1.x |        ✅         |        ✅         |        ✅         |        ❌         |        ❌         |        ❌         |        ❌         |        ❌         |        ❌         |
-| SCDF K8S Server: 2.2.x - K8S Deployer: 2.0.x |        ✅         |        ✅         |        ✅         |        ❌         |        ❌         |        ❌         |        ❌         |        ❌         |        ❌         |
+|                                              | Kubernetes 1.18.x | Kubernetes 1.19.x | Kubernetes 1.20.x | Kubernetes 1.21.x | Kubernetes 1.22.x | Kubernetes 1.23.x |
+| -------------------------------------------- | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: |
+| SCDF K8S Server: 2.9.x - K8S Deployer: 2.7.x |        ❌         |        ✅         |        ✅         |        ✅         |        ✅         |        ✅         |
+| SCDF K8S Server: 2.8.x - K8S Deployer: 2.6.x |        ✅         |        ✅         |        ✅         |        ✅         |        ✅         |        `?`        |
+| SCDF K8S Server: 2.7.x - K8S Deployer: 2.5.x |        ✅         |        ✅         |        `?`        |        `?`        |        `?`        |        `?`        |
+| SCDF K8S Server: 2.6.x - K8S Deployer: 2.4.x |        ✅         |        ✅         |        `?`        |        `?`        |        `?`        |        `?`        |
