@@ -170,31 +170,29 @@ FOR /f "tokens=*" %i IN ('docker ps -aq') DO docker rm %i -f
 For convenience and as an alternative to the Spring Cloud Data Flow Dashboard, you can use the [Spring Cloud Data Flow Shell](%currentPath%/concepts/tooling/#shell).
 The shell supports tab completion for commands and application configuration properties.
 
-If you have started Spring Cloud Data Flow by using Docker Compose, the shell is also included in the `springcloud/spring-cloud-dataflow-server` Docker image.
-To use it, open another console window and type the following:
-
-```bash
-docker exec -it dataflow-server java -jar shell.jar
-```
-
-If you have started the Data Flow server with `java -jar`, you can download and start the shell.
 To download the Spring Cloud Data Flow Shell application, run the following command:
 
 <!--TABS-->
 
 <!--wget-->
 
-```bash
+```shell
 wget -O spring-cloud-dataflow-shell-%dataflow-version%.jar https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 <!--curl-->
 
-```bash
+```shell
 curl https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar -o spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 <!--END_TABS-->
+
+Launch the shell using:
+
+```shell
+java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
+```
 
 ## Accessing the Host File System
 
