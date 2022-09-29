@@ -23,44 +23,26 @@ Configure your Docker daemon with at least `8 GB` of memory. On Windows or Mac, 
 
 <!--END_IMPORTANT-->
 
-For the impatient, here is a quick start, single-line command:
+## Downloading the Docker Compose Files
+
+You will need to download `docker-compose.yml`, `docker-compose-<broker>.yml`, `docker-compose-<database>.yml` where `<broker>` is one of rabbitmq or kafka and `<database>` is one of postgres, mariadb or mysql.
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
-```bash
-wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml; \
-DATAFLOW_VERSION=%dataflow-version% SKIPPER_VERSION=%skipper-version% \
-docker-compose up
+```shell
+wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml;
+wget -O docker-compose-<broker>.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-<broker>.yml;
+wget -O docker-compose-<database>.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-<database>.yml;
 ```
 
 <!--Windows (Cmd)-->
 
-```bash
-curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml -o docker-compose.yml & set DATAFLOW_VERSION=%dataflow-version%& set SKIPPER_VERSION=%skipper-version%& docker-compose up
-```
-
-<!--END_TABS-->
-
-Detailed instructions of how to configure and start Spring Cloud Data FLow by using Docker Compose are provided in the next two sections.
-
-## Downloading the Docker Compose File
-
-[Click here](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml) to get the installation Docker Compose file or use the [wget](https://www.gnu.org/software/wget/manual/wget.html) or [curl](https://curl.haxx.se/) tools to download it:
-
-<!--TABS-->
-
-<!--wget-->
-
-```bash
-wget -O docker-compose.yml https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml
-```
-
-<!--curl-->
-
-```bash
+```shell
 curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-<broker>.yml -o docker-compose-<broker>.yml
+curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose-<database>.yml -o docker-compose-<database>.yml
 ```
 
 <!--END_TABS-->
@@ -73,24 +55,24 @@ The [Docker Compose Customization](%currentPath%/installation/local/docker-custo
 
 ## Starting Docker Compose
 
-From within the `docker-compose.yml` directory, run:
+From within the directory where `docker-compose.yml` and other files are downloaded, run:
 
 <!--TABS-->
 
 <!--Linux / OSX-->
 
-```bash
+```shell
 export DATAFLOW_VERSION=%dataflow-version%
 export SKIPPER_VERSION=%skipper-version%
-docker-compose up
+docker-compose f docker-compose.yml -f docker-compose-<broker>.yml -f docker-compose-<database>.yml up
 ```
 
 <!--Windows (Cmd)-->
 
-```bash
-set DATAFLOW_VERSION=%dataflow-version%
-set SKIPPER_VERSION=%skipper-version%
-docker-compose up
+```shell
+set DATAFLOW_VERSION=%dataflow-version%&
+set SKIPPER_VERSION=%skipper-version%&
+docker-compose -f docker-compose.yml -f docker-compose-<broker>.yml -f docker-compose-<database>.yml up
 ```
 
 <!--Windows (PowerShell) -->
@@ -98,7 +80,7 @@ docker-compose up
 ```powershell
 $Env:DATAFLOW_VERSION="%dataflow-version%"
 $Env:SKIPPER_VERSION="%skipper-version%"
-docker-compose up
+docker-compose -f docker-compose.yml -f docker-compose-<broker>.yml -f docker-compose-<database>.yml up
 ```
 
 <!--END_TABS-->
@@ -170,14 +152,6 @@ FOR /f "tokens=*" %i IN ('docker ps -aq') DO docker rm %i -f
 For convenience and as an alternative to the Spring Cloud Data Flow Dashboard, you can use the [Spring Cloud Data Flow Shell](%currentPath%/concepts/tooling/#shell).
 The shell supports tab completion for commands and application configuration properties.
 
-If you have started Spring Cloud Data Flow by using Docker Compose, the shell is also included in the `springcloud/spring-cloud-dataflow-server` Docker image.
-To use it, open another console window and type the following:
-
-```bash
-docker exec -it dataflow-server java -jar shell.jar
-```
-
-If you have started the Data Flow server with `java -jar`, you can download and start the shell.
 To download the Spring Cloud Data Flow Shell application, run the following command:
 
 <!--TABS-->
@@ -195,6 +169,12 @@ curl https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/s
 ```
 
 <!--END_TABS-->
+
+Launch the shell:
+
+```shell
+java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
+```
 
 ## Accessing the Host File System
 
