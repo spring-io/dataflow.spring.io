@@ -64,7 +64,7 @@ From within the directory where `docker-compose.yml` and other files are downloa
 ```shell
 export DATAFLOW_VERSION=%dataflow-version%
 export SKIPPER_VERSION=%skipper-version%
-docker-compose f docker-compose.yml -f docker-compose-<broker>.yml -f docker-compose-<database>.yml up
+docker-compose -f docker-compose.yml -f docker-compose-<broker>.yml -f docker-compose-<database>.yml up
 ```
 
 <!--Windows (Cmd)-->
