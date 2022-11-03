@@ -398,7 +398,7 @@ spec:
 ```
 
 You must specify the version of Spring Cloud Data Flow server that you want to deploy.
-To do so, xhange the version as you like. This document is based on the `%dataflow-version%` release. You can use the docker `latest` tag for `BUILD-SNAPSHOT` releases.
+To do so, change the version as you like. This document is based on the `%dataflow-version%` release. You can use the docker `latest` tag for `BUILD-SNAPSHOT` releases.
 The Skipper service should be running and the `SPRING_CLOUD_SKIPPER_CLIENT_SERVER_URI` property in `src/kubernetes/server/server-deployment.yaml` should point to it.
 
 The Data Flow Server uses the Fabric8 Java client library to connect to the Kubernetes cluster.
