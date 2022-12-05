@@ -32,7 +32,7 @@ To define which application properties are most relavant to Data Flow, create a 
 - `configuration-properties.classes`, containing a comma-separated list of fully qualified `@ConfigurationProperties` class names.
 - `configuration-properties.names`, containing a comma-separated list of property names. This may be the full property name, such as `server.port`, or a prefix, such as `spring.jmx`, to include all related properties.
 
-The [Spring Cloud Stream applications](https://github.com/spring-cloud/stream-applications) Git repository is a good place to look for examples. For instance, the jdbc sink's [dataflow-configuration-metadata.properties](https://github.com/spring-cloud/stream-applications/blob/master/applications/sink/jdbc-sink/src/main/resources/META-INF/dataflow-configuration-metadata.properties) file contains:
+The [Spring Cloud Stream applications](https://github.com/spring-cloud/stream-applications) Git repository is a good place to look for examples. For instance, the jdbc sink's [dataflow-configuration-metadata.properties](https://github.com/spring-cloud/stream-applications/blob/main/applications/sink/jdbc-sink/src/main/resources/META-INF/dataflow-configuration-metadata.properties) file contains:
 
 ```bash
 configuration-properties.classes=org.springframework.cloud.fn.consumer.jdbc.JdbcConsumerProperties
@@ -256,8 +256,8 @@ When registering a single app with the `app register` command, you can use the o
 
 ```shell
 dataflow:>app register --name log --type sink
-    --uri maven://org.springframework.cloud.stream.app:log-sink:2.1.0.RELEASE
-    --metadata-uri maven://org.springframework.cloud.stream.app:log-sink:jar:metadata:2.1.0.RELEASE
+    --uri maven://org.springframework.cloud.stream.app:log-sink:3.2.1
+    --metadata-uri maven://org.springframework.cloud.stream.app:log-sink:jar:metadata:3.2.1
 ```
 
 When registering several files by using the `app import` command, the file should contain a `<type>.<name>.metadata` line in addition to each `<type>.<name>` line. Strictly speaking, doing so is optional (if some apps have it but some others do not, it works), but it is best practice.
@@ -265,8 +265,8 @@ When registering several files by using the `app import` command, the file shoul
 The following example shows an uber jar app, where the metadata artifact is hosted in a Maven repository (retrieving it through `http://` or `file://` is equally possible).
 
 ```properties
-source.http=maven://org.springframework.cloud.stream.app:log-sink:2.1.0.RELEASE
-source.http.metadata=maven://org.springframework.cloud.stream.app:log-sink:jar:metadata:2.1.0.RELEASE
+source.http=maven://org.springframework.cloud.stream.app:log-sink:3.2.1
+source.http.metadata=maven://org.springframework.cloud.stream.app:log-sink:jar:metadata:3.2.1
 ```
 
 ### Using Metadata Container Image Labels

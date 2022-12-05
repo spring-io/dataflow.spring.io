@@ -10,10 +10,10 @@ In this guide, we develop a Spring Boot application that uses Spring Cloud Task 
 
 The following sections describe how to build this application from scratch. If you prefer, you can download a zip file that contains the sources for the application (called `billsetup`), unzip it, and proceed to the [deployment](#deployment) step.
 
-You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or by running the following command, from the command-line:
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or by running the following command, from the command-line:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
 ```
 
 ## Development
@@ -69,7 +69,7 @@ If you do not have an instance of MariaDB available to you, you can follow these
 Now we can create the code required for this application. To do so:
 
 1.  Create the `io.spring.billsetuptask.configuration` package.
-1.  In the `io.spring.billsetuptask.configuration` package, create a [`TaskConfiguration`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class that resembles the following listing:
+1.  In the `io.spring.billsetuptask.configuration` package, create a [`TaskConfiguration`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/main/java/io/spring/billsetuptask/configuration/TaskConfiguration.java) class that resembles the following listing:
 
 ```Java
 @Configuration
@@ -96,7 +96,7 @@ The `@EnableTask` annotation sets up a `TaskRepository`, which stores informatio
 
 ### Testing
 
-Now we can create our test. To do so, update the contents of [`BillsetuptaskApplicationTests.java`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/test/java/io/spring/billsetuptask/BillSetuptaskApplicationTests.java) with the following code:
+Now we can create our test. To do so, update the contents of [`BillsetuptaskApplicationTests.java`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/billsetuptask/src/test/java/io/spring/billsetuptask/BillSetuptaskApplicationTests.java) with the following code:
 
 ```Java
 package io.spring.billsetuptask;

@@ -20,7 +20,7 @@ They are automatically discovered and autoconfigured while bootstrapping.
 
 ## Applications
 
-As for the sample producer and consumer applications, you can clone the repository at [spring-cloud-dataflow-samples/kinesisdemo](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/kinesisdemo) to follow along with this sample walk-through.
+As for the sample producer and consumer applications, you can clone the repository at [spring-cloud-dataflow-samples/kinesisdemo](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/recipes/kinesisdemo) to follow along with this sample walk-through.
 
 We start with a simple producer that generates a new random UUID every two seconds.
 Each of the generated UUID payloads are published to a Kinesis stream, and the sample consumer bound to the same Kinesis stream consumes the payload and logs it as a result.
@@ -77,7 +77,7 @@ public class KinesisConsumerApplication {
 <!--NOTE-->
 
 Both of the applications require `spring-cloud-stream-binder-kinesis` dependency in the classpath.
-See the [spring-cloud-dataflow-samples/kinesisdemo](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/kinesisdemo) demo for more details.
+See the [spring-cloud-dataflow-samples/kinesisdemo](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/recipes/kinesisdemo) demo for more details.
 
 <!--END_NOTE-->
 
@@ -174,4 +174,4 @@ Since we stopped the application after seven records, you can see that seven rec
 
 ![Total Number of Records](images/Total-Records-In-Kinesis.png)
 
-Though this is only a simple demonstration, the Kinesis binder provides comprehensive coverage in terms of binder configurations on both the producer and consumer side (including support for [DynamoDB Streams](https://github.com/spring-cloud/spring-cloud-stream-binder-aws-kinesis/blob/master/spring-cloud-stream-binder-kinesis-docs/src/main/asciidoc/overview.adoc#dynamodb-streams)!). See the [binder documentation](https://github.com/spring-cloud/spring-cloud-stream-binder-aws-kinesis/blob/master/spring-cloud-stream-binder-kinesis-docs/src/main/asciidoc/overview.adoc#configuration-options) for more details.
+Though this is only a simple demonstration, the Kinesis binder provides comprehensive coverage in terms of binder configurations on both the producer and consumer side (including support for [DynamoDB Streams](https://github.com/spring-cloud/spring-cloud-stream-binder-aws-kinesis/blob/main/spring-cloud-stream-binder-kinesis-docs/src/main/asciidoc/overview.adoc#dynamodb-streams)!). See the [binder documentation](https://github.com/spring-cloud/spring-cloud-stream-binder-aws-kinesis/blob/main/spring-cloud-stream-binder-kinesis-docs/src/main/asciidoc/overview.adoc#configuration-options) for more details.

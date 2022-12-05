@@ -16,30 +16,29 @@ If you want to use Spring Cloud Data Flow only for batch and task processing (th
 
 ## Downloading Server Jars
 
-To begin, you need to download the server jars:
-
-1. Download the [Spring Cloud Data Flow Server](https://spring.io/projects/spring-cloud-dataflow) and shell by using the following commands:
-
-   ```bash
-   wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
-   wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
-   ```
-
-2. Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the following command:
-   ```bash
-   wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
-   ```
-
-<!--NOTE-->
-
-If you are interested in trying out the latest `BUILD-SNAPSHOT` (that is, the snapshot build from the `master` branch) of SCDF and Skipper's upstream versions, you can use the following `wget` commands:
+Download the [Spring Cloud Data Flow Server](https://spring.io/projects/spring-cloud-dataflow) and shell by using the following commands:
 
 ```bash
 wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+
 wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
+Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/) by running the following command:
+
 ```bash
+wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+```
+
+<!--NOTE-->
+
+If you are interested in trying out the latest `SNAPSHOT` (that is, the snapshot build from the `main` branch) of SCDF and Skipper's upstream versions, you can use the following commands:
+
+```bash
+wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+
+wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+
 wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
 ```
 
@@ -52,48 +51,54 @@ These instructions require that RabbitMQ be running on the same machine as Skipp
 To install and run the RabbitMQ docker image, use the following command:
 
 ```bash
-docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.7.14-management
+docker run -d --hostname rabbitmq --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:3.7
 ```
 
 ## Starting Server Jars
 
 Now you need to start the applications that comprise the server:
 
-1. Start Skipper. To do so, in the directory where you downloaded Skipper, run the server by using `java -jar`, as follows:
+### Skipper
 
-   ```bash
-   java -jar spring-cloud-skipper-server-%skipper-version%.jar
-   ```
+In the directory where you downloaded Skipper, run the server by using `java -jar`, as follows:
 
-1. Start the Data Flow Server. To do so, in a different terminal window and in the directory where you downloaded Data Flow, run the server by using `java -jar`, as follows:
+```bash
+java -jar spring-cloud-skipper-server-%skipper-version%.jar
+```
 
-   ```bash
-   java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
-   ```
+### Dataflow
 
-   If Skipper and the Data Flow server are not running on the same
-   host, set the `spring.cloud.skipper.client.serverUri` configuration
-   property to the location of Skipper, as shown in the following
-   example:
+In a different terminal window and in the directory where you downloaded Data Flow, run the server by using `java -jar`, as follows:
 
-   ```bash
-   java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
-   ```
+```bash
+java -jar spring-cloud-dataflow-server-%dataflow-version%.jar
+```
 
-1. If you want to use the Spring Cloud Data Flow shell, start it with the following command:
+If Skipper and the Data Flow server are not running on the same
+host, set the `spring.cloud.skipper.client.serverUri` configuration
+property to the location of Skipper, as shown in the following
+example:
 
-   ```bash
-   java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
-   ```
+```bash
+java -jar spring-cloud-dataflow-server-%dataflow-version%.jar --spring.cloud.skipper.client.serverUri=https://192.51.100.1:7577/api
+```
 
-   If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell, as follows:
+### Shell
 
-   ```bash
-    server-unknown:>dataflow config server https://198.51.100.0
-    Successfully targeted https://198.51.100.0
-   ```
+If you want to use the Spring Cloud Data Flow shell, start it with the following command:
 
-   Alternatively, you can pass in the `--dataflow.uri` command line option. The shell’s `--help` command line option shows what is available.
+```bash
+java -jar spring-cloud-dataflow-shell-%dataflow-version%.jar
+```
+
+If the Data Flow Server and shell are not running on the same host, you can also point the shell to the Data Flow server URL by using the `dataflow config server` command in Shell, as follows:
+
+```bash
+server-unknown:>dataflow config server https://198.51.100.0
+Successfully targeted https://198.51.100.0
+```
+
+Alternatively, you can pass in the `--dataflow.uri` command line option. The shell’s `--help` command line option shows what is available.
 
 <!--TIP-->
 

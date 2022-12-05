@@ -144,10 +144,10 @@ Applications of these three types are registered with Data Flow by using the `so
 The following example shows the shell syntax for registration of an `http` source (an application that listens for HTTP requests and sends HTTP payload to a destination) and a `log` sink (an application that consumes from a destination and logs the received message):
 
 ```
-dataflow:>app register --name http --type source --uri maven://org.springframework.cloud.stream.app:http-source-rabbit:1.2.0.RELEASE
+dataflow:>app register --name http --type source --uri maven://org.springframework.cloud.stream.app:http-source-rabbit:3.2.1
 Successfully registered application 'source:http'
 
-dataflow:>app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:1.1.0.RELEASE
+dataflow:>app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:3.2.1
 Successfully registered application 'sink:log'
 ```
 
@@ -205,7 +205,7 @@ A task application is registered with Data Flow by using the name `task` to desc
 The following example shows the shell syntax for registering a `timestamp` task (an application that prints the current time and exits):
 
 ```
-dataflow:> app register --name timestamp --type task --uri maven://org.springframework.cloud.task.app:timestamp-task:2.1.0.RELEASE
+dataflow:> app register --name timestamp --type task --uri maven://org.springframework.cloud.task.app:timestamp-task:2.0.2
 ```
 
 The task definition is created by referencing the name of the task, as the following example shows:

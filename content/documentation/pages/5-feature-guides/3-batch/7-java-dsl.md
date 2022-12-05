@@ -31,7 +31,7 @@ Spring Cloud Data Flow offers the `DataFlowTemplate` as an implementation of the
 
 To create an instance of a `DataFlowTemplate`, you need to provide a `URI` location of the Data Flow Server.
 Spring Boot auto-configuration for `DataFlowTemplate` is also available.
-You can use the properties in [`DataFlowClientProperties`](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/spring-cloud-dataflow-rest-client/src/main/java/org/springframework/cloud/dataflow/rest/client/config/DataFlowClientProperties.java) to configure the connection to the Data Flow server.
+You can use the properties in [`DataFlowClientProperties`](https://github.com/spring-cloud/spring-cloud-dataflow/blob/main/spring-cloud-dataflow-rest-client/src/main/java/org/springframework/cloud/dataflow/rest/client/config/DataFlowClientProperties.java) to configure the connection to the Data Flow server.
 Generally, you should start with the `spring.cloud.dataflow.client.server-uri` property:
 
 ```Java

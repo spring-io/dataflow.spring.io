@@ -317,7 +317,7 @@ The result of the preceding image link is the following image:
 
 ![Spring Cloud Data Flow Shell](images/shell.png)
 
-Note that we use [Remark Images](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-remark-images) to optimize images.
+Note that we use [Remark Images](https://github.com/gatsbyjs/gatsby/tree/main/packages/gatsby-remark-images) to optimize images.
 
 ### Block Quotations
 
@@ -662,20 +662,20 @@ end.
 You can set up a link from which readers can download content from Github. To do so, you need to use the `download` verb. The following example shows how to do so:
 
 ```
-`download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
+`download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql`
 ```
 
-The result of the preceding example is this `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql` link.
+The result of the preceding example is this `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql` link.
 
 #### Defining the Download Link Text
 
 You need not always have "Download" as the link text. The following example shows how to define the link text for a download:
 
 ```
-`download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=link`
+`download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=link`
 ```
 
-The result of setting the link text is that you can write sentences such as "You can download the file from this `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=link`".
+The result of setting the link text is that you can write sentences such as "You can download the file from this `download: https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=link`".
 
 ### Embedding Markdown Template
 
@@ -699,15 +699,15 @@ The result of the preceding example is the following content:
 
 <!--TEMPLATE:template/sample.md-->
 
-The following example includes the file `https://raw.githubusercontent.com/spring-io/dataflow.spring.io/master/content/documentation/pages/10-markdown/template/_sample.md` in the page.
+The following example includes the file `https://raw.githubusercontent.com/spring-io/dataflow.spring.io/main/content/documentation/pages/10-markdown/template/_sample.md` in the page.
 
 ```markdown
-<!--TEMPLATE:https://raw.githubusercontent.com/spring-io/dataflow.spring.io/master/content/documentation/pages/10-markdown/template/_sample.md-->
+<!--TEMPLATE:https://raw.githubusercontent.com/spring-io/dataflow.spring.io/main/content/documentation/pages/10-markdown/template/_sample.md-->
 ```
 
 The result of the preceding example is the following content:
 
-<!--TEMPLATE:https://raw.githubusercontent.com/spring-io/dataflow.spring.io/master/content/documentation/pages/10-markdown/template/_sample.md-->
+<!--TEMPLATE:https://raw.githubusercontent.com/spring-io/dataflow.spring.io/main/content/documentation/pages/10-markdown/template/_sample.md-->
 
 ### Embedding Github Code
 

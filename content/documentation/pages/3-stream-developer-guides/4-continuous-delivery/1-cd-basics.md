@@ -96,8 +96,8 @@ You should see a result similar to the following:
   "name": "http"
 "spec":
   "resource": "maven://org.springframework.cloud.stream.app:http-source-rabbit:jar"
-  "resourceMetadata": "maven://org.springframework.cloud.stream.app:http-source-rabbit:jar:jar:metadata:2.1.0.RELEASE"
-  "version": "2.1.0.RELEASE"
+  "resourceMetadata": "maven://org.springframework.cloud.stream.app:http-source-rabbit:jar:jar:metadata:3.2.1"
+  "version": "3.2.1"
   "applicationProperties":
     "spring.metrics.export.triggers.application.includes": "integration**"
     "spring.cloud.dataflow.stream.app.label": "http"
@@ -138,8 +138,8 @@ You should see a result similar to the following:
   "name": "transform"
 "spec":
   "resource": "maven://org.springframework.cloud.stream.app:transform-processor-rabbit:jar"
-  "resourceMetadata": "maven://org.springframework.cloud.stream.app:transform-processor-rabbit:jar:jar:metadata:2.1.0.RELEASE"
-  "version": "2.1.0.RELEASE"
+  "resourceMetadata": "maven://org.springframework.cloud.stream.app:transform-processor-rabbit:jar:jar:metadata:3.2.1"
+  "version": "3.2.1"
   "applicationProperties":
     "spring.metrics.export.triggers.application.includes": "integration**"
     "spring.cloud.dataflow.stream.app.label": "transform"
@@ -182,13 +182,13 @@ If you want to update the existing deployed stream to use a different version of
 First, you can register the required version of the `log` application:
 
 ```
-app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:2.1.0.RELEASE
+app register --name log --type sink --uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:3.2.1
 ```
 
 Then you can perform the stream update, as follows:
 
 ```
-stream update --name http-ingest --properties "version.log=2.1.0.RELEASE"
+stream update --name http-ingest --properties "version.log=3.2.1"
 ```
 
 When the `stream update` is run, you can run:
@@ -215,8 +215,8 @@ You should see output similar to the following listing:
   "name": "log"
 "spec":
   "resource": "maven://org.springframework.cloud.stream.app:log-sink-rabbit:jar"
-  "resourceMetadata": "maven://org.springframework.cloud.stream.app:log-sink-rabbit:jar:jar:metadata:2.1.0.RELEASE"
-  "version": "2.1.0.RELEASE"
+  "resourceMetadata": "maven://org.springframework.cloud.stream.app:log-sink-rabbit:jar:jar:metadata:3.2.1"
+  "version": "3.2.1"
   "applicationProperties":
     "spring.metrics.export.triggers.application.includes": "integration**"
     "spring.cloud.dataflow.stream.app.label": "log"

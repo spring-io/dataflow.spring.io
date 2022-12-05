@@ -27,7 +27,7 @@ Spring Batch metadata in the `JobRepository` ensures that each worker is execute
 
 In our sample application, we create a batch job that has a single step that is partitioned, and each partition prints its partition number.
 
-You can view the completed project in the [Spring Cloud Task samples](https://github.com/spring-cloud/spring-cloud-task/tree/master/spring-cloud-task-samples/partitioned-batch-job).
+You can view the completed project in the [Spring Cloud Task samples](https://github.com/spring-cloud/spring-cloud-task/tree/main/spring-cloud-task-samples/partitioned-batch-job).
 
 ### Initializr
 
@@ -88,7 +88,7 @@ To build the application:
 		</dependency>
 ```
 
-1.  Create a Java configuration that specifies the beans required for the Partition `Job`. In this case, create a [`JobConfiguration`](https://github.com/spring-cloud/spring-cloud-task/blob/master/spring-cloud-task-samples/partitioned-batch-job/src/main/java/io/spring/JobConfiguration.java) class (in the `io.spring.cloud.partition.configuration`) that looks like the contents below.
+1.  Create a Java configuration that specifies the beans required for the Partition `Job`. In this case, create a [`JobConfiguration`](https://github.com/spring-cloud/spring-cloud-task/blob/main/spring-cloud-task-samples/partitioned-batch-job/src/main/java/io/spring/JobConfiguration.java) class (in the `io.spring.cloud.partition.configuration`) that looks like the contents below.
 
     ```java
     @Configuration

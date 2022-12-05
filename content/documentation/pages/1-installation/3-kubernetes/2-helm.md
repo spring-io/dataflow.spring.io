@@ -6,20 +6,6 @@ description: 'Installation using Helm'
 
 ## Helm Installation
 
-<!--NOTE-->
-
-The Helm project has ended support for Helm 2 as of November, 2020.
-As of Spring Cloud Data Flow 2.7.0, the chart is based on Helm 3, dropping support for Helm 2.
-
-You must migrate from Helm 2 to Helm 3.
-To prepare for the migration, you should read the [Helm v2 to v3 Migration Guide](https://helm.sh/docs/topics/v2_v3_migration/).
-Additionally, you can find some helpful tips on data migration and upgrades in the [post-migration issues](https://docs.bitnami.com/tutorials/resolve-helm2-helm3-post-migration-issues/) article.
-
-As of Spring Cloud Data Flow 2.6.1, the Bitnami team maintains the Helm chart.
-To report bugs or request features, use the [Bitnami Issue Tracker](https://github.com/bitnami/charts/issues).
-
-<!--END_NOTE-->
-
 Spring Cloud Data Flow offers a [Helm Chart](https://bitnami.com/stack/spring-cloud-dataflow/helm)
 for deploying the Spring Cloud Data Flow server and its required services to a Kubernetes Cluster.
 
@@ -684,7 +670,7 @@ in your application.
 This is because the `shell` entry point style, converts command line args to environment variables,
 this prevents Spring Boot from creating job parameters from the command line args.
 This can be seen
-[here](https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/batch/JobLauncherApplicationRunner.java).
+[here](https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/batch/JobLauncherApplicationRunner.java).
 
 <!--END_TIP-->
 

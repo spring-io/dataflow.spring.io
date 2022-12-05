@@ -10,10 +10,10 @@ In this guide, we develop a Spring Batch application and deploy it to Cloud Foun
 
 This guide describes how to build this application from scratch. If you prefer, you can download a zip file that contains the sources for the `billsetup` application, unzip it, and proceed to the [deployment](#deployment) step.
 
-You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or run the following command to download it from the command-line:
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or run the following command to download it from the command-line:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
 ```
 
 ## Development
@@ -114,19 +114,19 @@ If you do not have an instance of MySQL available to you, you can follow these i
 
 ### Building The Application
 
-1.  Download `https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy the resulting file to the `/src/main/resources` directory.
+1.  Download `https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy the resulting file to the `/src/main/resources` directory.
 
-1.  Download `https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy the resulting file to the `/src/main/resources` directory.
+1.  Download `https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy the resulting file to the `/src/main/resources` directory.
 
 1.  In your favorite IDE, create the `io.spring.billrun.model` package.
 
-1.  Create a `Usage` class in the `io.spring.billrun.model` that looks like the contents of [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Usage.java).
+1.  Create a `Usage` class in the `io.spring.billrun.model` that looks like the contents of [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Usage.java).
 
-1.  Create a `Bill` class in the `io.spring.billrun.model` that looks like the contents of [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Bill.java).
+1.  Create a `Bill` class in the `io.spring.billrun.model` that looks like the contents of [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Bill.java).
 
 1.  In your favorite IDE, create the `io.spring.billrun.configuration` package.
 
-1.  Create an `ItemProcessor` for pricing each `Usage` record. To do so, create a [`BillProcessor`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` that looks like the following listing:
+1.  Create an `ItemProcessor` for pricing each `Usage` record. To do so, create a [`BillProcessor`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` that looks like the following listing:
 
     ```java
     public class BillProcessor implements ItemProcessor<Usage, Bill> {
@@ -143,7 +143,7 @@ If you do not have an instance of MySQL available to you, you can follow these i
     Notice that we implement the `ItemProcessor` interface that has the `process` method that we need to override.
     Our parameter is a `Usage` object, and the return value is of type `Bill`.
 
-1.  Now we can create a Java configuration that specifies the beans required for the `BillRun` `Job`. In this case, we need to create a [`BillingConfiguration`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` package that looks like the following listing:
+1.  Now we can create a Java configuration that specifies the beans required for the `BillRun` `Job`. In this case, we need to create a [`BillingConfiguration`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` package that looks like the following listing:
 
     ```java
     @Configuration
@@ -219,7 +219,7 @@ If you do not have an instance of MySQL available to you, you can follow these i
 ### Testing
 
 Now that we have written our code, it is time to write our test. In this case, we want to make sure that the bill information has been properly inserted into the `BILLING_STATEMENTS` table.
-To create your test, update [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillRunApplicationTests.java) such that it looks like the following listing:
+To create your test, update [BillrunApplicationTests.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/test/java/io/spring/billrun/BillRunApplicationTests.java) such that it looks like the following listing:
 
 ```java
 package io.spring.billrun;
@@ -494,7 +494,7 @@ cd PivotalMySQLWeb
 
 <!--IMPORTANT-->
 
-**IMPORTANT**: You must first update your credentials in `src/main/resources/application-cloud.yml` ([source on GitHub](https://github.com/pivotal-cf/PivotalMySQLWeb/blob/master/src/main/resources/application-cloud.yml)). By default, the username is `admin`, and the password is `cfmysqlweb`.
+**IMPORTANT**: You must first update your credentials in `src/main/resources/application-cloud.yml` ([source on GitHub](https://github.com/pivotal-cf/PivotalMySQLWeb/blob/main/src/main/resources/application-cloud.yml)). By default, the username is `admin`, and the password is `cfmysqlweb`.
 
 <!--END_IMPORTANT-->
 
@@ -587,7 +587,7 @@ kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dat
 
 We need to build a Docker image for the [`billrun`](#batch_processing_with_spring_batch) app.
 
-To do so, we use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#batch_processing_with_spring_batch), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in `pom.xml`:
+To do so, we use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/main/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#batch_processing_with_spring_batch), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in `pom.xml`:
 
 ```xml
 <plugin>
@@ -630,7 +630,7 @@ docker images
 
 <!--NOTE-->
 
-Spring Cloud Data Flow has tested containers created by [Spring Boot's gradle/maven plugin](https://spring.io/guides/gs/spring-boot-docker/), [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image), and the `docker build` command.
+Spring Cloud Data Flow has tested containers created by [Spring Boot's gradle/maven plugin](https://spring.io/guides/gs/spring-boot-docker/), [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/main/jib-maven-plugin#build-your-image), and the `docker build` command.
 
 <!--END_NOTE-->
 

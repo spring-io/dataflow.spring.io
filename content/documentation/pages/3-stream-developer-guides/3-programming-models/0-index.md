@@ -8,29 +8,25 @@ description: 'Programming models'
 
 Spring Cloud Stream provides the flexibility to build the streaming applications by using different programming models.
 
-- Imperative
 - Functional
-- Kafka Streams
+- Kafka Streams (when using Kafak Streams binder)
+
+<!--NOTE-->
+
+The annotation-based programming model (`@EnableBinding` / `@StreamListener`) has been deprecated in [Spring Cloud Stream 3.2.x](https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#spring-cloud-stream-preface-notable-deprecations).
+
+<!--END_NOTE-->
 
 In the sections that follow, we review how a single example of business logic can be built with different programming models.
 
 To highlight the use of programming with a concrete example, consider a scenario in which we receive data from an HTTP endpoint. Once the data is available, we want to transform the payload by adding prefix and suffixes. Finally, we want to verify the transformed data.
 
-## Download Applications
+## Out-of-the-Box Source and Sink
 
-To demonstrate the previously mentioned use case, we start by downloading two out-of-the-box applications:
+To demonstrate the previously mentioned use case, we start by taking a look at the two out-of-the-box applications:
 
-- [HTTP Source](https://github.com/spring-cloud-stream-app-starters/http)
-
-```bash
-wget https://repo.spring.io/release/org/springframework/cloud/stream/app/http-source-kafka/2.1.0.RELEASE/http-source-kafka-2.1.0.RELEASE.jar
-```
-
-- [Log Sink](https://github.com/spring-cloud-stream-app-starters/log)
-
-```bash
-wget https://repo.spring.io/release/org/springframework/cloud/stream/app/log-sink-kafka/2.1.1.RELEASE/log-sink-kafka-2.1.1.RELEASE.jar
-```
+- [HTTP Source](https://github.com/spring-cloud/stream-applications/tree/main/applications/source/http-source)
+- [Log Sink](https://github.com/spring-cloud/stream-applications/tree/main/applications/sink/log-sink)
 
 ## Custom Processor
 
@@ -39,19 +35,6 @@ For the data transformation between the source and sink steps, we highlight a cu
 **Code:**
 
 <!--TABS-->
-<!--Imperative-->
-
-```java
-@EnableBinding(Processor.class)
-public class SimpleStreamSampleProcessor {
-
-	@StreamListener(Processor.INPUT)
-	@SendTo(Processor.OUTPUT)
-	public String messenger(String data) {
-		return "Hello: " + data + "!";
-	}
-}
-```
 
 <!--Functional-->
 
@@ -68,13 +51,11 @@ public class FunctionStreamSampleProcessor {
 <!--Kafka Streams-->
 
 ```java
-@EnableBinding(KafkaStreamsProcessor.class)
 public class KafkaStreamsSampleProcessor {
 
-	@StreamListener("input")
-	@SendTo("output")
-	public KStream<String, String> messenger(KStream<String, String> data) {
-		return data.map((k, v) -> new KeyValue<>(null, "Hello: " + v + "!"));
+	@Bean
+	public Consumer<KStream<String, String>> messenger() {
+		return data -> data.map((k, v) -> new KeyValue<>(null, "Hello: " + v + "!"));
 	}
 }
 ```
@@ -94,12 +75,6 @@ The same "business logic" can be implemented with different programming models, 
 **Configuration: _(application.properties)_**
 
 <!--TABS-->
-<!--Imperative-->
-
-```properties
-spring.cloud.stream.bindings.input.destination=incomingDataTopic
-spring.cloud.stream.bindings.output.destination=outgoingDataTopic
-```
 
 <!--Functional-->
 
@@ -125,57 +100,7 @@ In the Kafka Streams configuration, you may have noticed the extra property, `sp
 
 <!--END_NOTE-->
 
-<img src="images/SCDF-stream-programming-models.gif" alt="Stream Programming Models" width="765"/>
-
-## Testing
-
-1. Start Kafka on `localhost`.
-
-2. Clone and build the processor sample from [here](https://github.com/sabbyanandan/stream-programming-models).
-
-3. Start the following applications.
-
-**Source:**
-
-Start the Http-source application with the output destination bound to the `incomingDataTopic` topic in Kafka.
-
-```bash
-java -jar http-source-kafka-2.1.0.RELEASE.jar --spring.cloud.stream.bindings.output.destination=incomingDataTopic --server.port=9001
-```
-
-**Processor:**
-
-Start one of the processor variations from the built directory:
-
-```bash
-java -jar simple/target/simple-0.0.1-SNAPSHOT.jar
-```
-
-**Sink:**
-
-Finally, start the Log-sink application with the input destination bound to `outgoingDataTopic` topic in Kafka:
-
-```bash
-java -jar log-sink-kafka-2.1.1.RELEASE.jar --spring.cloud.stream.bindings.input.destination=outgoingDataTopic --server.port=9003
-```
-
-Now that the applications are running, you can post some sample data to verify the results.
-
-**Data:**
-Post sample data to the port where the HTTP-source application is running (port 9001 in this case):
-
-```bash
-curl localhost:9001 -H "Content-type: text/plain" -d "test data"
-```
-
-**Results:**
-In the Log-sink application console, we should now see output similar to the following:
-
-```bash
-2019-04-30 15:03:27.620  INFO 38035 --- [container-0-C-1] log-sink                                 : Hello: test data!
-```
-
-With this result, we can verify that the data from the HTTP-source application is processed by the `simple-0.0.1-SNAPSHOT` processor, and the processed data is printed in the console with the "Hello: " prefix and "!" suffix, which produces "Hello: test data!" as a result.
+See the Spring Cloud Stream reference docs for more information on the [Functional](https://docs.spring.io/spring-cloud-stream/docs/3.2.x/reference/html/spring-cloud-stream.html#spring_cloud_function) and [Kafka Streams](https://docs.spring.io/spring-cloud-stream/docs/3.2.x/reference/html/spring-cloud-stream-binder-kafka.html#_functional_style) programming models.
 
 ## Composing Functional Beans in Processor Applications
 
