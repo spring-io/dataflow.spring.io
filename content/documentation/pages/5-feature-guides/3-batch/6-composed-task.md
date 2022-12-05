@@ -41,12 +41,6 @@ When launching a composed task, Spring Cloud Data Flow passes properties to the 
 - `dataflow.server.uri`: The URI of the Spring Cloud Data Flow Server that is used by the `Composed Task Runner` to execute its RESTful API calls. It defaults to https://localhost:9393.
 - `spring.cloud.dataflow.task.composedtaskrunner.uri`: Establishes where Spring Cloud Data Flow obtains the `Composed Task Runner` artifact. By default, Spring Cloud Data Flow retrieves the artifact from Maven Central for the `local` and `Cloud Foundry` platforms. For `Kubernetes`, it obtains the artifact from DockerHub.
 
-<!--NOTE-->
-
-`spring.cloud.dataflow.task.composed.task.runner.uri` has been deprecated as of Spring Cloud Data Flow 2.7.0 in favor of `spring.cloud.dataflow.task.composedtaskrunner.uri`.
-
-<!--END_NOTE-->
-
 - `spring.cloud.dataflow.task.composedtaskrunner.imagePullSecret`: If running within Kubernetes and the Composed Task Runner image resides in a repository that requires authentication, you can configure a secret that contains the credentials to use when pulling the image. The property value is the name of the configured secret that must be created first. Follow the [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) guide to create the secret.
 - `maximumConcurrentTasks` - Spring Cloud Data Flow lets a user limit the maximum number of concurrently running tasks for each configured platform to prevent the saturation of IaaS/hardware resources.
   The default limit is set to `20` for all supported platforms. If the number of concurrently running tasks on a platform instance is greater than or equal to the limit, the next task launch request fails, and an error message is returned through the RESTful API, the Shell, and the UI.

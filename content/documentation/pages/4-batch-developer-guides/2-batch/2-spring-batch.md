@@ -871,9 +871,3 @@ public BatchConfigurer batchConfigurer(DataSource dataSource) {
 
 It is required that you use Spring Cloud Task version 2.3.3 or above. This is because
 Spring Cloud Task 2.3.3 will use a `TASK_SEQ` sequence if one is available.
-
-<!--NOTE-->
-
-**NOTE:** If using composed tasks, be sure to be using Spring Cloud Data Flow 2.8.x and above.
-
-<!--END_NOTE-->
