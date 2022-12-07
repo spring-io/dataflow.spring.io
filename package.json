@@ -22,7 +22,7 @@
     "prestart": "yarn run load-repos",
     "start": "gatsby develop",
     "prebuild": "yarn run clean && yarn run lint && yarn run load-repos && yarn run test",
-    "build": "gatsby clean && gatsby build",
+    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider' && gatsby clean && gatsby build",
     "serve": "gatsby serve",
     "clean-cf-push": "rimraf cloud-foundry/public",
     "copy-cf-push": "ncp public cloud-foundry/public",
