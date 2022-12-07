@@ -15,7 +15,7 @@ jobs:
         uses: jvalkeal/build-zoo-handler@v0.0.4
         with:
           pack-version: 0.24.1
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 18.2.0
       - uses: azure/login@v1
@@ -27,6 +27,8 @@ jobs:
           username: ${{ secrets.AZURE_DEV_REGISTRY_USERNAME }}
           password: ${{ secrets.AZURE_DEV_REGISTRY_PASSWORD }}
       - name: Yarn build
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
         run: |
           yarn install
           yarn run fix
