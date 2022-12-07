@@ -13,7 +13,7 @@ Also, when doing development of custom applications, you need to enable the Dock
 
 <!--IMPORTANT-->
 
-You should upgrade to the [latest](https://docs.docker.com/compose/install/) `docker` and `docker-compose` versions. This guide is tested with Docker Engine: `19.03.5` and docker-compose: `1.25.2`.
+You should upgrade to the [latest](https://docs.docker.com/compose/install/) `docker` and `docker-compose` versions. This guide is tested with Docker Engine: `20.10.21` and docker-compose: `v2.12.2`.
 
 <!--END_IMPORTANT-->
 

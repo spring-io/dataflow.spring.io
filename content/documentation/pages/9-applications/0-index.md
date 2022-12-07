@@ -54,10 +54,10 @@ To optimize performance, you may package [application metadata](%currentPath%/ap
 Here is a snippet of a bulk registration file used to register Maven artifacts:
 
 ```
-sink.cassandra=maven://org.springframework.cloud.stream.app:cassandra-sink-rabbit:2.1.2.RELEASE
-sink.cassandra.metadata=maven://org.springframework.cloud.stream.app:cassandra-sink-rabbit:jar:metadata:2.1.2.RELEASE
-sink.s3=maven://org.springframework.cloud.stream.app:s3-sink-rabbit:2.1.2.RELEASE
-sink.s3.metadata=maven://org.springframework.cloud.stream.app:s3-sink-rabbit:jar:metadata:2.1.2.RELEASE
+sink.cassandra=maven://org.springframework.cloud.stream.app:cassandra-sink-rabbit:3.2.1
+sink.cassandra.metadata=maven://org.springframework.cloud.stream.app:cassandra-sink-rabbit:jar:metadata:3.2.1
+sink.s3=maven://org.springframework.cloud.stream.app:s3-sink-rabbit:3.2.1
+sink.s3.metadata=maven://org.springframework.cloud.stream.app:s3-sink-rabbit:jar:metadata:3.2.1
 ```
 
 From the Data Flow Shell, you can bulk register the applications:

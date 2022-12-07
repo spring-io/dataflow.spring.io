@@ -19,11 +19,11 @@ The following diagram shows the text-reversing processing pipeline:
 
 ## Development
 
-You can find the source code in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-processor) and download it as a zipped archive from [polyglot-python-processor.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-processor.zip).
+You can find the source code in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/recipes/polyglot/polyglot-python-processor) and download it as a zipped archive from [polyglot-python-processor.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/main/dataflow-website/recipes/polyglot/polyglot-python-processor.zip).
 
 The processor uses the [kafka-python](https://github.com/dpkp/kafka-python) library to create consumer and producer connections.
 
-The main loop of execution resides in [python_processor.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-processor/python_processor.py).
+The main loop of execution resides in [python_processor.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-processor/python_processor.py).
 For each message received on the inbound Kafka topic, the script either sends the output to the Kafka topic as-is, or, if `--reversestring=true` is passed to the processor as part of the stream definition, reverses the string and then sends it to the output. The following listing shows `python_processor.py`:
 
 ```python
@@ -56,7 +56,7 @@ Helper methods are defined in a utility file called `task_args.py`. They aid in 
 
 An `HTTPServer` implementation runs as a thread that responds to Spring Boot path health check endpoints (`/actuator/health` and `/actuator/info`) with a default implementation of always returning HTTP 200. A `Dockerfile` creates the image.
 
-For `python_processor.py` to act as a Data Flow `processor`, it needs to be bundled in a docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-processor/Dockerfile) shows how to bundle a Python script into a Docker image:
+For `python_processor.py` to act as a Data Flow `processor`, it needs to be bundled in a docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-processor/Dockerfile) shows how to bundle a Python script into a Docker image:
 
 ```docker
 FROM springcloud/openjdk:latest

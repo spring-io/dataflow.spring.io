@@ -158,7 +158,7 @@ You can access the Grafana dashboard at http://localhost:3000 by using the follo
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
 ```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
+dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"
@@ -206,7 +206,7 @@ Once all the containers are running, you can access the Spring Cloud Data Flow D
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
 ```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/influx-task-demo-metrics-0.0.1-SNAPSHOT.jar
+dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/feature-guides/batch/monitoring/influx-task-demo-metrics-0.0.1-SNAPSHOT.jar
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"
@@ -347,12 +347,12 @@ Depending on where you have installed Grafana, you can access the Grafana dashbo
 - User name: admin
 - Password: password
 
-You must provision Grafana with following task dashboards: [scdf-task-batch.json](https://github.com/spring-cloud/spring-cloud-dataflow/blob/master/src/grafana/prometheus/docker/grafana/dashboards/scdf-task-batch.json)
+You must provision Grafana with following task dashboards: [scdf-task-batch.json](https://github.com/spring-cloud/spring-cloud-dataflow/blob/main/src/grafana/prometheus/docker/grafana/dashboards/scdf-task-batch.json)
 
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
 ```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/master/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
+dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"

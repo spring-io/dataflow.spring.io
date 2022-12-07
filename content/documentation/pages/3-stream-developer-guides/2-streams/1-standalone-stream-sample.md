@@ -12,21 +12,15 @@ The sections that follow describe how to build these applications from scratch.
 
 If you prefer, you can download a zip file containing the sources for these applications, unzip it, build it, and proceed to the [deployment](#deployment) section.
 
-You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true) that contains all three applications from your browser. You can also use the command line, as the following example shows:
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true) that contains all three applications from your browser. You can also use the command line, as the following example shows:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true -O usage-cost-stream-sample.zip
+wget 'https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/dist/usage-cost-stream-sample.zip?raw=true' -O usage-cost-stream-sample.zip
 ```
 
 # Building the downloaded sample
 
 The stream apps may be configured to run with a Kafka broker or RabbitMQ, using a common code base. The only difference is in the executable jar files. In order for them to work with a Kafka broker, they require a Kafka binder dependency (enabled by default). For RabbitMQ, they require the Rabbit binder.
-
-<!--TIP-->
-
-Additional Spring Cloud Stream binder implementations include Kafka Streams, Amazon Kinesis, Google PubSub (partner maintained), Solace PubSub+ (partner maintained), Azure Event Hubs (partner maintained). The binder selection is a build time step. The sample project uses a Maven profile to enable the corresponding binder.
-
-<!--END_TIP-->
 
 <!--TABS-->
 
@@ -127,7 +121,7 @@ There are many configuration options that you can choose to extend or override t
 
 Now we can create the code required for this application. To do so:
 
-1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.usagedetailsender` package that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-detail-sender/src/main/java/io/spring/dataflow/sample/usagedetailsender/UsageDetail.java).
+1.  Create a `UsageDetail` class in the `io.spring.dataflow.sample.usagedetailsender` package that looks like the contents in [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-detail-sender/src/main/java/io/spring/dataflow/sample/usagedetailsender/UsageDetail.java).
     The `UsageDetail` class contains `userId`, `data`, and `duration` properties.
 1.  Create the `UsageDetailSender` class in the `io.spring.dataflow.sample.usagedetailsender` package. It should resemble the following listing:
 
@@ -236,7 +230,7 @@ public class UsageDetailSenderApplicationTests {
 			OutputDestination target = context.getBean(OutputDestination.class);
 			Message<byte[]> sourceMessage = target.receive(10000, "usage-detail");
 
-			final MessageConverter converter = context.getBean(CompositeMessageConverter.class);
+			MessageConverter converter = context.getBean(CompositeMessageConverter.class);
 			UsageDetail usageDetail = (UsageDetail) converter
 					.fromMessage(sourceMessage, UsageDetail.class);
 
@@ -297,9 +291,9 @@ Now you should `unzip` the `usage-cost-processor-rabbit.zip` file and import the
 
 Now we can create the code required for this application. To do so:
 
-1.  Create the `UsageDetail` class in the `io.spring.dataflow.sample.usagecostprocessor`. Its contents resemble the contents of [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageDetail.java).
+1.  Create the `UsageDetail` class in the `io.spring.dataflow.sample.usagecostprocessor`. Its contents resemble the contents of [UsageDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageDetail.java).
     The `UsageDetail` class contains `userId`, `data`, and `duration` properties
-2.  Create the `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` package. Its contents resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageCostDetail.java).
+2.  Create the `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostprocessor` package. Its contents resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-processor/src/main/java/io/spring/dataflow/sample/usagecostprocessor/UsageCostDetail.java).
     The `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 3.  Create the `UsageCostProcessor` class in the `io.spring.dataflow.sample.usagecostprocessor` package, which receives the `UsageDetail` message, computes the call and data cost, and sends a `UsageCostDetail` message. The following listing shows the source code:
 
@@ -436,18 +430,18 @@ public class UsageCostProcessorApplicationTests {
 			usageDetail.setDuration(30L);
 			usageDetail.setData(100L);
 
-			final MessageConverter converter = context.getBean(CompositeMessageConverter.class);
+			MessageConverter converter = context.getBean(CompositeMessageConverter.class);
 			Map<String, Object> headers = new HashMap<>();
 			headers.put("contentType", "application/json");
 			MessageHeaders messageHeaders = new MessageHeaders(headers);
-			final Message<?> message = converter.toMessage(usageDetail, messageHeaders);
+			Message<?> message = converter.toMessage(usageDetail, messageHeaders);
 
 			source.send(message);
 
 			OutputDestination target = context.getBean(OutputDestination.class);
 			Message<byte[]> sourceMessage = target.receive(10000, "usage-cost");
 
-			final UsageCostDetail usageCostDetail = (UsageCostDetail) converter
+			UsageCostDetail usageCostDetail = (UsageCostDetail) converter
 					.fromMessage(sourceMessage, UsageCostDetail.class);
 
 			assertThat(usageCostDetail.getCallCost()).isEqualTo(3.0);
@@ -500,7 +494,7 @@ Now you should `unzip` the `usage-cost-logger-rabbit.zip` file and import the pr
 
 To create the business logic:
 
-1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package. Its contents should resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-logger/src/main/java/io/spring/dataflow/sample/usagecostlogger/UsageCostDetail.java).
+1.  Create a `UsageCostDetail` class in the `io.spring.dataflow.sample.usagecostlogger` package. Its contents should resemble the contents of [UsageCostDetail.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/stream-developer-guides/streams/standalone-stream-sample/usage-cost-logger/src/main/java/io/spring/dataflow/sample/usagecostlogger/UsageCostDetail.java).
     The `UsageCostDetail` class contains `userId`, `callCost`, and `dataCost` properties.
 1.  Create the `UsageCostLogger` class in the `io.spring.dataflow.sample.usagecostlogger` package, which receives the `UsageCostDetail` message and logs it. The following listing shows the source code:
 
@@ -606,11 +600,11 @@ public class UsageCostLoggerApplicationTests {
 			usageCostDetail.setCallCost(3.0);
 			usageCostDetail.setDataCost(5.0);
 
-			final MessageConverter converter = context.getBean(CompositeMessageConverter.class);
+			MessageConverter converter = context.getBean(CompositeMessageConverter.class);
 			Map<String, Object> headers = new HashMap<>();
 			headers.put("contentType", "application/json");
 			MessageHeaders messageHeaders = new MessageHeaders(headers);
-			final Message<?> message = converter.toMessage(usageCostDetail, messageHeaders);
+			Message<?> message = converter.toMessage(usageCostDetail, messageHeaders);
 
 			source.send(message);
 

@@ -30,9 +30,9 @@ Apache Kafka is used as the messaging middleware.
 
 ## Development
 
-You can find the source code in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-app) and download it as a zipped archive: [polyglot-python-app.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-app.zip).
+You can find the source code in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/recipes/polyglot/polyglot-python-app) and download it as a zipped archive: [polyglot-python-app.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/main/dataflow-website/recipes/polyglot/polyglot-python-app.zip).
 
-The [python_router_app.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/python_router_app.py) implements the timestamp router application logic:
+The [python_router_app.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-app/python_router_app.py) implements the timestamp router application logic:
 
 ```python
 from kafka import KafkaConsumer, KafkaProducer
@@ -101,14 +101,14 @@ If the `print` command is used inside the Python script, the output buffer must 
 
 - The [`kafka-python`](https://github.com/dpkp/kafka-python) library is used to consume and produce Kafka messages. The `process_timestamps` method continuously consumes timestamps from the input channel and routes the even or odd values to the output channels.
 
-- The [`Actuator`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py#L7) class inside the [actuator.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py) utility is used to expose operational information about the running application, such as health, liveness, info, and so on.
+- The [`Actuator`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py#L7) class inside the [actuator.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-app/util/actuator.py) utility is used to expose operational information about the running application, such as health, liveness, info, and so on.
   It runs an embedded HTTP server in a separate thread and exposes the `/actuator/health` and `/actuator/info` entry points to handle the Kubernetes liveness and readiness probes requests.
 
-- The [arguments.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/util/arguments.py) utility helps to retrieve the required input parameters from the command line arguments and environment variables.
+- The [arguments.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-app/util/arguments.py) utility helps to retrieve the required input parameters from the command line arguments and environment variables.
   The utility assumes the default (that is, exec) [entry point style](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#_entry_point_style_2).
   Note that Data Flow passes the Kafka broker connection properties as environment variables.
 
-For the `python_router_app.py` to act as a Data Flow `app`, it needs to be bundled in a Docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/Dockerfile) shows how to bundle a Python script into a Docker image:
+For the `python_router_app.py` to act as a Data Flow `app`, it needs to be bundled in a Docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-app/Dockerfile) shows how to bundle a Python script into a Docker image:
 
 ```docker
 FROM python:3.7.3-slim
@@ -161,7 +161,7 @@ dataflow config server --uri http://192.168.99.100:30868
 Import the SCDF `time` and `log` app starters and register the `polyglot-python-app` as `python-router` of type `app`:
 
 ```bash
-app register --name time --type app --uri docker:springcloudstream/time-source-kafka:2.1.0.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:time-source-kafka:jar:metadata:2.1.0.RELEASE
+app register --name time --type app --uri docker:springcloudstream/time-source-kafka:3.2.1 --metadata-uri maven://org.springframework.cloud.stream.app:time-source-kafka:jar:metadata:3.2.1
 
 app register --name log --type app --uri docker:springcloudstream/log-sink-kafka:2.1.1.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:log-sink-kafka:jar:metadata:2.1.1.RELEASE
 
@@ -192,7 +192,7 @@ The `time`, `log`, and `python-router` apps are registered as [App](https://docs
 
 <!--END_IMPORTANT-->
 
-Keeping this in mind, we deploy the timestamp stream pipeline with the deployment properties in the [polyglot-python-app-deployment.properties](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-app/polyglot-python-app-deployment.properties) file:
+Keeping this in mind, we deploy the timestamp stream pipeline with the deployment properties in the [polyglot-python-app-deployment.properties](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-app/polyglot-python-app-deployment.properties) file:
 
 ```bash
 stream deploy --name timeStampStream --propertiesFile <polyglot-python-app folder>/polyglot-python-app-deployment.properties

@@ -10,12 +10,12 @@ This recipe provides step by step instructions to build a Data Flow pipeline to 
 The pipeline is designed to launch a task whenever a new file is detected by the SFTP source.
 In this case, the task is a Spring Batch job that processes the file, converting the contents of each line to uppercase, and inserting it into a table.
 
-The [file ingest](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/file-ingest/file-to-jdbc) batch job reads from a CSV text file with lines formatted as `first_name,last_name` and writes each entry to a database table by using a [`JdbcBatchItemWriter`](https://docs.spring.io/spring-batch/trunk/apidocs/org/springframework/batch/item/database/JdbcBatchItemWriter.html)] that performs `INSERT INTO people (first_name, last_name) VALUES (:firstName, :lastName)` for each line.
+The [file ingest](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/recipes/file-ingest/file-to-jdbc) batch job reads from a CSV text file with lines formatted as `first_name,last_name` and writes each entry to a database table by using a [`JdbcBatchItemWriter`](https://docs.spring.io/spring-batch/trunk/apidocs/org/springframework/batch/item/database/JdbcBatchItemWriter.html)] that performs `INSERT INTO people (first_name, last_name) VALUES (:firstName, :lastName)` for each line.
 
-You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true) that contains the source code and sample data from your browser or from the command line:
+You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true) that contains the source code and sample data from your browser or from the command line:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true -O file-to-jdbc.zip
+wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true -O file-to-jdbc.zip
 ```
 
 <!--TIP-->
@@ -26,8 +26,8 @@ If you choose not to build the task application yourself, the executable jar is 
 
 The pipeline is built by using the following pre-packaged Spring Cloud Stream applications:
 
-- [sftp-dataflow-source](https://github.com/spring-cloud-stream-app-starters/sftp/tree/master/spring-cloud-starter-stream-source-sftp-dataflow) is an SFTP source configured to emit a Task Launch Request whenever it detects a new file in one or more polled SFTP directories.
-- [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/master/spring-cloud-starter-stream-sink-task-launcher-dataflow) is a sink that acts as a REST client to the Data Flow server to launch a Data Flow task.
+- [sftp-dataflow-source](https://github.com/spring-cloud-stream-app-starters/sftp/tree/main/spring-cloud-starter-stream-source-sftp-dataflow) is an SFTP source configured to emit a Task Launch Request whenever it detects a new file in one or more polled SFTP directories.
+- [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/main/spring-cloud-starter-stream-sink-task-launcher-dataflow) is a sink that acts as a REST client to the Data Flow server to launch a Data Flow task.
 
 This pipeline runs on all supported Data Flow platforms.
 The SFTP source downloads each file from the SFTP server to a local directory before sending the task launch request.
@@ -177,7 +177,7 @@ mkdir -p /tmp/remote-files /tmp/local-files
 
 #### Register the Applications
 
-If you downloaded and built the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true), you can register it by using a `file://` URL. e.g. `file://<path-to-project>/target/ingest-1.0.0-SNAPSHOT.jar`
+If you downloaded and built the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true), you can register it by using a `file://` URL. e.g. `file://<path-to-project>/target/ingest-1.0.0-SNAPSHOT.jar`
 Otherwise, you can use the published Maven jar:
 
 ```bash
@@ -187,7 +187,7 @@ app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflo
 Register the prepackaged `sftp` source and `task-launcher` sink applications:
 
 ```bash
-app register --name sftp --type source  --uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:2.1.0.RELEASE
+app register --name sftp --type source  --uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:3.2.1
 ```
 
 ```bash
@@ -222,7 +222,7 @@ stream create --name inboundSftp --definition "sftp --username=<user> --password
 
 <!--TIP-->
 
-The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/master/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [`PollableMessageSource`](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every second. If there are no task launch requests, the polling period continues to double up to a maximum of 30 seconds. If a task launch request is present, the trigger resets to one second. You can continue the trigger parameters by setting the `task-launcher` sink properties, `trigger.period` and `trigger.max-period`, in the stream definition.
+The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/main/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [`PollableMessageSource`](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every second. If there are no task launch requests, the polling period continues to double up to a maximum of 30 seconds. If a task launch request is present, the trigger resets to one second. You can continue the trigger parameters by setting the `task-launcher` sink properties, `trigger.period` and `trigger.max-period`, in the stream definition.
 
 <!--END_TIP-->
 
@@ -276,7 +276,7 @@ dataflow:>runtime apps
 
 Normally, data would be uploaded to an SFTP server.
 We simulate this by copying a file into the directory specified by `--remote-dir`.
-You can find sample data in the `data/` directory of the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true).
+You can find sample data in the `data/` directory of the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true).
 
 Copy `data/name-list.csv` into the `/tmp/remote-files` directory, which the SFTP source is monitoring.
 When this file is detected, the `sftp` source downloads it to the `/tmp/local-files` directory specified by `--local-dir`, and emits a task launch request.
@@ -375,7 +375,7 @@ app register --name fileIngest --type task --uri maven://io.spring.cloud.dataflo
 Then register the prepackaged `sftp` source and `task-launcher` sink applications:
 
 ```bash
-app register --name sftp --type source  --uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:2.1.0.RELEASE
+app register --name sftp --type source  --uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:3.2.1
 ```
 
 ```bash
@@ -407,7 +407,7 @@ stream create --name inboundSftp --definition "sftp --username=<user> --password
 
 <!--TIP-->
 
-The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/master/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [`PollableMessageSource`](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every 1 second. If there are no task launch requests, the polling period continues to double, to a maximum of 30 seconds. If a task launch request is present, the trigger resets to 1 second. You can configure the trigger parameters by setting the `task-launcher` sink properties, `trigger.period` and `trigger.max-period`, in the stream definition.
+The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/main/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [`PollableMessageSource`](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every 1 second. If there are no task launch requests, the polling period continues to double, to a maximum of 30 seconds. If a task launch request is present, the trigger resets to 1 second. You can configure the trigger parameters by setting the `task-launcher` sink properties, `trigger.period` and `trigger.max-period`, in the stream definition.
 
 <!--END_TIP-->
 
@@ -465,7 +465,7 @@ cf logs Ky7Uk6q-inboundSftp-task-launcher-v1 --recent
 
 #### Copy a File into the Remote Directory
 
-You can find sample data in the `data/` directory of the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true).
+You can find sample data in the `data/` directory of the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true).
 
 Connect to the SFTP server and upload `data/name-list.csv` into the `remote-files` directory.
 
@@ -539,7 +539,7 @@ We also require an external SFTP server with a `/remote-files` directory.
 
 #### Register the Applications
 
-If you downloaded the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true), you can build and publish the Docker image to the Minikube registry:
+If you downloaded the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true), you can build and publish the Docker image to the Minikube registry:
 
 ```bash
 eval $(minikube docker-env)
@@ -555,7 +555,7 @@ app register --name fileIngest --type task --uri docker://springcloud/ingest
 Register the prepackaged `sftp` source and `task-launcher` sink applications:
 
 ```bash
-app register --name sftp --type source  --uri docker://springcloudstream/sftp-dataflow-source-kafka:2.1.0.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:jar:metadata:2.1.0.RELEASE
+app register --name sftp --type source  --uri docker://springcloudstream/sftp-dataflow-source-kafka:3.2.1 --metadata-uri maven://org.springframework.cloud.stream.app:sftp-dataflow-source-kafka:jar:metadata:3.2.1
 ```
 
 ```bash
@@ -600,7 +600,7 @@ stream create inboundSftp --definition "sftp --host=192.168.99.1 --username=<use
 
 <!--TIP-->
 
-The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/master/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [`PollableMessageSource`](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every second. If there are no task launch requests, the polling period continue to double, to a maximum of 30 seconds. If a task launch request is present, the trigger resets to one second. You can configure the trigger parameters by setting the `task-launcher` sink properties, `trigger.period` and `trigger.max-period`, in the stream definition.
+The [dataflow-task-launcher-sink](https://github.com/spring-cloud-stream-app-starters/tasklauncher-dataflow/tree/main/spring-cloud-starter-stream-sink-task-launcher-dataflow) uses a [`PollableMessageSource`](https://docs.spring.io/spring-cloud-stream/docs/Elmhurst.BUILD-SNAPSHOT/api/org/springframework/cloud/stream/binder/PollableMessageSource.html) controlled by a dynamic trigger with exponential backoff. By default, the sink polls its input destination every second. If there are no task launch requests, the polling period continue to double, to a maximum of 30 seconds. If a task launch request is present, the trigger resets to one second. You can configure the trigger parameters by setting the `task-launcher` sink properties, `trigger.period` and `trigger.max-period`, in the stream definition.
 
 <!--END_TIP-->
 
@@ -655,7 +655,7 @@ kubectl logs inboundsftp-task-launcher-v12-555d4785c5-zjr6b
 
 #### Copy a File into the Remote Directory
 
-You can find sample data in the `data/` directory of the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true).
+You can find sample data in the `data/` directory of the [sample project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/file-ingest/file-to-jdbc/file-to-jdbc.zip?raw=true).
 
 Connect to the SFTP server and upload `data/name-list.csv` into the `remote-files` directory:
 
@@ -867,7 +867,7 @@ Thus, if we re-deploy the stream or restart the `sftp` source, this state is los
 
 Thanks to the magic of Spring, we can auto-configure one of the available persistent Metadata Stores to prevent duplicate processing.
 
-In this example, we [auto configure the JDBC metadata store](https://github.com/spring-cloud-stream-app-starters/core/tree/master/common/stream-apps-metadata-store-common#jdbc), since we are already using a JDBC database.
+In this example, we [auto configure the JDBC metadata store](https://github.com/spring-cloud-stream-app-starters/core/tree/main/common/stream-apps-metadata-store-common#jdbc), since we are already using a JDBC database.
 
 ### Configure and Build the SFTP Source
 

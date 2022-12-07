@@ -174,7 +174,7 @@ Events:
   Type    Reason     Age   From               Message
   ----    ------     ----  ----               -------
   Normal  Scheduled  2m    default-scheduler  Successfully assigned default/ticktock-time-v16-869947b6b9-brfc4 to minikube
-  Normal  Pulled     2m    kubelet, minikube  Container image "springcloudstream/time-source-rabbit:2.1.0.RELEASE" already present on machine
+  Normal  Pulled     2m    kubelet, minikube  Container image "springcloudstream/time-source-rabbit:3.2.1" already present on machine
   Normal  Created    2m    kubelet, minikube  Created container
   Normal  Started    2m    kubelet, minikube  Started container
 ```

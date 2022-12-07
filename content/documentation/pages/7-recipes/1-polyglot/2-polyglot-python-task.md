@@ -18,11 +18,11 @@ When Data Flow launches the Python script as a task, the script runs and complet
 Because this is not a standard Spring Cloud Task application, it is the user's responsibility to manage the life cycle and update the state to the shared database that is also used by Data Flow.
 Utilities are provided to help handle the launch arguments and manage the task status within the Data Flow database.
 
-You can find the source code in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/master/dataflow-website/recipes/polyglot/polyglot-python-task) or download it as a zipped archive: [polyglot-python-task.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/recipes/polyglot/polyglot-python-task.zip). Follow the [Build](#build) instructions for building and using the project.
+You can find the source code in the samples GitHub [repository](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/recipes/polyglot/polyglot-python-task) or download it as a zipped archive: [polyglot-python-task.zip](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/main/dataflow-website/recipes/polyglot/polyglot-python-task.zip). Follow the [Build](#build) instructions for building and using the project.
 
 ## Development
 
-The [python_task.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/python_task.py) script in the next example shows a sample Python script that you can register as a Spring Cloud Task.
+The [python_task.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-task/python_task.py) script in the next example shows a sample Python script that you can register as a Spring Cloud Task.
 When launched, the Python script prints an acknowledgment message. It then sleeps for 60 seconds and completes afterward.
 If the `--error.message=<Text>` launch argument is present, the script throws an exception to simulate an execution failure.
 
@@ -63,7 +63,7 @@ Since the Python script is not managed by `Spring Cloud Task`, it is the user's 
 
 To parse the input arguments and to manage its state in Data Flow, the custom script uses the following utilities:
 
-- The [task_status.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_status.py) helps to access and update the Data Flow `TASK_EXECUTION` table in order to reflect task's life cycle events. The `TaskStatus` class takes `task id` and `sqlalchemy url` arguments (computed from the command line arguments) and provides API for setting the task status to `running`, `completed`, or `failed(with exitCode, errorMessage)`.
+- The [task_status.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_status.py) helps to access and update the Data Flow `TASK_EXECUTION` table in order to reflect task's life cycle events. The `TaskStatus` class takes `task id` and `sqlalchemy url` arguments (computed from the command line arguments) and provides API for setting the task status to `running`, `completed`, or `failed(with exitCode, errorMessage)`.
   To access the Data Flow database, the `task_status` uses the following launch arguments, automatically provided by Data Flow on every task launch:
 
   ```bash
@@ -75,10 +75,10 @@ To parse the input arguments and to manage its state in Data Flow, the custom sc
 
   The `spring.cloud.task.executionid` property represents the Task ID, as known inside Data Flow and persisted in the `TASK_EXECUTION` table.
 
-- The [task_args.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py) utility helps extract the task arguments for the default (that is, exec) [entry point style](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#_entry_point_style_2).
-  The utility also constructs [sqlalchemy](https://www.sqlalchemy.org/) URLs for the different databases, which might be configured with SCDF (currently only MariaDB is tested). Check the [get_db_url()](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py#L22) implementation.
+- The [task_args.py](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py) utility helps extract the task arguments for the default (that is, exec) [entry point style](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#_entry_point_style_2).
+  The utility also constructs [sqlalchemy](https://www.sqlalchemy.org/) URLs for the different databases, which might be configured with SCDF (currently only MariaDB is tested). Check the [get_db_url()](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-task/util/task_args.py#L22) implementation.
 
-For `python_task.py` to act as a Data Flow task, it needs to be bundled in a Docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/master/dataflow-website/recipes/polyglot/polyglot-python-task/Dockerfile) illustrates how to bundle a Python script into docker image:
+For `python_task.py` to act as a Data Flow task, it needs to be bundled in a Docker image and uploaded to `DockerHub`. The following [Dockerfile](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/recipes/polyglot/polyglot-python-task/Dockerfile) illustrates how to bundle a Python script into docker image:
 
 ```docker
 FROM python:3.7.3-slim

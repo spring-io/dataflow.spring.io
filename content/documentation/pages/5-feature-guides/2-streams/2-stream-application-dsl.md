@@ -8,34 +8,8 @@ description: 'Learn how to use the Stream Application DSL'
 
 The Stream Pipeline DSL described in the previous section automatically sets the input and output binding properties of each Spring Cloud Stream application.
 You can do this because only one input or output destination in a Spring Cloud Stream application uses the provided binding interface of a `Source`, `Processor`, or `Sink`.
-However, a Spring Cloud Stream application can define a custom binding interface, such as the following:
-
-```Java
-public interface Barista {
-
-    @Input
-    SubscribableChannel orders();
-
-    @Output
-    MessageChannel hotDrinks();
-
-    @Output
-    MessageChannel coldDrinks();
-}
-```
-
-The following example shows a custom interface for a Kafka Streams application:
-
-```java
-interface KStreamKTableBinding {
-
-    @Input
-    KStream<?, ?> inputStream();
-
-    @Input
-    KTable<?, ?> inputTable();
-}
-```
+However, a Spring Cloud Stream application can define multiple inputs/outputs.
+For example, consider an application that takes an input of drink orders, prepares the drink, and finally sends the prepared drink to either the 'hot drink' or 'cold drink' output.
 
 In cases with multiple input and output bindings, Data Flow cannot make any assumptions about the flow of data from one application to another.
 Therefore, you need to set the binding properties to "wire up" the application.

@@ -118,7 +118,7 @@ You can skip this section if you want to register the `maven` or `docker` resour
 
 You can download the source code for this application from Github.
 
-If you use the RabbitMQ binder, you can download [http-transformer-with-RabbitMQ-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-rabbitmq.zip)
+If you use the RabbitMQ binder, you can download [http-transformer-with-RabbitMQ-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/main/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-rabbitmq.zip)
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
@@ -126,7 +126,7 @@ cd composed-http-transformer-rabbitmq
 ./mvnw clean install
 ```
 
-If you use the Kafka binder, you can download [http-transformer-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kafka.zip).
+If you use the Kafka binder, you can download [http-transformer-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/main/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kafka.zip).
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
@@ -241,7 +241,7 @@ You can skip this section if you want to register the `maven` or `docker` resour
 
 You can download the source code for this application from Github.
 
-If you use the RabbitMQ binder, you can download [http-transformer-kotlin-with-RabbitMQ-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-rabbitmq.zip).
+If you use the RabbitMQ binder, you can download [http-transformer-kotlin-with-RabbitMQ-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/main/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-rabbitmq.zip).
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
@@ -249,7 +249,7 @@ cd composed-http-transformer-kotlin-kafka
 ./mvnw clean install
 ```
 
-If you use the Kafka binder, you can download [http-transformer-kotlin-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/master/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-kafka.zip).
+If you use the Kafka binder, you can download [http-transformer-kotlin-with-Kafka-binder](https://github.com/spring-cloud/spring-cloud-dataflow-samples/raw/main/dataflow-website/stream-developer-guides/feature-guides/streams/dist/composed-http-transformer-kotlin-kafka.zip).
 After downloading and unpacking the source code, you can build the application by using Maven, as follows:
 
 ```
