@@ -23,7 +23,7 @@ jobs:
       # agent may give node which doesn't work for us
       - uses: actions/setup-node@v2
         with:
-          node-version: 18.8.0
+          node-version: 18.2.0
 
       # setup cf cli with bg plugin and login
       - uses: jvalkeal/setup-cf-cli@v0
