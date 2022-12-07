@@ -48,7 +48,7 @@ export const getBreadcrumb = function getBreadcrumb(arr, page) {
       const versionItem = optionVersions.find(v => v.key === version)
 
       result.push({
-        title: versionItem.title,
+        title: versionItem?.title || '',
         path: url,
         description: '',
         meta: {

@@ -12,9 +12,9 @@ jobs:
         uses: jvalkeal/build-zoo-handler@v0.0.4
         with:
           pack-version: 0.24.1
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14.18.0
+          node-version: 18.2.0
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_PROD_CREDENTIALS }}
@@ -25,6 +25,7 @@ jobs:
           password: ${{ secrets.AZURE_PROD_REGISTRY_PASSWORD }}
       - name: Yarn build
         env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
           ALGOLIA_ADMIN_KEY_PASSWORD: ${{ secrets.ALGOLIA_ADMIN_KEY_PASSWORD }}
           GOOGLE_TAGMANAGER_ID: ${{ secrets.GOOGLE_TAGMANAGER_ID_SCDF }}
         run: |
@@ -44,6 +45,7 @@ jobs:
             --buildpack gcr.io/paketo-buildpacks/nginx \
             --builder gcr.io/paketo-buildpacks/builder:base
           docker push ${{ secrets.AZURE_PROD_REGISTRY_URL }}/scdf-microsite:$TAG
+
 #      - name: Deploy
 #        uses: azure/webapps-deploy@v2
 #        with:

@@ -24,9 +24,9 @@ jobs:
       - uses: actions/checkout@v2
 
       # agent may give node which doesn't work for us
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: 18.8.0
+          node-version: 18.2.0
 
       # setup cf cli with bg plugin and login
       - uses: jvalkeal/setup-cf-cli@v0
@@ -38,6 +38,8 @@ jobs:
 
       # do site build and prepare for cf push
       - name: Yarn build
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
         run: |
           yarn install
           yarn run fix
