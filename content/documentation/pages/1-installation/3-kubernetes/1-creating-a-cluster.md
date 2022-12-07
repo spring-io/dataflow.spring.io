@@ -12,24 +12,11 @@ lets you choose among many options, so you can pick the one that you are
 most comfortable using.
 
 All of our testing is done against [Google Kubernetes
-Engine](https://cloud.google.com/kubernetes-engine/) as well as [Pivotal
-Container
-Service](https://pivotal.io/platform/pivotal-container-service/). GKE is
+Engine](https://cloud.google.com/kubernetes-engine/) as well as [VMware Tanzu Kubernetes Grid](https://tanzu.vmware.com/kubernetes-grid). GKE is
 used as the target platform for this section.
 
-# Setting Minikube Resources
+# Configure Kubernetes for local development
 
-We have successfully deployed with [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/).
-We note where you need to adjust for deploying on Minikube.
+We have prepared scripts to simplify the process of creating a local Minikube or Kind cluster, or to use a remote cluster like GKE or TKG.
 
-When starting Minikube, you should allocate some extra resources,
-since we deploy several services. You can start with
-`minikube start --cpus=4 --memory=8192`. The allocated memory and CPU
-for the Minikube VM gets directly assigned to the number of
-applications deployed in a stream or task. The more you add, the more
-VM resources are required.
-
-The rest of this getting started guide assumes that you have a working
-Kubernetes cluster and a `kubectl` command line utility. See [Installing
-and Setting up kubectl](https://kubernetes.io/docs/user-guide/prereqs/)
-for installation instructions.
+Visit the [Spring Cloud Data Flow Reference Guide](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#local-k8s-development)
