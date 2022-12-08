@@ -205,7 +205,7 @@ A task application is registered with Data Flow by using the name `task` to desc
 The following example shows the shell syntax for registering a `timestamp` task (an application that prints the current time and exits):
 
 ```
-dataflow:> app register --name timestamp --type task --uri maven://org.springframework.cloud.task.app:timestamp-task:2.0.2
+dataflow:> app register --name timestamp --type task --uri maven://io.spring:timestamp-task:2.0.2
 ```
 
 The task definition is created by referencing the name of the task, as the following example shows:
@@ -234,7 +234,7 @@ Spring Cloud Data Flow lets a user create a directed graph, where each node of t
 
 This is done by using the Composed Task Domain Specific Language for composed tasks.
 There are several symbols in the Composed Task DSL that determine the overall flow.
-The [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/##_composed_tasks_dsl) goes into detail. The following example shows how the double ampersand symbol (`&&`) is used for conditional execution:
+The [reference guide](https://docs.spring.io/spring-cloud-dataflow/docs/%dataflow-version%/reference/htmlsingle/#spring-cloud-dataflow-composed-tasks) goes into detail. The following example shows how the double ampersand symbol (`&&`) is used for conditional execution:
 
 ```
 dataflow:> task create simpleComposedTask --definition "task1 && task2"
