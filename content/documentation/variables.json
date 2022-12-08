@@ -1,27 +1,20 @@
 {
   "tanzu-app-service-version": "2-11",
   "streaming-apps-version": "2021.0.1",
-  "batch-apps-version": "Elston.RELEASE",
   "stream-version": "2.2.0.RELEASE",
   "task-version": "2.3.3",
-
   "skipper-version": "2.9.0-SNAPSHOT",
   "dataflow-version": "2.10.0-SNAPSHOT",
 
   "github-tag": "main",
-
   "spring-maven-repo-type": "snapshot",
 
   "stream-applications-doc": "https://docs.spring.io/stream-applications/docs/2021.0.1/reference/html",
-
   "stream-applications-doc-2x": "https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle",
   "task-applications-doc": "https://docs.spring.io/spring-cloud-task-app-starters/docs/current/reference/htmlsingle",
 
   "task-app-maven-version": "https://dataflow.spring.io/task-maven-latest",
   "task-app-docker-version": "https://dataflow.spring.io/task-docker-latest",
-
-  "task-app-maven-snapshot": "https://dataflow.spring.io/Elston-BUILD-SNAPSHOT-task-applications-maven",
-  "task-app-docker-snapshot": "https://dataflow.spring.io/Elston-BUILD-SNAPSHOT-task-applications-docker",
   "task-app-maven-previous": "https://dataflow.spring.io/Dearborn-SR1-task-applications-maven",
   "task-app-docker-previous": "https://dataflow.spring.io/Dearborn-SR1-task-applications-docker",
 
