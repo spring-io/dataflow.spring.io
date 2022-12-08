@@ -34,10 +34,10 @@ You can view the completed project in the [Spring Cloud Task samples](https://gi
 To create our batch application, we need to visit the Spring Initializr site and create a project, as follows:
 
 1. Visit the [Spring Initializr site](https://start.spring.io/).
-1. Select the latest release of spring boot.
+1. Select the latest `2.7.x` release of spring boot.
 1. Create a new Maven project with a Group name of `io.spring.cloud` and an Artifact name of `partition`.
 1. In the **Dependencies** text box, type `task` to select the Cloud Task dependency.
-1. In the **Dependencies** text box, type `jdbc` and then select the JDBC dependency.
+1. In the **Dependencies** text box, type `jdbc` and then select the JDBC API dependency.
 1. In the **Dependencies** text box, type `h2` and then select the H2 dependency.
    1. We use H2 for unit testing.
 1. In the **Dependencies** text box, type `mariadb` and then select mariadb dependency (or your favorite database).
@@ -46,26 +46,20 @@ To create our batch application, we need to visit the Spring Initializr site and
 1. Click the **Generate Project** button.
 1. Download the `partition.zip` file, unzip it, and import the project into your favorite IDE.
 
-Because the Spring Initializr site handles the details of a project as URL parameters, you can:
-
-1. Click this link to [Spring Initializr](https://start.spring.io/starter.zip?type=maven-project&language=java&bootVersion=2.5.1.RELEASE&baseDir=partition&groupId=io.spring.cloud&artifactId=partition&name=partition&description=Demo+project+for+Spring+Boot&packageName=io.spring.cloud.partition&packaging=jar&javaVersion=1.8&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mariadb&dependencies=batch) to download the preconfigured partition.zip.
-
-2. Download the partition.zip file, unzip it, and import the project into your favorite IDE
-
 ### Setting up MariaDB
 
-1. If you do not have an instance of MariaDB available to you, you can follow these instructions to run a MariaDB Docker image for this example:
+Follow these instructions to run a MariaDB Docker image for this example:
 
-   1. Pull a MariaDB docker image:
-
-      ```bash
-      docker pull mariadb
-      ```
-
-   2. Start MariaDB:
+1. Pull a MariaDB docker image by running the following command:
 
    ```bash
-   docker run -p 3306:3306 --name mariadb  -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=task -d mariadb:latest
+   docker pull mariadb:10.4.22
+   ```
+
+2. Start MariaDB by running the following command:
+
+   ```bash
+   docker run --name mariadb -d -p 3306:3306 -e MARIADB_ROOT_PASSWORD=password -e MARIADB_DATABASE=task mariadb:10.4.22
    ```
 
 ### Building The Application
@@ -84,7 +78,7 @@ To build the application:
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-deployer-local</artifactId>
-			<version>2.0.2.BUILD-SNAPSHOT</version>
+			<version>%deployer-version%</version>
 		</dependency>
 ```
 
