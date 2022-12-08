@@ -105,11 +105,11 @@ To reduce clutter, we recommend maintaining a "focused" list of desired applicat
 
 # Supported Spring Cloud Task and Batch Applications
 
-| Artifact Type | Latest Stable Release                                  | SNAPSHOT Release                                         |
-| ------------- | ------------------------------------------------------ | -------------------------------------------------------- |
-|               | spring-cloud-stream 2.1.x<br>spring-boot 2.1.x         |                                                          |
-| Maven         | [%task-app-maven-version%](%task-app-maven-version%])  | [%task-app-maven-snapshot%](%task-app-maven-snapshot%)   |
-| Docker        | [%task-app-docker-version%](%task-app-docker-version%) | [%task-app-docker-snapshot%](%task-app-docker-snapshot%) |
+| Artifact Type | Latest Stable Release                                  |
+| ------------- | ------------------------------------------------------ |
+|               | spring-cloud-task 2.4.x<br>spring-boot 2.7.x           |
+| Maven         | [%task-app-maven-version%](%task-app-maven-version%])  |
+| Docker        | [%task-app-docker-version%](%task-app-docker-version%) |
 
 The following table lists previous releases for reference only.
 NOTE: Some of these may no longer be supported (i.e. they depend on an EOL spring-boot release):
@@ -133,3 +133,11 @@ NOTE: Some of these may no longer be supported (i.e. they depend on an EOL sprin
 | RabbitMQ + Docker (Docker Hub) | [%stream-app-rabbit-docker-2020%](%stream-app-rabbit-docker-2020%) | [%stream-app-rabbit-docker-2020-snapshot%](stream-app-rabbit-docker-2020-snapshot)   |
 | Kafka + Maven                  | [%stream-app-kafka-maven-2020%](%stream-app-kafka-maven-2020%)     | [%stream-app-kafka-maven-2020-snapshot%](%stream-app-kafka-maven-2020-snapshot%)     |
 | Kafka + Docker                 | [%stream-app-kafka-docker-2020%](%stream-app-kafka-docker-2020%)   | [%stream-app-kafka-docker-2020-snapshot%](%stream-app-kafka-docker-2020-snapshot%)   |
+
+# Previous Releases of Spring Cloud Task and Batch Applications
+
+| Artifact Type | Previous Release                                         |
+| ------------- | -------------------------------------------------------- |
+|               | spring-cloud-stream 2.0.x<br>spring-boot 2.0.x           |
+| Maven         | [%task-app-maven-previous%](%task-app-maven-previous%)   |
+| Docker        | [%task-app-docker-previous%](%task-app-docker-previous%) |
