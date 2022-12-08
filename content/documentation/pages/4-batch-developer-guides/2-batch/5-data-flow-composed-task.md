@@ -41,24 +41,6 @@ You must you have installed Spring Cloud Data Flow to one of the following platf
 
 For this guide, you need to have registered the [billsetuptask](%currentPath%/batch-developer-guides/batch/data-flow-simple-task) and the [billrun](%currentPath%/batch-developer-guides/batch/data-flow-spring-batch) applications in Spring Cloud Data Flow.
 
-### Registering the Composed Task Runner
-
-To register the composed task runner:
-
-1. If you have not already done so, import the [Spring Cloud Task App Starters](https://cloud.spring.io/spring-cloud-task-app-starters/), which give you the `composed-task-runner` application.
-   To do so, click **Apps** in the left navigation bar
-
-1. Select **Add Applications(s)**.
-
-1. When the Add Application(s) page appears, select **Bulk import application coordinates from an HTTP URI location**.
-
-1. In the **URI** field, enter (based on the resource from which you will be pulling your apps) either one of:
-
-- Maven: `%task-app-maven-version%`
-- Docker: `%task-app-docker-version%`
-
-1. Select **Import the application(s)**.
-
 ## Creating a Composed Task
 
 To create a composed task:

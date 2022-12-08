@@ -33,7 +33,7 @@ For this section, we create a Spring Cloud Task and Boot application that create
 
 ### Initializr
 
-Follow these instructions:
+Follow these steps to create the app:
 
 1. Visit the [Spring Initialzr site](https://start.spring.io/).
 1. Select the latest `2.7.x` release of Spring Boot.

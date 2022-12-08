@@ -16,13 +16,13 @@ When a task application is registered in SCDF, a version is typically associated
 Versions of an application are managed in SCDF by registering multiple applications with the same name and coordinates, _except_ the version is different. For example, if you were to register an application with the following values, you would get one application registered with two versions (2.0.0.RELEASE and 2.1.0.RELEASE):
 
 - Application 1
-  ** Name: `timestamp`
-  ** Type: `task`
-  \*\* URI: `maven://org.springframework.cloud.task.app:timestamp-task:2.0.0.RELEASE`
+  - Name: `timestamp`
+  - Type: `task`
+  - URI: `maven://io.spring:timestamp-task:2.0.1`
 - Application 2
-  ** Name: `timestamp`
-  ** Type: `task`
-  \*\* URI: `maven://org.springframework.cloud.task.app:timestamp-task:2.1.0.RELEASE`
+  - Name: `timestamp`
+  - Type: `task`
+  - URI: `maven://io.spring:timestamp-task:2.0.2`
 
 Besides having multiple versions, Spring Cloud Data Flow needs to know which version to run on the next launch. This is indicated by setting a version to be the default version. Whatever version of a task application is configured as the default version is the one to be run on the next launch request. You can see which version is the default in the UI, as follows:
 
@@ -86,19 +86,19 @@ NOTE: Any launch that requires an upgrade of a task definition that is running a
 
 ### Example of Continuous Deployment
 
-We now have the `timestamp` application registered in the `Application Registry` with two versions: `2.1.0.RELEASE` and `2.1.1.RELEASE`.
+We now have the `timestamp` application registered in the `Application Registry` with two versions: `2.0.1` and `2.0.2`.
 
 ```bash
 dataflow:>app list --id task:timestamp
 ╔═══╤══════╤═════════╤════╤═══════════════════════════╗
 ║app│source│processor│sink│           task            ║
 ╠═══╪══════╪═════════╪════╪═══════════════════════════╣
-║   │      │         │    │> timestamp-2.1.0.RELEASE <║
-║   │      │         │    │timestamp-2.1.1.RELEASE    ║
+║   │      │         │    │> timestamp-2.0.1 <║
+║   │      │         │    │timestamp-2.0.2    ║
 ╚═══╧══════╧═════════╧════╧═══════════════════════════╝
 ```
 
-The task application `timestamp` now uses the version `2.1.0.RELEASE` as the default version when launching the task.
+The task application `timestamp` now uses the version `2.0.1` as the default version when launching the task.
 
 Create a task called `demo1` by using the `timestamp` application registered earlier:
 
@@ -114,7 +114,7 @@ dataflow:>task launch demo1 --properties "app.timestamp.format=YYYY"
 Launched task 'demo1' with execution id 1
 ```
 
-When the task is launched, you can check the task execution `status` and verify that the application version `2.1.0.RELEASE` is used:
+When the task is launched, you can check the task execution `status` and verify that the application version `2.0.1` is used:
 
 ```bash
 dataflow:>task execution status 1
@@ -122,7 +122,7 @@ dataflow:>task execution status 1
 ║         Key          │                                       Value                                       ║
 ╠══════════════════════╪═══════════════════════════════════════════════════════════════════════════════════╣
 ║Id                    │1                                                                                  ║
-║Resource URL          │org.springframework.cloud.task.app:timestamp-task:jar:2.1.0.RELEASE                ║
+║Resource URL          │io.spring:timestamp-task:jar:2.0.1                                                 ║
 ║Name                  │demo1                                                                              ║
 ║CLI Arguments         │[--spring.cloud.data.flow.platformname=default, --spring.cloud.task.executionid=1] ║
 ║App Arguments         │                 timestamp.format = YYYY                                           ║
@@ -141,11 +141,11 @@ dataflow:>task execution status 1
 ╚══════════════════════╧═══════════════════════════════════════════════════════════════════════════════════╝
 ```
 
-Now we can try to change the default version of the `timestamp` application to `2.1.1.RELEASE`.
+Now we can try to change the default version of the `timestamp` application to `2.0.2`.
 
 ```bash
-dataflow:>app default --id task:timestamp --version 2.1.1.RELEASE
-New default Application task:timestamp:2.1.1.RELEASE
+dataflow:>app default --id task:timestamp --version 2.0.2
+New default Application task:timestamp:2.0.2
 ```
 
 You can verify the change, as follows:
@@ -155,13 +155,13 @@ dataflow:>app list --id task:timestamp
 ╔═══╤══════╤═════════╤════╤═══════════════════════════╗
 ║app│source│processor│sink│           task            ║
 ╠═══╪══════╪═════════╪════╪═══════════════════════════╣
-║   │      │         │    │timestamp-2.1.0.RELEASE    ║
-║   │      │         │    │> timestamp-2.1.1.RELEASE <║
+║   │      │         │    │timestamp-2.0.1            ║
+║   │      │         │    │> timestamp-2.0.2         <║
 ╚═══╧══════╧═════════╧════╧═══════════════════════════╝
 ```
 
-Now the default version of `timestamp` application is set to use `2.1.1.RELEASE`.
-This means that any subsequent launch of `timestamp` application would use `2.1.1.RELEASE` instead of the previous default (`2.1.0.RELEASE`).
+Now the default version of `timestamp` application is set to use `2.0.2`.
+This means that any subsequent launch of `timestamp` application would use `2.0.2` instead of the previous default (`2.0.1`).
 
 ```bash
 dataflow:>task launch demo1
@@ -176,7 +176,7 @@ dataflow:>task execution status 2
 ║         Key          │                                       Value                                       ║
 ╠══════════════════════╪═══════════════════════════════════════════════════════════════════════════════════╣
 ║Id                    │2                                                                                  ║
-║Resource URL          │org.springframework.cloud.task.app:timestamp-task:jar:2.1.1.RELEASE                ║
+║Resource URL          │io.spring:timestamp-task:jar:2.0.2                                                 ║
 ║Name                  │demo1                                                                              ║
 ║CLI Arguments         │[--spring.cloud.data.flow.platformname=default, --spring.cloud.task.executionid=2 ]║
 ║App Arguments         │                 timestamp.format = YYYY                                           ║
@@ -195,7 +195,7 @@ dataflow:>task execution status 2
 ╚══════════════════════╧═══════════════════════════════════════════════════════════════════════════════════╝
 ```
 
-Note that the `2.1.1.RELEASE` version of the `timestamp` application is now used, along with the deployment properties from the previous task launch.
+Note that the `2.0.2` version of the `timestamp` application is now used, along with the deployment properties from the previous task launch.
 You can override these deployment properties during the task launch as well.
 
 Note: While the deployment properties are propagated between the task launches, the task arguments are **not** propagated.The idea is to keep the arguments only for each task launch.

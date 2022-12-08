@@ -74,13 +74,13 @@ So, for our application, we have a `BillRun` `Job` that has one `Step`, which co
 
 ### Initializr
 
-We use [Spring Initializr](https://start.spring.io/) to create our application. To do so:
+Follow these steps to create the app:
 
 1. Visit the [Spring Initializr site](https://start.spring.io/).
-1. Select the latest release of Spring Boot.
+1. Select the latest `2.7.x` release of Spring Boot.
 1. Create a new Maven project with a Group name of `io.spring` and an Artifact name of `billrun`.
 1. In the **Dependencies** text box, type `task` to select the Cloud Task dependency.
-1. In the **Dependencies** text box, type `jdbc` and then select the JDBC dependency.
+1. In the **Dependencies** text box, type `jdbc` and then select the JDBC API dependency.
 1. In the **Dependencies** text box, type `h2` and then select the H2 dependency.
    We use H2 for unit testing.
 1. In the **Dependencies** text box, type `mysql` and then select the MySQL dependency (or your favorite database).
@@ -89,15 +89,9 @@ We use [Spring Initializr](https://start.spring.io/) to create our application. 
 1. Click the **Generate Project** button.
 1. Unzip the `billrun.zip` file and import the project into your favorite IDE.
 
-Alternatively, you can initialize your project by downloading a pre-built file. To do so:
-
-1. Click [this Spring Initializr link](https://start.spring.io/starter.zip?type=maven-project&language=java&baseDir=billrun&groupId=io.spring&artifactId=billrun&name=Bill+Run&description=Bill+Run+Sample+App&packageName=io.spring.billrun&packaging=jar&dependencies=batch&dependencies=cloud-task&dependencies=jdbc&dependencies=h2&dependencies=mysql) to download the preconfigured `billrun.zip` file.
-
-2. Unzip the billrun.zip file and import the project into your favorite IDE.
-
 ### Setting up MySQL
 
-If you do not have an instance of MySQL available to you, you can follow these instructions to run a MySQL Docker image for this example:
+Follow these instructions to run a MySQL Docker image for this example:
 
 1. Pull a MySQL Docker image by running the following command:
 
