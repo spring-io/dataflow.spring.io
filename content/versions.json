@@ -9,12 +9,8 @@
   },
   "2.10.x": {
     "name": "2.10.0",
-    "branch": "2.10.0",
+    "branch": "main",
     "current": true
-  },
-  "2.10.1.SNAPSHOT": {
-    "name": "2.10.1 SNAPSHOT",
-    "branch": "main"
   },
   "next": {
     "name": "next",
