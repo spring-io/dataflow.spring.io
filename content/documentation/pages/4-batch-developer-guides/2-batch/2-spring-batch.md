@@ -13,7 +13,7 @@ This guide describes how to build this application from scratch. If you prefer, 
 You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or run the following command to download it from the command-line:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
+wget "https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true" -O batchsamples.zip
 ```
 
 ## Development
@@ -56,7 +56,7 @@ For this guide, we focus on five Spring Batch components, which the following im
 - `ItemProcessor`: `ItemProcessor` is an abstraction that represents the business processing of an item.
 - `ItemWriter`: `ItemWriter` is an abstraction that represents the output of a `Step`.
 
-In the preceding diagram, we see that each phase of the `JobExecution` is stored in a `JobRepository` (in this case, our MySQL database). This means that each action performed by Spring Batch is recorded in a database for both logging purposes and for restarting a job.
+In the preceding diagram, we see that each phase of the `JobExecution` is stored in a `JobRepository` (in this case, our MariaDB database). This means that each action performed by Spring Batch is recorded in a database for both logging purposes and for restarting a job.
 
 <!--NOTE-->
 
@@ -83,132 +83,137 @@ Follow these steps to create the app:
 1. In the **Dependencies** text box, type `jdbc` and then select the JDBC API dependency.
 1. In the **Dependencies** text box, type `h2` and then select the H2 dependency.
    We use H2 for unit testing.
-1. In the **Dependencies** text box, type `mysql` and then select the MySQL dependency (or your favorite database).
-   We use MySQL for the runtime database.
+1. In the **Dependencies** text box, type `mariadb` and then select the MariaDB dependency (or your favorite database).
+   We use MariaDB for the runtime database.
 1. In the **Dependencies** text box, type `batch` and then select Batch.
 1. Click the **Generate Project** button.
 1. Unzip the `billrun.zip` file and import the project into your favorite IDE.
 
-### Setting up MySQL
+### Setting up MariaDB
 
-Follow these instructions to run a MySQL Docker image for this example:
+Follow these instructions to run a MariaDB Docker image for this example:
 
-1. Pull a MySQL Docker image by running the following command:
+1. Pull a MariaDB Docker image by running the following command:
 
    ```bash
-   docker pull mysql:5.7.25
+   docker pull mariadb:10.4.22
    ```
 
-1. Start MySQL by running the following command:
+1. Start MariaDB by running the following command:
 
    ```bash
-   docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password \
-   -e MYSQL_DATABASE=task -d mysql:5.7.25
+   docker run -p 3306:3306 --name mariadb  -e MARIADB_ROOT_PASSWORD=password -e MARIADB_DATABASE=task -d mariadb:10.4.22
    ```
 
 ### Building The Application
 
-1.  Download `https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json title=usageinfo.json` and copy the resulting file to the `/src/main/resources` directory.
+1. Download the [Sample Usage Info](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json) via `wget` and copy the resulting file to the `/src/main/resources` directory.
 
-1.  Download `https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql title=schema.sql` and copy the resulting file to the `/src/main/resources` directory.
+   ```bash
+   wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/usageinfo.json
+   ```
 
-1.  In your favorite IDE, create the `io.spring.billrun.model` package.
+2. Download the [Sample Schema](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql) via `wget` and copy the resulting file to the `/src/main/resources` directory.
+   ```bash
+   wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/resources/schema.sql
+   ```
+3. In your favorite IDE, create the `io.spring.billrun.model` package.
 
-1.  Create a `Usage` class in the `io.spring.billrun.model` that looks like the contents of [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Usage.java).
+4. Create a `Usage` class in the `io.spring.billrun.model` that looks like the contents of [Usage.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Usage.java).
 
-1.  Create a `Bill` class in the `io.spring.billrun.model` that looks like the contents of [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Bill.java).
+5. Create a `Bill` class in the `io.spring.billrun.model` that looks like the contents of [Bill.java](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/model/Bill.java).
 
-1.  In your favorite IDE, create the `io.spring.billrun.configuration` package.
+6. In your favorite IDE, create the `io.spring.billrun.configuration` package.
 
-1.  Create an `ItemProcessor` for pricing each `Usage` record. To do so, create a [`BillProcessor`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` that looks like the following listing:
+7. Create an `ItemProcessor` for pricing each `Usage` record. To do so, create a [`BillProcessor`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillProcessor.java) class in the `io.spring.billrun.configuration` that looks like the following listing:
 
-    ```java
-    public class BillProcessor implements ItemProcessor<Usage, Bill> {
+   ```java
+   public class BillProcessor implements ItemProcessor<Usage, Bill> {
 
-      @Override
-      public Bill process(Usage usage) {
-         Double billAmount = usage.getDataUsage() * .001 + usage.getMinutes() * .01;
-         return new Bill(usage.getId(), usage.getFirstName(), usage.getLastName(),
-               usage.getDataUsage(), usage.getMinutes(), billAmount);
-      }
-    }
-    ```
+     @Override
+     public Bill process(Usage usage) {
+        Double billAmount = usage.getDataUsage() * .001 + usage.getMinutes() * .01;
+        return new Bill(usage.getId(), usage.getFirstName(), usage.getLastName(),
+              usage.getDataUsage(), usage.getMinutes(), billAmount);
+     }
+   }
+   ```
 
-    Notice that we implement the `ItemProcessor` interface that has the `process` method that we need to override.
-    Our parameter is a `Usage` object, and the return value is of type `Bill`.
+   Notice that we implement the `ItemProcessor` interface that has the `process` method that we need to override.
+   Our parameter is a `Usage` object, and the return value is of type `Bill`.
 
-1.  Now we can create a Java configuration that specifies the beans required for the `BillRun` `Job`. In this case, we need to create a [`BillingConfiguration`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` package that looks like the following listing:
+8. Now we can create a Java configuration that specifies the beans required for the `BillRun` `Job`. In this case, we need to create a [`BillingConfiguration`](https://github.com/spring-cloud/spring-cloud-dataflow-samples/tree/main/dataflow-website/batch-developer-guides/batch/batchsamples/billrun/src/main/java/io/spring/billrun/configuration/BillingConfiguration.java) class in the `io.spring.billrun.configuration` package that looks like the following listing:
 
-    ```java
-    @Configuration
-    @EnableTask
-    @EnableBatchProcessing
-    public class BillingConfiguration {
-      @Autowired
-      public JobBuilderFactory jobBuilderFactory;
+   ```java
+   @Configuration
+   @EnableTask
+   @EnableBatchProcessing
+   public class BillingConfiguration {
+     @Autowired
+     public JobBuilderFactory jobBuilderFactory;
 
-      @Autowired
-      public StepBuilderFactory stepBuilderFactory;
+     @Autowired
+     public StepBuilderFactory stepBuilderFactory;
 
-      @Value("${usage.file.name:classpath:usageinfo.json}")
-      private Resource usageResource;
+     @Value("${usage.file.name:classpath:usageinfo.json}")
+     private Resource usageResource;
 
-      @Bean
-      public Job job1(ItemReader<Usage> reader,
-        ItemProcessor<Usage,Bill> itemProcessor, ItemWriter<Bill> writer) {
-          Step step = stepBuilderFactory.get("BillProcessing")
-                  .<Usage, Bill>chunk(1)
-                  .reader(reader)
-                  .processor(itemProcessor)
-                  .writer(writer)
-                  .build();
+     @Bean
+     public Job job1(ItemReader<Usage> reader,
+       ItemProcessor<Usage,Bill> itemProcessor, ItemWriter<Bill> writer) {
+         Step step = stepBuilderFactory.get("BillProcessing")
+                 .<Usage, Bill>chunk(1)
+                 .reader(reader)
+                 .processor(itemProcessor)
+                 .writer(writer)
+                 .build();
 
-          return jobBuilderFactory.get("BillJob")
-                  .incrementer(new RunIdIncrementer())
-                  .start(step)
-                  .build();
-      }
+         return jobBuilderFactory.get("BillJob")
+                 .incrementer(new RunIdIncrementer())
+                 .start(step)
+                 .build();
+     }
 
-      @Bean
-      public JsonItemReader<Usage> jsonItemReader() {
+     @Bean
+     public JsonItemReader<Usage> jsonItemReader() {
 
-          ObjectMapper objectMapper = new ObjectMapper();
-          JacksonJsonObjectReader<Usage> jsonObjectReader =
-                  new JacksonJsonObjectReader<>(Usage.class);
-          jsonObjectReader.setMapper(objectMapper);
+         ObjectMapper objectMapper = new ObjectMapper();
+         JacksonJsonObjectReader<Usage> jsonObjectReader =
+                 new JacksonJsonObjectReader<>(Usage.class);
+         jsonObjectReader.setMapper(objectMapper);
 
-          return new JsonItemReaderBuilder<Usage>()
-                  .jsonObjectReader(jsonObjectReader)
-                  .resource(usageResource)
-                  .name("UsageJsonItemReader")
-                  .build();
-      }
+         return new JsonItemReaderBuilder<Usage>()
+                 .jsonObjectReader(jsonObjectReader)
+                 .resource(usageResource)
+                 .name("UsageJsonItemReader")
+                 .build();
+     }
 
-      @Bean
-      public ItemWriter<Bill> jdbcBillWriter(DataSource dataSource) {
-          JdbcBatchItemWriter<Bill> writer = new JdbcBatchItemWriterBuilder<Bill>()
-                          .beanMapped()
-                  .dataSource(dataSource)
-                  .sql("INSERT INTO BILL_STATEMENTS (id, first_name, " +
-                     "last_name, minutes, data_usage,bill_amount) VALUES " +
-                     "(:id, :firstName, :lastName, :minutes, :dataUsage, " +
-                     ":billAmount)")
-                  .build();
-          return writer;
-      }
+     @Bean
+     public ItemWriter<Bill> jdbcBillWriter(DataSource dataSource) {
+         JdbcBatchItemWriter<Bill> writer = new JdbcBatchItemWriterBuilder<Bill>()
+                         .beanMapped()
+                 .dataSource(dataSource)
+                 .sql("INSERT INTO BILL_STATEMENTS (id, first_name, " +
+                    "last_name, minutes, data_usage,bill_amount) VALUES " +
+                    "(:id, :firstName, :lastName, :minutes, :dataUsage, " +
+                    ":billAmount)")
+                 .build();
+         return writer;
+     }
 
-      @Bean
-      ItemProcessor<Usage, Bill> billProcessor() {
-          return new BillProcessor();
-      }
-    }
-    ```
+     @Bean
+     ItemProcessor<Usage, Bill> billProcessor() {
+         return new BillProcessor();
+     }
+   }
+   ```
 
-    The `@EnableBatchProcessing` annotation enables Spring Batch features and provides a base configuration for setting up batch jobs.
-    The `@EnableTask` annotation sets up a `TaskRepository`, which stores information about the task execution (such as the start and end times of the task and the exit code).
-    In the preceding configuration, we see that our `ItemReader` bean is an instance of `JsonItemReader`. The `JsonItemReader` instance reads the contents of a resource and unmarshalls the JSON data into `Usage` objects. `JsonItemReader` is one of the `ItemReader` implementations provided by Spring Batch.
-    We also see that our `ItemWriter` bean is an instance of `JdbcBatchItemWriter`. The `JdbcBatchItemWriter` instance writes the results to our database. `JdbcBatchItemWriter` is one of the `ItemWriter` implementations provided by Spring Batch.
-    The `ItemProcessor` is our very own `BillProcessor`. Notice that all the beans that use Spring Batch-provided classes (`Job`, `Step`, `ItemReader`, `ItemWriter`) are being built with builders provided by Spring Batch, which means less coding.
+   The `@EnableBatchProcessing` annotation in Boot 2.7.x enables Spring Batch features and provides a base configuration for setting up batch jobs. This is not required for Spring Boot 3.x+.
+   The `@EnableTask` annotation sets up a `TaskRepository`, which stores information about the task execution (such as the start and end times of the task and the exit code).
+   In the preceding configuration, we see that our `ItemReader` bean is an instance of `JsonItemReader`. The `JsonItemReader` instance reads the contents of a resource and unmarshalls the JSON data into `Usage` objects. `JsonItemReader` is one of the `ItemReader` implementations provided by Spring Batch.
+   We also see that our `ItemWriter` bean is an instance of `JdbcBatchItemWriter`. The `JdbcBatchItemWriter` instance writes the results to our database. `JdbcBatchItemWriter` is one of the `ItemWriter` implementations provided by Spring Batch.
+   The `ItemProcessor` is our very own `BillProcessor`. Notice that all the beans that use Spring Batch-provided classes (`Job`, `Step`, `ItemReader`, `ItemWriter`) are being built with builders provided by Spring Batch, which means less coding.
 
 ### Testing
 
@@ -282,30 +287,30 @@ Now we can build the project.
 
    To configure the `billrun` application, use the following arguments:
 
-   - `spring.datasource.url`: Set the URL to your database instance. In the following sample, we connect to a MySQL `task` database on our local machine at port 3306.
-   - `spring.datasource.username`: The user name to be used for the MySQL database. In the following sample, it is `root`.
-   - `spring.datasource.password`: The password to be used for the MySQL database. In the following sample, it is `password`.
-   - `spring.datasource.driverClassName`: The driver to use to connect to the MySQL database. In the following sample, it is `com.mysql.jdbc.Driver`.
+   - `spring.datasource.url`: Set the URL to your database instance. In the following sample, we connect to a MariaDB `task` database on our local machine at port 3306.
+   - `spring.datasource.username`: The user name to be used for the MariaDB database. In the following sample, it is `root`.
+   - `spring.datasource.password`: The password to be used for the MariaDB database. In the following sample, it is `password`.
+   - `spring.datasource.driverClassName`: The driver to use to connect to the MariaDB database. In the following sample, it is `org.mariadb.jdbc.Driver`.
    - `spring.datasource.initialization-mode`: Initializes the database with the `BILL_STATEMENTS` and `BILL_USAGE` tables required for this application. In the following sample, we state that we `always` want to do this. Doing so does not overwrite the tables if they already exist.
    - `spring.batch.initialize-schema`: Initializes the database with the tables required for Spring Batch. In the following sample, we state that we `always` want to do this. Doing so does not overwrite the tables if they already exist.
 
    ```bash
    java -jar target/billrun-0.0.1-SNAPSHOT.jar \
-   --spring.datasource.url=jdbc:mysql://localhost:3306/task?useSSL=false \
+   --spring.datasource.url="jdbc:mariadb://localhost:3306/task?useSSL=false" \
    --spring.datasource.username=root \
    --spring.datasource.password=password \
-   --spring.datasource.driverClassName=com.mysql.jdbc.Driver \
-   --spring.datasource.initialization-mode=always \
-   --spring.batch.initialize-schema=always
+   --spring.datasource.driverClassName=org.mariadb.jdbc.Driver \
+   --spring.sql.init.mode=always \
+   --spring.batch.jdbc.initialize-schema=always
    ```
 
-1. Log in to the `mysql` container to query the `BILL_STATEMENTS` table. To do so, run the following commands:
+1. Log in to the `mariadb` container to query the `BILL_STATEMENTS` table. To do so, run the following commands:
 
 <!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
-<pre class="language-bash"><code>docker exec -it mysql bash -l
-# mysql -u root -ppassword
-mysql&gt; select * from task.BILL_STATEMENTS;
+<pre class="language-bash"><code>docker exec -it mariadb bash -l
+# mariadb -u root -ppassword
+MariaDB> select * from task.BILL_STATEMENTS;
 </code></pre></div>
 
 The output should look something like the following:
@@ -320,11 +325,11 @@ The output should look something like the following:
 
 #### Cleanup
 
-To stop and remove the MySQL container running in the Docker instance, run the following commands:
+To stop and remove the MariaDB container running in the Docker instance, run the following commands:
 
 ```bash
-docker stop mysql
-docker rm mysql
+docker stop mariadb
+docker rm mariadb
 ```
 
 ### Cloud Foundry

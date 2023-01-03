@@ -60,7 +60,7 @@ Now that you have created a task definition, you can run it. To do so:
 
    ![Launch Task - Provide Arguments or Parameters](images/dataflow-task-definitions-click-launch-task-2.png)
 
-1. As we do not need to provide additional argument or parameters, click the **LAUNCH THE TASK** button. The UI returns to the task definitions page, as follows:
+1. As we do not need to provide additional argument or parameters, click the **LAUNCH TASK** button. The UI returns to the task execution page. For now lets select the `Tasks` option on the left side of the page. This will bring us back to the Task Definition page as follows:
 
    ![Task Definitions List with Successful Task Execution](images/dataflow-task-definitions-list-with-task-success.png)
 

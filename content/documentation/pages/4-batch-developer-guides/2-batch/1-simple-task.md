@@ -13,7 +13,7 @@ The following sections describe how to build this application from scratch. If y
 You can [download the project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or by running the following command, from the command-line:
 
 ```bash
-wget https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true -O batchsamples.zip
+wget "https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true" -O batchsamples.zip
 ```
 
 ## Development
