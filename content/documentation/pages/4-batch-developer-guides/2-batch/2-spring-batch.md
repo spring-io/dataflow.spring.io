@@ -573,52 +573,26 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 
 ##### Installing the Database
 
-We install a MySQL server by using the default configuration from Spring Cloud Data Flow. To do so, run the following command:
+We install a MariaDB server by using the default configuration from Spring Cloud Data Flow. To do so, run the following command:
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mysql/mysql-deployment.yaml \
--f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mysql/mysql-pvc.yaml \
--f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mysql/mysql-secrets.yaml \
--f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mysql/mysql-svc.yaml
+kubectl apply -f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mariadb/mariadb-deployment.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mariadb/mariadb-pvc.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mariadb/mariadb-secrets.yaml \
+-f https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/kubernetes/mariadb/mariadb-svc.yaml
 ```
 
 ##### Building a Docker Image for the Sample Task Application
 
 We need to build a Docker image for the [`billrun`](#batch_processing_with_spring_batch) app.
 
-To do so, we use the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/main/jib-maven-plugin#build-your-image). If you downloaded the [source distribution](#batch_processing_with_spring_batch), the jib plugin is already configured. If you built the apps from scratch, add the following under `plugins` in `pom.xml`:
+To do so, we use [Spring Boot](https://spring.io/guides/gs/spring-boot-docker/) to create the image.
 
-```xml
-<plugin>
-    <groupId>com.google.cloud.tools</groupId>
-    <artifactId>jib-maven-plugin</artifactId>
-    <version>0.10.1</version>
-    <configuration>
-        <from>
-            <image>springcloud/openjdk</image>
-        </from>
-        <to>
-            <image>${docker.org}/${project.artifactId}:${docker.version}</image>
-        </to>
-        <container>
-            <useCurrentTimestamp>true</useCurrentTimestamp>
-        </container>
-    </configuration>
-</plugin>
-```
-
-Then add the referenced properties under `properties` For this example, we use the following properties:
-
-```xml
-<docker.org>springcloudtask</docker.org>
-<docker.version>${project.version}</docker.version>
-```
-
-Now you can run the following commands to add the image to the `minikube` Docker registry:
+You can add the image to the `minikube` Docker registry. To do so, run the following commands:
 
 ```bash
 eval $(minikube docker-env)
-./mvnw clean package jib:dockerBuild
+./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=springcloudtask/billrun:0.0.1-SNAPSHOT
 ```
 
 Run the following command to verify its presence (by finding `springcloudtask/billrun` in the list of images):
@@ -626,12 +600,6 @@ Run the following command to verify its presence (by finding `springcloudtask/bi
 ```bash
 docker images
 ```
-
-<!--NOTE-->
-
-Spring Cloud Data Flow has tested containers created by [Spring Boot's gradle/maven plugin](https://spring.io/guides/gs/spring-boot-docker/), [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/main/jib-maven-plugin#build-your-image), and the `docker build` command.
-
-<!--END_NOTE-->
 
 ##### Deploying the Application
 
@@ -654,28 +622,32 @@ spec:
         - name: SPRING_DATASOURCE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql
-              key: mysql-root-password
+              name: mariadb
+              key: mariadb-root-password
         - name: SPRING_DATASOURCE_URL
-          value: jdbc:mysql://mysql:3306/task
+          value: jdbc:mariadb://mariadb:3306/task
         - name: SPRING_DATASOURCE_USERNAME
           value: root
         - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-          value: com.mysql.jdbc.Driver
+          value: org.mariadb.jdbc.Driver
+        - name: SPRING_BATCH_JDBC_INITIALIZE-SCHEMA
+          value: always
+        - name: SPRING_SQL_INIT_MODE
+          value: always
   initContainers:
-    - name: init-mysql-database
-      image: mysql:5.6
+    - name: init-mariadb-database
+      image: mariadb:10.4.22
       env:
-        - name: MYSQL_PWD
+        - name: MARIADB_PWD
           valueFrom:
             secretKeyRef:
-              name: mysql
-              key: mysql-root-password
+              name: mariadb
+              key: mariadb-root-password
       command:
         [
           'sh',
           '-c',
-          'mysql -h mysql -u root -e "CREATE DATABASE IF NOT EXISTS task;"',
+          'mariadb -h mariadb -u root --password=$MARIADB_PWD -e "CREATE DATABASE IF NOT EXISTS task;"',
         ]
 ```
 
@@ -690,7 +662,7 @@ When the task is complete, you should see output similar to the following:
 ```bash
 kubectl get pods
 NAME                     READY   STATUS      RESTARTS   AGE
-mysql-5cbb6c49f7-ntg2l   1/1     Running     0          4h
+mariadb-5cbb6c49f7-ntg2l 1/1     Running     0          4h
 billrun                  0/1     Completed   0          10s
 ```
 
@@ -700,15 +672,15 @@ Now you can delete the pod. To do so, run the following command:
 kubectl delete -f batch-app.yaml
 ```
 
-Now log in to the `mysql` container to query the `BILL_STATEMENTS` table.
-Get the name of the `mysql`pod by using `kubectl get pods`, as shown earlier.
+Now log in to the `mariadb` container to query the `BILL_STATEMENTS` table.
+Get the name of the `mariadb` pod by using `kubectl get pods`, as shown earlier.
 Then log in and query the `BILL_STATEMENTS` table, as follows:
 
 <!-- Rolling my own to disable erroneous formating -->
 <div class="gatsby-highlight" data-language="bash">
-<pre class="language-bash"><code>kubectl exec -it mysql-5cbb6c49f7-ntg2l -- /bin/bash
-# mysql -u root -p$MYSQL_ROOT_PASSWORD
-mysql&gt; select * from task.BILL_STATEMENTS;
+<pre class="language-bash"><code>kubectl exec -it mariadb-5cbb6c49f7-ntg2l -- /bin/bash
+# mariadb -u root -p$MARIADB_ROOT_PASSWORD
+mariadb&gt; select * from task.BILL_STATEMENTS;
 </code></pre></div>
 
 The output should look something like the following:
@@ -721,10 +693,10 @@ The output should look something like the following:
 | 4   | michael    | smith     | 650     | 1500       | 8.00        |
 | 5   | mary       | jones     | 700     | 1500       | 8.50        |
 
-To uninstall `mysql`, run the following command:
+To uninstall `mariadb`, run the following command:
 
 ```bash
-kubectl delete all -l app=mysql
+kubectl delete all -l app=mariadb
 ```
 
 ## Database Specific Notes
