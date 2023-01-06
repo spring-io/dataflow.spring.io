@@ -38,20 +38,25 @@ NOTE: On Minikube, `EXTRNAL-IP = <pending>` for the `service` is normal.
 
 ### Building a Docker Image for the Sample Task Application
 
-We build the `billsetuptask` app, which is configured with the [jib maven plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#build-your-image). To do so:
+1. Clone or download the dataflow samples git [repo](https://github.com/spring-cloud/spring-cloud-dataflow-samples) and navigate to the `batchsamples` directory. You can [download the batch samples project](https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true) from your browser or run the following command to download it from the command-line:
 
-1. Clone or download the task samples git repo and navigate to the `billsetuptask` directory.
+```bash
+wget "https://github.com/spring-cloud/spring-cloud-dataflow-samples/blob/main/dataflow-website/batch-developer-guides/batch/batchsamples/dist/batchsamples.zip?raw=true" -O batchsamples.zip
+```
 
-1. Run the following commands to build the docker image:
+1. Build The project using the instructions from the readme file.
+2. Navigate to the `billsetuptask` directory
 
-   ```bash
-   eval $(minikube docker-env)
-   ./mvnw clean package jib:dockerBuild
-   ```
+3. Run the following commands to build the docker image:
 
-   Those commands add the image to the `minikube` Docker registry.
+```bash
+eval $(minikube docker-env)
+./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=springcloudtask/billsetuptask:0.0.1-SNAPSHOT
+```
 
-1. Verify its presence by finding `springcloudtask/billsetuptask` in the list of images provided by running the following command:
+These commands add the image to the `minikube` Docker registry.
+
+4. Verify its presence by finding `springcloudtask/billsetuptask` in the list of images provided by running the following command:
    ```bash
    docker images
    ```
