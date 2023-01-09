@@ -277,8 +277,6 @@ $Env:DOCKER_MOUNT_PATH="/root/.m2/"
 
 <!--END_TABS-->
 
-Note: For SCDF docker images older than 2.8.0-SNAPSHOT you need to set the `DOCKER_MOUNT_PATH` to `/root/.m2/` instead!
-
 Then follow the [starting docker-compose](%currentPath%/installation/local/docker/#starting-docker-compose) instructions to start the cluster.
 
 Now you can use the `maven://` URI schema and Maven coordinates to resolve jars installed in the host’s maven repository, as follows:
