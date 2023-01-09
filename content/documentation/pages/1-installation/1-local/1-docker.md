@@ -258,21 +258,21 @@ We can leverage the `HOST_MOUNT_PATH` and `DOCKER_MOUNT_PATH` variables to confi
 
 ```bash
 export HOST_MOUNT_PATH=~/.m2
-export DOCKER_MOUNT_PATH=/home/cnb/.m2/
+export DOCKER_MOUNT_PATH=/root/.m2/
 ```
 
 <!--Windows (Cmd)-->
 
 ```bash
 set HOST_MOUNT_PATH=%userprofile%\.m2
-set DOCKER_MOUNT_PATH=/home/cnb/.m2/
+set DOCKER_MOUNT_PATH=/root/.m2/
 ```
 
 <!--Windows (PowerShell) -->
 
 ```bash
 $Env:HOST_MOUNT_PATH="~\.m2"
-$Env:DOCKER_MOUNT_PATH="/home/cnb/.m2/"
+$Env:DOCKER_MOUNT_PATH="/root/.m2/"
 ```
 
 <!--END_TABS-->
@@ -294,6 +294,14 @@ This approach lets you use applications that are built and installed on the host
 The basic Data Flow docker-compose configuration does not enable the monitoring functionality for Stream and Task applications. Follow the [Monitoring with Prometheus and Grafana](%currentPath%/installation/local/docker-customize/#prometheus--grafana) or [Monitoring with InfluxDB and Grafana](%currentPath%/installation/local/docker-customize/#influxdb--grafana) customization guides to learn how to enable and configure the monitoring for Spring Cloud Data Flow.
 
 To learn more about the monitoring experience in Spring Cloud Data Flow with Prometheus and InfluxDB, see the [Stream Monitoring](%currentPath%/feature-guides/streams/monitoring#local) feature guide.
+
+## Running Java 17 Applications
+
+Currently Spring Cloud Data Flow defaults to Java 8 when running applications. If you wish to run Java 17 applications set the `BP_JVM_VERSION` to `-jdk17` as shown below:
+
+```bash
+export BP_JVM_VERSION=-jdk17
+```
 
 ## Debugging
 
