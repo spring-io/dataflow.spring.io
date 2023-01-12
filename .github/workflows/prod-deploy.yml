@@ -26,7 +26,7 @@ jobs:
       - name: Yarn build
         env:
           NODE_OPTIONS: '--openssl-legacy-provider'
-          ALGOLIA_ADMIN_KEY_PASSWORD: ${{ secrets.ALGOLIA_ADMIN_KEY_PASSWORD }}
+          ALGOLIA_ADMIN_KEY_PASSWORD: ${{ secrets.ALGOLIA_ZFB6X2VA6A_ADMIN_KEY }}
           GOOGLE_TAGMANAGER_ID: ${{ secrets.GOOGLE_TAGMANAGER_ID_SCDF }}
         run: |
           yarn install
