@@ -27,7 +27,7 @@ Spring Batch metadata in the `JobRepository` ensures that each worker is execute
 
 In our sample application, we create a batch job that has a single step that is partitioned, and each partition prints its partition number.
 
-You can view the completed project in the [Spring Cloud Task samples](https://github.com/spring-cloud/spring-cloud-task/tree/main/spring-cloud-task-samples/partitioned-batch-job).
+You can view the completed project in the [Spring Cloud Task samples](https://github.com/spring-cloud/spring-cloud-task/tree/2.4.x/spring-cloud-task-samples/partitioned-batch-job).
 
 ### Initializr
 
@@ -236,19 +236,11 @@ This section covers how to deploy your Batch application to your local computer.
     To configure the execution of the Batch application, add the following properties to your environment:
 
 ```
-export spring_datasource_url=jdbc:mariadb://localhost:3306/task // <1>
-export spring_datasource_username=root // <2>
-export spring_datasource_password=password // <3>
-export spring_datasource_driverClassName=org.mariadb.jdbc.Driver // <4>
-export spring_batch_initializeSchema=always // <5>
-java -jar target/partition-0.0.1-SNAPSHOT.jar
+export spring_batch_initializeSchema=always // <1>
+java -jar target/partition-0.0.1-SNAPSHOT.jar --spring.application.json='{"spring":{"datasource":{"url":"jdbc:mariadb://localhost:3306/task","username":"root","password":"password","driverClassName":"org.mariadb.jdbc.Driver"}}}'
 ```
 
-- <1> `spring.datasource.url`: Set the URL to your database instance. In this example, we connect to a MariaDB `task` database on our local machine at port 3306.
-- <2> `spring.datasource.username`: The user name to be used for the MariaDB database. In this example, it is `root`.
-- <3> `spring.datasource.password`: The password to be used for the MariaDB database. In this example, it is `password`.
-- <4> `spring.datasource.driverClassName`: The driver to use to connect to the MariaDB database. In this example, it is `org.mariadb.jdbc.Driver`.
-- <5> `spring.batch.initializeSchema`: Initializes the database with the tables required for Spring Batch. In this example, we state that we `always` want to do this. This does not overwrite the tables if they already exist.
+- <1> `spring.batch.initializeSchema`: Initializes the database with the tables required for Spring Batch. In this example, we state that we `always` want to do this. This does not overwrite the tables if they already exist.
 
 #### Cleanup
 
