@@ -36,7 +36,7 @@ Generally, you should start with the `spring.cloud.dataflow.client.server-uri` p
 
 ```Java
 URI dataFlowUri = URI.create("http://localhost:9393");
-DataFlowOperations dataFlowOperations = new DataFlowTemplate(dataFlowUri);
+DataFlowOperations dataflowOperations = new DataFlowTemplate(dataFlowUri);
 ```
 
 ## Task DSL Usage
@@ -46,7 +46,7 @@ You can create new `Task` instances with the help of the `TaskBuilder` class, wh
 Consider the following example, which creates a new composed task:
 
 ```Java
-dataFlowOperations.appRegistryOperations().importFromResource(
+dataflowOperations.appRegistryOperations().importFromResource(
                      "https://dataflow.spring.io/task-maven-latest", true);
 
 Task task = Task.builder(dataflowOperations)
@@ -67,7 +67,7 @@ Attempting to launch a task that contains an unknown application throws an excep
 You can register your application by using the `DataFlowOperations`, as follows:
 
 ```java
-dataFlowOperations.appRegistryOperations().importFromResource(
+dataflowOperations.appRegistryOperations().importFromResource(
             "https://dataflow.spring.io/task-maven-latest", true);
 ```
 
@@ -76,7 +76,7 @@ dataFlowOperations.appRegistryOperations().importFromResource(
 Instead of creating a new Task, you can use the `TaskBuilder` to retrieve an existing Task instance by name:
 
 ```Java
-Optional<Task> task = Task.builder(dataflowOperations).findByName("myTask");
+Optional<Task> task = Task.builder(dataflowOperations).findByName("myComposedTask");
 ```
 
 You can also list all existing tasks:
@@ -120,8 +120,8 @@ Task task = Task.builder(dataflowOperations)
               .description("simple task")
               .build();
 
-TaskSchedule schedule = TaskSchedule.builder(dataFlowOperations)
-              .schedueName("mySchedule")
+TaskSchedule schedule = TaskSchedule.builder(dataflowOperations)
+              .scheduleName("mySchedule")
               .task(task)
               .build();
 ```
@@ -167,7 +167,11 @@ Map<String, String> taskLaunchProperties = new DeploymentPropertiesBuilder()
 		.put("app.timestamp.timestamp.format", "YYYY")
 		.build();
 
-long executionId = task.launch(taskLaunchProperties, Collections.EMPTY_LIST);
+        Optional<Task> task = Task.builder(dataflowOperations).findByName("myTask");
+        if(task.isPresent()) {
+        long executionId = task.get().launch(taskLaunchProperties, Collections.EMPTY_LIST);
+        }
+
 ```
 
 ### Setting Properties for `TaskSchedule`
