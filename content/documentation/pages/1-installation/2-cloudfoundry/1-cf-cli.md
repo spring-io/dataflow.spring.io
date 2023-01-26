@@ -66,8 +66,8 @@ To install Cloud Foundry:
 1.  Download the Data Flow server and shell applications:
 
     ```bash
-    wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
-    wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+    wget %maven-repo-url%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+    wget %maven-repo-url%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
     ```
 
 2.  Download [Skipper](https://cloud.spring.io/spring-cloud-skipper/),
@@ -75,7 +75,7 @@ To install Cloud Foundry:
     deployment, upgrading and rolling back:
 
     ```bash
-    wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+    wget %maven-repo-url%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
     ```
 
 3.  Push Skipper to Cloud Foundry

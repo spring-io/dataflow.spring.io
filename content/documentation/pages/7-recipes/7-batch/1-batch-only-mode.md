@@ -29,7 +29,7 @@ Spring Cloud Data Flow supports MariaDB, HSQLDB, and PostgreSQL without addition
 To install Spring Cloud Data Flow Server, run the following command:
 
 ```bash
-wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+wget %maven-repo-url%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
 ```
 
 ### Setting up Environment Variables

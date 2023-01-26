@@ -159,13 +159,13 @@ To download the Spring Cloud Data Flow Shell application, run the following comm
 <!--wget-->
 
 ```bash
-wget -O spring-cloud-dataflow-shell-%dataflow-version%.jar https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
+wget -O spring-cloud-dataflow-shell-%dataflow-version%.jar %maven-repo-url%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 <!--curl-->
 
 ```bash
-curl https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar -o spring-cloud-dataflow-shell-%dataflow-version%.jar
+curl %maven-repo-url%/org/springframework/cloud/spring-cloud-dataflow-shell/%dataflow-version%/spring-cloud-dataflow-shell-%dataflow-version%.jar -o spring-cloud-dataflow-shell-%dataflow-version%.jar
 ```
 
 <!--END_TABS-->
