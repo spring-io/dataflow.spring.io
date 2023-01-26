@@ -14,13 +14,13 @@ To run the two task applications by using Spring Cloud Data Flow, we also set up
 To download Spring Cloud Data Flow, run the following command:
 
 ```bash
-wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
+wget %maven-repo-url%/org/springframework/cloud/spring-cloud-dataflow-server/%dataflow-version%/spring-cloud-dataflow-server-%dataflow-version%.jar
 ```
 
 To download Spring Cloud Skipper, run the following command:
 
 ```bash
-wget https://repo.spring.io/%spring-maven-repo-type%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
+wget %maven-repo-url%/org/springframework/cloud/spring-cloud-skipper-server/%skipper-version%/spring-cloud-skipper-server-%skipper-version%.jar
 ```
 
 Later in this document, we describe how to deploy those two jars to Cloud Foundry.
