@@ -223,18 +223,36 @@ Once all the containers are running, you can access the Spring Cloud Data Flow D
 
 Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
 
-```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/feature-guides/batch/monitoring/influx-task-demo-metrics-0.0.1-SNAPSHOT.jar
+Register the application:
 
-dataflow:>task create --name task1 --definition "myTask"
-dataflow:>task create --name task2 --definition "myTask"
+```bash
+app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/feature-guides/batch/monitoring/influx-task-demo-metrics-0.0.1-SNAPSHOT.jar
 ```
 
-Then you can launch the tasks several times:
+Create definition for task1:
 
 ```bash
-dataflow:>task launch --name task1
-dataflow:>task launch --name task2
+task create --name task1 --definition "myTask";
+```
+
+Create definition for task2:
+
+```bash
+task create --name task2 --definition "myTask";
+```
+
+Then you can launch the tasks:
+
+Launch task1:
+
+```bash
+task launch --name task1
+```
+
+Launch task2:
+
+```bash
+task launch --name task2
 ```
 
 In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions), you should see list like this:
