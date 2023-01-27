@@ -8,7 +8,7 @@ description: 'Customize the Docker Compose installation'
 
 The Docker Compose [installation](%currentPath%/installation/local/docker) guide explains how to use [docker-compose.yml](https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/%github-tag%/src/docker-compose/docker-compose.yml) for installing `Data Flow`, `Skipper`, `Kafka`, and `MariaDB`.
 You can extend this basic configuration with the help of the provided extension docker-compose files.
-For example, if you want to use `RabbitMQ` or `PostgreSQL` or enable Data Flow for `Monitoring`, you can combine some of the provided docker-compose extension files:
+For example, if you want to use `RabbitMQ`, `PostgreSQL`, and enable Data Flow for `Monitoring` using `InfluxDB`, you can combine some of the provided docker-compose extension files:
 
 <!--TABS-->
 

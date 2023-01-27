@@ -38,15 +38,15 @@ To enable Task metrics integration with Data Flow, you must add the `spring-boot
 </dependencies>
 
 <dependencyManagement>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-dependencies</artifactId>
-			<version>Hoxton.SR6</version>
-			<type>pom</type>
-			<scope>import</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>2021.0.5</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
 </dependencyManagement>
 ```
 
@@ -62,6 +62,7 @@ Enable Prometheus metrics collection by using `RSocket` with the following depen
 <dependency>
 	<groupId>io.micrometer.prometheus</groupId>
 	<artifactId>prometheus-rsocket-spring</artifactId>
+    <version>1.5.0</version>
 </dependency>
 ```
 
@@ -102,11 +103,10 @@ Enable the `InfluxDB` metrics collection by adding the following dependency:
 
 ##### Build Docker Image
 
-To build a Docker image, you could extend from the `springcloud/openjdk:latest` base-image. For example, your task `Dockerfile` could start like this:
+To build a Docker image, run the following:
 
-```
-FROM springcloud/openjdk:latest
-...
+```bash
+mvn spring-boot:build-image
 ```
 
 To help you get started monitoring tasks, Data Flow provides [Grafana](https://grafana.com/) dashboards that you can install and customize for your needs.
@@ -155,20 +155,38 @@ You can access the Grafana dashboard at http://localhost:3000 by using the follo
 - user: `admin`
 - password: `admin`
 
-Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`):
+Now you can deploy a custom Task application (`task-demo-metrics`) and define two tasks (`task1` and `task2`) using the SCDF Shell:
+
+Register the application:
 
 ```bash
-dataflow:>app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
-
-dataflow:>task create --name task1 --definition "myTask"
-dataflow:>task create --name task2 --definition "myTask"
+app register --name myTask --type task --uri https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow-samples/main/dataflow-website/feature-guides/batch/monitoring/prometheus-task-demo-metrics-0.0.1-SNAPSHOT.jar
 ```
 
-Then you can launch the tasks several times:
+Create definition for task1:
 
 ```bash
-dataflow:>task launch --name task1
-dataflow:>task launch --name task2
+task create --name task1 --definition "myTask";
+```
+
+Create definition for task2:
+
+```bash
+task create --name task2 --definition "myTask";
+```
+
+Then you can launch the tasks:
+
+Launch task1:
+
+```bash
+task launch --name task1
+```
+
+Launch task2:
+
+```bash
+task launch --name task2
 ```
 
 In the [DataFlow task execution UI](http://localhost:9393/dashboard/#/tasks/executions), you should see the following:
