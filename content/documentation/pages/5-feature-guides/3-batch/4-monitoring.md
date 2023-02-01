@@ -304,7 +304,7 @@ You can collect metrics on a per-task or per-batch basis or globally apply metri
 We can use a custom Task application (`task-demo-metrics`) and define two different task definitions (`task1` and `task2`) with this application :
 
 ```bash
-dataflow:>app register --name myTask --type task --uri docker://springcloud/task-demo-metrics:latest
+dataflow:>app register --name myTask --type task --uri docker://<your task app>
 
 dataflow:>task create --name task1 --definition "myTask"
 dataflow:>task create --name task2 --definition "myTask"
