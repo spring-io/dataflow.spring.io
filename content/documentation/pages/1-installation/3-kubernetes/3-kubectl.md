@@ -24,13 +24,87 @@ If you use Minikube, see [Setting Minikube Resources](%currentPath%/installation
 
 <!--END_TIP-->
 
-## Choose a Message Broker
+## Installing Spring Cloud Data Flow via the `install-scdf.sh` script.
+
+Spring Cloud Data Flow offers the `install-scdf.sh` script that will execute the `kubectl` commands to install a SCDF for development purposes on Kubernetes.
+If you can not run a shell script you can follow the manual instructions shown [below](#kubectl-installation-instructions) .
+The script currently supports the following Kubernetes platforms: `kind`, `minikube` and, `tmc`,
+
+### Configure Spring Cloud Data Flow create Grafana Dashboard
+
+If you wish to view metrics for the applications in Dataflow, edit the `src/local/k8s/yaml/server-config.yaml` and set the `management.defaults.metrics.export.enabled` to `true` before executing the `install-scdf.sh` script.
+
+### Configuring `install-scdf.sh` and installing Spring Cloud Data Flow
+
+The script offers the following environment variables to establish how you want to install SCDF:
+
+- NS - Establishes the namespace that the dataflow instance will be installed.
+- K8S_DRIVER - Configure the Kubernetes environment based on your Kubernetes deployment. Currently supports `kind`, `docker` (minikube), `tmc`. It defaults to `kind`.
+- DOCKER_SERVER - The docker registry that is supported in your environment
+- DOCKER_USER - The user for the `DOCKER_SERVER`
+- DOCKER_PASSWORD - The password for the `DOCKER_SERVER`
+- DOCKER_EMAIL - The email for the `DOCKER_SERVER`
+- DATABASE - The database to be setup and used by Spring Cloud Data Flow and Task Applications. Currently supports `mariadb` or `postgresql`. The default is `postgresql`.
+- BROKER - The messaging broker to be setup and used by Spring Cloud Data Flow and its stream applications. It currently supports `rabbitmq` and `kafka`. It defaults to `rabbitmq`.
+- PROMETHEUS - Sets up a prometheus, prometheus-proxy, and a grafana instance if set to `true`. The default is `false`.
+
+An example would be if you wanted to install Spring Cloud Data Flow in the `default` namespace of Minikube using Dockerhub for your registry, Mariadb as your database, Rabbitmq as your broker, and Prometheus for your metrics, you would setup and launch the script as follows:
+
+```bash
+export NS=default
+export K8S_DRIVER=docker
+export DOCKER_SERVER=registry.hub.docker.com
+export DOCKER_USER=<your user name>
+export DOCKER_PASSWORD=<your password>
+export DOCKER_EMAIL=<your email>
+export DATABASE=mariadb
+export PROMETHEUS=true
+<home directory of spring cloud data flow>/spring-cloud-dataflow/src/local/k8s/install-scdf.sh
+kubectl port-forward <scdf-podname> 9393:9393
+kubectl port-forward <grafana-podname> 3000:3000
+```
+
+<!--NOTE-->
+
+On some machines Spring Cloud Data Flow or Skipper may take longer to startup than the current configuration.
+If so you may want to update the `spec.template.spec.containers.startupProbe.initialDelaySeconds` in the `src/local/k8s/yaml/server-deployment.yaml`
+and `src/local/k8s/yaml/skipper-deployment.yaml` files.
+
+<!--END_NOTE-->
+
+### Uninstalling Spring Cloud Data Flow via the `delete-scdf.sh` script.
+
+If you are deleting the SCDF deployment created by the `install-scdf.sh` set the following environment variables :
+
+- NS - Establishes the namespace that the dataflow instance is deployed.
+- K8S_DRIVER - The Kubernetes environment that your SCDF is deployed. Currently supports `kind`, `docker` (minikube), `tmc`. It defaults to `kind`.
+- DOCKER_SERVER - The docker registry that is supported in your environment
+- DATABASE - The database to be removed that was used by Spring Cloud Data Flow and Task applications. Currently supports `mariadb` or `postgresql`. The default is `postgresql`.
+- BROKER - The messaging broker to be removed that was used by Spring Cloud Data Flow and its stream applications. It currently supports `rabbitmq` and `kafka`. It defaults to `rabbitmq`.
+- PROMETHEUS - Removes a prometheus, prometheus-proxy, and a grafana instance if set to `true`. The default is `false`.
+
+An example would be if you wanted to delete a Spring Cloud Data Flow deployed in the `default` namespace of Minikube, Mariadb as your database, Rabbitmq as your broker, and Prometheus, you would setup and launch the script as follows:
+
+```bash
+export NS=default
+export K8S_DRIVER=docker
+export DATABASE=mariadb
+export PROMETHEUS=true
+<home directory of spring cloud data flow>/spring-cloud-dataflow/src/local/k8s/delete-scdf.sh
+```
+
+## Kubectl Installation Instructions
+
+If the `install-scdf.sh` script will not work for you or if you wish to install SCDF in another way, you can use the instructions
+below:
+
+### Choose a Message Broker
 
 For deployed applications to communicate with each other, you need to select a message broker.
 The sample deployment and service YAML files provide configurations for RabbitMQ and Kafka.
 You need to configure only one message broker.
 
-### RabbitMQ
+#### RabbitMQ
 
 Run the following command to start the RabbitMQ service:
 
@@ -40,7 +114,7 @@ kubectl create -f src/kubernetes/rabbitmq/
 
 You can use `kubectl get all -l app=rabbitmq` to verify that the deployment, pod, and service resources are running.
 
-### Kafka
+#### Kafka
 
 Run the following command to start the Kafka service:
 
@@ -50,7 +124,7 @@ kubectl create -f src/kubernetes/kafka/
 
 You can use `kubectl get all -l app=kafka` to verify that the deployment, pod, and service resources are running.
 
-## Deploy Services, Skipper, and Data Flow
+### Deploy Services, Skipper, and Data Flow
 
 You must deploy a number of services and the Data Flow server. The
 following subsections describe how to do so:
@@ -65,7 +139,7 @@ following subsections describe how to do so:
 
 5.  [Deploy the Data Flow Server](#deploy-data-flow-server)
 
-### Deploy MariaDB
+#### Deploy MariaDB
 
 We use MariaDB for this guide, but you could use a Postgres or H2 database
 instead. We include JDBC drivers for all three of these databases. To
@@ -90,14 +164,14 @@ kubectl create -f src/kubernetes/mariadb/
 You can use `kubectl get all -l app=mariadb` to verify that the
 deployment, pod, and service resources are running. You can use
 
-### Enable Monitoring
+#### Enable Monitoring
 
 How to enable monitoring varies by monitoring platform:
 
 - [Prometheus and Grafana](#prometheus-and-grafana)
 - [Wavefront](#wavefront)
 
-#### Prometheus and Grafana
+##### Prometheus and Grafana
 
 The [Prometheus RSocket](https://github.com/micrometer-metrics/prometheus-rsocket-proxy) implementation lets you establish persistent bidirectional `RSocket` connections between all Stream and Task applications and one or more `Prometheus RSocket Proxy` instances.
 Prometheus is configured to scrape each proxy instance.
@@ -115,7 +189,7 @@ To run Prometheus and Grafana, you need at least an additional 2GB to 3GB of Mem
 
 <!--END_TIP-->
 
-##### Setup Prometheus Roles, Role Bindings, and Service Account
+###### Setup Prometheus Roles, Role Bindings, and Service Account
 
 Run the following commands to create the cluster role, binding, and
 service account:
@@ -126,7 +200,7 @@ kubectl create -f src/kubernetes/prometheus/prometheus-clusterrolebinding.yaml
 kubectl create -f src/kubernetes/prometheus/prometheus-serviceaccount.yaml
 ```
 
-##### Deploy Prometheus Proxy
+###### Deploy Prometheus Proxy
 
 Run the following commands to deploy Prometheus RSocket Proxy:
 
@@ -136,7 +210,7 @@ kubectl create -f src/kubernetes/prometheus-proxy/
 
 You can use `kubectl get all -l app=prometheus-proxy` to verify that the deployment, pod, and service resources are running.
 
-##### Deploy Prometheus
+###### Deploy Prometheus
 
 Run the following commands to deploy Prometheus:
 
@@ -149,7 +223,7 @@ kubectl create -f src/kubernetes/prometheus/prometheus-service.yaml
 You can use `kubectl get all -l app=prometheus` to verify that the
 deployment, pod, and service resources are running.
 
-##### Deploy Grafana
+###### Deploy Grafana
 
 Run the following command to deploy Grafana:
 
@@ -217,7 +291,7 @@ spring:
         url: 'https://grafana:3000'
 ```
 
-#### Wavefront
+##### Wavefront
 
 Metrics for the Spring Cloud Data Flow server along with deployed streams and tasks can be sent to the Wavefront service.
 Before enabling Wavefront, ensure you have your Wavefront URL and API token.
@@ -305,7 +379,7 @@ spring:
 
 <!--END_TIP-->
 
-### Create Data Flow Role Bindings and Service Account
+#### Create Data Flow Role Bindings and Service Account
 
 To create Role Bindings and Service account, run the following commands:
 
@@ -318,7 +392,7 @@ kubectl create -f src/kubernetes/server/service-account.yaml
 You can use `kubectl get roles` and `kubectl get sa` to list the
 available roles and service accounts.
 
-### Deploy Skipper
+#### Deploy Skipper
 
 Data Flow delegates the streams lifecycle management to Skipper. You
 need to deploy [Skipper](https://cloud.spring.io/spring-cloud-skipper/)
@@ -383,7 +457,7 @@ kubectl create -f src/kubernetes/skipper/skipper-svc.yaml
 You can use `kubectl get all -l app=skipper` to verify that the
 deployment, pod, and service resources are running.
 
-### Deploy Data Flow Server
+#### Deploy Data Flow Server
 
 The deployment is defined in the
 `src/kubernetes/server/server-deployment.yaml` file. To control which
