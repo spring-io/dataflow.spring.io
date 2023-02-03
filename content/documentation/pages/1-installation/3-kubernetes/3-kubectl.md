@@ -30,6 +30,19 @@ Spring Cloud Data Flow offers the `install-scdf.sh` script that will execute the
 If you can not run a shell script you can follow the manual instructions shown [below](#kubectl-installation-instructions) .
 The script currently supports the following Kubernetes platforms: `kind`, `minikube` and, `tmc`,
 
+Before executing `install-scdf.sh` you can configure you local enviroment using on of the `use-*.sh` scripts:
+
+```shell
+source ./use-kind.sh test-ns postrgresql kafka
+./configure-k8s.sh
+```
+<!--NOTE-->
+
+This will export `NS=test-ns, K8S_DRIVER=kind, DATABASE=postgresql, BROKER=kafka` and create a Kubernetes environment using [kind](https://kind.sigs.k8s.io/).
+All the variations are available in the Reference Guide.
+
+<!--END_NOTE-->
+
 ### Configure Spring Cloud Data Flow create Grafana Dashboard
 
 If you wish to view metrics for the applications in Dataflow, edit the `src/local/k8s/yaml/server-config.yaml` and set the `management.defaults.metrics.export.enabled` to `true` before executing the `install-scdf.sh` script.
