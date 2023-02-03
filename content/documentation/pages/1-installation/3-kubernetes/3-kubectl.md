@@ -28,51 +28,82 @@ If you use Minikube, see [Setting Minikube Resources](%currentPath%/installation
 
 Spring Cloud Data Flow offers the `install-scdf.sh` script that will execute the `kubectl` commands to install a SCDF for development purposes on Kubernetes.
 If you can not run a shell script you can follow the manual instructions shown [below](#kubectl-installation-instructions) .
-The script currently supports the following Kubernetes platforms: `kind`, `minikube` and, `tmc`,
-
-Before executing `install-scdf.sh` you can configure you local enviroment using on of the `use-*.sh` scripts:
-
-```shell
-source ./use-kind.sh test-ns postrgresql kafka
-./configure-k8s.sh
-```
-<!--NOTE-->
-
-This will export `NS=test-ns, K8S_DRIVER=kind, DATABASE=postgresql, BROKER=kafka` and create a Kubernetes environment using [kind](https://kind.sigs.k8s.io/).
-All the variations are available in the Reference Guide.
-
-<!--END_NOTE-->
+The script currently supports the following Kubernetes platforms: `kind`, `minikube`, `gke`, and `tmc`,
 
 ### Configure Spring Cloud Data Flow create Grafana Dashboard
 
-If you wish to view metrics for the applications in Dataflow, edit the `src/local/k8s/yaml/server-config.yaml` and set the `management.defaults.metrics.export.enabled` to `true` before executing the `install-scdf.sh` script.
+If you wish to view metrics in Grafana for the applications launched by SCDF, edit the `src/local/k8s/yaml/server-config.yaml` and set the `management.defaults.metrics.export.enabled` to `true` before executing the `install-scdf.sh` script.
 
 ### Configuring `install-scdf.sh` and installing Spring Cloud Data Flow
+
+#### Environment setup
 
 The script offers the following environment variables to establish how you want to install SCDF:
 
 - NS - Establishes the namespace that the dataflow instance will be installed.
 - K8S_DRIVER - Configure the Kubernetes environment based on your Kubernetes deployment. Currently supports `kind`, `docker` (minikube), `tmc`. It defaults to `kind`.
-- DOCKER_SERVER - The docker registry that is supported in your environment
-- DOCKER_USER - The user for the `DOCKER_SERVER`
-- DOCKER_PASSWORD - The password for the `DOCKER_SERVER`
-- DOCKER_EMAIL - The email for the `DOCKER_SERVER`
+- DOCKER_SERVER - The docker registry that is supported in your environment.
+- DOCKER_USER - The user for the docker server.
+- DOCKER_PASSWORD - The password for the docker server.
+- DOCKER_EMAIL - The email for the docker server.
 - DATABASE - The database to be setup and used by Spring Cloud Data Flow and Task Applications. Currently supports `mariadb` or `postgresql`. The default is `postgresql`.
 - BROKER - The messaging broker to be setup and used by Spring Cloud Data Flow and its stream applications. It currently supports `rabbitmq` and `kafka`. It defaults to `rabbitmq`.
 - PROMETHEUS - Sets up a prometheus, prometheus-proxy, and a grafana instance if set to `true`. The default is `false`.
 
-An example would be if you wanted to install Spring Cloud Data Flow in the `default` namespace of Minikube using Dockerhub for your registry, Mariadb as your database, Rabbitmq as your broker, and Prometheus for your metrics, you would setup and launch the script as follows:
+Before executing `install-scdf.sh` you can configure you local environment using on of the `use-*.sh` scripts:
+
+```shell
+cd <home directory of spring cloud data flow>/src/local/k8s/
+source ./use-kind.sh test-ns mariadb kafka
+```
+
+<!--NOTE-->
+
+This will export `NS=test-ns, K8S_DRIVER=kind, DATABASE=mariadb, BROKER=kafka` and create a Kubernetes environment using [kind](https://kind.sigs.k8s.io/).
+
+<!--END_NOTE-->
+
+The available `use-*` scripts for setting the Kubernetes environment running on your local machine are as follows:
+
+- use-kind.sh - Establishes the environment variables to deploy a SCDF Application on your Kind instance.
+- use-mk-docker.sh - Establishes the environment variables to deploy a SCDF Application on your Minikube instance on Docker.
+- use-mk-kvm2.sh - Establishes the environment variables to deploy a SCDF Application on your Minikube instance using KVM2.
+- use-tmc.sh - Establishes the environment variables to deploy a SCDF Application using Tanzu Mission Control.
+- use-gke.sh - Establishes the environment variables to deploy a SCDF Application on Google Kubernetes Engine.
+
+<!--NOTE-->
+
+Optionally SCDF offers the `configure-k8s.sh` script verify or setup your cluster and namespace based on the kubernetes instance type once the `use-*` script has been run.
+
+- Kind - Creates the cluster and namespace.
+- Minikube Launches the minikube instance with the correct sizing for SCDF.
+- TMC or GKE - verifies that the environment variables have been set.
+
+It can be launched as shown:
 
 ```bash
-export NS=default
-export K8S_DRIVER=docker
+cd <home directory of spring cloud data flow>/src/local/k8s/
+./configure-k8s.sh
+```
+
+<!--END_NOTE-->
+
+To launch `install-scdf.sh` so that it will deploy Spring Cloud Data Flow in the `default` namespace of Minikube using Dockerhub for your registry, Mariadb as your database, Rabbitmq as your broker, and Prometheus for your metrics, you would setup and launch the script as follows:
+
+```bash
+cd <home directory of spring cloud data flow>/src/local/k8s/
+source ./use-mk-docker.sh mariadb rabbitmq
 export DOCKER_SERVER=registry.hub.docker.com
 export DOCKER_USER=<your user name>
 export DOCKER_PASSWORD=<your password>
 export DOCKER_EMAIL=<your email>
-export DATABASE=mariadb
 export PROMETHEUS=true
-<home directory of spring cloud data flow>/spring-cloud-dataflow/src/local/k8s/install-scdf.sh
+./install-scdf.sh
+```
+
+To access the SCDF and Grafana ports from your local machine for the example above run the commands below:
+
+```bash
 kubectl port-forward <scdf-podname> 9393:9393
 kubectl port-forward <grafana-podname> 3000:3000
 ```
@@ -99,11 +130,12 @@ If you are deleting the SCDF deployment created by the `install-scdf.sh` set the
 An example would be if you wanted to delete a Spring Cloud Data Flow deployed in the `default` namespace of Minikube, Mariadb as your database, Rabbitmq as your broker, and Prometheus, you would setup and launch the script as follows:
 
 ```bash
+cd <home directory of spring cloud data flow>/src/local/k8s/
 export NS=default
 export K8S_DRIVER=docker
 export DATABASE=mariadb
 export PROMETHEUS=true
-<home directory of spring cloud data flow>/spring-cloud-dataflow/src/local/k8s/delete-scdf.sh
+./delete-scdf.sh
 ```
 
 ## Kubectl Installation Instructions
