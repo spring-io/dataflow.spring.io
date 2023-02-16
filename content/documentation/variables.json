@@ -1,6 +1,6 @@
 {
   "tanzu-app-service-version": "2-11",
-  "streaming-apps-version": "2021.0.5",
+  "streaming-apps-version": "2021.1.2",
   "task-version": "2.4.5",
   "skipper-version": "2.9.1",
   "skipper-snapshot-version": "2.9.1-SNAPSHOT",
