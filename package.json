@@ -114,7 +114,7 @@
     "gatsby-plugin-prefetch-google-fonts": "1.4.3",
     "gatsby-plugin-react-helmet": "3.2.1",
     "gatsby-plugin-sass": "6.2.0",
-    "gatsby-plugin-sharp": "2.5.4",
+    "gatsby-plugin-sharp": "4.25.1",
     "gatsby-plugin-sitemap": "2.3.1",
     "gatsby-plugin-slug": "1.0.1",
     "gatsby-plugin-webpack-bundle-analyzer": "1.0.5",
