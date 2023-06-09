@@ -101,7 +101,7 @@
     "async-unist-util-visit": "1.0.0",
     "classnames": "2.2.6",
     "core-js": "3.20.3",
-    "gatsby": "2.26.1",
+    "gatsby": "4.25.7",
     "gatsby-cli": "2.13.1",
     "gatsby-image": "2.5.0",
     "gatsby-legacy-polyfills": "0.6.0",
