@@ -1,2 +1,6 @@
 task.timestamp=maven://io.spring:timestamp-task:2.0.2
 task.timestamp-batch=maven://io.spring:timestamp-batch-task:2.0.2
+task.timestamp3=maven://io.spring:timestamp-task:3.0.0
+task.timestamp3.bootVersion=3
+task.timestamp-batch3=maven://io.spring:timestamp-batch-task3:3.0.0
+task.timestamp-batch3.bootVersion=3
