@@ -81,7 +81,7 @@ or visit the [Spring Initialzr site](https://start.spring.io/) and follow these 
 
 Now you should `unzip` the `usage-detail-sender-kafka.zip` file and import the project into your favorite IDE.
 
-There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using Kafka as the message broker. There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using Kafka as the message broker. The [Kafka binder documentation](https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/current/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options) lists the Kafka binder configuration properties.
+There are many configuration options that you can choose to extend or override to achieve the desired runtime behavior when using Kafka as the message broker. The [Kafka binder documentation](https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/current/reference/html/spring-cloud-stream-binder-kafka.html#_configuration_options) lists the Kafka binder configuration properties.
 
 <!--RabbitMQ-->
 
