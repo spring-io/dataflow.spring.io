@@ -9,7 +9,7 @@
   },
   "2.10.x": {
     "name": "2.10.3",
-    "branch": "main",
+    "branch": "2.10.x",
     "current": true
   },
   "next": {
