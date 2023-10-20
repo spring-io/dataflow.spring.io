@@ -17,7 +17,7 @@ const Footer = () => (
                 rel='noreferrer noopener'
                 href='https://www.vmware.com/'
               >
-                VMware By Broadcom
+                VMware by Broadcom
               </a>
             </span>
           </div>
