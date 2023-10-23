@@ -17,7 +17,7 @@ const Footer = () => (
                 rel='noreferrer noopener'
                 href='https://www.vmware.com/'
               >
-                VMware
+                VMware by Broadcom
               </a>
             </span>
           </div>
@@ -47,8 +47,9 @@ const Footer = () => (
             </div>
             <div className='copyright'>
               <p>
-                © 2013-{new Date().getFullYear()} VMware, Inc. or its
-                affiliates.
+                © 2013-{new Date().getFullYear()} Broadcom. All Rights Reserved.
+                The term “Broadcom” refers to Broadcom Inc. and/or its
+                subsidiaries.
               </p>
               <p>Spring Cloud Data Flow is under the Apache 2.0 license.</p>
             </div>
