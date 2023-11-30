@@ -47,7 +47,7 @@ const Footer = () => (
             </div>
             <div className='copyright'>
               <p>
-                © 2013-{new Date().getFullYear()} Broadcom. All Rights Reserved.
+                © 2005-{new Date().getFullYear()} Broadcom. All Rights Reserved.
                 The term “Broadcom” refers to Broadcom Inc. and/or its
                 subsidiaries.
               </p>
