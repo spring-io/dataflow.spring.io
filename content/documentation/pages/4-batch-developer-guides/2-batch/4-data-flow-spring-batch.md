@@ -53,6 +53,8 @@ Registration associates a logical application name and type with a physical reso
 The URI conforms to a [schema](https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#spring-cloud-dataflow-register-stream-apps) and may represent a Maven artifact, a Docker image, or an actual `http(s)` or `file` URL.
 Data Flow defines some logical application types, which indicate its role as a streaming component, a task, or a standalone application.
 In this case, our Spring Batch application is registered as a `task` type.
+You will need to also specify if the application is a Spring Boot 2.7.x or a Spring 3.x based application.
+In our examples below we will register Spring Boot 2.7.x application.
 
 <!--TIP-->
 
