@@ -18,9 +18,10 @@ release versions.
 The following listing outlines the compatibility between Spring Cloud
 Data Flow for Kubernetes Server and Kubernetes versions:
 
-|                                               | k8s 1.18.x | k8s 1.19.x | k8s 1.20.x | k8s 1.21.x | k8s 1.22.x | k8s 1.23.x | k8s 1.24.x | k8s 1.25.x | k8s 1.26.x | k8s 1.27.x |
-| --------------------------------------------- | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
-| SCDF K8S Server: 2.11.x - K8S Deployer: 2.9.x |     ❌     |     ❌     |     ❌     |     ✅     |     ✅     |     ✅     |     ✅     |     ✅     |     ✅     |     ✅     |
-| SCDF K8S Server: 2.10.x - K8S Deployer: 2.8.x |     ❌     |     ✅     |     ✅     |     ✅     |     ✅     |     ✅     |     ✅     |     ❌     |     ❌     |     ❌     |
-| SCDF K8S Server: 2.9.x - K8S Deployer: 2.7.x  |     ✅     |     ✅     |     ✅     |     ✅     |     ✅     |    `?`     |    `?`     |     ❌     |     ❌     |     ❌     |
-| SCDF K8S Server: 2.8.x - K8S Deployer: 2.7.x  |     ✅     |     ✅     |    `?`     |    `?`     |    `?`     |    `?`     |    `?`     |     ❌     |     ❌     |     ❌     |
+|                                               | k8s 1.18.x | k8s 1.19.x | k8s 1.20.x | k8s 1.21.x | k8s 1.22.x | k8s 1.23.x | k8s 1.24.x | k8s 1.25.x |
+|-----------------------------------------------|:----------:|:----------:|:----------:|:-----------:|:----------:|:----------:|:----------:|:----------:|
+| SCDF K8S Server: 2.11.x - K8S Deployer: 2.9.x |     ❌      |     ❌      |     ❌      |      ✅      |     ✅      |     ✅      |     ✅      |     ✅      |
+| SCDF K8S Server: 2.10.x - K8S Deployer: 2.8.x |     ❌      |     ✅      |     ✅      |      ✅      |     ✅      |     ✅      |     ✅      |     ❌      |
+| SCDF K8S Server: 2.9.x - K8S Deployer: 2.7.x  |     ✅      |     ✅      |     ✅      |      ✅      |     ✅      |    `?`     |    `?`     |     ❌      |
+| SCDF K8S Server: 2.8.x - K8S Deployer: 2.7.x  |     ✅      |     ✅      |    `?`     |     `?`     |    `?`     |    `?`     |    `?`     |     ❌      |
+
