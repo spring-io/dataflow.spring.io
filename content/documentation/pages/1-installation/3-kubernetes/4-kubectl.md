@@ -32,7 +32,7 @@ The script currently supports the following Kubernetes platforms: `kind`, `minik
 
 ### Configure Spring Cloud Data Flow create Grafana Dashboard
 
-If you wish to view metrics in Grafana for the applications launched by SCDF, edit the `src/local/k8s/yaml/server-config.yaml` and set the `management.defaults.metrics.export.enabled` to `true` before executing the `install-scdf.sh` script.
+If you wish to view metrics in Grafana for the applications launched by SCDF, edit the `src/deploy/k8s/yaml/server-config.yaml` and set the `management.defaults.metrics.export.enabled` to `true` before executing the `install-scdf.sh` script.
 
 ### Configuring `install-scdf.sh` and installing Spring Cloud Data Flow
 
@@ -53,8 +53,8 @@ The script offers the following environment variables to establish how you want 
 Before executing `install-scdf.sh` you can configure you local environment using on of the `use-*.sh` scripts:
 
 ```shell
-cd <home directory of spring cloud data flow>/src/local/k8s/
-source ./use-kind.sh test-ns mariadb kafka
+cd <home directory of spring cloud data flow>/src/deploy/k8s/
+source ./use-kind.sh --namespace test-ns mariadb kafka
 ```
 
 <!--NOTE-->
@@ -82,7 +82,7 @@ Optionally SCDF offers the `configure-k8s.sh` script verify or setup your cluste
 It can be launched as shown:
 
 ```bash
-cd <home directory of spring cloud data flow>/src/local/k8s/
+cd <home directory of spring cloud data flow>/src/deploy/k8s/
 ./configure-k8s.sh
 ```
 
@@ -91,8 +91,8 @@ cd <home directory of spring cloud data flow>/src/local/k8s/
 To launch `install-scdf.sh` so that it will deploy Spring Cloud Data Flow in the `default` namespace of Minikube using Dockerhub for your registry, Mariadb as your database, Rabbitmq as your broker, and Prometheus for your metrics, you would setup and launch the script as follows:
 
 ```bash
-cd <home directory of spring cloud data flow>/src/local/k8s/
-source ./use-mk-docker.sh mariadb rabbitmq
+cd <home directory of spring cloud data flow>/src/deploy/k8s/
+source ./use-mk-docker.sh --namespace mariadb rabbitmq
 export DOCKER_SERVER=registry.hub.docker.com
 export DOCKER_USER=<your user name>
 export DOCKER_PASSWORD=<your password>
@@ -111,8 +111,8 @@ kubectl port-forward <grafana-podname> 3000:3000
 <!--NOTE-->
 
 On some machines Spring Cloud Data Flow or Skipper may take longer to startup than the current configuration.
-If so you may want to update the `spec.template.spec.containers.startupProbe.initialDelaySeconds` in the `src/local/k8s/yaml/server-deployment.yaml`
-and `src/local/k8s/yaml/skipper-deployment.yaml` files.
+If so you may want to update the `spec.template.spec.containers.startupProbe.initialDelaySeconds` in the `src/deploy/k8s/yaml/server-deployment.yaml`
+and `src/deploy/k8s/yaml/skipper-deployment.yaml` files.
 
 <!--END_NOTE-->
 
@@ -130,7 +130,7 @@ If you are deleting the SCDF deployment created by the `install-scdf.sh` set the
 An example would be if you wanted to delete a Spring Cloud Data Flow deployed in the `default` namespace of Minikube, Mariadb as your database, Rabbitmq as your broker, and Prometheus, you would setup and launch the script as follows:
 
 ```bash
-cd <home directory of spring cloud data flow>/src/local/k8s/
+cd <home directory of spring cloud data flow>/src/deploy/k8s/
 export NS=default
 export K8S_DRIVER=docker
 export DATABASE=mariadb
