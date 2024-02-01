@@ -179,17 +179,25 @@ Get the HTTP service URL by running a command.
 
 If deploying to a cluster that supports a load balancer, you can determine the HTTP service address by running the following command:
 
+If your Kubernetes load balancer only provides hostnames use:
+
 ```bash
-export SERVICE_URL="$(kubectl get svc --namespace default http-ingest-http-v1 -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080"
+export SERVICE_URL="$(kubectl get svc --namespace default http-ingest-http -o jsonpath='{.status.loadBalancer.ingress[0].name}'):8080"
+```
+
+If your Kubernetes load balancer only provides IP addresses use:
+
+```bash
+export SERVICE_URL="$(kubectl get svc --namespace default http-ingest-http -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080"
 ```
 
 It may take a few minutes for the LoadBalancer IP to be available.
-You can watch the status of the server by running `kubectl get svc -w http-ingest-http-v1`
+You can watch the status of the server by running `kubectl get svc -w http-ingest-http`
 
 If you use Minikube, you can use the following command to get the URL of the server:
 
 ```bash
-export SERVICE_URL=$(minikube service --url test-http-v1)
+export SERVICE_URL=$(minikube service --url http-ingest-http --namespace='default')
 ```
 
 You can view the HTTP URL of the application by typing the following:
@@ -227,6 +235,8 @@ kubectl logs -f http-ingest-log-v1-0-2k4r8
 ...
 2017-10-30 22:59:04.966  INFO 1 --- [ http-ingest.http.http-ingest-1] log-sink                                 : Happy streaming
 ```
+
+_[Kail](https://github.com/boz/kail) is a handy tool for streaming all the logs from a namespace or multiple namespaces._
 
 ## Deleting a Stream
 
