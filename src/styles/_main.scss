@@ -911,3 +911,38 @@ button.button {
     padding: $spring-8points * 2 0;
   }
 }
+
+.springone-banner {
+  $h: 36px;
+  position: relative;
+  height: $h;
+  div {
+    color: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    background-color: $spring-primary-color;
+    z-index: 99;
+    height: $h;
+    line-height: $h + 4px;
+    font-size: 1rem;
+    text-align: center;
+    a {
+      color: #fff;
+      font-weight: bold;
+      text-decoration: underline;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+}
+
+// Endpoint Small
+@media (max-width: 800px) {
+  .springone-banner {
+    display: none;
+  }
+}
