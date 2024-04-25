@@ -72,9 +72,6 @@ const Footer = () => (
                   Privacy
                 </a>
               </li>
-              <li>
-                <span id='teconsent' />
-              </li>
             </ul>
           </div>
         </div>

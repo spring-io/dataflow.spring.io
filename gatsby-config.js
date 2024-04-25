@@ -193,14 +193,14 @@ if (process.env.ALGOLIA_ADMIN_KEY) {
   })
 }
 
-if (process.env.GOOGLE_TAGMANAGER_ID) {
-  plugins.push({
-    resolve: `gatsby-plugin-google-tagmanager`,
-    options: {
-      id: `${process.env.GOOGLE_TAGMANAGER_ID}`,
-    },
-  })
-}
+// if (process.env.GOOGLE_TAGMANAGER_ID) {
+//   plugins.push({
+//     resolve: `gatsby-plugin-google-tagmanager`,
+//     options: {
+//       id: `${process.env.GOOGLE_TAGMANAGER_ID}`,
+//     },
+//   })
+// }
 
 if (process.env.GOOGLE_ANALYTICS_TRACKING_ID) {
   plugins.push({
