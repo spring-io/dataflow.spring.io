@@ -1,20 +1,19 @@
 const React = require('react')
 
 exports.onRenderBody = function ({ setPreBodyComponents }) {
-  if (process.env.GOOGLE_TAGMANAGER_ID) {
-    setPreBodyComponents([
-      React.createElement('script', {
-        src: 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-        'data-domain-script': '018ee325-b3a7-7753-937b-b8b3e643b1a7',
-      }),
-      React.createElement('script', {
-        dangerouslySetInnerHTML: {
-          __html: `function OptanonWrapper() {}`,
-        },
-      }),
-      React.createElement('script', {
-        dangerouslySetInnerHTML: {
-          __html: `
+  setPreBodyComponents([
+    React.createElement('script', {
+      src: 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+      'data-domain-script': '018ee325-b3a7-7753-937b-b8b3e643b1a7',
+    }),
+    React.createElement('script', {
+      dangerouslySetInnerHTML: {
+        __html: `function OptanonWrapper() {}`,
+      },
+    }),
+    React.createElement('script', {
+      dangerouslySetInnerHTML: {
+        __html: `
 function setGTM(w, d, s, l, i) {
     w[l] = w[l] || [];
     w[l].push({
@@ -29,7 +28,7 @@ function setGTM(w, d, s, l, i) {
     f.parentNode.insertBefore(j, f);
 }
 if (document.cookie.indexOf('OptanonConsent') > -1 && document.cookie.indexOf('groups=') > -1) {
-    setGTM(window, document, 'script', 'dataLayer', '${process.env.GOOGLE_TAGMANAGER_ID}');
+    setGTM(window, document, 'script', 'dataLayer', 'GTM-KZM7GF6');
 } else {
     waitForOnetrustActiveGroups();
 }
@@ -37,14 +36,13 @@ var timer;
 function waitForOnetrustActiveGroups() {
     if (document.cookie.indexOf('OptanonConsent') > -1 && document.cookie.indexOf('groups=') > -1) {
         clearTimeout(timer);
-        setGTM(window, document, 'script', 'dataLayer', '${process.env.GOOGLE_TAGMANAGER_ID}');
+        setGTM(window, document, 'script', 'dataLayer', 'GTM-KZM7GF6');
     } else {
         timer = setTimeout(waitForOnetrustActiveGroups, 250);
     }
 }
     `,
-        },
-      }),
-    ])
-  }
+      },
+    }),
+  ])
 }
