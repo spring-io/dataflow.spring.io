@@ -9,7 +9,7 @@ import Header from './Header'
 const Layout = ({ children, version, className }) => (
   <>
     <div className={className}>
-      <div className='springone-banner'>
+      {/* <div className='springone-banner'>
         <div>
           SpringOne registration is open—
           <a href='https://springone.io' target='_blank'>
@@ -17,7 +17,7 @@ const Layout = ({ children, version, className }) => (
           </a>{' '}
           ends June 11
         </div>
-      </div>
+      </div> */}
       <Header version={version} />
       <main>{children}</main>
       <Footer />
