@@ -28,7 +28,7 @@ function setGTM(w, d, s, l, i) {
     f.parentNode.insertBefore(j, f);
 }
 if (document.cookie.indexOf('OptanonConsent') > -1 && document.cookie.indexOf('groups=') > -1) {
-    setGTM(window, document, 'script', 'dataLayer', 'GTM-KZM7GF6');
+    setGTM(window, document, 'script', 'dataLayer', 'GTM-W8CQ8TL');
 } else {
     waitForOnetrustActiveGroups();
 }
@@ -36,7 +36,7 @@ var timer;
 function waitForOnetrustActiveGroups() {
     if (document.cookie.indexOf('OptanonConsent') > -1 && document.cookie.indexOf('groups=') > -1) {
         clearTimeout(timer);
-        setGTM(window, document, 'script', 'dataLayer', 'GTM-KZM7GF6');
+        setGTM(window, document, 'script', 'dataLayer', 'GTM-W8CQ8TL');
     } else {
         timer = setTimeout(waitForOnetrustActiveGroups, 250);
     }
