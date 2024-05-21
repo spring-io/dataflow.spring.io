@@ -11,8 +11,6 @@
   "maven-repo-url": "https://repo.maven.apache.org/maven2",
   "maven-spring-snapshot-repo-url": "https://repo.spring.io/snapshot",
 
-  "stream-applications-doc": "https://docs.spring.io/stream-applications/docs/2021.1.2/reference/html",
-  "stream-applications-doc-2x": "https://docs.spring.io/spring-cloud-stream-app-starters/docs/current/reference/htmlsingle",
   "task-applications-doc": "https://docs.spring.io/spring-cloud-task-app-starters/docs/current/reference/htmlsingle",
 
   "task-app-maven-version": "https://dataflow.spring.io/task-maven-latest",
