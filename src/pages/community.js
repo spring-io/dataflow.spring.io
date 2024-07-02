@@ -157,37 +157,6 @@ const CommunityPage = () => {
               .
             </p>
           </div>
-
-          <div className='box'>
-            <div className='zenhub'>
-              <div className='zenhub-content'>
-                <h2>
-                  We use <a href='https://www.zenhub.com/'>ZenHub</a> to manage
-                  our backlog.
-                </h2>
-                <p>
-                  To view the <strong>backlog</strong> please install the{' '}
-                  <a href='https://www.zenhub.com/extension'>
-                    ZenHub browser plugin
-                  </a>
-                  . <strong>ZenHub</strong> is available for Google Chrome and
-                  Mozilla Firefox as an extension.
-                </p>
-                <p>
-                  <a
-                    href='https://github.com/spring-cloud/spring-cloud-dataflow/#workspaces/scdf-combined--573b0ae28867c41f233bb0f7/board?repos=39469487,52819699,45694880,96455695,72460646,52798744,52803867,126892412,143091335,126892627,47708564,73841717,179378165'
-                    className='button'
-                  >
-                    View the backlog
-                  </a>
-                </p>
-                <div className='image'>
-                  <IconZenHub />
-                  <ZenhubImage alt='ZenHub' title='ZenHub' />
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </Layout>
