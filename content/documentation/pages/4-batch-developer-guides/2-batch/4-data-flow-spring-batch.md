@@ -152,6 +152,13 @@ To launch a task:
    When the execution is complete, the Status turns to a green color and shows `Complete.`
    Select the **Executions** tab to view a summary of executions for this task.
 
+<!--NOTE-->
+
+When creating a Spring Batch 5.x+ application with the `@EnableBatchProcessing` annotation and your app requires that you
+set the `TablePrefix`, remember that you must also set it for the `JobRepository` and `JobExplorer` beans.
+
+<!--END_NOTE-->
+
 ![Task executions](images/SCDF-batch-executions.png)
 
 ### Reviewing the Job Execution
