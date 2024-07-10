@@ -1,4 +1,3 @@
-const queries = require(`./utils/algolia-queries`)
 const versions = require('./content/versions.json')
 
 const siteMetadata = {
@@ -176,31 +175,6 @@ const plugins = [
     },
   },
 ]
-
-if (process.env.ALGOLIA_ADMIN_KEY_PASSWORD) {
-  process.env.ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY_PASSWORD
-}
-
-if (process.env.ALGOLIA_ADMIN_KEY) {
-  plugins.push({
-    resolve: `gatsby-plugin-algolia`,
-    options: {
-      appId: `ZFB6X2VA6A`,
-      apiKey: `${process.env.ALGOLIA_ADMIN_KEY}`,
-      queries,
-      chunkSize: 10000, // default: 1000
-    },
-  })
-}
-
-// if (process.env.GOOGLE_TAGMANAGER_ID) {
-//   plugins.push({
-//     resolve: `gatsby-plugin-google-tagmanager`,
-//     options: {
-//       id: `${process.env.GOOGLE_TAGMANAGER_ID}`,
-//     },
-//   })
-// }
 
 if (process.env.GOOGLE_ANALYTICS_TRACKING_ID) {
   plugins.push({

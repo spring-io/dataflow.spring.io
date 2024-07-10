@@ -4,11 +4,9 @@ import {
   IconGithub,
   IconGitter,
   IconStackOverflow,
-  IconZenHub,
 } from '../components/common/icons'
 import { Layout } from '../components/common/layout'
 import { Seo } from '../components/common/seo'
-import { ZenhubImage } from '../components/community'
 
 const CommunityPage = () => {
   return (

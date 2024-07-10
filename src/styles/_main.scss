@@ -259,8 +259,41 @@ div.logo-dataflow {
   display: inline-block;
   position: relative;
   line-height: 1.6em;
+  z-index: 99;
   .input-control {
-    padding-right: 120px;
+    display: block;
+    padding-right: 140px;
+    height: auto;
+    width: 400px;
+    /* clears the ‘X’ from Internet Explorer */
+    &::-ms-clear {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    &::-ms-reveal {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    /* clears the ‘X’ from Chrome */
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+    }
+  }
+  .search-form {
+    position: relative;
+    .algolia {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      img {
+        width: 120px;
+      }
+    }
   }
   .icon-algolia {
     position: absolute;
@@ -268,7 +301,13 @@ div.logo-dataflow {
     right: -20px;
     top: 6px;
   }
-  .result {
+  .ais-SearchBox-submit {
+    display: none;
+  }
+  .ais-SearchBox-reset {
+    display: none;
+  }
+  .ais-Hits {
     position: absolute;
     display: block;
     z-index: 1000;
@@ -284,6 +323,9 @@ div.logo-dataflow {
     .section {
       opacity: 1;
       overflow: hidden;
+    }
+    &.ais-Hits--empty {
+      display: none;
     }
   }
   .section {
@@ -301,7 +343,7 @@ div.logo-dataflow {
       padding: 0;
     }
   }
-  ul.list {
+  .ais-Hits-list {
     list-style: none;
     padding: $spring-8points 0;
     margin: 0;
@@ -325,7 +367,6 @@ div.logo-dataflow {
         color: $spring-link-color;
       }
       &:hover {
-        //background: $spring-gray-color;
         color: $spring-color;
         .title {
           color: $spring-link-color;
