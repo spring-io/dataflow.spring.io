@@ -1,10 +1,9 @@
 import React from 'react'
-import { Configure, InstantSearch } from 'react-instantsearch-dom'
 import { Link, StaticQuery, graphql } from 'gatsby'
+import Search from './../search/Search'
 
 import versions from '../../../../content/versions.json'
 import { IconSearch } from './../icons'
-import { Search } from './../search'
 
 const NavigationLink = props => (
   <Link
@@ -32,8 +31,11 @@ class Navigation extends React.Component {
     })
     let version = this.props.version ? this.props.version : currentVersion
     if (version === 'next') {
-      version = 'main'
+      version = currentVersion
     }
+    const algoliaVersion = versions[version].current
+      ? `${versions[version].name} (current)`
+      : `${versions[version].name}`
     return (
       <>
         <StaticQuery
@@ -89,18 +91,10 @@ class Navigation extends React.Component {
                   </span>
                 ) : (
                   <div className='search'>
-                    <InstantSearch
-                      appId='ZFB6X2VA6A'
-                      apiKey='b2f4a20249e629e0915e4cfad2de8b0f'
-                      indexName={`doc-${version}`}
-                    >
-                      <Configure attributesToSnippet='html' />
-                      <Search
-                        onBlur={this.toggleSearch}
-                        pages={data.pages}
-                        version={version}
-                      />
-                    </InstantSearch>
+                    <Search
+                      algoliaVersion={algoliaVersion}
+                      onBlurHandler={this.toggleSearch}
+                    />
                   </div>
                 )}
               </div>
