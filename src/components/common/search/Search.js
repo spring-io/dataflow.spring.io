@@ -92,7 +92,7 @@ function SearchBox(props) {
           placeholder='Search...'
           spellCheck={false}
           onBlur={() => {
-            // onBlurHandler()
+            onBlurHandler()
           }}
           maxLength={512}
           type='search'
@@ -105,7 +105,7 @@ function SearchBox(props) {
           autoFocus
         />
         <div className='algolia'>
-          <img src='../images/algolia.svg' alt='Powered by Algolia' />
+          <img src='/images/algolia.svg' alt='Powered by Algolia' />
         </div>
       </form>
     </div>
