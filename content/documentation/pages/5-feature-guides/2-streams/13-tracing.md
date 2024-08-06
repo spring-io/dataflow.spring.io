@@ -97,7 +97,7 @@ For example if you have deployed a stream pipeline named `scdf-stream-traces` yo
 
 ![SCDF Wavefront](images/SCDF-stream-tracing-wavefront-search.png)
 
-Push the the `Search` button and the Wavefront dashboards will show similar to the following image:
+Push the `Search` button and the Wavefront dashboards will show similar to the following image:
 
 ![SCDF  Tracing Wavefront](images/SCDF-stream-tracing-wavefront.png)
 
