@@ -340,7 +340,7 @@ dataflow:>job execution display --id 1
 
 #### Verify Data
 
-When the the batch job runs, it processes the file in the local directory (`/tmp/local-files`), transforms each item to uppercase names, and inserts it into the database.
+When the batch job runs, it processes the file in the local directory (`/tmp/local-files`), transforms each item to uppercase names, and inserts it into the database.
 
 You can use any database tool that supports the H2 database to inspect the data.
 In this example, we use the DBeaver database tool.
@@ -518,7 +518,7 @@ dataflow:>job execution display --id 1
 
 #### Verify Data
 
-When the the batch job runs, it processes the file in the local directory (`/var/scdf/shared-files`), transforms each item to uppercase names, and inserts it into the database.
+When the batch job runs, it processes the file in the local directory (`/var/scdf/shared-files`), transforms each item to uppercase names, and inserts it into the database.
 
 Use [PivotalMySQLWeb](https://github.com/pivotal-cf/PivotalMySQLWeb) to inspect the data.
 
@@ -713,7 +713,7 @@ dataflow:>job execution display --id 1
 
 #### Verify Data
 
-When the the batch job runs, it processes the file in the local directory (`/staging/shared-files`), transforms each item to uppercase names, and inserts it into the database.
+When the batch job runs, it processes the file in the local directory (`/staging/shared-files`), transforms each item to uppercase names, and inserts it into the database.
 
 Open a shell in the `mysql` container to query the `people` table:
 
