@@ -1,0 +1,2 @@
+task.timestamp=maven://io.spring:timestamp-task:3.0.0
+task.timestamp-batch=maven://io.spring:timestamp-batch-task:3.0.0

@@ -1,0 +1,2 @@
+task.timestamp=docker:springcloudtask/timestamp-task:3.0.0
+task.timestamp-batch=docker:springcloudtask/timestamp-batch-task:3.0.0
