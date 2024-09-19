@@ -12,7 +12,7 @@
     "branch": "2.10.x"
   },
   "2.11.x": {
-    "name": "2.11.4",
+    "name": "2.11.5",
     "branch": "main",
     "current": true
   },
