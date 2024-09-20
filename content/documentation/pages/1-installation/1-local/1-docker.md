@@ -297,9 +297,27 @@ To learn more about the monitoring experience in Spring Cloud Data Flow with Pro
 
 Currently Spring Cloud Data Flow defaults to Java 8 when running applications. If you wish to run Java 17 applications set the `BP_JVM_VERSION` to `-jdk17` as shown below:
 
+<!--TABS-->
+
+<!--Linux / OSX-->
+
 ```bash
 export BP_JVM_VERSION=-jdk17
 ```
+
+<!--Windows (Cmd)-->
+
+```bash
+set BP_JVM_VERSION=-jdk17
+```
+
+<!--Windows (PowerShell) -->
+
+```bash
+$Env:BP_JVM_VERSION="-jdk17"
+```
+
+<!--END_TABS-->
 
 ## Debugging
 
