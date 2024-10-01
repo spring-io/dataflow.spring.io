@@ -102,6 +102,7 @@ To install Cloud Foundry:
           SPRING_APPLICATION_NAME: skipper-server
           SPRING_PROFILES_ACTIVE: cloud
           JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+          SPRING_CLOUD_KUBERNETES_ENABLED: false
           SPRING_APPLICATION_JSON: |-
             {
               "spring.cloud.skipper.server" : {
@@ -126,8 +127,8 @@ To install Cloud Foundry:
                   }
                }
             }
-    services:
-      - <services>
+        services:
+          - <services>
     ```
 
     You need to fill in `<org>`, `<space>`, `<email>`, `<password>`,
