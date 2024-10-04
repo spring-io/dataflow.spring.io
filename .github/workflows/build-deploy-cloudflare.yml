@@ -1,0 +1,61 @@
+name: Build and Deploy (CloudFlare)
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+  pull_request:
+
+env:
+  GOOGLE_ANALYTICS_TRACKING_ID: ${{ secrets.GOOGLE_TAGMANAGER_ID_SCDF }}
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # build and deploy main/PR
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # agent may give node which doesn't work for us
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.2.0
+
+      # do site build
+      - name: Yarn build
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
+        run: |
+          yarn install
+          yarn run fix
+          yarn build
+
+      # Publish on CloudFlare
+      - name: Publish to Cloudflare Pages
+        id: cloudflare-publish
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: ${{ secrets.CF_PROJECT_NAME }}
+          directory: public
+
+      # If PR, comment with the preview URL
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message-id: cloudflare-deploy
+          message: |
+            🚀 Preview at ${{ steps.cloudflare-publish.outputs.url }}
+      # Chat Notification
+      # - name: Google Chat Notification
+      #   uses: Co-qn/google-chat-notification@3691ccf4763537d6e544bc6cdcccc1965799d056
+      #   with:
+      #     name: Build (${{ matrix.runner }})
+      #     url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+      #     status: ${{ job.status }}
+      #   if: always()
