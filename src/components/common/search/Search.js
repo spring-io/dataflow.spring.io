@@ -78,7 +78,6 @@ function SearchBox(props) {
         onSubmit={event => {
           event.preventDefault()
           event.stopPropagation()
-
           if (inputRef.current) {
             inputRef.current.blur()
           }
@@ -117,7 +116,11 @@ export default function Search({ algoliaVersion, onBlurHandler }) {
   return (
     <InstantSearch searchClient={searchClient} indexName='dataflow-spring'>
       <SearchBox
-        onBlurHandler={onBlurHandler}
+        onBlurHandler={() => {
+          setTimeout(() => {
+            onBlurHandler()
+          }, 1000)
+        }}
         onQueryHandler={query => {
           setShow(!!query.trim())
         }}
