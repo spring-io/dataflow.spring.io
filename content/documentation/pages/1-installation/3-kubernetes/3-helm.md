@@ -6,7 +6,7 @@ description: 'Installation using Helm'
 
 ## Helm Installation
 
-Spring Cloud Data Flow offers a [Helm Chart](https://bitnami.com/stack/spring-cloud-dataflow/helm)
+Bitnami offers a [Helm Chart](https://bitnami.com/stack/spring-cloud-dataflow/helm)
 for deploying the Spring Cloud Data Flow server and its required services to a Kubernetes Cluster.
 
 The following sections cover how to initialize Helm and install Spring Cloud Data Flow on a Kubernetes cluster.
@@ -19,11 +19,13 @@ If you use Minikube, see [Setting Minikube Resources](%currentPath%/installation
 
 ### Installing Spring Cloud Data Flow Server and Required Services
 
-<!--TIP-->
+Follow the steps in the Bitnami [Helm Chart repo](https://github.com/bitnami/charts/tree/main/bitnami/spring-cloud-dataflow/#bitnami-package-for-spring-cloud-data-flow) to install Spring Cloud Data Flow Server and its required services.
 
-You should review the following documentation and adjust any parameter customizations that have been made for your environment or how they may differ from the legacy official Helm chart. Value names, defaults, and so on may have changed during the Bitnami chart migration. You can find more information in the [Parameter](%currentPath%/installation/kubernetes/helm/#parameters) tables and the [Upgrading](%currentPath%/installation/kubernetes/helm/#upgrading) and [Notable Changes](%currentPath%/installation/kubernetes/helm/#notable-changes) sections.
+<!--IMPORTANT-->
 
-<!--END_TIP-->
+You should review the above documentation and adjust any parameter customizations that have been made for your environment or how they may differ from the legacy official Helm chart. Value names, defaults, and so on may have changed during the Bitnami chart migration.
+
+<!--END_IMPORTANT-->
 
 <!--TEMPLATE:https://raw.githubusercontent.com/bitnami/charts/master/bitnami/spring-cloud-dataflow/README.md-->
 
