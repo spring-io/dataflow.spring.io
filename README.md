@@ -40,6 +40,7 @@ yarn serve          # Serve the prod build
 ## Contributing
 
 We welcome contributions!
+
 All documentation for this project is written using `Markdown`.
 An example segment from our [Stream Processing Getting Started Guide](https://dataflow.spring.io/docs/stream-developer-guides/getting-started/stream/) is shown below:
 
@@ -52,13 +53,16 @@ In this guide we will use two of these applications to construct a simple data p
 Instructions for registering these prebuilt applications with Data Flow are provided in the [Installation guide](%currentPath%/installation/).
 ```
 
+All commits must include a **Signed-off-by** trailer at the end of each commit message to indicate that the contributor agrees to the Developer Certificate of Origin.
+For additional details, please refer to the blog post https://spring.io/blog/2025/01/06/hello-dco-goodbye-cla-simplifying-contributions-to-spring[Hello DCO, Goodbye CLA: Simplifying Contributions to Spring].
+
 ## Q&A and issue tracking
 
 If you have any feedback, additions, or changes to the documentation or guides, don't hesitate to [add an issue](https://github.com/spring-io/dataflow.spring.io/issues).
 
 ## Code of Conduct
 
-This project is governed by the [Spring Code of Conduct](CODE_OF_CONDUCT.adoc). By participating, you are expected to uphold this code of conduct. Please report unacceptable behavior to spring-code-of-conduct@pivotal.io.
+This project is governed by the [Spring Code of Conduct](CODE_OF_CONDUCT.adoc). By participating, you are expected to uphold this code of conduct. Please report unacceptable behavior to code-of-conduct@spring.io.
 
 ## License
 
