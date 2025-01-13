@@ -1,0 +1,30 @@
+name: CI PR
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # build and deploy PR
+  build:
+    name: Build PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # agent may give node which doesn't work for us
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.2.0
+
+      # do site build for PR
+      - name: Yarn build PR
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
+        run: |
+          yarn install
+          yarn run fix
+          yarn build
