@@ -4,14 +4,9 @@
   </a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/spring-io/dataflow.spring.io/actions?query=workflow%3A%22Staging+Build+and+Deploy%22">
-  <img src="https://github.com/spring-io/dataflow.spring.io/workflows/Staging%20Build%20and%20Deploy/badge.svg?event=push" alt="Staging Build and Deploy">
-  </a>
-  <a href="https://github.com/spring-io/dataflow.spring.io/actions?query=workflow%3A%22Staging+Check+Links%22">
-  <img src="https://github.com/spring-io/dataflow.spring.io/workflows/Staging%20Check%20Links/badge.svg?event=schedule" alt="Staging Check Links">
-  </a>
-</p>
+# Dataflow.spring.io is no longer maintained as an open-source project by Broadcom, Inc.
+
+## For information about extended support or commercial options for Spring Cloud Data Flow, please read the official blog post [here](https://spring.io/blog/2025/04/21/spring-cloud-data-flow-commercial).
 
 ## Introduction
 
