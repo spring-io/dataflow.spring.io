@@ -27,7 +27,7 @@ You should review the above documentation and adjust any parameter customization
 
 <!--END_IMPORTANT-->
 
-<!--TEMPLATE:https://raw.githubusercontent.com/bitnami/charts/master/bitnami/spring-cloud-dataflow/README.md-->
+<!--TEMPLATE:https://raw.githubusercontent.com/bitnami/charts/b0ca2e239a09b9e9eca7fe2f67b0f85b3f5d696c/bitnami/spring-cloud-dataflow/README.md-->
 
 #### Expected output
 
